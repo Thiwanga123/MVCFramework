@@ -1,5 +1,5 @@
 <?php
-    class Pages{
+    class Pages extends Controller{
         public function __construct(){
             echo 'Pages loaded';
         }
@@ -9,8 +9,7 @@
         }
 
         public function about($id){
-            echo 'about method';
-            echo $id;
+          $this->view('v_about');
         }
     }
 
