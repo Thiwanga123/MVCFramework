@@ -19,6 +19,22 @@ class Core {
 
             // Instantiate controller
             $this->currentController = new $this->currentController;
+
+            //check for methods in controller
+            if (isset($url[1])) {
+                if (method_exists($this->currentController, $url[1])) {
+                    $this->currentMethod = $url[1];
+                    unset($url[1]);
+                }
+            }
+
+
+            // Get params
+            $this->params = $url ? array_values($url) : [];
+
+            //call method and pass in params
+            call_user_func_array([$this->currentController, $this->currentMethod], $this->params);
+            
         }
     }
 
