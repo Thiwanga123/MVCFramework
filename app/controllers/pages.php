@@ -1,7 +1,10 @@
 <?php
+    require_once '../libraries/Controller.php';
+
     class Pages extends Controller{
+        private $pagesModel;
         public function __construct(){
-            echo 'Pages loaded';
+            $this->pagesModel = $this->model('M_Pages');
         }
 
         public function index(){
