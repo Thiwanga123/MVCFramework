@@ -1,7 +1,7 @@
 <?php
-    class Pages{
+    class Post{
         public function __construct(){
-            echo 'Pages loaded';
+            echo 'Post loaded';
         }
         
     }
