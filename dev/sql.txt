@@ -1,0 +1,18 @@
+CREATE TABLE traveler (
+  traveler_id INT PRIMARY KEY,
+  name VARCHAR(50),
+  email VARCHAR(50),
+  password VARCHAR(50),
+  telephone_number VARCHAR(20)
+);
+
+CREATE TABLE trip (
+  trip_id INT PRIMARY KEY,
+  traveler_id INT,
+  location VARCHAR(100),
+  start_date DATE,
+  end_date DATE,
+  FOREIGN KEY (traveler_id) REFERENCES traveler(traveler_id)
+);
+
+

@@ -1,0 +1,182 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body{
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+}
+
+a{
+    text-decoration: none;
+}
+
+.container{
+    display: grid;
+    grid-template-columns: 60% 40%;
+    height: 100vh;
+    transition: opacity 0.5s ease-out;
+}
+
+.container .left{
+    background-image: url();
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.container .left .top{
+    display: flex;
+    align-items: center;
+    padding: 20px;
+    justify-content: space-between;
+    height: 80px;
+}
+
+.container .left .top .logo{
+    display: flex;
+    gap: 0.5rem;
+    align-items: center;
+    font-size: 18px;
+    font-weight: 700;
+    color: rgb(15, 15, 72);
+}
+
+.container .left .top .logo span{
+    color: rgb(18, 138, 138);
+}
+
+.container .left .top .logo img{
+    width: 55px;
+    height: 55px;
+}
+
+.container .left .login-box{
+    display: flex;
+    flex-direction: column;
+    width: 50%;
+    margin: auto;
+    max-width: 400px;
+    padding: 25px;
+    border-radius: 40px;
+}
+
+.container .left .login-box form{
+    margin-top: 1.5rem;
+    background: transparent;
+    display: flex;
+    flex-direction: column;
+    border: none;
+    gap: 1rem;
+}
+
+.container .left .login-box form input{
+    border: none;
+    background-color: rgb(239, 239, 239);
+    height: 40px;
+    border-radius: 30px;
+    padding: 0 20px;
+}
+
+.container .left .login-box form label{
+   font-size: 16px;
+   font-weight:bolder;
+}
+
+.container .left .login-box form button{
+    background-color: rgb(21, 126, 126);
+    color: white;
+    font-size: large;
+    height: 35px;
+    border-radius: 30px;
+    border: none;
+    margin-top: 1rem;
+    cursor: pointer;
+ }
+
+
+ .container .right{
+    background-image: url(/Images/beautiful-abstract-oil-painting-turquoise-colors-perfect-art-background.jpg);
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    font-weight: 800;
+    padding: 20px 5%;
+    color: white;
+    text-align: center;
+}
+
+.container .right p{
+    font-size: 36px;
+    max-width: 600px;
+    line-height: 1.2;
+}
+
+.container .right button{
+    background-color: rgb(12, 14, 72);
+    color: white;
+    font-size: large;
+    height: 35px;
+    border-radius: 30px;
+    border: none;
+    margin-top: 1rem;
+    width: 50%;
+    cursor: pointer;
+ }
+
+.fade-out{
+    opacity: 0.2;
+    pointer-events: none;
+}
+
+
+ @media screen and (max-width: 768px) {
+    .container {
+        grid-template-columns: 1fr; 
+    }
+
+    .container .left .login-box {
+        width: 90%; 
+        padding: 30px; 
+        border-radius: 20px; 
+    }
+
+    .container .left .top {
+        flex-direction: column;
+        height: auto; 
+        text-align: center; 
+        gap: 1rem;
+    }
+
+    .container .left .top .logo {
+        margin-bottom: 15px;
+    }
+
+    .container .left .top .logo img {
+        width: 45px;
+        height: 45px;
+    }
+
+    .container .left .login-box form input,
+    .container .left .login-box form button {
+        font-size: 14px; 
+    }
+
+    .container .right {
+        height: 20vh;
+    }
+
+    .container .right p{
+        padding: 10px;
+        font-size: 20px;
+    }
+}
