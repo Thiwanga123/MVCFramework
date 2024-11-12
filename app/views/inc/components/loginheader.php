@@ -17,5 +17,5 @@
                     <p>JOURNEY <br><span>BEYOND</span></p>
                 </div>
                 </a>
-                   <p> Already have an account? Login</a></p>   
+                   <p> Already have an account?<a href="<?php echo URLROOT; ?>/Users/login">Login</a></p>   
             </div>
