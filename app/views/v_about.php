@@ -204,7 +204,7 @@
                     </div>
                 </div>
                 <!-- Image from your project folder -->
-                <img src="/Journey Beyond/Images/rear-view-back-young-asian-hiking-man-standing-riseup-hands-with-happy-peak-rocky-mountain-copy-space.jpg" alt="Logo2">        
+                <img src="<?php echo URLROOT;?>/Images/rear-view-back-young-asian-hiking-man-standing-riseup-hands-with-happy-peak-rocky-mountain-copy-space.jpg" alt="Logo2">        
             </div>
     
             <!-- Footer Section -->
