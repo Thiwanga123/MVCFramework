@@ -91,7 +91,7 @@ header .navbar .SignUp{
     background-color: #FFFFFF;
  }
 main .hero-content {
-    background-image: url('/Journey Beyond/Images/36972092396_76fb34d3d0_h.jpg'); /* Update with your image path */
+    background-image: url('../Images/36972092396_76fb34d3d0_h.jpg'); /* Update with your image path */
     background-size: cover; 
     background-repeat: no-repeat;
     height: 550px; 

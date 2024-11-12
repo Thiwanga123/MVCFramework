@@ -100,7 +100,7 @@ a{
 
 
  .container .right{
-    background-image: url(/Images/beautiful-abstract-oil-painting-turquoise-colors-perfect-art-background.jpg);
+    background-image: url('/Images/beautiful-abstract-oil-painting-turquoise-colors-perfect-art-background.jpg');
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;

@@ -1,4 +1,4 @@
-<?php require APPROOT . '/views/inc/components/loginheader.php'; ?>
+<?php require APPROOT . '/views/inc/components/registerheader.php'; ?>
 
 <div class="login-box">
     <h1>Create Your Account</h1>
@@ -24,4 +24,3 @@
     </form>
 </div>
 
-<?php require APPROOT . '/views/inc/components/loginfooter.php'; ?>

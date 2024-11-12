@@ -21,7 +21,7 @@
     <p>Plan your perfect trip! Log in for personalized recommendations, exclusive deals, and seamless planning tools.</p>
 </div>
 
-<p class="create-account-link">New to Journey Beyond? <a href="<?php echo URLROOT; ?>/users/register">Create an account</a></p>
+
 
 <!-- Correcting the path for the JS file -->
 <script src="<?php echo URLROOT; ?>/js/SignIn.js"></script>

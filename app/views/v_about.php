@@ -18,11 +18,11 @@
 
         <ul class="navbar">
             <li><a href="">Home</a></li>
-            <li><a href="about.html">About Us</a></li>
+            <li><a href="<?php echo URLROOT;?>/pages/about">About Us</a></li>
             <li><a href="">Features</a></li>
             <div class="links">
-                <li><button class="SignIn" onclick="location.href='/main_pages/about'">Login</button></li>
-                <li><button class="SignUp" onclick="location.href='/Sign Up/UserSignIn.html'">Sign Up</button></li>
+                <li><button class="SignIn" onclick="location.href='<?php echo URLROOT;?>/users/login'">Login</button></li>
+                <li><button class="SignUp" onclick="location.href='<?php echo URLROOT;?>/users/register'">Sign Up</button></li>
             </div>
         </ul>
     </header>
@@ -30,6 +30,7 @@
     <main>
         <section id="Hero" class="Hero">
             <div class="hero-content">
+                
                 <h1>About<span> US</span></h1>
             </div>
 

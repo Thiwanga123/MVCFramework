@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="<?php echo URLROOT; ?>/css/pages/style.css">
-    <title>Sign Up</title>
+    <title>Sign In</title>
     </head>
     <body>
         <div class="container" id="container">
@@ -17,5 +17,5 @@
                     <p>JOURNEY <br><span>BEYOND</span></p>
                 </div>
                 </a>
-                   <p> Already have an account?<a href="<?php echo URLROOT; ?>/Users/login">Login</a></p>   
+                <p class="create-account-link">New to Journey Beyond? <a href="<?php echo URLROOT; ?>/users/register">Create an account</a></p> 
             </div>

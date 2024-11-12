@@ -6,6 +6,11 @@ class Users extends Controller {
         $this->userModel = $this->model('M_users');
     }
 
+    public function index() {
+        $data = $this->userModel->getUsers();
+        $this->view('users/v_index', $data);
+    }
+
     public function register() {
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_FULL_SPECIAL_CHARS);
