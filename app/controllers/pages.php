@@ -1,5 +1,5 @@
 <?php
-    require_once '../libraries/Controller.php';
+    // require_once '../libraries/Controller.php';
 
     class Pages extends Controller{
         private $pagesModel;
@@ -11,8 +11,8 @@
             echo 'index method';
         }
 
-        public function about($id){
-          $this->view('v_about');
+        public function about(){          
+            $this->view('v_about');
         }
     }
 

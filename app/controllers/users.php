@@ -99,7 +99,10 @@ class Users extends Controller {
         else{
           //check for user/email
           if($this->userModel->findUserByEmail($data['email'])){
+
             //user found
+
+
           }
           else{
             //user not found
@@ -128,7 +131,10 @@ class Users extends Controller {
 
             //load view
             $this->view('users/v_login', $data);
-
+          }
+        } else {
+          //load view
+          $this->view('users/v_login', $data);
         }
 
 
@@ -138,7 +144,6 @@ class Users extends Controller {
         $data = [
           'email' => '',
           'password' => '',
-
           'email_err' => '',
           'password_err' => ''
         ];
@@ -151,6 +156,6 @@ class Users extends Controller {
     }
 }
 
-}
+
 
 ?>

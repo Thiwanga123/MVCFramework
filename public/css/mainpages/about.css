@@ -1,0 +1,338 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+}
+
+body{
+    background-color:#FFFFFF;
+    height: auto;
+}
+
+a{
+    text-decoration: none;
+}
+
+ul{
+    list-style: none;
+}
+
+
+header{
+    background: white ;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 10px;
+    height: 70px;
+}
+
+header .logo{
+    margin-top: 0.5rem;
+}
+
+header .logo img{
+    margin-left: 10px;
+    width: 55px;
+    height: 55px;
+}
+
+header .logo a{
+    color: rgb(15, 15, 72);
+    display: flex;
+    align-items: center;
+    font-size: 18px;
+    font-weight: 700;
+    gap: 0.5rem;
+}
+
+header .logo span{
+    color: teal;
+}
+
+header .navbar {
+    display: flex;
+    align-items: center;
+    font-size: 16px;
+    margin-left: auto;
+    gap: 4rem;
+}
+
+header .navbar .links{
+    justify-content: space-between;
+    display: flex;
+    gap: 2rem;
+}
+
+header .navbar button{
+    padding: 10px 20px;
+    border-radius: 30px;
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+    white-space: nowrap;
+}
+
+header .navbar .SignIn{
+    background: rgb(11, 146, 146);
+    color: white;
+}
+
+header .navbar .SignUp{
+    background: rgb(13, 16, 83);
+    color: white;
+}
+
+.Hero .hero-content span{
+    color: teal;
+}
+ main{
+    background-color: #FFFFFF;
+ }
+main .hero-content {
+    background-image: url('/Journey Beyond/Images/36972092396_76fb34d3d0_h.jpg'); /* Update with your image path */
+    background-size: cover; 
+    background-repeat: no-repeat;
+    height: 550px; 
+    width:100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center; 
+    align-items: center; 
+    font-weight: 800;
+    font-size: 25px;
+    color: rgb(255, 255, 255); 
+    line-height: 60px;
+    filter :opacity(0.9);
+}
+
+main .hero-content h1{
+    font-size: 50px;
+    margin-bottom: 20px;
+}
+
+main  .about{
+    display: flex;
+    flex-direction: row;
+    padding-top:30px;
+    margin-bottom: 40px;
+
+   
+}
+
+main .about .about-content{
+    width: 50%;
+    padding: 20px;
+    margin-left: 50px;
+    left: 160px;
+    top: 585px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+}
+
+main .about .about-content h1{
+    font-size: 30px;
+    margin-bottom: 20px;
+}
+
+main .about .about-content p{
+    font-size: 18px;
+    margin-bottom: 20px;
+}
+
+main .about .about-content span{
+    color: teal;
+}
+
+main .about .about-content .mission{
+    line-height: 30px;
+}
+
+
+
+main .about .image{
+    width: 544px;
+    height:385px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    left: 736px;
+    top: 585px;
+}
+
+
+main .features{
+    display: flex;
+    flex-direction: row;
+    padding-right: 10px;
+    justify-content: space-around;
+    padding-bottom: 40px;
+    
+    
+}
+
+main .features .topic{
+    margin-top: 20px;
+}
+
+main .features .topic span{
+    color: teal;
+    font-family: 'Island Moment', cursive;
+    font-size: 30px;
+}
+
+main .features .topic h2{
+    font-size: 30px;
+    margin-bottom: 20px;
+    font-family: 'Montserrat', sans-serif;
+}
+
+
+main .features .boxes{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    padding-right: 10px;
+}
+main .features .boxes .box{
+    width: 262px;
+    height: 182px;
+    display: flex;
+    margin-right: 50px;
+    padding-left: 10px;
+    flex-direction: column;
+    border-radius: 16px;
+    border-left: none;
+    border-top: none;
+    border-right: 1px solid #3AAFA9;
+    border-bottom: 1px solid #3AAFA9;
+    
+}
+
+main .features .boxes .box .icon{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 5px;
+    width: 50px;
+    height: 50px;
+    border-radius: 100%;
+    background: #3AAFA9;
+}
+ main .features .boxes .box .icon img{
+    width: 32px;
+    height: 32px;
+   
+ }
+
+ main .features .boxes .box h3{
+    font-size: 18px;
+    margin-bottom: 5px; 
+    font-family: 'Montserrat', sans-serif;
+ }
+
+ main .features .boxes .box p{
+    font-size: 12px;
+    margin-top: 5px;
+    margin-bottom: 10px;
+    font-family: 'Montserrat', sans-serif;
+    color:#6E7074;
+ }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+@media (max-width: 768px) {
+    header {
+        flex-direction: column;
+        align-items: center;
+        padding: 10px; /* Reduce padding for mobile */
+    }
+
+    header .logo img {
+        width: 50px;
+        height: 50px;
+    }
+
+    header .navbar {
+        flex-direction: column;
+        align-items: center;
+        gap: 1rem;
+        margin-left: 0;
+        width: 100%;
+    }
+
+    header .navbar .links {
+        flex-direction: column;
+        gap: 1.5rem;
+    }
+
+    header .navbar button {
+        width: 100%; /* Full-width buttons on small screens */
+        padding: 10px; /* Adjust padding */
+    }
+
+    main .bar .bar-in li {
+        flex-direction: column; /* Stack the icon and input vertically */
+        align-items: flex-start; /* Align to the left */
+    }
+
+    main .bar .bar-in li .group {
+        width: 100%; /* Full width for the group */
+    }
+
+    main .bar .bar-in li input {
+        width: 100%; /* Full-width inputs */
+    }
+}
+
+
+/* For mobile phones */
+@media (max-width: 480px) {
+    header {
+        padding: 10px; /* Reduce padding for mobile */
+    }
+
+    header .navbar {
+        gap: 1rem;
+    }
+
+    header .navbar .links {
+        gap: 1rem;
+    }
+
+    header .navbar button {
+        padding: 8px; /* Adjust padding for smaller screens */
+        font-size: 14px; /* Smaller text for buttons */
+    }
+
+    main .bar {
+        padding: 20px 0; /* Reduce padding */
+    }
+
+    main .bar .bar-in li {
+        flex-direction: column; /* Stack vertically */
+    }
+}
