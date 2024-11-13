@@ -205,10 +205,10 @@ main .destination .container .top .left{
 }
 
 main .destination .container .top .left {
-    background-image: url(../Images/Nuwara\ Eliya.jpg);
+    background-image: url(../../Images/NuwaraEliya.jpg);
 }
 main .destination .container .top .right { 
-    background-image: url(../Images/Badulla.jpg);
+    background-image: url(../../Images/Badulla.jpg);
 }
 
 main .destination .container .middle{
@@ -242,15 +242,15 @@ main .destination .container .middle .center{
 }
 
 main .destination .container .middle .left {
-    background-image: url(../Images/Kandy.jpg);
+    background-image: url('../../Images/Kandy.jpg');
 }
 
 main .destination .container .middle .center { 
-    background-image: url(../Images/Sigiriya.jpg);
+    background-image: url(../../Images/Sigiriya.jpg);
 }
 
 main .destination .container .middle .right { 
-    background-image: url(../Images/Galle.jpg);
+    background-image: url(../../Images/Galle.jpg);
 }
 
 
@@ -283,10 +283,10 @@ main .destination .container .bottom .left{
 }
 
 main .destination .container .bottom .left {
-    background-image: url(../Images/Anuradhpuraya.jpg);
+    background-image: url(../../Images/Anuradhpuraya.jpg);
 }
 main .destination .container .bottom .right { 
-    background-image: url(../Images/Polonnaruwa.jpg);
+    background-image: url(../../Images/Polonnaruwa.jpg);
 }
 /*---------------------End of Destinations Section----------------------------*/
 

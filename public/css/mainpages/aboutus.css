@@ -90,8 +90,9 @@ header .navbar .SignUp{
  main{
     background-color: #FFFFFF;
  }
+
 main .hero-content {
-    background-image: url('../../Images/ninearch.jpg'); /* Update with your image path */
+    background-image: url('../../Images/Badulla.jpg'); /* Update with your image path */
     background-size: cover; 
     background-repeat: no-repeat;
     height: 550px; 

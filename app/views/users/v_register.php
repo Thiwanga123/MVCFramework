@@ -11,8 +11,8 @@
         <div class="left">
             <div class="top">
                 <div class="logo">
-                    <a href="/Landing Page/Home.html" class = "logo">
-                    <img src="../Images/Logo1.png">
+                    <a href="<?php echo URLROOT;?>/pages/home" class = "logo">
+                    <img src="<?php echo URLROOT;?>/Images/Logo1.png">
                     <p>JOURNEY <br><span>BEYOND</span></p>
                 </div>
                 </a>

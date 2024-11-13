@@ -10,7 +10,7 @@
 <body>
     <header>
         <div class="logo">
-            <a href="/Landing Page/Home.html">
+            <a href="<?php echo URLROOT;?>/pages/home">
                 <img src="<?php echo URLROOT;?>/Images/Logo1.png">
                 <p>JOURNEY<br><span>BEYOND</span></p>
             </a>
