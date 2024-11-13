@@ -1,6 +1,7 @@
 <?php
 class Users extends Controller {
     private $userModel;
+    
 
     public function __construct() {
         $this->userModel = $this->model('M_users');
@@ -8,7 +9,7 @@ class Users extends Controller {
 
     public function index() {
         $data = $this->userModel->getUsers();
-        $this->view('users/v_index', $data);
+        $this->view('pages/index', $data);
     }
 
     public function register() {
@@ -49,12 +50,6 @@ class Users extends Controller {
             if (empty($data['name_err']) && empty($data['telephone_err']) && empty($data['email_err']) && empty($data['password_err'])) {
                 // Validated
 
-                // Hash Password
-                $data['password'] = password_hash($data['password'], PASSWORD_DEFAULT);
-
-                // Register User
-
-
                 // Redirect to the login page
                 if ($this->userModel->register($data)) {
                     redirect('users/login');
@@ -84,83 +79,84 @@ class Users extends Controller {
     }
 
 
-    public function login(){
-      if($_SERVER['REQUEST_METHOD']=='POST'){
-        //validate form
+public function login() {
+    if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+        // Sanitize POST data
         $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_FULL_SPECIAL_CHARS);
 
+        // Init data
         $data = [
-          'email' => trim($_POST['email']),
-          'password' => trim($_POST['password']),
-          'email_err' => '',
-          'password_err' => ''
+            'email' => trim($_POST['email']),
+            'password' => trim($_POST['password']),
+            'email_err' => '',
+            'password_err' => ''
         ];
 
-        //validate email
-        if(empty($data['email'])){
-          $data['email_err'] = 'Please enter email';
-        }
-
-        else{
-          //check for user/email
-          if($this->userModel->findUserByEmail($data['email'])){
-
-            //user found
-
-
-          }
-          else{
-            //user not found
-            $data['email_err'] = 'No user found';
-          }
-        }
-
-
-        //validate password
-        if(empty($data['password'])){
-          $data['password_err'] = 'Please enter password';
-        }
-
-        //
-
-        //if no errors
-        if(empty($data['password_err']) && empty($data['email_err'])){
-          //log the user
-          $loggedInUser = $this->userModel->login($data['email'], $data['password']);
-          if($loggedInUser){
-            //create session
-            die('Logged in');
-          }
-          else{
-            $data['password_err'] = 'Password incorrect';
-
-            //load view
-            $this->view('users/v_login', $data);
-          }
+        // Validate email
+        if (empty($data['email'])) {
+            $data['email_err'] = 'Please enter email';
         } else {
-          //load view
-          $this->view('users/v_login', $data);
+            // Check if user exists
+            if (!$this->userModel->findUserByEmail($data['email'])) {
+                $data['email_err'] = 'No user found';
+            }
         }
 
+        // Validate password
+        if (empty($data['password'])) {
+            $data['password_err'] = 'Please enter password';
+        }
 
-      }
-      else{
-        //init data
+        // Check for errors
+        if (empty($data['email_err']) && empty($data['password_err'])) {
+            // Attempt to log in
+            $loggedInUser = $this->userModel->login($data['email'], $data['password']);
+            if ($loggedInUser) {
+                // Create session
+                $this->createUserSession($loggedInUser);
+                //redirect('pages/index');
+                redirect('pages/index');         
+
+            } 
+            
+            
+            else {
+                $data['password_err'] = 'Password hii';
+                // Load view with errors
+                $this->view('users/v_login', $data);
+            }
+        } else {
+            // Load view with errors
+            $this->view('users/v_login', $data);
+        }
+    } else {
+        // Init data for GET request
         $data = [
-          'email' => '',
-          'password' => '',
-          'email_err' => '',
-          'password_err' => ''
+            'email' => '',
+            'password' => '',
+            'email_err' => '',
+            'password_err' => ''
         ];
 
-        //load view
+        // Load view
         $this->view('users/v_login', $data);
-      }
-
-
     }
 }
 
+
+public function createUserSession($user) {
+    $_SESSION['user_id'] = $user->traveler_id;
+    $_SESSION['email'] = $user->email;
+    $_SESSION['name'] = $user->name;
+    redirect('pages/index');
+
+
+
+
+  
+}
+
+}
 
 
 ?>

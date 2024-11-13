@@ -8,7 +8,7 @@
         }
 
         public function index(){
-            echo 'index method';
+            $this->view('pages/index');
         }
 
         public function about(){          

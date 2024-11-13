@@ -7,12 +7,20 @@ class M_users{
         $this->db = new Database;
     }
 
+
+    //get all users
+    public function getUsers(){
+        $this->db->query("SELECT * FROM traveler");
+        return $this->db->resultSet();
+    }
+
     //find user by email
     public function findUserByEmail($email){
         $this->db->query('SELECT * FROM traveler WHERE email = :email');
         $this->db->bind(':email', $email);
 
         $row = $this->db->single();
+
 
         //check row
         if($this->db->rowCount() > 0){
@@ -42,19 +50,37 @@ class M_users{
         }
     }
 
+
+   
+
+     // Get user by ID
+        public function getUserById($id){
+            $this->db->query('SELECT * FROM traveler WHERE traveler_id = :traveler_id');
+            $this->db->bind(':traveler_id', $id);
+    
+            $row = $this->db->single();
+    
+            return $row;
+        }
     //login user
 
-    public function login($email,$password){
+
+    public function login($email, $password) {
         $this->db->query('SELECT * FROM traveler WHERE email = :email');
         $this->db->bind(':email', $email);
 
         $row = $this->db->single();
-        $hashed_password = $row->password;
-        if(password_verify($password, $hashed_password)){
-            return $row;
-        }else{
-            return false;
+
+           
+           
+            if ($password==$row->password) {
+                return $row;
+            } else {
+               return false;
+            }
+        } 
     }
-}
-}
+
+
+
 ?>

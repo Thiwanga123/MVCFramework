@@ -98,6 +98,12 @@ a{
     cursor: pointer;
  }
 
+ .form-invalid {
+    color: #ff0000; /* Red color for error text */
+    font-size: 0.9rem; /* Slightly smaller text size */
+    margin-top: 5px; /* Space between the input field and error message */
+    display: block; /* Make sure the error message is on a new line */
+}
 
  .container .right{
     background-image: url('C:\xampp\htdocs\MVCFramework\public\Images\beautiful-abstract-oil-painting-turquoise-colors-perfect-art-background.jpg');
