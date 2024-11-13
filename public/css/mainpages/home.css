@@ -86,7 +86,7 @@ header .navbar .SignUp{
 
 
 main .hero-content {
-    background-image: url('../Images/sri-lanka-sh-conde-nast-traveller-27jul20-1129567869.jpg'); /* Update with your image path */
+    background-image: url('../../Images/sri-lanka-sh-conde-nast-traveller-27jul20-1129567869.jpg'); /* Update with your image path */
     background-size: cover; 
     background-repeat: no-repeat;
     height: 65vh; 

@@ -1,0 +1,85 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+}
+
+body{
+    background-color:#FFFFFF;
+    height: auto;
+}
+
+a{
+    text-decoration: none;
+}
+
+ul{
+    list-style: none;
+}
+
+
+header{
+    background: white ;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 10px;
+    height: 70px;
+}
+
+header .logo{
+    margin-top: 0.5rem;
+}
+
+header .logo img{
+    margin-left: 10px;
+    width: 55px;
+    height: 55px;
+}
+
+header .logo a{
+    color: rgb(15, 15, 72);
+    display: flex;
+    align-items: center;
+    font-size: 18px;
+    font-weight: 700;
+    gap: 0.5rem;
+}
+
+header .logo span{
+    color: teal;
+}
+
+header .navbar {
+    display: flex;
+    align-items: center;
+    font-size: 16px;
+    margin-left: auto;
+    gap: 4rem;
+}
+
+header .navbar .links{
+    justify-content: space-between;
+    display: flex;
+    gap: 2rem;
+}
+
+header .navbar button{
+    padding: 10px 20px;
+    border-radius: 30px;
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+    white-space: nowrap;
+}
+
+header .navbar .SignIn{
+    background: rgb(11, 146, 146);
+    color: white;
+}
+
+header .navbar .SignUp{
+    background: rgb(13, 16, 83);
+    color: white;
+}
