@@ -38,7 +38,6 @@
         }
          //login user
 
-
         public function login($email, $password) {
         $this->db->query('SELECT * FROM admin WHERE email = :email');
         $this->db->bind(':email', $email);
@@ -51,6 +50,14 @@
                return false;
             }
         } 
+
+        //logout
+        public function logout(){
+            unset($_SESSION['admin_id']);
+            unset($_SESSION['email']);
+            return true;
+        }
+
 
 
         
