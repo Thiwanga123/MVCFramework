@@ -15,4 +15,15 @@ CREATE TABLE trip (
   FOREIGN KEY (traveler_id) REFERENCES traveler(traveler_id)
 );
 
+CREATE TABLE admin (
+    admin_id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(50) NOT NULL,
+    email VARCHAR(100) NOT NULL UNIQUE,
+    password VARCHAR(255) NOT NULL
+);
+
+INSERT INTO admin (name, email, password)
+VALUES ('ucsc', 'ucsc@example.com', 'ucsc');
+
+
 

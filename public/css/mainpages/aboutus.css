@@ -92,7 +92,7 @@ header .navbar .SignUp{
  }
 
 main .hero-content {
-    background-image: url('../../Images/Badulla.jpg'); /* Update with your image path */
+    background-image: url('../../Images/ninearch.jpg'); /* Update with your image path */
     background-size: cover; 
     background-repeat: no-repeat;
     height: 550px; 
@@ -161,6 +161,7 @@ main .about .image{
     align-items: center;
     left: 736px;
     top: 585px;
+    border-radius: 20px;
 }
 
 
