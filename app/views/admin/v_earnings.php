@@ -156,7 +156,7 @@
                        
                     </ul>
                     <div class="earnings-image">
-                        <img src="/Journey Beyond/Images/earnings.jpg" alt="Earnings">
+                        <img src="<?php echo URLROOT;?>/Images/earnings.jpg" alt="Earnings">
                     </div>
                 </div>
             </div>

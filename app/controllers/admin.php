@@ -27,6 +27,10 @@ class Admin extends Controller {
         $this->view('admin/v_serviceProviders');
     }
 
+    public function profile() {
+        $this->view('admin/v_profile');
+    }
+
     public function login() {
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             // Sanitize POST data
@@ -97,11 +101,15 @@ class Admin extends Controller {
         $_SESSION['email'] = $user->email;
         $_SESSION['name'] = $user->name;
         redirect('admin/dashboard');
-    
-    
-    
-    
-      
+         
+    }
+
+    public function logout() {
+        unset($_SESSION['user_id']);
+        unset($_SESSION['email']);
+        unset($_SESSION['name']);
+        session_destroy();
+        redirect('admin/login');
     }
 
     

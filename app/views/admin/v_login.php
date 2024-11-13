@@ -23,7 +23,7 @@
 
             <div class="login-box">
                 <h1>Admin Login</h1>
-                <form action="<?php echo URLROOT; ?>/users/login" method="POST">
+                <form action="<?php echo URLROOT; ?>/admin/login" method="POST">
                 <label for="email">Email / Username</label>
                 <input type="email" id="email" name="email" required value="<?php echo isset($data['email']) ? $data['email'] : ''; ?>">
                 <span class="form-invalid"><?php echo isset($data['email_err']) ? $data['email_err'] : ''; ?></span>
