@@ -14,6 +14,10 @@
         public function about(){          
             $this->view('v_about');
         }
+
+        public function home(){
+            $this->view('v_home');
+        }
     }
 
 ?>

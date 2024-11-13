@@ -1,0 +1,394 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+}
+
+body{
+    background-color: rgb(243, 238, 238);
+    height: auto;
+}
+
+a{
+    text-decoration: none;
+}
+
+ul{
+    list-style: none;
+}
+
+
+header{
+    background: white ;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 10px;
+    height: 70px;
+}
+
+header .logo{
+    margin-top: 0.5rem;
+}
+
+header .logo img{
+    margin-left: 10px;
+    width: 55px;
+    height: 55px;
+}
+
+header .logo a{
+    color: rgb(15, 15, 72);
+    display: flex;
+    align-items: center;
+    font-size: 18px;
+    font-weight: 700;
+    gap: 0.5rem;
+}
+
+header .logo span{
+    color: teal;
+}
+
+header .navbar {
+    display: flex;
+    align-items: center;
+    font-size: 16px;
+    margin-left: auto;
+    gap: 4rem;
+}
+
+header .navbar .links{
+    justify-content: space-between;
+    display: flex;
+    gap: 2rem;
+}
+
+header .navbar button{
+    padding: 10px 20px;
+    border-radius: 30px;
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+    white-space: nowrap;
+}
+
+header .navbar .SignIn{
+    background: rgb(11, 146, 146);
+    color: white;
+}
+
+header .navbar .SignUp{
+    background: rgb(13, 16, 83);
+    color: white;
+}
+
+
+main .hero-content {
+    background-image: url('../Images/sri-lanka-sh-conde-nast-traveller-27jul20-1129567869.jpg'); /* Update with your image path */
+    background-size: cover; 
+    background-repeat: no-repeat;
+    height: 65vh; 
+    display: flex;
+    flex-direction: column;
+    justify-content: center; 
+    align-items: center; 
+    font-weight: 800;
+    font-size: 25px;
+    color: rgb(255, 255, 255); 
+    line-height: 60px;
+    filter :opacity(0.9);
+}
+
+main .bar{
+    display: flex;
+    justify-content: center; 
+    padding: 40px 0px;
+}
+
+main .bar .bar-in{
+    background-color: rgb(255, 255, 255);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 30px;
+    padding: 10px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+main .bar .bar-in li{
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+main .bar .bar-in li .group{
+    display: flex;
+    flex-direction: column;
+    margin-right: 1rem;
+}
+
+main .bar .bar-in li .group p {
+    margin-bottom: 5px; 
+}
+
+main .bar .bar-in li input{
+    border: none;
+    background-color: rgb(255, 255, 255);
+    height: 30px;
+    border-radius: 30px;
+    padding: 0 20px;
+}
+
+main .bar .bar-in li button {
+    background: teal;
+    border: none;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+}
+
+main .bar .bar-in:hover{
+    box-shadow: none;
+}
+
+main .bar .bar-in li button svg:hover{
+    fill: whitesmoke;
+}
+
+/* ------------------- End of Hero Secion--------------------------------------*/
+
+
+/*---------------------Start of Destinations Section----------------------------*/
+
+main .destination h1{
+    text-align: center;
+    font-size: 40px;
+    margin-bottom: 20px;
+}
+
+main .destination .container{
+    display: flex;
+    flex-direction: column;
+    padding: 40px;
+    gap: 2rem;
+}
+
+main .destination .container .top{
+    display: flex; 
+    justify-content: center; 
+    flex-wrap: wrap;
+    width: 100%;
+}
+
+main .destination .container .top .right,
+main .destination .container .top .left{
+    flex: 1;
+    max-width: 800px;
+    color: white;
+    font-weight: 800;
+    font-size: 40px;
+    display: flex;
+    border-radius: 20px;
+    flex-direction: column;
+    justify-content: center; 
+    align-items: center;
+    background-size: cover;
+    background-position: center;
+    position: relative;
+    overflow: hidden;
+    height: 400px;
+    margin: 0 20px;
+    text-align: center;
+}
+
+main .destination .container .top .left {
+    background-image: url(../Images/Nuwara\ Eliya.jpg);
+}
+main .destination .container .top .right { 
+    background-image: url(../Images/Badulla.jpg);
+}
+
+main .destination .container .middle{
+    display: flex; 
+    justify-content: center;
+    flex-wrap: wrap; 
+    width: 100%;
+}
+
+main .destination .container .middle .right,
+main .destination .container .middle .left,
+main .destination .container .middle .center{
+    flex: 1;
+    max-width: 800px;
+    color: white;
+    font-weight: 800;
+    font-size: 40px;
+    border-radius: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-size: cover;
+    background-position: center;
+    position: relative;
+    overflow: hidden;
+    height: 200px;
+    margin: 0 20px;
+    text-align: left;
+    
+}
+
+main .destination .container .middle .left {
+    background-image: url(../Images/Kandy.jpg);
+}
+
+main .destination .container .middle .center { 
+    background-image: url(../Images/Sigiriya.jpg);
+}
+
+main .destination .container .middle .right { 
+    background-image: url(../Images/Galle.jpg);
+}
+
+
+main .destination .container .bottom{
+    display: flex; 
+    justify-content: center;
+    flex-wrap: wrap; 
+    width: 100%;
+}
+
+main .destination .container .bottom .right,
+main .destination .container .bottom .left{
+    flex: 1;
+    max-width: 800px;
+    color: white;
+    font-weight: 800;
+    font-size: 40px;
+    display: flex;
+    border-radius: 20px;
+    flex-direction: column;
+    justify-content: center; 
+    align-items: center;
+    background-size: cover;
+    background-position: center;
+    position: relative;
+    overflow: hidden;
+    height: 400px;
+    margin: 0 20px;
+    text-align: center;
+}
+
+main .destination .container .bottom .left {
+    background-image: url(../Images/Anuradhpuraya.jpg);
+}
+main .destination .container .bottom .right { 
+    background-image: url(../Images/Polonnaruwa.jpg);
+}
+/*---------------------End of Destinations Section----------------------------*/
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+@media (max-width: 768px) {
+    header {
+        flex-direction: column;
+        align-items: center;
+        padding: 10px; /* Reduce padding for mobile */
+    }
+
+    header .logo img {
+        width: 50px;
+        height: 50px;
+    }
+
+    header .navbar {
+        flex-direction: column;
+        align-items: center;
+        gap: 1rem;
+        margin-left: 0;
+        width: 100%;
+    }
+
+    header .navbar .links {
+        flex-direction: column;
+        gap: 1.5rem;
+    }
+
+    header .navbar button {
+        width: 100%; /* Full-width buttons on small screens */
+        padding: 10px; /* Adjust padding */
+    }
+
+    main .bar .bar-in li {
+        flex-direction: column; /* Stack the icon and input vertically */
+        align-items: flex-start; /* Align to the left */
+    }
+
+    main .bar .bar-in li .group {
+        width: 100%; /* Full width for the group */
+    }
+
+    main .bar .bar-in li input {
+        width: 100%; /* Full-width inputs */
+    }
+}
+
+
+/* For mobile phones */
+@media (max-width: 480px) {
+    header {
+        padding: 10px; /* Reduce padding for mobile */
+    }
+
+    header .navbar {
+        gap: 1rem;
+    }
+
+    header .navbar .links {
+        gap: 1rem;
+    }
+
+    header .navbar button {
+        padding: 8px; /* Adjust padding for smaller screens */
+        font-size: 14px; /* Smaller text for buttons */
+    }
+
+    main .bar {
+        padding: 20px 0; /* Reduce padding */
+    }
+
+    main .bar .bar-in li {
+        flex-direction: column; /* Stack vertically */
+    }
+}
