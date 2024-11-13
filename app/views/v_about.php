@@ -8,7 +8,7 @@
 
 </head>
 <body>
-<?php require APPROOT . '/views/inc/components/navigationbar.php'; ?>
+    <?php require APPROOT . '/views/inc/components/navigationbar.php'; ?>
 
     <main>
         <section id="Hero" class="Hero">
