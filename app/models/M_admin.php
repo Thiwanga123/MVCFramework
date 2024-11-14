@@ -51,13 +51,7 @@
             }
         } 
 
-        //logout
-        public function logout(){
-            unset($_SESSION['admin_id']);
-            unset($_SESSION['email']);
-            return true;
-        }
-
+        
 
 
         

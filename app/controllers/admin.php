@@ -12,23 +12,49 @@ class Admin extends Controller {
     
    
     public function dashboard() {
-        $this->view('admin/v_dashboard');
+        //if an admin is logged in
+        if (isset($_SESSION['user_id'])) {
+            $this->view('admin/v_dashboard');
+        } else {
+            redirect('admin/login');
+        }
+
     }
 
     public function earnings() {
-        $this->view('admin/v_earnings');
+        //if an admin is logged in
+        if (isset($_SESSION['user_id'])) {
+            $this->view('admin/v_earnings');
+        } else {
+            redirect('admin/login');
+        }
     }
 
     public function travelers() {
-        $this->view('admin/v_travelers');
+       //if an admin is logged in
+        if (isset($_SESSION['user_id'])) {
+            $this->view('admin/v_travelers');
+        } else {
+            redirect('admin/login');
+        }
     }
 
     public function serviceProviders() {
-        $this->view('admin/v_serviceProviders');
+       //if an admin is logged in
+        if (isset($_SESSION['user_id'])) {
+            $this->view('admin/v_serviceproviders');
+        } else {
+            redirect('admin/login');
+        }
     }
 
     public function profile() {
-        $this->view('admin/v_profile');
+        //if an admin is logged in
+        if (isset($_SESSION['user_id'])) {
+            $this->view('admin/v_profile');
+        } else {
+            redirect('admin/login');
+        }
     }
 
     public function login() {
@@ -105,6 +131,7 @@ class Admin extends Controller {
     }
 
     public function logout() {
+        //if an admin is logged in
         unset($_SESSION['user_id']);
         unset($_SESSION['email']);
         unset($_SESSION['name']);
