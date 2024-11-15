@@ -18,7 +18,6 @@ class Admin extends Controller {
         } else {
             redirect('admin/login');
         }
-
     }
 
     public function earnings() {
