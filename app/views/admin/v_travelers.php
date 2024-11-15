@@ -50,7 +50,7 @@
                     <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#000000"><path d="m280-40 123-622q6-29 27-43.5t44-14.5q23 0 42.5 10t31.5 30l40 64q18 29 46.5 52.5T700-529v-71h60v560h-60v-406q-48-11-89-35t-71-59l-24 120 84 80v300h-80v-240l-84-80-72 320h-84Zm17-395-85-16q-16-3-25-16.5t-6-30.5l30-157q6-32 34-50.5t60-12.5l46 9-54 274Zm243-305q-33 0-56.5-23.5T460-820q0-33 23.5-56.5T540-900q33 0 56.5 23.5T620-820q0 33-23.5 56.5T540-740Z"/></svg>
                     </div>
                     <span class = "info">
-                        <h3>9</h3>
+                        <h3><?php echo $data['number_of_travelers']; ?></h3>
                         <p> Registered Travelers</p>
                     </span>
                 </li>
@@ -59,7 +59,7 @@
                     <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#000000"><path d="M40-160v-160q0-34 23.5-57t56.5-23h131q20 0 38 10t29 27q29 39 71.5 61t90.5 22q49 0 91.5-22t70.5-61q13-17 30.5-27t36.5-10h131q34 0 57 23t23 57v160H640v-91q-35 25-75.5 38T480-200q-43 0-84-13.5T320-252v92H40Zm440-160q-38 0-72-17.5T351-386q-17-25-42.5-39.5T253-440q22-37 93-58.5T480-520q63 0 134 21.5t93 58.5q-29 0-55 14.5T609-386q-22 32-56 49t-73 17ZM160-440q-50 0-85-35t-35-85q0-51 35-85.5t85-34.5q51 0 85.5 34.5T280-560q0 50-34.5 85T160-440Zm640 0q-50 0-85-35t-35-85q0-51 35-85.5t85-34.5q51 0 85.5 34.5T920-560q0 50-34.5 85T800-440ZM480-560q-50 0-85-35t-35-85q0-51 35-85.5t85-34.5q51 0 85.5 34.5T600-680q0 50-34.5 85T480-560Z"/></svg>
                     </div>
                     <span class = "info">
-                        <h3>21</h3>
+                        <h3><?php echo $data['recently_joined_travelers'];?></h3>
                         <p>Recently joined</p>
                     </span>
                 </li>
@@ -95,53 +95,37 @@
                         <thead>
                             <tr>
                                 <th>Customer ID</th>
-                                <th>Date of Joined</th>
-                                <th>Country</th>
+                                <th>Name</th>
+                                <th>Telephone Number</th>
                                 <th>Number of Trips</th>
                                 <th>Action</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td>
-                                    <img src="/Journey Beyond/Images/Profile pic.jpg">
-                                    <p>John Doe</p>
-                                </td>
-                                <td>21-08-2024</td>
-                                <td>Product A</td>
-                                <td>4</td>
-                                <td class="action-buttons">
-                                    <button class="view-btn">View</button>
-                                    <button class="delete-btn">Delete</button>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <img src="/Journey Beyond/Images/Profile pic.jpg">
-                                    <p>John Doe</p>
-                                </td>
-                                <td>14-07-2024</td>
-                                <td>Product B</td>
-                                <td>10</td>
-                                <td class="action-buttons">
-                                    <button class="view-btn">View</button>
-                                    <button class="delete-btn">Delete</button>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <img src="/Journey Beyond/Images/Profile pic.jpg">
-                                    <p>John Doe</p>
-                                </td>
-                                <td>01-01-2024</td>
-                                <td>Product A</td>
-                                <td>4</td>
-                                <td class="action-buttons">
-                                    <button class="view-btn">View</button>
-                                    <button class="delete-btn">Delete</button>
-                                </td>
-                            </tr>
+                        <?php 
+                                if (!empty($data['last_three_travelers'])) {
+                                    foreach ($data['last_three_travelers'] as $traveler): ?>
+                                        <tr>
+                                            <td>
+                                                <img src="<?php echo URLROOT;?>/Images/Profile pic.jpg">
+                                                <p><?php echo htmlspecialchars($traveler->traveler_id); ?></p>
+                                            </td>
+                                            <td><?php echo htmlspecialchars($traveler->name); ?></td>
+                                            <td><?php echo htmlspecialchars($traveler->telephone_number); ?></td>
+                                            <td>2</td>
+                                            <td class="action-buttons">
+                                                <button class="view-btn">View</button>
+                                                <button class="delete-btn">Delete</button>
+                                            </td>
+                                        </tr>
+                                    <?php endforeach;
+                                } else {
+                                    echo "<tr><td colspan='4'>No data</td></tr>";
+                                }
+                        ?>
                         </tbody>
+
+                        
                     </table> 
                 </div>
         

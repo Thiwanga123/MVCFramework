@@ -12,9 +12,14 @@ class Admin extends Controller {
     
    
     public function dashboard() {
+
         //if an admin is logged in
         if (isset($_SESSION['user_id'])) {
-            $this->view('admin/v_dashboard');
+            $number_of_travelers = $this->adminModel->getNumberOfTravelers();
+            $data=[
+                'number_of_travelers'=>$number_of_travelers
+            ];
+            $this->view('admin/v_dashboard', $data);
         } else {
             redirect('admin/login');
         }
@@ -33,10 +38,22 @@ class Admin extends Controller {
     public function travelers() {
        //if an admin is logged in
         if (isset($_SESSION['user_id'])) {
-            $this->view('admin/v_travelers');
+            //get the last three travelers names, email, telephone number and date of joined
+            $number_of_travelers = $this->adminModel->getNumberOfTravelers();
+            $last_three_travelers = $this->adminModel->getLastThreeTravelers();
+            $recently_joined_travelers = $this->adminModel->getRecentlyJoinedTravelers();
+
+            $data=[
+                'number_of_travelers'=>$number_of_travelers,
+                'last_three_travelers'=>$last_three_travelers,
+                'recently_joined_travelers'=>$recently_joined_travelers
+            ];
+
+            $this->view('admin/v_travelers', $data);
         } else {
             redirect('admin/login');
         }
+   
     }
 
     public function serviceProviders() {
@@ -99,7 +116,7 @@ class Admin extends Controller {
                 
                 
                 else {
-                    $data['password_err'] = 'Password hii';
+                    $data['password_err'] = 'Password Incorrect';
                     // Load view with errors
                     $this->view('admin/v_login', $data);
                 }
@@ -138,6 +155,19 @@ class Admin extends Controller {
         session_destroy();
         redirect('admin/login');
     }
+  
+    //get the last three travelers names, email, telephone number and date of joined
+    public function getLastThreeTravelers(){
+        $last_three_travelers = $this->adminModel->getLastThreeTravelers();
+        $data=[
+            'last_three_travelers'=>$last_three_travelers
+        ];
+        $this->view('admin/v_travelers', $data);
+    }
+
+
+
+
 
     
 }

@@ -102,7 +102,7 @@
                         <tbody>
                             <tr>
                                 <td>
-                                    <img src="/Journey Beyond/Images/Profile pic.jpg">
+                                <img src="<?php echo URLROOT;?>/Images/Profile pic.jpg">
                                     <p>John Doe</p>
                                 </td>
                                 <td>21-08-2024</td>
@@ -115,7 +115,7 @@
                             </tr>
                             <tr>
                                 <td>
-                                    <img src="/Journey Beyond/Images/Profile pic.jpg">
+                                <img src="<?php echo URLROOT;?>/Images/Profile pic.jpg">
                                     <p>John Doe</p>
                                 </td>
                                 <td>14-07-2024</td>
@@ -128,7 +128,7 @@
                             </tr>
                             <tr>
                                 <td>
-                                    <img src="/Journey Beyond/Images/Profile pic.jpg">
+                                <img src="<?php echo URLROOT;?>/Images/Profile pic.jpg">
                                     <p>John Doe</p>
                                 </td>
                                 <td>01-01-2024</td>
@@ -153,7 +153,7 @@
                     <ul class="update-list">
                         <li>
                             <div class="update">
-                                <img src="/Journey Beyond/Images/Profile pic.jpg">
+                            <img src="<?php echo URLROOT;?>/Images/Profile pic.jpg">
                                 <div class="update-info">
                                     <div class="name-info">
                                         <p>John Doe</p>
@@ -171,7 +171,7 @@
                         </li>
                         <li>
                             <div class="update">
-                                <img src="/Journey Beyond/Images/Profile pic.jpg">
+                            <img src="<?php echo URLROOT;?>/Images/Profile pic.jpg">
                                 <div class="update-info">
                                     <div class="name-info">
                                         <p>John Doe</p>
@@ -189,7 +189,7 @@
                         </li>
                         <li>
                             <div class="update">
-                                <img src="/Journey Beyond/Images/Profile pic.jpg">
+                            <img src="<?php echo URLROOT;?>/Images/Profile pic.jpg">
                                 <div class="update-info">
                                     <div class="name-info">
                                         <p>John Doe</p>
