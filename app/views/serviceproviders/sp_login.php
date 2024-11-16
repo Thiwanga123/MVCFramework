@@ -1,5 +1,4 @@
 
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -35,10 +34,10 @@
                     <label for="sptype">Service Type</label>
                             <select id="sptype" name="sptype" required style="width: 100%; max-width: 300px; height: 40px;">
                                 <option value="" disabled selected>Select a type</option>
-                                <option value="accomodation">Accomodations</option>
-                                <option value="equipment_supplier">Equipment Supplier</option>
-                                <option value="tour_guide">Tour Guide</option>
-                                <option value="vehicle_supplier">Vehicle Supplier</option>
+                                <option value="accomodations">Accomodation</option>
+                                <option value="equipment_suppliers">Equipment Supplier</option>
+                                <option value="tour_guides">Tour Guide</option>
+                                <option value="vehicle_suppliers">Vehicle Supplier</option>
                             </select>
                     <div class="forgot-password">
                         <a href="#">Forgot password?</a>

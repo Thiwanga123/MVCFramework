@@ -15,9 +15,11 @@ class ServiceProvider extends Controller {
 
 
     public function login() {
+
         // Check if the form was submitted (POST request)
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             // Sanitize POST data
+    
             $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_FULL_SPECIAL_CHARS);
     
             // Init data array with POST values
@@ -29,7 +31,8 @@ class ServiceProvider extends Controller {
                 'password_err' => '',
                 'sptype_err' => ''
             ];
-    
+           
+         
             // Check if the email, password, and service type fields are not empty
             if (empty($data['email']) || empty($data['password']) || empty($data['sptype'])) {
                 // Set error message for empty fields
@@ -39,7 +42,7 @@ class ServiceProvider extends Controller {
             } else {
                 // Check if email exists in the database for the given service type
                 $existing = $this->serviceProviderModel->findUserByEmail($data['email'], $data['sptype']);
-                
+                 
                 if (!$existing) {
                     $data['email_err'] = 'No user found with that email for the selected service type.';
                 }
@@ -53,6 +56,7 @@ class ServiceProvider extends Controller {
                 if ($loggedInUser) {
                     // Create session for the logged-in user and redirect
                     $this->createUserSession($loggedInUser, $data['sptype']);
+                   
                 } else {
                     // If login fails (wrong password), set error message
                     $data['password_err'] = 'Incorrect password. Please try again.';
@@ -84,9 +88,17 @@ public function createUserSession($user,$sptype) {
     $_SESSION['id'] = $user-> id;
     $_SESSION['email'] = $user->email;
     $_SESSION['name'] = $user->name;
+    $_SESSION['type'] = $sptype;
     redirect($sptype .'/dashboard');
 }
 
+public function logout(){
+        session_destroy();  
+        session_start();    
+
+        redirect('ServiceProvider');
+        exit();
+}
 }
 
 

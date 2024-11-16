@@ -9,9 +9,8 @@ class ServiceProviderModel{
 
     
     public function login($email, $password, $sptype) {
-        $table = $this->getServiceProviderTable($sptype);
-
-        $this->db->query("SELECT * FROM $table WHERE email = :email");
+       
+        $this->db->query("SELECT * FROM $sptype WHERE email = :email");
         $this->db->bind(':email', $email);
 
         $row = $this->db->single();
@@ -23,32 +22,21 @@ class ServiceProviderModel{
         }
     } 
 
-    private function getServiceProviderTable($sptype){
-        switch ($sptype) {
-            case 'accomodation':
-                return 'accommodation_providers';
-            case 'equipmentsupplier':
-                return 'equipment_suppliers';
-            case 'tourguide':
-                return 'tour_guides';
-            case 'vehiclesupplier':
-                return 'vehicle_suppliers';
-            default:
-                return null;
-        }
-    }
-
+   
       //find user by email
       public function findUserByEmail($email,$sptype){
-        $table = $this->getServiceProviderTable($sptype);
-
-        $this->db->query("SELECT * FROM $table WHERE email = :email");
+        
+        $this->db->query("SELECT * FROM $sptype WHERE email = :email");
         $this->db->bind(':email', $email);
 
+        $this->db->execute();
+
+        $rowCount = $this->db->rowCount();
         //check row
-        if($this->db->rowCount() > 0){
+        if($rowCount > 0){
             return true;
         }else{
+            
             return false;
         }
     }
