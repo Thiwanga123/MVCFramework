@@ -103,7 +103,7 @@
                         <tbody>
                             <tr>
                                 <td>
-                                    <img src="/Journey Beyond/Images/Profile pic.jpg">
+                                    <img src="<?php echo URLROOT;?>/Images/Profile pic.jpg">
                                     <p>John Doe</p>
                                 </td>
                                 <td>1005</td>
@@ -115,7 +115,7 @@
                             </tr>
                             <tr>
                                 <td>
-                                    <img src="/Journey Beyond/Images/Profile pic.jpg">
+                                <img src="<?php echo URLROOT;?>/Images/Profile pic.jpg">
                                     <p>John Doe</p>
                                 </td>
                                 <td>1006</td>
@@ -128,7 +128,7 @@
                             </tr>
                             <tr>
                                 <td>
-                                    <img src="/Journey Beyond/Images/Profile pic.jpg">
+                                <img src="<?php echo URLROOT;?>/Images/Profile pic.jpg">
                                     <p>John Doe</p>
                                 </td>
                                 <td>1007</td>
