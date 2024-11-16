@@ -9,7 +9,7 @@
     }
 
     public function addProduct($supplierId, $productName, $rate, $category, $quantity, $description){
-       
+       try{
         $sql = "INSERT INTO products (supplier_id, product_name, rate, category_id, quantity, description) 
                     VALUES (?,?, ?, ?, ?, ?)";
 
@@ -27,20 +27,33 @@
             $productId = $this->db->insertId();
             return $productId;
         } else {
-            return false;
+            throw new Exception("Error inserting product.");
         }
+    }catch(Exception $e){
+        return false;
+    }
     }     
         
     public function addProductImage($productId, $imagePath) {
-        $sql = "INSERT INTO product_images (product_id, image_path) VALUES (?, ?)";
-
-        $this->db->query($sql);
-
-        $this->db->bind(1, $productId);
-        $this->db->bind(2, $imagePath);
-
-        return $this->db->execute();
-        
+        try {
+            $sql = "INSERT INTO product_images (product_id, image_path) VALUES (?, ?)";
+            $this->db->query($sql);
+            $this->db->bind(1, $productId);
+            $this->db->bind(2, $imagePath);
+    
+            if ($this->db->execute()) {
+                return true;
+            } else {
+                throw new Exception("Error inserting image path into the database.");
+            }
+    
+        } catch (Exception $e) {
+            return false;
+        }
     }
- }
+
+
+    
+}
+
 ?>

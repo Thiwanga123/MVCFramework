@@ -8,6 +8,7 @@
     <title>Home</title>
 </head>
 <body>
+    <div class="box">
     <!-- SideBar -->
     <?php
         include('Sidebar.php');;
@@ -133,7 +134,7 @@
           </main>
 
      </div>
-
+     </div>
      <!--Modal Structure-->
 
     <?php

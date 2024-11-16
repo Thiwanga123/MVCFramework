@@ -10,7 +10,8 @@
         public function addProduct(){
             
             if(isset($_POST['submit'])){
-
+                var_dump($_POST);  // This will output the POST data to the screen
+                 exit; 
                 //$supplierId = $_SESSION['supplier_id']; //Getting the Supplier ID from the session
                 $supplierId = 1;
                 $productname = $_POST['productName'];

@@ -20,8 +20,8 @@
                                 <option value="" disabled selected>Select a category</option>
                                 <option value="electronics">Camping & Outdoor Gear</option>
                                 <option value="clothing">Luggage & Bags</option>
-                                <option value="homeGoods">Music & Entertainment</option>
-                                <option value="homeGoods">Photography & Videography Gear</option>
+                                <option value="entertainment">Music & Entertainment</option>
+                                <option value="photograph">Photography & Videography Gear</option>
                             </select>
 
                             <label for="stockQuantity">Stock Quantity</label>

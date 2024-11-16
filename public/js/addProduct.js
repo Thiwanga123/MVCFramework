@@ -1,42 +1,34 @@
+document.addEventListener('DOMContentLoaded', () => {
 
-const modal = document.getElementById('addProductModal');
-const openModalBtn = document.getElementById('add-btn');
-const closeModal = document.getElementById('closeModal');
+        const modal = document.getElementById('addProductModal');
+        const openModalBtn = document.getElementById('add-btn');
+        const closeModal = document.getElementById('closeModal')
+        const box = document.querySelector('.box');
+
+        openModalBtn.addEventListener('click', () => {
+                modal.style.display = 'block';
+                box.classList.add('blur');
+                modal.classList.add('active');  
+        });
+
+        closeModal.addEventListener('click', () => {
+                modal.style.display = 'none';
+                box.classList.remove('blur');
+                modal.classList.remove('active');
+                
+        });
 
 
-openModalBtn.addEventListener('click', () => {
-        modal.style.display = 'block';
-        document.body.classList.add('blur-background');
-        modal.classList.add('active');  
-});
+        window.onclick = function(event) {
+                if (event.target == modal) {
+                        modal.classList.remove("active");
+                        box.classList.remove("blur"); 
+        }
+        }
 
-closeModal.addEventListener('click', () => {
-        modal.style.display = 'none';
-        document.body.classList.remove('blur-background');
-        modal.classList.remove('active');
-        
-});
-    
-openModalBtn.onclick = function() {
-        modal.classList.add("active");
-        body.classList.add("blur"); 
-}
-
-closeModal.onclick = function() {
+        document.getElementById("addProductForm").onsubmit = function(e) {
+        e.preventDefault();
         modal.classList.remove("active");
-        body.classList.remove("blur"); 
-
-}
-
-window.onclick = function(event) {
-        if (event.target == modal) {
-                modal.classList.remove("active");
-                body.classList.remove("blur"); 
-    }
-}
-
-document.getElementById("addProductForm").onsubmit = function(e) {
-    e.preventDefault();
-    modal.classList.remove("active");
-    body.classList.remove("blur");
-}
+        box.classList.remove("blur");
+        }
+});
