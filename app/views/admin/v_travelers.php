@@ -114,8 +114,7 @@
                                             <td><?php echo htmlspecialchars($traveler->telephone_number); ?></td>
                                             <td>2</td>
                                             <td class="action-buttons">
-                                                <button class="view-btn">View</button>
-                                                <button class="delete-btn">Delete</button>
+                                               <a href="<?php echo URLROOT?>admin/deleteTraveler/<?php echo $traveler->traveler_id?>"><button class="delete-btn" onclick="return confirm('Are you sure you want to delete this traveler?');">Delete</button></a>                                                                                          
                                             </td>
                                         </tr>
                                     <?php endforeach;

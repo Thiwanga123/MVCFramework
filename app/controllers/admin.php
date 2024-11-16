@@ -42,6 +42,7 @@ class Admin extends Controller {
             $number_of_travelers = $this->adminModel->getNumberOfTravelers();
             $last_three_travelers = $this->adminModel->getLastThreeTravelers();
             $recently_joined_travelers = $this->adminModel->getRecentlyJoinedTravelers();
+     
 
             $data=[
                 'number_of_travelers'=>$number_of_travelers,
@@ -155,21 +156,25 @@ class Admin extends Controller {
         session_destroy();
         redirect('admin/login');
     }
-  
-    //get the last three travelers names, email, telephone number and date of joined
-    public function getLastThreeTravelers(){
-        $last_three_travelers = $this->adminModel->getLastThreeTravelers();
-        $data=[
-            'last_three_travelers'=>$last_three_travelers
-        ];
-        $this->view('admin/v_travelers', $data);
+
+
+    public function deleteTraveler($id) {
+        //if an admin is logged in
+        if (isset($_SESSION['user_id'])) {
+            
+                if($this->adminModel->deleteTravelerById($id)) {
+                    redirect('admin/travelers');
+                } else {
+                    die('Something went wrong');
+                }
+            
+        } else {
+            redirect('admin/login');
+        }
     }
-
-
-
-
-
-    
+  
+   
+ 
 }
 
 

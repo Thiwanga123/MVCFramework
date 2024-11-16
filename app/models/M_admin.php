@@ -79,6 +79,19 @@
             return $row->number_of_travelers;
         }
 
+        //delete the traveler by id
+        public function deleteTravelerById($id){
+            $this->db->query('DELETE FROM traveler WHERE traveler_id = :traveler_id');
+            $this->db->bind(':traveler_id', $id);
+    
+            //execute
+            if($this->db->execute()){
+                return true;
+            }else{
+                return false;
+            }
+        }
+
     }
 
 
