@@ -92,6 +92,24 @@
             }
         }
 
+
+        //update the admin profile
+        public function updateProfile($data){
+            $this->db->query('UPDATE admin SET name = :name,  phone_number = :phone_number, password = :password WHERE admin_id = :admin_id');
+            // Bind values
+            $this->db->bind(':admin_id', $data['admin_id']);
+            $this->db->bind(':name', $data['name']);
+            $this->db->bind(':phone_number', $data['phone_number']);
+            $this->db->bind(':password', $data['password']);
+    
+            // Execute
+            if($this->db->execute()){
+                return true;
+            } else {
+                return false;
+            }
+        }
+
     }
 
 

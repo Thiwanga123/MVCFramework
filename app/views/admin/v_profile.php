@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="<?php echo URLROOT;?>/css/pages/Profile.css">
+    <link rel="stylesheet" href="<?php echo URLROOT;?>/css/Common/Profile.css">
     <title>Profile</title>
 </head>
 <body>
@@ -37,39 +37,39 @@
         <main>
             <div class="header">
                 <div class="left">
-                    <h1>My Profile</h1>
+                    <h1>Admin Information</h1>
                 </div>
             </div>
             
             <div class="profile">
                 <div class="profile-left">
-                <img src="/Images/Profile pic.jpg" alt="">
+                <img src="<?php echo URLROOT;?>/Images/Profile pic.jpg" alt="">
                 </div>
 
                 <div class="profile-center">
                     <h4>Name</h4>
-                    <input type="name" id="name" name="name">
+                    <input type="name" id="name" name="name" value="<?php echo $data['name'];?>">
                     <h4>Email</h4>
-                    <input type="email" id="email" name="email">
-                    <h4>Permanent Address</h4>
-                    <input type="address" id="address" name="address">
-                    <h4>Present Address</h4>
-                    <input type="presentAddress" id="presentAddress" name="presentAddress">
+                    <input type="email" id="email" name="email" value="<?php echo $data['email'];?>">
+                    <h4>Telephone Number</h4>
+                    <input type="phone_number" id="phone_number" name="phone_number" value="<?php echo $data['phone_number'];?>">
+                   
                     
                 </div>
 
                 <div class="profile-right">
-                    <h4>Company Name</h4>
-                    <input type="companyName" id="companyName" name="companyName">
+                    
+                    
+                    <h4>NIC number</h4>
+                    <input type="nic" id="nic" name="nic"value="<?php echo $data['nic'];?>">
                     <h4>Password</h4>
-                    <input type="password" id="password" name="password">
-                    <h4>City</h4>
-                    <input type="city" id="city" name="city">
-                    <h4>Postal Code</h4>
-                    <input type="postalCode" id="postalCode" name="postalCode">
+                    <input type="passowrd" id="password" name="password" value="">
+                    <h4>Confirm Passowrd</h4>
+                    <input type="password" id="confirm_password" name="confirm_password">
+                    
                 </div>
                 <div class="profile-actions">
-                    <button type="submit">Save</button>
+                    <button type="submit">Update</button>
                 </div>
                 
             </div>
