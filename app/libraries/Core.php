@@ -8,9 +8,18 @@ class Core {
 
     public function __construct() {
         $url = $this->getURL();
+        
+        if(empty($url[0])){
+            require_once '../app/controllers/' . $this->currentController . '.php';
+            $this->currentController = new $this->currentController;
+            
+            call_user_func_array([$this->currentController, $this->currentMethod], $this->params);
+            return;
+        }
+
         if ($url && file_exists('../app/controllers/' . ucwords($url[0]) . '.php')) {
             $this->currentController = ucwords($url[0]);
-
+    
             // Unset 0 index
             unset($url[0]);
 

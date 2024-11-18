@@ -63,6 +63,12 @@ a{
     max-width: 400px;
     padding: 25px;
     border-radius: 40px;
+    gap: 1rem;
+}
+
+.container .left .login-box .link {
+    display: flex;
+    justify-content: center;
 }
 
 .container .left .login-box form{
