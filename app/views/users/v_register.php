@@ -53,7 +53,7 @@
             <button type="submit" class="service-btn">Join With Us</button>
         </div>
 
-        <script src="../JS Scripts/signIn.js" defer></script>
+        <script src="<?php echo URLROOT;?>/js/Sign In.js" defer></script>
     
 </body>
 </html>

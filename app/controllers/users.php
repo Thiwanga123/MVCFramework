@@ -149,17 +149,9 @@ public function createUserSession($user) {
     $_SESSION['email'] = $user->email;
     $_SESSION['name'] = $user->name;
     redirect('pages/index');
-
-
-
-
   
 }
 
-
-
-
-//show last 3 travelers
 
 
 }

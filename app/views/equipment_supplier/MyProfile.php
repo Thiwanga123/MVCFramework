@@ -3,13 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <link rel="stylesheet" href="<?php echo URLROOT;?>/css/Common/Profile.css">
+    <link rel="stylesheet" href="<?php echo URLROOT;?>/css/Common/sidebarHeader.css">
     <title>Profile</title>
 </head>
 <body>
     <!-- SideBar -->
-    <?php require APPROOT . '/views/inc/components/adminsidebar.php'; ?>
-     <!-- End Of Sidebar -->
+    <?php
+        include('Sidebar.php');;
+    ?>
+          <!-- End Of Sidebar -->
 
      <!--Main Content-->
      <div class="content">
@@ -28,48 +32,47 @@
                 <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#000000"><path d="M160-200v-80h80v-280q0-83 50-147.5T420-792v-28q0-25 17.5-42.5T480-880q25 0 42.5 17.5T540-820v28q80 20 130 84.5T720-560v280h80v80H160Zm320-300Zm0 420q-33 0-56.5-23.5T400-160h160q0 33-23.5 56.5T480-80ZM320-280h320v-280q0-66-47-113t-113-47q-66 0-113 47t-47 113v280Z"/></svg>
                 <span class="count">12</span>
             </a>
-            <p>Hii Welcome <?php echo isset($_SESSION['name']) ? ' ' . htmlspecialchars($_SESSION['name']) : ''; ?> </p>
             <a href="#" class="profile">
-            <img src="<?php echo URLROOT;?>/Images/Profile pic.jpg">
+            <img src="../../../Public/Images/Profile pic.jpg">
             </a>
         </nav>
 
         <main>
             <div class="header">
                 <div class="left">
-                    <h1>Admin Information</h1>
+                    <h1>My Profile</h1>
                 </div>
             </div>
             
             <div class="profile">
                 <div class="profile-left">
-                <img src="<?php echo URLROOT;?>/Images/Profile pic.jpg" alt="">
+                <img src="/Images/Profile pic.jpg" alt="">
                 </div>
 
                 <div class="profile-center">
                     <h4>Name</h4>
-                    <input type="name" id="name" name="name" value="<?php echo $data['name'];?>">
+                    <input type="name" id="name" name="name">
                     <h4>Email</h4>
-                    <input type="email" id="email" name="email" value="<?php echo $data['email'];?>">
-                    <h4>Telephone Number</h4>
-                    <input type="phone_number" id="phone_number" name="phone_number" value="<?php echo $data['phone_number'];?>">
-                   
+                    <input type="email" id="email" name="email">
+                    <h4>Permanent Address</h4>
+                    <input type="address" id="address" name="address">
+                    <h4>Present Address</h4>
+                    <input type="presentAddress" id="presentAddress" name="presentAddress">
                     
                 </div>
 
                 <div class="profile-right">
-                    
-                    
-                    <h4>NIC number</h4>
-                    <input type="nic" id="nic" name="nic"value="<?php echo $data['nic'];?>">
+                    <h4>Company Name</h4>
+                    <input type="companyName" id="companyName" name="companyName">
                     <h4>Password</h4>
-                    <input type="passowrd" id="password" name="password" value="">
-                    <h4>Confirm Passowrd</h4>
-                    <input type="password" id="confirm_password" name="confirm_password">
-                    
+                    <input type="password" id="password" name="password">
+                    <h4>City</h4>
+                    <input type="city" id="city" name="city">
+                    <h4>Postal Code</h4>
+                    <input type="postalCode" id="postalCode" name="postalCode">
                 </div>
                 <div class="profile-actions">
-                    <button type="submit">Update</button>
+                    <button type="submit">Save</button>
                 </div>
                 
             </div>
@@ -78,7 +81,7 @@
 
     </div>
 
-    <script src="../../../Public/JS Scripts/Sidebar.js"></script>
+    <script src="<?php echo URLROOT;?>/js/Sidebar.js"></script> 
 </body>
 
 </html>
