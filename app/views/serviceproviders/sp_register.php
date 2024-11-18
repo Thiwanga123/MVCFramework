@@ -73,7 +73,7 @@
                         </div>
                         <div class="input-field">
                             <label for="pdfFile">Your Cerificates</label>
-                            <input type="file" id="pdfFile" name="pdfFile" accept="application/pdf" required>
+                            <input type="file" id="pdfFile" name="pdfFile" accept="application/pdf" requiredvalue="<?php echo isset($data['doc']) ? $data['doc'] : ''; ?>">
                         </div>
                     </div>
 

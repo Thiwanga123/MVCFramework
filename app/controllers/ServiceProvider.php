@@ -96,6 +96,7 @@ class ServiceProvider extends Controller {
                     'address'=>trim($_POST['address']),
                     'confrim_password'=>trim($_POST['confirm_password']),
                     'sptype'=>trim($_POST['sptype']),
+                    
                     'sptype_err'=>'',
                     'name_err' => '',
                     'phone_err' => '',
