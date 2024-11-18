@@ -8,17 +8,14 @@
         }
 
         public function index(){
-            $this->view('pages/index');
+            $this->view('v_home');
         }
 
         public function about(){          
             $this->view('v_about');
         }
 
-        public function home(){
-            $this->view('v_home');
-        }
-
+        
        
     }
 
