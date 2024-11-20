@@ -230,7 +230,7 @@ public function logout(){
         session_destroy();  
         session_start();    
 
-        redirect('ServiceProvider');
+        redirect('ServiceProvider/login');
         exit();
 }
 }
