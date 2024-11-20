@@ -44,7 +44,7 @@
     </div>
 
         <div class="right">
-            <p>Welocme Dear Admin<br>You are the Pseron that Manage Everything.<br>Have a Geat Day!.</p>
+            <p>Welocme Dear Admin<br>You are the Person that Manage Everything.<br>Have a Geat Day!.</p>
         </div>
 
         <script src="../JS Scripts/signIn.js" defer></script>
