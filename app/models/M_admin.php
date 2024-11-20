@@ -110,6 +110,42 @@
             }
         }
 
+
+        //count the all registered accomadation suppliers
+        public function getAccomadationSuppliers(){
+           $this->db->query('SELECT COUNT(id) as accomadation_suppliers FROM accomadation');
+           $row=$this->db->single();
+            return $row->accomadation_suppliers;
+        }
+
+        //count the all registerd vehicle suppliers
+        public function getVehicleSuppliers(){
+            $this->db->query('SELECT COUNT(id) as vehicle_suppliers FROM vehicle_suppliers');
+            $row=$this->db->single();
+             return $row->vehicle_suppliers;
+         }
+
+         //count the all registerd equipment suppliers
+        public function getEquipmentSuppliers(){
+            $this->db->query('SELECT COUNT(id) as equipment_suppliers FROM equipment_suppliers');
+            $row=$this->db->single();
+             return $row->equipment_suppliers;
+         }
+
+            //count the all registerd tour guides
+        public function getTourGuides(){
+            $this->db->query('SELECT COUNT(id) as tour_guides FROM tour_guides');
+            $row=$this->db->single();
+             return $row->tour_guides;
+         }
+
+         //get the last three accomadation suppliers
+         public function getLastThreeAccomadationSuppliers(){
+            $this->db->query('SELECT * FROM last_joined_accomadation_suppliers');
+            $results = $this->db->resultSet();
+            return $results;
+        }
+
     }
 
 

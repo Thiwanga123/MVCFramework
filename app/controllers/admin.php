@@ -59,7 +59,23 @@ class Admin extends Controller {
     public function serviceProviders() {
        //if an admin is logged in
         if (isset($_SESSION['user_id'])) {
-            $this->view('admin/v_serviceproviders');
+          //get all registered accomadations
+            $accomadation_suppliers = $this->adminModel->getAccomadationSuppliers();
+        //get all registered vehicle suppliers
+            $vehicle_suppliers = $this->adminModel->getVehicleSuppliers();
+        //get all registered equipment suppliers
+            $equipment_suppliers = $this->adminModel->getEquipmentSuppliers();
+        //get all registered tour guides
+            $tour_guides = $this->adminModel->getTourGuides();
+
+            $data=[
+                'accomadation_suppliers'=>$accomadation_suppliers,
+                'vehicle_suppliers'=>$vehicle_suppliers,
+                'equipment_suppliers'=>$equipment_suppliers,
+                'tour_guides'=>$tour_guides
+            ];
+
+            $this->view('admin/v_serviceproviders', $data);
         } else {
             redirect('admin/login');
         }
@@ -276,6 +292,21 @@ class Admin extends Controller {
 
   
 }
+
+
+    //show all accomadation suppliers
+    public function accomadationSuppliers() {
+        //if an admin is logged in
+        if (isset($_SESSION['user_id'])) {
+            $accomadation_suppliers = $this->adminModel->getAccomadationSuppliers();
+            $data=[
+                'accomadation_suppliers'=>$accomadation_suppliers
+            ];
+            $this->view('admin/v_serviceproviders', $data);
+        } else {
+            redirect('admin/login');
+        }
+    }
 
 }
 

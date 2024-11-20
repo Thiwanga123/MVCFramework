@@ -84,28 +84,6 @@
         </div>
     </div>
 
-    <!-- <script>
-        function validateForm() {
-            const password = document.getElementById('password').value;
-            const confirmPassword = document.getElementById('confirm_password').value;
-            const errorMessage = document.getElementById('error-message');
-            const pdfFile = document.getElementById('pdfFile');
 
-            if (password !== confirmPassword) {
-                errorMessage.style.display = 'block';
-                return false; // Prevent form submission if passwords don't match
-            } else {
-                errorMessage.style.display = 'none';
-            }
-
-            // Check if PDF file is uploaded and valid
-            if (pdfFile.files.length === 0 || pdfFile.files[0].type !== "application/pdf") {
-                alert("Please upload a valid PDF file.");
-                return false;
-            }
-
-            return true; // Allow form submission
-        }
-    </script> -->
 </body>
 </html>
