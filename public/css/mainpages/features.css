@@ -20,7 +20,7 @@ main .hero-content {
     object-fit: contain;
     font-weight: 800;
     font-size: 25px;
-    color: rgb(237, 238, 243); 
+    color: rgb(76, 102, 233); 
     line-height: 60px;
     filter :opacity(0.9);
 }
