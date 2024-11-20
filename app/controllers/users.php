@@ -121,7 +121,7 @@ public function login() {
             
             
             else {
-                $data['password_err'] = 'Password hii';
+                $data['password_err'] = 'Password Incorrect';
                 // Load view with errors
                 $this->view('users/v_login', $data);
             }
@@ -151,6 +151,8 @@ public function createUserSession($user) {
     redirect('pages/index');
   
 }
+
+
 
 }
 

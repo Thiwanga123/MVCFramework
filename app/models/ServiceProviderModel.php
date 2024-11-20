@@ -41,26 +41,31 @@ class ServiceProviderModel{
         }
     }
 
-  
-    //register user
+
+    //register the service provider with the relavent service type
     public function register($data){
-        $this->db->query('INSERT INTO traveler (name,  email, password,telephone_number) VALUES(:name,  :email, :password, :telephone_number)');
-        //bind values
+        $this->db->query("INSERT INTO ".$data['sptype']." (name, email, password, phone,address,nic,reg_number) VALUES(:name, :email, :password, :phone,:address,:nic,:reg_number)");
         $this->db->bind(':name', $data['name']);
         $this->db->bind(':email', $data['email']);
         $this->db->bind(':password', $data['password']);
-        $this->db->bind(':telephone_number', $data['telephone_number']);
+        $this->db->bind(':phone', $data['phone']);
+        $this->db->bind(':address', $data['address']);
+        $this->db->bind(':nic', $data['nic']);
+        $this->db->bind(':reg_number', $data['reg_number']);
+        
 
-
-
-        //execute
         if($this->db->execute()){
             return true;
-           
         }else{
             return false;
         }
     }
+
+
+
+
+  
+    
     //login user
     }
 

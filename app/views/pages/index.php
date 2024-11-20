@@ -7,6 +7,35 @@
     <title>Index</title>
 </head>
 <body>
-    <h1>Welcome to User Interface <?php echo isset($_SESSION['name']) ? ' ' . htmlspecialchars($_SESSION['name']) : ''; ?></h1>
+<body>
+    <!--if $data[] is available print true-->
+    
+        <h1>Users</h1>
+        <table>
+            <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Telephone Number</th>
+                    <th>Date of Joined</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!--loop through the data and print the data-->
+                <?php foreach($data['travelers'] as $user) : ?>
+                    <tr>
+                        <td><?php echo $user->admin_id; ?></td>
+                        <td><?php echo $user->name; ?></td>
+                        <td><?php echo $user->email; ?></td>
+                        <td><?php echo $user->telephone_number; ?></td>
+                        <td><?php echo $user->date_of_joined; ?></td>
+                    </tr>
+                <?php endforeach; ?>
+            </tbody>
+        </table>
+   
+</body>
+
 </body>
 </html>
