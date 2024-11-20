@@ -21,7 +21,7 @@ class ServiceProvider extends Controller {
             // Sanitize POST data
     
             $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_FULL_SPECIAL_CHARS);
-    
+
             // Init data array with POST values
             $data = [
                 'email' => trim($_POST['email']),
@@ -29,7 +29,7 @@ class ServiceProvider extends Controller {
                 'sptype' => trim($_POST['sptype']),
                 'email_err' => '',
                 'password_err' => '',
-                'sptype_err' => ''
+                'sptype_err' => '',
             ];
            
          
