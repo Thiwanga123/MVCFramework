@@ -233,6 +233,13 @@ public function logout(){
         redirect('ServiceProvider/login');
         exit();
 }
+
+//view service provider details
+public function viewServiceProviderDetails(){
+    $data = $this->serviceProviderModel->getUsers();
+    $this->view('serviceproviders/sp_profile', $data);
+}
+
 }
 
 

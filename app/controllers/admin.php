@@ -67,12 +67,18 @@ class Admin extends Controller {
             $equipment_suppliers = $this->adminModel->getEquipmentSuppliers();
         //get all registered tour guides
             $tour_guides = $this->adminModel->getTourGuides();
+        //get the last 3 joined serviceproviders
+            $last_three_service_providers = $this->adminModel->getLastThreeServiceProviders();
+         
+            
 
             $data=[
                 'accomadation_suppliers'=>$accomadation_suppliers,
                 'vehicle_suppliers'=>$vehicle_suppliers,
                 'equipment_suppliers'=>$equipment_suppliers,
-                'tour_guides'=>$tour_guides
+                'tour_guides'=>$tour_guides,
+                'last_three_service_providers'=>$last_three_service_providers
+                
             ];
 
             $this->view('admin/v_serviceproviders', $data);
@@ -307,6 +313,25 @@ class Admin extends Controller {
             redirect('admin/login');
         }
     }
+
+    //show the details of selected service provider by the id from the relavant table of service provider
+    public function viewServiceProviderDetails($id, $sptype) {
+        //if an admin is logged in
+        if (isset($_SESSION['user_id'])) {
+            $serviceprovider = $this->adminModel->getServiceProviderDetails($id, $sptype);
+            $data=[
+                'name'=>$serviceprovider->name
+            ];
+            $this->view('admin/v_view', $data);
+
+            
+        } else {
+            redirect('admin/login');
+        }
+    }
+
+ 
+
 
 }
 

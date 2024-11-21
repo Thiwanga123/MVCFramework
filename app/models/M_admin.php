@@ -146,6 +146,41 @@
             return $results;
         }
 
+
+        //get the details of selected service provider by the id from the relavant table of service provider
+        public function getServiceProviderDetails($id,$type){
+            if($type=='Accommodation'){
+                $this->db->query('SELECT * FROM accomadation WHERE id = :id');
+                $this->db->bind(':id', $id);
+                $row = $this->db->single();
+                return $row;
+            }else if($type=='vehicle'){
+                $this->db->query('SELECT * FROM vehicle_suppliers WHERE id = :id');
+                $this->db->bind(':id', $id);
+                $row = $this->db->single();
+                return $row;
+            }else if($type=='equipment'){
+                $this->db->query('SELECT * FROM equipment_suppliers WHERE id = :id');
+                $this->db->bind(':id', $id);
+                $row = $this->db->single();
+                return $row;
+            }else if($type=='tourguide'){
+                $this->db->query('SELECT * FROM tour_guides WHERE id = :id');
+                $this->db->bind(':id', $id);
+                $row = $this->db->single();
+                return $row;
+            }
+        }
+
+
+        //get the last there 3 joined service providers from the view of last_joined_serviceproviders
+        public function getLastThreeServiceProviders(){
+            $this->db->query('SELECT * FROM last_joined_serviceproviders');
+            $results = $this->db->resultSet();
+            return $results;
+        }
+
+
     }
 
 

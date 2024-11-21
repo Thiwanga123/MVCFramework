@@ -4,9 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="<?php echo URLROOT;?>/css/adminpage/Dashboard.css">
+    <link rel="stylesheet" href="<?php echo URLROOT;?>/css/Common/MyInventory.css">
     <title>Service Providers-Admin</title>
 </head>
 <body>
+
+<div class="box">
     <!-- SideBar -->
         <?php require APPROOT . '/views/inc/components/adminsidebar.php'; ?>
      <!-- End Of Sidebar -->
@@ -100,45 +103,21 @@
                             </tr>
                         </thead>
                         <tbody>
+                <?php foreach($data['last_three_service_providers'] as $last_three_service_providers) : ?>
                             <tr>
                                 <td>
                                 <img src="<?php echo URLROOT;?>/Images/Profile pic.jpg">
-                                    <p>John Doe</p>
+                                    <p><?php echo htmlspecialchars($last_three_service_providers->name); ?></p>
                                 </td>
-                                <td>21-08-2024</td>
-                                <td>Pending</td>
-                                <td>Accomodation</td>
+                                <td><?php echo htmlspecialchars(date("Y/m/d", strtotime($last_three_service_providers->date_of_joined))); ?></td>
+                                <td><?php echo htmlspecialchars($last_three_service_providers->action); ?></td>
+                                <td><?php echo htmlspecialchars($last_three_service_providers->sptype); ?></td>
                                 <td class="action-buttons">
-                                    <button class="view-btn">View</button>
+                                <a href="<?php echo URLROOT; ?>/admin/viewServiceProviderDetails/<?php echo $last_three_service_providers->id;?>/<?php echo $last_three_service_providers->sptype; ?>"><button class="view-btn" name="view-btn" id="view-btn">View</button></a>
                                     <button class="delete-btn">Delete</button>
                                 </td>
                             </tr>
-                            <tr>
-                                <td>
-                                <img src="<?php echo URLROOT;?>/Images/Profile pic.jpg">
-                                    <p>John Doe</p>
-                                </td>
-                                <td>14-07-2024</td>
-                                <td>Approved</td>
-                                <td>Guide Services</td>
-                                <td class="action-buttons">
-                                    <button class="view-btn">View</button>
-                                    <button class="delete-btn">Delete</button>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                <img src="<?php echo URLROOT;?>/Images/Profile pic.jpg">
-                                    <p>John Doe</p>
-                                </td>
-                                <td>01-01-2024</td>
-                                <td>Pending</td>
-                                <td>Transport</td>
-                                <td class="action-buttons">
-                                    <button class="view-btn">View</button>
-                                    <button class="delete-btn">Delete</button>
-                                </td>
-                            </tr>
+                <?php endforeach; ?>
                         </tbody>
                     </table> 
                 </div>
@@ -214,8 +193,15 @@
           </main>
 
      </div>
+    
+     </div>
 
-     <script src="../JS Scripts/Sidebar.js"></script>
+     <?php
+        include('v_view.php');
+     ?>
+
+     <script src="<?php echo URLROOT;?>/js/viewDetails.js"></script>
+     <script src="<?php echo URLROOT;?>/js/ImagePreview.js"></script>
 </body>
 
 </html>
