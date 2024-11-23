@@ -99,7 +99,7 @@
                         
                     </tbody>
                 </table> 
-            </div>
+            </div> 
             </div>
             
           </main>
@@ -113,7 +113,7 @@
         include('Warning_Modal.php');;
     ?>
 
-    <?php
+     <?php
         include('AddProduct.php');;
     ?>
 

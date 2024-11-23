@@ -19,7 +19,7 @@
         <ul class="navbar">
             <li><a href="<?php echo URLROOT;?>/pages/home">Home</a></li>
             <li><a href="<?php echo URLROOT;?>/pages/about">About Us</a></li>
-            <li><a href="">Features</a></li>
+            <li><a href="<?php echo URLROOT;?>/pages/features">Features</a></li>
             <div class="links">
                 <li><button class="SignIn" onclick="location.href='<?php echo URLROOT;?>/users/login'">Login</button></li>
                 <li><button class="SignUp" onclick="location.href='<?php echo URLROOT;?>/users/register'">Sign Up</button></li>

@@ -17,7 +17,7 @@ class Equipment_Suppliers extends Controller{
         if (isset($_SESSION['id'])) {
             $this->view('equipment_supplier/Dashboard');
         } else {
-            redirect('ServiceProvider');
+            redirect('ServiceProvider/login');
         }
        
     }
@@ -25,15 +25,8 @@ class Equipment_Suppliers extends Controller{
 
     public function myInventory(){
 
-        if (isset($_SESSION['id'])) {
-
-            $supplierId = $_SESSION['id'];
-
-            $this->productModel = $this->model('ProductModel');
-            $products = $this->productModel->getAllProducts($supplierId);
-            //var_dump ($products); //Debugging
-            $this->view('equipment_supplier/MyInventory',['products' => $products]);
-
+        if (isset($_SESSION['user_id'])) {
+            $this->view('equipment_supplier/MyInventory');
         } else {
             redirect('ServiceProvider');
         }
@@ -41,19 +34,18 @@ class Equipment_Suppliers extends Controller{
     }
 
     public function orders(){
-        
-        if (isset($_SESSION['id'])) {
+    
+        if (isset($_SESSION['user_id'])) {
             $this->view('equipment_supplier/Orders');
         } else {
             redirect('ServiceProvider');
         }
-        
-
+    
     }
 
     public function reviews(){
 
-        if (isset($_SESSION['id'])) {
+        if (isset($_SESSION['user_id'])) {
             $this->view('equipment_supplier/Reviews');
         } else {
             redirect('ServiceProvider');
@@ -63,23 +55,21 @@ class Equipment_Suppliers extends Controller{
 
     public function notifications(){
 
-        if (isset($_SESSION['id'])) {
+        if (isset($_SESSION['user_id'])) {
             $this->view('equipment_supplier/Notifications');
         } else {
             redirect('ServiceProvider');
         }
-        
+    
     }
 
     public function profile(){
 
-        if (isset($_SESSION['id'])) {
+        if (isset($_SESSION['user_id'])) {
             $this->view('equipment_supplier/Myprofile');
         } else {
             redirect('ServiceProvider');
         }
-        
-
     }
 
 }

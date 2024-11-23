@@ -15,6 +15,10 @@
             $this->view('v_about');
         }
 
+        public function features(){
+            $this->view('v_features');
+        }
+
         
        
     }

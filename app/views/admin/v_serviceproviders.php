@@ -4,9 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="<?php echo URLROOT;?>/css/adminpage/Dashboard.css">
+    <link rel="stylesheet" href="<?php echo URLROOT;?>/css/Common/MyInventory.css">
     <title>Service Providers-Admin</title>
 </head>
 <body>
+
+<div class="box">
     <!-- SideBar -->
         <?php require APPROOT . '/views/inc/components/adminsidebar.php'; ?>
      <!-- End Of Sidebar -->
@@ -48,7 +51,7 @@
                         <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#5f6368"><path d="M120-120v-560h160v-160h400v320h160v400H520v-160h-80v160H120Zm80-80h80v-80h-80v80Zm0-160h80v-80h-80v80Zm0-160h80v-80h-80v80Zm160 160h80v-80h-80v80Zm0-160h80v-80h-80v80Zm0-160h80v-80h-80v80Zm160 320h80v-80h-80v80Zm0-160h80v-80h-80v80Zm0-160h80v-80h-80v80Zm160 480h80v-80h-80v80Zm0-160h80v-80h-80v80Z"/></svg>
                     </div>
                     <span class = "info">
-                        <h3>400</h3>
+                        <h3><?php echo $data['accomadation_suppliers'];?></h3>
                         <p> Accomodation Supppliers</p>
                     </span>
                 </li>
@@ -57,7 +60,7 @@
                         <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#5f6368"><path d="M240-200v40q0 17-11.5 28.5T200-120h-40q-17 0-28.5-11.5T120-160v-320l84-240q6-18 21.5-29t34.5-11h440q19 0 34.5 11t21.5 29l84 240v320q0 17-11.5 28.5T800-120h-40q-17 0-28.5-11.5T720-160v-40H240Zm-8-360h496l-42-120H274l-42 120Zm-32 80v200-200Zm100 160q25 0 42.5-17.5T360-380q0-25-17.5-42.5T300-440q-25 0-42.5 17.5T240-380q0 25 17.5 42.5T300-320Zm360 0q25 0 42.5-17.5T720-380q0-25-17.5-42.5T660-440q-25 0-42.5 17.5T600-380q0 25 17.5 42.5T660-320Zm-460 40h560v-200H200v200Z"/></svg>
                     </div>
                     <span class = "info">
-                        <h3>300</h3>
+                        <h3><?php echo $data['vehicle_suppliers'];?></h3>
                         <p>Transport Suppliers</p>
                     </span>
                 </li>
@@ -66,7 +69,7 @@
                         <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#5f6368"><path d="m600-120-240-84-186 72q-20 8-37-4.5T120-170v-560q0-13 7.5-23t20.5-15l212-72 240 84 186-72q20-8 37 4.5t17 33.5v560q0 13-7.5 23T812-192l-212 72Zm-40-98v-468l-160-56v468l160 56Zm80 0 120-40v-474l-120 46v468Zm-440-10 120-46v-468l-120 40v474Zm440-458v468-468Zm-320-56v468-468Z"/></svg>
                     </div>
                     <span class = "info">
-                        <h3>100</h3>
+                        <h3><?php echo $data['tour_guides'];?></h3>
                         <p>Guide Services</p>
                     </span>
                 </li>
@@ -75,7 +78,7 @@
                         <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#5f6368"><path d="M754-81q-8 0-15-2.5T726-92L522-296q-6-6-8.5-13t-2.5-15q0-8 2.5-15t8.5-13l85-85q6-6 13-8.5t15-2.5q8 0 15 2.5t13 8.5l204 204q6 6 8.5 13t2.5 15q0 8-2.5 15t-8.5 13l-85 85q-6 6-13 8.5T754-81Zm0-95 29-29-147-147-29 29 147 147ZM205-80q-8 0-15.5-3T176-92l-84-84q-6-6-9-13.5T80-205q0-8 3-15t9-13l212-212h85l34-34-165-165h-57L80-765l113-113 121 121v57l165 165 116-116-43-43 56-56H495l-28-28 142-142 28 28v113l56-56 142 142q17 17 26 38.5t9 45.5q0 24-9 46t-26 39l-85-85-56 56-42-42-207 207v84L233-92q-6 6-13 9t-15 3Zm0-96 170-170v-29h-29L176-205l29 29Zm0 0-29-29 15 14 14 15Zm549 0 29-29-29 29Z"/></svg>
                     </div>
                     <span class = "info">
-                        <h3>200</h3>
+                        <h3><?php echo $data['equipment_suppliers'];?></h3>
                         <p>Equipment Suppliers</p>
                     </span>
                 </li>
@@ -100,45 +103,21 @@
                             </tr>
                         </thead>
                         <tbody>
+                <?php foreach($data['last_three_service_providers'] as $last_three_service_providers) : ?>
                             <tr>
                                 <td>
                                 <img src="<?php echo URLROOT;?>/Images/Profile pic.jpg">
-                                    <p>John Doe</p>
+                                    <p><?php echo htmlspecialchars($last_three_service_providers->name); ?></p>
                                 </td>
-                                <td>21-08-2024</td>
-                                <td>Pending</td>
-                                <td>Accomodation</td>
+                                <td><?php echo htmlspecialchars(date("Y/m/d", strtotime($last_three_service_providers->date_of_joined))); ?></td>
+                                <td><?php echo htmlspecialchars($last_three_service_providers->action); ?></td>
+                                <td><?php echo htmlspecialchars($last_three_service_providers->sptype); ?></td>
                                 <td class="action-buttons">
-                                    <button class="view-btn">View</button>
-                                    <button class="delete-btn">Delete</button>
+                                <button class="view-btn" id="view-btn">View</button>                                
+                                <button class="delete-btn" id="delete-btn">Delete</button>
                                 </td>
                             </tr>
-                            <tr>
-                                <td>
-                                <img src="<?php echo URLROOT;?>/Images/Profile pic.jpg">
-                                    <p>John Doe</p>
-                                </td>
-                                <td>14-07-2024</td>
-                                <td>Approved</td>
-                                <td>Guide Services</td>
-                                <td class="action-buttons">
-                                    <button class="view-btn">View</button>
-                                    <button class="delete-btn">Delete</button>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                <img src="<?php echo URLROOT;?>/Images/Profile pic.jpg">
-                                    <p>John Doe</p>
-                                </td>
-                                <td>01-01-2024</td>
-                                <td>Pending</td>
-                                <td>Transport</td>
-                                <td class="action-buttons">
-                                    <button class="view-btn">View</button>
-                                    <button class="delete-btn">Delete</button>
-                                </td>
-                            </tr>
+                <?php endforeach; ?>
                         </tbody>
                     </table> 
                 </div>
@@ -214,8 +193,76 @@
           </main>
 
      </div>
+    
+     </div>
 
-     <script src="../JS Scripts/Sidebar.js"></script>
+     <div id="viewDetailsModal" class="modal-container">
+        <div class="modal">
+            <div class="modal-top">
+                <h1>Service Provider Details</h1>
+                <span class="close" id="closeModal">&times;</span>
+            </div>  
+
+            <div class="modal-form">
+                <form id="viewProviderForm" enctype="multipart/form-data"> 
+                    <div class="body">
+                        <div class="left">
+                            <label for="Name">Service Provider Name</label>
+                            <input type="text" id="name" name="name" required value>
+                
+                            <label for="SP_id">Service Provider ID</label>
+                            <input type="text" id="id" name="id" required>
+
+                            <label for="sptype">Service Type</label>
+                            <input type="text" id="sptype" name="sptype" required >
+
+                            <label for="joined_date">Joined Date</label>
+                            <input type="text" id="date_of_joined" name="date_of_joined" required >
+
+                            <label for="phone">Telephone Number</label>
+                            <input type="text" id="phone" name="phone" required>
+    
+                        </div>
+
+                        <div class="right">
+                            
+                        
+                            <label for="Profile photo">Profile Photo</label>
+                            
+                            
+                            <div id="imagePreviewContainer"  style="margin-top: 40px; display: flex; flex-wrap: wrap;"></div>
+                            
+                            <label for="reg_no">Government Registerd Number</label>
+                            <input type="text" id="reg_no" name="reg_no" required>
+
+                            <label for="charging_rates">Charging Rates</label>
+                            <input type="text" id="charging_rates" name="charging_rates" required>
+
+                            <label for="certificates">Certificates</label>
+                            <!-- download the Certificates -->
+
+                            <input type="file" id="pdfFile" name="pdfFile" accept="application/pdf" required>
+
+
+
+                        </div>
+                    </div>
+
+                    <!-- <div class=" submit-btn">
+                        <button  name="submit">Close</button>
+                    </div> -->
+                </form>
+            </div> 
+        </div>
+       
+
+    </div>
+   
+
+
+
+    <script src="<?php echo URLROOT;?>/js/admin/viewDetails.js"></script>
+        <script src="<?php echo URLROOT;?>/js/viewDetails.js"></script>
 </body>
 
 </html>
