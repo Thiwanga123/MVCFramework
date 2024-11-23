@@ -99,7 +99,7 @@
                         
                     </tbody>
                 </table> 
-            </div> 
+            </div>
             </div>
             
           </main>
@@ -113,7 +113,7 @@
         include('Warning_Modal.php');;
     ?>
 
-     <?php
+    <?php
         include('AddProduct.php');;
     ?>
 
@@ -123,7 +123,7 @@
     <script src="<?php echo URLROOT;?>/js/Sidebar.js"></script> 
     <script src="<?php echo URLROOT;?>/js/addProduct.js"></script>
     <script src="<?php echo URLROOT;?>/js/ImagePreview.js"></script>
-    <script src="<?php echo URLROOT;?>/js/warningModel.js"></script>
+    <script src="<?php echo URLROOT;?>/js/warningModel .js"></script>
      
 </body>
 
