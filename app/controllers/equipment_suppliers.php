@@ -1,7 +1,17 @@
 <?php
 
 class Equipment_Suppliers extends Controller{
-    
+
+    private $productModel;
+
+    public function __construct(){
+        $this->productModel = $this->model('ProductModel');
+    }
+
+    public function index(){
+        echo "hi";
+    }
+
     public function dashboard(){
 
         if (isset($_SESSION['id'])) {
@@ -17,55 +27,56 @@ class Equipment_Suppliers extends Controller{
 public function myInventory(){
 
     if (isset($_SESSION['id'])) {
-        $this->view('equipment_supplier/MyInventory');
+
+        $supplierId = $_SESSION['id'];
+
+        $this->productModel = $this->model('ProductModel');
+        $products = $this->productModel->getAllProducts($supplierId);
+        //var_dump ($products); //Debugging
+        $this->view('equipment_supplier/MyInventory',['products' => $products]);
+
     } else {
         redirect('ServiceProvider/login');
     }
-
 }
 
-public function orders(){
-    
-    if (isset($_SESSION['id'])) {
-        $this->view('equipment_supplier/Orders');
-    } else {
-        redirect('ServiceProvider/login');
-    }
-    
 
-}
-
-public function reviews(){
-
-    if (isset($_SESSION['id'])) {
-        $this->view('equipment_supplier/Reviews');
-    } else {
-        redirect('ServiceProvider/login');
+    public function orders(){
+        
+        if (isset($_SESSION['id'])) {
+            $this->view('equipment_supplier/Orders');
+        } else {
+            redirect('ServiceProvider/login');
+        }
     }
 
-}
+    public function reviews(){
 
-public function notifications(){
-
-    if (isset($_SESSION['id'])) {
-        $this->view('equipment_supplier/Notifications');
-    } else {
-        redirect('ServiceProvider/login');
+        if (isset($_SESSION['id'])) {
+            $this->view('equipment_supplier/Reviews');
+        } else {
+            redirect('ServiceProvider');
+        }
     }
-    
-}
 
-public function profile(){
+    public function notifications(){
 
-    if (isset($_SESSION['id'])) {
-        $this->view('equipment_supplier/Myprofile');
-    } else {
-        redirect('ServiceProvider/login');
+        if (isset($_SESSION['id'])) {
+            $this->view('equipment_supplier/Notifications');
+        } else {
+            redirect('ServiceProvider');
+        }
+        
     }
-    
 
-}
+    public function profile(){
 
+        if (isset($_SESSION['id'])) {
+            $this->view('equipment_supplier/Myprofile');
+        } else {
+            redirect('ServiceProvider');
+        }
+    }
 }
 
 
