@@ -44,7 +44,7 @@ class ServiceProviderModel{
 
     //register the service provider with the relavent service type
     public function register($data){
-        $this->db->query("INSERT INTO ".$data['sptype']." (name, email, password, phone,address,nic,reg_number) VALUES(:name, :email, :password, :phone,:address,:nic,:reg_number)");
+        $this->db->query("INSERT INTO ".$data['sptype']." (name, email, password, phone,address,nic,reg_number,action,date_of_joined) VALUES(:name, :email, :password, :phone,:address,:nic,:reg_number,DEFAULT,CURRENT_DATE)");
         $this->db->bind(':name', $data['name']);
         $this->db->bind(':email', $data['email']);
         $this->db->bind(':password', $data['password']);
@@ -61,12 +61,13 @@ class ServiceProviderModel{
         }
     }
 
-
+    //get users
+    
 
 
   
     
-    //login user
+  
     }
 
 ?>

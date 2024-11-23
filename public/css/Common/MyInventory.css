@@ -211,6 +211,13 @@
     gap: 1rem;
 }
 
+/* .modal-form form .right .img{
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    object-fit: cover;
+} */
+
 .modal-container button{
     background-color: rgb(21, 126, 126);
     color: white;

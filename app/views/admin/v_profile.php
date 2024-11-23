@@ -41,11 +41,13 @@
                 </div>
             </div>
             
+            <!--send the details with the SESSION_ID in post method-->
+            <form action="<?php echo URLROOT; ?>/admin/updateprofile/<?php echo $_SESSION['user_id'];?>"  method="POST">
             <div class="profile">
                 <div class="profile-left">
                 <img src="<?php echo URLROOT;?>/Images/Profile pic.jpg" alt="">
                 </div>
-
+                
                 <div class="profile-center">
                     <h4>Name</h4>
                     <input type="name" id="name" name="name" value="<?php echo $data['name'];?>">
@@ -63,16 +65,22 @@
                     <h4>NIC number</h4>
                     <input type="nic" id="nic" name="nic"value="<?php echo $data['nic'];?>">
                     <h4>Password</h4>
-                    <input type="passowrd" id="password" name="password" value="">
+                   
+
+                  <!--get the password from the user-->
+               
+                    <input type="password" id="password" name="password" required>
                     <h4>Confirm Passowrd</h4>
-                    <input type="password" id="confirm_password" name="confirm_password">
+                    <input type="password" id="confirm_password" name="confirm_password" required>
+            
                     
                 </div>
                 <div class="profile-actions">
-                    <button type="submit">Update</button>
+                    <input type="Submit"></input>
                 </div>
-                
+                </form>
             </div>
+            
          
         </main>
 

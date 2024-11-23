@@ -56,6 +56,8 @@ class ServiceProvider extends Controller {
                 if ($loggedInUser) {
                     // Create session for the logged-in user and redirect
                     $this->createUserSession($loggedInUser, $data['sptype']);
+                    //redicet to the relavent dashboard
+                    redirect($data['sptype'] . '/dashboard');
                    
                 } else {
                     // If login fails (wrong password), set error message
@@ -228,9 +230,16 @@ public function logout(){
         session_destroy();  
         session_start();    
 
-        redirect('ServiceProvider');
+        redirect('ServiceProvider/login');
         exit();
 }
+
+//view service provider details
+public function viewServiceProviderDetails(){
+    $data = $this->serviceProviderModel->getUsers();
+    $this->view('serviceproviders/sp_profile', $data);
+}
+
 }
 
 
