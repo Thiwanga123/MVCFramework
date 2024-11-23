@@ -9,8 +9,10 @@
                 <form id="viewProviderForm" enctype="multipart/form-data"> 
                     <div class="body">
                         <div class="left">
+
+                        
                             <label for="Name">Service Provider Name</label>
-                            <input type="text" id="name" name="name" required value="<?php echo htmlspecialchars($data['name']); ?>">
+                            <input type="text" id="name" name="name" required  value="<?php echo $details?>">
                 
                             <label for="SP_id">Service Provider ID</label>
                             <input type="text" id="id" name="id" required>

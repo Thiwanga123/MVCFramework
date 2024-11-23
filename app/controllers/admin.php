@@ -69,6 +69,7 @@ class Admin extends Controller {
             $tour_guides = $this->adminModel->getTourGuides();
         //get the last 3 joined serviceproviders
             $last_three_service_providers = $this->adminModel->getLastThreeServiceProviders();
+       
          
             
 
@@ -77,8 +78,7 @@ class Admin extends Controller {
                 'vehicle_suppliers'=>$vehicle_suppliers,
                 'equipment_suppliers'=>$equipment_suppliers,
                 'tour_guides'=>$tour_guides,
-                'last_three_service_providers'=>$last_three_service_providers
-                
+                'last_three_service_providers'=>$last_three_service_providers 
             ];
 
             $this->view('admin/v_serviceproviders', $data);
@@ -314,21 +314,31 @@ class Admin extends Controller {
         }
     }
 
-    //show the details of selected service provider by the id from the relavant table of service provider
-    public function viewServiceProviderDetails($id, $sptype) {
+
+    //view service provider details
+    public function viewServiceProviderDetails($id,$sptype){
         //if an admin is logged in
         if (isset($_SESSION['user_id'])) {
-            $serviceprovider = $this->adminModel->getServiceProviderDetails($id, $sptype);
-            $data=[
-                'name'=>$serviceprovider->name
-            ];
-            $this->view('admin/v_view', $data);
+            $details = $this->adminModel->getServiceProviderDetails($id, $sptype);
+            if ($details) {
+                $this->view('admin/v_serviceprovider_details', $details);
+            } else {
+                // If no details are found
+                http_response_code(404);
+                echo json_encode(['error' => 'Service provider not found']);
+            }
 
-            
+
+
         } else {
             redirect('admin/login');
         }
     }
+
+
+
+
+
 
  
 

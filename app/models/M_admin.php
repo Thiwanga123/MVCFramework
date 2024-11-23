@@ -148,30 +148,32 @@
 
 
         //get the details of selected service provider by the id from the relavant table of service provider
-        public function getServiceProviderDetails($id,$type){
-            if($type=='Accommodation'){
-                $this->db->query('SELECT * FROM accomadation WHERE id = :id');
-                $this->db->bind(':id', $id);
-                $row = $this->db->single();
-                return $row;
-            }else if($type=='vehicle'){
-                $this->db->query('SELECT * FROM vehicle_suppliers WHERE id = :id');
-                $this->db->bind(':id', $id);
-                $row = $this->db->single();
-                return $row;
-            }else if($type=='equipment'){
-                $this->db->query('SELECT * FROM equipment_suppliers WHERE id = :id');
-                $this->db->bind(':id', $id);
-                $row = $this->db->single();
-                return $row;
-            }else if($type=='tourguide'){
-                $this->db->query('SELECT * FROM tour_guides WHERE id = :id');
-                $this->db->bind(':id', $id);
-                $row = $this->db->single();
-                return $row;
+        public function getServiceProviderDetails($id, $type) {
+            // Validate type to prevent SQL injection
+            $allowedTypes = ['Accommodation', 'vehicle', 'equipment', 'tourguide'];
+            if (!in_array($type, $allowedTypes)) {
+                return null;
             }
+        
+            // Prepare query based on type
+            $query = '';
+            if ($type === 'Accommodation') {
+                $query = 'SELECT * FROM accomadation WHERE id = :id';
+            } elseif ($type === 'vehicle') {
+                $query = 'SELECT * FROM vehicle_suppliers WHERE id = :id';
+            } elseif ($type === 'equipment') {
+                $query = 'SELECT * FROM equipment_suppliers WHERE id = :id';
+            } elseif ($type === 'tourguide') {
+                $query = 'SELECT * FROM tour_guides WHERE id = :id';
+            }
+        
+            // Execute query
+            $this->db->query($query);
+            $this->db->bind(':id', $id);
+            return $this->db->single();
         }
-
+        
+        
 
         //get the last there 3 joined service providers from the view of last_joined_serviceproviders
         public function getLastThreeServiceProviders(){

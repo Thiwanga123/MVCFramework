@@ -113,7 +113,11 @@
                                 <td><?php echo htmlspecialchars($last_three_service_providers->action); ?></td>
                                 <td><?php echo htmlspecialchars($last_three_service_providers->sptype); ?></td>
                                 <td class="action-buttons">
-                                <a href="<?php echo URLROOT; ?>/admin/viewServiceProviderDetails/<?php echo $last_three_service_providers->id;?>/<?php echo $last_three_service_providers->sptype; ?>"><button class="view-btn" name="view-btn" id="view-btn">View</button></a>
+                                
+                               
+                                <button class="view-btn" name="view-btn" id="view-btn" id="<?= $last_three_service_providers->id; ?>" 
+                                data-type="<?= $last_three_service_providers->sptype; ?>">View</button>
+                                </form>
                                     <button class="delete-btn">Delete</button>
                                 </td>
                             </tr>
@@ -196,9 +200,66 @@
     
      </div>
 
-     <?php
-        include('v_view.php');
-     ?>
+     <div id="viewDetailsModal" class="modal-container">
+        <div class="modal">
+            <div class="modal-top">
+                <h1>Service Provider Details</h1>
+                <span class="close" id="closeModal">&times;</span>
+            </div>  
+
+            <div class="modal-form">
+                <form id="viewProviderForm" enctype="multipart/form-data"> 
+                    <div class="body">
+                        <div class="left">
+                            <label for="Name">Service Provider Name</label>
+                            <input type="text" id="name" name="name" required >
+                
+                            <label for="SP_id">Service Provider ID</label>
+                            <input type="text" id="id" name="id" required>
+
+                            <label for="sptype">Service Type</label>
+                            <input type="text" id="sptype" name="sptype" required value="<?php echo htmlspecialchars($last_three_service_providers->sptype); ?>">
+
+                            <label for="joined_date">Joined Date</label>
+                            <input type="text" id="date_of_joined" name="date_of_joined" required value="<?php echo htmlspecialchars(date("Y/m/d", strtotime($last_three_service_providers->date_of_joined))); ?>">
+
+                            <label for="phone">Telephone Number</label>
+                            <input type="text" id="phone" name="phone" required>
+    
+                        </div>
+
+                        <div class="right">
+                            
+                        
+                            <label for="Profile photo">Profile Photo</label>
+                            
+                            
+                            <div id="imagePreviewContainer"  style="margin-top: 40px; display: flex; flex-wrap: wrap;"></div>
+                            
+                            <label for="reg_no">Government Registerd Number</label>
+                            <input type="text" id="reg_no" name="reg_no" required>
+
+                            <label for="charging_rates">Charging Rates</label>
+                            <input type="text" id="charging_rates" name="charging_rates" required>
+
+                            <label for="certificates">Certificates</label>
+                            <!-- download the Certificates -->
+
+                            <input type="file" id="pdfFile" name="pdfFile" accept="application/pdf" required>
+
+
+
+                        </div>
+                    </div>
+
+                    <!-- <div class=" submit-btn">
+                        <button  name="submit">Close</button>
+                    </div> -->
+                </form>
+            </div> 
+        </div>
+    
+
 
      <script src="<?php echo URLROOT;?>/js/viewDetails.js"></script>
      <script src="<?php echo URLROOT;?>/js/ImagePreview.js"></script>

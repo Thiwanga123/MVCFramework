@@ -4,11 +4,33 @@ document.addEventListener('DOMContentLoaded', () => {
         const openModalBtn = document.getElementById('view-btn');
         const closeModal = document.getElementById('closeModal')
         const box = document.querySelector('.box');
+        
+        //use the json data to display the provider details
+
+        const providerName = document.getElementById('id');
+        const providerEmail = document.getElementById('email');
+        const providerPhone = document.getElementById('phone');
+
+
+        
+
+
+
+
+        //show the data in the modal
+
+
 
         openModalBtn.addEventListener('click', () => {
                 modal.style.display = 'block';
                 box.classList.add('blur');
-                modal.classList.add('active');  
+                modal.classList.add('active');
+                
+                //get the data from the json file
+                fetch('data.json')
+                .then(response => response.json())
+                
+
         });
 
         closeModal.addEventListener('click', () => {
