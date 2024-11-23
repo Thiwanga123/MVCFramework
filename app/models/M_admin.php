@@ -7,7 +7,7 @@
         }
 
         public function getUsers(){
-            $this->db->query("SELECT * FROM admin");
+            $this->db->query("SELECT * FROM admin"); 
             return $this->db->resultSet();
         }
     
@@ -97,7 +97,7 @@
         public function updateProfile($data){
             $this->db->query('UPDATE admin SET name = :name,  phone_number = :phone_number, password = :password WHERE admin_id = :admin_id');
             // Bind values
-            $this->db->bind(':admin_id', $data['admin_id']);
+            $this->db->bind(':admin_id', $data['id']);
             $this->db->bind(':name', $data['name']);
             $this->db->bind(':phone_number', $data['phone_number']);
             $this->db->bind(':password', $data['password']);
@@ -148,22 +148,22 @@
 
 
         //get the details of selected service provider by the id from the relavant table of service provider
-        public function getServiceProviderDetails($id, $type) {
+        public function getServiceProviderDetails($id, $sptype) {
             // Validate type to prevent SQL injection
             $allowedTypes = ['Accommodation', 'vehicle', 'equipment', 'tourguide'];
-            if (!in_array($type, $allowedTypes)) {
+            if (!in_array($sptype, $allowedTypes)) {
                 return null;
             }
         
             // Prepare query based on type
             $query = '';
-            if ($type === 'Accommodation') {
+            if ($sptype === 'Accommodation') {
                 $query = 'SELECT * FROM accomadation WHERE id = :id';
-            } elseif ($type === 'vehicle') {
+            } elseif ($sptype === 'vehicle') {
                 $query = 'SELECT * FROM vehicle_suppliers WHERE id = :id';
-            } elseif ($type === 'equipment') {
+            } elseif ($sptype === 'equipment') {
                 $query = 'SELECT * FROM equipment_suppliers WHERE id = :id';
-            } elseif ($type === 'tourguide') {
+            } elseif ($sptype === 'tourguide') {
                 $query = 'SELECT * FROM tour_guides WHERE id = :id';
             }
         
