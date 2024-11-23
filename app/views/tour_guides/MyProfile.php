@@ -52,7 +52,7 @@
                 <div class="profile-center">
                     <h4>Guider Name</h4>
                     <input type="name" id="name" name="name">
-                    <h4>Gender ID</h4>
+                    <h4>Gender</h4>
                     <input type="Gender" id="Gender" name="Gender">
                     <h4>Guider ID</h4>
                     <input type="Guider ID" id="Guider ID" name="Guider ID">

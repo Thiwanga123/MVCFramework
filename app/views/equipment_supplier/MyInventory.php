@@ -128,7 +128,7 @@
                         </tr>
                     </tbody>
                 </table> 
-            </div>
+            </div> 
             </div>
             
           </main>
@@ -137,7 +137,7 @@
      </div>
      <!--Modal Structure-->
 
-    <?php
+     <?php
         include('AddProduct.php');;
     ?>
 

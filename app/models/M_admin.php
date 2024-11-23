@@ -7,7 +7,7 @@
         }
 
         public function getUsers(){
-            $this->db->query("SELECT * FROM admin");
+            $this->db->query("SELECT * FROM admin"); 
             return $this->db->resultSet();
         }
     
@@ -91,6 +91,97 @@
                 return false;
             }
         }
+
+
+        //update the admin profile
+        public function updateProfile($data){
+            $this->db->query('UPDATE admin SET name = :name,  phone_number = :phone_number, password = :password WHERE admin_id = :admin_id');
+            // Bind values
+            $this->db->bind(':admin_id', $data['id']);
+            $this->db->bind(':name', $data['name']);
+            $this->db->bind(':phone_number', $data['phone_number']);
+            $this->db->bind(':password', $data['password']);
+    
+            // Execute
+            if($this->db->execute()){
+                return true;
+            } else {
+                return false;
+            }
+        }
+
+
+        //count the all registered accomadation suppliers
+        public function getAccomadationSuppliers(){
+           $this->db->query('SELECT COUNT(id) as accomadation_suppliers FROM accomadation');
+           $row=$this->db->single();
+            return $row->accomadation_suppliers;
+        }
+
+        //count the all registerd vehicle suppliers
+        public function getVehicleSuppliers(){
+            $this->db->query('SELECT COUNT(id) as vehicle_suppliers FROM vehicle_suppliers');
+            $row=$this->db->single();
+             return $row->vehicle_suppliers;
+         }
+
+         //count the all registerd equipment suppliers
+        public function getEquipmentSuppliers(){
+            $this->db->query('SELECT COUNT(id) as equipment_suppliers FROM equipment_suppliers');
+            $row=$this->db->single();
+             return $row->equipment_suppliers;
+         }
+
+            //count the all registerd tour guides
+        public function getTourGuides(){
+            $this->db->query('SELECT COUNT(id) as tour_guides FROM tour_guides');
+            $row=$this->db->single();
+             return $row->tour_guides;
+         }
+
+         //get the last three accomadation suppliers
+         public function getLastThreeAccomadationSuppliers(){
+            $this->db->query('SELECT * FROM last_joined_accomadation_suppliers');
+            $results = $this->db->resultSet();
+            return $results;
+        }
+
+
+        //get the details of selected service provider by the id from the relavant table of service provider
+        public function getServiceProviderDetails($id, $sptype) {
+            // Validate type to prevent SQL injection
+            $allowedTypes = ['Accommodation', 'vehicle', 'equipment', 'tourguide'];
+            if (!in_array($sptype, $allowedTypes)) {
+                return null;
+            }
+        
+            // Prepare query based on type
+            $query = '';
+            if ($sptype === 'Accommodation') {
+                $query = 'SELECT * FROM accomadation WHERE id = :id';
+            } elseif ($sptype === 'vehicle') {
+                $query = 'SELECT * FROM vehicle_suppliers WHERE id = :id';
+            } elseif ($sptype === 'equipment') {
+                $query = 'SELECT * FROM equipment_suppliers WHERE id = :id';
+            } elseif ($sptype === 'tourguide') {
+                $query = 'SELECT * FROM tour_guides WHERE id = :id';
+            }
+        
+            // Execute query
+            $this->db->query($query);
+            $this->db->bind(':id', $id);
+            return $this->db->single();
+        }
+        
+        
+
+        //get the last there 3 joined service providers from the view of last_joined_serviceproviders
+        public function getLastThreeServiceProviders(){
+            $this->db->query('SELECT * FROM last_joined_serviceproviders');
+            $results = $this->db->resultSet();
+            return $results;
+        }
+
 
     }
 

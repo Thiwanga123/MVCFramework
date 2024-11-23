@@ -50,7 +50,7 @@
 
         <div class="right">
             <p>Want to provide service via us?</p>
-            <button type="submit" class="service-btn">Join With Us</button>
+            <button type="submit" button onclick="window.location.href='<?php echo URLROOT;?>/ServiceProvider/register'" class="service-btn" >Join With Us</button>
         </div>
 
         <script src="<?php echo URLROOT;?>/js/Sign In.js" defer></script>

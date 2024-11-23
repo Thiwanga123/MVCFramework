@@ -3,14 +3,20 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Guider Payments Dashboard</title>
-<link rel="stylesheet" href="payments-style.css">
-<script src="payments-script.js" defer></script>
+<title>Guider Payments </title>
+<link rel="stylesheet" href="<?php echo URLROOT;?>/css/Common/payments.css">
+<link rel="stylesheet" href="<?php echo URLROOT;?>/css/Common/sidebarHeader.css">
+<title>Home</title>
 </head>
 <body>
+ <!-- SideBar -->
+    <?php
+        include('Sidebar.php');;
+    ?>
+         <!-- End Of Sidebar -->
     <div class="payment-container">
         <header>
-            <h2>Guider Payments Dashboard</h2>
+            <h2>Guider Payments </h2>
             <button class="download-btn">Download Report</button>
         </header>
 
@@ -18,11 +24,11 @@
         <section class="summary">
             <div class="card">
                 <h3>Total Earnings</h3>
-                <p class="amount">$12,500</p>
+                <p class="amount">Rs.60000</p>
             </div>
             <div class="card">
                 <h3>Pending Payments</h3>
-                <p class="amount">$1,200</p>
+                <p class="amount">Rs.10000</p>
             </div>
             <div class="card">
                 <h3>Next Payment Date</h3>
@@ -39,7 +45,7 @@
                     <option value="completed">Completed</option>
                     <option value="pending">Pending</option>
                 </select>
-                <button id="filter-btn">Apply Filters</button>
+                
             </div>
 
             <table id="paymentHistory">
@@ -54,19 +60,19 @@
                 <tbody>
                     <tr>
                         <td>2024-11-10</td>
-                        <td>$500</td>
+                        <td>Rs.20000</td>
                         <td><span class="status completed">Completed</span></td>
                         <td><button class="details-btn">Details</button></td>
                     </tr>
                     <tr>
                         <td>2024-10-28</td>
-                        <td>$300</td>
+                        <td>Rs.10000</td>
                         <td><span class="status pending">Pending</span></td>
                         <td><button class="details-btn">Details</button></td>
                     </tr>
                     <tr>
                         <td>2024-09-15</td>
-                        <td>$700</td>
+                        <td>Rs.15000</td>
                         <td><span class="status completed">Completed</span></td>
                         <td><button class="details-btn">Details</button></td>
                     </tr>

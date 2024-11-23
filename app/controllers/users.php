@@ -154,10 +154,6 @@ public function createUserSession($user) {
 
 
 
-
-//show last 3 travelers
-
-
 }
 
 
