@@ -17,7 +17,7 @@ class Equipment_Suppliers extends Controller{
         if (isset($_SESSION['id'])) {
             $this->view('equipment_supplier/Dashboard');
         } else {
-            redirect('ServiceProvider/login');
+            redirect('ServiceProvider');
         }
        
     }
@@ -26,7 +26,13 @@ class Equipment_Suppliers extends Controller{
     public function myInventory(){
 
         if (isset($_SESSION['id'])) {
-            $this->view('equipment_supplier/MyInventory');
+
+            $supplierId = $_SESSION['id'];
+
+            $this->productModel = $this->model('ProductModel');
+            $products = $this->productModel->getAllProducts($supplierId);
+            $this->view('equipment_supplier/MyInventory',['products' => $products]);
+
         } else {
             redirect('ServiceProvider');
         }
@@ -34,13 +40,14 @@ class Equipment_Suppliers extends Controller{
     }
 
     public function orders(){
-    
+        
         if (isset($_SESSION['id'])) {
             $this->view('equipment_supplier/Orders');
         } else {
             redirect('ServiceProvider');
         }
-    
+        
+
     }
 
     public function reviews(){
@@ -60,7 +67,7 @@ class Equipment_Suppliers extends Controller{
         } else {
             redirect('ServiceProvider');
         }
-    
+        
     }
 
     public function profile(){
@@ -70,6 +77,8 @@ class Equipment_Suppliers extends Controller{
         } else {
             redirect('ServiceProvider');
         }
+        
+
     }
 
 }
