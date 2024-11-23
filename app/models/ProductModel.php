@@ -51,7 +51,6 @@
             $this->db->bind(3, $imagePath);
     
             if ($this->db->execute()) {
-                echo "Done";
                 return true;
             } else {
                throw new Exception("Error inserting image path into the database.");
@@ -79,6 +78,44 @@
             return false;
         }
     }
+
+    public function getAllProducts($supplierId){
+        try{
+            $sql = "SELECT p.*, c.category_name, i.image_path 
+                    FROM products p
+                    JOIN equipment_categories c ON p.category_id = c.category_id
+                    LEFT JOIN (SELECT product_id, MIN(image_path) AS image_path FROM product_images
+                    GROUP BY product_id) i
+                    ON p.product_id = i.product_id
+                    WHERE p.supplier_id = ?";
+
+            $this->db->query($sql);
+            $this->db->bind(1,$supplierId);
+
+            $result = $this->db->resultSet();
+
+            return $result;            
+
+        }catch(Exception $e){
+            $error_msg = $e->getMessage();
+                echo "<script>alert('An error occurred: $error_msg');</script>";
+                return false;
+        }
+    }
+
+    public function deleteProductById($productId){
+        try{
+            $sql = "DELETE FROM products WHERE product_id = ?";
+            $this->db->query($sql);
+            $this->db->bind(1,$productId);
+            $result = $this->db->execute();
+
+        }catch(Exception $e){
+            $error_msg = $e->getMessage();
+            echo "<script>alert('An error occured: $error_msg');</script>";
+        }
+    }
+
 
 
     

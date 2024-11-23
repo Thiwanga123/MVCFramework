@@ -9,8 +9,7 @@ class ServiceProvider extends Controller {
     }
 
     public function index() {
-        $data = $this->serviceProviderModel->getUsers();
-        $this->view('serviceproviders/sp_login', $data);
+        $this->view('serviceproviders/sp_login');
     }
 
 

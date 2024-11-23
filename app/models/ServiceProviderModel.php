@@ -26,8 +26,8 @@ class ServiceProviderModel{
       //find user by email
       public function findUserByEmail($email,$sptype){
         
-        $this->db->query("SELECT * FROM $sptype WHERE email = ?");
-        $this->db->bind('1', $email);
+        $this->db->query("SELECT * FROM $sptype WHERE email = :email");
+        $this->db->bind(':email', $email);
 
         $this->db->execute();
 
@@ -60,12 +60,7 @@ class ServiceProviderModel{
             return false;
         }
     }
-
-
-
-
-  
-    
+      
     //login user
     }
 

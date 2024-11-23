@@ -130,7 +130,7 @@
     position: fixed;             /* Fix the container to the screen */
     top: 50%;                      /* Align to the top of the screen */
     left: 50%;    
-    transform: translate(-50%, -50%);                 /* Align to the left of the screen */
+    transform: translate(-50%, -50%);  /* Align to the left of the screen */
     width: auto;                /* Full viewport width */
     height: auto; 
     display: flex;               /* Use flexbox to center the modal */

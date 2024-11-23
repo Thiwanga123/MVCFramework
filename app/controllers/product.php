@@ -11,8 +11,6 @@
         
             if(isset($_POST['submit'])){
 
-                //$supplierId = $_SESSION['id']; //Getting the Supplier ID from the session
-
                 $data = [
                     'id'=> $_SESSION['id'],
                     'productname' => trim($_POST['productName']),
@@ -22,22 +20,35 @@
                     'description' => trim($_POST['productDescription']),
                 ];
 
-               /* if (!is_numeric($data['rate'])) {
-                    $data['val_err'] = "The rate must be a valid numeric value.";
-                }*/
+                if(empty($data['productname'])){
+                    $errors[] = 'Product name is required';
+                }
+
+                if(empty($data['rate']) || is_numeric($data['rate'])){
+                    $errors[] = 'A valid rate for the product is required';
+                }
+
+                if(empty($data['category'])){
+                    $errors[] = 'Product category is required';
+                }
+
+                if(empty($data['quantity']) || is_numeric($data['quantity'])){
+                    $errors[] = 'A valid quantity for the product is required';
+                }
+
+                if(empty($data['description'])){
+                    $errors[] = 'Product description is required';
+                }
+
 
                 $imageExtensions = ['jpeg','jpg','png']; //Extension array to check whether the uploaded files are eligible to upload
                 $imagePaths = [];   //Array to store the paths of the uploaded images
                 $images =  $_FILES['productImages'];
-
-                
-               
+       
                 if(count($images['name']) > 5 ){
-                    echo "You can only select upto 5 images";
-                    exit;
+                    $errors[] = 'Select only upto 5 images';
                 }
 
-                
                 $supplierFolder = "Uploads/EquipmentSuppliers/{$data['id']}"; //Base folder for uploading the images
 
                 if(!is_dir($supplierFolder)){           //Checking whether a folder for the supplieId exists already
@@ -56,7 +67,6 @@
                     }
 
                     for ($i = 0; $i < count($images['name']); $i++) {
-                        echo ($i);
                         if($images['error'][$i] == 0){
                             $filename = $images['name'][$i];
                             $fileTempName = $images['tmp_name'][$i];  //Storing the image properties
@@ -73,32 +83,43 @@
 
                                 if(move_uploaded_file($fileTempName,$filepath)){
                                     $imagePaths[] = $filepath;
-                                    echo ($i);
                                     $imageInserted = $this->productModel->addProductImage($data['id'],$productId, $filepath);
                                     
                                     if ($imageInserted) {
-                                        echo "Image inserted into database: $filename<br>";   
-                                    }else{
+                                        echo "Images Successfully inserted";
+                                    }
+                                    else{
                                         echo "Error inserting image into the database.$filename<br>";
                                     }
-                                }else{
-                                    echo "Error in uploading the file: $filename<br>";
-                                    
+                                }
+                                else{
+                                    echo "Error in uploading the file: $filename<br>";   
                                 }
                             }else{
                                 echo "Invalid image type for: $filename<br>";    
+                                
                             }
                         }else {
-                            echo "Error with file upload for image $i.<br>";
+                            echo "<script type='text/javascript'>alert('Error with file upload for image $i.<br>');</script>";
                         }
                     }
-
-                    echo "Product added successfully!";
+                    
+                    echo "<script type='text/javascript'>alert('Product added successfully!');</script>";
+                    redirect('equipment_suppliers/MyInventory');
                 } else {
-                    echo "Failed to add product.";
+                    echo "<script type='text/javascript'>alert('Failed to add product.');</script>";
                 }
             }
         }
+
+        public function delete($productId){
+            if($this->productModel->deleteProductById($productId)){
+                echo "<script type='text/javascript'>alert('Product deleted successfully!');</script>";
+                redirect('equipment_suppliers/MyInventory');
+            }
+        }
+
+
     }
 
 ?>
