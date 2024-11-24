@@ -55,15 +55,15 @@ class ServiceProvider extends Controller {
                 if ($loggedInUser) {
                     // Create session for the logged-in user and redirect
                     $this->createUserSession($loggedInUser, $data['sptype']);
-<<<<<<< HEAD
+<<<<<<<<< Temporary merge branch 1
                     echo "<pre>";
                     print_r ($a);
                     echo "</pre>";
                     exit;
-=======
+=========
                     //redicet to the relavent dashboard
                     redirect($data['sptype'] . '/dashboard');
->>>>>>> origin/development
+>>>>>>>>> Temporary merge branch 2
                    
                 } else {
                     // If login fails (wrong password), set error message
