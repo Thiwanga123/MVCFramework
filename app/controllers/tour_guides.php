@@ -1,11 +1,19 @@
 <?php
       class Tour_Guides extends Controller {
       
-//if the guider logged in redirect to the dashboard
+//creating the guider model
+private $guiderModel;
+
+public function __construct() {
+    $this->guiderModel = $this->model('M_guider');
+}
+
+
 
 public function dashboard(){
     if (isset($_SESSION['id'])) {
-        $this->view('tour_guides/Dashboard');
+        $data = $this->guiderModel->getBookings();
+        $this->view('tour_guides/Dashboard',$data);
     } else {
         redirect('ServiceProvider');
     }
@@ -72,7 +80,15 @@ public function profile(){
 
 }
 
-}
+//delete the booking by id
+public function deleteBooking($id){
+    if($this->guiderModel->deleteBookingById($id)){
+        redirect('Tour_Guides/Bookings');
+    }else{
+        die('Something went wrong');
+    }
 
+}
+      }
 
 ?>
