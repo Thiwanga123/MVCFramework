@@ -98,7 +98,7 @@
                         <thead>
                             <tr>
                                 <th>Customer</th>
-                                <th>Order Date</th>
+                                <th>Booking Date</th>
                                 <th>Product</th>
                                 <th>Quantity</th>
                                 <th>Status</th>

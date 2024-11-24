@@ -84,6 +84,8 @@ public function getRecentlyJoinedTravelers(){
 public function deleteTravelerById($id){
     $this->db->query('DELETE FROM traveler WHERE traveler_id = :traveler_id');
     $this->db->bind(':traveler_id', $id);
+    
+
 
     //execute
     if($this->db->execute()){

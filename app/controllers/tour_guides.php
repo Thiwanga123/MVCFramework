@@ -14,7 +14,7 @@ public function dashboard(){
 public function mypayments(){
 
     if (isset($_SESSION['id'])) {
-        $this->view('tour_guides/Mypayments');
+          $this->view('tour_guides/Mypayments');
     } else {
         redirect('ServiceProvider');
     }
@@ -73,6 +73,3 @@ public function profile(){
 }
 
 }
-
-
-?>
