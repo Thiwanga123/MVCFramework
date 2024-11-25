@@ -34,7 +34,7 @@
                 <span class="count">12</span>
             </a>
             <a href="#" class="profile">
-                <img src="../../../Public/Images/Profile pic.jpg">
+                <img src="<?php echo URLROOT;?>/Images/Profile pic.jpg">
             </a>
         </nav>
 
@@ -62,9 +62,9 @@
                 <table>
                     <thead>
                         <tr>
-                            <th>Guider Image</th>
+                           
                             <th>Guider Id</th>
-                            <th>Customer</th>
+                            <th>NO Of Customers</th>
                             <th>Price</th>
                             <th>Available dates</th>
                           
@@ -72,22 +72,18 @@
                     </thead>
                     <tbody>
                         <tr>
-                            <td>
-                                <img src="Images/default profile.png"> 
-                            </td>
+                           
                             <td>E102</td>
-                            <td>Product A</td>
+                            <td>2</td>
                             <td>Rs.3000 /day</td>
                             <td>26th of march</td>
                             
                             
                         </tr>
                         <tr>
-                            <td>
-                                <img src="Images/default profile.png"> 
-                            </td>
+                           
                             <td>E102</td>
-                            <td>Product A</td>
+                            <td>3</td>
                             <td>Rs.3000 /day</td>
                             <td>26th of march</td>
                          
@@ -95,11 +91,9 @@
                             
                         </tr>
                         <tr>
-                            <td>
-                                <img src="Images/default profile.png"> 
-                            </td>
+                           
                             <td>E102</td>
-                            <td>Product A</td>
+                            <td>1</td>
                             <td>Rs.3000 /day</td>
                             <td>26th of march</td>
                           

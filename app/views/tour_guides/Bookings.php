@@ -32,7 +32,7 @@
                 <span class="count">12</span>
             </a>
             <a href="#" class="profile">
-                <img src="../../../Public/Images/Profile pic.jpg">
+                <img src="<?php echo URLROOT;?>/Images/Profile pic.jpg">
             </a>
         </nav>
 
@@ -40,6 +40,7 @@
             <div class="header">
                 <div class="left">
                     <h1>All Bookings</h1>
+                
                 </div>
             </div>
 
@@ -54,8 +55,9 @@
                     <thead>
                         <tr>
                             
-                            <th>Guider Image</th>
-                            <th>Guider ID</th>
+                        
+                            <th>Booking ID</th>
+                            <th>Destination</th>
                             <th>Customer</th>
                             <th>Date</th>
                             <th>Total</th>
@@ -63,37 +65,17 @@
                         </tr>
                     </thead>
                     <tbody>
-
-                        <tr>
-                            <td>
-                                <img src="Images/default profile.png"> 
-                            </td>
-                            <td>E102</td>
-                            <td>Product A</td>
-                            <td>2024-09-12</td>
-                            <td>Rs.4000</td>
-                            <td>Completed</td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <img src="Images/default profile.png"> 
-                            </td>
-                            <td>E102</td>
-                            <td>Product A</td>
-                            <td>2024-09-12</td>
-                            <td>Rs.4000</td>
-                            <td>Completed</td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <img src="Images/default profile.png"> 
-                            </td>
-                            <td>E102</td>
-                            <td>Product A</td>
-                            <td>2024-09-101</td>
-                            <td>Rs.2000</td>
-                            <td>Cancelled</td>
-                        </tr>
+                    <?php foreach($bookings as $booking): ?>
+<tr>                      
+    <td><?php echo $booking->id; ?></td>
+    <td><?php echo $booking->destination; ?></td>
+    <td><?php echo $booking->customer; ?></td>
+    <td><?php echo $booking->date; ?></td>
+    <td>Rs.<?php echo $booking->total; ?></td>
+    <td><?php echo $booking->status; ?></td>
+</tr>
+<?php endforeach; ?>
+                       
                     </tbody>
                 </table> 
                 </div>

@@ -3,9 +3,25 @@
       
 //if the guider logged in redirect to the dashboard
 
+
+private $bookingModel;
+
+public function __construct(){
+    $this->BookingModel = $this->model('BookingModel');
+}
+
+
+
 public function dashboard(){
     if (isset($_SESSION['id'])) {
-        $this->view('tour_guides/Dashboard');
+        //get all the number of bookings for the relavent guider
+        $guider_id = $_SESSION['id'];
+        $number_of_bookings = $this->BookingModel->getGuiderBookings($guider_id);
+        //pass the data to the view
+        $data = [
+            'number_of_bookings' => $number_of_bookings,
+        ];
+        $this->view('tour_guides/Dashboard', $data);
     } else {
         redirect('ServiceProvider');
     }
@@ -24,7 +40,15 @@ public function mypayments(){
 public function Bookings(){
     
     if (isset($_SESSION['id'])) {
-        $this->view('tour_guides/Bookings');
+        //get the data from the bookings table with the relavent guider id
+        $guider_id = $_SESSION['id'];
+        //get the data from the bookings table with the relavent guider id
+        $bookings = $this->BookingModel->getBookings($guider_id);
+        //pass the data to the view
+        $data=[
+            'bookings'=>$bookings,
+        ];
+        $this->view('tour_guides/Bookings',$data);
     } else {
         redirect('ServiceProvider');
     }
@@ -35,6 +59,7 @@ public function Bookings(){
 public function reviews(){
 
     if (isset($_SESSION['id'])) {
+        
         $this->view('tour_guides/Reviews');
     } else {
         redirect('ServiceProvider');

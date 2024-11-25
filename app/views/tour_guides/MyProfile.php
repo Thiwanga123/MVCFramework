@@ -33,7 +33,7 @@
                 <span class="count">12</span>
             </a>
             <a href="#" class="profile">
-            <img src="../../../Public/Images/Profile pic.jpg">
+            <img src="<?php echo URLROOT;?>/Images/Profile pic.jpg">
             </a>
         </nav>
 
@@ -46,7 +46,7 @@
             
             <div class="profile">
                 <div class="profile-left">
-                <img src="/Images/Profile pic.jpg" alt="">
+                <img src="<?php echo URLROOT;?>/Images/Profile pic.jpg" alt="">
                 </div>
 
                 <div class="profile-center">

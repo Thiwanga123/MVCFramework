@@ -34,7 +34,7 @@
                 <span class="count">12</span>
             </a>
             <a href="#" class="profile">
-                <img src="../../../Public/Images/Profile pic.jpg">
+                <img src="<?php echo URLROOT;?>/Images/Profile pic.jpg">
             </a>
         </nav>
 
@@ -66,11 +66,11 @@
                     <tbody>
                         <tr>
                             <td class="customer">
-                                <img src="Images/default profile.png"> 
+                                <img src="<?php echo URLROOT;?>/Images/Icons/People.svg"> 
                                 <p>John Doe</p>
                             </td>
                             <td>E102</td>
-                            <td class="rev">ibusdam omnis reiciendis tenetur nihil saepe, recusandae necessitatibus tempora ea consectetur ut autem dolores voluptates fugiat, in ipsum culpa quae aliquam voluptatibus.</td>
+                            <td class="rev">I’ve been on many tours, but this one stood out because of our exceptional guide. They were knowledgeable, shared engaging personal stories, and adapted seamlessly when the weather changed. Despite challenges, they ensured we saw incredible sights and even stayed late to get everyone back safely. Their dedication and genuine care made this trip truly special.</td>
                             <td>2024/05/05</td>
                             <td>0</td>
                             <td class="Action">
@@ -81,11 +81,11 @@
                         </tr>
                         <tr>
                             <td class="customer">
-                                <img src="Images/default profile.png"> 
-                                <p>John Doe</p>
+                                <img src="<?php echo URLROOT;?>/Images/Icons/People.svg"> 
+                                <p>Miranda</p>
                             </td>
                             <td>E102</td>
-                            <td class="rev">Lorem ipsum dolor sit amet consectetur adipisicing elit. Quibusdam omnis reiciendis tenetur nihil saepe, recusandae necessitatibus tempora ea consectetur ut autem dolores voluptates fugiat, in ipsum culpa quae aliquam voluptatibus.</td>
+                            <td class="rev">Excellent experience! The guide ensured everything went smoothly and even shared local tips.</td>
                             <td>2024/05/05</td>
                             <td>0</td>
                             <td class="Action">
@@ -96,11 +96,11 @@
                         </tr>
                         <tr>
                             <td class="customer">
-                                <img src="Images/default profile.png"> 
-                                <p>John Doe</p>
+                                <img src="<?php echo URLROOT;?>/Images/Icons/People.svg"> 
+                                <p>Loren</p>
                             </td>
                             <td>E102</td>
-                            <td class="rev">Lorem ipsum dolor sit amet consectetur adipisicing elit. Quibusdam omnis reiciendis tenetur nihil saepe, recusandae necessitatibus tempora ea consectetur ut autem dolores voluptates fugiat, in ipsum culpa quae aliquam voluptatibus.</td>
+                            <td class="rev">Best tour guide that i met. Highly Recommanded.</td>
                             <td>2024/05/05</td>
                             <td>0</td>
                             <td class="Action">
