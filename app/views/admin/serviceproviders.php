@@ -262,7 +262,6 @@
 
 
     <script src="<?php echo URLROOT;?>/js/admin/viewDetails.js"></script>
-        <script src="<?php echo URLROOT;?>/js/viewDetails.js"></script>
 </body>
 
 </html>

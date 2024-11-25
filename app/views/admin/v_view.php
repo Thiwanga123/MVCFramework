@@ -12,7 +12,7 @@
 
                         
                             <label for="Name">Service Provider Name</label>
-                            <input type="text" id="name" name="name" required  value="<?php echo $details?>">
+                            <input type="text" id="name" name="name" required >
                 
                             <label for="SP_id">Service Provider ID</label>
                             <input type="text" id="id" name="id" required>

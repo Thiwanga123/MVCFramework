@@ -68,7 +68,7 @@ class Admin extends Controller {
         //get all registered tour guides
             $tour_guides = $this->adminModel->getTourGuides();
         //get the last 3 joined serviceproviders
-            // $last_three_service_providers = $this->adminModel->getLastThreeServiceProviders();
+            $last_three_service_providers = $this->adminModel->getLastThreeServiceProviders();
     
             
 
@@ -77,7 +77,7 @@ class Admin extends Controller {
                 'vehicle_suppliers'=>$vehicle_suppliers,
                 'equipment_suppliers'=>$equipment_suppliers,
                 'tour_guides'=>$tour_guides,
-                // 'last_three_service_providers'=>$last_three_service_providers,
+                'last_three_service_providers'=>$last_three_service_providers,
             ];
 
             $this->view('admin/serviceproviders', $data);
