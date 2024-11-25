@@ -63,43 +63,38 @@
                     <thead>
                         <tr>
                            
-                            <th>Guider Id</th>
-                            <th>NO Of Customers</th>
-                            <th>Price</th>
-                            <th>Available dates</th>
+                            
+                            <th>Available Date</th>
+                            <th>Available Time</th>
+                            <th>Chargers per hour</th>
+                            <th>Location</th>
+                            <th>Action</th>
                           
                         </tr>
                     </thead>
                     <tbody>
+
+                    <?php foreach($availability as $available): ?>
                         <tr>
                            
-                            <td>E102</td>
-                            <td>2</td>
-                            <td>Rs.3000 /day</td>
-                            <td>26th of march</td>
-                            
-                            
-                        </tr>
+                        
+                            <td><?php echo $available->available_date; ?></td>
+                            <td><?php echo $available->available_time; ?></td>
+                            <td><?php echo $available->charges_per_hour; ?></td>
+                            <td><?php echo $available->location; ?></td>
+                            <td class="action-button">
+                                <button class="edit-btn" name ="edit-btn" id="edit-btn">
+                                    Edit
+                                </button>
+                                <a href="<?php echo URLROOT; ?>/tour_guides/delete_availability/<?php echo $available->id; ?>"><button class="delete-btn" onclick="return confirm('Are u Sure?');" name ="delete-btn" id="delete-btn">
+                                   Delete
+                                </button></a>
                         <tr>
+                    <?php endforeach; ?>
                            
-                            <td>E102</td>
-                            <td>3</td>
-                            <td>Rs.3000 /day</td>
-                            <td>26th of march</td>
-                         
-                           
-                            
-                        </tr>
-                        <tr>
-                           
-                            <td>E102</td>
-                            <td>1</td>
-                            <td>Rs.3000 /day</td>
-                            <td>26th of march</td>
-                          
-                           
-                            
-                        </tr>
+                       
+                        
+                        
                     </tbody>
                 </table> 
             </div>

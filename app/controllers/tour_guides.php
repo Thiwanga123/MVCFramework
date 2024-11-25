@@ -48,6 +48,7 @@ public function Bookings(){
         $data=[
             'bookings'=>$bookings,
         ];
+        
         $this->view('tour_guides/Bookings',$data);
     } else {
         redirect('ServiceProvider');
@@ -55,6 +56,10 @@ public function Bookings(){
     
 
 }
+
+
+
+
 
 public function reviews(){
 
@@ -79,7 +84,16 @@ public function notifications(){
 public function Update_Availability(){
 
     if (isset($_SESSION['id'])) {
-        $this->view('tour_guides/Update_Availability');
+        //get the availability information from the database with relavent guider id
+        $guider_id = $_SESSION['id'];
+        $availability = $this->BookingModel->getAvailability($guider_id);
+        //pass the data to the view
+        $data=[
+            'availability'=>$availability,
+        ];
+
+
+        $this->view('tour_guides/Update_Availability',$data);
     } else {
         redirect('ServiceProvider');
     }
@@ -94,6 +108,19 @@ public function profile(){
         redirect('ServiceProvider');
     }
     
+
+}
+
+//delete an availability
+
+public function delete_availability($id){
+
+    if (isset($_SESSION['id'])) {
+        $this->BookingModel->deleteGuiderAvailability($id);
+        redirect('TourGuides/Update_Availability');
+    } else {
+        redirect('ServiceProvider');
+    }
 
 }
 

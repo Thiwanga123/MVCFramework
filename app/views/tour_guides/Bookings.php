@@ -75,6 +75,7 @@
     <td><?php echo $booking->status; ?></td>
 </tr>
 <?php endforeach; ?>
+
                        
                     </tbody>
                 </table> 
