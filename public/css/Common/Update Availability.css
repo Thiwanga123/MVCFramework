@@ -71,7 +71,7 @@
    cursor: pointer;
 }
 
-/*.content main .UpdateAvailability  table{
+.content main .UpdateAvailability  table{
     width: 100%;
     border-collapse: collapse;
     background-color:rgb(252, 255, 253);
@@ -94,7 +94,7 @@
     align-items: center;
     gap: 12px;
     padding-left: 20px;
-}*/
+}
 
 .content main .UpdateAvailability  table td img{
     width: 36px;
@@ -103,14 +103,14 @@
     object-fit: cover;
 }
 
-/*.content main .UpdateAvailability  table tbody tr{
+.content main .UpdateAvailability  table tbody tr{
     cursor: pointer;
     transition: all 0.3s ease;
 }
     
 .content main .UpdateAvailability  table tbody tr:hover{
     background: var(--grey);
-}*/
+}
 table {
     width: 100%;
     border-collapse: collapse;
@@ -122,11 +122,48 @@ table {
     padding: 10px;
     text-align: left;
 }
+
 td{
     color:rgb(10, 7, 17);
 }
-
-
+/* Style for the Action Buttons */
+table .action-btn {
+    display: inline-block;
+    padding: 6px 12px;
+    margin: 2px;
+    font-size: 14px;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    text-decoration: none;
+    transition: background-color 0.3s ease;
+    font-family: Arial, sans-serif;
+}
+/* Add spacing between buttons */
+table .action-btn + .action-btn {
+    margin-left: 5px;
+}
+/* Edit Button */
+table .edit-btn {
+    background-color: #4CAF50;
+}
+/* Darker Green on Hover */
+table .edit-btn:hover {
+    background-color: #9bb09d;
+}
+/* Delete Button */
+table .delete-btn {
+    background-color: #f44336;
+}
+/* Darker Red on Hover */
+table .delete-btn:hover {
+    background-color: #9b3b3b;
+}
+td {
+    text-align: center;
+    vertical-align: middle;
+}
 
 th {
     background-color: #93c9ca;
