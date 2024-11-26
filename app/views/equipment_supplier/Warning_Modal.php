@@ -12,6 +12,10 @@
             <button id="confirmDelete" class="delete-btn">Delete</button>
         </div>
     </div>
+
+    <form action="<?php echo URLROOT; ?>/product/delete" id="deleteForm" method="POST" style="display:none;">
+        <input type="hidden" name="productId" id="productId">
+    </form>
 </div>
 
 <style>
@@ -29,7 +33,7 @@
         justify-content: center; 
         align-items: center; 
         background-color: rgba(0, 0, 0, 0.4); 
-        z-index: 6000; 
+        z-index: 9999; 
         opacity: 0; 
         pointer-events: none;
         transition: opacity 0.3s ease;  
@@ -43,8 +47,9 @@
     }
 
     .wrapper{
+        position: relative;
         background-color: rgb(255, 255, 255);
-        border-radius: 40px;
+        border-radius: 50px;
         padding: 40px;
         box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
         display: flex;
@@ -53,7 +58,6 @@
         align-items: center;
         width: auto; 
         max-width: 500px;
-        z-index: 7000;
     }
 
     .modalContent{
@@ -97,11 +101,13 @@
         border-radius: 20px;
         border-style: none;
         margin-top: 1rem;
+
     }
 
-    .blur {
-    filter: blur(5px); 
-    transition: filter 0.3s ease; 
+    .blur{
+        filter: blur(5px); 
+        transition: filter 0.3s ease; 
     }
+
 
 </style>

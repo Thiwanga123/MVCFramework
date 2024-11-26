@@ -4,7 +4,9 @@ document.addEventListener('DOMContentLoaded', () =>{
     const deleteBtn = document.querySelectorAll('.delete');
     const confirmBtn = document.getElementById('confirmDelete');
     const cancelBtn = document.getElementById('cancelDelete');
-    const box = document.querySelector('.box');
+    const box = document.getElementById('box');
+    const deleteForm = document.getElementById('deleteForm');
+    const idInput = document.getElementById('productId');
 
     let currentProductId = null;
 
@@ -13,22 +15,24 @@ document.addEventListener('DOMContentLoaded', () =>{
             event.preventDefault();
             currentProductId = deleteButton.getAttribute('productId');
             modalContainer.classList.add('active');  
+            box.classList.add('blur');
         });
     });
 
     cancelBtn.addEventListener('click', () =>{
         modalContainer.classList.remove('active');
+        box.classList.remove('blur');
         currentProductId = null;
     });
 
     confirmBtn.addEventListener('click',() => {
-
         if(currentProductId){
-            window.location.href = '<?php echo URLROOT; ?>/Product/delete/{$currentProductId}';
+            idInput.value = currentProductId;
+            deleteForm.submit();
         }
 
         modalContainer.classList.remove('active');
+        box.classList.remove('blur');
         currentProductId = null;
     }); 
-
 });

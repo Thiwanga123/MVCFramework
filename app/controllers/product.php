@@ -112,11 +112,43 @@
             }
         }
 
-        public function delete($productId){
-            if($this->productModel->deleteProductById($productId)){
-                echo "<script type='text/javascript'>alert('Product deleted successfully!');</script>";
-                redirect('equipment_suppliers/MyInventory');
+        public function delete(){
+            if($_SERVER['REQUEST_METHOD'] === 'POST'){
+                $productId = $_POST['productId'];
+                $supplierId = $_SESSION['id'];
+
+                $productFolder = "Uploads/EquipmentSuppliers/{$supplierId}/{$productId}";
+
+                $success = $this->productModel->deleteProductById($productId);
+
+                if($success){
+                    if(is_dir($productFolder)){
+                        $this->deleteDirectory($productFolder);
+                    }
+                    echo "<script type='text/javascript'>alert('Product deleted successfully!');</script>";
+                    redirect('equipment_suppliers/MyInventory');
+                }
             }
+        }
+
+        private function deleteDirectory($directory){
+            if(is_dir($directory)){
+                $files = array_diff(scandir($directory),['.','..']);
+                foreach($files as $file){
+                    $filepath = $directory.DIRECTORY_SEPARATOR.$file;
+                    if (is_dir($filepath)) {
+                        $this->deleteDirectory($filepath); 
+                    } else {
+                        unlink($filepath); 
+                    }
+                }
+
+                rmdir($directory);
+            }
+        }
+
+        public function edit(){
+            
         }
 
 

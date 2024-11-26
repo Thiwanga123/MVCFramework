@@ -4,7 +4,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const modal = document.getElementById('addProductModal');
         const openModalBtn = document.getElementById('add-btn');
         const closeModal = document.getElementById('closeModal')
-        const box = document.querySelector('.box');
+        const box = document.getElementById('box');
 
         openModalBtn.addEventListener('click', () => {
                 modal.style.display = 'block';
