@@ -262,6 +262,7 @@
 
 
     <script src="<?php echo URLROOT;?>/js/viewDetails.js"></script>
+    <script src="<?php echo URLROOT;?>/js/Sidebar.js"></script>
 </body>
 
 </html>

@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     
     <link rel="stylesheet" href="<?php echo URLROOT;?>/css/adminpage/Dashboard.css">
-    <link rel="stylesheet" href="<?php echo URLROOT;?>/css/Common/sidebarHeader.css">
+    <link rel="stylesheet" href="<?php echo URLROOT;?>/css/adminpage/sidebarHeader.css">
     
 
     <title>Home</title>
@@ -31,11 +31,13 @@
                 </div>
             </form>
             <a href="#" class="updates">
+                
                 <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#000000"><path d="M160-200v-80h80v-280q0-83 50-147.5T420-792v-28q0-25 17.5-42.5T480-880q25 0 42.5 17.5T540-820v28q80 20 130 84.5T720-560v280h80v80H160Zm320-300Zm0 420q-33 0-56.5-23.5T400-160h160q0 33-23.5 56.5T480-80ZM320-280h320v-280q0-66-47-113t-113-47q-66 0-113 47t-47 113v280Z"/></svg>
                 <span class="count">12</span>
             </a>
+            <p><?php echo $_SESSION['name'];?></p>
             <a href="#" class="profile">
-                <img src="../../../Public/Images/Profile pic.jpg">
+                <img src="<?php echo URLROOT;?>/Images/Profile pic.jpg">
             </a>
         </nav>
 
@@ -50,20 +52,19 @@
             <ul class="insights">
                 <li>
                     <div class="products">
-                    <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#000000"><path d="M202.87-71.87q-37.78 0-64.39-26.61t-26.61-64.39V-612.2q-18.24-12.43-29.12-31.48-10.88-19.06-10.88-43.02v-110.43q0-37.78 26.61-64.39t64.39-26.61h634.26q37.78 0 64.39 26.61t26.61 64.39v110.43q0 23.96-10.88 43.02-10.88 19.05-29.12 31.48v449.33q0 37.78-26.61 64.39t-64.39 26.61H202.87Zm0-523.83v433.07h554.5V-595.7h-554.5Zm-40-91h634.5v-110.43h-634.5v110.43Zm193.06 292.44H604.3v-86.22H355.93v86.22Zm124.31 14.98Z"/></svg>
+                    <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#5f6368"><path d="M240-200h120v-240h240v240h120v-360L480-740 240-560v360Zm-80 80v-480l320-240 320 240v480H520v-240h-80v240H160Zm320-350Z"/></svg>
                     </div>
                     <span class = "info">
                         <h3>9</h3>
-                        <p>Total Products</p>
+                        <p>Total Accommadations</p>
                     </span>
                 </li>
                 <li>
                     <div class="view">
-                    <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#000000"><path d="M480-320q75 0 127.5-52.5T660-500q0-75-52.5-127.5T480-680q-75 0-127.5 52.5T300-500q0 75 52.5 127.5T480-320Zm.04-77.02q-42.89 0-72.95-30.02-30.07-30.03-30.07-72.92t30.02-72.95q30.03-30.07 72.92-30.07t72.95 30.02q30.07 30.03 30.07 72.92t-30.02 72.95q-30.03 30.07-72.92 30.07ZM480-192.59q-148.87 0-270.66-83.89Q87.54-360.37 32.59-500q54.95-139.63 176.75-223.52Q331.13-807.41 480-807.41t270.66 83.89Q872.46-639.63 927.41-500q-54.95 139.63-176.75 223.52Q628.87-192.59 480-192.59ZM480-500Zm.02 220q112.74 0 207-59.62T831.28-500q-50-100.76-144.28-160.38Q592.72-720 479.98-720q-112.74 0-207 59.62T128.72-500q50 100.76 144.28 160.38Q367.28-280 480.02-280Z"/></svg>
-                    </div>
+                    <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#5f6368"><path d="M480-160q-48-38-104-59t-116-21q-42 0-82.5 11T100-198q-21 11-40.5-1T40-234v-482q0-11 5.5-21T62-752q46-24 96-36t102-12q58 0 113.5 15T480-740v484q51-32 107-48t113-16q36 0 70.5 6t69.5 18v-480q15 5 29.5 10.5T898-752q11 5 16.5 15t5.5 21v482q0 23-19.5 35t-40.5 1q-37-20-77.5-31T700-240q-60 0-116 21t-104 59Zm80-200v-380l200-200v400L560-360Zm-160 65v-396q-33-14-68.5-21.5T260-720q-37 0-72 7t-68 21v397q35-13 69.5-19t70.5-6q36 0 70.5 6t69.5 19Zm0 0v-396 396Z"/></svg>                    </div>
                     <span class = "info">
                         <h3>21</h3>
-                        <p>Total Views</p>
+                        <p>Total Bookings</p>
                     </span>
                 </li>
                 <li>
@@ -81,7 +82,7 @@
                     </div>
                     <span class = "info">
                         <h3>2</h3>
-                        <p>Pending Orders</p>
+                        <p>Pending Accommadations</p>
                     </span>
                 </li>
             </ul>
@@ -98,8 +99,8 @@
                         <thead>
                             <tr>
                                 <th>Customer</th>
-                                <th>Order Date</th>
-                                <th>Product</th>
+                                <th>Booking Date</th>
+                                <th>Accommadation</th>
                                 <th>Quantity</th>
                                 <th>Status</th>
                             </tr>
@@ -107,11 +108,11 @@
                         <tbody>
                             <tr>
                                 <td>
-                                    <img src="Images/default profile.png">
-                                    <p>John Doe</p>
+                                    <img src="<?php echo URLROOT;?>/Images/default profile.png">
+                                    <p>Thiwanga</p>
                                 </td>
                                 <td>21-08-2024</td>
-                                <td>Product A</td>
+                                <td>Villa</td>
                                 <td>4</td>
                                 <td>
                                     <span class="status completed">Completed</span>
@@ -119,11 +120,11 @@
                             </tr>
                             <tr>
                                 <td>
-                                    <img src="Images/default profile.png">
-                                    <p>John Doe</p>
+                                <img src="<?php echo URLROOT;?>/Images/default profile.png">
+                                    <p>Ushan</p>
                                 </td>
                                 <td>14-07-2024</td>
-                                <td>Product B</td>
+                                <td>Double Room</td>
                                 <td>10</td>
                                 <td>
                                     <span class="status pending">Pending</span>
@@ -131,11 +132,11 @@
                             </tr>
                             <tr>
                                 <td>
-                                    <img src="Images/default profile.png">
-                                    <p>John Doe</p>
+                                <img src="<?php echo URLROOT;?>/Images/default profile.png">
+                                    <p>Ruvin</p>
                                 </td>
                                 <td>01-01-2024</td>
-                                <td>Product A</td>
+                                <td>Single Room</td>
                                 <td>4</td>
                                 <td>
                                     <span class="status cancelled">Cancelled</span>

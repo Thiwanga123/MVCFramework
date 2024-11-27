@@ -88,6 +88,41 @@
         
     }
 
+
+    .Delete-btn{
+        background-color: lightcoral;
+        color: white;
+        font-size: medium;
+        cursor: pointer; 
+        padding: 5px 15px;   
+        border-radius: 20px;
+        border-style: none;
+        margin-top: 1rem;
+    }
+
+    .view-btn{
+        background-color: lightgreen;
+        color: white;
+        font-size: medium;
+        cursor: pointer; 
+        padding: 5px 15px;   
+        border-radius: 20px;
+        border-style: none;
+        margin-top: 1rem;
+
+    }
+
+    .Edit-btn{
+        background-color: lightblue;
+        color: white;
+        font-size: medium;
+        cursor: pointer; 
+        padding: 5px 15px;   
+        border-radius: 20px;
+        border-style: none;
+        margin-top: 1rem;
+    }
+
     .cancel-btn{
         background-color: rgb(168, 168, 168);
         color: white;

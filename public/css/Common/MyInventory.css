@@ -116,8 +116,8 @@
     transition: all 0.3s ease;
 }
 
-.Action .delete svg:hover{
-    fill: red;
+.Delete-btn{
+    background-color: aqua;
 }
 
 .Action .edit svg:hover{

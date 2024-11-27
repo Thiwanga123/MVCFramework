@@ -33,8 +33,9 @@
                 <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#000000"><path d="M160-200v-80h80v-280q0-83 50-147.5T420-792v-28q0-25 17.5-42.5T480-880q25 0 42.5 17.5T540-820v28q80 20 130 84.5T720-560v280h80v80H160Zm320-300Zm0 420q-33 0-56.5-23.5T400-160h160q0 33-23.5 56.5T480-80ZM320-280h320v-280q0-66-47-113t-113-47q-66 0-113 47t-47 113v280Z"/></svg>
                 <span class="count">12</span>
             </a>
+            <p><?php echo $_SESSION['name'];?></p>
             <a href="#" class="profile">
-                <img src="../../../Public/Images/Profile pic.jpg">
+                <img src="<?php echo URLROOT;?>/Images/Profile pic.jpg">
             </a>
         </nav>
 
@@ -62,41 +63,36 @@
                 <table>
                     <thead>
                         <tr>
-                            <th>Product Image</th>
-                            <th>Product Id</th>
-                            <th>Product</th>
+                            <th>Accomodation Image</th>
+                            <th>Location</th>
+                            <th>Item-Id</th>
                             <th>Price</th>
-                            <th>Current Stock</th>
+                            <th>Available Quantity</th>
                             <th>Category</th>
                             <th>Action</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <?php foreach ($products as $product): ?>
+                        <?php foreach ($data['accomadation'] as $accomadation):?>
                         <tr>
                             <td>
-                                <?php if (!empty($product->image_path)): ?>
-                                <img src="<?php echo URLROOT . '/' . $product->image_path; ?>" alt="Product Image">
-                                <?php else: ?>
-                                <img src="<?php echo URLROOT; ?>/Images/default_profile.png" alt="Default Image">
-                                <?php endif; ?>
+                                <img src="<?php echo URLROOT;?>/Images/Location.jpg" alt="Location Image">
+                             </td>
+                            <td><?php echo $accomadation->location;?></td>
+                            <td><?php echo $accomadation->id;?></td>
+                            <td><?php echo $accomadation->price;?></td>
+                            <td><?php echo $accomadation->quantity;?></td>
+                            <td><?php echo $accomadation->type;?></td>
+                            <td class="action-btn">
+                                <button class="view-btn" id="view-btn">View</button>
+                                <button class="Delete-btn" id="Delete-btn">Delete</button>
+                                <button class="Edit-btn" id="Edit-btn">Edit</button>
                             </td>
-                            <td><?php echo $product->product_id; ?></td>
-                            <td><?php echo $product->product_name; ?></td>
-                            <td><?php echo $product->rate; ?></td>
-                            <td><?php echo $product->quantity; ?></td>
-                            <td><?php echo $product->category_name; ?></td>
-                            <td class="Action">
-                                <a href="#" class="delete" productId="<?php echo $product->product_id; ?>">
-                                    <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#000000"><path d="M280-120q-33 0-56.5-23.5T200-200v-520h-40v-80h200v-40h240v40h200v80h-40v520q0 33-23.5 56.5T680-120H280Zm400-600H280v520h400v-520ZM360-280h80v-360h-80v360Zm160 0h80v-360h-80v360ZM280-720v520-520Z"/></svg>
-                                </a>
-                                <a href="#" class="edit">
-                                <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#000000"><path d="M200-200h57l391-391-57-57-391 391v57Zm-80 80v-170l528-527q12-11 26.5-17t30.5-6q16 0 31 6t26 18l55 56q12 11 17.5 26t5.5 30q0 16-5.5 30.5T817-647L290-120H120Zm640-584-56-56 56 56Zm-141 85-28-29 57 57-29-28Z"/></svg>
-                                </a>
-                            </td>
+
+
+                                
                         </tr>
-                        <?php endforeach; ?>
-                        
+                        <?php endforeach;?>
                     </tbody>
                 </table> 
             </div> 

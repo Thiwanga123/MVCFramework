@@ -5,7 +5,7 @@
                 <img src="<?php echo URLROOT;?>/Images/Logo1.png">
                 <div class="logo-name">JOURNEY <br><span>BEYOND</span></div>
             </a>
-            <svg class = "menu" xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#000000"><path d="m256-200-56-56 224-224-224-224 56-56 224 224 224-224 56 56-224 224 224 224-56 56-224-224-224 224Z"/></svg>
+            <!-- <svg class = "menu" xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#000000"><path d="m256-200-56-56 224-224-224-224 56-56 224 224 224-224 56 56-224 224 224 224-56 56-224-224-224 224Z"/></svg> -->
         </div>
 
         <ul class="side-menu">
