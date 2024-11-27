@@ -117,7 +117,7 @@ public function delete_availability($id){
 
     if (isset($_SESSION['id'])) {
         $this->BookingModel->deleteGuiderAvailability($id);
-        redirect('TourGuides/Update_Availability');
+        redirect('tour_guides/Update_Availability');
     } else {
         redirect('ServiceProvider');
     }

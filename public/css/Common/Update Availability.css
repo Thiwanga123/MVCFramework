@@ -86,22 +86,17 @@
 
 
 .content main .UpdateAvailability  table td{
-    padding: 16px 0;
+    padding: 20px 0;
 }
 
-.content main .UpdateAvailability  tr td:first-child{
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    padding-left: 20px;
-}
 
-.content main .UpdateAvailability  table td img{
+
+/* .content main .UpdateAvailability  table td img{
     width: 36px;
     height: 36px;
     border-radius: 50%;
     object-fit: cover;
-}
+} */
 
 .content main .UpdateAvailability  table tbody tr{
     cursor: pointer;
@@ -114,12 +109,12 @@
 table {
     width: 100%;
     border-collapse: collapse;
-    margin-bottom: 20px;
+    margin-bottom: 21px;
 }
 
  th,td{
     border: 1px solid #060606;
-    padding: 10px;
+    padding: 8px;
     text-align: left;
 }
 
@@ -147,19 +142,41 @@ table .action-btn + .action-btn {
 /* Edit Button */
 table .edit-btn {
     background-color: #4CAF50;
+    color: #fff;
+    padding: 7px 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+    font-family: Arial, sans-serif;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
+
 /* Darker Green on Hover */
 table .edit-btn:hover {
-    background-color: #9bb09d;
+    background-color: #45a049;
+    transform: scale(1.05);
 }
+
 /* Delete Button */
 table .delete-btn {
     background-color: #f44336;
+    color: #fff;
+    padding: 7px 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+    font-family: Arial, sans-serif;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 /* Darker Red on Hover */
 table .delete-btn:hover {
-    background-color: #9b3b3b;
+    background-color: rgb(144, 18, 18);
 }
+
+
+
 td {
     text-align: center;
     vertical-align: middle;

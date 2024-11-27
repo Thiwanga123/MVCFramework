@@ -54,7 +54,7 @@
                     <input type="name" id="name" name="name">
                     <h4>Gender</h4>
                     <input type="Gender" id="Gender" name="Gender">
-                    <h4>Guider ID</h4>
+                    <h4>Language</h4>
                     <input type="Guider ID" id="Guider ID" name="Guider ID">
                     <h4>Email</h4>
                     <input type="email" id="email" name="email">
