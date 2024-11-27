@@ -8,14 +8,14 @@
     <title>Home</title>
 </head>
 <body>
-    <div class="box">
+    <div class="box" id="box">
     <!-- SideBar -->
     <?php
         include('Sidebar.php');;
     ?>
     
      <!-- End Of Sidebar -->
-
+   
      <!--Main Content-->
      <div class="content">
         <!--navbar-->
@@ -51,7 +51,7 @@
                         </button>
                 </div>
             </div>
-
+           
             <div class="Inventory">
                 <div>
                 <div class="header">
@@ -72,63 +72,39 @@
                         </tr>
                     </thead>
                     <tbody>
+                    <?php if (empty($products)): ?>
+                        <tr>
+                            <td colspan="7" style="text-align: center; font-size: 24px; font-weight: bold;">Inventory is empty</td>
+                        </tr>
+                    <?php else: ?>
+                        <?php foreach ($products as $product): ?>
                         <tr>
                             <td>
-                                <img src="Images/default profile.png"> 
+                                <?php if (!empty($product->image_path)): ?>
+                                <img src="<?php echo URLROOT . '/' . $product->image_path; ?>" alt="Product Image">
+                                <?php else: ?>
+                                <img src="<?php echo URLROOT; ?>/Images/default_profile.png" alt="Default Image">
+                                <?php endif; ?>
                             </td>
-                            <td>E102</td>
-                            <td>Product A</td>
-                            <td>Rs.3000 /day</td>
-                            <td>5</td>
-                            <td>Camping</td>
+                            <td><?php echo $product->product_id; ?></td>
+                            <td><?php echo $product->product_name; ?></td>
+                            <td><?php echo $product->rate; ?></td>
+                            <td><?php echo $product->quantity; ?></td>
+                            <td><?php echo $product->category_name; ?></td>
                             <td class="Action">
-                                <a href="#" class="delete">
+                                <a href="#" class="delete" id="<?php echo $product->id; ?>">
                                     <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#000000"><path d="M280-120q-33 0-56.5-23.5T200-200v-520h-40v-80h200v-40h240v40h200v80h-40v520q0 33-23.5 56.5T680-120H280Zm400-600H280v520h400v-520ZM360-280h80v-360h-80v360Zm160 0h80v-360h-80v360ZM280-720v520-520Z"/></svg>
                                 </a>
-                                <a href="#" class="edit">
+                                <a href="#" class="edit"  productId="<?php echo $product->product_id; ?>">
                                 <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#000000"><path d="M200-200h57l391-391-57-57-391 391v57Zm-80 80v-170l528-527q12-11 26.5-17t30.5-6q16 0 31 6t26 18l55 56q12 11 17.5 26t5.5 30q0 16-5.5 30.5T817-647L290-120H120Zm640-584-56-56 56 56Zm-141 85-28-29 57 57-29-28Z"/></svg>
                                 </a>
                             </td>
                         </tr>
-                        <tr>
-                            <td>
-                                <img src="Images/default profile.png"> 
-                            </td>
-                            <td>E102</td>
-                            <td>Product A</td>
-                            <td>Rs.3000 /day</td>
-                            <td>3</td>
-                            <td>Camping</td>
-                            <td class="Action">
-                                <a href="#" class="delete">
-                                    <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#000000"><path d="M280-120q-33 0-56.5-23.5T200-200v-520h-40v-80h200v-40h240v40h200v80h-40v520q0 33-23.5 56.5T680-120H280Zm400-600H280v520h400v-520ZM360-280h80v-360h-80v360Zm160 0h80v-360h-80v360ZM280-720v520-520Z"/></svg>
-                                </a>
-                                <a href="#" class="edit">
-                                <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#000000"><path d="M200-200h57l391-391-57-57-391 391v57Zm-80 80v-170l528-527q12-11 26.5-17t30.5-6q16 0 31 6t26 18l55 56q12 11 17.5 26t5.5 30q0 16-5.5 30.5T817-647L290-120H120Zm640-584-56-56 56 56Zm-141 85-28-29 57 57-29-28Z"/></svg>
-                                </a>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <img src="Images/default profile.png"> 
-                            </td>
-                            <td>E102</td>
-                            <td>Product A</td>
-                            <td>Rs.3000 /day</td>
-                            <td>5</td>
-                            <td>Camping</td>
-                            <td class="Action">
-                                <a href="#" class="delete">
-                                    <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#000000"><path d="M280-120q-33 0-56.5-23.5T200-200v-520h-40v-80h200v-40h240v40h200v80h-40v520q0 33-23.5 56.5T680-120H280Zm400-600H280v520h400v-520ZM360-280h80v-360h-80v360Zm160 0h80v-360h-80v360ZM280-720v520-520Z"/></svg>
-                                </a>
-                                <a href="#" class="edit">
-                                    <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#000000"><path d="M200-200h57l391-391-57-57-391 391v57Zm-80 80v-170l528-527q12-11 26.5-17t30.5-6q16 0 31 6t26 18l55 56q12 11 17.5 26t5.5 30q0 16-5.5 30.5T817-647L290-120H120Zm640-584-56-56 56 56Zm-141 85-28-29 57 57-29-28Z"/></svg>
-                                </a>
-                            </td>
-                        </tr>
+                        <?php endforeach; ?>
+                        <?php endif; ?>    
                     </tbody>
                 </table> 
-            </div> 
+            </div>
             </div>
             
           </main>
@@ -136,14 +112,27 @@
      </div>
      </div>
      <!--Modal Structure-->
+    
 
-     <?php
+    <?php
+        include('Warning_Modal.php');;
+    ?>
+
+    <?php
         include('AddProduct.php');;
     ?>
+
+    <?php
+        include('EditProduct.php');;
+    ?>
+
+
+    
 
     <script src="<?php echo URLROOT;?>/js/Sidebar.js"></script> 
     <script src="<?php echo URLROOT;?>/js/addProduct.js"></script>
     <script src="<?php echo URLROOT;?>/js/ImagePreview.js"></script>
+    <script src="<?php echo URLROOT;?>/js/warningModel.js"></script>
      
 </body>
 

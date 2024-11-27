@@ -1,9 +1,10 @@
+
 document.addEventListener('DOMContentLoaded', () => {
 
         const modal = document.getElementById('addProductModal');
         const openModalBtn = document.getElementById('add-btn');
         const closeModal = document.getElementById('closeModal')
-        const box = document.querySelector('.box');
+        const box = document.getElementById('box');
 
         openModalBtn.addEventListener('click', () => {
                 modal.style.display = 'block';
@@ -18,7 +19,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 
         });
 
-
         window.onclick = function(event) {
                 if (event.target == modal) {
                         modal.classList.remove("active");
@@ -27,8 +27,8 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         document.getElementById("addProductForm").onsubmit = function(e) {
-        e.preventDefault();
-        modal.classList.remove("active");
-        box.classList.remove("blur");
+                modal.classList.remove("active");
+                box.classList.remove("blur");
         }
+
 });

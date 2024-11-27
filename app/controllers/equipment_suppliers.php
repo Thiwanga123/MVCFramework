@@ -17,7 +17,7 @@ class Equipment_Suppliers extends Controller{
         if (isset($_SESSION['id'])) {
             $this->view('equipment_supplier/Dashboard');
         } else {
-            redirect('ServiceProvider/login');
+            redirect('ServiceProvider');
         }
        
     }
@@ -31,7 +31,10 @@ class Equipment_Suppliers extends Controller{
 
             $this->productModel = $this->model('ProductModel');
             $products = $this->productModel->getAllProducts($supplierId);
+<<<<<<< HEAD
             //var_dump ($products); //Debugging
+=======
+>>>>>>> origin/ushan
             $this->view('equipment_supplier/MyInventory',['products' => $products]);
 
         } else {

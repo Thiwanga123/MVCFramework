@@ -5,10 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="<?php echo URLROOT;?>/css/Common/MyInventory.css">
     <link rel="stylesheet" href="<?php echo URLROOT;?>/css/Common/sidebarHeader.css">
+    
     <title>Home</title>
 </head>
 <body>
-    <div class="box">
+    <div class="box" id ="box">
+
     <!-- SideBar -->
     <?php
         include('Sidebar.php');;
@@ -19,6 +21,7 @@
      <!--Main Content-->
      <div class="content">
         <!--navbar-->
+        
         <nav>
             <svg class="menu" xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#000000"><path d="M160-269.23v-40h640v40H160ZM160-460v-40h640v40H160Zm0-190.77v-40h640v40H160Z"/></svg>
             <form action="#">
@@ -34,7 +37,7 @@
                 <span class="count">12</span>
             </a>
             <a href="#" class="profile">
-                <img src="../../../Public/Images/Profile pic.jpg">
+               <img src="<?php echo URLROOT;?>/Images/Profile pic.jpg">
             </a>
         </nav>
 
@@ -55,7 +58,7 @@
             <div class="Inventory">
                 <div>
                 <div class="header">
-                    <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#000000"><path d="M620-163 450-333l56-56 114 114 226-226 56 56-282 282Zm220-397h-80v-200h-80v120H280v-120h-80v560h240v80H200q-33 0-56.5-23.5T120-200v-560q0-33 23.5-56.5T200-840h167q11-35 43-57.5t70-22.5q40 0 71.5 22.5T594-840h166q33 0 56.5 23.5T840-760v200ZM480-760q17 0 28.5-11.5T520-800q0-17-11.5-28.5T480-840q-17 0-28.5 11.5T440-800q0 17 11.5 28.5T480-760Z"/></svg>
+                <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#000000"><path d="M240-200v40q0 17-11.5 28.5T200-120h-40q-17 0-28.5-11.5T120-160v-320l84-240q6-18 21.5-29t34.5-11h440q19 0 34.5 11t21.5 29l84 240v320q0 17-11.5 28.5T800-120h-40q-17 0-28.5-11.5T720-160v-40H240Zm-8-360h496l-42-120H274l-42 120Zm-32 80v200-200Zm100 160q25 0 42.5-17.5T360-380q0-25-17.5-42.5T300-440q-25 0-42.5 17.5T240-380q0 25 17.5 42.5T300-320Zm360 0q25 0 42.5-17.5T720-380q0-25-17.5-42.5T660-440q-25 0-42.5 17.5T600-380q0 25 17.5 42.5T660-320Zm-460 40h560v-200H200v200Z"/></svg>
                     <h3>All Vehicles</h3>
                     <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#000000"><path d="M440-160q-17 0-28.5-11.5T400-200v-240L168-736q-15-20-4.5-42t36.5-22h560q26 0 36.5 22t-4.5 42L560-440v240q0 17-11.5 28.5T520-160h-80Zm40-308 198-252H282l198 252Zm0 0Z"/></svg>
                 </div>
@@ -63,69 +66,44 @@
                     <thead>
                         <tr>
                             <th>Vehicle Image</th>
-                            <th>Vehicle Id</th>
-                            <th>Vehcile</th>
-                            <th>Price</th>
-                            <th>Current Stock</th>
-                            <th>Category</th>
+                            <th>Type</th>
+                            <th>Model</th>
+                            <th>Make</th>
+                            <th>Rental Price</th>
+                            <th>Availability</th>
                             <th>Action</th>
                         </tr>
                     </thead>
                     <tbody>
+                    <?php if (empty($vehicles)): ?>
+                        <tr>
+                            <td colspan="7" style="text-align: center; font-size: 24px; font-weight: bold;">Currently no cars available</td>
+                        </tr>
+                    <?php else: ?>
+                        <?php foreach ($vehicles as $vehicle): ?>
                         <tr>
                             <td>
-                                <img src="Images/default profile.png"> 
+                                <?php if (!empty($vehicle->image_path)): ?>
+                                <img src="<?php echo URLROOT . '/' . $vehicle->image_path; ?>" alt="Vehicle Image">
+                                <?php else: ?>
+                                <img src="<?php echo URLROOT; ?>/Images/default_profile.png" alt="Default Image">
+                                <?php endif; ?>
                             </td>
-                            <td>E102</td>
-                            <td>Product A</td>
-                            <td>Rs.3000 /day</td>
-                            <td>5</td>
-                            <td>Camping</td>
-                            <td class="Action">
-                                <a href="#" class="delete">
-                                    <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#000000"><path d="M280-120q-33 0-56.5-23.5T200-200v-520h-40v-80h200v-40h240v40h200v80h-40v520q0 33-23.5 56.5T680-120H280Zm400-600H280v520h400v-520ZM360-280h80v-360h-80v360Zm160 0h80v-360h-80v360ZM280-720v520-520Z"/></svg>
-                                </a>
-                                <a href="#" class="edit">
-                                <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#000000"><path d="M200-200h57l391-391-57-57-391 391v57Zm-80 80v-170l528-527q12-11 26.5-17t30.5-6q16 0 31 6t26 18l55 56q12 11 17.5 26t5.5 30q0 16-5.5 30.5T817-647L290-120H120Zm640-584-56-56 56 56Zm-141 85-28-29 57 57-29-28Z"/></svg>
-                                </a>
-                            </td>
+                            <td><?php echo $vehicle->type; ?></td>
+                            <td><?php echo $vehicle->model; ?></td>
+                            <td><?php echo $vehicle->make; ?></td>
+                            <td><?php echo $vehicle->rate; ?></td>
+                            <td><?php echo $vehicle->availability; ?></td>
+                            <td class="action-button">
+                                <button class="edit-btn" name ="edit-btn" id="edit-btn">
+                                    Edit
+                                </button>
+                                <a href="<?php echo URLROOT; ?>/transport_suppliers/delete_availability/<?php echo $vehicle->id; ?>"><button class="delete-btn" onclick="return confirm('Are u Sure?');" name ="delete-btn" id="delete-btn">
+                                   Delete
+                                </button></a>
                         </tr>
-                        <tr>
-                            <td>
-                                <img src="Images/default profile.png"> 
-                            </td>
-                            <td>E102</td>
-                            <td>Product A</td>
-                            <td>Rs.3000 /day</td>
-                            <td>3</td>
-                            <td>Camping</td>
-                            <td class="Action">
-                                <a href="#" class="delete">
-                                    <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#000000"><path d="M280-120q-33 0-56.5-23.5T200-200v-520h-40v-80h200v-40h240v40h200v80h-40v520q0 33-23.5 56.5T680-120H280Zm400-600H280v520h400v-520ZM360-280h80v-360h-80v360Zm160 0h80v-360h-80v360ZM280-720v520-520Z"/></svg>
-                                </a>
-                                <a href="#" class="edit">
-                                <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#000000"><path d="M200-200h57l391-391-57-57-391 391v57Zm-80 80v-170l528-527q12-11 26.5-17t30.5-6q16 0 31 6t26 18l55 56q12 11 17.5 26t5.5 30q0 16-5.5 30.5T817-647L290-120H120Zm640-584-56-56 56 56Zm-141 85-28-29 57 57-29-28Z"/></svg>
-                                </a>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <img src="Images/default profile.png"> 
-                            </td>
-                            <td>E102</td>
-                            <td>Product A</td>
-                            <td>Rs.3000 /day</td>
-                            <td>5</td>
-                            <td>Camping</td>
-                            <td class="Action">
-                                <a href="#" class="delete">
-                                    <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#000000"><path d="M280-120q-33 0-56.5-23.5T200-200v-520h-40v-80h200v-40h240v40h200v80h-40v520q0 33-23.5 56.5T680-120H280Zm400-600H280v520h400v-520ZM360-280h80v-360h-80v360Zm160 0h80v-360h-80v360ZM280-720v520-520Z"/></svg>
-                                </a>
-                                <a href="#" class="edit">
-                                    <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#000000"><path d="M200-200h57l391-391-57-57-391 391v57Zm-80 80v-170l528-527q12-11 26.5-17t30.5-6q16 0 31 6t26 18l55 56q12 11 17.5 26t5.5 30q0 16-5.5 30.5T817-647L290-120H120Zm640-584-56-56 56 56Zm-141 85-28-29 57 57-29-28Z"/></svg>
-                                </a>
-                            </td>
-                        </tr>
+                        <?php endforeach; ?>
+                        <?php endif; ?>
                     </tbody>
                 </table> 
             </div> 
@@ -138,11 +116,11 @@
      <!--Modal Structure-->
 
      <?php
-        include('AddProduct.php');;
+        include('AddVehicle.php');;
     ?>
 
     <script src="<?php echo URLROOT;?>/js/Sidebar.js"></script> 
-    <script src="<?php echo URLROOT;?>/js/addProduct.js"></script>
+    <script src="<?php echo URLROOT;?>/js/addVehicle.js"></script>
     <script src="<?php echo URLROOT;?>/js/ImagePreview.js"></script>
      
 </body>

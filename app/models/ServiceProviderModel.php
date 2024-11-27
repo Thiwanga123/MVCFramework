@@ -60,14 +60,8 @@ class ServiceProviderModel{
             return false;
         }
     }
-
-    //get users
-    
-
-
-  
-    
-  
+      
+    //login user
     }
 
 ?>

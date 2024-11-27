@@ -104,15 +104,41 @@
     }
 
     public function deleteProductById($productId){
+<<<<<<< HEAD
         try{
+=======
+
+        try{
+            $finalResult = false;
+
+>>>>>>> origin/ushan
             $sql = "DELETE FROM products WHERE product_id = ?";
             $this->db->query($sql);
             $this->db->bind(1,$productId);
             $result = $this->db->execute();
 
+<<<<<<< HEAD
         }catch(Exception $e){
             $error_msg = $e->getMessage();
             echo "<script>alert('An error occured: $error_msg');</script>";
+=======
+            if($result){
+                $sql2 = "DELETE FROM product_images WHERE product_id = ?";
+                $this->db->query($sql2);
+                $this->db->bind(1,$productId);
+                $finalResult = $this->db->execute();
+                
+                if(!$finalResult){
+                    throw new Exception("Failed to delete the images");
+                }
+            }
+
+            return $finalResult;
+        }catch(Exception $e){
+            $error_msg = $e->getMessage();
+            echo "<script>alert('An error occured: $error_msg');</script>";
+            return false;
+>>>>>>> origin/ushan
         }
     }
 
