@@ -58,6 +58,17 @@
     gap: 1rem;
 }
 
+ #msg{
+    background-color: rgb(247, 247, 247);
+    height: 400px;
+    width: 80%;
+    max-width: 400px;
+    border-radius: 30px;
+    padding: 0 20px;
+    border: 1px solid gainsboro;
+    gap: 1rem;
+}
+
 
 .content main .profile .profile-actions button {
     background-color: #2c8379;

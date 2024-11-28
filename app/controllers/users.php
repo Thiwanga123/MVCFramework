@@ -4,12 +4,115 @@ class Users extends Controller {
     
 
     public function __construct() {
+
         $this->userModel = $this->model('M_users');
     }
 
     public function index() {
+
         $data = $this->userModel->getUsers();
         $this->view('pages/index', $data);
+    }
+
+    public function dashboard() {
+        // Check if logged in
+        if(isset($_SESSION['user_id'])) {
+            $this->view('users/v_dashboard');
+            
+        }else{
+            redirect('users/login');
+        }
+        
+        
+    }
+
+    public function history() {
+        //check if logged in
+        if(isset($_SESSION['user_id'])) {
+            $this->view('users/v_history');
+
+        }else{
+            redirect('users/login');
+        }
+    }
+
+    public function accomadation() {
+
+        if(isset($_SESSION['user_id'])) {
+            $this->view('users/v_accomadation');
+        }else{
+            redirect('users/login');
+        }
+        
+    }
+
+    public function payments() {
+        if(isset($_SESSION['user_id'])) {
+            $this->view('users/payment');
+        }else{
+            redirect('users/login');
+        }
+        
+    }
+
+    public function vehicles(){
+        if(isset($_SESSION['user_id'])) {
+            $this->view('users/v_vehicles');
+        }else{
+            redirect('users/login');
+        }
+        
+    }
+
+    public function equipment_suppliers(){
+        if(isset($_SESSION['user_id'])) {
+            $this->view('users/v_equipment_suppliers');
+        }else{
+            redirect('users/login');
+        }
+        
+    }
+
+    public function guider(){
+        if(isset($_SESSION['user_id'])) {
+            $this->view('users/v_guider');
+        }else{
+            redirect('users/login');
+        }
+        
+    }
+
+    public function package(){
+        if(isset($_SESSION['user_id'])) {
+            $this->view('users/v_package');
+        }else{
+            redirect('users/login');
+        }
+        
+    }
+    
+    public function contact(){
+        if(isset($_SESSION['user_id'])) {
+            $this->view('users/v_contact');
+        }else{
+            redirect('users/login');
+        }
+    }
+
+    public function profile(){
+        if(isset($_SESSION['user_id'])) {
+            $this->view('users/v_profile');
+        }else{
+            redirect('users/login');
+        }
+    }
+
+    public function reviews(){
+        if(isset($_SESSION['user_id'])) {
+            $this->view('users/v_reviews');
+        }else{
+            redirect('users/login');
+        }
     }
 
     public function register() {
@@ -115,7 +218,7 @@ public function login() {
                 // Create session
                 $this->createUserSession($loggedInUser);
                 //redirect('pages/index');
-                redirect('pages/index');         
+                redirect('users/dashboard');         
 
             } 
             
@@ -152,7 +255,18 @@ public function createUserSession($user) {
   
 }
 
+public function logout() {
+    if(isset($_SESSION['user_id'])) {
+        unset($_SESSION['user_id']);
+        unset($_SESSION['email']);
+        unset($_SESSION['name']);
+        session_destroy();
+        redirect('users/login');
+    }else{
+        redirect('users/login');
+    }
 
+}
 
 }
 
