@@ -4,7 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     
-    <link rel="stylesheet" href="<?php echo URLROOT;?>/css/adminpage/Orders.css">
+    <link rel="stylesheet" href="<?php echo URLROOT;?>/css/Common/Orders.css">
+    <link rel="stylesheet" href="<?php echo URLROOT;?>/css/adminpage/Dashboard.css">
     <link rel="stylesheet" href="<?php echo URLROOT;?>/css/Common/sidebarHeader.css">
     
 
@@ -53,11 +54,11 @@
                     <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#000000"><path d="M202.87-71.87q-37.78 0-64.39-26.61t-26.61-64.39V-612.2q-18.24-12.43-29.12-31.48-10.88-19.06-10.88-43.02v-110.43q0-37.78 26.61-64.39t64.39-26.61h634.26q37.78 0 64.39 26.61t26.61 64.39v110.43q0 23.96-10.88 43.02-10.88 19.05-29.12 31.48v449.33q0 37.78-26.61 64.39t-64.39 26.61H202.87Zm0-523.83v433.07h554.5V-595.7h-554.5Zm-40-91h634.5v-110.43h-634.5v110.43Zm193.06 292.44H604.3v-86.22H355.93v86.22Zm124.31 14.98Z"/></svg>
                     </div>
                     <span class = "info">
-<<<<<<< HEAD
+
                         <h3><?php echo isset($data['number_of_bookings']) ? $data['number_of_bookings'] : '0'; ?></h3>
-=======
-                        <h3><?php echo $data['$data']?></h3>
->>>>>>> main
+
+                       
+
                         <p>Total Bookings</p>
                     </span>
                 </li>

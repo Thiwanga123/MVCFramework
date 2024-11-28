@@ -2,16 +2,9 @@
       class Tour_Guides extends Controller {
       
 //creating the guider model
-private $guiderModel;
-
-public function __construct() {
-    $this->guiderModel = $this->model('M_guider');
-}
 
 
-
-
-private $bookingModel;
+private $BookingModel;
 
 public function __construct(){
     $this->BookingModel = $this->model('BookingModel');
@@ -21,7 +14,7 @@ public function __construct(){
 
 public function dashboard(){
     if (isset($_SESSION['id'])) {
-<<<<<<< HEAD
+
         //get all the number of bookings for the relavent guider
         $guider_id = $_SESSION['id'];
         $number_of_bookings = $this->BookingModel->getGuiderBookings($guider_id);
@@ -30,10 +23,7 @@ public function dashboard(){
             'number_of_bookings' => $number_of_bookings,
         ];
         $this->view('tour_guides/Dashboard', $data);
-=======
-        $data = $this->guiderModel->getBookings();
-        $this->view('tour_guides/Dashboard',$data);
->>>>>>> main
+
     } else {
         redirect('ServiceProvider');
     }
@@ -67,6 +57,21 @@ public function Bookings(){
     }
     
 
+}
+
+public function logout() {
+    //if the user is logged in and
+    //they click the logout button, log them out
+    if (isset($_SESSION['id'])) {
+        unset($_SESSION['id']);
+        unset($_SESSION['username']);
+        session_destroy();
+        redirect('ServiceProvider');
+    } else {
+        redirect('ServiceProvider');
+    }
+
+   
 }
 
 
@@ -123,7 +128,7 @@ public function profile(){
 
 }
 
-<<<<<<< HEAD
+
 //delete an availability
 
 public function delete_availability($id){
@@ -137,18 +142,89 @@ public function delete_availability($id){
 
 }
 
-}
-=======
-//delete the booking by id
-public function deleteBooking($id){
-    if($this->guiderModel->deleteBookingById($id)){
-        redirect('Tour_Guides/Bookings');
-    }else{
-        die('Something went wrong');
+//add an availability
+
+public function Add_Availability(){
+
+    if (isset($_SESSION['id'])) {
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            //get the data from the form
+            $data = [
+                'guider_id' => $_SESSION['id'],
+                'date' => $_POST['date'],
+                'time' => $_POST['time'],
+                'charges_per_hour' => $_POST['rate'],
+                'location' => $_POST['location'],
+            ];
+            //add the availability to the database
+            $this->BookingModel->addAvailability($data);
+            redirect('tour_guides/Update_Availability');
+        } else {
+            redirect('tour_guides/Update_Availability');
+        }
+        
+    } else {
+        redirect('ServiceProvider');
     }
 
 }
-      }
 
-?>
->>>>>>> main
+//edit the availability
+// public function edit_availability($id)
+// {
+//     if (isset($_SESSION['id'])) {
+//         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+//             //get the data from the form
+//             $data = [
+//                 'guider_id' => $_SESSION['id'],
+//                 'id' => $id,
+//                 'date' => $_POST['date'],
+//                 'time' => $_POST['time'],
+//                 'charges_per_hour' => $_POST['rate'],
+//                 'location' => $_POST['location'],
+//             ];
+//             //update the availability
+//             $this->BookingModel->editAvailability($data);
+//             redirect('tour_guides/Update_Availability');
+//         } else {
+//             redirect('tour_guides/Update_Availability');
+//         }
+        
+//     } else {
+//         redirect('ServiceProvider');
+//     }
+
+// }
+
+//update the profile
+
+public function updateprofile(){
+
+    if (isset($_SESSION['id'])) {
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            //get the data from the form
+            $data = [
+                'id' => $_SESSION['id'],
+                'name' => $_POST['name'],
+                'email' => $_POST['email'],
+                'phone' => $_POST['phone'],
+                'language' => $_POST['language'],
+                'address' => $_POST['address'],
+                'password' => $_POST['password'],
+            ];
+            //update the profile
+            $this->BookingModel->updateProfile($data);
+            redirect('tour_guides/logout');
+        } else {
+            redirect('tour_guides/profile');
+        }
+        
+    } else {
+        redirect('ServiceProvider');
+    }
+
+}
+
+      }
+      
+
