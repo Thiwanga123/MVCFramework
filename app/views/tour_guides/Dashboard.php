@@ -68,7 +68,7 @@
                     </div>
                     <span class = "info">
                         <h3>21</h3>
-                        <p>Total Views</p>
+                        <p>Total Reviews</p>
                     </span>
                 </li>
                 <li>
@@ -86,7 +86,7 @@
                     </div>
                     <span class = "info">
                         <h3>2</h3>
-                        <p>Available Guides</p>
+                        <p>Available Dates</p>
                     </span>
                 </li>
             </ul>
