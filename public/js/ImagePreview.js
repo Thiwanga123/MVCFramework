@@ -7,3 +7,4 @@ document.getElementById("productImage").addEventListener("change", (event) => {
 document.getElementById("uploadImagesIcon").addEventListener("click", () => {
     document.getElementById("productImage").click();
 });
+

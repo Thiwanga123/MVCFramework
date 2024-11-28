@@ -8,7 +8,7 @@
 </head>
 <body>
     <!-- SideBar -->
-    <?php require APPROOT . '/views/inc/components/adminsidebar.php'; ?>
+    <?php require APPROOT . '/views/inc/components/usersidebar.php'; ?>
      <!-- End Of Sidebar -->
 
      <!--Main Content-->
@@ -37,12 +37,12 @@
         <main>
             <div class="header">
                 <div class="left">
-                    <h1>Admin Information</h1>
+                    <h1>User Information</h1>
                 </div>
             </div>
             
             <!--send the details with the SESSION_ID in post method-->
-            <form action="<?php echo URLROOT; ?>/admin/updateprofile/<?php echo $_SESSION['user_id'];?>"  method="POST">
+            <form action="<?php echo URLROOT; ?>users/updateprofile/<?php echo $_SESSION['user_id'];?>"  method="POST">
             <div class="profile">
                 <div class="profile-left">
                 <img src="<?php echo URLROOT;?>/Images/Profile pic.jpg" alt="">

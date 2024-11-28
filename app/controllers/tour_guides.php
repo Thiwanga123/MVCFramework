@@ -1,7 +1,14 @@
 <?php
       class Tour_Guides extends Controller {
       
-//if the guider logged in redirect to the dashboard
+//creating the guider model
+private $guiderModel;
+
+public function __construct() {
+    $this->guiderModel = $this->model('M_guider');
+}
+
+
 
 
 private $bookingModel;
@@ -14,6 +21,7 @@ public function __construct(){
 
 public function dashboard(){
     if (isset($_SESSION['id'])) {
+<<<<<<< HEAD
         //get all the number of bookings for the relavent guider
         $guider_id = $_SESSION['id'];
         $number_of_bookings = $this->BookingModel->getGuiderBookings($guider_id);
@@ -22,6 +30,10 @@ public function dashboard(){
             'number_of_bookings' => $number_of_bookings,
         ];
         $this->view('tour_guides/Dashboard', $data);
+=======
+        $data = $this->guiderModel->getBookings();
+        $this->view('tour_guides/Dashboard',$data);
+>>>>>>> main
     } else {
         redirect('ServiceProvider');
     }
@@ -111,6 +123,7 @@ public function profile(){
 
 }
 
+<<<<<<< HEAD
 //delete an availability
 
 public function delete_availability($id){
@@ -125,3 +138,17 @@ public function delete_availability($id){
 }
 
 }
+=======
+//delete the booking by id
+public function deleteBooking($id){
+    if($this->guiderModel->deleteBookingById($id)){
+        redirect('Tour_Guides/Bookings');
+    }else{
+        die('Something went wrong');
+    }
+
+}
+      }
+
+?>
+>>>>>>> main

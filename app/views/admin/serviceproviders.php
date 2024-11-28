@@ -113,7 +113,8 @@
                                 <td><?php echo htmlspecialchars($last_three_service_providers->action); ?></td>
                                 <td><?php echo htmlspecialchars($last_three_service_providers->sptype); ?></td>
                                 <td class="action-buttons">
-                                <button class="view-btn" id="view-btn">View</button>                                
+                                <!--when click on view-btn open the pop up and show details-->
+                                <button class="view-btn">View</button>
                                 <button class="delete-btn" id="delete-btn">Delete</button>
                                 </td>
                             </tr>
@@ -207,17 +208,19 @@
                 <form id="viewProviderForm" enctype="multipart/form-data"> 
                     <div class="body">
                         <div class="left">
+
+                        
                             <label for="Name">Service Provider Name</label>
-                            <input type="text" id="name" name="name" required value>
+                            <input type="text" id="name" name="name" required >
                 
                             <label for="SP_id">Service Provider ID</label>
                             <input type="text" id="id" name="id" required>
 
                             <label for="sptype">Service Type</label>
-                            <input type="text" id="sptype" name="sptype" required >
+                            <input type="text" id="sptype" name="sptype" required>
 
                             <label for="joined_date">Joined Date</label>
-                            <input type="text" id="date_of_joined" name="date_of_joined" required >
+                            <input type="text" id="date_of_joined" name="date_of_joined" required>
 
                             <label for="phone">Telephone Number</label>
                             <input type="text" id="phone" name="phone" required>
@@ -254,15 +257,12 @@
                 </form>
             </div> 
         </div>
-       
-
-    </div>
-   
+    
 
 
 
-    <script src="<?php echo URLROOT;?>/js/admin/viewDetails.js"></script>
-        <script src="<?php echo URLROOT;?>/js/viewDetails.js"></script>
+    <script src="<?php echo URLROOT;?>/js/viewDetails.js"></script>
+    <script src="<?php echo URLROOT;?>/js/Sidebar.js"></script>
 </body>
 
 </html>
