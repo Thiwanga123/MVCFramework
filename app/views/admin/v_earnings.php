@@ -166,7 +166,8 @@
 
      </div>
 
-     <script src="../JS Scripts/Sidebar.js"></script>
+    
+     <script src="<?php echo URLROOT;?>/js/Sidebar.js"></script>
 </body>
 
 </html>

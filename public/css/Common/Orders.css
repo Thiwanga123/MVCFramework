@@ -39,6 +39,8 @@
     background-color: teal;
 }
 
+ 
+
 .content main .item-orders{
     display: flex;
     flex-wrap: wrap;
@@ -95,8 +97,8 @@
 }
 
 .content main .item-orders table td img{
-    width: 36px;
-    height: 36px;
+    width: 40px;
+    height: 40px;
     border-radius: 50%;
     object-fit: cover;
 }
@@ -125,6 +127,25 @@
 
 .Action .delete svg:hover{
     fill: red;
+}
+
+.action-btn .view-btn{
+    background: var(--light-primary);
+    color: var(--light);
+    padding: 8px 16px;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.action-btn .cancel-btn{
+    
+    background: var(--light-danger);
+    color: lightcoral;
+    padding: 8px 16px;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: all 0.3s ease;
 }
 
 

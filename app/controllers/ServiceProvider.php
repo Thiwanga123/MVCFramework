@@ -9,8 +9,7 @@ class ServiceProvider extends Controller {
     }
 
     public function index() {
-        $data = $this->serviceProviderModel->getUsers();
-        $this->view('serviceproviders/sp_login', $data);
+        $this->view('serviceproviders/sp_login');
     }
 
 
@@ -21,7 +20,7 @@ class ServiceProvider extends Controller {
             // Sanitize POST data
     
             $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_FULL_SPECIAL_CHARS);
-    
+
             // Init data array with POST values
             $data = [
                 'email' => trim($_POST['email']),
@@ -29,7 +28,7 @@ class ServiceProvider extends Controller {
                 'sptype' => trim($_POST['sptype']),
                 'email_err' => '',
                 'password_err' => '',
-                'sptype_err' => ''
+                'sptype_err' => '',
             ];
            
          
@@ -56,8 +55,8 @@ class ServiceProvider extends Controller {
                 if ($loggedInUser) {
                     // Create session for the logged-in user and redirect
                     $this->createUserSession($loggedInUser, $data['sptype']);
-                    //redicet to the relavent dashboard
-                    redirect($data['sptype'] . '/dashboard');
+//redirect to the relevant dashboard
+redirect($data['sptype'] . '/dashboard');
                    
                 } else {
                     // If login fails (wrong password), set error message
@@ -223,6 +222,7 @@ public function createUserSession($user,$sptype) {
     $_SESSION['email'] = $user->email;
     $_SESSION['name'] = $user->name;
     $_SESSION['type'] = $sptype;
+
     redirect($sptype .'/dashboard');
 }
 
