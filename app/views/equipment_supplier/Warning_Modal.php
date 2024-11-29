@@ -35,6 +35,7 @@
         background-color: rgba(0, 0, 0, 0.4); 
         z-index: 9999; 
         opacity: 0; 
+        visibility: hidden;
         pointer-events: none;
         transition: opacity 0.3s ease;  
         position: fixed; 
@@ -43,7 +44,7 @@
     .confirmModal.active {
         opacity: 1;
         pointer-events: auto;   
-       
+        visibility: visible;
     }
 
     .wrapper{

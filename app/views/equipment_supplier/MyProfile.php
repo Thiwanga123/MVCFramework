@@ -82,6 +82,8 @@
     </div>
 
     <script src="<?php echo URLROOT;?>/js/Sidebar.js"></script> 
+    <script src="<?php echo URLROOT;?>/js/Test.js"></script>
+    
 </body>
 
 </html>

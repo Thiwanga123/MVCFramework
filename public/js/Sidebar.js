@@ -1,4 +1,7 @@
 
+document.addEventListener('DOMContentLoaded', () => {
+
+
 
 //Checking Logout 
 const sideLinks = document.querySelectorAll('.sidebar .side-menu li a');
@@ -14,8 +17,6 @@ sideLinks.forEach((item) =>{
                 return;
             }
         }
-
-
     });
 });
 
@@ -49,11 +50,14 @@ window.addEventListener('resize',resize);
 
 //Changing the active status dynamically when click on a menu
 
-const items = document.querySelectorAll('.side-menu a');
+const items = document.querySelectorAll('.side-menu li');
 
-items.forEach(link=>{
-    link.addEventListener('click',function(){
-        items.forEach(link =>link.parentElement.classList.remove('active'));
-        link.parentElement.classList.add('active');
-    })
+items.forEach(item=>{
+    item.addEventListener('click',function(){
+
+        items.forEach(menu =>menu.classList.remove('active'));
+        item.classList.add('active');
+    });
+});
+
 })
