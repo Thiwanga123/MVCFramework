@@ -34,7 +34,7 @@
                 <span class="count">12</span>
             </a>
             <a href="#" class="profile">
-                <img src="../../../Public/Images/Profile pic.jpg">
+                <img src="<?php echo URLROOT;?>/Images/Profile pic.jpg">
             </a>
         </nav>
 
@@ -46,13 +46,14 @@
 
                 <div class="right">
                         <button class="add-btn" name ="add-btn" id="add-btn">
+                        
                             <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#ffffff"><path d="M440-440H200v-80h240v-240h80v240h240v80H520v240h-80v-240Z"/></svg>
-                            <h3></h3>
+                            <h3>Add Availability</h3>
                         </button>
                 </div>
             </div>
 
-            <div class="Inventory">
+            <div class="Inventory ">
                 <div>
                 <div class="header">
                     <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#000000"><path d="M620-163 450-333l56-56 114 114 226-226 56 56-282 282Zm220-397h-80v-200h-80v120H280v-120h-80v560h240v80H200q-33 0-56.5-23.5T120-200v-560q0-33 23.5-56.5T200-840h167q11-35 43-57.5t70-22.5q40 0 71.5 22.5T594-840h166q33 0 56.5 23.5T840-760v200ZM480-760q17 0 28.5-11.5T520-800q0-17-11.5-28.5T480-840q-17 0-28.5 11.5T440-800q0 17 11.5 28.5T480-760Z"/></svg>
@@ -62,71 +63,40 @@
                 <table>
                     <thead>
                         <tr>
-                            <th>Guider Image</th>
-                            <th>Guider Id</th>
-                            <th>Customer</th>
-                            <th>Price</th>
-                            <th>Available dates</th>
-                           <th>Action</th>
+                           
+                            
+                            <th>Available Date</th>
+                            <th>Available Time</th>
+                            <th>Chargers per hour</th>
+                            <th>Location</th>
+                            <th>Action</th>
+                          
                         </tr>
                     </thead>
                     <tbody>
+
+                    <?php foreach($availability as $available): ?>
                         <tr>
-                            <td>
-                                <img src="Images/default profile.png"> 
-                            </td>
-                            <td>E102</td>
-                            <td>Product A</td>
-                            <td>Rs.3000 /day</td>
-                            <td>26th of march<td>
-                            
-                            <td class="Action">
-                                <a href="#" class="delete">
-                                    <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#000000"><path d="M280-120q-33 0-56.5-23.5T200-200v-520h-40v-80h200v-40h240v40h200v80h-40v520q0 33-23.5 56.5T680-120H280Zm400-600H280v520h400v-520ZM360-280h80v-360h-80v360Zm160 0h80v-360h-80v360ZM280-720v520-520Z"/></svg>
-                                </a>
-                                <a href="#" class="edit">
-                                <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#000000"><path d="M200-200h57l391-391-57-57-391 391v57Zm-80 80v-170l528-527q12-11 26.5-17t30.5-6q16 0 31 6t26 18l55 56q12 11 17.5 26t5.5 30q0 16-5.5 30.5T817-647L290-120H120Zm640-584-56-56 56 56Zm-141 85-28-29 57 57-29-28Z"/></svg>
-                                </a>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <img src="Images/default profile.png"> 
-                            </td>
-                            <td>E102</td>
-                            <td>Product A</td>
-                            <td>Rs.3000 /day</td>
-                            <td>26th of march<td>
-                         
                            
-                            <td class="Action">
-                                <a href="#" class="delete">
-                                    <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#000000"><path d="M280-120q-33 0-56.5-23.5T200-200v-520h-40v-80h200v-40h240v40h200v80h-40v520q0 33-23.5 56.5T680-120H280Zm400-600H280v520h400v-520ZM360-280h80v-360h-80v360Zm160 0h80v-360h-80v360ZM280-720v520-520Z"/></svg>
-                                </a>
-                                <a href="#" class="edit">
-                                <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#000000"><path d="M200-200h57l391-391-57-57-391 391v57Zm-80 80v-170l528-527q12-11 26.5-17t30.5-6q16 0 31 6t26 18l55 56q12 11 17.5 26t5.5 30q0 16-5.5 30.5T817-647L290-120H120Zm640-584-56-56 56 56Zm-141 85-28-29 57 57-29-28Z"/></svg>
-                                </a>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <img src="Images/default profile.png"> 
-                            </td>
-                            <td>E102</td>
-                            <td>Product A</td>
-                            <td>Rs.3000 /day</td>
-                            <td>26th of march<td>
-                          
+                        
+                            <td><?php echo $available->available_date; ?></td>
+                            <td><?php echo $available->available_time; ?></td>
+                            <td><?php echo $available->charges_per_hour; ?></td>
+                            <td><?php echo $available->location; ?></td>
+                            <td class="action-button">
+                                <button class="edit-btn" name ="edit-btn" id="edit-btn" style="delete-btn {background-color: rgb(107, 239, 122);color: white; font-size: medium;cursor: pointer;padding: 5px 15px;border-radius: 20px;border-style: none; margin-top: 1rem;}">
+                                    Edit
+                                </button>
+                                <a href="<?php echo URLROOT; ?>/tour_guides/delete_availability/<?php echo $available->id; ?>"><button class="delete-btn" onclick="return confirm('Are u Sure?');" name ="delete-btn" id="delete-btn">
+                                   Delete
+                                </button></a>
+                    </tr>
+                    <?php endforeach; ?>
+                  
                            
-                            <td class="Action">
-                                <a href="#" class="delete">
-                                    <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#000000"><path d="M280-120q-33 0-56.5-23.5T200-200v-520h-40v-80h200v-40h240v40h200v80h-40v520q0 33-23.5 56.5T680-120H280Zm400-600H280v520h400v-520ZM360-280h80v-360h-80v360Zm160 0h80v-360h-80v360ZM280-720v520-520Z"/></svg>
-                                </a>
-                                <a href="#" class="edit">
-                                    <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#000000"><path d="M200-200h57l391-391-57-57-391 391v57Zm-80 80v-170l528-527q12-11 26.5-17t30.5-6q16 0 31 6t26 18l55 56q12 11 17.5 26t5.5 30q0 16-5.5 30.5T817-647L290-120H120Zm640-584-56-56 56 56Zm-141 85-28-29 57 57-29-28Z"/></svg>
-                                </a>
-                            </td>
-                        </tr>
+                       
+                        
+                        
                     </tbody>
                 </table> 
             </div>
@@ -137,11 +107,24 @@
      </div>
      </div>
      <!--Modal Structure-->
+     <?php
+        include('Warning_Modal.php');;
+    ?>
+
+     <?php
+        include('AddProduct.php');;
+    ?>
+
+
+
+
+
 
    
     <script src="<?php echo URLROOT;?>/js/Sidebar.js"></script> 
     <script src="<?php echo URLROOT;?>/js/addProduct.js"></script>
     <script src="<?php echo URLROOT;?>/js/ImagePreview.js"></script>
+    <script src="<?php echo URLROOT;?>/js/warningModel.js"></script>
      
 </body>
 
