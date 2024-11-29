@@ -9,7 +9,7 @@ class Guider{
 
     //retrive the bookings from the bookingTable
     public function getBookings(){
-        $this->db->query("SELECT COUNT(*) FROM booking");
+        $this->db->query("SELECT COUNT(*) FROM bookings");
         return $this->db->resultSet();
 
 
@@ -17,7 +17,7 @@ class Guider{
 
     //delete the booking from the bookingTable
     public function deleteBooking($id){
-        $this->db->query("DELETE FROM booking WHERE booking_id = :booking_id");
+        $this->db->query("DELETE FROM bookings WHERE booking_id = :booking_id");
         $this->db->bind(':booking_id', $id);
 
         if($this->db->execute()){

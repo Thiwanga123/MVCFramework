@@ -210,6 +210,14 @@ public function myInventory(){
         }
     }
 
+    public function mypayments(){
+        if (isset($_SESSION['id'])) {
+            $this->view('accomadation/Mypayments');
+        } else {
+            redirect('ServiceProvider/login');
+        }
+    }
+
 
 }
 
