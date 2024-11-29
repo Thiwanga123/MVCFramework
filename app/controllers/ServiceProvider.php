@@ -55,8 +55,8 @@ class ServiceProvider extends Controller {
                 if ($loggedInUser) {
                     // Create session for the logged-in user and redirect
                     $this->createUserSession($loggedInUser, $data['sptype']);
-                    //redicet to the relavent dashboard
-                    redirect($data['sptype'] . '/dashboard');
+//redirect to the relevant dashboard
+redirect($data['sptype'] . '/dashboard');
                    
                 } else {
                     // If login fails (wrong password), set error message
@@ -222,6 +222,7 @@ public function createUserSession($user,$sptype) {
     $_SESSION['email'] = $user->email;
     $_SESSION['name'] = $user->name;
     $_SESSION['type'] = $sptype;
+
     redirect($sptype .'/dashboard');
 }
 

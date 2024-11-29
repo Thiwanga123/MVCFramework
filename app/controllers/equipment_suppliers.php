@@ -20,7 +20,9 @@ class Equipment_Suppliers extends Controller{
             redirect('ServiceProvider');
         }
        
-    }
+    
+}
+
 
 
     public function myInventory(){
@@ -44,7 +46,7 @@ class Equipment_Suppliers extends Controller{
         if (isset($_SESSION['id'])) {
             $this->view('equipment_supplier/Orders');
         } else {
-            redirect('ServiceProvider');
+            redirect('ServiceProvider/login');
         }
         
 
@@ -57,7 +59,6 @@ class Equipment_Suppliers extends Controller{
         } else {
             redirect('ServiceProvider');
         }
-
     }
 
     public function notifications(){
@@ -77,10 +78,7 @@ class Equipment_Suppliers extends Controller{
         } else {
             redirect('ServiceProvider');
         }
-        
-
     }
-
 }
 
 

@@ -3,14 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
     <link rel="stylesheet" href="<?php echo URLROOT;?>/css/adminpage/Dashboard.css">
+    <link rel="stylesheet" href="<?php echo URLROOT;?>/css/Common/sidebarHeader.css">
     
-    
-    <title>Travelers-Admin</title>
+
+    <title>Home</title>
 </head>
 <body>
     <!-- SideBar -->
-        <?php require APPROOT . '/views/inc/components/adminsidebar.php'; ?>
+    <?php
+        include('Sidebar.php');;
+    ?>
      <!-- End Of Sidebar -->
 
      <!--Main Content-->
@@ -30,16 +34,15 @@
                 <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#000000"><path d="M160-200v-80h80v-280q0-83 50-147.5T420-792v-28q0-25 17.5-42.5T480-880q25 0 42.5 17.5T540-820v28q80 20 130 84.5T720-560v280h80v80H160Zm320-300Zm0 420q-33 0-56.5-23.5T400-160h160q0 33-23.5 56.5T480-80ZM320-280h320v-280q0-66-47-113t-113-47q-66 0-113 47t-47 113v280Z"/></svg>
                 <span class="count">12</span>
             </a>
-            <p>Hii Welcome <?php echo isset($_SESSION['name']) ? ' ' . htmlspecialchars($_SESSION['name']) : ''; ?> </p>
             <a href="#" class="profile">
-            <img src="<?php echo URLROOT;?>/Images/Profile pic.jpg">
+                <img src="../../../Public/Images/Profile pic.jpg">
             </a>
         </nav>
 
         <main>
             <div class="header">
                 <div class="left">
-                    <h1 id = "header-title"> Travelers</h1>
+                    <h1 id = "header-title"">Dashboard</h1>
                 </div>
             </div>
         
@@ -47,20 +50,20 @@
             <ul class="insights">
                 <li>
                     <div class="products">
-                    <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#000000"><path d="m280-40 123-622q6-29 27-43.5t44-14.5q23 0 42.5 10t31.5 30l40 64q18 29 46.5 52.5T700-529v-71h60v560h-60v-406q-48-11-89-35t-71-59l-24 120 84 80v300h-80v-240l-84-80-72 320h-84Zm17-395-85-16q-16-3-25-16.5t-6-30.5l30-157q6-32 34-50.5t60-12.5l46 9-54 274Zm243-305q-33 0-56.5-23.5T460-820q0-33 23.5-56.5T540-900q33 0 56.5 23.5T620-820q0 33-23.5 56.5T540-740Z"/></svg>
+                    <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#000000"><path d="M202.87-71.87q-37.78 0-64.39-26.61t-26.61-64.39V-612.2q-18.24-12.43-29.12-31.48-10.88-19.06-10.88-43.02v-110.43q0-37.78 26.61-64.39t64.39-26.61h634.26q37.78 0 64.39 26.61t26.61 64.39v110.43q0 23.96-10.88 43.02-10.88 19.05-29.12 31.48v449.33q0 37.78-26.61 64.39t-64.39 26.61H202.87Zm0-523.83v433.07h554.5V-595.7h-554.5Zm-40-91h634.5v-110.43h-634.5v110.43Zm193.06 292.44H604.3v-86.22H355.93v86.22Zm124.31 14.98Z"/></svg>
                     </div>
                     <span class = "info">
-                        <h3><?php echo $data['number_of_travelers']; ?></h3>
-                        <p> Registered Travelers</p>
+                        <h3><?php echo $data['$data']?></h3>
+                        <p>Total Bookings</p>
                     </span>
                 </li>
                 <li>
                     <div class="view">
-                    <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#000000"><path d="M40-160v-160q0-34 23.5-57t56.5-23h131q20 0 38 10t29 27q29 39 71.5 61t90.5 22q49 0 91.5-22t70.5-61q13-17 30.5-27t36.5-10h131q34 0 57 23t23 57v160H640v-91q-35 25-75.5 38T480-200q-43 0-84-13.5T320-252v92H40Zm440-160q-38 0-72-17.5T351-386q-17-25-42.5-39.5T253-440q22-37 93-58.5T480-520q63 0 134 21.5t93 58.5q-29 0-55 14.5T609-386q-22 32-56 49t-73 17ZM160-440q-50 0-85-35t-35-85q0-51 35-85.5t85-34.5q51 0 85.5 34.5T280-560q0 50-34.5 85T160-440Zm640 0q-50 0-85-35t-35-85q0-51 35-85.5t85-34.5q51 0 85.5 34.5T920-560q0 50-34.5 85T800-440ZM480-560q-50 0-85-35t-35-85q0-51 35-85.5t85-34.5q51 0 85.5 34.5T600-680q0 50-34.5 85T480-560Z"/></svg>
+                    <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#000000"><path d="M480-320q75 0 127.5-52.5T660-500q0-75-52.5-127.5T480-680q-75 0-127.5 52.5T300-500q0 75 52.5 127.5T480-320Zm.04-77.02q-42.89 0-72.95-30.02-30.07-30.03-30.07-72.92t30.02-72.95q30.03-30.07 72.92-30.07t72.95 30.02q30.07 30.03 30.07 72.92t-30.02 72.95q-30.03 30.07-72.92 30.07ZM480-192.59q-148.87 0-270.66-83.89Q87.54-360.37 32.59-500q54.95-139.63 176.75-223.52Q331.13-807.41 480-807.41t270.66 83.89Q872.46-639.63 927.41-500q-54.95 139.63-176.75 223.52Q628.87-192.59 480-192.59ZM480-500Zm.02 220q112.74 0 207-59.62T831.28-500q-50-100.76-144.28-160.38Q592.72-720 479.98-720q-112.74 0-207 59.62T128.72-500q50 100.76 144.28 160.38Q367.28-280 480.02-280Z"/></svg>
                     </div>
                     <span class = "info">
-                        <h3><?php echo $data['recently_joined_travelers'];?></h3>
-                        <p>Recently joined</p>
+                        <h3>21</h3>
+                        <p>Total Views</p>
                     </span>
                 </li>
                 <li>
@@ -74,11 +77,11 @@
                 </li>
                 <li>
                     <div class="pendings">
-                        <svg fill="#000000" width="800px" height="800px" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M14.844 20H6.5C5.121 20 4 18.879 4 17.5S5.121 15 6.5 15h7c1.93 0 3.5-1.57 3.5-3.5S15.43 8 13.5 8H8.639a9.812 9.812 0 0 1-1.354 2H13.5c.827 0 1.5.673 1.5 1.5s-.673 1.5-1.5 1.5h-7C4.019 13 2 15.019 2 17.5S4.019 22 6.5 22h9.593a10.415 10.415 0 0 1-1.249-2zM5 2C3.346 2 2 3.346 2 5c0 3.188 3 5 3 5s3-1.813 3-5c0-1.654-1.346-3-3-3zm0 4.5a1.5 1.5 0 1 1 .001-3.001A1.5 1.5 0 0 1 5 6.5z"/><path d="M19 14c-1.654 0-3 1.346-3 3 0 3.188 3 5 3 5s3-1.813 3-5c0-1.654-1.346-3-3-3zm0 4.5a1.5 1.5 0 1 1 .001-3.001A1.5 1.5 0 0 1 19 18.5z"/></svg>
+                    <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#000000"><path d="M684.3-80q-83 0-141.5-58.5T484.3-280q0-83 58.5-141.5T684.3-480q83 0 141.5 58.5T884.3-280q0 83-58.5 141.5T684.3-80Zm67-102.61 30.4-30.63-75.48-75.48v-113.19h-43.59v130.56l88.67 88.74Zm-548.43 70.74q-37.54 0-64.27-26.73-26.73-26.73-26.73-64.27v-554.26q0-37.54 26.73-64.27 26.73-26.73 64.27-26.73h157.91q12.44-35.72 45.94-58.46 33.5-22.74 73.28-22.74 41.2 0 74.37 22.74t45.85 58.46h156.91q37.54 0 64.27 26.73 26.73 26.73 26.73 64.27v250q-19.91-14.91-42.9-25.47-22.99-10.55-48.1-17.07v-207.46H678.8v123.83H281.2v-123.83h-78.33v554.26h212.72q7.48 25.11 18.75 48.46 11.27 23.34 27.14 42.54H202.87ZM480-761.43q17 0 28.5-11.5t11.5-28.5q0-17-11.5-28.5t-28.5-11.5q-17 0-28.5 11.5t-11.5 28.5q0 17 11.5 28.5t28.5 11.5Z"/></svg>
                     </div>
                     <span class = "info">
                         <h3>2</h3>
-                        <p>Pending Trips</p>
+                        <p>Available Guides</p>
                     </span>
                 </li>
             </ul>
@@ -88,47 +91,57 @@
                 <div class="orders">
                     <div class="header">
                         <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#000000"><path d="M120-80v-800l60 60 60-60 60 60 60-60 60 60 60-60 60 60 60-60 60 60 60-60 60 60 60-60v800l-60-60-60 60-60-60-60 60-60-60-60 60-60-60-60 60-60-60-60 60-60-60-60 60Zm120-200h480v-80H240v80Zm0-160h480v-80H240v80Zm0-160h480v-80H240v80Zm-40 404h560v-568H200v568Zm0-568v568-568Z"/></svg>
-                        <h3>Recently Joined</h3>
+                        <h3>Recent Bookings</h3>
                         <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#000000"><path d="M440-160q-17 0-28.5-11.5T400-200v-240L168-736q-15-20-4.5-42t36.5-22h560q26 0 36.5 22t-4.5 42L560-440v240q0 17-11.5 28.5T520-160h-80Zm40-308 198-252H282l198 252Zm0 0Z"/></svg>
                     </div>
                     <table>
                         <thead>
                             <tr>
-                                <th>Customer ID</th>
-                                <th>Name</th>
-                                <th>Telephone Number</th>
-                                <th>Number of Trips</th>
-                                <th>Action</th>
+                                <th>Customer</th>
+                                <th>Order Date</th>
+                                <th>Product</th>
+                                <th>Quantity</th>
+                                <th>Status</th>
                             </tr>
                         </thead>
                         <tbody>
-                        <?php 
-                                if (!empty($data['last_three_travelers'])) {
-                                    foreach ($data['last_three_travelers'] as $traveler): ?>
-                                        <tr>
-                                            <td>
-                                                <img src="<?php echo URLROOT;?>/Images/Profile pic.jpg">
-                                                <p><?php echo htmlspecialchars($traveler->traveler_id); ?></p>
-                                            </td>
-                                            <td><?php echo htmlspecialchars($traveler->name); ?></td>
-                                            <td><?php echo htmlspecialchars($traveler->telephone_number); ?></td>
-                                            <td>2</td>
-                                            <td class="action-buttons">
-                                            <button class="view-btn">View</button>
-                                            <!-- <form action="<?php echo URLROOT; ?>/admin/deleteTraveler/<?php echo $traveler->traveler_id; ?>">
-                                              <button class="delete-btn" onclick="return confirm('Are you sure you want to delete this traveler?');">Delete</button>                                                                                        
-                                            </form> -->
-                                            <a href="<?php echo URLROOT; ?>/admin/deleteTraveler/<?php echo $traveler->traveler_id; ?>"><button class="delete-btn" onclick="return confirm('Are you sure you want to delete this traveler?');">Delete</button> </a>
-                                            </td>
-                                        </tr>
-                                    <?php endforeach;
-                                } else {
-                                    echo "<tr><td colspan='4'>No data</td></tr>";
-                                }
-                        ?>
+                            <tr>
+                                <td>
+                                    <img src="Images/default profile.png">
+                                    <p>John Doe</p>
+                                </td>
+                                <td>21-08-2024</td>
+                                <td>Product A</td>
+                                <td>4</td>
+                                <td>
+                                    <span class="status completed">Completed</span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <img src="Images/default profile.png">
+                                    <p>John Doe</p>
+                                </td>
+                                <td>14-07-2024</td>
+                                <td>Product B</td>
+                                <td>10</td>
+                                <td>
+                                    <span class="status pending">Pending</span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <img src="Images/default profile.png">
+                                    <p>John Doe</p>
+                                </td>
+                                <td>01-01-2024</td>
+                                <td>Product A</td>
+                                <td>4</td>
+                                <td>
+                                    <span class="status cancelled">Cancelled</span>
+                                </td>
+                            </tr>
                         </tbody>
-
-                        
                     </table> 
                 </div>
         
@@ -152,6 +165,7 @@
      </div>
 
      <script src="<?php echo URLROOT;?>/js/Sidebar.js"></script>
+
 </body>
 
 </html>

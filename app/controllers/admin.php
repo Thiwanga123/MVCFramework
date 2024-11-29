@@ -80,7 +80,7 @@ class Admin extends Controller {
                 'last_three_service_providers'=>$last_three_service_providers,
             ];
 
-            $this->view('admin/v_serviceproviders', $data);
+            $this->view('admin/serviceproviders', $data);
         } else {
             redirect('admin/login');
         }
