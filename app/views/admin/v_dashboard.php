@@ -104,7 +104,7 @@
                             <tr>
                                 <td>
                                     <img src="<?php echo URLROOT;?>/Images/Profile pic.jpg">
-                                    <p>John Doe</p>
+                                    <p>Ushan</p>
                                 </td>
                                 <td>21-08-2024</td>
                                 <td>Badulla</td>
@@ -116,7 +116,7 @@
                             <tr>
                                 <td>
                                 <img src="<?php echo URLROOT;?>/Images/Profile pic.jpg">
-                                    <p>John Doe</p>
+                                    <p>Sanjula</p>
                                 </td>
                                 <td>14-07-2024</td>
                                 <td>Nuwara Eliya</td>
@@ -128,7 +128,7 @@
                             <tr>
                                 <td>
                                 <img src="<?php echo URLROOT;?>/Images/Profile pic.jpg">
-                                    <p>John Doe</p>
+                                    <p>Ruvin</p>
                                 </td>
                                 <td>01-01-2024</td>
                                 <td>Kandy</td>
