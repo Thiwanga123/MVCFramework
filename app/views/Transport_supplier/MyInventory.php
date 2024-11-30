@@ -70,6 +70,7 @@
                             <th>Model</th>
                             <th>Make</th>
                             <th>Rental Price</th>
+                            <th>License Number</th>
                             <th>Availability</th>
                             <th>Action</th>
                         </tr>
@@ -93,6 +94,7 @@
                             <td><?php echo $vehicle->model; ?></td>
                             <td><?php echo $vehicle->make; ?></td>
                             <td><?php echo $vehicle->rate; ?></td>
+                            <td><?php echo $vehicle->license_plate_number; ?></td>
                             <td><?php echo $vehicle->availability; ?></td>
                             <td class="action-button">
                                 <button class="edit-btn" name ="edit-btn" id="edit-btn">

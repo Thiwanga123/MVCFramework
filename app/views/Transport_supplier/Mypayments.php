@@ -1,20 +1,20 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="<?php echo URLROOT;?>/css/Common/Mypayments.css">
-    <link rel="stylesheet" href="<?php echo URLROOT;?>/css/Common/sidebarHeader.css">
-    <title>Home</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Booking Income </title>
+<link rel="stylesheet" href="<?php echo URLROOT;?>/css/Common/final.css">
+<link rel="stylesheet" href="<?php echo URLROOT;?>/css/Common/sidebarHeader.css">
+<title>Home</title>
 </head>
 <body>
-    <!-- SideBar -->
+ <!-- SideBar -->
     <?php
         include('Sidebar.php');;
     ?>
          <!-- End Of Sidebar -->
-
-     <!--Main Content-->
+          <!--Main Content-->
      <div class="content">
         <!--navbar-->
         <nav>
@@ -32,112 +32,97 @@
                 <span class="count">12</span>
             </a>
             <a href="#" class="profile">
-                <img src="../../../Public/Images/Profile pic.jpg">
+                <img src="<?php echo URLROOT;?>/Images/Profile pic.jpg">
             </a>
         </nav>
 
-        <main>
-            <div class="header">
-                <div class="left">
-                    <h1>My Payments</h1>
-                </div>
-                <div class="right">
-                    <button>Download PDF</button>
-                </div>
+        
+
+            
+    <div class="payment-container">
+        <header>
+            <h2>Booking Income </h2>
+            <button class="download-btn">Download Report</button>
+        </header>
+        
+        <!-- Summary Section -->
+        <section class="summary">
+            <div class="card">
+                <h3>Total Earnings</h3>
+                <p class="amount">Rs.60000</p>
+            </div>
+            <div class="card">
+                <h3>Pending Payments</h3>
+                <p class="amount">Rs.10000</p>
+            </div>
+            <div class="card">
+                <h3>Next Payment Date</h3>
+                <p class="date">Nov 25, 2024</p>
+            </div>
+        </section>
+
+        <!-- Filters and Payment History Table -->
+        <section class="history-section">
+            <div class="filters">
+                <input type="date" id="filter-date" title="Filter by Date">
+                <select id="filter-status" title="Filter by Status">
+                    <option value="">All Status</option>
+                    <option value="completed">Completed</option>
+                    <option value="pending">Pending</option>
+                </select>
+                
             </div>
 
-            <div class="Payments">
-                <div>
-                      <!-- Summary Section -->
-            <section class="summary">
-                <div class="card">
-                    <h3>Total Earnings</h3>
-                    <p class="amount">Rs.60000</p>
-                </div>
-                <div class="card">
-                    <h3>Pending Payments</h3>
-                    <p class="amount">Rs.10000</p>
-                </div>
-                <div class="card">
-                    <h3>Next Payment Date</h3>
-                    <p class="date">Nov 25, 2024</p>
-                </div>
-            </section>
-
-            <!-- Filters and Payment History Table -->
-            <section class="history-section">
-                <div class="filters">
-                    <input type="date" id="filter-date" title="Filter by Date">
-                    <select id="filter-status" title="Filter by Status">
-                        <option value="">All Status</option>
-                        <option value="completed">Completed</option>
-                        <option value="pending">Pending</option>
-                    </select>
+            <table id="paymentHistory">
+                <thead>
+                    <tr>
+                        <th>Customer</th>
+                        <th>Date</th>
+                        <th>Amount</th>
+                        <th>Status</th>
+                        <th>Action</th>
+                    </tr>
                     
-                </div>
+                </thead>
+                <tbody>
+                <tr>
+                        <td>Ruvin</td>
+                        <td>2024-11-10</td>
+                        <td>Rs.20000</td>
+                        <td><span class="status completed">Completed</span></td>
+                        <td><button class="details-btn">Details</button></td>
+                    
+                        
+                    </tr>
 
-                <table id="paymentHistory">
-                    <thead>
-                        <tr>
-                            <th>Date</th>
-                            <th>Amount</th>
-                            <th>Status</th>
-                            <th>Action</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>2024-11-10</td>
-                            <td>Rs.20000</td>
-                            <td><span class="status completed">Completed</span></td>
-                            <td><button class="details-btn">Details</button></td>
-                        </tr>
-                        <tr>
-                            <td>2024-10-28</td>
-                            <td>Rs.10000</td>
-                            <td><span class="status pending">Pending</span></td>
-                            <td><button class="details-btn">Details</button></td>
-                        </tr>
-                        <tr>
-                            <td>2024-09-15</td>
-                            <td>Rs.15000</td>
-                            <td><span class="status completed">Completed</span></td>
-                            <td><button class="details-btn">Details</button></td>
-                        </tr>
-                    </tbody>
-                </table>
-            </section>
+                    <tr>
+                        <td>Ushan</td>
+                        <td>2024-11-10</td>
+                        <td>Rs.20000</td>
+                        <td><span class="status completed">Pending</span></td>
+                        <td><button class="details-btn">Details</button></td>
+                    </tr>
+                    <tr>
+                        <td>Thiwanga</td>
+                        <td>2024-11-10</td>
+                        <td>Rs.20000</td>
+                        <td><span class="status pending">Pending</span></td>
+                        <td><button class="details-btn">Details</button></td>
+                    </tr>
+                    <tr>
+                        <td>Sanjula</td>
+                        <td>2024-11-10</td>
+                        <td>Rs.20000</td>
+                        <td><span class="status completed">Completed</span></td>
+                        <td><button class="details-btn">Details</button></td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
 
-            <!-- Update Payment Details Form -->
-            <section class="update-payment">
-                <h3>Update Payment Details</h3>
-                <form id="updatePaymentForm">
-                    <div class="form-group">
-                        <label for="paymentMethod">Payment Method</label>
-                        <select id="paymentMethod">
-                            <option value="bank">Bank Transfer</option>
-                            <option value="paypal">PayPal</option>
-                            <option value="crypto">Cryptocurrency</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label for="accountNumber">Account Number / PayPal Email</label>
-                        <input type="text" id="accountNumber" placeholder="Enter Account Number or PayPal Email">
-                    </div>
-                    <button type="submit" class="submit-btn">Update</button>
-                </form>
-            </section>
-
-                </div>
-            </div>
-        </main>
-     </div>
-
-
-     <script src="<?php echo URLROOT;?>/js/Sidebar.js"></script> 
-
-    
-     
+       
+    </div>
+    <script src="<?php echo URLROOT; ?>/js/Sidebar.js"></script>
 </body>
-
 </html>
+

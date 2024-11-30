@@ -105,5 +105,26 @@ public function deleteVehicleAvailability($id){
 
     $this->db->execute();
 }
+public function updateprofile($data){
+    $this->db->query('UPDATE transport_suppliers SET name = :name, email = :email, password= :password, permanent_address = :address,city=:city, present_address = :presentaddress, company_name = :companyname ,postal_code = :postalcode WHERE id = :id');
+
+    $this->db->bind(':id', $data['id']);
+    $this->db->bind(':name', $data['name']);
+    $this->db->bind(':email', $data['email']);
+    $this->db->bind(':address', $data['address']);
+    $this->db->bind(':presentaddress', $data['presentaddress']);
+    $this->db->bind(':companyname', $data['companyname']);
+    $this->db->bind(':city', $data['city']);
+    $this->db->bind(':postalcode', $data['postalcode']);
+    $this->db->bind(':password', $data['password']);
+
+    if($this->db->execute()){
+        return true;
+        }else{
+            return false;
+            }
+    }
+
+
 
 }

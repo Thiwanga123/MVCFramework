@@ -1,0 +1,98 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f9f9f9;
+}
+
+.container {
+    width: 90%;
+    max-width: 1200px;
+    margin: 20px auto;
+    background-color: white;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+h1 {
+    font-size: 24px;
+    color: #008080;
+    margin: 0;
+}
+
+.add-notification-btn {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    padding: 10px 15px;
+    cursor: pointer;
+}
+
+.add-notification-btn:hover {
+    background-color: #0056b3;
+}
+
+.filters {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.filters select, .reset-filters-btn {
+    padding: 8px; /* Adjust padding for consistent spacing */
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    width: 350px; /* Adjust width as needed */
+    height: 40px; /* Set height to 40px */
+    font-size: 16px; /* Adjust font size if necessary */
+}
+
+.reset-filters-btn {
+    background-color: #e0e0e0;
+    cursor: pointer;
+    width: 350px; /* Adjust width as needed */
+    height: 40px; /* Match the height of the select buttons */
+}
+
+.reset-filters-btn:hover {
+    background-color: #d6d6d6;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+thead th {
+    text-align: left;
+    padding: 12px;
+    background-color: #f2f2f2;
+    border-bottom: 1px solid #ddd;
+}
+
+tbody tr {
+    border-bottom: 1px solid #ddd;
+}
+
+tbody td {
+    padding: 10px;
+}
+
+tbody tr:hover {
+    background-color: #f9f9f9;
+}
+
+strong {
+    color: #007bff;
+}

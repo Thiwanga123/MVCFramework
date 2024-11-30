@@ -32,7 +32,7 @@
                 <span class="count">12</span>
             </a>
             <a href="#" class="profile">
-                <img src="../../../Public/Images/Profile pic.jpg">
+            <img src="<?php echo URLROOT;?>/Images/Profile pic.jpg">
             </a>
         </nav>
 
@@ -54,42 +54,50 @@
                     <thead>
                         <tr>
                             <th>Vehicle Image</th>
+                            <th>Type</th>
+                            <th>Model</th>
+                            <th>Make</th>
+                            <th>Rental Price</th>
                             <th>License Number</th>
-                            <th>Booking</th>
                             <th>Date</th>
-                            <th>Total</th>
                             <th>Status</th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr>
                             <td>
-                                <img src="Images/default profile.png"> 
+                            <img src="<?php echo URLROOT;?>/Images/Profile pic.jpg">
                             </td>
-                            <td>E102</td>
-                            <td>Product A</td>
-                            <td>2024-09-12</td>
-                            <td>Rs.4000</td>
+                            <td>Car</td>
+                            <td>Toyota</td>
+                            <td>Aqua</td>
+                            <td>5000</td>
+                            <td>Kv2156</td>
+                            <td>2024-09-02</td>
                             <td>Completed</td>
                         </tr>
                         <tr>
                             <td>
-                                <img src="Images/default profile.png"> 
+                            <img src="<?php echo URLROOT;?>/Images/Profile pic.jpg">
                             </td>
-                            <td>E102</td>
-                            <td>Product A</td>
-                            <td>2024-09-12</td>
-                            <td>Rs.4000</td>
+                            <td>Van</td>
+                            <td>Toyota</td>
+                            <td>KDH</td>
+                            <td>7000</td>
+                            <td>Ph2526</td>
+                            <td>2024-09-02</td>
                             <td>Completed</td>
                         </tr>
                         <tr>
                             <td>
-                                <img src="Images/default profile.png"> 
+                            <img src="<?php echo URLROOT;?>/Images/Profile pic.jpg">
                             </td>
-                            <td>E102</td>
-                            <td>Product A</td>
-                            <td>2024-09-101</td>
-                            <td>Rs.2000</td>
+                            <td>Bus</td>
+                            <td>Toyota</td>
+                            <td>Rosa</td>
+                            <td>8000</td>
+                            <td>Bc2728</td>
+                            <td>2024-09-02</td>
                             <td>Cancelled</td>
                         </tr>
                     </tbody>

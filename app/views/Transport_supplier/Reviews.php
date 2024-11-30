@@ -34,7 +34,7 @@
                 <span class="count">12</span>
             </a>
             <a href="#" class="profile">
-                <img src="../../../Public/Images/Profile pic.jpg">
+            <img src="<?php echo URLROOT;?>/Images/Profile pic.jpg">
             </a>
         </nav>
 
@@ -66,7 +66,7 @@
                     <tbody>
                         <tr>
                             <td class="customer">
-                                <img src="Images/default profile.png"> 
+                            <img src="<?php echo URLROOT;?>/Images/Profile pic.jpg"> 
                                 <p>John Doe</p>
                             </td>
                             <td>E102</td>
@@ -81,7 +81,7 @@
                         </tr>
                         <tr>
                             <td class="customer">
-                                <img src="Images/default profile.png"> 
+                            <img src="<?php echo URLROOT;?>/Images/Profile pic.jpg">
                                 <p>John Doe</p>
                             </td>
                             <td>E102</td>
@@ -96,7 +96,7 @@
                         </tr>
                         <tr>
                             <td class="customer">
-                                <img src="Images/default profile.png"> 
+                            <img src="<?php echo URLROOT;?>/Images/Profile pic.jpg">
                                 <p>John Doe</p>
                             </td>
                             <td>E102</td>

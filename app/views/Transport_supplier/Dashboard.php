@@ -147,8 +147,9 @@
                             <tr>
                                 <th>Customer</th>
                                 <th>Order Date</th>
-                                <th>Vehicle</th>
-                                <th>Quantity</th>
+                                <th>Vehicle model</th>
+                                <th>Make</th>
+                                <th>License Number</th>
                                 <th>Status</th>
                             </tr>
                         </thead>
@@ -159,8 +160,9 @@
                                     <p>John Doe</p>
                                 </td>
                                 <td>21-08-2024</td>
-                                <td>Product A</td>
-                                <td>4</td>
+                                <td>Benz</td>
+                                <td>cla</td>
+                                <td>kv 2156</td>
                                 <td>
                                     <span class="status completed">Completed</span>
                                 </td>
@@ -171,8 +173,9 @@
                                     <p>John Doe</p>
                                 </td>
                                 <td>14-07-2024</td>
-                                <td>Product B</td>
-                                <td>10</td>
+                                <td>Toyota</td>
+                                <td>Aqua</td>
+                                <td>RQ 2525</td>
                                 <td>
                                     <span class="status pending">Pending</span>
                                 </td>
@@ -183,8 +186,9 @@
                                     <p>John Doe</p>
                                 </td>
                                 <td>01-01-2024</td>
-                                <td>Product A</td>
-                                <td>4</td>
+                                <td>Honda</td>
+                                <td>civic</td>
+                                <td>CAA 6161
                                 <td>
                                     <span class="status cancelled">Cancelled</span>
                                 </td>

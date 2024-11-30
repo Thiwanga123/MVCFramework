@@ -33,7 +33,7 @@
                 <span class="count">12</span>
             </a>
             <a href="#" class="profile">
-            <img src="../../../Public/Images/Profile pic.jpg">
+            <img src="<?php echo URLROOT;?>/Images/Profile pic.jpg">
             </a>
         </nav>
 
@@ -43,10 +43,11 @@
                     <h1>My Profile</h1>
                 </div>
             </div>
-            
+            <form action="<?php echo URLROOT; ?>/transport_suppliers/updateprofile"  method="POST">
+
             <div class="profile">
                 <div class="profile-left">
-                <img src="/Images/Profile pic.jpg" alt="">
+                <img src="<?php echo URLROOT;?>/Images/Profile pic.jpg">
                 </div>
 
                 <div class="profile-center">
@@ -73,13 +74,15 @@
                 </div>
                 <div class="profile-actions">
                     <button type="submit">Save</button>
+
                 </div>
-                
+</form>
             </div>
          
         </main>
 
     </div>
+
 
     <script src="<?php echo URLROOT;?>/js/Sidebar.js"></script> 
 </body>

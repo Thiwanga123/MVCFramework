@@ -198,7 +198,45 @@ class Transport_suppliers extends Controller
         }
     }
    
+    public function updateprofile()
+{
+    if (isset($_SESSION['id'])) {
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            //get the data from the form
+            $data = [
+                'id' => $_SESSION['id'],
+                'name' => $_POST['name'],
+                'email' => $_POST['email'],
+                'address' => $_POST['address'],
+                'presentaddress' => $_POST['presentAddress'],
+                'companyname' => $_POST['companyName'],
+                'password' => $_POST['password'],
+                'city' => $_POST['city'],
+                'postalcode' => $_POST['postalCode'],
+            ];
+            //update the profile
+            $this->transportModel->updateprofile($data);
+            redirect('transport_suppliers/logout');
+        } else {
+            redirect('transport_suppliers/profile');
+        }
+    } else {
+        redirect('ServiceProvider');
+    }
 }
+
+public function logout() {
+    //if an admin is logged in
+    unset($_SESSION['user_id']);
+    unset($_SESSION['email']);
+    unset($_SESSION['name']);
+    session_destroy();
+    redirect('ServiceProvider/login');
+}
+
+}
+
+
     
     
 
