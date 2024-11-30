@@ -66,7 +66,8 @@
                            
                             
                             <th>Available Date</th>
-                            <th>Available Time</th>
+                            <th>Available Time From</th>
+                            <th>Available Time To</th>
                             <th>Chargers per hour</th>
                             <th>Location</th>
                             <th>Action</th>
@@ -80,7 +81,8 @@
                            
                         
                             <td><?php echo $available->available_date; ?></td>
-                            <td><?php echo $available->available_time; ?></td>
+                            <td><?php echo $available->available_time_from; ?></td>
+                            <td><?php echo $available->available_time_to; ?></td>
                             <td><?php echo $available->charges_per_hour; ?></td>
                             <td><?php echo $available->location; ?></td>
                             <td class="action-button">

@@ -39,6 +39,9 @@ public function mypayments(){
 
 }
 
+
+
+
 public function Bookings(){
     
     if (isset($_SESSION['id'])) {
@@ -148,13 +151,14 @@ public function Add_Availability(){
 
     if (isset($_SESSION['id'])) {
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-            //get the data from the form
+            //get the data from the profile update form
             $data = [
                 'guider_id' => $_SESSION['id'],
                 'date' => $_POST['date'],
-                'time' => $_POST['time'],
                 'charges_per_hour' => $_POST['rate'],
                 'location' => $_POST['location'],
+                'available_time_from'=>$_POST['available_time_from'],
+                'available_time_to'=>$_POST['available_time_to'],
             ];
             //add the availability to the database
             $this->BookingModel->addAvailability($data);

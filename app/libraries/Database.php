@@ -53,24 +53,24 @@
             public function execute(){
                 return $this->statement->execute();
             }
-
+    
             //get multiple records as the result set
             public function resultSet(){
                 $this->execute();
                 return $this->statement->fetchAll(PDO::FETCH_OBJ);
             }
-
+    
             //get single record as the result set
             public function single(){
                 $this->execute();
                 return $this->statement->fetch(PDO::FETCH_OBJ);
             }
-
+    
             //checking the row count
             public function rowCount(){
                 return $this->statement->rowCount();
             }
-
+    
             //Insert Id
             public function insertId() {
                 return $this->dbh->lastInsertId();
