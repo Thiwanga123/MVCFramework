@@ -222,7 +222,8 @@
             margin-right: 15px;
         }
         .message .message-content {
-            max-width: 70%;
+            max-width: 40%;
+            gap:10px;
         }
         .message .message-content p {
             background-color: #f0f0f0;
