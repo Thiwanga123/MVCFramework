@@ -3,6 +3,7 @@
 class Equipment_Suppliers extends Controller{
 
     private $productModel;
+    private $userModel;
 
     public function __construct(){
         $this->productModel = $this->model('ProductModel');
@@ -74,12 +75,21 @@ class Equipment_Suppliers extends Controller{
     public function profile(){
 
         if (isset($_SESSION['id'])) {
-            $this->view('equipment_supplier/Myprofile');
+            $id = $_SESSION['id'];
+            $type = $_SESSION['type'];
+            $details = $this->getProfileDetails($id,$type);
+            $this->view('equipment_supplier/Myprofile',['details' => $details]);
         } else {
             redirect('ServiceProvider');
         }
     }
-}
+
+    public function getProfileDetails($id, $type){
+        $this->userModel = $this->model('ServiceProviderModel');
+        $data = $this->userModel->getUserData($id,$type);
+        return $data;
+    }
+} 
 
 
 ?>

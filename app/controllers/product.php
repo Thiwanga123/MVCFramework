@@ -147,11 +147,50 @@
             }
         }
 
-        public function edit(){
-            
+        public function updateProduct() {
+            if(isset($_POST['submit'])){
+                $data = [
+                    'id'=> $_SESSION['id'],
+                    'pid'=> trim($_POST['productId']),
+                    'productname' => trim($_POST['productName']),
+                    'rate' =>trim($_POST['productPrice']) ,
+                    'category' => trim($_POST['productCategory']),    //These variables are used to store the values which are sent via the form data
+                    'quantity' => trim($_POST['stockQuantity']),
+                    'description' => trim($_POST['productDescription']),
+                ];
+                
+                if(empty($data['productname'])){
+                    $errors[] = 'Product name is required';
+                }
+
+                if(empty($data['rate']) || is_numeric($data['rate'])){
+                    $errors[] = 'A valid rate for the product is required';
+                }
+
+                if(empty($data['category'])){
+                    $errors[] = 'Product category is required';
+                }
+
+                if(empty($data['quantity']) || is_numeric($data['quantity'])){
+                    $errors[] = 'A valid quantity for the product is required';
+                }
+
+                if(empty($data['description'])){
+                    $errors[] = 'Product description is required';
+                }
+
+                $update = $this->productModel->updateProduct($data['id'], $data['pid'], $data['productname'], $data['rate'], $data['category'], $data['quantity'], $data['description']);
+                
+                if($update){
+                    echo "<script>
+                        alert('Product updated successfully!');
+                     </script>";
+                     
+                    redirect('equipment_suppliers/MyInventory');
+                }
+                
+            }
         }
-
-
-    }
+}
 
 ?>

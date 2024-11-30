@@ -2,7 +2,6 @@
 document.addEventListener('DOMContentLoaded', () => {
 
         const modal = document.getElementById('addProductModal');
-        const editbtn = document.getElementById('')
         const openModalBtn = document.getElementById('add-btn');
         const closeModal = document.getElementById('closeModal');
         const box = document.getElementById('box');
@@ -32,9 +31,5 @@ document.addEventListener('DOMContentLoaded', () => {
                 box.classList.remove("blur");
         }
 
-        document.getElementById("editProductForm").onsubmit = function(e){
-                modal.classList.remove("active");
-                box.classList.remove("blur");
-        }
 
 });

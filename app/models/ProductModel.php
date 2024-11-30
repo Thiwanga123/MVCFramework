@@ -132,9 +132,67 @@
         }
     }
 
+    public function getProductDetailsById($productId){
+        try{
+            $sql = 'SELECT p.*, c.category_name
+                    FROM products p
+                    JOIN equipment_categories c ON p.category_id = c.category_id
+                    WHERE p.product_id = ?';
+                    
+            $this->db->query($sql);
+            $this->db->bind(1,$productId);
+            $result = $this->db->single();
+
+            if (!$result) {
+                throw new Exception("Product not found.");
+            }
+            
+            return $result; 
+
+        }catch(Exception $e){
+            $error_msg = $e->getMessage();
+            echo "<script>alert('An error occured: $error_msg');</script>";
+            return false;
+        }
+    }
+
+    public function updateProduct($supplierId, $productId, $productname, $rate, $category, $quantity, $description){
+        try{
+            $row = $this->getCategoryIdByName($category);
+            $categoryId = $row->category_id;
+            
+            if(!$categoryId){
+                throw new Exception("Category not found.");
+            }
 
 
-    
-}
+            $sql = "UPDATE products 
+                SET product_name = ?, rate = ?, category_id = ?, quantity = ?, description = ?
+                WHERE supplier_id = ? AND product_id = ? ";
+
+            $this->db->query($sql);
+
+            $this->db->bind(1, $productname);
+            $this->db->bind(2, $rate);
+            $this->db->bind(3, $categoryId);
+            $this->db->bind(4, $quantity);
+            $this->db->bind(5, $description);
+            $this->db->bind(6, $supplierId);
+            $this->db->bind(7, $productId);
+
+            if ($this->db->execute()) {
+                return true;
+            } else {
+               throw new Exception("Error in updating product details");
+            }
+
+        }catch(Exception $e){
+            $error_msg = $e->getMessage();
+            echo "<script>alert('An error occured: $error_msg');</script>";
+            return false;
+        }
+        }
+    }
+
 
 ?>

@@ -1,4 +1,4 @@
-.modal-container {
+.edit-modal-container {
     position: fixed;             /* Fix the container to the screen */
     top: 50%;                      /* Align to the top of the screen */
     left: 50%;    
@@ -10,20 +10,20 @@
     align-items: center;               /* Full viewport height */        /* Center vertically */
     background-color: rgba(0, 0, 0, 0.4); /* Semi-transparent background */
     z-index: 6000;               /* Ensure it's above other content */
-    opacity: 0;   
+    display: block; 
     border-radius: 20px;               /* Initially hidden */
     pointer-events: none; /* Block interaction with background elements */     
     visibility: hidden;  
     transition: opacity 0.3s ease; /* Smooth transition for fade-in effect */
 }
 
-.modal-container.active {
+.edit-modal-container.active {
     opacity: 1;
     pointer-events: auto;   
     visibility: visible;
 }
 
-.modal {
+.editmodal {
     background-color: white;
     display: flex;
     flex-direction: column;
@@ -36,42 +36,42 @@
     pointer-events: auto;       
 }
 
-.modal-top{
+.edit-modal-top{
     display: flex;
     justify-content: space-between;
     align-items: center;
 }
 
-.modal-top h1 {
+.edit-modal-top h1 {
     margin: 0;
     font-size: 28px;
 }
 
-.modal-top .close {
+.edit-modal-top .close {
     font-size: 2em;
     cursor: pointer;
 }
 
-.modal-form form{
+.edit-modal-form form{
     margin-top: 1rem;
     display: flex;
     flex-direction: column;
     gap: 2rem
 }
 
-.modal-form form .body {
+.edit-modal-form form .body {
     display: flex;
     gap: 2rem;
 }
 
-.modal-form form .submit-btn{
+.edit-modal-form form .submit-btn{
     display: flex;
     justify-content: center;
 }
 
 
 
-.modal-form form input{
+.edit-modal-form form input{
     border: none;
     background-color: rgb(239, 239, 239);
     height: 20px;
@@ -79,7 +79,7 @@
     padding: 20px;
 }
 
-.modal-form form .right, .modal-form form .left{
+.edit-modal-form form .right, .edit-modal-form form .left{
     display: flex;
     flex-direction: column;
     flex: 1;
@@ -93,7 +93,7 @@
     object-fit: cover;
 } */
 
-.modal-container button{
+.edit-modal-container button{
     background-color: rgb(21, 126, 126);
     color: white;
     font-size: medium;
@@ -106,7 +106,7 @@
     transition: all 0.3s ease;
 }
 
-.modal-container button:hover{
+.edit-modal-container button:hover{
     background-color: rgb(0, 102, 122);
 }
 
