@@ -58,14 +58,15 @@ public function deleteGuiderAvailability($id){
 //add the availability of the guider
 
 public function addAvailability($data){
-    $this->db->query('INSERT INTO guider_availability (guider_id, available_date, available_time,charges_per_hour,location) VALUES (:guider_id, :date, :time, :charges_per_hour, :location)');
+    $this->db->query('INSERT INTO guider_availability (guider_id, available_date, charges_per_hour,location,available_time_from,available_time_to) VALUES (:guider_id, :date,  :charges_per_hour, :location,:available_time_from,:available_time_to)');
 
     $this->db->bind(':guider_id', $data['guider_id']);
     $this->db->bind(':date', $data['date']);
-    $this->db->bind(':time', $data['time']);
     $this->db->bind(':charges_per_hour', $data['charges_per_hour']);
     $this->db->bind(':location', $data['location']);
-
+    $this->db->bind(':available_time_from', $data['available_time_from']);
+    $this->db->bind(':available_time_to', $data['available_time_to']);
+   
     $this->db->execute();
 
     if($this->db->rowCount() > 0){
@@ -118,3 +119,11 @@ public function updateProfile($data){
 
 }
 ?>
+
+ 
+
+
+   
+
+
+

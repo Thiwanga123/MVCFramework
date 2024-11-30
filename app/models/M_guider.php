@@ -1,11 +1,16 @@
 <?php
 
-class Guider{
+class guider{
     private $db;
 
     public function __construct() {
         $this->db = new Database();
     }
+
+
+
+
+
 
     //retrive the bookings from the bookingTable
     public function getBookings(){
@@ -27,7 +32,26 @@ class Guider{
         }
     }
 
+    //update the profile of the guide
+    public function updateProfile($data){
+        $this->db->query('UPDATE tour_guide SET first_name = :first_name, last_name = :last_name, email = :email, phone_number = :phone_number WHERE id = :id');
+
+        $this->db->bind(':id', $data['id']);
+        $this->db->bind(':first_name', $data['first_name']);
+        $this->db->bind(':last_name', $data['last_name']);
+        $this->db->bind(':email', $data['email']);
+        $this->db->bind(':phone_number', $data['phone_number']);
+        
+
+
+
     
+
 }
+
+
+
+
+
 
 ?>

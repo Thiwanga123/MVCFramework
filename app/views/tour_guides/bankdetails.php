@@ -40,7 +40,7 @@
 
             
     <main>
-    <?php require APPROOT . '/views/inc/components/paymenthistory.php'; ?>
+    <?php require APPROOT . '/views/inc/components/bankdetails.php'; ?>
        
     </main>
 </body>
