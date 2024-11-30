@@ -145,6 +145,30 @@ a{
     cursor: pointer;
  }
 
+ select {
+    width: 100%; 
+    padding: 10px; 
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    font-size: 14px;
+    color: #272626;
+    background-color: #f9f9f9; 
+    border: 1px solid #515151; 
+    border-radius: 4px; 
+    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1); 
+    transition: all 0.3s ease;
+}
+
+select:hover {
+    background-color: #f1f1f1; 
+    border-color: #888;
+}
+
+select:focus {
+    outline: none; 
+    border-color: teal; 
+    box-shadow: 0 0 5px teal;
+}
+
 .fade-out{
     opacity: 0.2;
     pointer-events: none;
