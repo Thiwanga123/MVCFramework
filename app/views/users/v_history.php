@@ -59,8 +59,10 @@
                             <th>Service Provider ID</th>
                             <th>Check-In</th>
                             <th>Check-Out</th>
-                            <th>Amount</th>
+                            <th>Amount Paid</th>
+                            <th>Amount to pay</th>
                             <th>Status</th>
+                            <th>Action</th>
                             
                         </tr>
                     </thead>
@@ -75,81 +77,82 @@
                             <td>2024-10-20</td>
                             <td>2024-10-23</td>
                             <td>Rs.20,000.00</td>
-                            <td>Completed</td>                           
-                           
-
+                            <td>Rs.10,000.00</td>
+                            <td>Pending</td>
+                            <td>
+                            <a href="<?php echo URLROOT;?>/users/payments"><button class="pay-btn" style=" background-color: rgb(21, 126, 126);color: white;font-size: medium;height: 30px;border-radius: 30px;border: none;margin-top: 1rem;cursor: pointer;padding: 0 10px;transition: all 0.3s ease;">Complete Now</button></a>
+                            <a href="#"><button class="pay-btn" style=" background-color: red;color: white;font-size: medium;height: 30px;border-radius: 30px;border: none;margin-top: 1rem;cursor: pointer;padding: 0 10px;transition: all 0.3s ease;">Cancel Now</button></a>
+                            </td>
                         </tr>
                         <tr>
                            
-                            <td>T110</td>
-                            <td>Kandy</td>
+                            <td>T102</td>
+                            <td>Badulla</td>
                             <td>10</td>
-                            <td>Transport</td>
-                            <td>T041</td>
+                            <td>Accommodation</td>
+                            <td>A041</td>
                             <td>2024-10-20</td>
                             <td>2024-10-23</td>
                             <td>Rs.20,000.00</td>
-                            <td>Pending</td>                           
-                           
-
+                            <td>Rs.0.00</td>
+                            <td>Completed</td>
+                            <td>
+                            <a href="#"><button class="pay-btn" style=" background-color: green;color: white;font-size: medium;height: 30px;border-radius: 30px;border: none;margin-top: 1rem;cursor: pointer;padding: 0 10px;transition: all 0.3s ease;">View Details</button></a>
+                            
+                            </td>
                         </tr>
                         <tr>
                            
-                           <td>T120</td>
-                           <td>Polonnaruwa</td>
-                           <td>13</td>
-                           <td>Guide Service</td>
-                           <td>G041</td>
-                           <td>2024-10-20</td>
-                           <td>2024-10-23</td>
-                           <td>Rs.20,000.00</td>
-                           <td>Completed</td>                           
-                          
-
-                       </tr>
-                       <tr>
-                           
-                           <td>T130</td>
-                           <td>Galle</td>
-                           <td>15</td>
-                           <td>Equipment</td>
-                           <td>E041</td>
-                           <td>2024-10-20</td>
-                           <td>2024-10-23</td>
-                           <td>Rs.20,000.00</td>
-                           <td>Pending</td>                           
-                          
-
-                       </tr>
-                       <tr>
-                           
-                           <td>T102</td>
-                           <td>Badulla</td>
-                           <td>10</td>
-                           <td>Accommodation</td>
-                           <td>A041</td>
-                           <td>2024-10-20</td>
-                           <td>2024-10-23</td>
-                           <td>Rs.20,000.00</td>
-                           <td>Completed</td>                           
-                          
-
-                       </tr>
-                       <tr>
-                           
-                           <td>T102</td>
-                           <td>Badulla</td>
-                           <td>10</td>
-                           <td>Accommodation</td>
-                           <td>A041</td>
-                           <td>2024-10-20</td>
-                           <td>2024-10-23</td>
-                           <td>Rs.20,000.00</td>
-                           <td>Completed</td>                           
-                          
-
-                       </tr>
+                            <td>T102</td>
+                            <td>Badulla</td>
+                            <td>10</td>
+                            <td>Accommodation</td>
+                            <td>A041</td>
+                            <td>2024-10-20</td>
+                            <td>2024-10-23</td>
+                            <td>Rs.20,000.00</td>
+                            <td>Rs.10,000.00</td>
+                            <td>Pending</td>
+                            <td>
+                            <a href="<?php echo URLROOT;?>/users/payments"><button class="pay-btn" style=" background-color: rgb(21, 126, 126);color: white;font-size: medium;height: 30px;border-radius: 30px;border: none;margin-top: 1rem;cursor: pointer;padding: 0 10px;transition: all 0.3s ease;">Complete Now</button></a>
+                            <a href="#"><button class="pay-btn" style=" background-color: red;color: white;font-size: medium;height: 30px;border-radius: 30px;border: none;margin-top: 1rem;cursor: pointer;padding: 0 10px;transition: all 0.3s ease;">Cancel Now</button></a>
+                            </td>
                         </tr>
+                        <tr>
+                           
+                            <td>T102</td>
+                            <td>Badulla</td>
+                            <td>10</td>
+                            <td>Accommodation</td>
+                            <td>A041</td>
+                            <td>2024-10-20</td>
+                            <td>2024-10-23</td>
+                            <td>Rs.20,000.00</td>
+                            <td>Rs.10,000.00</td>
+                            <td>Pending</td>
+                            <td>
+                            <a href="<?php echo URLROOT;?>/users/payments"><button class="pay-btn" style=" background-color: rgb(21, 126, 126);color: white;font-size: medium;height: 30px;border-radius: 30px;border: none;margin-top: 1rem;cursor: pointer;padding: 0 10px;transition: all 0.3s ease;">Complete Now</button></a>
+                            <a href="#"><button class="pay-btn" style=" background-color: red;color: white;font-size: medium;height: 30px;border-radius: 30px;border: none;margin-top: 1rem;cursor: pointer;padding: 0 10px;transition: all 0.3s ease;">Cancel Now</button></a>
+                            </td>
+                        </tr>
+                        <tr>
+                           
+                           <td>T102</td>
+                           <td>Badulla</td>
+                           <td>10</td>
+                           <td>Accommodation</td>
+                           <td>A041</td>
+                           <td>2024-10-20</td>
+                           <td>2024-10-23</td>
+                           <td>Rs.20,000.00</td>
+                           <td>Rs.0.00</td>
+                           <td>Completed</td>
+                           <td>
+                           <a href="#"><button class="pay-btn" style=" background-color: green;color: white;font-size: medium;height: 30px;border-radius: 30px;border: none;margin-top: 1rem;cursor: pointer;padding: 0 10px;transition: all 0.3s ease;">View Details</button></a>
+                           
+                           </td>
+                       </tr>
+                        
                     </tbody>
                 </table> 
                 </div>

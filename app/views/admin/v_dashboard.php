@@ -104,7 +104,7 @@
                             <tr>
                                 <td>
                                     <img src="<?php echo URLROOT;?>/Images/Profile pic.jpg">
-                                    <p>John Doe</p>
+                                    <p>Ushan</p>
                                 </td>
                                 <td>21-08-2024</td>
                                 <td>Badulla</td>
@@ -116,7 +116,7 @@
                             <tr>
                                 <td>
                                 <img src="<?php echo URLROOT;?>/Images/Profile pic.jpg">
-                                    <p>John Doe</p>
+                                    <p>Sanjula</p>
                                 </td>
                                 <td>14-07-2024</td>
                                 <td>Nuwara Eliya</td>
@@ -128,7 +128,7 @@
                             <tr>
                                 <td>
                                 <img src="<?php echo URLROOT;?>/Images/Profile pic.jpg">
-                                    <p>John Doe</p>
+                                    <p>Ruvin</p>
                                 </td>
                                 <td>01-01-2024</td>
                                 <td>Kandy</td>
@@ -145,7 +145,7 @@
                 <div class="reminders">
                     <div class="header">
                         <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#000000"><path d="M200-120q-33 0-56.5-23.5T120-200v-560q0-33 23.5-56.5T200-840h440l200 200v440q0 33-23.5 56.5T760-120H200Zm0-80h560v-400H600v-160H200v560Zm80-80h400v-80H280v80Zm0-320h200v-80H280v80Zm0 160h400v-80H280v80Zm-80-320v160-160 560-560Z"/></svg>
-                        <h3>Recent Updates</h3>
+                        <h3>Add System Announcements</h3>
         
                     </div>
                     <ul class="update-list">

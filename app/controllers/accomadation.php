@@ -218,6 +218,14 @@ public function myInventory(){
         }
     }
 
+    public function bankdetails(){
+        if (isset($_SESSION['id'])) {
+            $this->view('accomadation/bankdetails');
+        } else {
+            redirect('ServiceProvider/login');
+        }
+    }
+
 
 }
 
