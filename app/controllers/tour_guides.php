@@ -39,6 +39,16 @@ public function mypayments(){
 
 }
 
+public function bankdetails(){
+
+    if (isset($_SESSION['id'])) {
+        $this->view('tour_guides/bankdetails');
+    } else {
+        redirect('ServiceProvider');
+    }
+
+}
+
 
 
 
