@@ -157,7 +157,34 @@ public function delete_availability($id){
 
 //add an availability
 
-public function Add_Availability(){
+// public function add_Availability(){
+
+//     if (isset($_SESSION['id'])) {
+//         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+//             //get the data from the profile update form
+//             $data = [
+//                 'guider_id' => $_SESSION['id'],
+//                 'date' => $_POST['date'],
+//                 'charges_per_hour' => $_POST['rate'],
+//                 'location' => $_POST['location'],
+//                 'available_time_from'=>$_POST['available_time_from'],
+//                 'available_time_to'=>$_POST['available_time_to'],
+//             ];
+//             //add the availability to the database
+//             $this->BookingModel->addAvailability($data);
+//             redirect('tour_guides/Update_Availability');
+//         } else {
+//             redirect('tour_guides/Update_Availability');
+//         }
+        
+//     } else {
+//         redirect('ServiceProvider/login');
+//     }
+
+// }
+
+
+public function add_Availability(){
 
     if (isset($_SESSION['id'])) {
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
@@ -178,10 +205,10 @@ public function Add_Availability(){
         }
         
     } else {
-        redirect('ServiceProvider');
+        redirect('ServiceProvider/login');
     }
-
 }
+
 
 //edit the availability
 // public function edit_availability($id)

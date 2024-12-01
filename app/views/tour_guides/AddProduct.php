@@ -6,7 +6,7 @@
             </div>  
 
             <div class="modal-form">
-                <form id="addProductForm" action="<?php echo URLROOT;?>/tour_guides/Add_Availability" method = "POST" enctype="multipart/form-data"> 
+                <form id="addProductForm" action="<?php echo URLROOT;?>/tour_guides/add_Availability" method = "POST" enctype="multipart/form-data"> 
                     <div class="body">
                         <div class="left">
                             <label for="date">Available Date</label>
