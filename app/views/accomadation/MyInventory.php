@@ -5,10 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="<?php echo URLROOT;?>/css/Common/MyInventory.css">
     <link rel="stylesheet" href="<?php echo URLROOT;?>/css/Common/sidebarHeader.css">
+    <link rel="stylesheet" href="<?php echo URLROOT;?>/css/Modals/addAccomodationModal.css">
     <title>Home</title>
 </head>
 <body>
-    <div class="box">
+    <div class="box" id="box">
     <!-- SideBar -->
     <?php
         include('Sidebar.php');;
@@ -46,7 +47,7 @@
                 </div>
 
                 <div class="right">
-                        <button class="add-btn" name ="add-btn" id="add-btn">
+                        <button class="add-btn" name ="add-acc-btn" id="add-acc-btn">
                             <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#ffffff"><path d="M440-440H200v-80h240v-240h80v240h240v80H520v240h-80v-240Z"/></svg>
                             <h3>Add Accommodation</h3>
                         </button>
@@ -70,6 +71,7 @@
                             <th>Available Quantity</th>
                             <th>Category</th>
                             <th>Action</th>
+                            <th>Option</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -84,11 +86,12 @@
                             <td><?php echo $accomadation->quantity;?></td>
                             <td><?php echo $accomadation->type;?></td>
                             <td class="action-btn">
-                                <button class="view-btn" id="view-btn">View</button>
-                                <button class="Delete-btn" id="Delete-btn">Delete</button>
-                                <button class="Edit-btn" id="Edit-btn">Edit</button>
+                            <a href="#"><button class="pay-btn" style=" background-color: green;color: white;font-size: medium;height: 30px;border-radius: 30px;border: none;margin-top: 1rem;cursor: pointer;padding: 0 10px;transition: all 0.3s ease;">View</button></a>
+                            <a href="#"><button class="pay-btn" style=" background-color: red;color: white;font-size: medium;height: 30px;border-radius: 30px;border: none;margin-top: 1rem;cursor: pointer;padding: 0 10px;transition: all 0.3s ease;">Delete</button></a>
+                            <a href="#"><button class="pay-btn" style=" background-color: blue;color: white;font-size: medium;height: 30px;border-radius: 30px;border: none;margin-top: 1rem;cursor: pointer;padding: 0 10px;transition: all 0.3s ease;">Edit</button></a>  
                             </td>
-
+                            <td class="option-btn">
+                            <a href="#"><button class="pay-btn" style=" background-color: lightblue;color: white;font-size: medium;height: 30px;border-radius: 30px;border: none;margin-top: 1rem;cursor: pointer;padding: 0 10px;transition: all 0.3s ease;">Add Room</button></a>
 
                                 
                         </tr>
@@ -105,21 +108,19 @@
      <!--Modal Structure-->
     
 
-    <?php
-        include('Warning_Modal.php');;
-    ?>
+ 
 
      <?php
-        include('AddProduct.php');;
+        include('Addavailability_accomodation.php');;
     ?>
 
 
     
 
     <script src="<?php echo URLROOT;?>/js/Sidebar.js"></script> 
-    <script src="<?php echo URLROOT;?>/js/addProduct.js"></script>
+    <script src="<?php echo URLROOT;?>/js/addavailability_accomodation.js"></script>
     <script src="<?php echo URLROOT;?>/js/ImagePreview.js"></script>
-    <script src="<?php echo URLROOT;?>/js/warningModel.js"></script>
+   
      
 </body>
 

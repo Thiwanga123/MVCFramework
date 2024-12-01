@@ -132,7 +132,7 @@
                             <td>Pending</td>                           
                             <td class="action-btn">
                                     <button class="view-btn">View</button>
-                                    <button class="cancel-btn" onclick="openModal()">Cancel</button>
+                                    
                             </td>
 
                         </tr>
@@ -165,7 +165,7 @@
                             <td>Pending</td>                           
                             <td class="action-btn">
                                     <button class="view-btn">View</button>
-                                    <button class="cancel-btn" onclick="openModal()">Cancel</button>
+                                    
                             </td>
                         </tr>
                         <tr>
@@ -213,7 +213,7 @@
                             <td>Pending</td>                           
                             <td class="action-btn">
                                     <button class="view-btn">View</button>
-                                    <button class="cancel-btn" onclick="openModal()">Cancel</button>
+                                    
                             </td>
                         </tr>
                     </tbody>
