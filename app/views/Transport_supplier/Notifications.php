@@ -35,7 +35,8 @@
                     </svg>
                     <span class="count">12</span>
                 </a>
-                <a href="#" class="profile">
+                <p><?php echo $_SESSION['name'];?></p>
+            <a href="#" class="profile">
                     <img src="<?php echo URLROOT; ?>/Images/Profile pic.jpg" alt="Profile">
                 </a>
             </nav>

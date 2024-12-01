@@ -32,6 +32,7 @@
                 <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#000000"><path d="M160-200v-80h80v-280q0-83 50-147.5T420-792v-28q0-25 17.5-42.5T480-880q25 0 42.5 17.5T540-820v28q80 20 130 84.5T720-560v280h80v80H160Zm320-300Zm0 420q-33 0-56.5-23.5T400-160h160q0 33-23.5 56.5T480-80ZM320-280h320v-280q0-66-47-113t-113-47q-66 0-113 47t-47 113v280Z"/></svg>
                 <span class="count">12</span>
             </a>
+            <p><?php echo $_SESSION['name'];?></p>
             <a href="#" class="profile">
             <img src="<?php echo URLROOT;?>/Images/Profile pic.jpg">
             </a>
@@ -47,6 +48,7 @@
 
             <div class="profile">
                 <div class="profile-left">
+                    
                 <img src="<?php echo URLROOT;?>/Images/Profile pic.jpg">
                 </div>
 
@@ -55,22 +57,18 @@
                     <input type="name" id="name" name="name">
                     <h4>Email</h4>
                     <input type="email" id="email" name="email">
-                    <h4>Permanent Address</h4>
+                    <h4>Address</h4>
                     <input type="address" id="address" name="address">
-                    <h4>Present Address</h4>
-                    <input type="presentAddress" id="presentAddress" name="presentAddress">
                     
                 </div>
 
                 <div class="profile-right">
-                    <h4>Company Name</h4>
-                    <input type="companyName" id="companyName" name="companyName">
+                <h4>NIC Number</h4>
+                <input type="nic" id="nic" name="nic">
                     <h4>Password</h4>
                     <input type="password" id="password" name="password">
-                    <h4>City</h4>
-                    <input type="city" id="city" name="city">
-                    <h4>Postal Code</h4>
-                    <input type="postalCode" id="postalCode" name="postalCode">
+                    <h4>Phone Number</h4>
+                    <input type="phone" id="phone" name="phone">
                 </div>
                 <div class="profile-actions">
                     <button type="submit">Save</button>

@@ -123,6 +123,8 @@
        
     </div>
     <script src="<?php echo URLROOT; ?>/js/Sidebar.js"></script>
+    <script src="<?php echo URLROOT; ?>/js/profile.js"></script>
+    
 </body>
 </html>
 

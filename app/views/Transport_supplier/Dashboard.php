@@ -6,7 +6,7 @@
     
     <link rel="stylesheet" href="<?php echo URLROOT;?>/css/adminpage/Dashboard.css">
     <link rel="stylesheet" href="<?php echo URLROOT;?>/css/Common/sidebarHeader.css">
-    <link rel="stylesheet" href="<?php echo URLROOT;?>/css/Common/Orders.css">
+    <link rel="stylesheet" href="<?php echo URLROOT;?>/css/Common/MyInventorys.css">
     
     
     
@@ -83,11 +83,11 @@
                 </li>
                 <li>
                     <div class="view">
-                    <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#000000"><path d="M480-320q75 0 127.5-52.5T660-500q0-75-52.5-127.5T480-680q-75 0-127.5 52.5T300-500q0 75 52.5 127.5T480-320Zm.04-77.02q-42.89 0-72.95-30.02-30.07-30.03-30.07-72.92t30.02-72.95q30.03-30.07 72.92-30.07t72.95 30.02q30.07 30.03 30.07 72.92t-30.02 72.95q-30.03 30.07-72.92 30.07ZM480-192.59q-148.87 0-270.66-83.89Q87.54-360.37 32.59-500q54.95-139.63 176.75-223.52Q331.13-807.41 480-807.41t270.66 83.89Q872.46-639.63 927.41-500q-54.95 139.63-176.75 223.52Q628.87-192.59 480-192.59ZM480-500Zm.02 220q112.74 0 207-59.62T831.28-500q-50-100.76-144.28-160.38Q592.72-720 479.98-720q-112.74 0-207 59.62T128.72-500q50 100.76 144.28 160.38Q367.28-280 480.02-280Z"/></svg>
+                    <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#000000"><path d="M160-80q-33 0-56.5-23.5T80-160v-640q0-33 23.5-56.5T160-880h640q33 0 56.5 23.5T880-800v640q0 33-23.5 56.5T800-80H160Zm0-80h640v-640H160v640Zm200-240q-17 0-28.5-11.5T320-440q0-17 11.5-28.5T360-480q17 0 28.5 11.5T400-440q0 17-11.5 28.5T360-400Zm240 0q-17 0-28.5-11.5T560-440q0-17 11.5-28.5T600-480q17 0 28.5 11.5T640-440q0 17-11.5 28.5T600-400ZM200-516v264q0 14 9 23t23 9h16q14 0 23-9t9-23v-48h400v48q0 14 9 23t23 9h16q14 0 23-9t9-23v-264l-66-192q-5-14-16.5-23t-25.5-9H308q-14 0-25.5 9T266-708l-66 192Zm106-64 28-80h292l28 80H306ZM160-800v640-640Zm120 420v-120h400v120H280Z"/></svg>
                     </div>
                     <span class = "info">
-                        <h3>21</h3>
-                        <p>Total Views</p>
+                        <h3>7</h3>
+                        <p>Booked Vehicles</p>
                     </span>
                 </li>
                 <li>
@@ -129,7 +129,7 @@
 </svg> </div>
                     <span class = "info">
                         <h3>2</h3>
-                        <p>Pending Vehicles</p>
+                        <p>Available Vehicles</p>
                     </span>
                 </li>
             </ul>
@@ -146,49 +146,53 @@
                         <thead>
                             <tr>
                                 <th>Customer</th>
-                                <th>Order Date</th>
-                                <th>Vehicle model</th>
-                                <th>Make</th>
                                 <th>License Number</th>
+                                <th>model</th>
+                                <th>Make</th>
+                                <th>Rental Price</th>
+                                <th>Order Date</th>
                                 <th>Status</th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr>
                                 <td>
-                                    <img src="Images/default profile.png">
-                                    <p>John Doe</p>
+                                <img src="<?php echo URLROOT;?>/Images/Profile pic.jpg">
+                                    <p>Ushan</p>
                                 </td>
-                                <td>21-08-2024</td>
+                                <td>KV 2156</td>
                                 <td>Benz</td>
                                 <td>cla</td>
-                                <td>kv 2156</td>
+                                <td>5000</td>
+                                <td>21-08-2024</td>
                                 <td>
                                     <span class="status completed">Completed</span>
                                 </td>
                             </tr>
                             <tr>
                                 <td>
-                                    <img src="Images/default profile.png">
-                                    <p>John Doe</p>
+                                <img src="<?php echo URLROOT;?>/Images/Profile pic.jpg">
+                                    <p>Thiwanga</p>
                                 </td>
-                                <td>14-07-2024</td>
+                                <td>RQ 2525</td>
                                 <td>Toyota</td>
                                 <td>Aqua</td>
-                                <td>RQ 2525</td>
+                                <td>4000</td>
+                                <td>14-07-2024</td>
                                 <td>
                                     <span class="status pending">Pending</span>
                                 </td>
                             </tr>
                             <tr>
                                 <td>
-                                    <img src="Images/default profile.png">
-                                    <p>John Doe</p>
+                                <img src="<?php echo URLROOT;?>/Images/Profile pic.jpg">
+                                    <p>Ruvin</p>
                                 </td>
-                                <td>01-01-2024</td>
+                                <td>CAA 61616</td>
                                 <td>Honda</td>
                                 <td>civic</td>
-                                <td>CAA 6161
+                                <td>8000</td>
+                                <td>01-01-2024</td>
                                 <td>
                                     <span class="status cancelled">Cancelled</span>
                                 </td>

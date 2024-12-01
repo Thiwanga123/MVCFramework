@@ -33,6 +33,7 @@
                 <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#000000"><path d="M160-200v-80h80v-280q0-83 50-147.5T420-792v-28q0-25 17.5-42.5T480-880q25 0 42.5 17.5T540-820v28q80 20 130 84.5T720-560v280h80v80H160Zm320-300Zm0 420q-33 0-56.5-23.5T400-160h160q0 33-23.5 56.5T480-80ZM320-280h320v-280q0-66-47-113t-113-47q-66 0-113 47t-47 113v280Z"/></svg>
                 <span class="count">12</span>
             </a>
+            <p><?php echo $_SESSION['name'];?></p>
             <a href="#" class="profile">
             <img src="<?php echo URLROOT;?>/Images/Profile pic.jpg">
             </a>
@@ -67,10 +68,10 @@
                         <tr>
                             <td class="customer">
                             <img src="<?php echo URLROOT;?>/Images/Profile pic.jpg"> 
-                                <p>John Doe</p>
+                                <p>Ushan</p>
                             </td>
-                            <td>E102</td>
-                            <td class="rev">Lorem ipsum dolor sit amet consectetur adipisicing elit. Quibusdam omnis reiciendis tenetur nihil saepe, recusandae necessitatibus tempora ea consectetur ut autem dolores voluptates fugiat, in ipsum culpa quae aliquam voluptatibus.</td>
+                            <td>kv 2156</td>
+                            <td class="rev">Best service and best vehicles.</td>
                             <td>2024/05/05</td>
                             <td>0</td>
                             <td class="Action">
@@ -82,10 +83,10 @@
                         <tr>
                             <td class="customer">
                             <img src="<?php echo URLROOT;?>/Images/Profile pic.jpg">
-                                <p>John Doe</p>
+                                <p>Thiwanga</p>
                             </td>
-                            <td>E102</td>
-                            <td class="rev">Lorem ipsum dolor sit amet consectetur adipisicing elit. Quibusdam omnis reiciendis tenetur nihil saepe, recusandae necessitatibus tempora ea consectetur ut autem dolores voluptates fugiat, in ipsum culpa quae aliquam voluptatibus.</td>
+                            <td>kx 8790</td>
+                            <td class="rev">Vehicles are in the best condition recommended for everyone.</td>
                             <td>2024/05/05</td>
                             <td>0</td>
                             <td class="Action">
@@ -97,10 +98,10 @@
                         <tr>
                             <td class="customer">
                             <img src="<?php echo URLROOT;?>/Images/Profile pic.jpg">
-                                <p>John Doe</p>
+                                <p>Ruvin</p>
                             </td>
-                            <td>E102</td>
-                            <td class="rev">Lorem ipsum dolor sit amet consectetur adipisicing elit. Quibusdam omnis reiciendis tenetur nihil saepe, recusandae necessitatibus tempora ea consectetur ut autem dolores voluptates fugiat, in ipsum culpa quae aliquam voluptatibus.</td>
+                            <td>CAA 6289</td>
+                            <td class="rev">Thank you supplier receives good condition vehicles.</td>
                             <td>2024/05/05</td>
                             <td>0</td>
                             <td class="Action">

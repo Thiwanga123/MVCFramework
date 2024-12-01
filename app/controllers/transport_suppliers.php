@@ -208,11 +208,9 @@ class Transport_suppliers extends Controller
                 'name' => $_POST['name'],
                 'email' => $_POST['email'],
                 'address' => $_POST['address'],
-                'presentaddress' => $_POST['presentAddress'],
-                'companyname' => $_POST['companyName'],
                 'password' => $_POST['password'],
-                'city' => $_POST['city'],
-                'postalcode' => $_POST['postalCode'],
+                'nic' => $_POST['nic'],
+                'phone' => $_POST['phone'],
             ];
             //update the profile
             $this->transportModel->updateprofile($data);
