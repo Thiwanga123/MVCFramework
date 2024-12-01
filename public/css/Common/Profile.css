@@ -23,39 +23,72 @@
 
 
 .content main .profile{
-    display: grid;
-    grid-template-columns: 10% 45% 45%;
+    background-color: snow;
+    display: flex;
+    flex-direction: column;
     height: auto;
     width: 100%;
     gap: 20px;
-    padding: 50px;
-    background-color: #ffffff;
+    padding: 40px;
     border-radius: 20px;
 }
 
-.content main .profile .profile-left img{
-    width: 100px;
-    height: 100px;
+.content main .profile .profile-top{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+}
+
+.content main .profile .profile-top img{
+    width: 150px;
+    height: 150px;
     object-fit: cover;
     border-radius: 50%;
 }
 
-.content main .profile .profile-center,
-.content main .profile .profile-right {
+.content main .profile .profile-center{
+    display: flex;
+    width: 100%;
+    align-items: center;
+    gap: 10px;
+    border: solid 1px teal;
+    border-radius: 10px;
+}
+
+.content main .profile .profile-center .left, .right{
     display: flex;
     flex-direction: column;
-    gap: 1rem;
+    flex: 1;
+    padding: 20px;
+    gap: 10px;
+}
+
+.content main .profile .profile-bottom{
+    display: flex;
+    gap: 10px;
+    border: solid 1px teal;
+    border-radius: 10px;
+}
+
+.content main .profile .profile-bottom .group{
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    padding: 20px;
+    gap: 10px;
 }
 
 .content main .profile input{
-    background-color: rgb(247, 247, 247);
     height: 40px;
     width: 80%;
     max-width: 400px;
     border-radius: 30px;
     padding: 0 20px;
-    border: 1px solid gainsboro;
+    border: none;
     gap: 1rem;
+    background-color: rgba(244, 244, 244, 0.719);
 }
 
  #msg{
@@ -69,8 +102,13 @@
     gap: 1rem;
 }
 
+.content main .profile .profile-actions{
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+}
 
-.content main .profile .profile-actions button {
+.content main .profile .profile-actions .group button, .change-btn, .delete{
     background-color: #2c8379;
     color: white;
     border: none;
@@ -79,5 +117,13 @@
     font-size: 16px;
     cursor: pointer;
     width: auto;
-    
+}
+
+.content main .profile .profile-actions .delete{
+    background-color: rgb(240, 4, 4);
+    transition: all 0.3s ease;
+}
+
+.content main .profile .profile-actions .delete :hover{
+    background-color: rgb(185, 6, 6);
 }

@@ -1,8 +1,8 @@
 
 document.addEventListener('DOMContentLoaded', () => {
 
-        const modal = document.getElementById('addProductModal');
-        const openModalBtn = document.getElementById('add-btn');
+        const modal = document.getElementById('addAvailabilityModal');
+        const openModalBtn = document.getElementById('add-availability-btn');
         const closeModal = document.getElementById('closeModal');
         const box = document.getElementById('box');
 

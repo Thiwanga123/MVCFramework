@@ -60,16 +60,20 @@ class ServiceProviderModel{
             return false;
         }
     }
-
-    //get users
-    
-
-
-  
-    
-  
       
     //login user
+
+
+    public function getUserData($id,$type){
+        try{
+            $sql = "SELECT * FROM $type WHERE id = ?";
+            $this->db->query($sql);
+            $this->db->bind(1, $id);
+            return $this->db->single();
+        }catch(Exception $e){
+            $err_msg = $e->getMessage();
+        }
+    }
     }
 
 ?>

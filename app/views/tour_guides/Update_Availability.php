@@ -5,10 +5,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="<?php echo URLROOT;?>/css/Common/MyInventory.css">
     <link rel="stylesheet" href="<?php echo URLROOT;?>/css/Common/sidebarHeader.css">
+    <link rel="stylesheet" href="<?php echo URLROOT;?>/css/Modals/addAvailabilityModal.css">
+    <link rel="stylesheet" href="<?php echo URLROOT;?>/css/Modals/editProductModal.css">
+    <link rel="stylesheet" href="<?php echo URLROOT;?>/css/Modals/deleteWarningModal.css">
+
     <title>Home</title>
 </head>
 <body>
-    <div class="box">
+<div class="box" id="box">
     <!-- SideBar -->
     <?php
         include('Sidebar.php');;
@@ -45,7 +49,7 @@
                 </div>
 
                 <div class="right">
-                        <button class="add-btn" name ="add-btn" id="add-btn">
+                        <button class="add-availability-btn" name ="add-availability-btn" id="add-availability-btn">
                         
                             <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#ffffff"><path d="M440-440H200v-80h240v-240h80v240h240v80H520v240h-80v-240Z"/></svg>
                             <h3>Add Availability</h3>
@@ -115,7 +119,7 @@
     ?>
 
      <?php
-        include('AddProduct.php');;
+        include('Addavailability_guide.php');;
     ?>
 
 
@@ -125,7 +129,7 @@
 
    
     <script src="<?php echo URLROOT;?>/js/Sidebar.js"></script> 
-    <script src="<?php echo URLROOT;?>/js/addProduct.js"></script>
+    <script src="<?php echo URLROOT;?>/js/addavailability_guide.js"></script>
     <script src="<?php echo URLROOT;?>/js/ImagePreview.js"></script>
     <script src="<?php echo URLROOT;?>/js/warningModel.js"></script>
      
