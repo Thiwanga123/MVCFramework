@@ -21,6 +21,7 @@ class Transport_suppliers extends Controller
 
     public function myInventory()
     {
+        $data['activePage'] = 'My Inventory';
         if (isset($_SESSION['id'])) {
             $supplierId = $_SESSION['id'];
             $this->transportModel = $this->model('TransportModel');
