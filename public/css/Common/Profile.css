@@ -23,7 +23,7 @@
 
 
 .content main .profile{
-    background-color: rgb(246, 246, 246);
+    background-color: snow;
     display: flex;
     flex-direction: column;
     height: auto;
@@ -88,7 +88,7 @@
     padding: 0 20px;
     border: none;
     gap: 1rem;
-    background-color: rgba(244, 244, 244, 0.719);
+    background-color: rgb(232, 232, 232);
 }
 
  #msg{
@@ -102,8 +102,13 @@
     gap: 1rem;
 }
 
+.content main .profile .profile-actions{
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+}
 
-.content main .profile .profile-actions button, .change-btn{
+.content main .profile .profile-actions .group button, .change-btn, .delete{
     background-color: #2c8379;
     color: white;
     border: none;
@@ -112,5 +117,13 @@
     font-size: 16px;
     cursor: pointer;
     width: auto;
-    
+}
+
+.content main .profile .profile-actions .delete{
+    background-color: rgb(240, 4, 4);
+    transition: all 0.3s ease;
+}
+
+.content main .profile .profile-actions .delete :hover{
+    background-color: rgb(185, 6, 6);
 }

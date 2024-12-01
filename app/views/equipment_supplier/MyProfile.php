@@ -36,7 +36,7 @@
                 <span class="count">12</span>
             </a>
             <a href="#" class="profile">
-            <img src="../../../Public/Images/Profile pic.jpg">
+            <img src="<?php echo URLROOT;?>/Images/Profile pic.jpg">
             </a>
         </nav>
 
@@ -91,8 +91,12 @@
                 </div>
 
                 <div class="profile-actions">
-                    <button type="submit" class="pswd-btn">Change Password</button>
-                    <button type="submit">Confirm Changes</button>
+                    <div class="group">
+                        <button type="submit" class="pswd-btn">Change Password</button>
+                        <button type="submit">Confirm Changes</button>
+                    </div>
+
+                    <button type="submit" class="delete">Delete My Account</button>
                 </div>
                 
             </div>
