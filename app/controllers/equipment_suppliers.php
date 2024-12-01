@@ -62,10 +62,10 @@ class Equipment_Suppliers extends Controller{
         }
     }
 
-    public function notifications(){
+    public function earnings(){
 
         if (isset($_SESSION['id'])) {
-            $this->view('equipment_supplier/Notifications');
+            $this->view('equipment_supplier/Earnings');
         } else {
             redirect('ServiceProvider');
         }
