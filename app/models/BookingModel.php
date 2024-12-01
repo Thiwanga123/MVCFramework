@@ -57,11 +57,15 @@ public function deleteGuiderAvailability($id){
 
 //add the availability of the guider
 
+
+//id is auto increment
 public function addAvailability($data){
-    $this->db->query('INSERT INTO guider_availability (guider_id, available_date, charges_per_hour,location,available_time_from,available_time_to) VALUES (:guider_id, :date,  :charges_per_hour, :location,:available_time_from,:available_time_to)');
+
+  
+    $this->db->query('INSERT INTO guider_availability(guider_id, available_date, charges_per_hour,location,available_time_from,available_time_to) VALUES (:guider_id, :available_date,  :charges_per_hour, :location,:available_time_from,:available_time_to)');
 
     $this->db->bind(':guider_id', $data['guider_id']);
-    $this->db->bind(':date', $data['date']);
+    $this->db->bind(':available_date', $data['available_date']);
     $this->db->bind(':charges_per_hour', $data['charges_per_hour']);
     $this->db->bind(':location', $data['location']);
     $this->db->bind(':available_time_from', $data['available_time_from']);
@@ -98,13 +102,12 @@ public function editAvailability($data){
 }
 
 public function updateProfile($data){
-    $this->db->query('UPDATE tour_guides SET name = :name, address = :address, email = :email, phone_number = :phone_number,laguage=:language,password=:password WHERE id = :id');
-
+    $this->db->query('UPDATE tour_guides SET name = :name, address = :address, email = :email, phone = :phone, language = :language, password = :password WHERE id = :id');
     $this->db->bind(':id', $data['id']);
     $this->db->bind(':name', $data['name']);
     $this->db->bind(':address', $data['address']);
     $this->db->bind(':email', $data['email']);
-    $this->db->bind(':phone_number', $data['phone']);
+    $this->db->bind(':phone', $data['phone']);
     $this->db->bind(':language', $data['language']);
     $this->db->bind(':password', $data['password']);
     $this->db->execute();

@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <link rel="stylesheet" href="<?php echo URLROOT;?>/css/Common/Profile.css">
+    <link rel="stylesheet" href="<?php echo URLROOT;?>/css/Common/Profile_pre.css">
     <link rel="stylesheet" href="<?php echo URLROOT;?>/css/Common/sidebarHeader.css">
     <title>Profile</title>
 </head>
@@ -44,7 +44,7 @@
                 </div>
             </div>
             <p>Please fill the following details to update your profile(You are not allowed to update the NIC and Gov.Reg No)</p>
-            <form action="<?php echo URLROOT; ?>/tour_guides/updateprofile"  method="POST">
+            <form action="<?php echo URLROOT; ?>/tour_guides/updateprofile"  method="POST" enctype="multipart/form-data">
             <div class="profile">
                 <div class="profile-left">
                 <img src="<?php echo URLROOT;?>/Images/Profile pic.jpg" alt="">

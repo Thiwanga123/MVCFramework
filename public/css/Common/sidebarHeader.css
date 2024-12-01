@@ -63,11 +63,6 @@ body{
     display: none;
 }
 
-.sidebar::-webkit-scrollbar{
-    display: none;
-
-}
-
 .sidebar.close{
     width: 60px;
     transition: all 0.3s ease;
@@ -109,7 +104,6 @@ body{
 .sidebar .side-menu li{
     height: 48px;
     position: relative;
-    background: transparent;
     margin-left: 8px;
     border-radius: 48px 0 0 48px;
     padding: 5px;
@@ -134,12 +128,12 @@ body{
     color: var(--dark-grey);
     white-space: nowrap;
     overflow-x: hidden;
-    transition: all 0.3s ease;
+    transition: all 0.3s ease-out;
 }
 
 .sidebar.close .side-menu li a{
     width: 40px;
-    transition: all 0.3s ease;
+    transition: all 0.3s ease-out;
 }
 
 .sidebar .side-menu li a svg {

@@ -1,11 +1,12 @@
-<div id="addProductModal" class="modal-container">
-        <div class="modal">
-            <div class="modal-top">
+
+<div id="addProductModal" class="add-modal-container">
+        <div class="addModal">
+            <div class="addModal-top">
                 <h1>Add New Product</h1>
                 <span class="close" id="closeModal">&times;</span>
             </div>  
 
-            <div class="modal-form">
+            <div class="addModal-form">
                 <form id="addProductForm" action="<?php echo URLROOT; ?>/product/addProduct" method = "post" enctype="multipart/form-data"> 
                     <div class="body">
                         <div class="left">

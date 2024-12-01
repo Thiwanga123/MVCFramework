@@ -8,6 +8,8 @@
         }
 
         public function addProduct(){
+
+            echo "hi";
         
             if(isset($_POST['submit'])){
 
@@ -112,14 +114,85 @@
             }
         }
 
-        public function delete($productId){
-            if($this->productModel->deleteProductById($productId)){
-                echo "<script type='text/javascript'>alert('Product deleted successfully!');</script>";
-                redirect('equipment_suppliers/MyInventory');
+        public function delete(){
+            if($_SERVER['REQUEST_METHOD'] === 'POST'){
+                $productId = $_POST['productId'];
+                $supplierId = $_SESSION['id'];
+
+                $productFolder = "Uploads/EquipmentSuppliers/{$supplierId}/{$productId}";
+
+                $success = $this->productModel->deleteProductById($productId);
+
+                if($success){
+                    if(is_dir($productFolder)){
+                        $this->deleteDirectory($productFolder);
+                    }
+                    echo "<script type='text/javascript'>alert('Product deleted successfully!');</script>";
+                    redirect('equipment_suppliers/MyInventory');
+                }
             }
         }
 
+        private function deleteDirectory($directory){
+            if(is_dir($directory)){
+                $files = array_diff(scandir($directory),['.','..']);
+                foreach($files as $file){
+                    $filepath = $directory.DIRECTORY_SEPARATOR.$file;
+                    if (is_dir($filepath)) {
+                        $this->deleteDirectory($filepath); 
+                    } else {
+                        unlink($filepath); 
+                    }
+                }
 
-    }
+                rmdir($directory);
+            }
+        }
+
+        public function updateProduct() {
+            if(isset($_POST['submit'])){
+                $data = [
+                    'id'=> $_SESSION['id'],
+                    'pid'=> trim($_POST['productId']),
+                    'productname' => trim($_POST['productName']),
+                    'rate' =>trim($_POST['productPrice']) ,
+                    'category' => trim($_POST['productCategory']),    //These variables are used to store the values which are sent via the form data
+                    'quantity' => trim($_POST['stockQuantity']),
+                    'description' => trim($_POST['productDescription']),
+                ];
+                
+                if(empty($data['productname'])){
+                    $errors[] = 'Product name is required';
+                }
+
+                if(empty($data['rate']) || is_numeric($data['rate'])){
+                    $errors[] = 'A valid rate for the product is required';
+                }
+
+                if(empty($data['category'])){
+                    $errors[] = 'Product category is required';
+                }
+
+                if(empty($data['quantity']) || is_numeric($data['quantity'])){
+                    $errors[] = 'A valid quantity for the product is required';
+                }
+
+                if(empty($data['description'])){
+                    $errors[] = 'Product description is required';
+                }
+
+                $update = $this->productModel->updateProduct($data['id'], $data['pid'], $data['productname'], $data['rate'], $data['category'], $data['quantity'], $data['description']);
+                
+                if($update){
+                    echo "<script>
+                        alert('Product updated successfully!');
+                     </script>";
+                     
+                    redirect('equipment_suppliers/MyInventory');
+                }
+                
+            }
+        }
+}
 
 ?>

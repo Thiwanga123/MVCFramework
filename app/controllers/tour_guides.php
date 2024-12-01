@@ -164,12 +164,14 @@ public function Add_Availability(){
             //get the data from the profile update form
             $data = [
                 'guider_id' => $_SESSION['id'],
-                'date' => $_POST['date'],
+                'available_date' => $_POST['date'],
                 'charges_per_hour' => $_POST['rate'],
                 'location' => $_POST['location'],
                 'available_time_from'=>$_POST['available_time_from'],
                 'available_time_to'=>$_POST['available_time_to'],
             ];
+
+            
             //add the availability to the database
             $this->BookingModel->addAvailability($data);
             redirect('tour_guides/Update_Availability');
@@ -226,6 +228,8 @@ public function updateprofile(){
                 'address' => $_POST['address'],
                 'password' => $_POST['password'],
             ];
+
+            
             //update the profile
             $this->BookingModel->updateProfile($data);
             redirect('tour_guides/logout');
