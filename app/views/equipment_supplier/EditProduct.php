@@ -11,7 +11,7 @@
                 <div class="body">
                     <div class="left">
                         <label for="productId">Product Id</label>
-                        <input type="text" name="productId" id="productIdEdit" <?php echo $product->product_id; ?>" readonly>
+                        <input type="text" name="productId" id="productIdEdit" value ="<?php echo $product->product_id; ?>" readonly>
 
                         <label for="productName">Product Name</label>
                         <input type="text" id="productNameEdit" name="productName" value="<?php echo $product->product_name; ?>" required>
