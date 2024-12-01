@@ -227,9 +227,11 @@ public function logout() {
 }
 
 public function editVehicle(){
+
     if (isset($_SESSION['id'])) {
         $data = [
             'id'=> $_SESSION['id'],
+            'vid' => trim($_POST['vehicleId']),
             'vehicleType' => trim($_POST['vehicleType']),
             'vehicleModel' =>trim($_POST['vehicleModel']) ,
             'vehicleMake' => trim($_POST['vehicleMake']),    //These variables are used to store the values which are sent via the form data
@@ -275,7 +277,13 @@ public function editVehicle(){
         }
         
         $update = $this->transportModel->updateVehicle($data);
-
+        if($update){
+            echo "<script>
+                alert('Vehicle Details updated successfully!');
+             </script>";
+             
+            redirect('transport_suppliers/myInventory');
+        }
 }
 
 }

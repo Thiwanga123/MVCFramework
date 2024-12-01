@@ -108,7 +108,8 @@
                                     licensePlateNumber = "<?php echo $vehicle->license_plate_number; ?>"
                                     availability = "<?php echo $vehicle->availability; ?>"
                                     fuelType = "<?php echo $vehicle->fuel_type; ?>"
-                                    description = "<?php echo $vehicle->description; ?>">
+                                    description = "<?php echo $vehicle->description; ?>"
+                                    vid= "<?php echo $vehicle->id; ?>">
                                     Edit
                                 </button>
                                 <a href="<?php echo URLROOT; ?>/transport_suppliers/delete_availability/<?php echo $vehicle->id; ?>"><button class="delete-btn" onclick="return confirm('Are u Sure?');" name ="delete-btn" id="delete-btn">

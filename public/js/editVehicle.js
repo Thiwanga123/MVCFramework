@@ -18,6 +18,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const fuelType = button.getAttribute('fuelType');
             const description = button.getAttribute('description');   
             const availability = button.getAttribute('availability');
+            const id = button.getAttribute('vid');
 
             console.log(vehicleType,vehicleMake,vehicleModel,licensePlateNumber,vehicleRate,fuelType,description,availability);
 
@@ -28,6 +29,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const modalvehicleRate = modal.querySelector('#vehicleRate');
             const modalfuelType = modal.querySelector('#fuelType');
             const modaldescription = modal.querySelector('#description');
+            const modalId = modal.querySelector('#vehicleId');
     
             modalvehicleType.value = vehicleType;
             modalvehicleMake.value = vehicleMake;
@@ -36,6 +38,7 @@ document.addEventListener('DOMContentLoaded', () => {
             modalvehicleRate.value = vehicleRate;
             modalfuelType.value = fuelType;
             modaldescription.value = description;
+            modalId.value = id;
 
             box.classList.add('blur');
             modal.classList.add('active'); 

@@ -9,7 +9,10 @@
                 <form id="editVehicleForm" action="<?php echo URLROOT; ?>/transport_suppliers/editVehicle" method = "post" enctype="multipart/form-data"> 
                     <div class="body">
                         <div class="left">
-                       
+
+                        <label for="vehicleId" style="display: none;">Id</label>
+                        <input type="text" id="vehicleId" name="vehicleId" value="<?php echo $vehicle->id; ?>" hidden readonly>
+   
                         <label for="vehicleType">Vehicle Type</label>
                             <select id="vehicleType" name="vehicleType" required style="width: 100%; max-width: 300px; height: 40px;">
                                 <option disabled selected><?php echo $vehicle->type; ?></option>
