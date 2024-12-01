@@ -6,13 +6,11 @@
             </div>  
 
             <div class="modal-form">
-                <form id="addProductForm" action="<?php echo URLROOT;?>/tour_guides/add_Availability" method = "POST" enctype="multipart/form-data"> 
+                <form id="addProductForm" action="<?php echo URLROOT;?>/tour_guides/Add_Availability" method = "POST" enctype="multipart/form-data"> 
                     <div class="body">
                         <div class="left">
                             <label for="date">Available Date</label>
-                            <input type="date" id="date" name="date" required>
-                            
-
+                            <input type="date" id="date" name="date" required>                            
                             <label for="time">Available Time Slot</label>
                             <label for="time">From Hour</label>
                             <select id="from-time" name="available_time_from" required>
