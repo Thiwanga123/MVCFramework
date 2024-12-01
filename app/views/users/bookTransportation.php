@@ -21,6 +21,7 @@
                 <li>Destinations</li>
                 <li>Accomodations</li>
                 <li>Transportation</li>
+                <li>Guider</li>
                 <li>Equipment Rentals</li>
                 <li>Overview</li>
             </ul>
@@ -78,7 +79,7 @@
                     </a>
                 </div>
                 <div class="group">
-                    <a href="<?php echo URLROOT;?>/trips/equipmentRentals">
+                    <a href="<?php echo URLROOT;?>/trips/guider">
                         <p>Next</p>
                         <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#1d5a62"><path d="M633.85-434.5H151.87v-91h481.98L415.11-744.24 480-808.13 808.13-480 480-151.87l-64.89-63.89L633.85-434.5Z"/></svg>
                     </a>
@@ -88,12 +89,12 @@
             <div class="bottom">
                 
                 <div class="card">
-                    <img src="/vehicle.jpeg" alt="vehicle">
+                    <img src="<?php echo URLROOT;?>/Images/vehicle.jpeg" alt="vehicle">
                     <h3>Traveling Vehicle</h3>
                     <p>NW BDC-2090</p>
                     <br>
                     <p>Price:Rs.10,000 per Day</p>
-                    <a href="<?php echo URLROOT;?>/users/payments"><button class="pay-btn" style=" background-color: rgb(21, 126, 126);color: white;font-size: medium;height: 30px;
+                    <a href="#"><button class="pay-btn" style=" background-color: rgb(21, 126, 126);color: white;font-size: medium;height: 30px;
                     border-radius: 30px;
                     border: none;
                     margin-top: 1rem;
@@ -103,12 +104,12 @@
                 </div>
 
                 <div class="card">
-                    <img src="/vehicle.jpeg" alt="vehicle">
+                    <img src="<?php echo URLROOT;?>/Images/vehicle.jpeg" alt="vehicle">
                     <h3>Traveling Vehicle</h3>
                     <p>NW BDC-2090</p>
                     <br>
                     <p>Price:Rs.10,000 per Day</p>
-                    <a href="<?php echo URLROOT;?>/users/payments"><button class="pay-btn" style=" background-color: rgb(21, 126, 126);color: white;font-size: medium;height: 30px;
+                    <a href="#"><button class="pay-btn" style=" background-color: rgb(21, 126, 126);color: white;font-size: medium;height: 30px;
                     border-radius: 30px;
                     border: none;
                     margin-top: 1rem;
@@ -117,27 +118,12 @@
                     transition: all 0.3s ease;">Book</button></a>
                 </div>
                 <div class="card">
-                    <img src="/vehicle.jpeg" alt="vehicle">
+                    <img src="<?php echo URLROOT;?>/Images/vehicle.jpeg" alt="vehicle">
                     <h3>Traveling Vehicle</h3>
                     <p>NW BDC-2090</p>
                     <br>
                     <p>Price:Rs.10,000 per Day</p>
-                    <a href="<?php echo URLROOT;?>/users/payments"><button class="pay-btn" style=" background-color: rgb(21, 126, 126);color: white;font-size: medium;height: 30px;
-                    border-radius: 30px;
-                    border: none;
-                    margin-top: 1rem;
-                    cursor: pointer;
-                    padding: 0 10px;
-                    transition: all 0.3s ease;">Book</button></a>
-                </div>
-
-                <div class="card">
-                    <img src="/vehicle.jpeg" alt="vehicle">
-                    <h3>Traveling Vehicle</h3>
-                    <p>NW BDC-2090</p>
-                    <br>
-                    <p>Price:Rs.10,000 per Day</p>
-                    <a href="<?php echo URLROOT;?>/users/payments"><button class="pay-btn" style=" background-color: rgb(21, 126, 126);color: white;font-size: medium;height: 30px;
+                    <a href="#"><button class="pay-btn" style=" background-color: rgb(21, 126, 126);color: white;font-size: medium;height: 30px;
                     border-radius: 30px;
                     border: none;
                     margin-top: 1rem;
@@ -147,13 +133,12 @@
                 </div>
 
                 <div class="card">
-                    <img src="/vehicle.jpeg" alt="vehicle">
-                    <h3>AraLiya Resort</h3>
-                    <p>Location:Badulla</p>
+                    <img src="<?php echo URLROOT;?>/Images/vehicle.jpeg" alt="vehicle">
+                    <h3>Traveling Vehicle</h3>
+                    <p>NW BDC-2090</p>
                     <br>
-                    <p>Price:Rs.2000,00 per person</p>
-                    <p>Type:Single Room</p>
-                    <a href="<?php echo URLROOT;?>/users/payments"><button class="book-btn" style=" background-color: rgb(21, 126, 126);color: white;font-size: medium;height: 30px;
+                    <p>Price:Rs.10,000 per Day</p>
+                    <a href="#"><button class="pay-btn" style=" background-color: rgb(21, 126, 126);color: white;font-size: medium;height: 30px;
                     border-radius: 30px;
                     border: none;
                     margin-top: 1rem;
@@ -163,12 +148,12 @@
                 </div>
 
                 <div class="card">
-                    <img src="/vehicle.jpeg" alt="vehicle">
+                    <img src="<?php echo URLROOT;?>/Images/vehicle.jpeg" alt="vehicle">
                     <h3>Traveling Vehicle</h3>
                     <p>NW BDC-2090</p>
                     <br>
                     <p>Price:Rs.10,000 per Day</p>
-                    <a href="<?php echo URLROOT;?>/users/payments"><button class="pay-btn" style=" background-color: rgb(21, 126, 126);color: white;font-size: medium;height: 30px;
+                    <a href="#"><button class="pay-btn" style=" background-color: rgb(21, 126, 126);color: white;font-size: medium;height: 30px;
                     border-radius: 30px;
                     border: none;
                     margin-top: 1rem;
@@ -178,27 +163,42 @@
                 </div>
 
                 <div class="card">
-                    <img src="/vehicle.jpeg" alt="vehicle">
+                    <img src="<?php echo URLROOT;?>/Images/vehicle.jpeg" alt="vehicle">
                     <h3>Traveling Vehicle</h3>
                     <p>NW BDC-2090</p>
                     <br>
                     <p>Price:Rs.10,000 per Day</p>
-                    <a href="<?php echo URLROOT;?>/users/payments"><button class="pay-btn" style=" background-color: rgb(21, 126, 126);color: white;font-size: medium;height: 30px;
+                    <a href="#"><button class="pay-btn" style=" background-color: rgb(21, 126, 126);color: white;font-size: medium;height: 30px;
                     border-radius: 30px;
                     border: none;
                     margin-top: 1rem;
                     cursor: pointer;
                     padding: 0 10px;
-                    transition: all 0.3s ease;">Book</button></a> 
+                    transition: all 0.3s ease;">Book</button></a>
                 </div>
 
                 <div class="card">
-                    <img src="/vehicle.jpeg" alt="vehicle">
+                    <img src="<?php echo URLROOT;?>/Images/vehicle.jpeg" alt="vehicle">
                     <h3>Traveling Vehicle</h3>
                     <p>NW BDC-2090</p>
                     <br>
                     <p>Price:Rs.10,000 per Day</p>
-                    <a href="<?php echo URLROOT;?>/users/payments"><button class="pay-btn" style=" background-color: rgb(21, 126, 126);color: white;font-size: medium;height: 30px;
+                    <a href="#"><button class="pay-btn" style=" background-color: rgb(21, 126, 126);color: white;font-size: medium;height: 30px;
+                    border-radius: 30px;
+                    border: none;
+                    margin-top: 1rem;
+                    cursor: pointer;
+                    padding: 0 10px;
+                    transition: all 0.3s ease;">Book</button></a>
+                </div>
+
+                <div class="card">
+                    <img src="<?php echo URLROOT;?>/Images/vehicle.jpeg" alt="vehicle">
+                    <h3>Traveling Vehicle</h3>
+                    <p>NW BDC-2090</p>
+                    <br>
+                    <p>Price:Rs.10,000 per Day</p>
+                    <a href="#"><button class="pay-btn" style=" background-color: rgb(21, 126, 126);color: white;font-size: medium;height: 30px;
                     border-radius: 30px;
                     border: none;
                     margin-top: 1rem;
