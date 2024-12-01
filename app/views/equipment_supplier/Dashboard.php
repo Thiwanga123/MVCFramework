@@ -80,7 +80,7 @@
                     </div>
                     <span class = "info">
                         <h3>2</h3>
-                        <p>Pending Orders</p>
+                        <p>Rented Products</p>
                     </span>
                 </li>
             </ul>

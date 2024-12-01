@@ -33,6 +33,11 @@
     border-radius: 20px;
 }
 
+.content main .profile form{
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+}
 .content main .profile .profile-top{
     display: flex;
     flex-direction: column;
