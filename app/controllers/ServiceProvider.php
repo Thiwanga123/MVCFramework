@@ -14,7 +14,6 @@ class ServiceProvider extends Controller {
 
 
     public function login() {
-
         // Check if the form was submitted (POST request)
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             // Sanitize POST data
@@ -30,8 +29,7 @@ class ServiceProvider extends Controller {
                 'password_err' => '',
                 'sptype_err' => '',
             ];
-           
-         
+            
             // Check if the email, password, and service type fields are not empty
             if (empty($data['email']) || empty($data['password']) || empty($data['sptype'])) {
                 // Set error message for empty fields
@@ -55,8 +53,8 @@ class ServiceProvider extends Controller {
                 if ($loggedInUser) {
                     // Create session for the logged-in user and redirect
                     $this->createUserSession($loggedInUser, $data['sptype']);
-//redirect to the relevant dashboard
-redirect($data['sptype'] . '/dashboard');
+                    //redirect to the relevant dashboard
+                    redirect($data['sptype'] . '/dashboard');
                    
                 } else {
                     // If login fails (wrong password), set error message
