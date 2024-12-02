@@ -62,6 +62,24 @@ class Equipment_Suppliers extends Controller{
         }
     }
 
+    public function bankdetails(){
+
+        if (isset($_SESSION['id'])) {
+            $this->view('equipment_supplier/bankdetails');
+        } else {
+            redirect('ServiceProvider');
+        }
+    }
+
+    public function Mypayments(){
+
+        if (isset($_SESSION['id'])) {
+            $this->view('equipment_supplier/Mypayments');
+        } else {
+            redirect('ServiceProvider');
+        }
+    }
+
     public function notifications(){
 
         if (isset($_SESSION['id'])) {
