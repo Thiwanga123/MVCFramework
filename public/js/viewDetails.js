@@ -19,8 +19,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 const productCategoryId = button.getAttribute('productCategoryId');   
    
 
-                console.log({ productId, productName, productRate, productQuantity, productCategory, productDescription, productCategoryId });
-
                 const modalProductId = modal.querySelector('#productIdEdit');
                 const modalProductName = modal.querySelector('#productNameEdit');
                 const modalProductRate = modal.querySelector('#productRateEdit');

@@ -1,8 +1,16 @@
-main .hero-content {
+main{
+    display: flex;
+    flex-direction: column;
+    height: calc(100%-55px);
+    gap: 20px;
+}
+
+main .top{
+    background-color: aqua;
+    height: 40%;
     background-image: url('../../Images/sri-lanka-sh-conde-nast-traveller-27jul20-1129567869.jpg'); /* Update with your image path */
     background-size: cover; 
     background-repeat: no-repeat;
-    height: 90vh; 
     display: flex;
     flex-direction: column;
     justify-content: center; 
@@ -11,128 +19,103 @@ main .hero-content {
     font-size: 25px;
     color: rgb(255, 255, 255); 
     line-height: 60px;
-    filter :opacity(0.9);
-}
-main .bar{
-    display: flex;
-    justify-content: center; 
-    padding: 40px 0px;
+    filter :opacity(0.8);
+    border-radius: 10px;
 }
 
-main .bar .bar-in{
-    background-color: rgba(13, 129, 224, 0.375);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    border-radius: 30px;
-    padding: 10px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-}
-
-main .bar .bar-in li{
-    display: flex;
-    align-items: center;
-    gap: 20px;
-}
-
-main .bar .bar-in li .group{
+main .top .bar .group{
+    padding: 100px;
     display: flex;
     flex-direction: column;
-    margin-right: 1rem;
+    align-items: center;
 }
 
-main .bar .bar-in li .group h3{
-    margin-top:5px;
-    margin-bottom: 5px;
+main .top .bar .group button{
+    flex-direction: column;
+    align-items: center;
 }
 
-main .bar .bar-in li .group .start{
+main .bottom{
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    align-items: center;
+    justify-content: center;
+}
+
+main .bottom button{
+    display: flex;
+    background-color: teal;
+    border: none;
+    border-radius: 50%;
+    justify-content: center;
+    align-items: center;
+    width: 60px;
+    height: 60px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+main .bottom button :hover{
+    transform: scale(0.1px);
+}
+
+.bar-in{
+    display: flex;
+    flex-wrap: wrap;
+    width: 80%;
+    background-color:white;
+    justify-content: space-between;
+    align-items: center;
+    border-radius: 15px;
+    padding: 15px;
+    margin: 0;
+    gap: 10px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.bar-in .group{
     display: flex;
     align-items: center;
-    gap: 5px;
-    
-
+    gap: 1rem;
+    margin-bottom: 10px;
 }
 
-main .bar .bar-in li .group p {
-    margin-bottom: 5px; 
+.bar-in li { 
+    display: flex;
+    justify-content: space-between;
+    flex-direction: column; 
 }
 
-/* main .bar .bar-in li input{
+.bar-in li input{
+    width: 100%;
     border: none;
-    background-color: rgb(255, 255, 255);
+    background-color:#eeecec;
     height: 30px;
     border-radius: 30px;
     padding: 0 20px;
-} */
+}
 
-main .bar .bar-in li .group button .start{ 
+.bar-in li button {
     background: teal;
     border: none;
     border-radius: 50%;
     cursor: pointer;
     display: flex;
     align-items: center;
+    padding: 10px;
+    transition: all 0.3s ease-in;
 }
 
-main .bar .bar-in:hover{
+.bar-in li button:hover{
+    background: rgb(20, 90, 90);
+}
+
+.bar-in:hover{
     box-shadow: none;
+    transition: all 0.3s ease-in;
 }
 
-main .bar .bar-in li button svg:hover{
+.bar-in li button svg:hover{
     fill: whitesmoke;
-}
-/* General styles */
-
-
-/* Navigation styles */
-
-/* Main content styles */
-
-
-
-
-.hero-content {
-    text-align: center;
-}
-
-.bar {
-    display: flex;
-    justify-content: center;
-}
-
-.bar-in {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-}
-
-.bar-in li {
-    margin: 10px;
-}
-
-.group {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
-
-.group h1 {
-    margin-bottom: 10px;
-    
-}
-
-.group .start {
-    background-color: transparent;
-    border: none;
-    cursor: pointer;
-    padding: 0;
-}
-
-.group .start svg {
-    display: block;
-    margin-top: 10px;
-    fill: #fbfbfb;
-    width: 60px;
-    height: 60px;
 }

@@ -39,14 +39,14 @@
     background-color: teal;
 }
 
-.content main .Bookings{
+.content main .item-orders{
     display: flex;
     flex-wrap: wrap;
     gap: 20px;
     margin-top: 24px;
 }
 
-.content main .Bookings>div{
+.content main .item-orders>div{
     border-radius: 20px;
     background: var(--light);
     padding: 18px;
@@ -54,90 +54,68 @@
     width: 100%;
 }
 
-.content main .Bookings .header{
+.content main .item-orders .header{
     display: flex;
     align-items: center;
     gap: 16px;
     margin-bottom: 24px;
 }
 
-.content main .Bookings .header h3{
+.content main .item-orders .header h3{
     margin-right: auto;
     font-size: 24px;
     font-weight: 600;
 }
 
-.content main .Bookings .header svg{
+.content main .item-orders .header svg{
    cursor: pointer;
 }
 
-/*.content main .Bookings table{
+.content main .item-orders table{
     width: 100%;
     border-collapse: collapse;
 }
 
-.content main .Bookings table th{
+.content main .item-orders table th{
     padding-bottom: 12px;
     font-size: 14px;
     text-align: left;
     border-bottom: 1px solid var(--light-success);
 }
 
-.content main .Bookings table td{
+.content main .item-orders table td{
     padding: 16px 0;
 }
 
-.content main .Bookings table tr td:first-child{
+.content main .item-orders table tr td:first-child{
     display: flex;
     align-items: center;
     gap: 12px;
     padding-left: 20px;
-}*/
+}
 
-.content main .Bookings table td img{
+.content main .item-orders table td img{
     width: 36px;
     height: 36px;
     border-radius: 50%;
     object-fit: cover;
 }
 
-/*.content main .Bookings table tbody tr{
+.content main .item-orders table tbody tr{
     font-size: 16px;
     cursor: pointer;
     transition: all 0.3s ease;
 }
     
-.content main .Bookings table tbody tr:hover{
+.content main .item-orders table tbody tr:hover{
     background: var(--grey);
 }
 
-.content main .Bookings table tbody tr td .status{
+.content main .item-orders table tbody tr td .status{
     font-size: 12px;
     padding: 6px 16px;
     border-radius: 20px;
     font-weight: 700px;
-}*/
-
-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-bottom: 20px;
-}
-
- th,td{
-    border: 1px solid #060606;
-    padding: 10px;
-    text-align: left;
-}
-td{
-    color:rgb(10, 7, 17);
-}
-
-
-
-th {
-    background-color: #93c9ca;
-    font-weight: bold;
 }
 
 .Action {

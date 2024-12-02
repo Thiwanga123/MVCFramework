@@ -78,7 +78,7 @@
                         <?php foreach ($data['accomadation'] as $accomadation):?>
                         <tr>
                             <td>
-                                <img src="<?php echo URLROOT;?>/Images/Accomadation.jpg" alt="Location Image">
+                                <img src="<?php echo URLROOT;?>/Images/Location.jpg" alt="Location Image">
                              </td>
                             <td><?php echo $accomadation->location;?></td>
                             <td><?php echo $accomadation->id;?></td>

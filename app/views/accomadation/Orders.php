@@ -6,58 +6,6 @@
     <link rel="stylesheet" href="<?php echo URLROOT;?>/css/Common/Orders.css">
     <link rel="stylesheet" href="<?php echo URLROOT;?>/css/Common/sidebarHeader.css">
     <title>Home</title>
-
-<style>
-    .modal {
-            display: none;
-            position: fixed;
-            z-index: 1;
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            overflow: auto;
-            background-color: rgb(0,0,0);
-            background-color: rgba(0,0,0,0.4);
-            padding-top: 60px;
-        }
-        .modal-content {
-            background-color: #fefefe;
-            margin: 5% auto;
-            padding: 20px;
-            border: 1px solid #888;
-            width: 80%;
-            max-width: 500px;
-            border-radius: 8px;
-        }
-        .close {
-            color: #aaa;
-            float: right;
-            font-size: 28px;
-            font-weight: bold;
-        }
-        .close:hover,
-        .close:focus {
-            color: black;
-            text-decoration: none;
-            cursor: pointer;
-        }
-        .modal-content h2 {
-            margin-top: 0;
-        }
-        .modal-content button {
-            background-color: #4a90e2;
-            color: white;
-            padding: 10px 20px;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-        }
-        .modal-content button:hover {
-            background-color: #357ab8;
-        }
-
-    </style>
 </head>
 <body>
     <!-- SideBar -->
@@ -121,24 +69,7 @@
                     <tbody>
                         <tr>
                             <td>
-                                <img src="<?php echo URLROOT;?>/Images/Profile pic.jpg"> Suresh
-                            </td>
-                            <td>E102</td>
-                            <td>Hotel</td>
-                            <td>10</td>
-                            <td>2024-10-20</td>
-                            <td>2024-10-23</td>
-                            <td>Rs.20,000.00</td>
-                            <td>Pending</td>                           
-                            <td class="action-btn">
-                                    <button class="view-btn">View</button>
-                                    
-                            </td>
-
-                        </tr>
-                        <tr>
-                        <td>
-                                <img src="<?php echo URLROOT;?>/Images/Profile pic.jpg"> Nirosha
+                                <img src="<?php echo URLROOT;?>/Images/Profile pic.jpg"> John
                             </td>
                             <td>E102</td>
                             <td>Hotel</td>
@@ -149,6 +80,28 @@
                             <td>Completed</td>                           
                             <td class="action-btn">
                                     <button class="view-btn">View</button>
+<<<<<<< HEAD
+                                    
+=======
+                                    <button class="cancel-btn">Cancel</button>
+>>>>>>> origin/ushan
+                            </td>
+
+                        </tr>
+                        <tr>
+                        <td>
+                                <img src="<?php echo URLROOT;?>/Images/Profile pic.jpg"> John
+                            </td>
+                            <td>E102</td>
+                            <td>Hotel</td>
+                            <td>10</td>
+                            <td>2024-10-20</td>
+                            <td>2024-10-23</td>
+                            <td>Rs.20,000.00</td>
+                            <td>Completed</td>                           
+                            <td class="action-btn">
+                                    <button class="view-btn">View</button>
+<<<<<<< HEAD
                                     
                             </td>
                         </tr>
@@ -166,6 +119,9 @@
                             <td class="action-btn">
                                     <button class="view-btn">View</button>
                                     
+=======
+                                    <button class="cancel-btn">Cancel</button>
+>>>>>>> origin/ushan
                             </td>
                         </tr>
                         <tr>
@@ -181,7 +137,7 @@
                             <td>Completed</td>                           
                             <td class="action-btn">
                                     <button class="view-btn">View</button>
-                                    
+                                    <button class="cancel-btn">Cancel</button>
                             </td>
                         </tr>
                         <tr>
@@ -197,7 +153,7 @@
                             <td>Completed</td>                           
                             <td class="action-btn">
                                     <button class="view-btn">View</button>
-                                    
+                                    <button class="cancel-btn">Cancel</button>
                             </td>
                         </tr>
                         <tr>
@@ -210,10 +166,30 @@
                             <td>2024-10-20</td>
                             <td>2024-10-23</td>
                             <td>Rs.20,000.00</td>
-                            <td>Pending</td>                           
+                            <td>Completed</td>                           
                             <td class="action-btn">
                                     <button class="view-btn">View</button>
+<<<<<<< HEAD
                                     
+=======
+                                    <button class="cancel-btn">Cancel</button>
+                            </td>
+                        </tr>
+                        <tr>
+                        <td>
+                                <img src="<?php echo URLROOT;?>/Images/Profile pic.jpg"> John
+                            </td>
+                            <td>E102</td>
+                            <td>Hotel</td>
+                            <td>10</td>
+                            <td>2024-10-20</td>
+                            <td>2024-10-23</td>
+                            <td>Rs.20,000.00</td>
+                            <td>Completed</td>                           
+                            <td class="action-btn">
+                                    <button class="view-btn">View</button>
+                                    <button class="cancel-btn">Cancel</button>
+>>>>>>> origin/ushan
                             </td>
                         </tr>
                     </tbody>
@@ -225,48 +201,8 @@
 
      </div>
 
-     <!-- The Modal -->
-    <div id="refundModal" class="modal">
-        <div class="modal-content">
-            <span class="close" onclick="closeModal()">&times;</span>
-            <h2>Refund Payment</h2>
-            <p>Are you sure you want to refund this payment?</p>
-            <button onclick="confirmRefund()">Confirm</button>
-        </div>
-    </div>
-
-    <script>
-        function showTab(tab) {
-            const tabs = document.querySelectorAll('.tabs button');
-            tabs.forEach(button => {
-                button.classList.remove('active');
-            });
-            document.querySelector(`.tabs button[onclick="showTab('${tab}')"]`).classList.add('active');
-
-            const tables = document.querySelectorAll('tbody');
-            tables.forEach(table => {
-                table.style.display = 'none';
-            });
-            document.getElementById(tab).style.display = 'table-row-group';
-        }
-
-        function openModal() {
-            document.getElementById('refundModal').style.display = 'block';
-        }
-
-        function closeModal() {
-            document.getElementById('refundModal').style.display = 'none';
-        }
-
-        function confirmRefund() {
-            alert('Payment has been refunded.');
-            closeModal();
-        }
-    </script>
-
 
      <script src="<?php echo URLROOT;?>/js/Sidebar.js"></script> 
-
 
     
      

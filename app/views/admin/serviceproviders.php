@@ -136,7 +136,7 @@
                             <img src="<?php echo URLROOT;?>/Images/Profile pic.jpg">
                                 <div class="update-info">
                                     <div class="name-info">
-                                        <p>Kasun Herath</p>
+                                        <p>John Doe</p>
                                     </div>
                                     <div class="service-info">
                                         <p>Transport</p>
@@ -154,7 +154,7 @@
                             <img src="<?php echo URLROOT;?>/Images/Profile pic.jpg">
                                 <div class="update-info">
                                     <div class="name-info">
-                                        <p>Imesh Hasanka</p>
+                                        <p>John Doe</p>
                                     </div>
                                     <div class="service-info">
                                         <p>Transport</p>
@@ -172,7 +172,7 @@
                             <img src="<?php echo URLROOT;?>/Images/Profile pic.jpg">
                                 <div class="update-info">
                                     <div class="name-info">
-                                        <p>Kalhara Mevan</p>
+                                        <p>John Doe</p>
                                     </div>
                                     <div class="service-info">
                                         <p>Guide Services</p>
