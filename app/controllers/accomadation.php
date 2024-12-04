@@ -84,6 +84,19 @@ public function myInventory(){
         exit();
     }
 
+    //start
+    public function start(){
+        $this->view('accomadation/start');
+    }
+
+    public function basicinfo(){
+        $this->view('accomadation/basicinformation');
+    }
+
+    public function propertyinfo(){
+        $this->view('accomadation/propertyInformation');
+    }
+
     public function addAccommodation() {
         if (isset($_POST['submit'])) {
             $data = [
