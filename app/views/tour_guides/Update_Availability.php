@@ -91,10 +91,38 @@
                             <td><?php echo $available->charges_per_hour; ?></td>
                             <td><?php echo $available->location; ?></td>
                             <td class="action-button" >
-                            <button class="edit-btn" name ="edit-btn" id="edit-btn" style="delete-btn {background-color: rgb(107, 239, 122);color: white; font-size: medium;cursor: pointer;padding: 5px 10px;border-radius: 20px;border-style: none; margin-top: 1rem;}">
-                                    Edit
-                                </button>
-                                <a href="<?php echo URLROOT; ?>/tour_guides/delete_availability/<?php echo $available->id; ?>"><button class="delete-btn" onclick="return confirm('Are u Sure?');" name ="delete-btn" id="delete-btn">
+                            <a href="#">
+    <button 
+        class="Edit-btn" 
+        onclick="return confirm('Are you sure?');" 
+        name="Edit-btn" 
+        id="Edit-btn" 
+        style="background-color: #4CAF50; /* Green */
+               border: none;
+               color: white;
+               padding: 10px 20px;
+               text-align: center;
+               text-decoration: none;
+               display: inline-block;
+               font-size: 16px;
+               margin: 4px 2px;
+               cursor: pointer;
+               border-radius: 4px;">
+        Edit
+    </button>
+</a>
+                            
+                                <a href="<?php echo URLROOT; ?>/tour_guides/delete_availability/<?php echo $available->id; ?>"><button class="Delete-btn" onclick="return confirm('Are u Sure?');"style="background-color: red; /* Green */
+               border: none;
+               color: white;
+               padding: 10px 20px;
+               text-align: center;
+               text-decoration: none;
+               display: inline-block;
+               font-size: 16px;
+               margin: 4px 2px;
+               cursor: pointer;
+               border-radius: 4px;" name ="delete-btn" id="delete-btn">
                                    Delete
                                 </button></a>
                     </tr>
