@@ -8,8 +8,6 @@
         }
 
         public function addProduct(){
-
-            echo "hi";
         
             if(isset($_POST['submit'])){
 

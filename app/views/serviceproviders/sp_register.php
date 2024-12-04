@@ -39,7 +39,7 @@
                         <div class="input-field">
                             <label for="sptype">Service Type</label>
                             <select id="sptype" name="sptype" required style="width: 100%; max-width: 300px; height: 40px;">
-                                <option value="vehicle_suppliers">Transport Supplier</option>
+                                <option value="transport_suppliers">Transport Supplier</option>
                                 <option value="equipment_suppliers">Equipment Supplier</option>
                                 <option value="accomadation">Accomadation Supplier</option>
                                 <option value="tour_guides">Tour Guide</option>

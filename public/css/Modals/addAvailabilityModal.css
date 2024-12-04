@@ -80,7 +80,7 @@
     padding: 20px;
 }
 
-.availability-modal-form form .right, .addModal-form form .left{
+.availability-modal-form form .right, .availability-modal-form form .left{
     display: flex;
     flex-direction: column;
     flex: 1;

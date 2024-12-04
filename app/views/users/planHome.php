@@ -20,6 +20,7 @@
                 <li>Destinations</li>
                 <li>Accomodations</li>
                 <li>Transportation</li>
+                <li>Guider</li>
                 <li>Equipment Rentals</li>
                 <li>Overview</li>
             </ul>

@@ -310,7 +310,6 @@ th {
     transition: filter 0.3s ease; 
 }
 
-
 @media (max-width: 768px) {
     .modal {
         width: 90%;  

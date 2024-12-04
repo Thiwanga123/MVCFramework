@@ -21,6 +21,7 @@
                 <li>Destinations</li>
                 <li>Accomodations</li>
                 <li>Transportation</li>
+                <li>Guider</li>
                 <li>Equipment Rentals</li>
                 <li>Overview</li>
             </ul>
@@ -115,131 +116,131 @@
 
             <div class="bottom">
                 <div class="card">
-                    <img src="/Accomadation.jpg" alt="Accommodation ">
+                    <img src="<?php echo URLROOT;?>/Images/Accomadation.jpg" alt="Accommodation ">
                     <h3>AraLiya Resort</h3>
                     <p>Location:Badulla</p>
                     <br>
                     <p>Price:Rs.2000,00 per person</p>
                     <p>Type:Single Room</p>
-                    <a href="<?php echo URLROOT;?>/users/payments"><button class="book-btn" style=" background-color: rgb(21, 126, 126);color: white;font-size: medium;height: 30px;
+                    <a href="#"><button class="book-btn" style=" background-color: rgb(21, 126, 126);color: white;font-size: medium;height: 30px;
                     border-radius: 30px;
                     border: none;
                     margin-top: 1rem;
                     cursor: pointer;
                     padding: 0 10px;
-                    transition: all 0.3s ease;">Book</button></a>
+                    transition: all 0.3s ease;">Add</button></a>
                 </div>
 
                 <div class="card">
-                    <img src="/Accomadation.jpg" alt="Accommodation ">
+                    <img src="<?php echo URLROOT;?>/Images/Accomadation.jpg" alt="Accommodation ">
                     <h3>AraLiya Resort</h3>
                     <p>Location:Badulla</p>
                     <br>
                     <p>Price:Rs.2000,00 per person</p>
                     <p>Type:Single Room</p>
-                    <a href="<?php echo URLROOT;?>/users/payments"><button class="book-btn" style=" background-color: rgb(21, 126, 126);color: white;font-size: medium;height: 30px;
+                    <a href="#"><button class="book-btn" style=" background-color: rgb(21, 126, 126);color: white;font-size: medium;height: 30px;
                     border-radius: 30px;
                     border: none;
                     margin-top: 1rem;
                     cursor: pointer;
                     padding: 0 10px;
-                    transition: all 0.3s ease;">Book</button></a>
+                    transition: all 0.3s ease;">Add</button></a>
                 </div>
 
                 <div class="card">
-                    <img src="/Accomadation.jpg" alt="Accommodation ">
+                    <img src="<?php echo URLROOT;?>/Images/Accomadation.jpg" alt="Accommodation ">
                     <h3>AraLiya Resort</h3>
                     <p>Location:Badulla</p>
                     <br>
                     <p>Price:Rs.2000,00 per person</p>
                     <p>Type:Single Room</p>
-                    <a href="<?php echo URLROOT;?>/users/payments"><button class="book-btn" style=" background-color: rgb(21, 126, 126);color: white;font-size: medium;height: 30px;
+                    <a href="#"><button class="book-btn" style=" background-color: rgb(21, 126, 126);color: white;font-size: medium;height: 30px;
                     border-radius: 30px;
                     border: none;
                     margin-top: 1rem;
                     cursor: pointer;
                     padding: 0 10px;
-                    transition: all 0.3s ease;">Book</button></a>
+                    transition: all 0.3s ease;">Add</button></a>
                 </div>
 
                 <div class="card">
-                    <img src="/Accomadation.jpg" alt="Accommodation ">
+                    <img src="<?php echo URLROOT;?>/Images/Accomadation.jpg" alt="Accommodation ">
                     <h3>AraLiya Resort</h3>
                     <p>Location:Badulla</p>
                     <br>
                     <p>Price:Rs.2000,00 per person</p>
                     <p>Type:Single Room</p>
-                    <a href="<?php echo URLROOT;?>/users/payments"><button class="book-btn" style=" background-color: rgb(21, 126, 126);color: white;font-size: medium;height: 30px;
+                    <a href="#"><button class="book-btn" style=" background-color: rgb(21, 126, 126);color: white;font-size: medium;height: 30px;
                     border-radius: 30px;
                     border: none;
                     margin-top: 1rem;
                     cursor: pointer;
                     padding: 0 10px;
-                    transition: all 0.3s ease;">Book</button></a>
+                    transition: all 0.3s ease;">Add</button></a>
                 </div>
 
                 <div class="card">
-                    <img src="/Accomadation.jpg" alt="Accommodation ">
+                    <img src="<?php echo URLROOT;?>/Images/Accomadation.jpg" alt="Accommodation ">
                     <h3>AraLiya Resort</h3>
                     <p>Location:Badulla</p>
                     <br>
                     <p>Price:Rs.2000,00 per person</p>
                     <p>Type:Single Room</p>
-                    <a href="<?php echo URLROOT;?>/users/payments"><button class="book-btn" style=" background-color: rgb(21, 126, 126);color: white;font-size: medium;height: 30px;
+                    <a href="#"><button class="book-btn" style=" background-color: rgb(21, 126, 126);color: white;font-size: medium;height: 30px;
                     border-radius: 30px;
                     border: none;
                     margin-top: 1rem;
                     cursor: pointer;
                     padding: 0 10px;
-                    transition: all 0.3s ease;">Book</button></a>
+                    transition: all 0.3s ease;">Add</button></a>
                 </div>
 
                 <div class="card">
-                    <img src="/Accomadation.jpg" alt="Accommodation ">
+                    <img src="<?php echo URLROOT;?>/Images/Accomadation.jpg" alt="Accommodation ">
                     <h3>AraLiya Resort</h3>
                     <p>Location:Badulla</p>
                     <br>
                     <p>Price:Rs.2000,00 per person</p>
                     <p>Type:Single Room</p>
-                    <a href="<?php echo URLROOT;?>/users/payments"><button class="book-btn" style=" background-color: rgb(21, 126, 126);color: white;font-size: medium;height: 30px;
+                    <a href="#"><button class="book-btn" style=" background-color: rgb(21, 126, 126);color: white;font-size: medium;height: 30px;
                     border-radius: 30px;
                     border: none;
                     margin-top: 1rem;
                     cursor: pointer;
                     padding: 0 10px;
-                    transition: all 0.3s ease;">Book</button></a>
+                    transition: all 0.3s ease;">Add</button></a>
                 </div>
 
                 <div class="card">
-                    <img src="/Accomadation.jpg" alt="Accommodation ">
+                    <img src="<?php echo URLROOT;?>/Images/Accomadation.jpg" alt="Accommodation ">
                     <h3>AraLiya Resort</h3>
                     <p>Location:Badulla</p>
                     <br>
                     <p>Price:Rs.2000,00 per person</p>
                     <p>Type:Single Room</p>
-                    <a href="<?php echo URLROOT;?>/users/payments"><button class="book-btn" style=" background-color: rgb(21, 126, 126);color: white;font-size: medium;height: 30px;
+                    <a href="#"><button class="book-btn" style=" background-color: rgb(21, 126, 126);color: white;font-size: medium;height: 30px;
                     border-radius: 30px;
                     border: none;
                     margin-top: 1rem;
                     cursor: pointer;
                     padding: 0 10px;
-                    transition: all 0.3s ease;">Book</button></a>
+                    transition: all 0.3s ease;">Add</button></a>
                 </div>
 
                 <div class="card">
-                    <img src="/Accomadation.jpg" alt="Accommodation ">
+                    <img src="<?php echo URLROOT;?>/Images/Accomadation.jpg" alt="Accommodation ">
                     <h3>AraLiya Resort</h3>
                     <p>Location:Badulla</p>
                     <br>
                     <p>Price:Rs.2000,00 per person</p>
                     <p>Type:Single Room</p>
-                    <a href="<?php echo URLROOT;?>/users/payments"><button class="book-btn" style=" background-color: rgb(21, 126, 126);color: white;font-size: medium;height: 30px;
+                    <a href="#"><button class="book-btn" style=" background-color: rgb(21, 126, 126);color: white;font-size: medium;height: 30px;
                     border-radius: 30px;
                     border: none;
                     margin-top: 1rem;
                     cursor: pointer;
                     padding: 0 10px;
-                    transition: all 0.3s ease;">Book</button></a>
+                    transition: all 0.3s ease;">Add</button></a>
                 </div>
             </div>
         </div>

@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <link rel="stylesheet" href="<?php echo URLROOT;?>/css/Common/Profile_pre.css">
+    <link rel="stylesheet" href="<?php echo URLROOT;?>/css/Common/Profile.css">
     <link rel="stylesheet" href="<?php echo URLROOT;?>/css/Common/sidebarHeader.css">
     <title>Profile</title>
 </head>
@@ -33,7 +33,7 @@
                 <span class="count">12</span>
             </a>
             <a href="#" class="profile">
-            <img src="<?php echo URLROOT;?>/Images/Profile pic.jpg">
+            <img src="../../../Public/Images/Profile pic.jpg">
             </a>
         </nav>
 
@@ -43,45 +43,42 @@
                     <h1>My Profile</h1>
                 </div>
             </div>
-            <p>Please fill the following details to update your profile(You are not allowed to update the NIC and Gov.Reg No)</p>
-            <form action="<?php echo URLROOT; ?>/tour_guides/updateprofile"  method="POST" enctype="multipart/form-data">
+            
             <div class="profile">
                 <div class="profile-left">
-                <img src="<?php echo URLROOT;?>/Images/Profile pic.jpg" alt="">
+                <img src="/Images/Profile pic.jpg" alt="">
                 </div>
 
                 <div class="profile-center">
                     <h4>Guider Name</h4>
                     <input type="name" id="name" name="name">
-                    <h4>Language</h4>
-                    <input type="Guider ID" id="language" name="language">
+                    <h4>Gender ID</h4>
+                    <input type="Gender" id="Gender" name="Gender">
+                    <h4>Guider ID</h4>
+                    <input type="Guider ID" id="Guider ID" name="Guider ID">
                     <h4>Email</h4>
                     <input type="email" id="email" name="email">
-                    <h4> Address</h4>
-                    <input type="address" id="address" name="address">
+                    
                     
                 </div>
 
                 <div class="profile-right">
                     <h4>Phone Number</h4>
-                    <input type="Phone Number" id="phone" name="phone">
+                    <input type="Phone Number" id="Phone Number" name="Phone Number">
                     <h4>Government Registration No</h4>
-                    <input type="Government Registration No" id="reg_num" name="reg_num" value="ALB2043">
-                    <h4>NIC</h4>
-                    <input type="Government Registration No" id="nic" name="nic" value="200233513599">
+                    <input type="Government Registration No" id="Government Registration No" name="Government Registration No">
                     
-                    
+                    <h4> Address</h4>
+                    <input type="address" id="address" name="address">
                     <h4>Password</h4>
                     <input type="password" id="password" name="password">
 
                     
                     
                 </div>
-                
                 <div class="profile-actions">
                     <button type="submit">Save</button>
                 </div>
-             </form>
                 
             </div>
          

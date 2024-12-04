@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     
-    <link rel="stylesheet" href="<?php echo URLROOT;?>/css/Common/Orders.css">
     <link rel="stylesheet" href="<?php echo URLROOT;?>/css/adminpage/Dashboard.css">
     <link rel="stylesheet" href="<?php echo URLROOT;?>/css/Common/sidebarHeader.css">
     
@@ -36,14 +35,14 @@
                 <span class="count">12</span>
             </a>
             <a href="#" class="profile">
-                <img src="<?php echo URLROOT;?>/Images/Profile pic.jpg">
+                <img src="../../../Public/Images/Profile pic.jpg">
             </a>
         </nav>
 
         <main>
             <div class="header">
                 <div class="left">
-                    <h1 id = "header-title">Dashboard</h1>
+                    <h1 id = "header-title"">Dashboard</h1>
                 </div>
             </div>
         
@@ -54,11 +53,7 @@
                     <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#000000"><path d="M202.87-71.87q-37.78 0-64.39-26.61t-26.61-64.39V-612.2q-18.24-12.43-29.12-31.48-10.88-19.06-10.88-43.02v-110.43q0-37.78 26.61-64.39t64.39-26.61h634.26q37.78 0 64.39 26.61t26.61 64.39v110.43q0 23.96-10.88 43.02-10.88 19.05-29.12 31.48v449.33q0 37.78-26.61 64.39t-64.39 26.61H202.87Zm0-523.83v433.07h554.5V-595.7h-554.5Zm-40-91h634.5v-110.43h-634.5v110.43Zm193.06 292.44H604.3v-86.22H355.93v86.22Zm124.31 14.98Z"/></svg>
                     </div>
                     <span class = "info">
-
-                        <h3><?php echo isset($data['number_of_bookings']) ? $data['number_of_bookings'] : '0'; ?></h3>
-
-                       
-
+                        <h3><?php echo $data['$data']?></h3>
                         <p>Total Bookings</p>
                     </span>
                 </li>
@@ -68,7 +63,7 @@
                     </div>
                     <span class = "info">
                         <h3>21</h3>
-                        <p>Total Reviews</p>
+                        <p>Total Views</p>
                     </span>
                 </li>
                 <li>
@@ -86,7 +81,7 @@
                     </div>
                     <span class = "info">
                         <h3>2</h3>
-                        <p>Available Dates</p>
+                        <p>Available Guides</p>
                     </span>
                 </li>
             </ul>
@@ -103,45 +98,45 @@
                         <thead>
                             <tr>
                                 <th>Customer</th>
-                                <th>Booking Date</th>
-                                <th>Destination</th>
-                                <th>Price</th>
+                                <th>Order Date</th>
+                                <th>Product</th>
+                                <th>Quantity</th>
                                 <th>Status</th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr>
                                 <td>
-                                    <img src="<?php echo URLROOT;?>/Images/Profile pic.jpg">
-                                    <p>Suren</p>
+                                    <img src="Images/default profile.png">
+                                    <p>John Doe</p>
                                 </td>
                                 <td>21-08-2024</td>
-                                <td>Nuwara Eliya</td>
-                                <td>Rs.5000</td>
+                                <td>Product A</td>
+                                <td>4</td>
                                 <td>
                                     <span class="status completed">Completed</span>
                                 </td>
                             </tr>
                             <tr>
                                 <td>
-                                    <img src="<?php echo URLROOT;?>/Images/Profile pic.jpg">
-                                    <p>Methun</p>
+                                    <img src="Images/default profile.png">
+                                    <p>John Doe</p>
                                 </td>
                                 <td>14-07-2024</td>
-                                <td>Mathara</td>
-                                <td>Rs.10000</td>
+                                <td>Product B</td>
+                                <td>10</td>
                                 <td>
                                     <span class="status pending">Pending</span>
                                 </td>
                             </tr>
                             <tr>
                                 <td>
-                                    <img src="<?php echo URLROOT;?>/Images/Profile pic.jpg">
-                                    <p>Kasun</p>
+                                    <img src="Images/default profile.png">
+                                    <p>John Doe</p>
                                 </td>
                                 <td>01-01-2024</td>
-                                <td>Galle</td>
-                                <td>Rs.6000</td>
+                                <td>Product A</td>
+                                <td>4</td>
                                 <td>
                                     <span class="status cancelled">Cancelled</span>
                                 </td>
@@ -152,40 +147,19 @@
         
                 <!--Recent updates-->
                 <div class="reminders">
-    <div class="header">
-        <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#000000">
-            <path d="M200-120q-33 0-56.5-23.5T120-200v-560q0-33 23.5-56.5T200-840h440l200 200v440q0 33-23.5 56.5T760-120H200Zm0-80h560v-400H600v-160H200v560Zm80-80h400v-80H280v80Zm0-320h200v-80H280v80Zm0 160h400v-80H280v80Zm-80-320v160-160 560-560Z"/>
-        </svg>
-        <h3>System Annnouncement</h3>
-    </div>
-    <ul class="event-list">
-        <li>
-            <div class="event-date">
-                <strong>Dec 01</strong>
-                <span>2024</span>
-            </div>
-            <div class="event-details">
-                <h4>System Maintenance</h4>
-           
-<p>Scheduled downtime for updates from 2:00 AM to 4:00 AM.</p>
-        </div>
-      </li>
-      <li>
-        <div class="event-date">
-          <strong>Dec 05</strong>
-          <span>2024</span>
-        </div>
-        <div class="event-details">
-          <h3>Version 3.0 Release</h3>
-          <p>Launch of new features and performance improvements.</p>
-        </div>
-      </li>
-      
-    </ul>
-    </div>
-       
+                    <div class="header">
+                        <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#000000"><path d="M200-120q-33 0-56.5-23.5T120-200v-560q0-33 23.5-56.5T200-840h440l200 200v440q0 33-23.5 56.5T760-120H200Zm0-80h560v-400H600v-160H200v560Zm80-80h400v-80H280v80Zm0-320h200v-80H280v80Zm0 160h400v-80H280v80Zm-80-320v160-160 560-560Z"/></svg>
+                        <h3>Recent Updates</h3>
         
-               
+                    </div>
+                    <ul class="update-list">
+                        <li></li>
+                        <li></li>
+                        <li></li>
+                    </ul>
+                </div>
+            </div>
+        
           </main>
 
      </div>
