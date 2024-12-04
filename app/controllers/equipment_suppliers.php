@@ -83,7 +83,7 @@ class Equipment_Suppliers extends Controller{
     public function notifications(){
 
         if (isset($_SESSION['id'])) {
-            $this->view('equipment_supplier/Notifications');
+            $this->view('equipment_supplier/Earnings');
         } else {
             redirect('ServiceProvider');
         }

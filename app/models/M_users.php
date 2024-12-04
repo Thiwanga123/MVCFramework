@@ -32,7 +32,7 @@ class M_users{
 
     //register user
     public function register($data){
-        $this->db->query('INSERT INTO traveler (name,  email, password,telephone_number,date_of_joined) VALUES(:name,  :email, :password, :telephone_number,CURRENT_DATE)');
+        $this->db->query('INSERT INTO traveler (name,  email, password,telephone_number,date_of_joined) VALUES(:name,  :email, :password, :telephone_number, CURRENT_DATE)');
         //bind values
         $this->db->bind(':name', $data['name']);
         $this->db->bind(':email', $data['email']);

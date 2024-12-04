@@ -35,9 +35,7 @@
         <main>
            
         
-        
         <form action="#"  method="POST">
-        <p>We will Contact you via the Phone or Email after your msg sent.</p>
             <div class="profile">
                 <div class="profile-left">
                 

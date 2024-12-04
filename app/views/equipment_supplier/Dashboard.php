@@ -34,7 +34,7 @@
                 <span class="count">12</span>
             </a>
             <a href="#" class="profile">
-                <img src="../../../Public/Images/Profile pic.jpg">
+            <img src="<?php echo URLROOT;?>/Images/Profile pic.jpg">
             </a>
         </nav>
 
@@ -80,7 +80,7 @@
                     </div>
                     <span class = "info">
                         <h3>2</h3>
-                        <p>Pending Orders</p>
+                        <p>Rented Products</p>
                     </span>
                 </li>
             </ul>

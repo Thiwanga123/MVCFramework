@@ -23,7 +23,7 @@
     color: var(--light-primary);
 }
 
-.content main .header .add-btn, .add-availability-btn{
+.content main .header .add-btn{
     display: flex;
     justify-content: center;
     align-items: center;
@@ -89,12 +89,12 @@
     padding: 16px 0;
 }
 
-/* .content main .Inventory table tr td:first-child{
+.content main .Inventory table tr td:first-child{
     display: flex;
     align-items: center;
     gap: 12px;
     padding-left: 20px;
-} */
+}
 
 .content main .Inventory table td img{
     width: 36px;

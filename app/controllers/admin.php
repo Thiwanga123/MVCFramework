@@ -34,16 +34,6 @@ class Admin extends Controller {
         }
     }
 
-
-    public function notifications() {
-        //if an admin is logged in
-        if (isset($_SESSION['user_id'])) {
-            $this->view('admin/v_notifications');
-        } else {
-            redirect('admin/login');
-        }
-    }
-
     public function travelers() {
        //if an admin is logged in
         if (isset($_SESSION['user_id'])) {
@@ -343,28 +333,6 @@ class Admin extends Controller {
             redirect('admin/login');
         }
     }
-
-
-    //update the rates for transacations
-    public function updateRates() {
-        //if an admin is logged in
-        if (isset($_SESSION['user_id'])) {
-            $this->view('admin/v_updaterates');
-        } else {
-            redirect('admin/login');
-        }
-    }
-
-    //show all the bookings in the system in v_bookings
-    public function bookings() {
-        //if an admin is logged in
-        if (isset($_SESSION['user_id'])) {
-            $this->view('admin/v_bookings');
-        } else {
-            redirect('admin/login');
-        }
-    }
-
 
 
     //view service provider details
