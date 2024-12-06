@@ -118,10 +118,8 @@
                 </div>
             </div>
             <div class="section">
-                <label>What if my house rules change?</label>
-                <div class="info-box">
-                    <p>You can easily customise these house rules later and additional house rules can be set on the Policies page of the extranet after you complete registration.</p>
-                </div>
+                
+                
             </div>
             <div class="section">
                 <label>Check in</label>
@@ -173,8 +171,8 @@
                 
             </div>
             <div class="next-button-container">
-    <button class="next-button">Next</button>
-</div>
+                    <button class="next-button">Next</button>
+            </div>
             
 
         </div>

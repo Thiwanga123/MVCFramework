@@ -154,10 +154,12 @@ body {
 }
 
 .next-button-container {
-    bottom: 10px;
+    margin-bottom: 10px;
     display: flex;
     justify-content: right;
-    z-index: 1000; /* Ensure it appears above other content */
+    margin-top: 140px;
+    z-index: 1000;
+     /* Ensure it appears above other content */
 }
 
 .next-button {
