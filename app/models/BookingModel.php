@@ -72,7 +72,7 @@ public function addAvailability($data){
     if($this->db->rowCount() > 0){
         return true;
     } else {
-        return false;
+        return false; 
     }
 }
 
