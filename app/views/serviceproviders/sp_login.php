@@ -34,7 +34,7 @@
                     <label for="sptype">Service Type</label>
                             <select id="sptype" name="sptype" required style="width: 100%; max-width: 300px; height: 40px;">
                                 <option value="" disabled selected>Select a type</option>
-                                <option value="accomodations">Accomodation</option>
+                                <option value="accomadation">Accomodation</option>
                                 <option value="equipment_suppliers">Equipment Supplier</option>
                                 <option value="tour_guides">Tour Guide</option>
                                 <option value="transport_suppliers">Transport Supplier</option>

@@ -21,6 +21,7 @@ class Transport_suppliers extends Controller
 
     public function myInventory()
     {
+        $data['activePage'] = 'My Inventory';
         if (isset($_SESSION['id'])) {
             $supplierId = $_SESSION['id'];
             $this->transportModel = $this->model('TransportModel');
@@ -73,7 +74,6 @@ class Transport_suppliers extends Controller
                 'vehicleMake' => trim($_POST['vehicleMake']),    //These variables are used to store the values which are sent via the form data
                 'plateNumber' => trim($_POST['licensePlateNumber']),
                 'rate' => trim($_POST['vehicleRate']),
-                'seatingCapacity' => trim($POST_['seatingCapacity']),
                 'fuelType' => trim($_POST['fuelType']),
                 'description' => trim($_POST['description']),
                 'availability' => trim($_POST['availability']),
@@ -97,10 +97,6 @@ class Transport_suppliers extends Controller
 
             if(empty($data['rate'])){
                 $errors[] = 'Rate is required';
-            }
-            
-            if(empty($data['seatingCapacity'])){
-                $errors[] = 'Seating Capacity is required';
             }
             
             if(empty($data['fuelType'])){
@@ -131,8 +127,7 @@ class Transport_suppliers extends Controller
             }
 
              //Creating the model instance to interact with the database
-            $isInserted = $this->transportModel->addVehicle($data['id'], $data['vehicleType'], $data['vehicleModel'], $data['vehicleMake'], $data['plateNumber'], $data['rate'], $data['seatingCapacity'], $data['fuelType'], $data['description'], $data['availability']);
-            
+            $isInserted = $this->transportModel->addVehicle($data['id'], $data['vehicleType'], $data['vehicleModel'], $data['vehicleMake'], $data['plateNumber'], $data['rate'], $data['fuelType'], $data['description'], $data['availability']);
             if($isInserted){
                 $vehicleId = $isInserted;
                 $vehicleFolder = "$supplierFolder/$vehicleId";
@@ -232,6 +227,67 @@ public function logout() {
     redirect('ServiceProvider/login');
 }
 
+public function editVehicle(){
+
+    if (isset($_SESSION['id'])) {
+        $data = [
+            'id'=> $_SESSION['id'],
+            'vid' => trim($_POST['vehicleId']),
+            'vehicleType' => trim($_POST['vehicleType']),
+            'vehicleModel' =>trim($_POST['vehicleModel']) ,
+            'vehicleMake' => trim($_POST['vehicleMake']),    //These variables are used to store the values which are sent via the form data
+            'plateNumber' => trim($_POST['licensePlateNumber']),
+            'rate' => trim($_POST['vehicleRate']),
+            'fuelType' => trim($_POST['fuelType']),
+            'description' => trim($_POST['description']),
+            'availability' => trim($_POST['availability']),
+
+        ];
+
+        if(empty($data['vehicleType'])){
+            $errors[] = 'Vehicle Type is required';
+        }
+
+        if(empty($data['vehicleModel'])){
+            $errors[] = 'Vehicle Model is required';
+        }
+
+        if(empty($data['vehicleMake'])){
+            $errors[] = 'Vehicle Make is required';
+        }
+
+        if(empty($data['plateNumber'])){
+            $errors[] = 'Vehicle License Plate Number is required';
+        }
+
+        if(empty($data['rate'])){
+            $errors[] = 'Rate is required';
+        }
+        
+        
+        if(empty($data['fuelType'])){
+            $errors[] = 'Fuel Type is required';
+        }
+
+        if(empty($data['description'])){
+            $errors[] = 'Description is required';
+        }
+
+        if(empty($data['availability'])){
+            $errors[] = 'Availability is required';
+        }
+        
+        $update = $this->transportModel->updateVehicle($data);
+        if($update){
+            echo "<script>
+                alert('Vehicle Details updated successfully!');
+             </script>";
+             
+            redirect('transport_suppliers/myInventory');
+        }
+}
+
+}
 }
 
 

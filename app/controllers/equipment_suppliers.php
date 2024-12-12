@@ -3,6 +3,7 @@
 class Equipment_Suppliers extends Controller{
 
     private $productModel;
+    private $userModel;
 
     public function __construct(){
         $this->productModel = $this->model('ProductModel');
@@ -20,7 +21,9 @@ class Equipment_Suppliers extends Controller{
             redirect('ServiceProvider');
         }
        
-    }
+    
+}
+
 
 
     public function myInventory(){
@@ -31,10 +34,6 @@ class Equipment_Suppliers extends Controller{
 
             $this->productModel = $this->model('ProductModel');
             $products = $this->productModel->getAllProducts($supplierId);
-<<<<<<< HEAD
-            //var_dump ($products); //Debugging
-=======
->>>>>>> origin/ushan
             $this->view('equipment_supplier/MyInventory',['products' => $products]);
 
         } else {
@@ -48,7 +47,7 @@ class Equipment_Suppliers extends Controller{
         if (isset($_SESSION['id'])) {
             $this->view('equipment_supplier/Orders');
         } else {
-            redirect('ServiceProvider');
+            redirect('ServiceProvider/login');
         }
         
 
@@ -61,13 +60,30 @@ class Equipment_Suppliers extends Controller{
         } else {
             redirect('ServiceProvider');
         }
+    }
 
+    public function bankdetails(){
+
+        if (isset($_SESSION['id'])) {
+            $this->view('equipment_supplier/bankdetails');
+        } else {
+            redirect('ServiceProvider');
+        }
+    }
+
+    public function Mypayments(){
+
+        if (isset($_SESSION['id'])) {
+            $this->view('equipment_supplier/Mypayments');
+        } else {
+            redirect('ServiceProvider');
+        }
     }
 
     public function notifications(){
 
         if (isset($_SESSION['id'])) {
-            $this->view('equipment_supplier/Notifications');
+            $this->view('equipment_supplier/Earnings');
         } else {
             redirect('ServiceProvider');
         }
@@ -77,15 +93,21 @@ class Equipment_Suppliers extends Controller{
     public function profile(){
 
         if (isset($_SESSION['id'])) {
-            $this->view('equipment_supplier/Myprofile');
+            $id = $_SESSION['id'];
+            $type = $_SESSION['type'];
+            $details = $this->getProfileDetails($id,$type);
+            $this->view('equipment_supplier/Myprofile',['details' => $details]);
         } else {
             redirect('ServiceProvider');
         }
-        
-
     }
 
-}
+    public function getProfileDetails($id, $type){
+        $this->userModel = $this->model('ServiceProviderModel');
+        $data = $this->userModel->getUserData($id,$type);
+        return $data;
+    }
+} 
 
 
 ?>

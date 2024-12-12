@@ -16,7 +16,10 @@
           <!-- End Of Sidebar -->
 
      <!--Main Content-->
+
+
      <div class="content">
+        
         <!--navbar-->
         <nav>
             <svg class="menu" xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#000000"><path d="M160-269.23v-40h640v40H160ZM160-460v-40h640v40H160Zm0-190.77v-40h640v40H160Z"/></svg>
@@ -33,7 +36,7 @@
                 <span class="count">12</span>
             </a>
             <a href="#" class="profile">
-            <img src="../../../Public/Images/Profile pic.jpg">
+            <img src="<?php echo URLROOT;?>/Images/Profile pic.jpg">
             </a>
         </nav>
 
@@ -45,36 +48,59 @@
             </div>
             
             <div class="profile">
-                <div class="profile-left">
-                <img src="/Images/Profile pic.jpg" alt="">
+                <div class="profile-top">
+                    <img src="<?php echo URLROOT;?>/Images/Profile pic.jpg">
+                    <button class="change-btn">Change Image</button>
                 </div>
 
-                <div class="profile-center">
-                    <h4>Name</h4>
-                    <input type="name" id="name" name="name">
-                    <h4>Email</h4>
-                    <input type="email" id="email" name="email">
-                    <h4>Permanent Address</h4>
-                    <input type="address" id="address" name="address">
-                    <h4>Present Address</h4>
-                    <input type="presentAddress" id="presentAddress" name="presentAddress">
+                <form action="" method="POST">
                     
-                </div>
+                    <h2>Personal Information :</h2>
+                    <div class="profile-center">
+                        <div class="left">
+                            <h4>Name</h4>
+                            <input type="name" id="name" name="name" value="<?php echo $data['details']->name; ?>">
+                            <h4>Email</h4>
+                            <input type="email" id="email" name="email" value="<?php echo $data['details']->email; ?>">
+                            <h4>Business Name</h4>
+                            <input type="businessName" id="businessName" name="businessName" value="<?php echo $data['details']->business_name; ?>">
+                            <h4>City</h4>
+                            <input type="city" id="city" name="city" value="<?php echo $data['details']->city; ?>">
+                        </div>
 
-                <div class="profile-right">
-                    <h4>Company Name</h4>
-                    <input type="companyName" id="companyName" name="companyName">
-                    <h4>Password</h4>
-                    <input type="password" id="password" name="password">
-                    <h4>City</h4>
-                    <input type="city" id="city" name="city">
-                    <h4>Postal Code</h4>
-                    <input type="postalCode" id="postalCode" name="postalCode">
-                </div>
-                <div class="profile-actions">
-                    <button type="submit">Save</button>
-                </div>
-                
+                        <div class="right">
+                            <h4>Permanent Address</h4>
+                            <input type="address" id="address" name="address" value="<?php echo $data['details']->permanent_address; ?>">
+                            <h4>Present Address</h4>
+                            <input type="presentAddress" id="presentAddress" name="presentAddress" value="<?php echo $data['details']->present_address; ?>">
+                            <h4>Postal Code</h4>
+                            <input type="postalCode" id="postalCode" name="postalCode" value="<?php echo $data['details']->postal_code; ?>">
+                        </div>
+                    </div>
+
+                    <h2>Password Settings :</h2>
+
+                    <div class="profile-bottom">
+                        <div class="group">
+                            <h4>Password</h4>
+                            <input type="password" id="password" name="password" value="<?php echo $data['details']->password; ?>" readonly>
+                        </div>
+
+                        <div class="group">
+                            <h4>Confirm Password</h4>
+                            <input type="password" id="password" name="password" value="<?php echo $data['details']->password; ?>" readonly>
+                        </div>
+                    </div>
+
+                    <div class="profile-actions">
+                        <div class="group">
+                            <button type="submit" class="pswd-btn">Change Password</button>
+                            <button type="submit">Confirm Changes</button>
+                        </div>
+
+                        <button type="submit" class="delete">Delete My Account</button>
+                    </div>
+                </form>
             </div>
          
         </main>
@@ -82,6 +108,8 @@
     </div>
 
     <script src="<?php echo URLROOT;?>/js/Sidebar.js"></script> 
+    <script src="<?php echo URLROOT;?>/js/Test.js"></script>
+    
 </body>
 
 </html>

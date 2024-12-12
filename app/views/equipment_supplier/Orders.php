@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="<?php echo URLROOT;?>/css/Common/Orders.css">
+    <link rel="stylesheet" href="<?php echo URLROOT;?>/css/Common/Orders_ushan.css">
     <link rel="stylesheet" href="<?php echo URLROOT;?>/css/Common/sidebarHeader.css">
     <title>Home</title>
 </head>
@@ -32,7 +32,7 @@
                 <span class="count">12</span>
             </a>
             <a href="#" class="profile">
-                <img src="../../../Public/Images/Profile pic.jpg">
+            <img src="<?php echo URLROOT;?>/Images/Profile pic.jpg">
             </a>
         </nav>
 

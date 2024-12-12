@@ -12,3 +12,4 @@ document.getElementById("vehicleImage").addEventListener("change", (event) => {
 document.getElementById("uploadImagesIcon").addEventListener("click", () => {
     document.getElementById("productImage").click();
 });
+

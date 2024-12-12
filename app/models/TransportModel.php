@@ -16,11 +16,10 @@ class TransportModel
         return $this->db->resultSet();
     }
 
-    public function addVehicle($supplierId, $vehicleType, $vehicleModel, $vehicleMake, $plateNumber, $rate, $seatingCapacity, $fuelType, $description, $availabilty){
+    public function addVehicle($supplierId, $vehicleType, $vehicleModel, $vehicleMake, $plateNumber, $rate, $fuelType, $description, $availabilty){
         try{
-             
-             $sql = "INSERT INTO vehicles (supplierId, type, model, make, license_plate_number, rate, seating_capacity,  fuel_type, description, availability) 
-                         VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+             $sql = "INSERT INTO vehicles (supplierId, type, model, make, license_plate_number, rate, fuel_type, description, availability) 
+                         VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
  
              $this->db->query($sql);
  
@@ -30,10 +29,9 @@ class TransportModel
              $this->db->bind(4, $vehicleMake);
              $this->db->bind(5, $plateNumber);
              $this->db->bind(6, $rate);
-             $this->db->bind(7, $seatingCapacity);
-             $this->db->bind(8, $fuelType);
-             $this->db->bind(9, $description);
-             $this->db->bind(10, $availabilty);
+             $this->db->bind(7, $fuelType);
+             $this->db->bind(8, $description);
+             $this->db->bind(9, $availabilty);
 
  
              if ($this->db->execute()) {
@@ -105,7 +103,10 @@ public function deleteVehicleAvailability($id){
 
     $this->db->execute();
 }
+
 public function updateprofile($data){
+
+    $sql = 
     $this->db->query('UPDATE transport_suppliers SET name = :name, email = :email, password= :password, address = :address, phone = :phone, nic = :nic WHERE id = :id');
 
     $this->db->bind(':id', $data['id']);
@@ -123,6 +124,40 @@ public function updateprofile($data){
             }
     }
 
+    public function updateVehicle($data){
+        try{
+           
 
+            $sql = "UPDATE vehicles
+                SET type = ?, model = ?, make = ?, license_plate_number = ?, rate= ?, fuel_type=?, description=?, availability =? 
+                WHERE supplierId = ? AND id = ? ";
 
-}
+               
+
+            $this->db->query($sql);
+
+            $this->db->bind(1, $data['vehicleType']);
+            $this->db->bind(2, $data['vehicleModel']);
+            $this->db->bind(3, $data['vehicleMake']);
+            $this->db->bind(4, $data['plateNumber']);
+            $this->db->bind(5, $data['rate']);
+            $this->db->bind(6, $data['fuelType']);
+            $this->db->bind(7, $data['description']);
+            $this->db->bind(8, $data['availability']);
+            $this->db->bind(9, $data['id']);
+            $this->db->bind(10, $data['vid']);
+
+            if ($this->db->execute()) {
+                return true;
+            } else {
+               throw new Exception("Error in updating Vehicle details");
+            }
+
+        }catch(Exception $e){
+            $error_msg = $e->getMessage();
+            echo "<script>alert('An error occured: $error_msg');</script>";
+            return false;
+        }
+        }
+    }
+

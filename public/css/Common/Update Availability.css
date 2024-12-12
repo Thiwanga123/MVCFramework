@@ -140,7 +140,7 @@ table .action-btn + .action-btn {
     margin-left: 5px;
 }
 /* Edit Button */
-table .edit-btn {
+ .edit-btn {
     background-color: #4CAF50;
     color: #fff;
     padding: 7px 15px;
@@ -153,13 +153,13 @@ table .edit-btn {
 }
 
 /* Darker Green on Hover */
-table .edit-btn:hover {
+.edit-btn:hover {
     background-color: #45a049;
     transform: scale(1.05);
 }
 
 /* Delete Button */
-table .delete-btn {
+.delete-btn {
     background-color: #f44336;
     color: #fff;
     padding: 7px 15px;

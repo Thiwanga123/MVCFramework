@@ -39,6 +39,8 @@
     background-color: teal;
 }
 
+ 
+
 .content main .item-orders{
     display: flex;
     flex-wrap: wrap;
@@ -87,18 +89,34 @@
     padding: 16px 0;
 }
 
-.content main .item-orders table tr td:first-child{
+/* .content main .item-orders table tr td:first-child{
     display: flex;
     align-items: center;
     gap: 12px;
     padding-left: 20px;
+<<<<<<< HEAD
 }
 
+<<<<<<<< HEAD:public/css/Common/Order.css
+=======
+} */
+
+>>>>>>> origin/main
 .content main .item-orders table td img {
     width: 72px; 
     height: 72px; 
     object-fit: contain; 
     background-color: #f0f0f0; 
+<<<<<<< HEAD
+========
+.content main .item-orders table td img{
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    object-fit: cover;
+>>>>>>>> origin/main:public/css/Common/Orders.css
+=======
+>>>>>>> origin/main
 }
 
 .content main .item-orders table tbody tr{
@@ -125,6 +143,25 @@
 
 .Action .delete svg:hover{
     fill: red;
+}
+
+.action-btn .view-btn{
+    background: var(--light-primary);
+    color: var(--light);
+    padding: 8px 16px;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.action-btn .cancel-btn{
+    
+    background: var(--light-danger);
+    color: lightcoral;
+    padding: 8px 16px;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: all 0.3s ease;
 }
 
 

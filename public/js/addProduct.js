@@ -3,7 +3,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         const modal = document.getElementById('addProductModal');
         const openModalBtn = document.getElementById('add-btn');
-        const closeModal = document.getElementById('closeModal')
+        const closeModal = document.getElementById('closeModal');
         const box = document.getElementById('box');
 
         openModalBtn.addEventListener('click', () => {
@@ -30,5 +30,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 modal.classList.remove("active");
                 box.classList.remove("blur");
         }
+
 
 });
