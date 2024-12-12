@@ -144,10 +144,7 @@
 
 
 
-<<<<<<< HEAD
 
-<<<<<<<< HEAD:public/css/Common/MyInventorys.css
-=======
 .modal-form form input{
     border: none;
     background-color: rgb(239, 239, 239);
@@ -156,7 +153,7 @@
     padding: 20px;
 }
 
->>>>>>> origin/main
+
 .modal-form form .right, .modal-form form .left{
     display: flex;
     flex-direction: column;
@@ -241,7 +238,6 @@
     transition: all 0.3s ease;
 }
 
-<<<<<<< HEAD
 /* Edit Button */
 .edit-btn {
     background-color: #4CAF50; /* Green */
@@ -271,7 +267,3 @@
     justify-content: flex-start;
     gap: 10px; /* Gap between buttons */
 }
-========
->>>>>>>> origin/main:public/css/Common/MyInventory.css
-=======
->>>>>>> origin/main
