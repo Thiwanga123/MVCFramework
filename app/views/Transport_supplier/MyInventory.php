@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="<?php echo URLROOT;?>/css/Common/MyInventorys.css">
     <link rel="stylesheet" href="<?php echo URLROOT;?>/css/Common/sidebarHeader.css">
+    <link rel="stylesheet" href="<?php echo URLROOT;?>/css/Modals/addVehicleModal.css">
+    <link rel="stylesheet" href="<?php echo URLROOT;?>/css/Modals/UpdateVehicleModal.css">
     
     <title>Home</title>
 </head>
@@ -49,7 +51,7 @@
                 </div>
 
                 <div class="right">
-                        <button class="add-btn" name ="add-btn" id="add-btn">
+                        <button class="add-btn" name ="vehicle-add-btn" id="vehicle-add-btn">
                             <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#ffffff"><path d="M440-440H200v-80h240v-240h80v240h240v80H520v240h-80v-240Z"/></svg>
                             <h3>Add Vehicle</h3>
                         </button>
@@ -98,12 +100,21 @@
                             <td><?php echo $vehicle->license_plate_number; ?></td>
                             <td><?php echo $vehicle->availability; ?></td>
                             <td class="action-button">
-                                <button class="edit-btn" name ="edit-btn" id="edit-btn">
+                                <button class="vehicle-edit-btn" name ="vehicle-edit-btn" id="vehicle-edit-btn"
+                                    vehicleType = "<?php echo $vehicle->type; ?>"
+                                    vehicleModel = "<?php echo $vehicle->model; ?>"
+                                    vehicleMake = "<?php echo $vehicle->make; ?>"
+                                    vehicleRate = "<?php echo $vehicle->rate; ?>"
+                                    licensePlateNumber = "<?php echo $vehicle->license_plate_number; ?>"
+                                    availability = "<?php echo $vehicle->availability; ?>"
+                                    fuelType = "<?php echo $vehicle->fuel_type; ?>"
+                                    description = "<?php echo $vehicle->description; ?>"
+                                    vid= "<?php echo $vehicle->id; ?>">
                                     Edit
                                 </button>
                                 <a href="<?php echo URLROOT; ?>/transport_suppliers/delete_availability/<?php echo $vehicle->id; ?>"><button class="delete-btn" onclick="return confirm('Are u Sure?');" name ="delete-btn" id="delete-btn">
                                    Delete
-                                </button></a>
+                            </button></a>
                         </tr>
                         <?php endforeach; ?>
                         <?php endif; ?>
@@ -122,8 +133,13 @@
         include('AddVehicle.php');;
     ?>
 
+    <?php
+        include('UpdateVehicle.php');
+    ?>
+
     <script src="<?php echo URLROOT;?>/js/Sidebar.js"></script> 
     <script src="<?php echo URLROOT;?>/js/addVehicle.js"></script>
+    <script src="<?php echo URLROOT;?>/js/editVehicle.js"></script>
     <script src="<?php echo URLROOT;?>/js/ImagePreview.js"></script>
      
 </body>

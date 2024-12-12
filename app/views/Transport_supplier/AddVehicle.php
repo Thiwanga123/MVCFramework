@@ -1,11 +1,11 @@
-<div id="addVehicleModal" class="modal-container">
-        <div class="modal">
-            <div class="modal-top">
+<div id="addVehicleModal" class="vehicle-modal-container">
+        <div class="vehicleModal">
+            <div class="vehicleModal-top">
                 <h1>Add New Vehicle</h1>
                 <span class="close" id="closeModal">&times;</span>
             </div>  
 
-            <div class="modal-form">
+            <div class="vehicle-modal-form">
                 <form id="addVehicleForm" action="<?php echo URLROOT; ?>/transport_suppliers/addVehicle" method = "post" enctype="multipart/form-data"> 
                     <div class="body">
                         <div class="left">
@@ -55,10 +55,8 @@
             
                             <label for="vehicleRate">Rental Price</label>
                             <input type="text" id="vehicleRate" name="vehicleRate" required>
-                        </div>
 
-                        <div class="right">
-                        <label for="fuelType">Fuel Type</label>
+                            <label for="fuelType">Fuel Type</label>
                             <select id="fuelType" name="fuelType" required style="width: 100%; max-width: 300px; height: 40px;">
                                 <option value="" disabled selected>Select a category</option>
                                 <option value="Hybrid">Hybrid</option>
@@ -66,6 +64,10 @@
                                 <option value="Petrol">Petrol</option>
                                 <option value="Electric">Electric</option>
                             </select>
+                        </div>
+
+                        <div class="right">
+    
 
                             <label for="description">Description</label>
                             <textarea id="description" name="description" rows="9" required></textarea>

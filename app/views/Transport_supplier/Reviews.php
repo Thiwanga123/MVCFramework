@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <link rel="stylesheet" href="<?php echo URLROOT;?>/css/Common/Reviews.css">
+    <link rel="stylesheet" href="<?php echo URLROOT;?>/css/Common/vehicleReviews.css">
     <link rel="stylesheet" href="<?php echo URLROOT;?>/css/Common/sidebarHeader.css">
     
     <title>Home</title>
@@ -50,7 +50,7 @@
                 <div>
                 <div class="header">
                 <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#000000"><path d="m363-390 117-71 117 71-31-133 104-90-137-11-53-126-53 126-137 11 104 90-31 133ZM80-80v-720q0-33 23.5-56.5T160-880h640q33 0 56.5 23.5T880-800v480q0 33-23.5 56.5T800-240H240L80-80Zm126-240h594v-480H160v525l46-45Zm-46 0v-480 480Z"/></svg>
-                    <h3>All Reveiws</h3>
+                    <h3>All Reviews</h3>
                     <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#000000"><path d="M440-160q-17 0-28.5-11.5T400-200v-240L168-736q-15-20-4.5-42t36.5-22h560q26 0 36.5 22t-4.5 42L560-440v240q0 17-11.5 28.5T520-160h-80Zm40-308 198-252H282l198 252Zm0 0Z"/></svg>
                 </div>
                 <table>
@@ -66,7 +66,7 @@
                     </thead>
                     <tbody>
                         <tr>
-                            <td class="customer">
+                            <td>
                             <img src="<?php echo URLROOT;?>/Images/Profile pic.jpg"> 
                                 <p>Ushan</p>
                             </td>
@@ -81,7 +81,7 @@
                             </td>
                         </tr>
                         <tr>
-                            <td class="customer">
+                            <td>
                             <img src="<?php echo URLROOT;?>/Images/Profile pic.jpg">
                                 <p>Thiwanga</p>
                             </td>
@@ -96,7 +96,7 @@
                             </td>
                         </tr>
                         <tr>
-                            <td class="customer">
+                            <td>
                             <img src="<?php echo URLROOT;?>/Images/Profile pic.jpg">
                                 <p>Ruvin</p>
                             </td>
@@ -116,6 +116,7 @@
             </div>
             
           </main>
+        
 
      </div>
 
