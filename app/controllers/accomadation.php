@@ -97,6 +97,10 @@ public function myInventory(){
         $this->view('accomadation/propertyInformation');
     }
 
+    public function uploadphoto(){
+        $this->view('accomadation/uploadphoto');
+    }
+
     public function addAccommodation() {
         if (isset($_POST['submit'])) {
             $data = [
