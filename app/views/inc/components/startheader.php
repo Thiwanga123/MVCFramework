@@ -17,12 +17,10 @@
         </div>
         <div class="nav">
             <ul class="navbar">
-                <li>Destinations</li>
-                <li>Accomodations</li>
-                <li>Transportation</li>
-                <li>Guider</li>
-                <li>Equipment Rentals</li>
-                <li>Overview</li>
+                <li>Start</li>
+                <li>Basic Info</li>
+                <li>Property Info</li>
+                <li>Uplaod Photos</li>
             </ul>
         </div>
     </header>

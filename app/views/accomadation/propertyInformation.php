@@ -171,7 +171,7 @@
                 
             </div>
             <div class="next-button-container">
-                    <button class="next-button">Next</button>
+            <a href="<?php echo URLROOT;?>/accomadation/uploadphoto"><button class="next-button">Next</button></a>
             </div>
             
 
