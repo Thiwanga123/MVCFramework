@@ -1,6 +1,6 @@
 <html>
 <head>
-    <title>Property Form</title>
+    <title>Basic Information</title>
     <link rel="stylesheet" href="<?php echo URLROOT;?>/css/accomodation/basic.css">
 </head>
 <body>
@@ -31,7 +31,7 @@
                 </div>
             </div>
             <div class="form-group">
-                <button type="submit">Next</button>
+            <a href="<?php echo URLROOT;?>/accomadation/propetyinfo"><button type="submit">Next</button></a>
             </div>
         </form>
     </div>
