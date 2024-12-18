@@ -25,5 +25,69 @@ CREATE TABLE admin (
 INSERT INTO admin (name, email, password)
 VALUES ('ucsc', 'ucsc@example.com', 'ucsc');
 
+CREATE TABLE Properties (
+    property_id INT AUTO_INCREMENT PRIMARY KEY,
+    property_name VARCHAR(255) NOT NULL,
+    address TEXT NOT NULL,
+    postal_code VARCHAR(20),
+    city VARCHAR(100) NOT NULL,
+    latitude DECIMAL(9, 6),
+    longitude DECIMAL(9, 6),
+    
+    -- Room details
+    single_bedrooms INT DEFAULT 0,
+    double_bedrooms INT DEFAULT 0,
+    living_rooms INT DEFAULT 0,
+    family_rooms INT DEFAULT 0,
+    max_occupants INT DEFAULT 0,
+    bathrooms INT DEFAULT 0,
+    
+    -- Additional information
+    children_allowed BOOLEAN DEFAULT FALSE,
+    offers_ctos BOOLEAN DEFAULT FALSE,
+    apartment_size DECIMAL(10, 2), -- In square meters
+    
+    -- Facilities
+    air_conditioning BOOLEAN DEFAULT FALSE,
+    heating BOOLEAN DEFAULT FALSE,
+    free_wifi BOOLEAN DEFAULT FALSE,
+    ev_charging BOOLEAN DEFAULT FALSE,
+    kitchen BOOLEAN DEFAULT FALSE,
+    kitchenette BOOLEAN DEFAULT FALSE,
+    washing_machine BOOLEAN DEFAULT FALSE,
+    flat_screen_tv BOOLEAN DEFAULT FALSE,
+    swimming_pool BOOLEAN DEFAULT FALSE,
+    hot_tub BOOLEAN DEFAULT FALSE,
+    minibar BOOLEAN DEFAULT FALSE,
+    sauna BOOLEAN DEFAULT FALSE,
+    
+    -- House Rules
+    smoking_allowed BOOLEAN DEFAULT FALSE,
+    parties_allowed BOOLEAN DEFAULT FALSE,
+    pets_allowed VARCHAR(50), -- 'No' or 'Upon Request'
+    
+    -- Check-in and Check-out
+    check_in_from TIME,
+    check_in_until TIME,
+    check_out_from TIME,
+    check_out_until TIME,
+    
+    -- Languages
+    languages_spoken VARCHAR(255), -- Comma-separated list of languages
+    
+    -- Outside and view
+    balcony BOOLEAN DEFAULT FALSE,
+    garden_view BOOLEAN DEFAULT FALSE,
+    terrace BOOLEAN DEFAULT FALSE,
+    view BOOLEAN DEFAULT FALSE,
+    
+    -- Other information
+    other_details TEXT
+);
+
+ALTER TABLE Properties
+ADD image_path TEXT;
+
+
 
 

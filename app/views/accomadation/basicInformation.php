@@ -31,9 +31,24 @@
                 </div>
             </div>
             <div class="form-group">
-            <a href="<?php echo URLROOT;?>/accomadation/propetyinfo"><button type="submit">Next</button></a>
+           <button type="button" onclick="basicinfo()">Next</button></a>
             </div>
         </form>
     </div>
+
+
+    <script>
+    function basicinfo(){
+        const propertyname=document.getElementById('property-name').value;
+        const address=document.getElementById('address').value;
+        const postalcode=document.getElementById('postal-code').value;
+        const city=document.getElementById('city').value;
+        const location=document.getElementById('location').value;
+        const startpageData=JSON.parse(localStorage.getItem("startpageData"));
+        localStorage.setItem("basicinfoData",JSON.stringify({propertyname:propertyname,address:address,postalcode:postalcode,city:city,location:location,...startpageData}));
+        window.location.href="<?php echo URLROOT;?>/accomadation/propertyinfo";
+
+    }
+    </script>
 </body>
 </html>

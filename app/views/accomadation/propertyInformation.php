@@ -171,7 +171,7 @@
                 
             </div>
             <div class="next-button-container">
-            <a href="<?php echo URLROOT;?>/accomadation/uploadphoto"><button class="next-button">Next</button></a>
+            <button type="button" onclick="propertyinfo()">Next</button></a>
             </div>
             
 
@@ -179,6 +179,52 @@
         
 
     </div>
+
+    <script>
+        function propertyinfo(){
+            const single=document.getElementById('single').value;
+            const double=document.getElementById('double').value;
+            const living=document.getElementById('living').value;
+            const family=document.getElementById('family').value;
+            const guests=document.getElementById('guests').value;
+            const bathrooms=document.getElementById('bathrooms').value;
+            const children=document.querySelector('input[name="children"]:checked').value;
+            const cots=document.querySelector('input[name="cots"]:checked').value;
+            const apartment_size=document.getElementById('apartment_size').value;
+            const apartment_unit=document.getElementById('apartment_unit').value;
+            const air_conditioning=document.getElementById('air_conditioning').checked;
+            const heating=document.getElementById('heating').checked;
+            const wifi=document.getElementById('wifi').checked;
+            const ev_charging=document.getElementById('ev_charging').checked;
+            const kitchen=document.getElementById('kitchen').checked;
+            const kitchenette=document.getElementById('kitchenette').checked;
+            const washing_machine=document.getElementById('washing_machine').checked;
+            const tv=document.getElementById('tv').checked;
+            const swimming_pool=document.getElementById('swimming_pool').checked;
+            const hot_tub=document.getElementById('hot_tub').checked;
+            const minibar=document.getElementById('minibar').checked;
+            const sauna=document.getElementById('sauna').checked;
+            const smoking=document.querySelector('input[name="smoking"]:checked').value;
+            const parties=document.querySelector('input[name="parties"]:checked').value;
+            const pets=document.querySelector('input[name="pets"]:checked').value;
+            const checkin_from=document.getElementById('checkin_from').value;
+            const checkin_until=document.getElementById('checkin_until').value;
+            const checkout_from=document.getElementById('checkout_from').value;
+            const checkout_until=document.getElementById('checkout_until').value;
+            const english=document.getElementById('english').checked;
+            const french=document.getElementById('french').checked;
+            const german=document.getElementById('german').checked;
+            const hindi=document.getElementById('hindi').checked;
+            const balcony=document.getElementById('balcony').checked;
+            const garden_view=document.getElementById('garden_view').checked;
+            const terrace=document.getElementById('terrace').checked;
+            const view=document.getElementById('view').checked;
+            const basicinfoData=JSON.parse(localStorage.getItem("basicinfoData"));
+            localStorage.setItem("propertyinfoData",JSON.stringify({single:single,double:double,living:living,family:family,guests:guests,bathrooms:bathrooms,children:children,cots:cots,apartment_size:apartment_size,apartment_unit:apartment_unit,air_conditioning:air_conditioning,heating:heating,wifi:wifi,ev_charging:ev_charging,kitchen:kitchen,kitchenette:kitchenette,washing_machine:washing_machine,tv:tv,swimming_pool:swimming_pool,hot_tub:hot_tub,minibar:minibar,sauna:sauna,smoking:smoking,parties:parties,pets:pets,checkin_from:checkin_from,checkin_until:checkin_until,checkout_from:checkout_from,checkout_until:checkout_until,english:english,french:french,german:german,hindi:hindi,balcony:balcony,garden_view:garden_view,terrace:terrace,view:view,...basicinfoData}));
+            window.location.href="<?php echo URLROOT;?>/accomadation/uploadphotos";
+        }
+    </script>
+    
     
 </body>
 </html>

@@ -64,7 +64,31 @@ document.getElementById('uploadButton').addEventListener('click', function() {
     document.getElementById('fileInput').click();
 });
 </script>
-  
+
+<script>
+function uploadphoto(){
+    const fileInput=document.getElementById('fileInput').value;
+    const finalData=JSON.parse(localStorage.getItem("fileInput,...propertyinfoData"));
+
+    fetch ('<?php echo URLROOT;?>/accomadation/uploadphoto',{
+        method:'POST',
+        headers:{
+            'Content-Type':'application/json'
+        },
+        body:JSON.stringify(finalData)
+    }).then(res=>res.json())
+
+    .then(data=>{
+        console.log("Success:",data);
+        localStorage.clear();
+    })
+    .catch (error=>{
+        console.error("Error:",error);
+    });
+    
+
+}
+</script>
  </body>
 
 </html>
