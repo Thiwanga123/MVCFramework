@@ -14,32 +14,32 @@
                 <div class="sleeping-places">
                     <div class="place">
                         <label>Single Bedroom</label>
-                        <input type="number" name="single" id="single">
+                        <input type="number" name="single" id="single" min="0">
                     </div>
                     <div class="place">
                         <label>Double Bedroom</label>
-                        <input type="number" name="double" id="double">
+                        <input type="number" name="double" id="double" min="0">
                     </div>
                     <div class="place">
                         <label>Living Room</label>
-                        <input type="number" name="living" id="living">
+                        <input type="number" name="living" id="living" min="0">
                     </div>
                     <div class="place">
                         <label>Family Bedroom</label>
-                        <input type="number" name="family" id="family">
+                        <input type="number" name="family" id="family" min="0">
                     </div>
                 </div>
             </div>
             <div class="section">
                 <label>How many guests can stay?</label>
                 <div class="counter">
-                    <input type="number" id="guests" name="guests">
+                    <input type="number" id="guests" name="guests" min="0">
                 </div>
             </div>
             <div class="section">
                 <label>How many bathrooms are there?</label>
                 <div class="counter">
-                    <input type="number" id="bathrooms" name="bathrooms">
+                    <input type="number" id="bathrooms" name="bathrooms" min="0">
                 </div>
             </div>
             <div class="section">
@@ -221,9 +221,25 @@
             const view=document.getElementById('view').checked;
             const basicinfoData=JSON.parse(localStorage.getItem("basicinfoData"));
             localStorage.setItem("propertyinfoData",JSON.stringify({single:single,double:double,living:living,family:family,guests:guests,bathrooms:bathrooms,children:children,cots:cots,apartment_size:apartment_size,apartment_unit:apartment_unit,air_conditioning:air_conditioning,heating:heating,wifi:wifi,ev_charging:ev_charging,kitchen:kitchen,kitchenette:kitchenette,washing_machine:washing_machine,tv:tv,swimming_pool:swimming_pool,hot_tub:hot_tub,minibar:minibar,sauna:sauna,smoking:smoking,parties:parties,pets:pets,checkin_from:checkin_from,checkin_until:checkin_until,checkout_from:checkout_from,checkout_until:checkout_until,english:english,french:french,german:german,hindi:hindi,balcony:balcony,garden_view:garden_view,terrace:terrace,view:view,...basicinfoData}));
-            window.location.href="<?php echo URLROOT;?>/accomadation/uploadphotos";
+            window.location.href="<?php echo URLROOT;?>/accomadation/uploadphoto";
         }
-    </script>
+
+   // Function to display basicinfoData
+function displaybasicInfoData() {
+    const basicinfoData = JSON.parse(localStorage.getItem("basicinfoData"));
+    if (basicinfoData) {
+        document.getElementById('basicinfoDataContainer').textContent = JSON.stringify(basicinfoData, null, 2);
+    } else {
+        document.getElementById('basicinfoDataContainer').textContent = 'No basic info data found.';
+    }
+}
+
+// Call the function to display basicinfoData when the page loads
+window.onload = displaybasicInfoData;
+</script>
+
+<div id="basicinfoDataContainer" style="white-space: pre-wrap; background-color: #f0f0f0; padding: 10px; margin-top: 10px;"></div>
+    
     
     
 </body>

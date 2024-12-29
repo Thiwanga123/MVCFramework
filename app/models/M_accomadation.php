@@ -7,53 +7,49 @@ class M_accomadation{
         $this->db = new Database();
     }
 
-    public function addAccommodation($userId, $name, $price, $type, $location, $description, $quantity) {
-        try {
-            $sql = "INSERT INTO add_accomadation (user_id, name, price, type, location, description,quantity) 
-                    VALUES (?, ?, ?, ?, ?, ?,?)";
+    public function addProperty($data) {
 
-            $this->db->query($sql);
-            $this->db->bind(1, $userId);
-            $this->db->bind(2, $name);
-            $this->db->bind(3, $price);
-            $this->db->bind(4, $type);
-            $this->db->bind(5, $location);
-            $this->db->bind(6, $description);
-            $this->db->bind(7, $quantity);
+            try {
+            // Begin transaction
+           
+            // Insert property data into the main properties table
+            $query = ('INSERT INTO properties(postal_code,city,property_name,property_type,address,service_provider_id) VALUES (:postal_code, :city, :property_name, :property_type, :address, :service_provider_id)');
+            $this->db->query($query);
 
-            if ($this->db->execute()) {
-                // Return the inserted accommodation ID
+            // Bind values
+
+            $this->db->bind(':postal_code', $data['postalCode']);
+            $this->db->bind(':city', $data['city']);
+            $this->db->bind(':property_type', $data['type']);
+            $this->db->bind(':property_name', $data['name']);
+            $this->db->bind(':address', $data['address']);
+            $this->db->bind(':service_provider_id', $data['id']);
+
+
+
+            // Execute the query
+           
+            $this->db->execute();
+
+            if($this->db->rowCount() > 0){
                 return true;
             } else {
-                throw new Exception("Error inserting accommodation.");
+                return false;
             }
-        } catch (Exception $e) {
-            echo "<script>alert('An error occurred: {$e->getMessage()}');</script>";
+        } catch (PDOException $e) {
+            // Rollback transaction on error
+          
+            error_log($e->getMessage());
             return false;
         }
     }
 
-    // Add accommodation image
-    public function addAccommodationImage($userId, $accommodationId, $imagePath) {
-        try {
-            $sql = "INSERT INTO accommodation_images (user_id, accommodation_id, image_path) 
-                    VALUES (?, ?, ?)";
-
-            $this->db->query($sql);
-            $this->db->bind(1, $userId);
-            $this->db->bind(2, $accommodationId);
-            $this->db->bind(3, $imagePath);
-
-            if ($this->db->execute()) {
-                return true;
-            } else {
-                throw new Exception("Error inserting accommodation image.");
-            }
-        } catch (Exception $e) {
-            echo "<script>alert('An error occurred: {$e->getMessage()}');</script>";
-            return false;
-        }
-    }
+    
+       
+            
+        
+        
+    
 
     //get the accomadation from the database with respect to the accomadation supplier
     public function getAccomadation($userId) {

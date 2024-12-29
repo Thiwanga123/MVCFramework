@@ -100,7 +100,3 @@ body {
 .continue-button button:hover {
     background-color: #0056b3;
 }
-.continue-button .disabled {
-    background-color: #ccc;
-    cursor: not-allowed;
-}
