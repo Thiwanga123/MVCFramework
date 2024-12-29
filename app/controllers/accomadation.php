@@ -86,7 +86,13 @@ public function myInventory(){
 
     //start
     public function start(){
-        $this->view('accomadation/start');
+        if (isset($_SESSION['id'])) {
+            $this->view('accomadation/start');
+        } else {
+            redirect('ServiceProvider');
+        }
+        
+       
     }
 
     public function basicinfo(){
@@ -155,6 +161,7 @@ public function myInventory(){
                 'garden_view' => $finalData['garden_view'],
                 'terrace' => $finalData['terrace'],
                 'view' => $finalData['view'],
+                'Price' => $finalData['Price'],
                 'other_details' => $finalData['other_details'],
                 'imageUrls' => $finalData['imageUrls']
             ];
@@ -222,10 +229,6 @@ public function myInventory(){
                 $errors[] = 'Checkout until is required';
             }
 
-          
-           
-
-         
 
             //send the data to the model
             if (empty($errors)) {
@@ -233,6 +236,9 @@ public function myInventory(){
 
                 if ($isInserted) {
                     echo json_encode(['status' => 'success', 'message' => 'Data added successfully']);
+                    //clear the local storage
+         
+
                   
                 } else {
                     echo json_encode(['status' => 'error', 'message' => 'An error occurred. Please try again']);

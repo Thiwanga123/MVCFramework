@@ -19,10 +19,10 @@
                 <button type="button" class="upload-button" id="uploadButton">
                     <i class="fas fa-upload"></i> Upload photos
                 </button>
-                <!-- <input type="file" id="fileInput" style="display: none;" multiple accept="image/jpeg, image/png" name="accommodationImages[]">
-                <p>The image type should be jpg/jpeg or png</p> -->
+                <input type="file" id="fileInput" style="display: none;" multiple accept="image/jpeg, image/png" name="accommodationImages[]">
+                <p>The image type should be jpg/jpeg or png</p>
             </div>
-            <button type="submit" >Submit</button>
+            <button type="submit"  class="upload-button" id="uploadButton" >Submit</button>
         </form>
     </div>
 </div>
