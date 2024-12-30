@@ -23,6 +23,9 @@
             <div class="form-group">
                 <label for="city">City</label>
                 <input type="text" id="city" name="city" required>
+            <div class="form-group">
+                <label for="price">Price (LKR)</label>
+                <input type="text" id="Price" name="Price" required>
             </div>
             <div class="form-group">
                 <label for="location">Pin the Location of the Property</label>
@@ -31,9 +34,29 @@
                 </div>
             </div>
             <div class="form-group">
-            <a href="<?php echo URLROOT;?>/accomadation/propetyinfo"><button type="submit">Next</button></a>
+           <button type="button" onclick="basicinfo()"> Next</button></a>
             </div>
         </form>
     </div>
+
+
+    <script>
+    function basicinfo(){
+        const propertyname=document.getElementById('property-name').value;
+        const address=document.getElementById('address').value;
+        const postalcode=document.getElementById('postal-code').value;
+        const city=document.getElementById('city').value;
+        const Price=document.getElementById('Price').value;
+        // const location=document.getElementById('location').value;
+        const startpageData=JSON.parse(localStorage.getItem("startpageData"));
+        const basicinfoData={...startpageData,propertyname,address,postalcode,city,Price};
+        localStorage.setItem("basicinfoData",JSON.stringify(basicinfoData));
+        window.location.href="<?php echo URLROOT;?>/accomadation/propertyinfo";
+
+    }
+
+console.log("Stored data:", JSON.parse(localStorage.getItem("basicinfoData")));
+</script>
+
 </body>
 </html>

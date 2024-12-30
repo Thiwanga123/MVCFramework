@@ -37,6 +37,20 @@ public function myInventory(){
     }
 }
 
+public function deleteproperty($id){
+    if (isset($_SESSION['id'])) {
+        $isDeleted = $this->accomadationModel->deleteProperty($id);
+
+        if ($isDeleted) {
+            redirect('accomadation/myInventory');
+        } else {
+            echo "<script>alert('An error occurred. Please try again');</script>";
+        }
+    } else {
+        redirect('ServiceProvider/login');
+    }
+}
+
 
     public function orders(){
         
@@ -75,6 +89,32 @@ public function myInventory(){
         }
     }
 
+    public function viewdetails(){
+        if (isset($_SESSION['id'])) {
+
+            $userId = $_SESSION['id'];
+    
+            $accomadation=$this->accomadationModel->getAccomadation($userId);
+            $data=[
+                'accomadation'=>$accomadation,
+            ];
+                $this->view('accomadation/viewdetails',$data);
+        } else {
+            redirect('ServiceProvider/login');
+        }
+       
+            
+       
+    }
+
+
+    public function Inventorytable(){
+
+      
+            $this->view('accomadation/Inventorytable');
+       
+    }
+
     //logout
     public function logout(){
         session_destroy();  
@@ -86,148 +126,207 @@ public function myInventory(){
 
     //start
     public function start(){
-        $this->view('accomadation/start');
+        if (isset($_SESSION['id'])) {
+            $this->view('accomadation/start');
+        } else {
+            redirect('ServiceProvider');
+        }
+        
+       
     }
 
     public function basicinfo(){
-        $this->view('accomadation/basicinformation');
+        if (isset($_SESSION['id'])) {
+            $this->view('accomadation/basicinformation');
+        } else {
+            redirect('ServiceProvider');
+        }
+        
     }
 
     public function propertyinfo(){
-        $this->view('accomadation/propertyInformation');
+        if (isset($_SESSION['id'])) {
+            $this->view('accomadation/propertyInformation');
+        } else {
+            redirect('ServiceProvider');
+        }
+        
     }
 
     public function uploadphoto(){
-        $this->view('accomadation/uploadphoto');
+        if (isset($_SESSION['id'])) {
+            $this->view('accomadation/uploadphoto');
+        } else {
+            redirect('ServiceProvider');
+        }
+        
     }
 
-    public function addAccommodation() {
-        if (isset($_POST['submit'])) {
+    public function success(){
+        if (isset($_SESSION['id'])) {
+            $this->view('accomadation/successful');
+        } else {
+            redirect('ServiceProvider');
+        }
+        
+    }
+
+
+    public function addProperty(){
+
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+        // Get the JSON data from the frontend
+
+        $finalData = json_decode(file_get_contents("php://input"), true);
+
             $data = [
-                'id' => $_SESSION['id'], // User ID
-                'name' => trim($_POST['accommodationName']),
-                'price' => trim($_POST['accommodationPrice']),
-                'type' => trim($_POST['accommodationType']),
-                'location' => trim($_POST['accommodationLocation']),
-                'description' => trim($_POST['accommodationDescription']),
-                'quantity' => trim($_POST['quantity']),
+                'id' => $finalData['id'],
+                'type' => $finalData['type'],
+                'name' => $finalData['propertyname'],
+                'address' => $finalData['address'],
+                'postalCode' => $finalData['postalcode'],
+                'city' => $finalData['city'],
+                'latitude' => $finalData['latitude'],
+                'longitude' => $finalData['longitude'],
+                'single' => $finalData['single'],
+                'double' => $finalData['double'],
+                'living' => $finalData['living'],
+                'family' => $finalData['family'],
+                'guests' => $finalData['guests'],
+                'bathrooms' => $finalData['bathrooms'],
+                'children' => $finalData['children'],
+                'cots' => $finalData['cots'],
+                'apartment_size' => $finalData['apartment_size'],
+                'air_conditioning' => $finalData['air_conditioning'],
+                'heating' => $finalData['heating'],
+                'wifi' => $finalData['wifi'],
+                'ev_charging' => $finalData['ev_charging'],
+                'kitchen' => $finalData['kitchen'],
+                'kitchenette' => $finalData['kitchenette'],
+                'washing_machine' => $finalData['washing_machine'],
+                'tv' => $finalData['tv'],
+                'swimming_pool' => $finalData['swimming_pool'],
+                'hot_tub' => $finalData['hot_tub'],
+                'minibar' => $finalData['minibar'],
+                'sauna' => $finalData['sauna'],
+                'smoking' => $finalData['smoking'],
+                'parties' => $finalData['parties'],
+                'pets' => $finalData['pets'],
+                'checkin_from' => $finalData['checkin_from'],
+                'checkin_until' => $finalData['checkin_until'],
+                'checkout_from' => $finalData['checkout_from'],
+                'checkout_until' => $finalData['checkout_until'],
+                'languages' => $finalData['languages'],
+                'balcony' => $finalData['balcony'],
+                'garden_view' => $finalData['garden_view'],
+                'terrace' => $finalData['terrace'],
+                'view' => $finalData['view'],
+                'Price' => $finalData['Price'],
+                'other_details' => $finalData['other_details'],
+                'imageUrls' => $finalData['imageUrls']
             ];
 
-            $errors = [];
+
+
 
             // Validate input fields
+            $errors = [];
+
             if (empty($data['name'])) {
-                $errors[] = 'Accommodation name is required';
+                $errors[] = 'Property name is required';
             }
 
-            if (empty($data['price']) || !is_numeric($data['price'])) {
-                $errors[] = 'A valid price is required';
+
+            if (empty($data['address'])) {
+                $errors[] = 'Address is required';
             }
 
-            if (empty($data['type'])) {
-                $errors[] = 'Accommodation type is required';
+            if (empty($data['postalCode'])) {
+                $errors[] = 'Postal code is required';
             }
 
-            if (empty($data['location'])) {
-                $errors[] = 'Accommodation location is required';
+            if (empty($data['city'])) {
+                $errors[] = 'City is required';
+            }
+         
+            if (empty($data['single'])) {
+                $errors[] = 'Single room is required';
             }
 
-            if (empty($data['description'])) {
-                $errors[] = 'Accommodation description is required';
+            if (empty($data['double'])) {
+                $errors[] = 'Double room is required';
             }
 
-            if (empty($data['quantity']) || !is_numeric($data['quantity'])) {
-                $errors[] = 'A valid quantity is required';
+            if (empty($data['living'])) {
+                $errors[] = 'Living room is required';
             }
 
-            // Image handling
-            $imageExtensions = ['jpeg', 'jpg', 'png'];
-            $imagePaths = [];
-            $images = $_FILES['accommodationImages'];
-
-            if (count($images['name']) > 5) {
-                $errors[] = 'You can upload up to 5 images only.';
+            if (empty($data['family'])) {
+                $errors[] = 'Family room is required';
             }
 
-            $userFolder = "Uploads/AccomodationProviders/{$data['id']}";
-
-            if (!is_dir($userFolder)) {
-                mkdir($userFolder, 0777, true);
+            if (empty($data['guests'])) {
+                $errors[] = 'Guests is required';
             }
 
-           
-            
+            if (empty($data['bathrooms'])) {
+                $errors[] = 'Bathrooms is required';
+            }
 
+            if (empty($data['checkin_from'])) {
+                $errors[] = 'Checkin from is required';
+            }
+
+            if (empty($data['checkin_until'])) {
+                $errors[] = 'Checkin until is required';
+            }
+
+            if (empty($data['checkout_from'])) {
+                $errors[] = 'Checkout from is required';
+            }
+
+            if (empty($data['checkout_until'])) {
+                $errors[] = 'Checkout until is required';
+            }
+
+
+            //send the data to the model
             if (empty($errors)) {
-                $isInserted = $this->accomadationModel->addAccommodation(
-                    $data['id'], $data['name'], $data['price'],$data['type'], $data['location'], $data['description'],$data['quantity']
-                );
+                $isInserted = $this->accomadationModel->addProperty($data);
 
                 if ($isInserted) {
-                    $accommodationId = $isInserted;
-                    $accommodationFolder = "$userFolder/$accommodationId";
+                    echo json_encode(['status' => 'success', 'message' => 'Data added successfully']);
+                    //clear the local storage
+         
 
-                    if (!is_dir($accommodationFolder)) {
-                        mkdir($accommodationFolder, 0777, true);
-
-                         //add the image path to the database using the addAccommodationImage method
-                    // for ($i = 0; $i < count($images['name']); $i++) {
-                    //     if ($images['error'][$i] == 0) {
-                    //         $filename = $images['name'][$i];
-                    //         $fileTempName = $images['tmp_name'][$i];
-
-                    //         $fileExtension = pathinfo($filename, PATHINFO_EXTENSION);
-                    //         $newFilename = "image_" . $i . "." . $fileExtension;
-                    //         $newFilePath = "$accommodationFolder/$newFilename";
-
-                    //         if (move_uploaded_file($fileTempName, $newFilePath)) {
-                    //             $this->addAccommodationImage($accommodationId, $newFilePath);
-                    //         }
-                    //     }
-                       
-
-                    }
-
-                   
-
-                    echo "<script>alert('Accommodation added successfully!');</script>";
-                    redirect('accomadation/myInventory');
+                  
                 } else {
-                    echo "<script>alert('Failed to add accommodation.');</script>";
+                    echo json_encode(['status' => 'error', 'message' => 'An error occurred. Please try again']);
                 }
             } else {
-                foreach ($errors as $error) {
-                    echo "<script>alert('$error');</script>";
-                }
+                echo json_encode(['status' => 'error', 'message' => $errors]);
+                error_log(print_r($errors, true));
+
             }
+
+        } else {
+            echo json_encode(['status' => 'error', 'message' => 'Invalid request method']);
         }
     }
 
 
-    // get the accomadation from the database with respect to the accomadation supplier
-    // public function getAccomadation(){
-    //     $user=$_SESSION['id'];
-    //     $accomadation=$this->accomadationModel->getAccomadation($user);
-    //     $data=[
-    //         'accomadation'=>$accomadation,
-    //     ];
-    //     $this->view('accomadation/MyInventory',$data);
+
+    // public function addAccommodationImage($accommodationId, $imagePath) {
+    //     $userId = $_SESSION['id'];
+
+    //     $isInserted = $this->accomadationModel->addAccommodationImage($userId, $accommodationId, $imagePath);
+
+    //     if ($isInserted) {
+    //         return true;
+    //     } else {
+    //         return false;
+    //     }
     // }
 
-    //add the accomodation_image path to the database
-    public function addAccommodationImage($accommodationId, $imagePath) {
-        $userId = $_SESSION['id'];
-
-        $isInserted = $this->accomadationModel->addAccommodationImage($userId, $accommodationId, $imagePath);
-
-        if ($isInserted) {
-            return true;
-        } else {
-            return false;
-        }
-    }
-
-
 }
-
 ?>

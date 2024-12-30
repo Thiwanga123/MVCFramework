@@ -80,11 +80,7 @@
                             <td>Completed</td>                           
                             <td class="action-btn">
                                     <button class="view-btn">View</button>
-<<<<<<< HEAD
                                     
-=======
-                                    <button class="cancel-btn">Cancel</button>
->>>>>>> origin/ushan
                             </td>
 
                         </tr>
@@ -101,7 +97,6 @@
                             <td>Completed</td>                           
                             <td class="action-btn">
                                     <button class="view-btn">View</button>
-<<<<<<< HEAD
                                     
                             </td>
                         </tr>
@@ -119,9 +114,6 @@
                             <td class="action-btn">
                                     <button class="view-btn">View</button>
                                     
-=======
-                                    <button class="cancel-btn">Cancel</button>
->>>>>>> origin/ushan
                             </td>
                         </tr>
                         <tr>
@@ -169,27 +161,7 @@
                             <td>Completed</td>                           
                             <td class="action-btn">
                                     <button class="view-btn">View</button>
-<<<<<<< HEAD
                                     
-=======
-                                    <button class="cancel-btn">Cancel</button>
-                            </td>
-                        </tr>
-                        <tr>
-                        <td>
-                                <img src="<?php echo URLROOT;?>/Images/Profile pic.jpg"> John
-                            </td>
-                            <td>E102</td>
-                            <td>Hotel</td>
-                            <td>10</td>
-                            <td>2024-10-20</td>
-                            <td>2024-10-23</td>
-                            <td>Rs.20,000.00</td>
-                            <td>Completed</td>                           
-                            <td class="action-btn">
-                                    <button class="view-btn">View</button>
-                                    <button class="cancel-btn">Cancel</button>
->>>>>>> origin/ushan
                             </td>
                         </tr>
                     </tbody>

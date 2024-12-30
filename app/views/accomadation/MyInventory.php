@@ -47,10 +47,10 @@
                 </div>
 
                 <div class="right">
-                        <button class="add-btn" name ="add-acc-btn" id="add-acc-btn">
-                            <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#ffffff"><path d="M440-440H200v-80h240v-240h80v240h240v80H520v240h-80v-240Z"/></svg>
+                       <a href="<?php echo URLROOT;?>/accomadation/start" ><button class="add-btn" name ="add-acc-btn" id="add-acc-btn" >
+                            <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#ffffff"><path d="M440-440H200v-80h240v-240h80v240h240v80H520v240h-80v-240Z"/></svg>                           
                             <h3>Add Accommodation</h3>
-                        </button>
+                        </button></a>
                 </div>
             </div>
            
@@ -61,39 +61,36 @@
                     <h3>All Accomadations</h3>
                     <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#000000"><path d="M440-160q-17 0-28.5-11.5T400-200v-240L168-736q-15-20-4.5-42t36.5-22h560q26 0 36.5 22t-4.5 42L560-440v240q0 17-11.5 28.5T520-160h-80Zm40-308 198-252H282l198 252Zm0 0Z"/></svg>
                 </div>
-                <table>
+                <table style="font-family: Arial, sans-serif;">
+
+               
                     <thead>
                         <tr>
-                            <th>Accomodation Image</th>
+                            <th>Accomodation Name</th>
                             <th>Location</th>
-                            <th>Item-Id</th>
+                            <th>Property-Id</th>
                             <th>Price</th>
-                            <th>Available Quantity</th>
+                            <th>Number of Guests Can stay</th>
                             <th>Category</th>
                             <th>Action</th>
-                            <th>Option</th>
+                         
                         </tr>
                     </thead>
                     <tbody>
                         <?php foreach ($data['accomadation'] as $accomadation):?>
                         <tr>
-                            <td>
-                                <img src="<?php echo URLROOT;?>/Images/Location.jpg" alt="Location Image">
-                             </td>
-                            <td><?php echo $accomadation->location;?></td>
-                            <td><?php echo $accomadation->id;?></td>
+                            <td><?php echo $accomadation->property_name;?></td>
+                            <td><?php echo $accomadation->address;?></td>
+                            <td><?php echo $accomadation->property_id;?></td>
                             <td><?php echo $accomadation->price;?></td>
-                            <td><?php echo $accomadation->quantity;?></td>
-                            <td><?php echo $accomadation->type;?></td>
-                            <td class="action-btn">
-                            <a href="#"><button class="pay-btn" style=" background-color: green;color: white;font-size: medium;height: 30px;border-radius: 30px;border: none;margin-top: 1rem;cursor: pointer;padding: 0 10px;transition: all 0.3s ease;">View</button></a>
-                            <a href="#"><button class="pay-btn" style=" background-color: red;color: white;font-size: medium;height: 30px;border-radius: 30px;border: none;margin-top: 1rem;cursor: pointer;padding: 0 10px;transition: all 0.3s ease;">Delete</button></a>
-                            <a href="#"><button class="pay-btn" style=" background-color: blue;color: white;font-size: medium;height: 30px;border-radius: 30px;border: none;margin-top: 1rem;cursor: pointer;padding: 0 10px;transition: all 0.3s ease;">Edit</button></a>  
-                            </td>
-                            <td class="option-btn">
-                            <a href="#"><button class="pay-btn" style=" background-color: lightblue;color: white;font-size: medium;height: 30px;border-radius: 30px;border: none;margin-top: 1rem;cursor: pointer;padding: 0 10px;transition: all 0.3s ease;">Add Room</button></a>
-
-                                
+                            <td><?php echo $accomadation->max_occupants;?></td>
+                            <td><?php echo $accomadation->property_type;?></td>
+                            <td class="actionn">                   
+                            <a href="<?php echo URLROOT;?>/accomadation/viewdetails/<?php echo $accomadation->property_id;?>"><button class="btn btn-view">View</button></a>
+                            <button class="btn btn-edit">Edit</button>
+                            <a href="<?php echo URLROOT; ?>/accomadation/deleteproperty/<?php echo $accomadation->property_id; ?>"onclick="return confirm('Are you sure you want to delete this Property?');"><button class="btn btn-delete">Delete</button></a>
+                        </div>
+                        </td>                               
                         </tr>
                         <?php endforeach;?>
                     </tbody>
@@ -110,15 +107,11 @@
 
  
 
-     <?php
-        include('Addavailability_accomodation.php');;
-    ?>
-
 
     
 
     <script src="<?php echo URLROOT;?>/js/Sidebar.js"></script> 
-    <script src="<?php echo URLROOT;?>/js/addavailability_accomodation.js"></script>
+   
     <script src="<?php echo URLROOT;?>/js/ImagePreview.js"></script>
    
      
