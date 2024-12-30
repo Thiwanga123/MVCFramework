@@ -97,7 +97,21 @@ class M_accomadation{
     
        
             
-        
+    public function deleteProperty($propertyId) {
+        try {
+            $sql = "DELETE FROM properties WHERE property_id = ?";
+
+            $this->db->query($sql);
+            $this->db->bind(1, $propertyId);
+
+            $this->db->execute();
+
+            return true;
+        } catch (Exception $e) {
+            echo "<script>alert('An error occurred: {$e->getMessage()}');</script>";
+            return false;
+        }
+    }    
         
     
 

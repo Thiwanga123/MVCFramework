@@ -224,23 +224,9 @@
             window.location.href="<?php echo URLROOT;?>/accomadation/uploadphoto";
         }
 
-   // Function to display basicinfoData
-function displaybasicInfoData() {
-    const basicinfoData = JSON.parse(localStorage.getItem("basicinfoData"));
-    if (basicinfoData) {
-        document.getElementById('basicinfoDataContainer').textContent = JSON.stringify(basicinfoData, null, 2);
-    } else {
-        document.getElementById('basicinfoDataContainer').textContent = 'No basic info data found.';
-    }
-}
 
-// Call the function to display basicinfoData when the page loads
-window.onload = displaybasicInfoData;
+
 </script>
-
-<div id="basicinfoDataContainer" style="white-space: pre-wrap; background-color: #f0f0f0; padding: 10px; margin-top: 10px;"></div>
-    
-    
-    
+  
 </body>
 </html>

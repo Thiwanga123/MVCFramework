@@ -55,23 +55,6 @@
 
     }
 
-     // Function to display startpageData
-     function displayStartpageData() {
-        const startpageData = JSON.parse(localStorage.getItem("startpageData"));
-        if (startpageData) {
-            document.getElementById('startpageDataContainer').textContent = JSON.stringify(startpageData, null, 2);
-        } else {
-            document.getElementById('startpageDataContainer').textContent = 'No startpage data found.';
-        }
-    }
-
-    // Call the function to display startpageData when the page loads
-    window.onload = displayStartpageData;
-    </script>
-     <div id="startpageDataContainer" style="white-space: pre-wrap; background-color: #f0f0f0; padding: 10px; margin-top: 10px;"></div>
-
-
-<script>
 console.log("Stored data:", JSON.parse(localStorage.getItem("basicinfoData")));
 </script>
 

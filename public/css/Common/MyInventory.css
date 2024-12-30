@@ -89,18 +89,6 @@
     padding: 16px 0;
 }
 
-.content main .Inventory table tr td:first-child{
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    padding-left: 20px;
-}
-
-.content main .Inventory table td img{
-    width: 36px;
-    height: 36px;
-    object-fit: cover;
-}
 
 .content main .Inventory table tbody tr{
     cursor: pointer;

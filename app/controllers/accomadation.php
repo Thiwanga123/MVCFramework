@@ -37,6 +37,20 @@ public function myInventory(){
     }
 }
 
+public function deleteproperty($id){
+    if (isset($_SESSION['id'])) {
+        $isDeleted = $this->accomadationModel->deleteProperty($id);
+
+        if ($isDeleted) {
+            redirect('accomadation/myInventory');
+        } else {
+            echo "<script>alert('An error occurred. Please try again');</script>";
+        }
+    } else {
+        redirect('ServiceProvider/login');
+    }
+}
+
 
     public function orders(){
         
@@ -73,6 +87,13 @@ public function myInventory(){
         } else {
             redirect('ServiceProvider');
         }
+    }
+
+    public function viewdetails(){
+
+       
+            $this->view('accomadation/viewdetails');
+       
     }
 
     //logout

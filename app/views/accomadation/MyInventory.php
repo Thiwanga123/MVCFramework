@@ -64,7 +64,7 @@
                 <table>
                     <thead>
                         <tr>
-                            <th>Accomodation Image</th>
+                            <th>Accomodation Name</th>
                             <th>Location</th>
                             <th>Property-Id</th>
                             <th>Price</th>
@@ -77,17 +77,15 @@
                     <tbody>
                         <?php foreach ($data['accomadation'] as $accomadation):?>
                         <tr>
-                            <td>
-                                <img src="<?php echo URLROOT;?>/Images/Location.jpg" alt="Location Image">
-                             </td>
+                            <td><?php echo $accomadation->property_name;?></td>
                             <td><?php echo $accomadation->address;?></td>
                             <td><?php echo $accomadation->property_id;?></td>
                             <td><?php echo $accomadation->price;?></td>
-                            <td><?php echo $accomadation->quantity;?></td>
+                            <td><?php echo $accomadation->max_occupants;?></td>
                             <td><?php echo $accomadation->property_type;?></td>
                             <td class="action-btn">
-                            <a href="#"><button class="pay-btn" style=" background-color: green;color: white;font-size: medium;height: 30px;border-radius: 30px;border: none;margin-top: 1rem;cursor: pointer;padding: 0 10px;transition: all 0.3s ease;">View</button></a>
-                            <a href="#"><button class="pay-btn" style=" background-color: red;color: white;font-size: medium;height: 30px;border-radius: 30px;border: none;margin-top: 1rem;cursor: pointer;padding: 0 10px;transition: all 0.3s ease;">Delete</button></a>
+                            <a href="<?php echo URLROOT;?>/accomadation/viewdetails"><button class="pay-btn" style=" background-color: green;color: white;font-size: medium;height: 30px;border-radius: 30px;border: none;margin-top: 1rem;cursor: pointer;padding: 0 10px;transition: all 0.3s ease;">View</button></a>
+                            <a href="<?php echo URLROOT; ?>/accomadation/deleteproperty/<?php echo $accomadation->property_id; ?>"><button class="delete-btn" style=" background-color: red;;font-size: medium;height: 30px;border-radius: 30px;border: none;margin-top: 1rem;cursor: pointer;padding: 0 10px;transition: all 0.3s ease;" onclick="return confirm('Are you sure you want to delete this Property?');">Delete</button> </a>
                             <a href="#"><button class="pay-btn" style=" background-color: blue;color: white;font-size: medium;height: 30px;border-radius: 30px;border: none;margin-top: 1rem;cursor: pointer;padding: 0 10px;transition: all 0.3s ease;">Edit</button></a>  
                             </td>
                             
