@@ -136,19 +136,39 @@ public function deleteproperty($id){
     }
 
     public function basicinfo(){
-        $this->view('accomadation/basicinformation');
+        if (isset($_SESSION['id'])) {
+            $this->view('accomadation/basicinformation');
+        } else {
+            redirect('ServiceProvider');
+        }
+        
     }
 
     public function propertyinfo(){
-        $this->view('accomadation/propertyInformation');
+        if (isset($_SESSION['id'])) {
+            $this->view('accomadation/propertyInformation');
+        } else {
+            redirect('ServiceProvider');
+        }
+        
     }
 
     public function uploadphoto(){
-        $this->view('accomadation/uploadphoto');
+        if (isset($_SESSION['id'])) {
+            $this->view('accomadation/uploadphoto');
+        } else {
+            redirect('ServiceProvider');
+        }
+        
     }
 
     public function success(){
-        $this->view('accomadation/successful');
+        if (isset($_SESSION['id'])) {
+            $this->view('accomadation/successful');
+        } else {
+            redirect('ServiceProvider');
+        }
+        
     }
 
 
