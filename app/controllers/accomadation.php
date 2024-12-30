@@ -90,9 +90,28 @@ public function deleteproperty($id){
     }
 
     public function viewdetails(){
+        if (isset($_SESSION['id'])) {
 
+            $userId = $_SESSION['id'];
+    
+            $accomadation=$this->accomadationModel->getAccomadation($userId);
+            $data=[
+                'accomadation'=>$accomadation,
+            ];
+                $this->view('accomadation/viewdetails',$data);
+        } else {
+            redirect('ServiceProvider/login');
+        }
        
-            $this->view('accomadation/viewdetails');
+            
+       
+    }
+
+
+    public function Inventorytable(){
+
+      
+            $this->view('accomadation/Inventorytable');
        
     }
 

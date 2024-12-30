@@ -171,7 +171,7 @@
                 
             </div>
             <div class="next-button-container">
-            <button type="button" onclick="propertyinfo()">Next</button></a>
+            <button type="button" class="next-button" onclick="propertyinfo()">Next</button></a>
             </div>
             
 

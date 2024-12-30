@@ -61,7 +61,9 @@
                     <h3>All Accomadations</h3>
                     <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#000000"><path d="M440-160q-17 0-28.5-11.5T400-200v-240L168-736q-15-20-4.5-42t36.5-22h560q26 0 36.5 22t-4.5 42L560-440v240q0 17-11.5 28.5T520-160h-80Zm40-308 198-252H282l198 252Zm0 0Z"/></svg>
                 </div>
-                <table>
+                <table style="font-family: Arial, sans-serif;">
+
+               
                     <thead>
                         <tr>
                             <th>Accomodation Name</th>
@@ -83,14 +85,12 @@
                             <td><?php echo $accomadation->price;?></td>
                             <td><?php echo $accomadation->max_occupants;?></td>
                             <td><?php echo $accomadation->property_type;?></td>
-                            <td class="action-btn">
-                            <a href="<?php echo URLROOT;?>/accomadation/viewdetails"><button class="pay-btn" style=" background-color: green;color: white;font-size: medium;height: 30px;border-radius: 30px;border: none;margin-top: 1rem;cursor: pointer;padding: 0 10px;transition: all 0.3s ease;">View</button></a>
-                            <a href="<?php echo URLROOT; ?>/accomadation/deleteproperty/<?php echo $accomadation->property_id; ?>"><button class="delete-btn" style=" background-color: red;;font-size: medium;height: 30px;border-radius: 30px;border: none;margin-top: 1rem;cursor: pointer;padding: 0 10px;transition: all 0.3s ease;" onclick="return confirm('Are you sure you want to delete this Property?');">Delete</button> </a>
-                            <a href="#"><button class="pay-btn" style=" background-color: blue;color: white;font-size: medium;height: 30px;border-radius: 30px;border: none;margin-top: 1rem;cursor: pointer;padding: 0 10px;transition: all 0.3s ease;">Edit</button></a>  
-                            </td>
-                            
-
-                                
+                            <td class="actionn">                   
+                            <a href="<?php echo URLROOT;?>/accomadation/viewdetails/<?php echo $accomadation->property_id;?>"><button class="btn btn-view">View</button></a>
+                            <button class="btn btn-edit">Edit</button>
+                            <a href="<?php echo URLROOT; ?>/accomadation/deleteproperty/<?php echo $accomadation->property_id; ?>"onclick="return confirm('Are you sure you want to delete this Property?');"><button class="btn btn-delete">Delete</button></a>
+                        </div>
+                        </td>                               
                         </tr>
                         <?php endforeach;?>
                     </tbody>
