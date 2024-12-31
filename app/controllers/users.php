@@ -100,6 +100,15 @@ class Users extends Controller {
         
     }
 
+    public function viewdetails(){
+        if(isset($_SESSION['user_id'])) {
+            $this->view('users/viewdetails');
+        }else{
+            redirect('users/login');
+        }
+        
+    }
+
     public function equipment_suppliers(){
         if(isset($_SESSION['user_id'])) {
             $this->view('users/v_equipment_suppliers');
