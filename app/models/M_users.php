@@ -81,7 +81,25 @@ class M_users{
             } else {
                return false;
             }
-        } 
+        }
+        
+    //get all the accomodations from the database
+    public function searchAccommodations($data){
+
+        
+        $this->db->query('SELECT * FROM properties WHERE city = :city AND price >= :price AND max_occupants >= :people');
+        //bind parameters indexes
+
+
+        $this->db->bind(':city', $data[0]);
+        $this->db->bind(':price', $data[1]);
+        $this->db->bind(':people', $data[2]);
+
+        return $this->db->resultSet();
+       
+    
+        
+    }
 
 
     

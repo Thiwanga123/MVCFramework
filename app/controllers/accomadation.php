@@ -314,19 +314,8 @@ public function deleteproperty($id){
         }
     }
 
+ 
 
 
-    // public function addAccommodationImage($accommodationId, $imagePath) {
-    //     $userId = $_SESSION['id'];
-
-    //     $isInserted = $this->accomadationModel->addAccommodationImage($userId, $accommodationId, $imagePath);
-
-    //     if ($isInserted) {
-    //         return true;
-    //     } else {
-    //         return false;
-    //     }
-    // }
 
 }
-?>

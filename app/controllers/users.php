@@ -39,11 +39,47 @@ class Users extends Controller {
     public function accomadation() {
 
         if(isset($_SESSION['user_id'])) {
+            //when Enter the location, number of guests, and the budget then click the search button, after that the system will display the available accomodations
             $this->view('users/v_accomadation');
         }else{
             redirect('users/login');
         }
         
+    }
+
+    public function search(){
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            
+
+
+            // Sanitize POST data
+            $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
+
+            
+           
+            // Get the form data
+            $data=[
+                $location = trim($_POST['location']),
+                $budget = trim($_POST['budget']),
+                $people = trim($_POST['people']),
+
+            ];
+
+
+            // Call the model to search for accommodations
+            $accomadation=$this->userModel->searchAccommodations($data);
+
+            $data = [
+                'accomadation' => $accomadation
+            ];
+    
+            // Load the view with the search results
+            $this->view('users/v_accomadation',$data );
+        } else {
+            // If not a POST request, redirect to the form or show an error
+            redirect('path/to/form');
+        }
+
     }
 
     public function payments() {
@@ -269,6 +305,21 @@ public function logout() {
     }
 
 }
+
+//get all the accomodations from the database
+   // public function addAccommodationImage($accommodationId, $imagePath) {
+    //     $userId = $_SESSION['id'];
+
+    //     $isInserted = $this->accomadationModel->addAccommodationImage($userId, $accommodationId, $imagePath);
+
+    //     if ($isInserted) {
+    //         return true;
+    //     } else {
+    //         return false;
+    //     }
+    // }
+
+ 
 
 }
 
