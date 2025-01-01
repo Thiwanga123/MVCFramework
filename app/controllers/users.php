@@ -67,14 +67,21 @@ class Users extends Controller {
 
 
             // Call the model to search for accommodations
-            $accomadation=$this->userModel->searchAccommodations($data);
+            if($accomadation=$this->userModel->searchAccommodations($data)){
+                // If the search is successful, load the view with the search results
+                $data = [
+                    'accomadation' => $accomadation
+                ];
+        
+                // Load the view with the search results
+                $this->view('users/v_accomadation',$data );
+            } else {
+                // If the search is not successful, load the view with an error message
+                $this->view('users/notfound');
+            }
+            
 
-            $data = [
-                'accomadation' => $accomadation
-            ];
-    
-            // Load the view with the search results
-            $this->view('users/v_accomadation',$data );
+           
         } else {
             // If not a POST request, redirect to the form or show an error
             redirect('path/to/form');
@@ -313,6 +320,10 @@ public function logout() {
         redirect('users/login');
     }
 
+}
+
+public function notfound() {
+    $this->view('users/notfound');
 }
 
 //get all the accomodations from the database
