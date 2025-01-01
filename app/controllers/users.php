@@ -107,9 +107,14 @@ class Users extends Controller {
         
     }
 
-    public function viewdetails(){
+    public function viewdetails($property_id){
         if(isset($_SESSION['user_id'])) {
-            $this->view('users/viewdetails');
+
+            $accomadation = $this->userModel->getAccommodationById($property_id);
+            $data=[
+                'accomadation' => $accomadation
+            ];
+            $this->view('users/viewdetails',$data);
         }else{
             redirect('users/login');
         }

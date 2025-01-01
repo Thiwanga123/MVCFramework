@@ -101,6 +101,16 @@ class M_users{
         
     }
 
+    //get the accomodation details
+    public function getAccommodationById($property_id){
+        $this->db->query('SELECT * FROM properties WHERE property_id = :property_id');
+        $this->db->bind(':property_id', $property_id);
+
+        $row = $this->db->single();
+
+        return $row;
+    }
+
 
     
 

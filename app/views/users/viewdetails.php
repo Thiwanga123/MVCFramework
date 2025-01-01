@@ -2,6 +2,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <title>The Grand Kandyan</title>
     <style>
         body {
@@ -121,8 +122,26 @@
         .highlights-grid, .facility-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
-            gap: 20px;
+            gap: 10px;
         }
+        .facility-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: 10px;
+}
+
+.facility-item {
+    display: flex;
+    align-items: center;
+}
+
+.facility-icon {
+    margin-right: 10px;
+}
+
+.facility-item p {
+    margin: 0;
+}
 
         .highlight-item, .facility-item {
             display: flex;
@@ -379,13 +398,15 @@
     </style>
 </head>
 <body>
+
     <div class="container">
+
         <!-- Header -->
         <div class="header">
             <div class="hotel-title">
-                <div class="rating-stars">★★★★★</div>
-                <h1 class="hotel-name">The Grand Kandyan
-                    <span class="airport-shuttle">Airport shuttle</span>
+                <div class="rating-stars">★★★★★</div><br>
+                <h1 class="hotel-name"><?php echo $accomadation->property_name;?>
+                    <span class="airport-shuttle"><?php echo $accomadation->property_type;?></span>
                 </h1>
             </div>
         </div>
@@ -393,10 +414,10 @@
         <!-- Location -->
         <div class="location">
             <i class="fas fa-map-marker-alt"></i>
-            89/10, Lady Gordon's Drive, Kandy, 20000 Kandy, Sri Lanka
+            <?php echo $accomadation->property_name;?>
             <a href="#">Great location - show map</a>
             <span class="location-divider">–</span>
-            Railway access
+           
         </div>
 
         <!-- Gallery -->
@@ -410,78 +431,112 @@
 
         <!-- Property Highlights -->
         <div class="property-highlights">
-            <h2 class="highlights-title">Property highlights</h2>
-            <div class="highlights-grid">
-                <div class="highlight-item">
-                    <i class="fas fa-wheelchair highlight-icon"></i>
-                    <div class="highlight-content">
-                        <h3>Accessibility</h3>
-                        <p>Wheelchair accessible, Lift, Emergency cord in bathroom</p>
-                    </div>
-                </div>
-                <div class="highlight-item">
-                    <i class="fas fa-spa highlight-icon"></i>
-                    <div class="highlight-content">
-                        <h3>Wellness</h3>
-                        <p>Spa and wellness centre, Hot tub/Jacuzzi, Massage</p>
-                    </div>
-                </div>
-                <div class="highlight-item">
-                    <i class="fas fa-utensils highlight-icon"></i>
-                    <div class="highlight-content">
-                        <h3>Dining</h3>
-                        <p>On-site restaurant, Bar, Room service</p>
-                    </div>
-                </div>
-                <div class="highlight-item">
-                    <i class="fas fa-dumbbell highlight-icon"></i>
-                    <div class="highlight-content">
-                        <h3>Leisure</h3>
-                        <p>Outdoor pool, Fitness centre, Garden</p>
-                    </div>
-                </div>
-            </div>
+            <h2 class="highlights-title">Property Overview</h2>
+            <p>Welcome to <?php echo $accomadation->property_name; ?>, a stunning <?php echo $accomadation->property_type; ?> nestled in the heart of <?php echo $accomadation->city; ?>, at <?php echo $accomadation->address; ?>, <?php echo $accomadation->postal_code; ?>. This delightful property offers the perfect retreat, whether you're traveling solo, as a couple, with family, or with friends. Boasting spacious accommodations, including <?php echo $accomadation->single_bedrooms; ?> single bedrooms, <?php echo $accomadation->double_bedrooms; ?> double bedrooms, <?php echo $accomadation->living_rooms; ?> living rooms, and <?php echo $accomadation->family_rooms; ?> family rooms, there's plenty of room for everyone. With a total of <?php echo $accomadation->bathrooms; ?> bathrooms and a maximum capacity of <?php echo $accomadation->max_occupants; ?> occupants, comfort is guaranteed.
+
+            Enjoy a range of modern amenities designed for your convenience and relaxation, including air conditioning, heating, free Wi-Fi, and a fully equipped kitchen or kitchenette for home-cooked meals. Dive into ultimate leisure with features like a swimming pool, hot tub, sauna, or unwind on your private balcony or terrace with breathtaking garden views. The property spans a generous <?php echo $accomadation->apartment_size; ?> sqm, ensuring ample space to make yourself at home.
+
+            Perfect for families and groups, <?php echo $accomadation->property_name; ?> welcomes children and offers thoughtful touches like EV charging, a washing machine, and a flat-screen TV for entertainment. For those who crave a little indulgence, a minibar and luxurious views await. ensuring a stay tailored to your needs.
+
+            Convenient check-in is available between <?php echo $accomadation->check_in_from; ?> and <?php echo $accomadation->check_in_until; ?>, with check-out between <?php echo $accomadation->check_out_from; ?> and <?php echo $accomadation->check_out_until; ?>. Starting at just <?php echo $accomadation->price; ?> per night, <?php echo $accomadation->property_name; ?> is the perfect choice for your next getaway. Book now and experience the unparalleled charm of this exceptional property!</p>
         </div>
 
         <!-- Popular Facilities -->
         <div class="popular-facilities">
             <h2 class="highlights-title">Most popular facilities</h2>
             <div class="facility-grid">
-                <div class="facility-item">
-                    <i class="fas fa-swimming-pool facility-icon"></i>
-                    <p>2 swimming pools</p>
-                </div>
-                <div class="facility-item">
-                    <i class="fas fa-wifi facility-icon"></i>
-                    <p>Free WiFi</p>
-                </div>
-                <div class="facility-item">
-                    <i class="fas fa-users facility-icon"></i>
-                    <p>Family rooms</p>
-                </div>
-                <div class="facility-item">
-                    <i class="fas fa-coffee facility-icon"></i>
-                    <p>Tea/coffee maker</p>
-                </div>
-                <div class="facility-item">
-                    <i class="fas fa-spa facility-icon"></i>
-                    <p>Spa and wellness</p>
-                </div>
-            </div>
+    <?php if ($accomadation->free_wifi == 1): ?>
+        <div class="facility-item">
+            <i class="fas fa-wifi facility-icon"></i>
+            <p>Free Wifi</p>
+        </div>
+    <?php endif; ?>
+    <?php if ($accomadation->air_conditioning == 1): ?>
+        <div class="facility-item">
+            <i class="fas fa-wind facility-icon"></i>
+            <p>Air Conditioning</p>
+        </div>
+    <?php endif; ?>
+    <?php if ($accomadation->ev_charging == 1): ?>
+        <div class="facility-item">
+            <i class="fas fa-charging-station facility-icon"></i>
+            <p>EV Charging</p>
+        </div>
+    <?php endif; ?>
+    <?php if ($accomadation->kitchen == 1): ?>
+        <div class="facility-item">
+            <i class="fas fa-utensils facility-icon"></i>
+            <p>Kitchen</p>
+        </div>
+    <?php endif; ?>
+    <?php if ($accomadation->kitchenette == 1): ?>
+        <div class="facility-item">
+            <i class="fas fa-blender facility-icon"></i>
+            <p>Kitchenette</p>
+        </div>
+    <?php endif; ?>
+    <?php if ($accomadation->washing_machine == 1): ?>
+        <div class="facility-item">
+            <i class="fas fa-washer facility-icon"></i>
+            <p>Washing Machine</p>
+        </div>
+    <?php endif; ?>
+    <?php if ($accomadation->flat_screen_tv == 1): ?>
+        <div class="facility-item">
+            <i class="fas fa-tv facility-icon"></i>
+            <p>TV</p>
+        </div>
+    <?php endif; ?>
+    <?php if ($accomadation->swimming_pool == 1): ?>
+        <div class="facility-item">
+            <i class="fas fa-swimming-pool facility-icon"></i>
+            <p>Swimming Pool</p>
+        </div>
+    <?php endif; ?>
+    <?php if ($accomadation->heating == 1): ?>
+        <div class="facility-item">
+            <i class="fas fa-fire facility-icon"></i>
+            <p>Heating</p>
+        </div>
+    <?php endif; ?>
+    <?php if ($accomadation->hot_tub == 1): ?>
+        <div class="facility-item">
+            <i class="fas fa-hot-tub facility-icon"></i>
+            <p>Hot Tub</p>
+        </div>
+    <?php endif; ?>
+    <?php if ($accomadation->minibar == 1): ?>
+        <div class="facility-item">
+            <i class="fas fa-cocktail facility-icon"></i>
+            <p>Minibar</p>
+        </div>
+    <?php endif; ?>
+    <?php if ($accomadation->sauna == 1): ?>
+        <div class="facility-item">
+            <i class="fas fa-hot-tub facility-icon"></i>
+            <p>Sauna</p>
+        </div>
+    <?php endif; ?>
+</div>
         </div>
 
         <!-- Availability Section -->
         <div class="availability">
             <div class="availability-header">
                 <h2>Availability</h2>
+                <p>Enter the Check-in ,Check-out Dates and the People</p>
             </div>
 
             <div class="search-container">
+                <form action="<?php echo URLROOT;?>/users/searchForBook" method="POST">
                 <div class="search-inputs">
-                    <input type="text" class="search-field" placeholder="Check-in - Check-out date">
-                    <input type="text" class="search-field" placeholder="2 adults · 0 children · 1 room">
+                    <input type="date" class="search-field" name="check-in-date" placeholder="Date">
+                    <input type="date" class="search-field" name="check-out-date" placeholder="Check-out date">
+                    <input type="text" class="search-field" name="guests" placeholder="Enter the Number of People">
                 </div>
-                <button class="search-button">Search</button>
+                <button type="submit" class="search-button">Search</button>
+            </form>
+
             </div>
 
             <div class="overflow-x-auto">
@@ -490,6 +545,8 @@
                         <tr>
                             <th>Room type</th>
                             <th>Price per room</th>
+                            <th>Available Rooms</th>
+                            <th>Enter Number of Rooms</th>
                             <th>Book</th>
                         </tr>
                     </thead>
@@ -497,6 +554,8 @@
                         <tr>
                             <td>Deluxe Double or Twin Room with Balcony</td>
                             <td>$120</td>
+                            <td>5</td>
+                            <td><input type="number" min="1" max="5" value="1"></td>
                             <td><button class="book-button">Book</button></td>
                         </tr>
                         <tr>
@@ -512,10 +571,14 @@
         <!-- Reviews Section -->
         <div class="reviews">
             <div class="review-content">
-                <h3>Very good</h3>
-                <p class="review-text">2,611 reviews</p>
+                <h3>Property Policies</h3>
+                <p class="review-text">Children : <?php echo $accomadation->children_allowed; ?> </p>
+                <p class="review-text">Parties : <?php echo $accomadation->parties_allowed; ?> </p>
+                <p class="review-text">Smoking :<?php echo $accomadation->smoking_allowed; ?> </p>
+                <p class="review-text">Pets :<?php echo $accomadation->pets_allowed; ?> </p>
+
             </div>
-            <div class="review-score">8.3</div>
+           
         </div>
 
         <!-- Guest Reviews -->
@@ -541,6 +604,8 @@
             <img src="https://storage.googleapis.com/a1aa/image/DD0m6qZDbhInGFvKEE8EnI2R5Duh6lmEZbDrYspXvLK7LKAF.jpg" alt="Map showing the location of the hotel" class="map-placeholder">
         </div>
     </div>
+
+   
 
     <!-- Fixed Back to Search Button -->
     <a href="<?php echo URLROOT;?>/users/accomadation"><button class="fixed-button">Back to search</button></a>
