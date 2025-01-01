@@ -302,6 +302,12 @@
             font-size: 20px;
         }
 
+        .review-content{
+            display: grid;
+            grid-template-columns:  repeat(auto-fill, minmax(240px, 1fr));
+
+        }
+
         .review-text {
             font-size: 14px;
             color: #6b6b6b;
@@ -380,6 +386,39 @@
             border-radius: 4px;
             font-weight: 500;
             cursor: pointer;
+        }
+
+        .order-summary {
+            background: #f8f9fa;
+            padding: 1.5rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .summary-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 0.5rem 0;
+            border-bottom: 1px solid #dee2e6;
+        }
+
+        .total-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 1rem 0;
+            font-weight: bold;
+        }
+
+        .pay-button {
+            width: 100%;
+            background: #0071c2;
+            color: white;
+            padding: 1rem;
+            border: none;
+            border-radius: 4px;
+            font-weight: 500;
+            cursor: pointer;
+            margin-top: 1rem;
         }
 
         .fixed-button {
@@ -534,7 +573,7 @@
                     <input type="date" class="search-field" name="check-out-date" placeholder="Check-out date">
                     <input type="text" class="search-field" name="guests" placeholder="Enter the Number of People">
                 </div>
-                <button type="submit" class="search-button">Search</button>
+                <button type="submit" class="search-button">Add Dates</button>
             </form>
 
             </div>
@@ -547,22 +586,32 @@
                             <th>Price per room</th>
                             <th>Available Rooms</th>
                             <th>Enter Number of Rooms</th>
-                            <th>Book</th>
+                            <th>Add</th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr>
-                            <td>Deluxe Double or Twin Room with Balcony</td>
-                            <td>$120</td>
+                            <td>Single Room (1 person)</td>
+                            <td>LKR.120</td>
                             <td>5</td>
-                            <td><input type="number" min="1" max="5" value="1"></td>
-                            <td><button class="book-button">Book</button></td>
+                            <td><input type="number" min="0" max="5" ></td>
+                            <td><button class="book-button">Add</button></td>
                         </tr>
                         <tr>
-                            <td>Honeymoon Suite</td>
-                            <td>$200</td>
-                            <td><button class="book-button">Book</button></td>
+                            <td>Double Room (2 persons)</td>
+                            <td>LKR.200</td>
+                            <td>3</td>
+                            <td><input type="number" min="0" max="3" ></td>
+                            <td><button class="book-button">Add</button></td>
                         </tr>
+                        <tr>
+                            <td>Family Room (4 persons)</td>
+                            <td>LKR.300</td>
+                            <td>2</td>
+                            <td><input type="number" min="0" max="2" ></td>
+                            <td><button class="book-button">Add</button></td>
+                        </tr>
+
                     </tbody>
                 </table>
             </div>
@@ -570,14 +619,33 @@
 
         <!-- Reviews Section -->
         <div class="reviews">
+        <h3>Property Policies</h3>
             <div class="review-content">
-                <h3>Property Policies</h3>
+                
                 <p class="review-text">Children : <?php echo $accomadation->children_allowed; ?> </p>
                 <p class="review-text">Parties : <?php echo $accomadation->parties_allowed; ?> </p>
                 <p class="review-text">Smoking :<?php echo $accomadation->smoking_allowed; ?> </p>
                 <p class="review-text">Pets :<?php echo $accomadation->pets_allowed; ?> </p>
 
             </div>
+            <h3>Order Summary</h3>
+            <div class="order-summary">
+                    
+                    <div class="summary-row">
+                        <span>Room charges</span>
+                        <span>LKR 12,000</span>
+                    </div>
+                    <div class="summary-row">
+                        <span>Taxes & fees</span>
+                        <span>LKR 1,200</span>
+                    </div>
+                    <div class="total-row">
+                        <span>Total Amount</span>
+                        <span style="color: #0071c2;">LKR 13,200</span>
+                    </div>
+                    <button class="pay-button">Pay & Book Now</button>
+                  
+                </div>
            
         </div>
 
