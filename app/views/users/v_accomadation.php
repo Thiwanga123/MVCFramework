@@ -53,7 +53,7 @@
     <br>
     <p>Price:Rs.<?php echo $accomadation->price;?> per Day</p>
     <p>Type:<?php echo $accomadation->property_type;?></p>
-    <a href="<?php echo URLROOT;?>/users/payments"><button class="pay-btn" style=" background-color: rgb(21, 126, 126);color: white;font-size: medium;height: 30px;
+    <a href="<?php echo URLROOT;?>/users/viewdetails"><button class="pay-btn" style=" background-color: rgb(21, 126, 126);color: white;font-size: medium;height: 30px;
     border-radius: 30px;
     border: none;
     margin-top: 1rem;
