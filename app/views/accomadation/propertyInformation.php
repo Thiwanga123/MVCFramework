@@ -179,8 +179,18 @@
         
 
     </div>
+    <h2>Start Page Data</h2>
+        <div id="basicinfoDataContainer"></div>
 
     <script>
+
+document.addEventListener('DOMContentLoaded', function() {
+            const startpageData = JSON.parse(localStorage.getItem("basicinfoData"));
+            const startpageDataContainer = document.getElementById('basicinfoDataContainer');
+            startpageDataContainer.innerHTML = `<pre>${JSON.stringify(startpageData, null, 2)}</pre>`;
+        });
+
+
         function propertyinfo(){
             const single=document.getElementById('single').value;
             const double=document.getElementById('double').value;
@@ -227,6 +237,8 @@
 
 
 </script>
+
+
   
 </body>
 </html>
