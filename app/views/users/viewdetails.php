@@ -4,6 +4,24 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <title>The Grand Kandyan</title>
+    <script src="https://maps.googleapis.com/maps/api/js?key=<?php echo API_KEY; ?>&callback=initMap" async defer></script>
+    <script>
+        function initMap() {
+            const latitude = <?php echo $data['accomadation']->latitude; ?>;
+            const longitude = <?php echo $data['accomadation']->longitude; ?>;
+            const location = { lat: latitude, lng: longitude };
+
+            const map = new google.maps.Map(document.getElementById('map'), {
+                zoom: 15,
+                center: location
+            });
+
+            const marker = new google.maps.Marker({
+                position: location,
+                map: map
+            });
+        }
+    </script>
     <style>
         body {
             background-color: #f5f5f5;
@@ -668,8 +686,8 @@
         </div>
 
         <!-- Map Section -->
-        <div class="map-container">
-            <img src="https://storage.googleapis.com/a1aa/image/DD0m6qZDbhInGFvKEE8EnI2R5Duh6lmEZbDrYspXvLK7LKAF.jpg" alt="Map showing the location of the hotel" class="map-placeholder">
+        <div class="map-container" id="map" style="height: 400px; width: 100%;" >
+            
         </div>
     </div>
 
