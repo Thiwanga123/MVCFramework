@@ -93,7 +93,7 @@ class M_users{
     public function searchAccommodations($data){
 
         
-        $this->db->query('SELECT * FROM properties WHERE city = :city AND price <= :price AND max_occupants >= :people');
+        $this->db->query('SELECT * FROM properties WHERE city = :city AND (singleprice <= :price OR doubleprice <= :price OR familyprice <= :price OR livingprice <= :price) AND max_occupants >= :people');
         //bind parameters indexes
 
 

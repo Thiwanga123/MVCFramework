@@ -51,7 +51,8 @@
     <h3><?php echo $accomadation->property_name;?></h3>
     <p>Location:<?php echo $accomadation->city;?></p>
     <br>
-    <p>Price:Rs.<?php echo $accomadation->price;?> per Day</p>
+    <p>Price:Rs.<?php echo $accomadation->singleprice;?> per person</p>
+    <p>Price:Rs.<?php echo $accomadation->doubleprice;?> per 2 persons</p>
     <p>Type:<?php echo $accomadation->property_type;?></p>
     <a href="<?php echo URLROOT;?>/users/viewdetails/<?php echo $accomadation->property_id;?>"><button class="pay-btn" style=" background-color: rgb(21, 126, 126);color: white;font-size: medium;height: 30px;
     border-radius: 30px;
