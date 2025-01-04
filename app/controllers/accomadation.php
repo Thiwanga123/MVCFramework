@@ -89,15 +89,17 @@ public function deleteproperty($id){
         }
     }
 
-    public function viewdetails(){
+    public function viewdetails($property_id){
         if (isset($_SESSION['id'])) {
 
-            $userId = $_SESSION['id'];
+           
     
-            $accomadation=$this->accomadationModel->getAccomadation($userId);
+            $accomadation=$this->accomadationModel->viewdetails($property_id);
+
             $data=[
                 'accomadation'=>$accomadation,
             ];
+            
                 $this->view('accomadation/viewdetails',$data);
         } else {
             redirect('ServiceProvider/login');
@@ -189,9 +191,13 @@ public function deleteproperty($id){
                 'latitude' => $finalData['latitude'],
                 'longitude' => $finalData['longitude'],
                 'single' => $finalData['single'],
+                'singleprice' => $finalData['singleprice'],
                 'double' => $finalData['double'],
+                'doubleprice' => $finalData['doubleprice'],
                 'living' => $finalData['living'],
+                'livingprice' => $finalData['livingprice'],
                 'family' => $finalData['family'],
+                'familyprice' => $finalData['familyprice'],
                 'guests' => $finalData['guests'],
                 'bathrooms' => $finalData['bathrooms'],
                 'children' => $finalData['children'],
@@ -221,7 +227,6 @@ public function deleteproperty($id){
                 'garden_view' => $finalData['garden_view'],
                 'terrace' => $finalData['terrace'],
                 'view' => $finalData['view'],
-                'Price' => $finalData['Price'],
                 'other_details' => $finalData['other_details'],
                 'imageUrls' => $finalData['imageUrls']
             ];
@@ -296,16 +301,14 @@ public function deleteproperty($id){
 
                 if ($isInserted) {
                     echo json_encode(['status' => 'success', 'message' => 'Data added successfully']);
-                    //clear the local storage
-         
-
+                   
                   
                 } else {
                     echo json_encode(['status' => 'error', 'message' => 'An error occurred. Please try again']);
                 }
             } else {
                 echo json_encode(['status' => 'error', 'message' => $errors]);
-                error_log(print_r($errors, true));
+            
 
             }
 

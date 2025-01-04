@@ -13,7 +13,7 @@
         <div class="image-section">
             <img src="<?php echo URLROOT;?>/Images/Accomadation.jpg" alt="Property View" class="property-image">
         </div>
-        <?php foreach ($data['accomadation'] as $accomadation):?>
+       
         <div class="property-details">
             <h1 class="property-title"><?php echo $accomadation->property_name;?></h1>
             <p class="property-location"><?php echo $accomadation->address;?></p>
@@ -114,7 +114,7 @@
                 <?php endif; ?>
             </div>
         </div>
-        <?php endforeach;?>
+       
     </div>
 </body>
 </html>

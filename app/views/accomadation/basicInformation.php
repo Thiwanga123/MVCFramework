@@ -26,10 +26,10 @@
                 <label for="city">City</label>
                 <input type="text" id="city" name="city" onchange="geocodeCity()"  required>
             </div>
-            <div class="form-group">
+            <!-- <div class="form-group">
                 <label for="price">Price (LKR)</label>
                 <input type="text" id="Price" name="Price" required>
-            </div>
+            </div> -->
             <div class="form-group">
                 <label for="location">Pin the Location of the Property</label>
                 <div id="map" class="map-container" style="height: 500px; width: 100%;"></div>
@@ -110,10 +110,10 @@
         const address=document.getElementById('address').value;
         const postalcode=document.getElementById('postal-code').value;
         const city=document.getElementById('city').value;
-        const Price=document.getElementById('Price').value;
+        // const Price=document.getElementById('Price').value;
         // const location=document.getElementById('location').value;
         const startpageData=JSON.parse(localStorage.getItem("startpageData"));
-        const basicinfoData={...startpageData,propertyname,address,postalcode,city,Price,latitude:localStorage.getItem('latitude'),longitude:localStorage.getItem('longitude')};
+        const basicinfoData={...startpageData,propertyname,address,postalcode,city,latitude:localStorage.getItem('latitude'),longitude:localStorage.getItem('longitude')};
         localStorage.setItem("basicinfoData",JSON.stringify(basicinfoData));
         window.location.href="<?php echo URLROOT;?>/accomadation/propertyinfo";
 

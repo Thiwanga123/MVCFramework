@@ -180,43 +180,48 @@ class Users extends Controller {
                 'telephone_number' => trim($_POST['telephone_number']),
                 'email' => trim($_POST['email']),
                 'password' => trim($_POST['password']),
-                'name_err' => '',
-                'telephone_err' => '',
-                'email_err' => '',
-                'password_err' => ''
                
             ];
 
+
+          $errors=[];
+
             // Validate name
             if (empty($data['name'])) {
-                $data['name_err'] = 'Please enter name';
+                $errors[] = 'Please enter name';
             }
 
             // Validate email
             if (empty($data['email'])) {
-                $data['email_err'] = 'Please enter email';
+                $errors[] = 'Please enter email';
             } else {
                 if ($this->userModel->findUserByEmail($data['email'])) {
-                    $data['email_err'] = 'Email is already taken';
+                    $errors[] = 'Email is already taken';
                 }
             }
 
             // Validate password
             if (empty($data['password'])) {
-                $data['password_err'] = 'Please enter password';
+                $errors[] = 'Please enter password';
             }
 
           
 
             // Make sure errors are empty
-            if (empty($data['name_err']) && empty($data['telephone_err']) && empty($data['email_err']) && empty($data['password_err'])) {
+            if (empty($errors)) {
                 // Validated
 
-                // Redirect to the login page
-                if ($this->userModel->register($data)) {
+                // Hash the password
+                $data['password'] = password_hash($data['password'], PASSWORD_DEFAULT);
+
+                $isInserted = $this->userModel->register($data);
+
+               
+
+                if ($isInserted) {
                     redirect('users/login');
                 } else {
-                    die('Something went wrong');
+                    print_r('Something went wrong');
                 }
             } else {
                 // Load view with errors
@@ -229,10 +234,6 @@ class Users extends Controller {
                 'telephone_number' => '',
                 'email' => '',
                 'password' => '',
-                'name_err' => '',
-                'telephone_err' => '',
-                'email_err' => '',
-                'password_err' => ''
             ];
 
             // Load view
@@ -272,6 +273,8 @@ public function login() {
         // Check for errors
         if (empty($data['email_err']) && empty($data['password_err'])) {
             // Attempt to log in
+
+            
             $loggedInUser = $this->userModel->login($data['email'], $data['password']);
             if ($loggedInUser) {
                 // Create session

@@ -11,22 +11,39 @@
             <h2>Property Details</h2>
             <div class="section">
                 <label>Where can people sleep?</label>
+                <br>
                 <div class="sleeping-places">
                     <div class="place">
-                        <label>Single Bedroom</label>
-                        <input type="number" name="single" id="single" min="0">
+                    <label>Single Bedroom</label>
+                        <div class="input-group">
+                            <input type="number" name="single" id="single" min="0" placeholder="Number of single beds">
+                            <input type="text" id="singleprice" name="singleprice" placeholder="Price">
+                        </div>
                     </div>
                     <div class="place">
-                        <label>Double Bedroom</label>
-                        <input type="number" name="double" id="double" min="0">
+                    <label>Double Bedroom</label>
+                        <div class="input-group">
+                            <input type="number" name="double" id="double" min="0" placeholder="Number of double beds">
+                            <input type="text" id="doubleprice" name="doubleprice" placeholder="Price">
+                        </div>
                     </div>
                     <div class="place">
-                        <label>Living Room</label>
-                        <input type="number" name="living" id="living" min="0">
+                    <label>Living Room</label>  
+                        <div class="input-group">
+                            
+                            <input type="number" name="living" id="living" min="0" placeholder="Number of living rooms">
+                     
+                            <input type="text" id="livingprice" name="livingprice" placeholder="Price">
+                        </div>
                     </div>
                     <div class="place">
-                        <label>Family Bedroom</label>
-                        <input type="number" name="family" id="family" min="0">
+                    <label>Family Bedroom</label>
+                        <div class="input-group">
+                    
+                            <input type="number" name="family" id="family" min="0" placeholder="Number of family rooms">
+                          
+                            <input type="text" id="familyprice" name="familyprice" placeholder="Price">
+                        </div>
                     </div>
                 </div>
             </div>
@@ -179,23 +196,20 @@
         
 
     </div>
-    <h2>Start Page Data</h2>
-        <div id="basicinfoDataContainer"></div>
-
+    
     <script>
 
-document.addEventListener('DOMContentLoaded', function() {
-            const startpageData = JSON.parse(localStorage.getItem("basicinfoData"));
-            const startpageDataContainer = document.getElementById('basicinfoDataContainer');
-            startpageDataContainer.innerHTML = `<pre>${JSON.stringify(startpageData, null, 2)}</pre>`;
-        });
 
 
         function propertyinfo(){
             const single=document.getElementById('single').value;
+            const singleprice=document.getElementById('singleprice').value;            
             const double=document.getElementById('double').value;
+            const doubleprice=document.getElementById('doubleprice').value;
             const living=document.getElementById('living').value;
+            const livingprice=document.getElementById('livingprice').value;
             const family=document.getElementById('family').value;
+            const familyprice=document.getElementById('familyprice').value;
             const guests=document.getElementById('guests').value;
             const bathrooms=document.getElementById('bathrooms').value;
             const children=document.querySelector('input[name="children"]:checked').value;
@@ -230,7 +244,7 @@ document.addEventListener('DOMContentLoaded', function() {
             const terrace=document.getElementById('terrace').checked;
             const view=document.getElementById('view').checked;
             const basicinfoData=JSON.parse(localStorage.getItem("basicinfoData"));
-            localStorage.setItem("propertyinfoData",JSON.stringify({single:single,double:double,living:living,family:family,guests:guests,bathrooms:bathrooms,children:children,cots:cots,apartment_size:apartment_size,apartment_unit:apartment_unit,air_conditioning:air_conditioning,heating:heating,wifi:wifi,ev_charging:ev_charging,kitchen:kitchen,kitchenette:kitchenette,washing_machine:washing_machine,tv:tv,swimming_pool:swimming_pool,hot_tub:hot_tub,minibar:minibar,sauna:sauna,smoking:smoking,parties:parties,pets:pets,checkin_from:checkin_from,checkin_until:checkin_until,checkout_from:checkout_from,checkout_until:checkout_until,english:english,french:french,german:german,hindi:hindi,balcony:balcony,garden_view:garden_view,terrace:terrace,view:view,...basicinfoData}));
+            localStorage.setItem("propertyinfoData",JSON.stringify({single:single,singleprice:singleprice,double:double,doubleprice:doubleprice,living:living,livingprice:livingprice,family:family,familyprice:familyprice,guests:guests,bathrooms:bathrooms,children:children,cots:cots,apartment_size:apartment_size,apartment_unit:apartment_unit,air_conditioning:air_conditioning,heating:heating,wifi:wifi,ev_charging:ev_charging,kitchen:kitchen,kitchenette:kitchenette,washing_machine:washing_machine,tv:tv,swimming_pool:swimming_pool,hot_tub:hot_tub,minibar:minibar,sauna:sauna,smoking:smoking,parties:parties,pets:pets,checkin_from:checkin_from,checkin_until:checkin_until,checkout_from:checkout_from,checkout_until:checkout_until,english:english,french:french,german:german,hindi:hindi,balcony:balcony,garden_view:garden_view,terrace:terrace,view:view,...basicinfoData}));
             window.location.href="<?php echo URLROOT;?>/accomadation/uploadphoto";
         }
 
