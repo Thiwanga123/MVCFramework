@@ -232,7 +232,7 @@ public function deleteproperty($id){
             ];
 
 
-
+            
 
             // Validate input fields
             $errors = [];
