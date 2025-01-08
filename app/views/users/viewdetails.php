@@ -603,31 +603,40 @@
                             <th>Room type</th>
                             <th>Price per room</th>
                             <th>Available Rooms</th>
-                            <th>Enter Number of Rooms</th>
-                            <th>Add</th>
+                            <th>Number of Rooms</th>
+                            <th>Action</th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr>
                             <td>Single Room (1 person)</td>
-                            <td>LKR.120</td>
-                            <td>5</td>
-                            <td><input type="number" min="0" max="5" ></td>
-                            <td><button class="book-button">Add</button></td>
+                            <td>LKR.<?php echo $accomadation->singleprice;?></td>
+                            <td><?php echo $accomadation->single_bedrooms;?></td>
+                            <td><input type="number" min="0" max="<?php echo $accomadation->single_bedrooms;?>"id="singleRoomInput" ></td>
+                            <td><button class="book-button" onclick="addRoom('single', <?php echo $accomadation->singleprice;?>)" >Add</button>
+                            <button class="book-button" onclick="removeRoom('single', <?php echo $accomadation->singleprice;?>)">Remove</button>
+                        </td>
                         </tr>
                         <tr>
                             <td>Double Room (2 persons)</td>
-                            <td>LKR.200</td>
-                            <td>3</td>
-                            <td><input type="number" min="0" max="3" ></td>
-                            <td><button class="book-button">Add</button></td>
+                            <td>LKR.<?php echo $accomadation->doubleprice;?></td>
+                            <td><?php echo $accomadation->double_bedrooms;?></td>
+                            <td><input type="number" min="0" max="<?php echo $accomadation->double_bedrooms;?>" id="doubleRoomInput" ></td>
+                            <td><button class="book-button" onclick="addRoom('double', <?php echo $accomadation->doubleprice;?>)" >Add</button></td>
                         </tr>
                         <tr>
                             <td>Family Room (4 persons)</td>
-                            <td>LKR.300</td>
-                            <td>2</td>
-                            <td><input type="number" min="0" max="2" ></td>
-                            <td><button class="book-button">Add</button></td>
+                            <td>LKR.<?php echo $accomadation->familyprice;?></td>
+                            <td><?php echo $accomadation->family_rooms;?></td>
+                            <td><input type="number" min="0" max="<?php echo $accomadation->family_rooms;?>" id="familyRoomInput"></td>
+                            <td><button class="book-button" onclick="addRoom('family', <?php echo $accomadation->familyprice;?>)" >Add</button></td>
+                        </tr>
+                        <tr>
+                            <td>Living Room (4 persons)</td>
+                            <td>LKR.<?php echo $accomadation->livingprice;?></td>
+                            <td><?php echo $accomadation->living_rooms;?></td>
+                            <td><input type="number" min="0" max="<?php echo $accomadation->living_rooms;?>"id="livingRoomInput" ></td>
+                            <td><button class="book-button" onclick="addRoom('living', <?php echo $accomadation->livingprice;?>)" >Add</button></td>
                         </tr>
 
                     </tbody>
@@ -651,15 +660,15 @@
                     
                     <div class="summary-row">
                         <span>Room charges</span>
-                        <span>LKR 12,000</span>
+                        <span id="roomCharges">LKR 0</span>
                     </div>
                     <div class="summary-row">
-                        <span>Taxes & fees</span>
-                        <span>LKR 1,200</span>
+                        <span>Total Number of Rooms</span>
+                        <span id="totalRooms">0</span>
                     </div>
                     <div class="total-row">
                         <span>Total Amount</span>
-                        <span style="color: #0071c2;">LKR 13,200</span>
+                        <span id="totalAmount" style="color: #0071c2;">LKR.0</span>
                     </div>
                     <button class="pay-button">Pay & Book Now</button>
                   
@@ -697,6 +706,29 @@
     <a href="<?php echo URLROOT;?>/users/accomadation"><button class="fixed-button">Back to search</button></a>
 
     <script>
+        let totalAmount = 0;
+        let totalRooms = 0;
+
+        function addRoom(type, price) {
+            let inputId = type + 'RoomInput';
+            let roomInput = document.getElementById(inputId);
+            let numberOfRooms = parseInt(roomInput.value);
+
+            if (numberOfRooms > 0) {
+                totalAmount += numberOfRooms * price;
+                totalRooms += numberOfRooms;
+                document.getElementById('totalAmount').innerText = 'LKR ' + totalAmount;
+                document.getElementById('totalRooms').innerText = totalRooms;
+                document.getElementById('roomCharges').innerHTML = 'LKR ' + totalAmount;
+                roomInput.value = 0; // Reset the input field
+            } else {
+                alert('Please enter a valid number of rooms.');
+            }
+        }
+
+    </script>
+
+    <!-- <script>
         document.querySelectorAll('button').forEach(button => {
             button.addEventListener('click', () => {
                 console.log(`Clicked: ${button.textContent}`);
@@ -733,6 +765,6 @@
                 console.log('Showing room prices');
             });
         });
-    </script>
+    </script> -->
 </body>
 </html>
