@@ -102,13 +102,24 @@ class M_accomadation{
             
     public function deleteProperty($propertyId) {
         try {
-            $sql = "DELETE FROM properties WHERE property_id = ?";
-
+            // Check for existing bookings with check_out date today or in the future
+            $sql = "SELECT * FROM property_booking WHERE property_id = ? AND check_out >= CURDATE()";
             $this->db->query($sql);
             $this->db->bind(1, $propertyId);
-
+            $existingBookings = $this->db->resultSet();
+    
+            if (!empty($existingBookings)) {
+                // If there are existing bookings, do not allow deletion
+                echo "<script>alert('Cannot delete property with existing bookings.');</script>";
+                return false;
+            }
+    
+            // If no existing bookings, proceed with deletion
+            $sql = "DELETE FROM properties WHERE property_id = ?";
+            $this->db->query($sql);
+            $this->db->bind(1, $propertyId);
             $this->db->execute();
-
+    
             return true;
         } catch (Exception $e) {
             echo "<script>alert('An error occurred: {$e->getMessage()}');</script>";

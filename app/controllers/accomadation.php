@@ -37,17 +37,18 @@ public function myInventory(){
     }
 }
 
-public function deleteproperty($id){
+public function deleteproperty($id) {
     if (isset($_SESSION['id'])) {
+        // Attempt to delete the property
         $isDeleted = $this->accomadationModel->deleteProperty($id);
 
         if ($isDeleted) {
-            redirect('accomadation/myInventory');
+            echo "<script>alert('Property removed successfully'); window.location.href = '" . URLROOT . "/accomadation/myInventory';</script>";
         } else {
-            echo "<script>alert('An error occurred. Please try again');</script>";
+            echo "<script>alert('Cannot delete property with existing bookings'); window.location.href = '" . URLROOT . "/accomadation/myInventory';</script>";
         }
     } else {
-        redirect('ServiceProvider/login');
+        echo "<script>alert('Please log in to delete a property'); window.location.href = '" . URLROOT . "/ServiceProvider/login';</script>";
     }
 }
 
