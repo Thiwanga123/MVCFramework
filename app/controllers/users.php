@@ -370,7 +370,6 @@ public function book(){
         ];
 
 
-       print_r($data);
 
         $errors=[] ;
 
@@ -425,5 +424,7 @@ else{
 
 }
 }
+
+
 
 ?>
