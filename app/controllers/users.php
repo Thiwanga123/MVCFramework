@@ -29,7 +29,16 @@ class Users extends Controller {
     public function history() {
         //check if logged in
         if(isset($_SESSION['user_id'])) {
-            $this->view('users/v_history');
+             // Get booking history
+        $userId = $_SESSION['user_id'];
+        $bookingHistory = $this->userModel->getBookingHistory($userId);
+
+        // Pass data to view
+        $data = [
+            'bookingHistory' => $bookingHistory
+        ];
+
+        $this->view('users/v_history', $data);
 
         }else{
             redirect('users/login');

@@ -30,6 +30,14 @@ class M_users{
         }
     }
 
+    //get the booking history of the user
+    public function getBookingHistory($id){
+        $this->db->query('SELECT * FROM user_bookings WHERE TravelerID = :traveler_id');
+        $this->db->bind(':traveler_id', $id);
+
+        return $this->db->resultSet();
+    }
+
     //register user
     public function register($data){
         //print the data

@@ -52,8 +52,8 @@
                 <table>
                     <thead>
                         <tr>
-                            <th>TripID</th>
-                            <th>Location </th>
+                            
+                            
                             <th>Booking ID</th>
                             <th>Service Taken</th>
                             <th>Service Provider ID</th>
@@ -65,111 +65,22 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
+                        <?php foreach ($data['bookingHistory'] as $booking):?>
+                        <tr> 
                            
-                            <td>T102</td>
-                            <td>Badulla</td>
-                            <td>10</td>
-                            <td>Accommodation</td>
-                            <td>A041</td>
-                            <td>2024-10-20</td>
-                            <td>2024-10-23</td>
-                            <td>Rs.20,000.00</td>
+                            <td><?php echo htmlspecialchars($booking->BookingID); ?></td>
+                            <td><?php echo htmlspecialchars($booking->ServiceTaken); ?></td>
+                            <td><?php echo htmlspecialchars($booking->SupplierID); ?></td>
+                            <td><?php echo htmlspecialchars($booking->CheckIn); ?></td>
+                            <td><?php echo htmlspecialchars($booking->CheckOut); ?></td>
+                            <td><?php echo htmlspecialchars($booking->Amount); ?></td>
                             <td><div class="action-btn">
-    <button class="view-btn">View</button>
-    <button class="cancel-btn">Cancel</button>
-</div></td>                           
-                           
-
-                        </tr>
-                        <tr>
-                           
-                            <td>T110</td>
-                            <td>Kandy</td>
-                            <td>10</td>
-                            <td>Transport</td>
-                            <td>T041</td>
-                            <td>2024-10-20</td>
-                            <td>2024-10-23</td>
-                            <td>Rs.20,000.00</td>
-                            <td><div class="action-btn">
-    <button class="view-btn">View</button>
-    <button class="cancel-btn">Cancel</button>
-</div></td>                           
-                           
-
-                        </tr>
-                        <tr>
-                           
-                           <td>T120</td>
-                           <td>Polonnaruwa</td>
-                           <td>13</td>
-                           <td>Guide Service</td>
-                           <td>G041</td>
-                           <td>2024-10-20</td>
-                           <td>2024-10-23</td>
-                           <td>Rs.20,000.00</td>
-                           <td><div class="action-btn">
-    <button class="view-btn">View</button>
-    <button class="cancel-btn">Cancel</button>
-</div></td>                           
-                          
-
-                       </tr>
-                       <tr>
-                           
-                           <td>T130</td>
-                           <td>Galle</td>
-                           <td>15</td>
-                           <td>Equipment</td>
-                           <td>E041</td>
-                           <td>2024-10-20</td>
-                           <td>2024-10-23</td>
-                           <td>Rs.20,000.00</td>
-                           <td><div class="action-btn">
-    <button class="view-btn">View</button>
-    <button class="cancel-btn">Cancel</button>
-</div></td>                           
-                          
-
-                       </tr>
-                       <tr>
-                           
-                           <td>T102</td>
-                           <td>Badulla</td>
-                           <td>10</td>
-                           <td>Accommodation</td>
-                           <td>A041</td>
-                           <td>2024-10-20</td>
-                           <td>2024-10-23</td>
-                           <td>Rs.20,000.00</td>
-                           <td><div class="action-btn">
-    <button class="view-btn">View</button>
-    <button class="cancel-btn">Cancel</button>
-</div></td>                           
-                          
-
-                       </tr>
-                       <tr>
-                           
-                           <td>T102</td>
-                           <td>Badulla</td>
-                           <td>10</td>
-                           <td>Accommodation</td>
-                           <td>A041</td>
-                           <td>2024-10-20</td>
-                           <td>2024-10-23</td>
-                           <td>Rs.20,000.00</td>
-                           <td>
-                           <div class="action-btn">
-    <button class="view-btn">View</button>
-    <button class="cancel-btn">Cancel</button>
-</div>
-                           </td>                           
-                          
-
-                       </tr>
-                        </tr>
+                            <button class="view-btn">View</button>
+                            <button class="cancel-btn">Cancel</button>
+                            </div>
+                        </td>                           
+                        </tr> 
+                        <?php endforeach; ?>
                     </tbody>
                 </table> 
                 </div>
