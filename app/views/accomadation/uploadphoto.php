@@ -19,7 +19,7 @@
                 <button type="button" class="upload-button" id="uploadButton">
                     <i class="fas fa-upload"></i> Upload photos
                 </button>
-                <input type="file" id="fileInput" style="display: none;" multiple accept="image/jpeg, image/png" name="accommodationImages[]">
+                <!-- <input type="file" id="fileInput" style="display: none;" multiple accept="image/jpeg, image/png" name="accommodationImages[]" multiple required> -->
                 <p>The image type should be jpg/jpeg or png</p>
             </div>
             <button type="submit"  class="upload-button" id="uploadButton" >Submit</button>
@@ -30,6 +30,15 @@
 <script>
 document.addEventListener('DOMContentLoaded', function() {
     const form = document.getElementById('uploadForm');
+    // const fileInput = document.getElementById('fileInput');
+    // const uploadButton = document.getElementById('uploadButton');
+
+    // uploadButton.addEventListener('click', function() {
+    //     fileInput.click();
+    // });
+
+
+
     form.addEventListener('submit', function(event) {
         event.preventDefault(); // Prevent the default form submission
         uploadphoto();
@@ -37,8 +46,18 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 function uploadphoto() {
+    const form = document.getElementById('uploadForm');
+    // const formData = new FormData(form);
     const finalData = JSON.parse(localStorage.getItem("propertyinfoData"));
 
+     // Append additional data to formData
+    //  for (const key in finalData) {
+    //     if (finalData.hasOwnProperty(key)) {
+    //         formData.append(key, finalData[key]);
+    //     }
+    // }
+    
+    
     fetch('<?php echo URLROOT;?>/accomadation/addProperty', {
         method: 'POST',
         headers: {

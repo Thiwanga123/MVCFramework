@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="<?php echo URLROOT;?>/css/Common/Orders.css">
+    <link rel="stylesheet" href="<?php echo URLROOT;?>/css/Common/newbooking.css">
     <link rel="stylesheet" href="<?php echo URLROOT;?>/css/Common/sidebarHeader.css">
     <title>History</title>
 </head>
@@ -46,14 +46,14 @@
                 <div>
                 <div class="header">
                     <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#000000"><path d="M620-163 450-333l56-56 114 114 226-226 56 56-282 282Zm220-397h-80v-200h-80v120H280v-120h-80v560h240v80H200q-33 0-56.5-23.5T120-200v-560q0-33 23.5-56.5T200-840h167q11-35 43-57.5t70-22.5q40 0 71.5 22.5T594-840h166q33 0 56.5 23.5T840-760v200ZM480-760q17 0 28.5-11.5T520-800q0-17-11.5-28.5T480-840q-17 0-28.5 11.5T440-800q0 17 11.5 28.5T480-760Z"/></svg>
-                    <h3>Previous Bookings</h3>
+                    <h3>My Bookings</h3>
                     <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#000000"><path d="M440-160q-17 0-28.5-11.5T400-200v-240L168-736q-15-20-4.5-42t36.5-22h560q26 0 36.5 22t-4.5 42L560-440v240q0 17-11.5 28.5T520-160h-80Zm40-308 198-252H282l198 252Zm0 0Z"/></svg>
                 </div>
                 <table>
                     <thead>
                         <tr>
-                            <th>TripID</th>
-                            <th>Location </th>
+                            
+                            
                             <th>Booking ID</th>
                             <th>Service Taken</th>
                             <th>Service Provider ID</th>
@@ -65,91 +65,22 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
+                        <?php foreach ($data['bookingHistory'] as $booking):?>
+                        <tr> 
                            
-                            <td>T102</td>
-                            <td>Badulla</td>
-                            <td>10</td>
-                            <td>Accommodation</td>
-                            <td>A041</td>
-                            <td>2024-10-20</td>
-                            <td>2024-10-23</td>
-                            <td>Rs.20,000.00</td>
-                            <td>Completed</td>                           
-                           
-
-                        </tr>
-                        <tr>
-                           
-                            <td>T110</td>
-                            <td>Kandy</td>
-                            <td>10</td>
-                            <td>Transport</td>
-                            <td>T041</td>
-                            <td>2024-10-20</td>
-                            <td>2024-10-23</td>
-                            <td>Rs.20,000.00</td>
-                            <td>Pending</td>                           
-                           
-
-                        </tr>
-                        <tr>
-                           
-                           <td>T120</td>
-                           <td>Polonnaruwa</td>
-                           <td>13</td>
-                           <td>Guide Service</td>
-                           <td>G041</td>
-                           <td>2024-10-20</td>
-                           <td>2024-10-23</td>
-                           <td>Rs.20,000.00</td>
-                           <td>Completed</td>                           
-                          
-
-                       </tr>
-                       <tr>
-                           
-                           <td>T130</td>
-                           <td>Galle</td>
-                           <td>15</td>
-                           <td>Equipment</td>
-                           <td>E041</td>
-                           <td>2024-10-20</td>
-                           <td>2024-10-23</td>
-                           <td>Rs.20,000.00</td>
-                           <td>Pending</td>                           
-                          
-
-                       </tr>
-                       <tr>
-                           
-                           <td>T102</td>
-                           <td>Badulla</td>
-                           <td>10</td>
-                           <td>Accommodation</td>
-                           <td>A041</td>
-                           <td>2024-10-20</td>
-                           <td>2024-10-23</td>
-                           <td>Rs.20,000.00</td>
-                           <td>Completed</td>                           
-                          
-
-                       </tr>
-                       <tr>
-                           
-                           <td>T102</td>
-                           <td>Badulla</td>
-                           <td>10</td>
-                           <td>Accommodation</td>
-                           <td>A041</td>
-                           <td>2024-10-20</td>
-                           <td>2024-10-23</td>
-                           <td>Rs.20,000.00</td>
-                           <td>Completed</td>                           
-                          
-
-                       </tr>
-                        </tr>
+                            <td><?php echo htmlspecialchars($booking->BookingID); ?></td>
+                            <td><?php echo htmlspecialchars($booking->ServiceTaken); ?></td>
+                            <td><?php echo htmlspecialchars($booking->SupplierID); ?></td>
+                            <td><?php echo htmlspecialchars($booking->CheckIn); ?></td>
+                            <td><?php echo htmlspecialchars($booking->CheckOut); ?></td>
+                            <td><?php echo htmlspecialchars($booking->Amount); ?></td>
+                            <td><div class="action-btn">
+                            <button class="view-btn">View</button>
+                            <button class="cancel-btn">Cancel</button>
+                            </div>
+                        </td>                           
+                        </tr> 
+                        <?php endforeach; ?>
                     </tbody>
                 </table> 
                 </div>

@@ -1,7 +1,9 @@
 <html>
 <head>
     <title>Basic Information</title>
+
     <link rel="stylesheet" href="<?php echo URLROOT;?>/css/accomodation/basic.css">
+    <script src="https://maps.googleapis.com/maps/api/js?key=<?php echo API_KEY; ?>&callback=initMap" async defer></script>
 </head>
 <body>
     <?php require APPROOT . '/views/inc/components/startheader.php'; ?>
@@ -22,16 +24,15 @@
             </div>
             <div class="form-group">
                 <label for="city">City</label>
-                <input type="text" id="city" name="city" required>
-            <div class="form-group">
+                <input type="text" id="city" name="city" onchange="geocodeCity()"  required>
+            </div>
+            <!-- <div class="form-group">
                 <label for="price">Price (LKR)</label>
                 <input type="text" id="Price" name="Price" required>
-            </div>
+            </div> -->
             <div class="form-group">
                 <label for="location">Pin the Location of the Property</label>
-                <div class="map-container">
-                    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3151.835434509374!2d144.9537353153167!3d-37.81627977975171!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x6ad642af0f11fd81%3A0xf577d1b6b1a0b1b!2sVictoria%20State%20Library!5e0!3m2!1sen!2sau!4v1611811572000!5m2!1sen!2sau" allowfullscreen="" loading="lazy"></iframe>
-                </div>
+                <div id="map" class="map-container" style="height: 500px; width: 100%;"></div>
             </div>
             <div class="form-group">
            <button type="button" onclick="basicinfo()"> Next</button></a>
@@ -41,22 +42,89 @@
 
 
     <script>
+    
+    let map;
+        let marker;
+        let geocoder;
+
+        function initMap() {
+            const initialLocation = { lat: 7.8731, lng: 80.7718 };
+            map = new google.maps.Map(document.getElementById('map'), {
+                zoom: 8,
+                center: initialLocation
+            });
+
+            geocoder = new google.maps.Geocoder();
+
+            marker = new google.maps.Marker({
+                map: map,
+            });
+
+            map.addListener('click', function(event) {
+                placeMarker(event.latLng);
+                localStorage.setItem('latitude', event.latLng.lat());
+                localStorage.setItem('longitude', event.latLng.lng());
+
+                alert("Location fetched successfully!");
+            });
+        }
+
+        function placeMarker(location) {
+            marker.setPosition(location);
+            map.setCenter(location);
+        }
+
+        function geocodeCity() {
+    const city = document.getElementById('city').value;
+    if (!city.trim()) {
+        alert("Please enter a city.");
+        return;
+    }
+
+    geocoder.geocode({ address: city }, function (results, status) {
+        if (status === 'OK') {
+            const location = results[0].geometry.location;
+            const viewport = results[0].geometry.viewport;
+
+            // Adjust map bounds to fit the city's viewport
+            map.fitBounds(viewport);
+
+            // Place a marker at the center of the city
+            placeMarker(location);
+
+            // Save latitude and longitude to localStorage
+            localStorage.setItem('latitude', location.lat());
+            localStorage.setItem('longitude', location.lng());
+
+          
+        } else {
+            alert('Could not find the city for the following reason: ' + status);
+        }
+    });
+
+}
+
+
     function basicinfo(){
         const propertyname=document.getElementById('property-name').value;
         const address=document.getElementById('address').value;
         const postalcode=document.getElementById('postal-code').value;
         const city=document.getElementById('city').value;
-        const Price=document.getElementById('Price').value;
+        // const Price=document.getElementById('Price').value;
         // const location=document.getElementById('location').value;
         const startpageData=JSON.parse(localStorage.getItem("startpageData"));
-        const basicinfoData={...startpageData,propertyname,address,postalcode,city,Price};
+        const basicinfoData={...startpageData,propertyname,address,postalcode,city,latitude:localStorage.getItem('latitude'),longitude:localStorage.getItem('longitude')};
         localStorage.setItem("basicinfoData",JSON.stringify(basicinfoData));
         window.location.href="<?php echo URLROOT;?>/accomadation/propertyinfo";
 
     }
 
+
+
 console.log("Stored data:", JSON.parse(localStorage.getItem("basicinfoData")));
 </script>
+
+
 
 </body>
 </html>

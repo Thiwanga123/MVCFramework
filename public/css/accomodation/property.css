@@ -137,18 +137,35 @@ body {
         flex: 1 1 100%;
     }
 }
-.sleeping-places .place {
+
+
+.place {
+    margin-bottom: 20px; /* Add space between each place */
+}
+
+.place label {
+    display: block;
+    margin-bottom: 5px;
+}
+
+.input-group {
     display: flex;
     align-items: center;
-    margin-bottom: 10px;
+    gap: 10px; /* Adjust the gap between inputs as needed */
 }
-.sleeping-places .place label {
-    margin-right: 10px;
-    width: 150px;
+
+.input-group label {
+    margin: 0 10px 0 0; /* Adjust the margin as needed */
 }
-.sleeping-places .place input[type="number"] {
+
+.input-group input[type="number"],
+.input-group input[type="text"] {
     flex: 1;
+    
 }
+
+
+
 .sleeping-places .place button {
     margin-left: 10px;
 }

@@ -165,6 +165,10 @@ class ServiceProvider extends Controller {
             // Make sure errors are empty
             if(empty($data['name_err']) && empty($data['phone_err']) && empty($data['email_err']) && empty($data['password_err']) && empty($data['nic_err']) && empty($data['reg_num_err']) && empty($data['address_err']) && empty($data['sptype_err'])){
                 // Validated
+               
+                 // Hash the password
+            $data['password'] = password_hash($data['password'], PASSWORD_DEFAULT);
+
 
                 // Redirect to the login page
                 if ($this->serviceProviderModel->register($data,$data['sptype'])) {
