@@ -349,7 +349,81 @@ public function notfound() {
 
  
 
+
+
+public function book(){
+    if($_SERVER['REQUEST_METHOD'] == 'POST') {
+        $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+        $data = [
+            'property_id' => trim($_POST['property_id']),
+            'check_in' => trim($_POST['check-in-date']),
+            'check_out' => trim($_POST['check-out-date']),
+            'people' => trim($_POST['guests']),
+            'price' => trim($_POST['totalamount']),
+            'user_id' => $_SESSION['user_id'],
+            'paid' => trim($_POST['totalpaid']),
+            'totalrooms' => trim($_POST['totalrooms']),
+            'singleamount'=> trim($_POST['singleamount']),
+            'doubleamount'=> trim($_POST['doubleamount']),
+            'familyamount'=> trim($_POST['familyamount']),
+            'service_provider_id'=> trim($_POST['service_provider_id']),
+        ];
+
+
+       print_r($data);
+
+        $errors=[] ;
+
+        // Validate check in date
+        if (empty($data['check_in'])) {
+            $errors[] = 'Please enter check in date';
+        }
+
+        // Validate check out date
+        if (empty($data['check_out'])) {
+            $errors[] = 'Please enter check out date';
+        }
+
+        // Validate number of guests
+        if (empty($data['people'])) {
+            $errors[] = 'Please enter number of guests';
+        }
+
+        // Validate total amount    
+        if (empty($data['price'])) {
+            $errors[] = 'Please enter total amount';
+        }   
+
+        // Validate total paid
+
+        if (empty($data['paid'])) {
+            $errors[] = 'Please enter total paid';
+        }
+
+        // Validate total rooms
+
+        if (empty($data['totalrooms'])) {
+            $errors[] = 'Please enter total rooms';
+        }
+
+        if(empty($errors)){
+            print_r('no errors');
+            $isInserted = $this->userModel->book($data);
+            if($isInserted){
+                redirect('users/history');
+            }else{
+                print_r('Something went wrong');
+            }
+}else{
+    redirect('users/login');
+}
+    }
+
+else{
+    print_r('method is not POST');
 }
 
+}
+}
 
 ?>

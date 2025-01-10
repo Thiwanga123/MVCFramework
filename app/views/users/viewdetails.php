@@ -585,15 +585,13 @@
             </div>
 
             <div class="search-container">
-                <form action="<?php echo URLROOT;?>/users/searchForBook" method="POST">
+            <form id="bookingForm" action="<?php echo URLROOT;?>/users/book" method="POST">
                 <div class="search-inputs">
                     <input type="date" class="search-field" name="check-in-date" placeholder="Date">
                     <input type="date" class="search-field" name="check-out-date" placeholder="Check-out date">
                     <input type="text" class="search-field" name="guests" placeholder="Enter the Number of People">
                 </div>
-                <button type="submit" class="search-button">Add Dates</button>
-            </form>
-
+          
             </div>
 
             <div class="overflow-x-auto">
@@ -612,31 +610,28 @@
                             <td>Single Room (1 person)</td>
                             <td>LKR.<?php echo $accomadation->singleprice;?></td>
                             <td><?php echo $accomadation->single_bedrooms;?></td>
-                            <td><input type="number" min="0" max="<?php echo $accomadation->single_bedrooms;?>"id="singleRoomInput" ></td>
-                            <td><button class="book-button" onclick="addRoom('single', <?php echo $accomadation->singleprice;?>)" >Add</button>
-                            <button class="book-button" onclick="removeRoom('single', <?php echo $accomadation->singleprice;?>)">Remove</button>
+                            <td><input type="number" min="0" max="<?php echo $accomadation->single_bedrooms;?>"id="singleRoomInput" name="singleamount" value="0" readonly></td>
+                            <td><button type="button" class="book-button" onclick="addRoom('single', <?php echo $accomadation->singleprice;?>,<?php echo $accomadation->single_bedrooms;?>)" >Add</button>
+                            <button type="button" class="book-button" onclick="removeRoom('single', <?php echo $accomadation->singleprice;?>)">Remove</button>
                         </td>
                         </tr>
                         <tr>
                             <td>Double Room (2 persons)</td>
                             <td>LKR.<?php echo $accomadation->doubleprice;?></td>
                             <td><?php echo $accomadation->double_bedrooms;?></td>
-                            <td><input type="number" min="0" max="<?php echo $accomadation->double_bedrooms;?>" id="doubleRoomInput" ></td>
-                            <td><button class="book-button" onclick="addRoom('double', <?php echo $accomadation->doubleprice;?>)" >Add</button></td>
+                            <td><input type="number" min="0" max="<?php echo $accomadation->double_bedrooms;?>" id="doubleRoomInput" name="doubleamount" value="0" readonly></td>
+                            <td><button type="button" class="book-button" onclick="addRoom('double', <?php echo $accomadation->doubleprice;?>,<?php echo $accomadation->single_bedrooms;?>)" >Add</button>
+                            <button type="button" class="book-button" onclick="removeRoom('double', <?php echo $accomadation->doubleprice;?>)">Remove</button>
+                            </td>
                         </tr>
                         <tr>
                             <td>Family Room (4 persons)</td>
                             <td>LKR.<?php echo $accomadation->familyprice;?></td>
                             <td><?php echo $accomadation->family_rooms;?></td>
-                            <td><input type="number" min="0" max="<?php echo $accomadation->family_rooms;?>" id="familyRoomInput"></td>
-                            <td><button class="book-button" onclick="addRoom('family', <?php echo $accomadation->familyprice;?>)" >Add</button></td>
-                        </tr>
-                        <tr>
-                            <td>Living Room (4 persons)</td>
-                            <td>LKR.<?php echo $accomadation->livingprice;?></td>
-                            <td><?php echo $accomadation->living_rooms;?></td>
-                            <td><input type="number" min="0" max="<?php echo $accomadation->living_rooms;?>"id="livingRoomInput" ></td>
-                            <td><button class="book-button" onclick="addRoom('living', <?php echo $accomadation->livingprice;?>)" >Add</button></td>
+                            <td><input type="number" min="0" max="<?php echo $accomadation->family_rooms;?>" id="familyRoomInput" name="familyamount"value="0" readonly></td>
+                            <td><button type="button" class="book-button" onclick="addRoom('family', <?php echo $accomadation->familyprice;?>,<?php echo $accomadation->single_bedrooms;?>)" >Add</button>
+                            <button type="button" class="book-button" onclick="removeRoom('family', <?php echo $accomadation->familyprice;?>)">Remove</button>
+                            </td>
                         </tr>
 
                     </tbody>
@@ -665,13 +660,28 @@
                     <div class="summary-row">
                         <span>Total Number of Rooms</span>
                         <span id="totalRooms">0</span>
+                        <input type="hidden" id="totalrooms" name="totalrooms" value="0">
+
                     </div>
                     <div class="total-row">
                         <span>Total Amount</span>
                         <span id="totalAmount" style="color: #0071c2;">LKR.0</span>
+                        <input type="hidden" id="totalamount" name="totalamount" value="0">
+
                     </div>
-                    <button class="pay-button">Pay & Book Now</button>
-                  
+                    <div class="total-row">
+                        <span>Amount Should Pay Now (50%)</span>
+                        <span id="pay" style="color: #0071c2;">LKR.0</span>
+                        <input type="hidden" id="totalpaid" name="totalpaid" value="">
+
+                    </div>
+
+                    <input type="hidden" name="property_id" value="<?php echo $accomadation->property_id; ?>">
+                    <input type="hidden" name="service_provider_id" value="<?php echo $accomadation->service_provider_id; ?>">
+
+
+                    <button type="submit" class="pay-button">Pay & Book Now</button>
+                    </form>
                 </div>
            
         </div>
@@ -709,18 +719,45 @@
         let totalAmount = 0;
         let totalRooms = 0;
 
-        function addRoom(type, price) {
+        function addRoom(type, price, max) {
+            let inputId = type + 'RoomInput';
+            let roomInput = document.getElementById(inputId);
+            let numberOfRooms = parseInt(roomInput.value);
+            let maximum = max;
+         
+
+            // Check if numberOfRooms is a valid number and greater than or equal to 0
+            if (!isNaN(numberOfRooms) && numberOfRooms >= 0 && numberOfRooms < max) {
+                numberOfRooms++;
+                roomInput.value = numberOfRooms;
+                totalAmount += price;
+                totalRooms++;
+                document.getElementById('totalAmount').innerText = 'LKR ' + totalAmount;
+                document.getElementById('totalamount').value=totalAmount;
+                document.getElementById('totalRooms').innerText = totalRooms;
+                document.getElementById('totalrooms').value=totalRooms;
+                document.getElementById('roomCharges').innerHTML = 'LKR ' + totalAmount;
+                document.getElementById('pay').innerHTML ='LKR' + (0.5*totalAmount);
+                document.getElementById('totalpaid').value=0.5*totalAmount;
+            } else {
+                alert('Please enter a valid number of rooms.');
+            }
+        }
+
+        function removeRoom(type, price) {
             let inputId = type + 'RoomInput';
             let roomInput = document.getElementById(inputId);
             let numberOfRooms = parseInt(roomInput.value);
 
-            if (numberOfRooms > 0) {
-                totalAmount += numberOfRooms * price;
-                totalRooms += numberOfRooms;
+            if (!isNaN(numberOfRooms) && numberOfRooms > 0 ) {
+                numberOfRooms--;
+                roomInput.value = numberOfRooms;
+                totalAmount -= price;
+                totalRooms--;
                 document.getElementById('totalAmount').innerText = 'LKR ' + totalAmount;
                 document.getElementById('totalRooms').innerText = totalRooms;
                 document.getElementById('roomCharges').innerHTML = 'LKR ' + totalAmount;
-                roomInput.value = 0; // Reset the input field
+                document.getElementById('pay').innerHTML = 'LKR' + (0.5*totalAmount);
             } else {
                 alert('Please enter a valid number of rooms.');
             }
