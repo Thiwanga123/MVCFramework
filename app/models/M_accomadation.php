@@ -151,6 +151,24 @@ class M_accomadation{
         }
     }
 
+
+    //get the bookings from the property_booking table to the related service provider
+    public function getBookings($userId) {
+        try {
+            $sql = "SELECT * FROM property_booking WHERE supplier_id = ?";
+
+            $this->db->query($sql);
+            $this->db->bind(1, $userId);
+
+            $bookings = $this->db->resultSet();
+
+            return $bookings;
+        } catch (Exception $e) {
+            echo "<script>alert('An error occurred: {$e->getMessage()}');</script>";
+            return [];
+        }
+    }
+
 }
 
 ?>

@@ -55,7 +55,13 @@ public function deleteproperty($id){
     public function orders(){
         
         if (isset($_SESSION['id'])) {
-            $this->view('accomadation/Orders');
+            $userId = $_SESSION['id'];
+
+            $accomadation=$this->accomadationModel->getBookings($userId);
+            $data=[
+                'accomadation'=>$accomadation,
+            ];
+            $this->view('accomadation/Orders',$data);
         } else {
             redirect('ServiceProvider/login');
         }
