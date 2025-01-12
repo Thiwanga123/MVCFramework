@@ -79,7 +79,7 @@
                 </div>
                 
                 <div class="form">
-                    <h2>Select Places</h2>
+                    <h2>Near By Locations To visit</h2>
                 </div>
 
                 <div class="foot">
