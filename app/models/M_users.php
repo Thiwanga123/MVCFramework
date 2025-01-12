@@ -125,6 +125,35 @@ class M_users{
         return $row;
     }
 
+
+    //get available rooms
+    public function getAvailableRooms($property_id) {
+        // Get total rooms from properties table
+        $this->db->query('SELECT single_bedrooms, double_bedrooms, family_rooms FROM properties WHERE property_id = :property_id');
+        $this->db->bind(':property_id', $property_id);
+        $property = $this->db->single();
+
+        // Get booked rooms from property_booking table
+        $this->db->query('SELECT 
+                            SUM(singlerooms) AS booked_single_rooms, 
+                            SUM(doublerooms) AS booked_double_rooms, 
+                            SUM(familyrooms) AS booked_family_rooms 
+                          FROM property_booking 
+                          WHERE property_id = :property_id AND check_out >= CURDATE()');
+        $this->db->bind(':property_id', $property_id);
+        $bookings = $this->db->single();
+
+        // Calculate available rooms
+        $availableRooms = [
+            'single_bedrooms' => $property->single_bedrooms - $bookings->booked_single_rooms,
+            'double_bedrooms' => $property->double_bedrooms - $bookings->booked_double_rooms,
+            'family_rooms' => $property->family_rooms - $bookings->booked_family_rooms
+        ];
+
+        return $availableRooms;
+
+    }
+
     //add a booking to the proerty_booking
     public function book($data){
 

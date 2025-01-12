@@ -118,10 +118,11 @@ class Users extends Controller {
 
     public function viewdetails($property_id){
         if(isset($_SESSION['user_id'])) {
-
+            $availableRooms = $this->userModel->getAvailableRooms($property_id);
             $accomadation = $this->userModel->getAccommodationById($property_id);
             $data=[
-                'accomadation' => $accomadation
+                'accomadation' => $accomadation,
+                'availableRooms' => $availableRooms
             ];
             $this->view('users/viewdetails',$data);
         }else{

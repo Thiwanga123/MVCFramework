@@ -45,7 +45,9 @@ public function deleteproperty($id) {
         if ($isDeleted) {
             echo "<script>alert('Property removed successfully'); window.location.href = '" . URLROOT . "/accomadation/myInventory';</script>";
         } else {
-            echo "<script>alert('Cannot delete property with existing bookings'); window.location.href = '" . URLROOT . "/accomadation/myInventory';</script>";
+            // Set session variable for delete error
+            $_SESSION['delete_error'] = true;
+            echo "<script>window.location.href = '" . URLROOT . "/accomadation/myInventory';</script>";
         }
     } else {
         echo "<script>alert('Please log in to delete a property'); window.location.href = '" . URLROOT . "/ServiceProvider/login';</script>";
