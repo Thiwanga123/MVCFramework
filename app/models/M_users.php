@@ -184,6 +184,38 @@ class M_users{
         }
     }
 
+    //cancel the booking
+    public function cancelBooking($bookingId) {
+        // Get the booking details
+        $this->db->query('SELECT * FROM property_booking WHERE booking_id = :booking_id');
+        $this->db->bind(':booking_id', $bookingId);
+        $booking = $this->db->single();
+
+        if ($booking) {
+            // Update the deleted_at column
+            $this->db->query('UPDATE property_booking SET deleted_at = NOW() WHERE booking_id = :booking_id');
+            $this->db->bind(':booking_id', $bookingId);
+            $this->db->execute();
+
+            // Release the rooms
+            $this->db->query('UPDATE properties SET 
+                                single_bedrooms = single_bedrooms + :single_rooms, 
+                                double_bedrooms = double_bedrooms + :double_rooms, 
+                                family_rooms = family_rooms + :family_rooms 
+                              WHERE property_id = :property_id');
+            $this->db->bind(':single_rooms', $booking->single_rooms);
+            $this->db->bind(':double_rooms', $booking->double_rooms);
+            $this->db->bind(':family_rooms', $booking->family_rooms);
+            $this->db->bind(':property_id', $booking->property_id);
+            $this->db->execute();
+
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+
 
     
 
