@@ -5,6 +5,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="<?php echo URLROOT;?>/css/userspage/content.css">
     <title>Home</title>
+    <script>
+        function initMap(){
+            const data=JSON.parse(localStorage.getItem('data'));
+            if(data && data.location){
+                const mapFrame=document.getElementById('mapFrame');
+                mapFrame.src = `https://www.google.com/maps/embed/v1/place?key=<?php echo API_KEY; ?>&q=${encodeURIComponent(data.location)}`;
+            }
+        }
+        document.addEventListener('DOMContentLoaded', initMap);
+    </script>
 
 </head>
 <body>
@@ -29,7 +39,7 @@
 
     <div class="content">
         <div class="left">
-            <iframe src="https://www.google.com/maps/embed?pb=!1m14!1m12!1m3!1d3960.8990214606983!2d79.86059499572015!3d6.902678134588079!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!5e0!3m2!1sen!2slk!4v1732341225548!5m2!1sen!2slk" 
+            <iframe id="mapFrame"  
             allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
         
         </div>

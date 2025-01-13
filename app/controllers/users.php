@@ -453,8 +453,18 @@ else{
 }
 
 }
+
+
+public function planhome(){
+    if(isset($_SESSION['user_id'])) {
+        $this->view('users/planHome');
+    }else{
+        redirect('users/login');
+    }
 }
 
+
+}
 
 
 ?>
