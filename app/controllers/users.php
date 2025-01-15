@@ -454,6 +454,14 @@ else{
 
 }
 
+public function weather(){
+    if(isset($_SESSION['user_id'])) {
+        $this->view('users/weatherView');
+    }else{
+        redirect('users/login');
+    }
+}
+
 
 public function planhome(){
     if(isset($_SESSION['user_id'])) {
