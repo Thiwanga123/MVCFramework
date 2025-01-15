@@ -13,6 +13,7 @@
                 mapFrame.src = `https://www.google.com/maps/embed/v1/place?key=<?php echo API_KEY; ?>&q=${encodeURIComponent(data.location)}`;
                 isMapView = true;
                 updateButtonText();
+                fetchNearbyPlaces(data.location);
             }
         }
 
@@ -23,7 +24,7 @@
                 mapFrame.src ="<?php echo URLROOT;?>/users/weather";
                 isMapView = false;
                 updateButtonText();
-                // You can replace the above URL with a weather API URL to show weather information
+              
             }
         }
 
@@ -50,8 +51,63 @@
             `;
         }
 
+        function fetchNearbyPlaces(location) {
+            const service = new google.maps.places.PlacesService(document.createElement('div'));
+            const request = {
+                query: location,
+                fields: ['name', 'geometry'],
+            };
+
+            service.findPlaceFromQuery(request, function(results, status) {
+                if (status === google.maps.places.PlacesServiceStatus.OK) {
+                    const nearbyLocation = results[0].geometry.location;
+                    const nearbyRequest = {
+                        location: nearbyLocation,
+                        radius: '10000', // 10 km radius
+                        type: ['tourist_attraction']
+                    };
+
+                    service.nearbySearch(nearbyRequest, function(nearbyResults, nearbyStatus) {
+                        if (nearbyStatus === google.maps.places.PlacesServiceStatus.OK) {
+                            const placesList = document.querySelector('.bottom1');
+                            placesList.innerHTML = ''; // Clear existing content
+
+                            nearbyResults.sort((a, b) => b.user_ratings_total - a.user_ratings_total);
+                            nearbyResults.slice(0, 6).forEach(place => 
+                            {
+                                const placeItem = document.createElement('div');
+                                placeItem.className = 'card';
+
+                                const placeImage = document.createElement('img');
+                                placeImage.src = place.photos ? place.photos[0].getUrl() : 'https://via.placeholder.com/150';
+                                placeImage.alt = place.name;
+
+                                const placeName = document.createElement('h3');
+                                placeName.textContent = place.name;
+
+                                const placeAddress = document.createElement('p');
+                                placeAddress.textContent = `Location: ${place.vicinity}`;
+
+                                placeItem.appendChild(placeImage);
+                                placeItem.appendChild(placeName);
+                                placeItem.appendChild(placeAddress);
+
+                                placesList.appendChild(placeItem);
+                            });
+                        }
+                    });
+                }
+            });
+        }
+
         
-        document.addEventListener('DOMContentLoaded', initMap);
+        document.addEventListener('DOMContentLoaded', function() {
+            const script = document.createElement('script');
+            script.src = `https://maps.googleapis.com/maps/api/js?key=<?php echo API_KEY; ?>&libraries=places&callback=initMap`;
+            script.async = true;
+            script.defer = true;
+            document.head.appendChild(script);
+        });
     </script>
 
 </head>
@@ -126,9 +182,16 @@
                     </button>
                 </div>
                 
-                <div class="form">
+             
                     <h2>Near By Locations To visit</h2>
-                </div>
+                    <div class="bottom1">
+                    <!-- <div class="card">
+                    <h3 class="location-name">Loading...</h3>
+                    <br>
+                    <p class="location-address">Loading..</p>
+                    </div> -->
+                    </div>
+               
 
                 <div class="foot">
                     <div class="group">

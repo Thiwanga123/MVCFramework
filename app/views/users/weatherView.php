@@ -9,7 +9,7 @@
         document.addEventListener('DOMContentLoaded', function() {
             const data = JSON.parse(localStorage.getItem('data'));
             if (data && data.location) {
-                const weatherAPIKey = '<?php echo WEATHER_API_KEY; ?>'; // Replace with your actual weather API key
+                const weatherAPIKey = '<?php echo WEATHER_API_KEY; ?>'; 
                 const weatherURL = `http://api.weatherapi.com/v1/current.json?key=${weatherAPIKey}&q=${encodeURIComponent(data.location)}`;
                 fetch(weatherURL)
                     .then(response => response.json())

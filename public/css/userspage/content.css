@@ -218,6 +218,45 @@ header .navbar {
     padding: 2px;
 }
 
+.bottom1{
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 3fr));
+    margin-top: 5px;
+    height: auto;
+    padding: 3px;
+    transition: all 0.3s ease-in;
+    cursor: pointer;
+}
+
+.card {
+    background-color: #fff;
+    border-radius: 7px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    margin: 5px;
+    padding: 5px;
+    width: 200px;
+    text-align: center;
+}
+
+.bottom1 :hover{
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    transition: all 0.3s ease-in;
+    transform: scale(1.02); 
+}
+
+.card img {
+    width: 180px;
+    height: 180px;
+    border-radius: 5px;
+}
+.card h3 {
+    color: #333;
+    margin: 10px 0;
+}
+.card p {
+    color: #666;
+}
+
 
 
 @media (max-width: 768px) {
