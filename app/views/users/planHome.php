@@ -5,6 +5,110 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="<?php echo URLROOT;?>/css/userspage/content.css">
     <title>Home</title>
+    <script>
+        function initMap(){
+            const data=JSON.parse(localStorage.getItem('data'));
+            if(data && data.location){
+                const mapFrame=document.getElementById('mapFrame');
+                mapFrame.src = `https://www.google.com/maps/embed/v1/place?key=<?php echo API_KEY; ?>&q=${encodeURIComponent(data.location)}`;
+                isMapView = true;
+                updateButtonText();
+                fetchNearbyPlaces(data.location);
+            }
+        }
+
+        function showWeather() {
+            const data = JSON.parse(localStorage.getItem('data'));
+            if (data && data.location) {
+                const mapFrame = document.getElementById('mapFrame');
+                mapFrame.src ="<?php echo URLROOT;?>/users/weather";
+                isMapView = false;
+                updateButtonText();
+              
+            }
+        }
+
+        function toggleView() {
+            if (isMapView) {
+                showWeather();
+            } else {
+                initMap();
+            }
+        }
+
+        function updateButtonText() {
+            const toggleButton = document.getElementById('toggleButton');
+            toggleButton.innerHTML = isMapView ? `
+                <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#ffffff">
+                    <path d="M440-760v-160h80v160h-80Zm266 110-55-55 112-115 56 57-113 113Zm54 210v-80h160v80H760ZM440-40v-160h80v160h-80ZM254-652 140-763l57-56 113 113-56 54Zm508 512L651-255l54-54 114 110-57 59ZM40-440v-80h160v80H40Zm157 300-56-57 112-112 29 27 29 28-114 114Zm283-100q-100 0-170-70t-70-170q0-100 70-170t170-70q100 0 170 70t70 170q0 100-70 170t-170 70Zm0-80q66 0 113-47t47-113q0-66-47-113t-113-47q-66 0-113 47t-47 113q0 66 47 113t113 47Zm0-160Z"/>
+                </svg>
+                <h4>Check Weather</h4>
+            ` : `
+                <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#ffffff">
+                    <path d="M440-760v-160h80v160h-80Zm266 110-55-55 112-115 56 57-113 113Zm54 210v-80h160v80H760ZM440-40v-160h80v160h-80ZM254-652 140-763l57-56 113 113-56 54Zm508 512L651-255l54-54 114 110-57 59ZM40-440v-80h160v80H40Zm157 300-56-57 112-112 29 27 29 28-114 114Zm283-100q-100 0-170-70t-70-170q0-100 70-170t170-70q100 0 170 70t70 170q0 100-70 170t-170 70Zm0-80q66 0 113-47t47-113q0-66-47-113t-113-47q-66 0-113 47t-47 113q0 66 47 113t113 47Zm0-160Z"/>
+                </svg>
+                <h4>Show Map</h4>
+            `;
+        }
+
+        function fetchNearbyPlaces(location) {
+            const service = new google.maps.places.PlacesService(document.createElement('div'));
+            const request = {
+                query: location,
+                fields: ['name', 'geometry'],
+            };
+
+            service.findPlaceFromQuery(request, function(results, status) {
+                if (status === google.maps.places.PlacesServiceStatus.OK) {
+                    const nearbyLocation = results[0].geometry.location;
+                    const nearbyRequest = {
+                        location: nearbyLocation,
+                        radius: '10000', // 10 km radius
+                        type: ['tourist_attraction']
+                    };
+
+                    service.nearbySearch(nearbyRequest, function(nearbyResults, nearbyStatus) {
+                        if (nearbyStatus === google.maps.places.PlacesServiceStatus.OK) {
+                            const placesList = document.querySelector('.bottom1');
+                            placesList.innerHTML = ''; // Clear existing content
+
+                            nearbyResults.sort((a, b) => b.user_ratings_total - a.user_ratings_total);
+                            nearbyResults.slice(0, 6).forEach(place => 
+                            {
+                                const placeItem = document.createElement('div');
+                                placeItem.className = 'card';
+
+                                const placeImage = document.createElement('img');
+                                placeImage.src = place.photos ? place.photos[0].getUrl() : 'https://via.placeholder.com/150';
+                                placeImage.alt = place.name;
+
+                                const placeName = document.createElement('h3');
+                                placeName.textContent = place.name;
+
+                                // const placeAddress = document.createElement('p');
+                                // placeAddress.textContent = `Location: ${place.vicinity}`;
+
+                                placeItem.appendChild(placeImage);
+                                placeItem.appendChild(placeName);
+                                // placeItem.appendChild(placeAddress);
+
+                                placesList.appendChild(placeItem);
+                            });
+                        }
+                    });
+                }
+            });
+        }
+
+        
+        document.addEventListener('DOMContentLoaded', function() {
+            const script = document.createElement('script');
+            script.src = `https://maps.googleapis.com/maps/api/js?key=<?php echo API_KEY; ?>&libraries=places&callback=initMap`;
+            script.async = true;
+            script.defer = true;
+            document.head.appendChild(script);
+        });
+    </script>
 
 </head>
 <body>
@@ -29,14 +133,14 @@
 
     <div class="content">
         <div class="left">
-            <iframe src="https://www.google.com/maps/embed?pb=!1m14!1m12!1m3!1d3960.8990214606983!2d79.86059499572015!3d6.902678134588079!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!5e0!3m2!1sen!2slk!4v1732341225548!5m2!1sen!2slk" 
+            <iframe id="mapFrame"  
             allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
         
         </div>
 
         <div class="right">
 
-            <div class="top">
+            <!-- <div class="top">
                     <ul class="bar-in">
                         <li>
                             <div class="group">
@@ -67,20 +171,27 @@
                             <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#1d5a62"><path d="M784-120 532-372q-30 24-69 38t-83 14q-109 0-184.5-75.5T120-580q0-109 75.5-184.5T380-840q109 0 184.5 75.5T640-580q0 44-14 83t-38 69l252 252-56 56ZM380-400q75 0 127.5-52.5T560-580q0-75-52.5-127.5T380-760q-75 0-127.5 52.5T200-580q0 75 52.5 127.5T380-400Z"/></svg>
                         </button></li>
                     </ul>
-            </div>
+            </div> -->
 
             <div class="bottom">
 
                 <div class="weather-btn" id="weather-btn">
-                    <button class="weather">
+                    <button class="weather" id="toggleButton" onclick="toggleView()" >
                         <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#ffffff"><path d="M440-760v-160h80v160h-80Zm266 110-55-55 112-115 56 57-113 113Zm54 210v-80h160v80H760ZM440-40v-160h80v160h-80ZM254-652 140-763l57-56 113 113-56 54Zm508 512L651-255l54-54 114 110-57 59ZM40-440v-80h160v80H40Zm157 300-56-57 112-112 29 27 29 28-114 114Zm283-100q-100 0-170-70t-70-170q0-100 70-170t170-70q100 0 170 70t70 170q0 100-70 170t-170 70Zm0-80q66 0 113-47t47-113q0-66-47-113t-113-47q-66 0-113 47t-47 113q0 66 47 113t113 47Zm0-160Z"/></svg>
                         <h4>Check Weather</h4>
                     </button>
                 </div>
                 
-                <div class="form">
-                    <h2>Select Places</h2>
-                </div>
+             
+                    <h2>Near By Locations To visit</h2>
+                    <div class="bottom1">
+                    <!-- <div class="card">
+                    <h3 class="location-name">Loading...</h3>
+                    <br>
+                    <p class="location-address">Loading..</p>
+                    </div> -->
+                    </div>
+               
 
                 <div class="foot">
                     <div class="group">

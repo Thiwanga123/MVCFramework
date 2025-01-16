@@ -60,6 +60,7 @@
                             <th>Check-In</th>
                             <th>Check-Out</th>
                             <th>Amount</th>
+                            <th>Action</th>
                             <th>Status</th>
                             
                         </tr>
@@ -76,9 +77,16 @@
                             <td><?php echo htmlspecialchars($booking->Amount); ?></td>
                             <td><div class="action-btn">
                             <button class="view-btn">View</button>
-                            <button class="cancel-btn">Cancel</button>
+                            <?php if($booking->Action == 'Active'): ?>
+                            <!--when submit cancel button the booking will cancel and release the number of bokkings from the booking table-->
+                            <form action="<?php echo URLROOT; ?>/users/cancelBooking" method="post" style="display:inline;">
+                                <input type="hidden" name="booking_id" value="<?php echo $booking->BookingID; ?>">
+                                <button type="submit" class="cancel-btn">Cancel</button>
+                            </form>
+                            <?php endif; ?>
                             </div>
-                        </td>                           
+                        </td>
+                        <td><?php echo htmlspecialchars($booking->Action); ?> </td>                           
                         </tr> 
                         <?php endforeach; ?>
                     </tbody>

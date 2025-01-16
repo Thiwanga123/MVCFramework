@@ -462,8 +462,8 @@
         <div class="header">
             <div class="hotel-title">
                 <div class="rating-stars">★★★★★</div><br>
-                <h1 class="hotel-name"><?php echo $accomadation->property_name;?>
-                    <span class="airport-shuttle"><?php echo $accomadation->property_type;?></span>
+                <h1 class="hotel-name"><?php echo $data['accomadation']->property_name; ?>
+                    <span class="airport-shuttle"><?php echo $data['accomadation']->property_type; ?></span>
                 </h1>
             </div>
         </div>
@@ -471,7 +471,7 @@
         <!-- Location -->
         <div class="location">
             <i class="fas fa-map-marker-alt"></i>
-            <?php echo $accomadation->property_name;?>
+            <?php echo $data['accomadation']->property_name; ?>
             <a href="#">Great location - show map</a>
             <span class="location-divider">–</span>
            
@@ -489,86 +489,86 @@
         <!-- Property Highlights -->
         <div class="property-highlights">
             <h2 class="highlights-title">Property Overview</h2>
-            <p>Welcome to <?php echo $accomadation->property_name; ?>, a stunning <?php echo $accomadation->property_type; ?> nestled in the heart of <?php echo $accomadation->city; ?>, at <?php echo $accomadation->address; ?>, <?php echo $accomadation->postal_code; ?>. This delightful property offers the perfect retreat, whether you're traveling solo, as a couple, with family, or with friends. Boasting spacious accommodations, including <?php echo $accomadation->single_bedrooms; ?> single bedrooms, <?php echo $accomadation->double_bedrooms; ?> double bedrooms, <?php echo $accomadation->living_rooms; ?> living rooms, and <?php echo $accomadation->family_rooms; ?> family rooms, there's plenty of room for everyone. With a total of <?php echo $accomadation->bathrooms; ?> bathrooms and a maximum capacity of <?php echo $accomadation->max_occupants; ?> occupants, comfort is guaranteed.
+            <p>Welcome to <?php echo $data['accomadation']->property_name; ?>, a stunning <?php echo $data['accomadation']->property_type; ?> nestled in the heart of <?php echo $data['accomadation']->city; ?>, at <?php echo $data['accomadation']->address; ?>, <?php echo $data['accomadation']->postal_code; ?>. This delightful property offers the perfect retreat, whether you're traveling solo, as a couple, with family, or with friends. Boasting spacious accommodations, including <?php echo $data['accomadation']->single_bedrooms; ?> single bedrooms, <?php echo $data['accomadation']->double_bedrooms; ?> double bedrooms, <?php echo $data['accomadation']->living_rooms; ?> living rooms, and <?php echo $data['accomadation']->family_rooms; ?> family rooms, there's plenty of room for everyone. With a total of <?php echo $data['accomadation']->bathrooms; ?> bathrooms and a maximum capacity of <?php echo $data['accomadation']->max_occupants; ?> occupants, comfort is guaranteed.
 
-            Enjoy a range of modern amenities designed for your convenience and relaxation, including air conditioning, heating, free Wi-Fi, and a fully equipped kitchen or kitchenette for home-cooked meals. Dive into ultimate leisure with features like a swimming pool, hot tub, sauna, or unwind on your private balcony or terrace with breathtaking garden views. The property spans a generous <?php echo $accomadation->apartment_size; ?> sqm, ensuring ample space to make yourself at home.
+            Enjoy a range of modern amenities designed for your convenience and relaxation, including air conditioning, heating, free Wi-Fi, and a fully equipped kitchen or kitchenette for home-cooked meals. Dive into ultimate leisure with features like a swimming pool, hot tub, sauna, or unwind on your private balcony or terrace with breathtaking garden views. The property spans a generous <?php echo $data['accomadation']->apartment_size; ?> sqm, ensuring ample space to make yourself at home.
 
-            Perfect for families and groups, <?php echo $accomadation->property_name; ?> welcomes children and offers thoughtful touches like EV charging, a washing machine, and a flat-screen TV for entertainment. For those who crave a little indulgence, a minibar and luxurious views await. ensuring a stay tailored to your needs.
+            Perfect for families and groups, <?php echo $data['accomadation']->property_name; ?> welcomes children and offers thoughtful touches like EV charging, a washing machine, and a flat-screen TV for entertainment. For those who crave a little indulgence, a minibar and luxurious views await, ensuring a stay tailored to your needs.
 
-            Convenient check-in is available between <?php echo $accomadation->check_in_from; ?> and <?php echo $accomadation->check_in_until; ?>, with check-out between <?php echo $accomadation->check_out_from; ?> and <?php echo $accomadation->check_out_until; ?>. Starting at just <?php echo $accomadation->price; ?> per night, <?php echo $accomadation->property_name; ?> is the perfect choice for your next getaway. Book now and experience the unparalleled charm of this exceptional property!</p>
+            Convenient check-in is available between <?php echo $data['accomadation']->check_in_from; ?> and <?php echo $data['accomadation']->check_in_until; ?>, with check-out between <?php echo $data['accomadation']->check_out_from; ?> and <?php echo $data['accomadation']->check_out_until; ?>. Starting at just <?php echo $data['accomadation']->price; ?> per night, <?php echo $data['accomadation']->property_name; ?> is the perfect choice for your next getaway. Book now and experience the unparalleled charm of this exceptional property!</p>
         </div>
 
         <!-- Popular Facilities -->
         <div class="popular-facilities">
             <h2 class="highlights-title">Most popular facilities</h2>
             <div class="facility-grid">
-    <?php if ($accomadation->free_wifi == 1): ?>
+    <?php if ($data['accomadation']->free_wifi == 1): ?>
         <div class="facility-item">
             <i class="fas fa-wifi facility-icon"></i>
             <p>Free Wifi</p>
         </div>
     <?php endif; ?>
-    <?php if ($accomadation->air_conditioning == 1): ?>
+    <?php if ($data['accomadation']->air_conditioning == 1): ?>
         <div class="facility-item">
             <i class="fas fa-wind facility-icon"></i>
             <p>Air Conditioning</p>
         </div>
     <?php endif; ?>
-    <?php if ($accomadation->ev_charging == 1): ?>
+    <?php if ($data['accomadation']->ev_charging == 1): ?>
         <div class="facility-item">
             <i class="fas fa-charging-station facility-icon"></i>
             <p>EV Charging</p>
         </div>
     <?php endif; ?>
-    <?php if ($accomadation->kitchen == 1): ?>
+    <?php if ($data['accomadation']->kitchen == 1): ?>
         <div class="facility-item">
             <i class="fas fa-utensils facility-icon"></i>
             <p>Kitchen</p>
         </div>
     <?php endif; ?>
-    <?php if ($accomadation->kitchenette == 1): ?>
+    <?php if ($data['accomadation']->kitchenette == 1): ?>
         <div class="facility-item">
             <i class="fas fa-blender facility-icon"></i>
             <p>Kitchenette</p>
         </div>
     <?php endif; ?>
-    <?php if ($accomadation->washing_machine == 1): ?>
+    <?php if ($data['accomadation']->washing_machine == 1): ?>
         <div class="facility-item">
             <i class="fas fa-washer facility-icon"></i>
             <p>Washing Machine</p>
         </div>
     <?php endif; ?>
-    <?php if ($accomadation->flat_screen_tv == 1): ?>
+    <?php if ($data['accomadation']->flat_screen_tv == 1): ?>
         <div class="facility-item">
             <i class="fas fa-tv facility-icon"></i>
             <p>TV</p>
         </div>
     <?php endif; ?>
-    <?php if ($accomadation->swimming_pool == 1): ?>
+    <?php if ($data['accomadation']->swimming_pool == 1): ?>
         <div class="facility-item">
             <i class="fas fa-swimming-pool facility-icon"></i>
             <p>Swimming Pool</p>
         </div>
     <?php endif; ?>
-    <?php if ($accomadation->heating == 1): ?>
+    <?php if ($data['accomadation']->heating == 1): ?>
         <div class="facility-item">
             <i class="fas fa-fire facility-icon"></i>
             <p>Heating</p>
         </div>
     <?php endif; ?>
-    <?php if ($accomadation->hot_tub == 1): ?>
+    <?php if ($data['accomadation']->hot_tub == 1): ?>
         <div class="facility-item">
             <i class="fas fa-hot-tub facility-icon"></i>
             <p>Hot Tub</p>
         </div>
     <?php endif; ?>
-    <?php if ($accomadation->minibar == 1): ?>
+    <?php if ($data['accomadation']->minibar == 1): ?>
         <div class="facility-item">
             <i class="fas fa-cocktail facility-icon"></i>
             <p>Minibar</p>
         </div>
     <?php endif; ?>
-    <?php if ($accomadation->sauna == 1): ?>
+    <?php if ($data['accomadation']->sauna == 1): ?>
         <div class="facility-item">
             <i class="fas fa-hot-tub facility-icon"></i>
             <p>Sauna</p>
@@ -608,29 +608,29 @@
                     <tbody>
                         <tr>
                             <td>Single Room (1 person)</td>
-                            <td>LKR.<?php echo $accomadation->singleprice;?></td>
-                            <td><?php echo $accomadation->single_bedrooms;?></td>
-                            <td><input type="number" min="0" max="<?php echo $accomadation->single_bedrooms;?>"id="singleRoomInput" name="singleamount" value="0" readonly></td>
-                            <td><button type="button" class="book-button" onclick="addRoom('single', <?php echo $accomadation->singleprice;?>,<?php echo $accomadation->single_bedrooms;?>)" >Add</button>
-                            <button type="button" class="book-button" onclick="removeRoom('single', <?php echo $accomadation->singleprice;?>)">Remove</button>
+                            <td>LKR.<?php echo $data['accomadation']->singleprice; ?></td>
+                            <td><?php echo $data['availableRooms']['single_bedrooms']; ?></td>
+                            <td><input type="number" min="0" max="<?php echo $data['availableRooms']['single_bedrooms']; ?>"id="singleRoomInput" name="singleamount" value="0" readonly></td>
+                            <td><button type="button" class="book-button" onclick="addRoom('single', <?php echo $data['accomadation']->singleprice; ?>,<?php echo $data['availableRooms']['single_bedrooms']; ?>)" >Add</button>
+                            <button type="button" class="book-button" onclick="removeRoom('single', <?php echo $data['accomadation']->singleprice; ?>)">Remove</button>
                         </td>
                         </tr>
                         <tr>
                             <td>Double Room (2 persons)</td>
-                            <td>LKR.<?php echo $accomadation->doubleprice;?></td>
-                            <td><?php echo $accomadation->double_bedrooms;?></td>
-                            <td><input type="number" min="0" max="<?php echo $accomadation->double_bedrooms;?>" id="doubleRoomInput" name="doubleamount" value="0" readonly></td>
-                            <td><button type="button" class="book-button" onclick="addRoom('double', <?php echo $accomadation->doubleprice;?>,<?php echo $accomadation->single_bedrooms;?>)" >Add</button>
-                            <button type="button" class="book-button" onclick="removeRoom('double', <?php echo $accomadation->doubleprice;?>)">Remove</button>
+                            <td>LKR.<?php echo $data['accomadation']->doubleprice; ?></td>
+                            <td><?php echo $data['availableRooms']['double_bedrooms']; ?></td>
+                            <td><input type="number" min="0" max="<?php echo $data['availableRooms']['double_bedrooms']; ?>" id="doubleRoomInput" name="doubleamount" value="0" readonly></td>
+                            <td><button type="button" class="book-button" onclick="addRoom('double', <?php echo $data['accomadation']->doubleprice; ?>,<?php echo $data['availableRooms']['double_bedrooms']; ?>)" >Add</button>
+                            <button type="button" class="book-button" onclick="removeRoom('double', <?php echo $data['accomadation']->doubleprice; ?>)">Remove</button>
                             </td>
                         </tr>
                         <tr>
                             <td>Family Room (4 persons)</td>
-                            <td>LKR.<?php echo $accomadation->familyprice;?></td>
-                            <td><?php echo $accomadation->family_rooms;?></td>
-                            <td><input type="number" min="0" max="<?php echo $accomadation->family_rooms;?>" id="familyRoomInput" name="familyamount"value="0" readonly></td>
-                            <td><button type="button" class="book-button" onclick="addRoom('family', <?php echo $accomadation->familyprice;?>,<?php echo $accomadation->single_bedrooms;?>)" >Add</button>
-                            <button type="button" class="book-button" onclick="removeRoom('family', <?php echo $accomadation->familyprice;?>)">Remove</button>
+                            <td>LKR.<?php echo $data['accomadation']->familyprice; ?></td>
+                            <td><?php echo $data['availableRooms']['family_rooms']; ?></td>
+                            <td><input type="number" min="0" max="<?php echo $data['availableRooms']['family_rooms']; ?>" id="familyRoomInput" name="familyamount"value="0" readonly></td>
+                            <td><button type="button" class="book-button" onclick="addRoom('family', <?php echo $data['accomadation']->familyprice; ?>,<?php echo $data['availableRooms']['family_rooms']; ?>)" >Add</button>
+                            <button type="button" class="book-button" onclick="removeRoom('family', <?php echo $data['accomadation']->familyprice; ?>)">Remove</button>
                             </td>
                         </tr>
 

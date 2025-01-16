@@ -118,10 +118,11 @@ class Users extends Controller {
 
     public function viewdetails($property_id){
         if(isset($_SESSION['user_id'])) {
-
+            $availableRooms = $this->userModel->getAvailableRooms($property_id);
             $accomadation = $this->userModel->getAccommodationById($property_id);
             $data=[
-                'accomadation' => $accomadation
+                'accomadation' => $accomadation,
+                'availableRooms' => $availableRooms
             ];
             $this->view('users/viewdetails',$data);
         }else{
@@ -343,6 +344,26 @@ public function notfound() {
     $this->view('users/notfound');
 }
 
+//cancel the booking
+public function cancelBooking() {
+    if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+        // Sanitize POST data
+        $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+
+        // Process form
+        $bookingId = trim($_POST['booking_id']);
+
+        // Cancel the booking
+        if ($this->userModel->cancelBooking($bookingId)) {
+            echo "<script>alert('Booking cancelled successfully'); window.location.href = '" . URLROOT . "/users/history';</script>";
+        } else {
+            echo "<script>alert('An error occurred. Please try again'); window.location.href = '" . URLROOT . "/users/history';</script>";
+        }
+    } else {
+        redirect('users/v_history');
+    }
+}
+
 //get all the accomodations from the database
    // public function addAccommodationImage($accommodationId, $imagePath) {
     //     $userId = $_SESSION['id'];
@@ -432,8 +453,26 @@ else{
 }
 
 }
+
+public function weather(){
+    if(isset($_SESSION['user_id'])) {
+        $this->view('users/weatherView');
+    }else{
+        redirect('users/login');
+    }
 }
 
+
+public function planhome(){
+    if(isset($_SESSION['user_id'])) {
+        $this->view('users/planHome');
+    }else{
+        redirect('users/login');
+    }
+}
+
+
+}
 
 
 ?>
