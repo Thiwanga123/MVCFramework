@@ -15,8 +15,12 @@ class ServiceProviderModel{
 
         $row = $this->db->single();
 
-        if ($password == $row->password) {
-            return $row;
+        if ($row) {
+            if (password_verify($password, $row->password)) {
+                return $row;
+            } else {
+                return false;
+            }
         } else {
             return false;
         }

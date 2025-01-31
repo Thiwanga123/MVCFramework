@@ -98,15 +98,12 @@ class TransportModel
 
 public function deleteVehicleAvailability($id){
     $this->db->query('DELETE FROM vehicles WHERE id = :id');
-
     $this->db->bind(':id', $id);
-
     $this->db->execute();
 }
 
 public function updateprofile($data){
 
-    $sql = 
     $this->db->query('UPDATE transport_suppliers SET name = :name, email = :email, password= :password, address = :address, phone = :phone, nic = :nic WHERE id = :id');
 
     $this->db->bind(':id', $data['id']);

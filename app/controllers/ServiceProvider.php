@@ -16,7 +16,7 @@ class ServiceProvider extends Controller {
     public function login() {
         // Check if the form was submitted (POST request)
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-            // Sanitize POST data
+           
     
             $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_FULL_SPECIAL_CHARS);
 
@@ -36,11 +36,11 @@ class ServiceProvider extends Controller {
                 if (empty($data['email'])) $data['email_err'] = 'Please enter your email.';
                 if (empty($data['password'])) $data['password_err'] = 'Please enter your password.';
                 if (empty($data['sptype'])) $data['sptype_err'] = 'Please select a service type.';
-            } else {
-                // Check if email exists in the database for the given service type
-                $existing = $this->serviceProviderModel->findUserByEmail($data['email'], $data['sptype']);
-                 
-                if (!$existing) {
+            }  
+            
+            if (empty($data['email_err']) && empty($data['sptype_err'])) {
+                $existingUser = $this->serviceProviderModel->findUserByEmail($data['email'], $data['sptype']);
+                if (!$existingUser) {
                     $data['email_err'] = 'No user found with that email for the selected service type.';
                 }
             }
@@ -59,7 +59,6 @@ class ServiceProvider extends Controller {
                 } else {
                     // If login fails (wrong password), set error message
                     $data['password_err'] = 'Incorrect password. Please try again.';
-                    $this->view('serviceproviders/sp_login', $data); // Re-render the login view with the error
                 }
             } else {
                 // If there are any errors, re-render the login form with validation errors
@@ -93,8 +92,9 @@ class ServiceProvider extends Controller {
                     'nic'=>trim($_POST['nic']),
                     'reg_number'=>trim($_POST['reg_num']),
                     'address'=>trim($_POST['address']),
-                    'confrim_password'=>trim($_POST['confirm_password']),
+                    'confirm_password'=>trim($_POST['confirm_password']),
                     'sptype'=>trim($_POST['sptype']),
+                    
                     
                     'sptype_err'=>'',
                     'name_err' => '',
@@ -107,7 +107,7 @@ class ServiceProvider extends Controller {
                     'address_err'=>''
                    
                 ];
-    
+
                 // Validate name
                 if (empty($data['name'])) {
                     $data['name_err'] = 'Please enter name';
@@ -152,25 +152,27 @@ class ServiceProvider extends Controller {
                 // Validate password
                 if (empty($data['password'])) {
                     $data['password_err'] = 'Please enter password';
+                }else if (strlen($data['password']) <= 7) {
+                    $data['password_err'] = 'Password must be at least 8 characters long';
                 }
 
                 //validate confirm password
                 if (empty($data['confirm_password'])) {
                     $data['confirmpassword_err'] = 'Please confirm password';
                 } else {
-                    if ($data['password'] != $data['confirm_password']) {
+                    if (strcmp($data['password'], $data['confirm_password']) !== 0) {
                         $data['confirmpassword_err'] = 'Passwords do not match';
                     }
                 }
-    
+
+                var_dump('Password: ' . $data['password'], 'Confirm Password: ' . $data['confirm_password']);
                 // Make sure errors are empty
               if(empty($data['name_err']) && empty($data['phone_err']) && empty($data['email_err']) && empty($data['password_err']) && empty($data['nic_err']) && empty($data['reg_num_err']) && empty($data['address_err']) && empty($data['sptype_err'])){
                     // Validated
-    
+                    $data['password'] = password_hash($data['password'], PASSWORD_DEFAULT);
                     // Redirect to the login page
                     if ($this->serviceProviderModel->register($data)) {
                         //display success message
-                                                    
                             $message = "Your Registration is Successful.!";
 
                             // Output JavaScript code for the alert
