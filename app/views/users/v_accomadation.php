@@ -37,142 +37,34 @@
 
         <main>
 
-        <?php require APPROOT . '/views/inc/components/topbar.php'; ?>
+        <?php include 'topbar.php';
+          ?>
            
         
         <section id = "features" class="features">
+        
 
 <div class="container1">
+<?php foreach ($data['accomadation'] as $accomadation):?>
 <div class="feature">
     <img src="<?php echo URLROOT;?>/images/Accomadation.jpg" alt="Accommodation ">
-    <h3>AraLiya Resort</h3>
-    <p>Location:Badulla</p>
+    <h3><?php echo $accomadation->property_name;?></h3>
+    <p>Location:<?php echo $accomadation->city;?></p>
     <br>
-    <p>Price:Rs.2000,00 per person</p>
-    <p>Type:Single Room</p>
-    <a href="<?php echo URLROOT;?>/users/payments"><button class="pay-btn" style=" background-color: rgb(21, 126, 126);color: white;font-size: medium;height: 30px;
+    <p>Price:Rs.<?php echo $accomadation->singleprice;?> per person</p>
+    <p>Price:Rs.<?php echo $accomadation->doubleprice;?> per 2 persons</p>
+    <p>Type:<?php echo $accomadation->property_type;?></p>
+    <a href="<?php echo URLROOT;?>/users/viewdetails/<?php echo $accomadation->property_id;?>"><button class="pay-btn" style=" background-color: rgb(21, 126, 126);color: white;font-size: medium;height: 30px;
     border-radius: 30px;
     border: none;
     margin-top: 1rem;
     cursor: pointer;
     padding: 0 10px;
-    transition: all 0.3s ease;">Book & Pay Now</button></a>
+    transition: all 0.3s ease;">View & Book</button></a>
 
 </div>
-<div class="feature">
-    <img src="<?php echo URLROOT;?>/images/Accomadation.jpg" alt="Accommodation ">
-    <h3>AraLiya Resort</h3>
-    <p>Location:Badulla</p>
-    <br>
-    <p>Price:Rs.2000,00 per person</p>
-    <p>Type:Single Room</p>
-    <a href="<?php echo URLROOT;?>/users/payments"><button class="pay-btn" style=" background-color: rgb(21, 126, 126);color: white;font-size: medium;height: 30px;
-    border-radius: 30px;
-    border: none;
-    margin-top: 1rem;
-    cursor: pointer;
-    padding: 0 10px;
-    transition: all 0.3s ease;">Book & Pay Now</button></a>
-
+<?php endforeach; ?>
 </div>
-<div class="feature">
-    <img src="<?php echo URLROOT;?>/images/Accomadation.jpg" alt="Accommodation ">
-    <h3>AraLiya Resort</h3>
-    <p>Location:Badulla</p>
-    <br>
-    <p>Price:Rs.2000,00 per person</p>
-    <p>Type:Single Room</p>
-    <a href="<?php echo URLROOT;?>/users/payments"><button class="pay-btn" style=" background-color: rgb(21, 126, 126);color: white;font-size: medium;height: 30px;
-    border-radius: 30px;
-    border: none;
-    margin-top: 1rem;
-    cursor: pointer;
-    padding: 0 10px;
-    transition: all 0.3s ease;">Book & Pay Now</button></a>
-
-</div>
-<div class="feature">
-    <img src="<?php echo URLROOT;?>/images/Accomadation.jpg" alt="Accommodation ">
-    <h3>AraLiya Resort</h3>
-    <p>Location:Badulla</p>
-    <br>
-    <p>Price:Rs.2000,00 per person</p>
-    <p>Type:Single Room</p>
-    <a href="<?php echo URLROOT;?>/users/payments"><button class="pay-btn" style=" background-color: rgb(21, 126, 126);color: white;font-size: medium;height: 30px;
-    border-radius: 30px;
-    border: none;
-    margin-top: 1rem;
-    cursor: pointer;
-    padding: 0 10px;
-    transition: all 0.3s ease;">Book & Pay Now</button></a>
-
-</div>
-<div class="feature">
-    <img src="<?php echo URLROOT;?>/images/Accomadation.jpg" alt="Accommodation ">
-    <h3>AraLiya Resort</h3>
-    <p>Location:Badulla</p>
-    <br>
-    <p>Price:Rs.2000,00 per person</p>
-    <p>Type:Single Room</p>
-    <a href="<?php echo URLROOT;?>/users/payments"><button class="pay-btn" style=" background-color: rgb(21, 126, 126);color: white;font-size: medium;height: 30px;
-    border-radius: 30px;
-    border: none;
-    margin-top: 1rem;
-    cursor: pointer;
-    padding: 0 10px;
-    transition: all 0.3s ease;">Book & Pay Now</button></a>
-
-</div>
-<div class="feature">
-    <img src="<?php echo URLROOT;?>/images/Accomadation.jpg" alt="Accommodation ">
-    <h3>AraLiya Resort</h3>
-    <p>Location:Badulla</p>
-    <br>
-    <p>Price:Rs.2000,00 per person</p>
-    <p>Type:Single Room</p>
-    <a href="<?php echo URLROOT;?>/users/payments"><button class="pay-btn" style=" background-color: rgb(21, 126, 126);color: white;font-size: medium;height: 30px;
-    border-radius: 30px;
-    border: none;
-    margin-top: 1rem;
-    cursor: pointer;
-    padding: 0 10px;
-    transition: all 0.3s ease;">Book & Pay Now</button></a>
-
-</div>
-<div class="feature">
-    <img src="<?php echo URLROOT;?>/images/Accomadation.jpg" alt="Accommodation ">
-    <h3>AraLiya Resort</h3>
-    <p>Location:Badulla</p>
-    <br>
-    <p>Price:Rs.2000,00 per person</p>
-    <p>Type:Single Room</p>
-    <a href="<?php echo URLROOT;?>/users/payments"><button class="pay-btn" style=" background-color: rgb(21, 126, 126);color: white;font-size: medium;height: 30px;
-    border-radius: 30px;
-    border: none;
-    margin-top: 1rem;
-    cursor: pointer;
-    padding: 0 10px;
-    transition: all 0.3s ease;">Book & Pay Now</button></a>
-
-</div>
-<div class="feature">
-    <img src="<?php echo URLROOT;?>/images/Accomadation.jpg" alt="Accommodation ">
-    <h3>AraLiya Resort</h3>
-    <p>Location:Badulla</p>
-    <br>
-    <p>Price:Rs.2000,00 per person</p>
-    <p>Type:Single Room</p>
-    <a href="<?php echo URLROOT;?>/users/payments"><button class="pay-btn" style=" background-color: rgb(21, 126, 126);color: white;font-size: medium;height: 30px;
-    border-radius: 30px;
-    border: none;
-    margin-top: 1rem;
-    cursor: pointer;
-    padding: 0 10px;
-    transition: all 0.3s ease;">Book & Pay Now</button></a>
-
-</div>
-
-
 
           </main>
 

@@ -1,12 +1,12 @@
-<div id="addProductModal" class="modal-container">
-        <div class="modal">
-            <div class="modal-top">
+<div id="addaccModal" class="add-acc-modal-container">
+        <div class="acc-modal">
+            <div class="acc-modal-top">
                 <h1>Add New Accomadation</h1>
                 <span class="close" id="closeModal">&times;</span>
             </div>  
 
-            <div class="modal-form">
-                <form id="addProductForm" action="<?php echo URLROOT;?>/accomadation/addAccommodation" method = "POST" enctype="multipart/form-data"> 
+            <div class="acc-modal-form">
+                <form id="addaccForm" action="<?php echo URLROOT;?>/accomadation/addAccommodation" method = "POST" enctype="multipart/form-data"> 
                     <div class="body">
                         <div class="left">
                             <label for="location">Accommodation Location</label>

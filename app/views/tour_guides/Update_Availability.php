@@ -99,34 +99,55 @@
                             <td>26th of march<td>
                          
                            
-                            <td class="Action">
-                                <a href="#" class="delete">
-                                    <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#000000"><path d="M280-120q-33 0-56.5-23.5T200-200v-520h-40v-80h200v-40h240v40h200v80h-40v520q0 33-23.5 56.5T680-120H280Zm400-600H280v520h400v-520ZM360-280h80v-360h-80v360Zm160 0h80v-360h-80v360ZM280-720v520-520Z"/></svg>
-                                </a>
-                                <a href="#" class="edit">
-                                <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#000000"><path d="M200-200h57l391-391-57-57-391 391v57Zm-80 80v-170l528-527q12-11 26.5-17t30.5-6q16 0 31 6t26 18l55 56q12 11 17.5 26t5.5 30q0 16-5.5 30.5T817-647L290-120H120Zm640-584-56-56 56 56Zm-141 85-28-29 57 57-29-28Z"/></svg>
-                                </a>
+                        
+                            <td><?php echo $available->available_date; ?></td>
+                            <td><?php echo $available->available_time_from; ?></td>
+
+                            <td><?php echo $available->available_time_to; ?></td>
+                            <td><?php echo $available->charges_per_hour; ?></td>
+                            <td><?php echo $available->location; ?></td>
+                            <td class="action-button" >
+                            <a href="#">
+    <button 
+        class="Edit-btn" 
+        onclick="return confirm('Are you sure?');" 
+        name="Edit-btn" 
+        id="Edit-btn" 
+        style="background-color: #4CAF50; /* Green */
+               border: none;
+               color: white;
+               padding: 10px 20px;
+               text-align: center;
+               text-decoration: none;
+               display: inline-block;
+               font-size: 16px;
+               margin: 4px 2px;
+               cursor: pointer;
+               border-radius: 4px;">
+        Edit
+    </button>
+</a>
+                            
+                                <a href="<?php echo URLROOT; ?>/tour_guides/delete_availability/<?php echo $available->id; ?>"><button class="Delete-btn" onclick="return confirm('Are u Sure?');"style="background-color: red; /* Green */
+               border: none;
+               color: white;
+               padding: 10px 20px;
+               text-align: center;
+               text-decoration: none;
+               display: inline-block;
+               font-size: 16px;
+               margin: 4px 2px;
+               cursor: pointer;
+               border-radius: 4px;" name ="delete-btn" id="delete-btn">
+                                   Delete
+                                </button></a>
+
                             </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <img src="Images/default profile.png"> 
-                            </td>
-                            <td>E102</td>
-                            <td>Product A</td>
-                            <td>Rs.3000 /day</td>
-                            <td>26th of march<td>
-                          
+                    </tr>
+                  
+                  
                            
-                            <td class="Action">
-                                <a href="#" class="delete">
-                                    <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#000000"><path d="M280-120q-33 0-56.5-23.5T200-200v-520h-40v-80h200v-40h240v40h200v80h-40v520q0 33-23.5 56.5T680-120H280Zm400-600H280v520h400v-520ZM360-280h80v-360h-80v360Zm160 0h80v-360h-80v360ZM280-720v520-520Z"/></svg>
-                                </a>
-                                <a href="#" class="edit">
-                                    <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#000000"><path d="M200-200h57l391-391-57-57-391 391v57Zm-80 80v-170l528-527q12-11 26.5-17t30.5-6q16 0 31 6t26 18l55 56q12 11 17.5 26t5.5 30q0 16-5.5 30.5T817-647L290-120H120Zm640-584-56-56 56 56Zm-141 85-28-29 57 57-29-28Z"/></svg>
-                                </a>
-                            </td>
-                        </tr>
+                       
                     </tbody>
                 </table> 
             </div>

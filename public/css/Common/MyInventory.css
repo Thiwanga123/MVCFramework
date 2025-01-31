@@ -89,18 +89,6 @@
     padding: 16px 0;
 }
 
-.content main .Inventory table tr td:first-child{
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    padding-left: 20px;
-}
-
-.content main .Inventory table td img{
-    width: 36px;
-    height: 36px;
-    object-fit: cover;
-}
 
 .content main .Inventory table tbody tr{
     cursor: pointer;
@@ -124,6 +112,35 @@
 .Action .delete svg:hover{
     fill: red;
 }
+
+
+.btn {
+    padding: 6px 16px;
+    border: none;
+    border-radius: 6px;
+    color: white;
+    cursor: pointer;
+    font-size: 0.9em;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.btn:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.btn-view {
+    background: #059669;
+}
+
+.btn-edit {
+    background: #1d4ed8;
+}
+
+.btn-delete {
+    background: #dc2626;
+}
+
 
 
 

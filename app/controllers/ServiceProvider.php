@@ -14,6 +14,7 @@ class ServiceProvider extends Controller {
 
 
     public function login() {
+
         // Check if the form was submitted (POST request)
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
            
@@ -29,7 +30,8 @@ class ServiceProvider extends Controller {
                 'password_err' => '',
                 'sptype_err' => '',
             ];
-            
+           
+         
             // Check if the email, password, and service type fields are not empty
             if (empty($data['email']) || empty($data['password']) || empty($data['sptype'])) {
                 // Set error message for empty fields
@@ -82,165 +84,156 @@ class ServiceProvider extends Controller {
  
     public function register() {
         //check If the submitted method is PoST
-            if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-                $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_FULL_SPECIAL_CHARS);
-                $data = [
-                    'name' => trim($_POST['name']),
-                    'phone' => trim($_POST['phone']),
-                    'email' => trim($_POST['email']),
-                    'password' => trim($_POST['password']),
-                    'nic'=>trim($_POST['nic']),
-                    'reg_number'=>trim($_POST['reg_num']),
-                    'address'=>trim($_POST['address']),
-                    'confirm_password'=>trim($_POST['confirm_password']),
-                    'sptype'=>trim($_POST['sptype']),
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+            $data = [
+                'name' => trim($_POST['name']),
+                'phone' => trim($_POST['phone']),
+                'email' => trim($_POST['email']),
+                'password' => trim($_POST['password']),
+                'nic'=>trim($_POST['nic']),
+                'reg_number'=>trim($_POST['reg_num']),
+                'address'=>trim($_POST['address']),
+                'confrim_password'=>trim($_POST['confirm_password']),
+                'sptype'=>trim($_POST['sptype']),
+                
+                'sptype_err'=>'',
+                'name_err' => '',
+                'phone_err' => '',
+                'email_err' => '',
+                'password_err' => '',
+                'nic_err'=>'',
+                'confirmpassword_err'=>'',
+                'reg_num_err'=>'',
+                'address_err'=>''
+            ];
+
+            // Validate name
+            if (empty($data['name'])) {
+                $data['name_err'] = 'Please enter name';
+            }
+
+            // Validate phone number
+            if (empty($data['phone'])) {
+                $data['phone_err'] = 'Please enter phone number';
+            }
+
+            // Validate NIC
+            if (empty($data['nic'])) {
+                $data['nic_err'] = 'Please enter NIC number';
+            }
+
+            // Validate registration number
+            if (empty($data['reg_number'])) {
+                $data['reg_num_err'] = 'Please enter registration number';
+            }
+
+            // Validate address
+            if (empty($data['address'])) {
+                $data['address_err'] = 'Please enter address';
+            }
+
+            // Validate service type
+            if (empty($data['sptype'])) {
+                $data['sptype_err'] = 'Please select a service type';
+            }
+
+            // Validate email
+            if (empty($data['email'])) {
+                $data['email_err'] = 'Please enter email';
+            } else {
+                if ($this->serviceProviderModel->findUserByEmail($data['email'],$data['sptype'])) {
+                    $data['email_err'] = 'Email is already taken';
+                }
+            }
+
+            // Validate password
+            if (empty($data['password'])) {
+                $data['password_err'] = 'Please enter password';
+            }
+
+            //validate confirm password
+            if (empty($data['confirm_password'])) {
+                $data['confirmpassword_err'] = 'Please confirm password';
+            } else {
+                if ($data['password'] != $data['confirm_password']) {
+                    $data['confirmpassword_err'] = 'Passwords do not match';
+                }
+            }
+
+            // Make sure errors are empty
+            if(empty($data['name_err']) && empty($data['phone_err']) && empty($data['email_err']) && empty($data['password_err']) && empty($data['nic_err']) && empty($data['reg_num_err']) && empty($data['address_err']) && empty($data['sptype_err'])){
+                // Validated
+               
+                 // Hash the password
+            $data['password'] = password_hash($data['password'], PASSWORD_DEFAULT);
+
+
+                // Redirect to the login page
+                if ($this->serviceProviderModel->register($data,$data['sptype'])) {
+                    //display success message
+                    $message = "Your Registration is Successful.!";
+
+                    // Output JavaScript code for the alert
+                    echo "<script type='text/javascript'>alert('$message');</script>";
                     
-                    
-                    'sptype_err'=>'',
-                    'name_err' => '',
-                    'phone_err' => '',
-                    'email_err' => '',
-                    'password_err' => '',
-                    'nic_err'=>'',
-                    'confirmpassword_err'=>'',
-                    'reg_num_err'=>'',
-                    'address_err'=>''
-                   
-                ];
-
-                // Validate name
-                if (empty($data['name'])) {
-                    $data['name_err'] = 'Please enter name';
-                }
-
-                // Validate phone number
-                if (empty($data['phone'])) {
-                    $data['phone_err'] = 'Please enter phone number';
-                }
-
-                // Validate NIC
-                if (empty($data['nic'])) {
-                    $data['nic_err'] = 'Please enter NIC number';
-                }
-
-                // Validate registration number
-                if (empty($data['reg_number'])) {
-                    $data['reg_num_err'] = 'Please enter registration number';
-                }
-
-                // Validate address
-                if (empty($data['address'])) {
-                    $data['address_err'] = 'Please enter address';
-                }
-
-                // Validate service type
-                if (empty($data['sptype'])) {
-                    $data['sptype_err'] = 'Please select a service type';
-                }
-
-
-    
-                // Validate email
-                if (empty($data['email'])) {
-                    $data['email_err'] = 'Please enter email';
+                    redirect('ServiceProvider/login');
                 } else {
-                    if ($this->serviceProviderModel->findUserByEmail($data['email'],$data['sptype'])) {
-                        $data['email_err'] = 'Email is already taken';
-                    }
-                }
-    
-                // Validate password
-                if (empty($data['password'])) {
-                    $data['password_err'] = 'Please enter password';
-                }else if (strlen($data['password']) <= 7) {
-                    $data['password_err'] = 'Password must be at least 8 characters long';
-                }
-
-                //validate confirm password
-                if (empty($data['confirm_password'])) {
-                    $data['confirmpassword_err'] = 'Please confirm password';
-                } else {
-                    if (strcmp($data['password'], $data['confirm_password']) !== 0) {
-                        $data['confirmpassword_err'] = 'Passwords do not match';
-                    }
-                }
-
-                var_dump('Password: ' . $data['password'], 'Confirm Password: ' . $data['confirm_password']);
-                // Make sure errors are empty
-              if(empty($data['name_err']) && empty($data['phone_err']) && empty($data['email_err']) && empty($data['password_err']) && empty($data['nic_err']) && empty($data['reg_num_err']) && empty($data['address_err']) && empty($data['sptype_err'])){
-                    // Validated
-                    $data['password'] = password_hash($data['password'], PASSWORD_DEFAULT);
-                    // Redirect to the login page
-                    if ($this->serviceProviderModel->register($data)) {
-                        //display success message
-                            $message = "Your Registration is Successful.!";
-
-                            // Output JavaScript code for the alert
-                            echo "<script type='text/javascript'>alert('$message');</script>";
-                            
-
-                        redirect('ServiceProvider/login');
-                    } else {
-                        die('Something went wrong');
-                    }
-                } else {
-                    // Load view with errors
-                    $this->view('serviceproviders/sp_register', $data);
+                    die('Something went wrong');
                 }
             } else {
-                // Init data
-                $data = [
-                    'name' => '',
-                    'phone' => '',
-                    'email' => '',
-                    'password' => '',
-                    'nic'=>'',
-                    'reg_number'=>'',
-                    'address'=>'',
-                    'confirm_password'=>'',
-                    'sptype'=>'',
-                    'name_err' => '',
-                    'phone_err' => '',
-                    'email_err' => '',
-                    'password_err' => '',
-                    'nic_err'=>'',
-                    'confirmpassword_err'=>'',
-                    'reg_num_err'=>'',
-                    'address_err'=>''
-                ];
-    
-                // Load view
+                // Load view with errors
                 $this->view('serviceproviders/sp_register', $data);
-            
+            }
+        } else {
+            // Init data
+            $data = [
+                'name' => '',
+                'phone' => '',
+                'email' => '',
+                'password' => '',
+                'nic'=>'',
+                'reg_number'=>'',
+                'address'=>'',
+                'confirm_password'=>'',
+                'sptype'=>'',
+                'name_err' => '',
+                'phone_err' => '',
+                'email_err' => '',
+                'password_err' => '',
+                'nic_err'=>'',
+                'confirmpassword_err'=>'',
+                'reg_num_err'=>'',
+                'address_err'=>''
+            ];
+
+            // Load view
+            $this->view('serviceproviders/sp_register', $data);
         }
-      
     }
 
+    public function createUserSession($user,$sptype) {
+        $_SESSION['id'] = $user-> id;
+        $_SESSION['email'] = $user->email;
+        $_SESSION['name'] = $user->name;
+        $_SESSION['type'] = $sptype;
 
-public function createUserSession($user,$sptype) {
-    $_SESSION['id'] = $user-> id;
-    $_SESSION['email'] = $user->email;
-    $_SESSION['name'] = $user->name;
-    $_SESSION['type'] = $sptype;
+        redirect($sptype .'/dashboard');
+    }
 
-    redirect($sptype .'/dashboard');
-}
-
-public function logout(){
+    public function logout(){
         session_destroy();  
         session_start();    
 
         redirect('ServiceProvider/login');
         exit();
+    }
+
+    //view service provider details
+    public function viewServiceProviderDetails(){
+        $data = $this->serviceProviderModel->getUsers();
+        $this->view('serviceproviders/sp_profile', $data);
+    }
 }
-
-//view service provider details
-public function viewServiceProviderDetails(){
-    $data = $this->serviceProviderModel->getUsers();
-    $this->view('serviceproviders/sp_profile', $data);
-}
-
-}
-
-
 ?>
+                   

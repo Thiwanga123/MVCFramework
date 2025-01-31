@@ -31,6 +31,14 @@ class Trips extends Controller{
         }
     }
 
+    public function guider(){
+        if (isset($_SESSION['user_id'])) {
+            $this->view('users/bookguider');
+        } else {
+            redirect('users/login');
+        }
+    }
+
     public function equipmentRentals(){
         if (isset($_SESSION['user_id'])) {
             $this->view('users/bookEquipments');

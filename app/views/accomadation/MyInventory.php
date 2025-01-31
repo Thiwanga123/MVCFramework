@@ -5,10 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="<?php echo URLROOT;?>/css/Common/MyInventory.css">
     <link rel="stylesheet" href="<?php echo URLROOT;?>/css/Common/sidebarHeader.css">
+    <link rel="stylesheet" href="<?php echo URLROOT;?>/css/Modals/addAccomodationModal.css">
     <title>Home</title>
 </head>
 <body>
-    <div class="box">
+    <div class="box" id="box">
     <!-- SideBar -->
     <?php
         include('Sidebar.php');;
@@ -46,10 +47,10 @@
                 </div>
 
                 <div class="right">
-                        <button class="add-btn" name ="add-btn" id="add-btn">
-                            <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#ffffff"><path d="M440-440H200v-80h240v-240h80v240h240v80H520v240h-80v-240Z"/></svg>
+                       <a href="<?php echo URLROOT;?>/accomadation/start" ><button class="add-btn" name ="add-acc-btn" id="add-acc-btn" >
+                            <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#ffffff"><path d="M440-440H200v-80h240v-240h80v240h240v80H520v240h-80v-240Z"/></svg>                           
                             <h3>Add Accommodation</h3>
-                        </button>
+                        </button></a>
                 </div>
             </div>
            
@@ -60,37 +61,36 @@
                     <h3>All Accomadations</h3>
                     <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#000000"><path d="M440-160q-17 0-28.5-11.5T400-200v-240L168-736q-15-20-4.5-42t36.5-22h560q26 0 36.5 22t-4.5 42L560-440v240q0 17-11.5 28.5T520-160h-80Zm40-308 198-252H282l198 252Zm0 0Z"/></svg>
                 </div>
-                <table>
+                <table style="font-family: Arial, sans-serif;">
+
+               
                     <thead>
                         <tr>
-                            <th>Accomodation Image</th>
+                            <th>Accomodation Name</th>
                             <th>Location</th>
-                            <th>Item-Id</th>
+                            <th>Property-Id</th>
                             <th>Price</th>
-                            <th>Available Quantity</th>
+                            <th>Number of Guests Can stay</th>
                             <th>Category</th>
                             <th>Action</th>
+                         
                         </tr>
                     </thead>
                     <tbody>
                         <?php foreach ($data['accomadation'] as $accomadation):?>
                         <tr>
-                            <td>
-                                <img src="<?php echo URLROOT;?>/Images/Location.jpg" alt="Location Image">
-                             </td>
-                            <td><?php echo $accomadation->location;?></td>
-                            <td><?php echo $accomadation->id;?></td>
+                            <td><?php echo $accomadation->property_name;?></td>
+                            <td><?php echo $accomadation->address;?></td>
+                            <td><?php echo $accomadation->property_id;?></td>
                             <td><?php echo $accomadation->price;?></td>
-                            <td><?php echo $accomadation->quantity;?></td>
-                            <td><?php echo $accomadation->type;?></td>
-                            <td class="action-btn">
-                                <button class="view-btn" id="view-btn">View</button>
-                                <button class="Delete-btn" id="Delete-btn">Delete</button>
-                                <button class="Edit-btn" id="Edit-btn">Edit</button>
-                            </td>
-
-
-                                
+                            <td><?php echo $accomadation->max_occupants;?></td>
+                            <td><?php echo $accomadation->property_type;?></td>
+                            <td class="actionn">                   
+                            <a href="<?php echo URLROOT;?>/accomadation/viewdetails/<?php echo $accomadation->property_id;?>"><button class="btn btn-view">View</button></a>
+                            <button class="btn btn-edit">Edit</button>
+                            <a href="<?php echo URLROOT; ?>/accomadation/deleteproperty/<?php echo $accomadation->property_id; ?>"onclick="return confirm('Are you sure you want to delete this Property?');"><button class="btn btn-delete">Delete</button></a>
+                        </div>
+                        </td>                               
                         </tr>
                         <?php endforeach;?>
                     </tbody>
@@ -105,21 +105,15 @@
      <!--Modal Structure-->
     
 
-    <?php
-        include('Warning_Modal.php');;
-    ?>
-
-     <?php
-        include('AddProduct.php');;
-    ?>
+ 
 
 
     
 
     <script src="<?php echo URLROOT;?>/js/Sidebar.js"></script> 
-    <script src="<?php echo URLROOT;?>/js/addProduct.js"></script>
+   
     <script src="<?php echo URLROOT;?>/js/ImagePreview.js"></script>
-    <script src="<?php echo URLROOT;?>/js/warningModel.js"></script>
+   
      
 </body>
 

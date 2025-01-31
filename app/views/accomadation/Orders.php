@@ -54,116 +54,40 @@
                 <table>
                     <thead>
                         <tr>
-                            <th>Customer Name </th>
+                            <th>Traveler ID </th>
                             <th>Booking ID</th>
                             <th>Accomadation Type</th>
                             <th>Accommodation ID</th>
                             <th>Check-In</th>
                             <th>Check-Out</th>
-                            <th>Amount</th>
-                            <th>Status</th>
+                            <th>Full Amount</th>
+                            <th>Paid Amount</th>
                             <th>Action</th>
 
                         </tr>
                     </thead>
                     <tbody>
+                        <?php foreach ($data['accomadation'] as $accomadation):?>
                         <tr>
+
                             <td>
-                                <img src="<?php echo URLROOT;?>/Images/Profile pic.jpg"> John
+                                <img src="<?php echo URLROOT;?>/Images/Profile pic.jpg"><?php echo htmlspecialchars($accomadation->traveler_id); ?>
                             </td>
-                            <td>E102</td>
-                            <td>Hotel</td>
+                            <td><?php echo htmlspecialchars($accomadation->booking_id); ?></td>
+                            <td><?php echo htmlspecialchars($accomadation->property_type); ?></td>
                             <td>10</td>
-                            <td>2024-10-20</td>
-                            <td>2024-10-23</td>
-                            <td>Rs.20,000.00</td>
-                            <td>Completed</td>                           
+                            <td><?php echo htmlspecialchars($accomadation->check_in); ?></td>
+                            <td><?php echo htmlspecialchars($accomadation->check_out); ?></td>
+                            <td>Rs.<?php echo htmlspecialchars($accomadation->amount); ?></td>
+                            <td>Rs.<?php echo htmlspecialchars($accomadation->paid); ?></td>                           
                             <td class="action-btn">
                                     <button class="view-btn">View</button>
-                                    <button class="cancel-btn">Cancel</button>
+                                    
                             </td>
 
                         </tr>
-                        <tr>
-                        <td>
-                                <img src="<?php echo URLROOT;?>/Images/Profile pic.jpg"> John
-                            </td>
-                            <td>E102</td>
-                            <td>Hotel</td>
-                            <td>10</td>
-                            <td>2024-10-20</td>
-                            <td>2024-10-23</td>
-                            <td>Rs.20,000.00</td>
-                            <td>Completed</td>                           
-                            <td class="action-btn">
-                                    <button class="view-btn">View</button>
-                                    <button class="cancel-btn">Cancel</button>
-                            </td>
-                        </tr>
-                        <tr>
-                        <td>
-                                <img src="<?php echo URLROOT;?>/Images/Profile pic.jpg"> John
-                            </td>
-                            <td>E102</td>
-                            <td>Hotel</td>
-                            <td>10</td>
-                            <td>2024-10-20</td>
-                            <td>2024-10-23</td>
-                            <td>Rs.20,000.00</td>
-                            <td>Completed</td>                           
-                            <td class="action-btn">
-                                    <button class="view-btn">View</button>
-                                    <button class="cancel-btn">Cancel</button>
-                            </td>
-                        </tr>
-                        <tr>
-                        <td>
-                                <img src="<?php echo URLROOT;?>/Images/Profile pic.jpg"> John
-                            </td>
-                            <td>E102</td>
-                            <td>Hotel</td>
-                            <td>10</td>
-                            <td>2024-10-20</td>
-                            <td>2024-10-23</td>
-                            <td>Rs.20,000.00</td>
-                            <td>Completed</td>                           
-                            <td class="action-btn">
-                                    <button class="view-btn">View</button>
-                                    <button class="cancel-btn">Cancel</button>
-                            </td>
-                        </tr>
-                        <tr>
-                        <td>
-                                <img src="<?php echo URLROOT;?>/Images/Profile pic.jpg"> John
-                            </td>
-                            <td>E102</td>
-                            <td>Hotel</td>
-                            <td>10</td>
-                            <td>2024-10-20</td>
-                            <td>2024-10-23</td>
-                            <td>Rs.20,000.00</td>
-                            <td>Completed</td>                           
-                            <td class="action-btn">
-                                    <button class="view-btn">View</button>
-                                    <button class="cancel-btn">Cancel</button>
-                            </td>
-                        </tr>
-                        <tr>
-                        <td>
-                                <img src="<?php echo URLROOT;?>/Images/Profile pic.jpg"> John
-                            </td>
-                            <td>E102</td>
-                            <td>Hotel</td>
-                            <td>10</td>
-                            <td>2024-10-20</td>
-                            <td>2024-10-23</td>
-                            <td>Rs.20,000.00</td>
-                            <td>Completed</td>                           
-                            <td class="action-btn">
-                                    <button class="view-btn">View</button>
-                                    <button class="cancel-btn">Cancel</button>
-                            </td>
-                        </tr>
+                       <?php endforeach; ?>
+                        
                     </tbody>
                 </table> 
                 </div>
