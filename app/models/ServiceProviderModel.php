@@ -14,12 +14,13 @@ class ServiceProviderModel{
         $this->db->bind(':email', $email);
 
         $row = $this->db->single();
+        print_r ($row);
 
         if ($row) {
             $hashedPassword = $row->password;
             if (password_verify($password, $hashedPassword)) {
                 return $row;
-            } else {
+            } else {               
                 return false;
             }
         } else {
@@ -49,7 +50,7 @@ class ServiceProviderModel{
 
     //register the service provider with the relavent service type
     public function register($data){
-        $this->db->query("INSERT INTO ".$data['sptype']." (name, email, password, phone,address,nic,reg_number,action,date_of_joined) VALUES(:name, :email, :password, :phone,:address,:nic,:reg_number,DEFAULT,CURRENT_DATE)");
+        $this->db->query("INSERT INTO ".$data['sptype']." (name, email, password, phone,address,nic,reg_number,action,date_of_joined,latitude,longitude) VALUES(:name, :email, :password, :phone,:address,:nic,:reg_number,DEFAULT,CURRENT_DATE, :latitude, :longitude)");
         $this->db->bind(':name', $data['name']);
         $this->db->bind(':email', $data['email']);
         $this->db->bind(':password', $data['password']);
@@ -57,6 +58,8 @@ class ServiceProviderModel{
         $this->db->bind(':address', $data['address']);
         $this->db->bind(':nic', $data['nic']);
         $this->db->bind(':reg_number', $data['reg_number']);
+        $this->db->bind(':latitude', $data['latitude']);
+        $this->db->bind(':longitude', $data['longitude']);
         
 
         if($this->db->execute()){
@@ -78,6 +81,24 @@ class ServiceProviderModel{
         }catch(Exception $e){
             $err_msg = $e->getMessage();
         }
+    }
+
+    public function checkEmailExists($email) {
+        $this->db->query('
+            SELECT email FROM transport_suppliers WHERE email = :email
+            UNION
+            SELECT email FROM equipment_suppliers WHERE email = :email
+            UNION
+            SELECT email FROM tour_guides WHERE email = :email
+            UNION
+            SELECT email FROM accomadation WHERE email = :email
+        ');
+    
+        $this->db->bind(':email', $email);
+        
+        $rows = $this->db->resultSet();
+        
+        return !empty($rows);
     }
     }
 

@@ -18,7 +18,7 @@ class ServiceProvider extends Controller {
         // Check if the form was submitted (POST request)
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
            
-    
+        
             $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_FULL_SPECIAL_CHARS);
 
             // Init data array with POST values
@@ -31,7 +31,7 @@ class ServiceProvider extends Controller {
                 'sptype_err' => '',
             ];
            
-         
+        
             // Check if the email, password, and service type fields are not empty
             if (empty($data['email']) || empty($data['password']) || empty($data['sptype'])) {
                 // Set error message for empty fields
@@ -40,13 +40,14 @@ class ServiceProvider extends Controller {
                 if (empty($data['sptype'])) $data['sptype_err'] = 'Please select a service type.';
             }  
             
+    
             if (empty($data['email_err']) && empty($data['sptype_err'])) {
                 $existingUser = $this->serviceProviderModel->findUserByEmail($data['email'], $data['sptype']);
                 if (!$existingUser) {
                     $data['email_err'] = 'No user found with that email for the selected service type.';
                 }
             }
-    
+
             // Proceed with login if there are no errors
             if (empty($data['email_err']) && empty($data['password_err']) && empty($data['sptype_err'])) {
                 // Attempt to log in the user
@@ -56,6 +57,8 @@ class ServiceProvider extends Controller {
                     // Create session for the logged-in user and redirect
                     $this->createUserSession($loggedInUser, $data['sptype']);
                     //redirect to the relevant dashboard
+                    echo "here";
+
                     redirect($data['sptype'] . '/dashboard');
                    
                 } else {
@@ -94,8 +97,10 @@ class ServiceProvider extends Controller {
                 'nic'=>trim($_POST['nic']),
                 'reg_number'=>trim($_POST['reg_num']),
                 'address'=>trim($_POST['address']),
-                'confrim_password'=>trim($_POST['confirm_password']),
+                'confirm_password'=>trim($_POST['confirm_password']),
                 'sptype'=>trim($_POST['sptype']),
+                'longitude' => $_POST['longitude'], 
+                'latitude' => $_POST['latitude'],
                 
                 'sptype_err'=>'',
                 'name_err' => '',
@@ -105,7 +110,9 @@ class ServiceProvider extends Controller {
                 'nic_err'=>'',
                 'confirmpassword_err'=>'',
                 'reg_num_err'=>'',
-                'address_err'=>''
+                'address_err'=>'',
+                'latitude_err' => '',
+                'longitude_err' => '',
             ];
 
             // Validate name
@@ -147,6 +154,15 @@ class ServiceProvider extends Controller {
                 }
             }
 
+            if (!filter_var($data['latitude'], FILTER_VALIDATE_FLOAT)) {
+                $data['latitude_err'] = 'Invalid latitude value';
+            }
+    
+            if (!filter_var($data['longitude'], FILTER_VALIDATE_FLOAT)) {
+                $data['longitude_err'] = 'Invalid longitude value';
+            }
+    
+
             // Validate password
             if (empty($data['password'])) {
                 $data['password_err'] = 'Please enter password';
@@ -162,7 +178,7 @@ class ServiceProvider extends Controller {
             }
 
             // Make sure errors are empty
-            if(empty($data['name_err']) && empty($data['phone_err']) && empty($data['email_err']) && empty($data['password_err']) && empty($data['nic_err']) && empty($data['reg_num_err']) && empty($data['address_err']) && empty($data['sptype_err'])){
+            if(empty($data['name_err']) && empty($data['phone_err']) && empty($data['email_err']) && empty($data['password_err']) && empty($data['nic_err']) && empty($data['reg_num_err']) && empty($data['address_err']) && empty($data['sptype_err']) && empty($data['langitude_err']) && empty($data['latitude_err'])){
                 // Validated
                
                  // Hash the password
@@ -208,7 +224,7 @@ class ServiceProvider extends Controller {
             ];
 
             // Load view
-            $this->view('serviceproviders/sp_register', $data);
+            $this->view('serviceproviders/register_updated', $data);
         }
     }
 
@@ -233,6 +249,20 @@ class ServiceProvider extends Controller {
     public function viewServiceProviderDetails(){
         $data = $this->serviceProviderModel->getUsers();
         $this->view('serviceproviders/sp_profile', $data);
+    }
+
+    public function checkEmail() {
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            $email = trim($_POST['email']);
+            
+            $result = $this->serviceProviderModel->checkEmailExists($email);
+            
+            if ($result) {
+                echo json_encode(['exists' => true]); 
+            } else {
+                echo json_encode(['exists' => false]);
+            }
+        }
     }
 }
 ?>
