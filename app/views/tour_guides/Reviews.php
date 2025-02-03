@@ -113,7 +113,7 @@
                             </td>
                             <td>E101</td>
                             <td class="rev">I’ve been on many tours, but this one stood out because of our exceptional guide.</td>
-                            <td>2024/05/05</td>
+                            <td>2024/05/04</td>
                             <td> <p>⭐⭐⭐⭐⭐</p></td>
                             <td class="Action">
                                 <a href="#" class="more">
