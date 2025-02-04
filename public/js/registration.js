@@ -6,6 +6,18 @@ document.addEventListener("DOMContentLoaded", function () {
         } 
     }
 
+    window.prevStep = function (currentStep) {
+        if (currentStep > 1) {
+            document.getElementById(`step-${currentStep}`).style.display = "none";
+            document.getElementById(`step-${currentStep - 1}`).style.display = "block";
+        }
+    };
+
+    document.getElementById("registration-form").addEventListener("submit", function(event) {
+        event.preventDefault(); 
+        submitForm();  
+      });
+
     function validateStep(currentStep) {
         let isValid = true;
         switch (currentStep) {
@@ -125,16 +137,23 @@ document.addEventListener("DOMContentLoaded", function () {
         if (!password) {
             displayError('password', 'Password is required');
             isValid = false;
+        } else if (password.length < 8) {
+            displayError('password', 'Password must be at least 8 characters long');
+            isValid = false;
         } else {
             clearError('password');
         }
-    
-        if (password !== confirmPassword) {
+
+        if (!confirmPassword) {
+            displayError('confirm_password', 'Re-enter the password');
+            isValid = false;
+        } else if (password !== confirmPassword) {
             displayError('confirm_password', 'Passwords do not match');
             isValid = false;
         } else {
             clearError('confirm_password');
         }
+
     
         if (!pdfFile) {
             displayError('pdfFile', 'Please upload a PDF document');
@@ -159,11 +178,12 @@ document.addEventListener("DOMContentLoaded", function () {
         for (let [key, value] of formData.entries()) {
             console.log(key, value); // Log all form data
         }
-        
+
         formData.append("current_step", currentStep);
     
         const xhr = new XMLHttpRequest();
         console.log("Sending request to:", URLROOT + "/ServiceProvider/validation");
+        console.log("Raw response:", xhr.responseText);
         xhr.open("POST", URLROOT + "/ServiceProvider/validation", true);
     
         xhr.onload = function() {
@@ -191,16 +211,17 @@ document.addEventListener("DOMContentLoaded", function () {
     }
     
     function displayServerErrors(errors) {
+        console.log("Server Errors:", errors);
         for (const field in errors) {
             if (errors.hasOwnProperty(field)) {
                 displayError(field, errors[field]);
-            }
+            } 
         }
     }
     
     function submitForm() {
-        if (validateStep(3)) {
-            document.getElementById("registration-form").submit();
+        if (validateStep(3)) { 
+            sendDataToServer(3);
         } else {
             alert("Please fix the errors before submitting.");
         }

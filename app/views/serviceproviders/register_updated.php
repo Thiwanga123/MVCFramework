@@ -93,7 +93,7 @@
                     <input type="hidden" id="longitude" name="longitude">
                             
                     <div class="buttons">
-                        <button type="button" onclick="prevStep(1)">Previous</button>
+                        <button type="button" onclick="prevStep(2)">Previous</button>
                         <button type="button" onclick="nextStep(2)">Next</button>
                     </div>
                 </div>
@@ -129,8 +129,8 @@
 
 
                     <div class="buttons">
-                        <button type="button" onclick="prevStep(2)">Previous</button>
-                        <button type="submit">Submit</button> 
+                        <button type="button" onclick="prevStep(3)">Previous</button>
+                        <button type="submit">Register</button> 
                     </div>
                 </div>
                     </form>

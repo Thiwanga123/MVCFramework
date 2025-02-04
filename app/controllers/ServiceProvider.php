@@ -56,8 +56,6 @@ class ServiceProvider extends Controller {
                     // Create session for the logged-in user and redirect
                     $this->createUserSession($loggedInUser, $data['sptype']);
                     //redirect to the relevant dashboard
-                    echo "here";
-
                     redirect($data['sptype'] . '/dashboard');
                    
                 } else {
@@ -301,8 +299,8 @@ class ServiceProvider extends Controller {
                         $errors['address'] = 'Address is required';
                     }
     
-                    if (empty($_POST['present_address'])) {
-                        $errors['present_address'] = 'Present Address is required';
+                    if (empty($_POST['presentaddress'])) {
+                        $errors['presentaddress'] = 'Present Address is required';
                     }
     
                     break;

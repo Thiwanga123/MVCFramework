@@ -14,7 +14,7 @@ class ServiceProviderModel{
         $this->db->bind(':email', $email);
 
         $row = $this->db->single();
-        print_r ($row);
+        
 
         if ($row) {
             $hashedPassword = $row->password;
