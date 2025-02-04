@@ -14,7 +14,6 @@ class ServiceProvider extends Controller {
 
 
     public function login() {
-
         // Check if the form was submitted (POST request)
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
            
@@ -251,19 +250,96 @@ class ServiceProvider extends Controller {
         $this->view('serviceproviders/sp_profile', $data);
     }
 
-    public function checkEmail() {
+    public function validation() {
+
+        header('Content-Type: application/json');
+
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-            $email = trim($_POST['email']);
-            
-            $result = $this->serviceProviderModel->checkEmailExists($email);
-            
-            if ($result) {
-                echo json_encode(['exists' => true]); 
+
+            $currentStep = $_POST['current_step'];
+    
+            $errors = [];
+    
+            switch ($currentStep) {
+                case 1:
+                    if (empty($_POST['name'])) {
+                        $errors['name'] = 'Business Name is required';
+                    }
+    
+                    if (empty($_POST['email'])) {
+                        $errors['email'] = 'Email is required';
+                    }else {
+                        $email = $_POST['email'];
+                        $serviceType = $_POST['sptype']; 
+    
+                        if ($this->serviceProviderModel->findUserByEmail($email, $serviceType)) {
+                            
+                            $errors['email'] = 'This email is already registered for the selected service type';
+                        }
+                    }
+    
+                    if (empty($_POST['nic'])) {
+                        $errors['nic'] = 'NIC Number is required';
+                    }
+    
+                    if (empty($_POST['phone'])) {
+                        $errors['phone'] = 'Contact Number is required';
+                    }else{
+                        if (!is_numeric($_POST['phone']) || strlen($_POST['phone']) !== 10) {
+                            $errors['phone'] = 'Invalid contact number';
+                        }
+                    }
+    
+                    if (empty($_POST['sptype'])) {
+                        $errors['sptype'] = 'Service Type is required';
+                    }
+    
+                    break;
+    
+                case 2:
+                    if (empty($_POST['address'])) {
+                        $errors['address'] = 'Address is required';
+                    }
+    
+                    if (empty($_POST['present_address'])) {
+                        $errors['present_address'] = 'Present Address is required';
+                    }
+    
+                    break;
+    
+                case 3:
+                    if (empty($_POST['reg_num'])) {
+                        $errors['reg_num'] = 'Government Registration Number is required';
+                    }
+    
+                    if (empty($_POST['password'])) {
+                        $errors['password'] = 'Password is required';
+                    }
+    
+                    if ($_POST['password'] !== $_POST['confirm_password']) {
+                        $errors['confirm_password'] = 'Passwords do not match';
+                    }
+    
+                    if (empty($_FILES['pdfFile']['name'])) {
+                        $errors['pdfFile'] = 'PDF file is required';
+                    } elseif ($_FILES['pdfFile']['type'] !== 'application/pdf') {
+                        $errors['pdfFile'] = 'Only PDF files are allowed';
+                    }
+    
+                    break;
+    
+                default:
+                    break;
+            }
+    
+            if (!empty($errors)) {
+                echo json_encode(['success' => false, 'errors' => $errors]);
             } else {
-                echo json_encode(['exists' => false]);
+                echo json_encode(['success' => true]);
             }
         }
     }
+
 }
 ?>
                    

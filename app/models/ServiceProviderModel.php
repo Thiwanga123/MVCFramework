@@ -31,7 +31,7 @@ class ServiceProviderModel{
    
       //find user by email
       public function findUserByEmail($email,$sptype){
-        
+
         $this->db->query("SELECT * FROM $sptype WHERE email = :email");
         $this->db->bind(':email', $email);
 
@@ -42,7 +42,6 @@ class ServiceProviderModel{
         if($rowCount > 0){
             return true;
         }else{
-            
             return false;
         }
     }
@@ -81,24 +80,6 @@ class ServiceProviderModel{
         }catch(Exception $e){
             $err_msg = $e->getMessage();
         }
-    }
-
-    public function checkEmailExists($email) {
-        $this->db->query('
-            SELECT email FROM transport_suppliers WHERE email = :email
-            UNION
-            SELECT email FROM equipment_suppliers WHERE email = :email
-            UNION
-            SELECT email FROM tour_guides WHERE email = :email
-            UNION
-            SELECT email FROM accomadation WHERE email = :email
-        ');
-    
-        $this->db->bind(':email', $email);
-        
-        $rows = $this->db->resultSet();
-        
-        return !empty($rows);
     }
     }
 
