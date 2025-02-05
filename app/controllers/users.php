@@ -139,11 +139,10 @@ class Users extends Controller {
             $categories = $this->equipmentModel->getAllCategories();
     
             $data = [
-                'equipment' => $equipment,
+                'equipments' => $equipment,
                 'categories' => $categories
             ];
     
-        
             $this->view('users/v_equipment_suppliers', $data);
         
         }else{
