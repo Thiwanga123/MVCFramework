@@ -1,11 +1,13 @@
 <?php
 class Users extends Controller {
     private $userModel;
+    private $equipmentModel;
     
 
     public function __construct() {
 
         $this->userModel = $this->model('M_users');
+        $this->equipmentModel = $this->model('equipmentModel');
     }
 
     public function index() {
@@ -133,13 +135,24 @@ class Users extends Controller {
 
     public function equipment_suppliers(){
         if(isset($_SESSION['user_id'])) {
-            $this->view('users/v_equipment_suppliers');
+            $equipment = $this->equipmentModel->getAllEquipment();
+            $categories = $this->equipmentModel->getAllCategories();
+    
+            $data = [
+                'equipment' => $equipment,
+                'categories' => $categories
+            ];
+    
+        
+            $this->view('users/v_equipment_suppliers', $data);
+        
         }else{
             redirect('users/login');
         }
         
     }
 
+   
     public function guider(){
         if(isset($_SESSION['user_id'])) {
             $this->view('users/v_guider');

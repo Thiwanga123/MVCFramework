@@ -9,13 +9,11 @@ class ServiceProviderModel{
 
     
     public function login($email, $password, $sptype) {
-       
         $this->db->query("SELECT * FROM $sptype WHERE email = :email");
         $this->db->bind(':email', $email);
 
         $row = $this->db->single();
         
-
         if ($row) {
             $hashedPassword = $row->password;
             if (password_verify($password, $hashedPassword)) {

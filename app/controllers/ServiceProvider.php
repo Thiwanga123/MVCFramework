@@ -17,7 +17,6 @@ class ServiceProvider extends Controller {
         // Check if the form was submitted (POST request)
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
            
-        
             $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_FULL_SPECIAL_CHARS);
 
             // Init data array with POST values
