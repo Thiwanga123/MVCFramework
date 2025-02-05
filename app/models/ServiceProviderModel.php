@@ -46,6 +46,23 @@ class ServiceProviderModel{
         }
     }
 
+     //find user by name
+    public function findUserByName($name,$sptype){
+
+        $this->db->query("SELECT * FROM $sptype WHERE name = :name");
+        $this->db->bind(':name', $name);
+
+        $this->db->execute();
+
+        $rowCount = $this->db->rowCount();
+        //check row
+        if($rowCount > 0){
+            return true;
+        }else{
+            return false;
+        }
+    }
+
 
     //register the service provider with the relavent service type
     public function register($data){

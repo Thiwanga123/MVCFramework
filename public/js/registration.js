@@ -1,10 +1,24 @@
 document.addEventListener("DOMContentLoaded", function () {
     
-    window.nextStep = function(currentStep) {
+    window.nextStep = function (currentStep) {
         if (validateStep(currentStep)) {
-            sendDataToServer(currentStep);
-        } 
-    }
+            if (currentStep === 3) {
+                sendDataToServer(currentStep).then(serverValidationSuccess => {
+                    if (serverValidationSuccess) {
+                        document.getElementById("registration-form").submit();
+                    }
+                });
+            } else {
+                sendDataToServer(currentStep).then(serverValidationSuccess => {
+                    if (serverValidationSuccess) {
+                        document.getElementById(`step-${currentStep}`).style.display = "none";
+                        document.getElementById(`step-${currentStep + 1}`).style.display = "block";
+                    }
+                });
+            }
+        }
+    };
+    
 
     window.prevStep = function (currentStep) {
         if (currentStep > 1) {
@@ -14,9 +28,15 @@ document.addEventListener("DOMContentLoaded", function () {
     };
 
     document.getElementById("registration-form").addEventListener("submit", function(event) {
-        event.preventDefault(); 
-        submitForm();  
-      });
+        event.preventDefault();
+        if (validateStep(3)) {
+            sendDataToServer(3).then(serverValidationSuccess => {
+                if (serverValidationSuccess) {
+                    this.submit();
+                }
+            });
+        }
+    });
 
     function validateStep(currentStep) {
         let isValid = true;
@@ -103,7 +123,7 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     
         if (!presentAddress) {
-            displayError('presentaddress', 'Present Address is required');
+            displayError('presentaddress', 'Present Address is required. Please pin your location on the map');
             isValid = false;
         } else {
             clearError('presentaddress');
@@ -156,7 +176,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     
         if (!pdfFile) {
-            displayError('pdfFile', 'Please upload a PDF document');
+            displayError('pdfFile', 'Please upload a relevant documents');
             isValid = false;
         } else {
             clearError('pdfFile');
@@ -174,41 +194,45 @@ document.addEventListener("DOMContentLoaded", function () {
     }
     
     function sendDataToServer(currentStep) {
-        const formData = new FormData(document.getElementById("registration-form"));
-        for (let [key, value] of formData.entries()) {
-            console.log(key, value); // Log all form data
-        }
+        return new Promise((resolve) => {
+            const formData = new FormData(document.getElementById("registration-form"));
+            formData.append("current_step", currentStep);
 
-        formData.append("current_step", currentStep);
-    
-        const xhr = new XMLHttpRequest();
-        console.log("Sending request to:", URLROOT + "/ServiceProvider/validation");
-        console.log("Raw response:", xhr.responseText);
-        xhr.open("POST", URLROOT + "/ServiceProvider/validation", true);
-    
-        xhr.onload = function() {
-            if (xhr.status === 200) {
-                console.log(xhr.responseText); 
-                try {
-                    const response = JSON.parse(xhr.responseText); 
-                    if (response.success) {
-                        if (currentStep < 3) {
-                            document.getElementById(`step-${currentStep}`).style.display = "none";
-                            document.getElementById(`step-${currentStep + 1}`).style.display = "block";
-                        } else {
-                            submitForm();
-                        }
-                    } else {
-                        displayServerErrors(response.errors);
-                    }
-                } catch (error) {
-                    console.error("Failed to parse response as JSON:", error);
-                }
+            //Debugging
+            console.log(`Sending data for step ${currentStep}:`);
+            for (let [key, value] of formData.entries()) {
+                console.log(`${key}: ${value}`);
             }
-        };
-    
-        xhr.send(formData);
+
+            const xhr = new XMLHttpRequest();
+            xhr.open("POST", URLROOT + "/ServiceProvider/validation", true);
+
+            xhr.onload = function () {
+                if (xhr.status === 200) {
+                    try {
+                        const response = JSON.parse(xhr.responseText);
+                        
+                        //Debugging
+                        console.log("Parsed Response:", response);
+                        if (response.success) {
+                            resolve(true);
+                        } else {
+                            displayServerErrors(response.errors);
+                            resolve(false);
+                        }
+                    } catch (error) {
+                        console.error("Failed to parse response:", error);
+                        resolve(false);
+                    }
+                } else {
+                    resolve(false);
+                }
+            };
+
+            xhr.send(formData);
+        });
     }
+
     
     function displayServerErrors(errors) {
         console.log("Server Errors:", errors);
@@ -219,13 +243,6 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     }
     
-    function submitForm() {
-        if (validateStep(3)) { 
-            sendDataToServer(3);
-        } else {
-            alert("Please fix the errors before submitting.");
-        }
-    }
 
     function initMap() {
         let map, marker;

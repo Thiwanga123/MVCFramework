@@ -85,6 +85,8 @@ class ServiceProvider extends Controller {
     public function register() {
         //check If the submitted method is PoST
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+
+          
             $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_FULL_SPECIAL_CHARS);
             $data = [
                 'name' => trim($_POST['name']),
@@ -262,6 +264,14 @@ class ServiceProvider extends Controller {
                 case 1:
                     if (empty($_POST['name'])) {
                         $errors['name'] = 'Business Name is required';
+                    }else{
+                        $name = $_POST['name'];
+                        $serviceType = $_POST['sptype']; 
+    
+                        if ($this->serviceProviderModel->findUserByName($name, $serviceType)) {
+                            
+                            $errors['name'] = 'User already exists';
+                        }
                     }
     
                     if (empty($_POST['email'])) {
@@ -335,6 +345,98 @@ class ServiceProvider extends Controller {
             } else {
                 echo json_encode(['success' => true]);
             }
+        }
+    }
+
+    public function registerUpdated() {
+        // Check if the submitted method is POST
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+            $data = [
+                'name' => trim($_POST['name']),
+                'phone' => trim($_POST['phone']),
+                'email' => trim($_POST['email']),
+                'password' => trim($_POST['password']),
+                'nic'=> trim($_POST['nic']),
+                'reg_number'=> trim($_POST['reg_num']),
+                'address'=> trim($_POST['address']),
+                'confirm_password'=> trim($_POST['confirm_password']),
+                'sptype'=> trim($_POST['sptype']),
+                'longitude' => $_POST['longitude'],
+                'latitude' => $_POST['latitude'],
+                'password_err' => '',
+                'confirmpassword_err' => '',
+                'reg_num_err' => '',
+                
+            ];
+    
+           
+    
+            // Validate password
+            if (empty($data['password'])) {
+                $data['password_err'] = 'Please enter password';
+            }
+    
+            // Validate confirm password
+            if (empty($data['confirm_password'])) {
+                $data['confirmpassword_err'] = 'Please confirm password';
+            } else {
+                if ($data['password'] != $data['confirm_password']) {
+                    $data['confirmpassword_err'] = 'Passwords do not match';
+                }
+            }
+    
+            // If no errors, hash password and save user
+            if (empty($data['name_err']) && empty($data['phone_err']) && empty($data['email_err']) && empty($data['password_err']) && empty($data['nic_err']) && empty($data['reg_num_err']) && empty($data['address_err']) && empty($data['sptype_err']) && empty($data['latitude_err']) && empty($data['longitude_err'])) {
+                // Hash the password
+                $data['password'] = password_hash($data['password'], PASSWORD_DEFAULT);
+    
+                // Attempt to register the user
+                if ($this->serviceProviderModel->register($data, $data['sptype'])) {
+                    // Send success response
+                    echo json_encode([
+                        'success' => true,
+                        'message' => 'Your Registration is Successful!',
+                        'redirect' => 'ServiceProvider/login'
+                    ]);
+                } else {
+                    // Send error response
+                    echo json_encode([
+                        'success' => false,
+                        'message' => 'Something went wrong, please try again.'
+                    ]);
+                }
+            } else {
+                // Send validation errors as a response
+                echo json_encode([
+                    'success' => false,
+                    'errors' => $data
+                ]);
+            }
+        } else {
+            // Initial data for GET request (view rendering)
+            $data = [
+                'name' => '',
+                'phone' => '',
+                'email' => '',
+                'password' => '',
+                'nic' => '',
+                'reg_number' => '',
+                'address' => '',
+                'confirm_password' => '',
+                'sptype' => '',
+                'name_err' => '',
+                'phone_err' => '',
+                'email_err' => '',
+                'password_err' => '',
+                'nic_err' => '',
+                'confirmpassword_err' => '',
+                'reg_num_err' => '',
+                'address_err' => ''
+            ];
+    
+            // Load the registration view
+            $this->view('serviceproviders/register_updated', $data);
         }
     }
 

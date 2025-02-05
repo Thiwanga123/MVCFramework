@@ -110,6 +110,7 @@
                         <div class="side">
                         <label for="pdfFile">Documents & Certificates <span class="req">*</span></label>
                         <input type="file" id="pdfFile" name="pdfFile" accept="application/pdf" required value="<?php echo isset($data['doc']) ? $data['doc'] : ''; ?>"></div>
+                        <span class="form-invalid" id="pdfFile-error"><?php echo isset($data['pdfFlie_err']) ? $data['pdfFile_err'] : ''; ?></span>
                     </div>
 
                     <h2>Account Settings</h2>
@@ -123,14 +124,14 @@
                         <div class="side">
                             <label>Confirm Password<span class="req">*</span></label>
                             <input type="password" id="confirm_password" name="confirm_password" placeholder="Confirm Password" required  value="<?php echo isset($data['confirm_password']) ? $data['confirm_password'] : ''; ?>">
-                            <span class="form-invalid" id="confirmpassword-error"><?php echo isset($data['confirmpassword_err']) ? $data['confirmpassword_err'] : ''; ?></span>
+                            <span class="form-invalid" id="confirm_password-error"><?php echo isset($data['confirmpassword_err']) ? $data['confirmpassword_err'] : ''; ?></span>
                         </div>
                     </div>
 
 
                     <div class="buttons">
                         <button type="button" onclick="prevStep(3)">Previous</button>
-                        <button type="submit">Register</button> 
+                        <button type="submit" onclick="nextStep(3)">Register</button> 
                     </div>
                 </div>
                     </form>
