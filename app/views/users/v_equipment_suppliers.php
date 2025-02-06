@@ -112,8 +112,7 @@
                     ?>
                     <img src="<?php echo URLROOT . '/' . htmlspecialchars($firstImage); ?>" alt="equipment">
                     <h3><?php echo htmlspecialchars($equipment->product_name); ?></h3>
-                    <p>Size: <?php echo htmlspecialchars($equipment->size); ?></p>
-                    <br>
+                    <!--<p>Size: <?php echo htmlspecialchars($equipment->size); ?></p> -->
                     <p>Rate: Rs.<?php echo htmlspecialchars($equipment->rate); ?></p>
                     <a href="<?php echo URLROOT;?>/users/payments">
                 <button class="pay-btn">Book & Pay Now</button>
