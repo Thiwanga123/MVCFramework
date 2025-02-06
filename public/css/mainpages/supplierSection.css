@@ -17,12 +17,20 @@ body {
 .feature {
     background-color: #fff;
     border-radius: 10px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     margin: 10px;
     padding: 20px;
     width: 300px;
     text-align: center;
+    overflow: hidden;
 }
+
+.feature:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
 .feature img {
     width: 200px;
     height: 200px;
@@ -50,7 +58,7 @@ body {
     align-items: center;
     justify-content: center;
     background-color: #666;
-    margin-bottom: 5px; /* Ensures content doesn't spill out */
+    margin-bottom: 15px; /* Ensures content doesn't spill out */
 }
 
 .search-container{
