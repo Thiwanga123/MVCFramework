@@ -77,8 +77,8 @@
                             <select id="category">
                                 <option value="" disabled selected>Select Category</option>
                                 <?php foreach ($data['categories'] as $category) : ?>
-                                    <option value="<?php echo htmlspecialchars($category->id); ?>">
-                                        <?php echo htmlspecialchars($category->name); ?>
+                                    <option value="<?php echo htmlspecialchars($category->category_id); ?>">
+                                        <?php echo htmlspecialchars($category->category_name); ?>
                                     </option>
                                 <?php endforeach; ?>
                             </select>
@@ -98,7 +98,8 @@
 </div>
 
 
-           <!-- <pre><?php print_r($data['equipments']); ?></pre> -->
+           <!--<pre><?php print_r($data['equipments']); ?></pre> -->
+           <!--<pre><?php print_r($data['categories']); ?></pre> -->
 
             <div class="container1">
                 <?php if (!empty($data['equipments']) && is_array($data['equipments'])) : ?>
@@ -109,8 +110,7 @@
                         $images = !empty($equipment->images) ? explode(',', $equipment->images) : []; 
                         $firstImage = !empty($images) ? trim($images[0]) : 'default.jpg'; // Use default image if no image is found
                     ?>
-                    <img src="<?php echo URLROOT; ?>/images/<?php echo htmlspecialchars($firstImage); ?>" alt="equipment">
-
+                    <img src="<?php echo URLROOT . '/' . htmlspecialchars($firstImage); ?>" alt="equipment">
                     <h3><?php echo htmlspecialchars($equipment->product_name); ?></h3>
                     <p>Size: <?php echo htmlspecialchars($equipment->size); ?></p>
                     <br>
