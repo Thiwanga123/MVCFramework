@@ -145,6 +145,5 @@
         <script src="<?php echo URLROOT;?>/js/registration.js" defer> </script>
         <script>const URLROOT = "<?php echo URLROOT; ?>";</script>
         
-
 </body>
 </html>
