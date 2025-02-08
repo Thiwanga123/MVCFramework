@@ -74,7 +74,8 @@
                             <th>Make</th>
                             <th>Rental Price</th>
                             <th>License Number</th>
-                            <th>Availability</th>
+                            <th>Driver Availability</th>
+                            <th>Vehicle Availability</th>
                             <th>Action</th>
                         </tr>
                     </thead>
@@ -98,7 +99,9 @@
                             <td><?php echo $vehicle->make; ?></td>
                             <td><?php echo $vehicle->rate; ?></td>
                             <td><?php echo $vehicle->license_plate_number; ?></td>
+                            <td><?php echo $vehicle->driver; ?></td>
                             <td><?php echo $vehicle->availability; ?></td>
+                            
                             <td class="action-button">
                                 <button class="vehicle-edit-btn" name ="vehicle-edit-btn" id="vehicle-edit-btn"
                                     vehicleType = "<?php echo $vehicle->type; ?>"
@@ -106,6 +109,7 @@
                                     vehicleMake = "<?php echo $vehicle->make; ?>"
                                     vehicleRate = "<?php echo $vehicle->rate; ?>"
                                     licensePlateNumber = "<?php echo $vehicle->license_plate_number; ?>"
+                                    driver = "<?php echo $vehicle->driver; ?>"
                                     availability = "<?php echo $vehicle->availability; ?>"
                                     fuelType = "<?php echo $vehicle->fuel_type; ?>"
                                     description = "<?php echo $vehicle->description; ?>"

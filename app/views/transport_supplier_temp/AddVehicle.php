@@ -71,8 +71,19 @@
 
                             <label for="description">Description</label>
                             <textarea id="description" name="description" rows="9" required></textarea>
-                            
-                            <p>Availability</p>
+
+                            <p>Driver Availability</p>
+                            <label for="yes">
+                                <input type="radio" id="yes" name="driver" value="Yes">
+                                Yes
+                            </label>
+
+                            <label for="no">
+                                <input type="radio" id="no" name="driver" value="No">
+                                No
+                            </label>
+</br>
+                            <p>Vehicle Availability</p>
                             <label for="yes">
                                 <input type="radio" id="yes" name="availability" value="Yes">
                                 Yes

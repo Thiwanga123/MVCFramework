@@ -2,11 +2,7 @@
 document.addEventListener('DOMContentLoaded', () => {
 
     const modal = document.getElementById('addVehicleModal');
-<<<<<<< HEAD
-    const openModalBtn = document.getElementById('add-btn');
-=======
     const openModalBtn = document.getElementById('vehicle-add-btn');
->>>>>>> origin/main
     const closeModal = document.getElementById('closeModal')
     const box = document.getElementById('box');
 

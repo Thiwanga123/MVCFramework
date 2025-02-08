@@ -54,6 +54,7 @@ class ServiceProvider extends Controller {
                 
                 if ($loggedInUser) {
                     // Create session for the logged-in user and redirect
+        
                     $this->createUserSession($loggedInUser, $data['sptype']);
                     //redirect to the relevant dashboard
                     redirect($data['sptype'] . '/dashboard');
@@ -214,7 +215,7 @@ class ServiceProvider extends Controller {
         $_SESSION['email'] = $user->email;
         $_SESSION['name'] = $user->name;
         $_SESSION['type'] = $sptype;
-
+        
         redirect($sptype .'/dashboard');
     }
 

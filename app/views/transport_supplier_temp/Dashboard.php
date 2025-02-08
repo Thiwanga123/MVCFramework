@@ -77,7 +77,7 @@
 </g>
 </svg></svg></div>
                     <span class = "info">
-                        <h3>9</h3>
+                        <h3>0</h3>
                         <p>Total Vehicles</p>
                     </span>
                 </li>
