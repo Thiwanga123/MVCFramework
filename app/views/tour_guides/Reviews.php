@@ -128,7 +128,7 @@
                             </td>
                             <td>E102</td>
                             <td class="rev">Excellent experience! The guide ensured everything went smoothly and even shared local tips.</td>
-                            <td>2024/07/08</td>
+                            <td>2024/07/09</td>
                             <td> <p>⭐⭐⭐⭐⭐</p></td>
                             <td class="Action">
                                 <a href="#" class="more">
