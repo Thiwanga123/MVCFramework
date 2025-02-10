@@ -54,4 +54,36 @@ class Trips extends Controller{
             redirect('users/login');
         }
     }
+
+    // public function showaccommodation(){
+    //     if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    //         // Sanitize POST data
+    //         $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
+    
+    //         // Get the form data
+    //         $data=[
+    //             $location = trim($_POST['location']),
+    //             $people = trim($_POST['people']),
+    //             $start_date = trim($_POST['startDate']),
+    //             $end_date = trim($_POST['endDate']),
+    //         ];
+    
+    //         // Call the model to search for accommodations
+    //         if($showaccomadation=$this->tripModel->showAccommodation($data)){
+    //             // If the search is successful, load the view with the search results
+    //             $data = [
+    //                 'showaccomadation' => $showaccomadation
+    //             ];
+        
+    //             // Load the view with the search results
+    //             $this->view('users/bookAccomodations',$data );
+    //         } else {
+    //             // If the search is not successful, load the view with an error message
+    //             $this->view('users/notfound');
+    //         }
+    
+    
+    // }
+    
+    // }
 }

@@ -215,12 +215,25 @@ class M_users{
         }
     }
 
+    //show the accomodation details
+    public function showAccommodation($data){
+        //select the properties that relavant place and start date and end date
+        $this->db->query('SELECT * FROM properties WHERE city = :city AND  max_occupants >= :people');
+        //bind parameters 
+        $this->db->bind(':city', $data[0]);
+        $this->db->bind(':people', $data[1]);
+
+        //print the result
+        print($this->db->resultSet());
+        return $this->db->resultSet();
+
+        
 
 
     
 
 }
-
+}
 
 
 ?>
