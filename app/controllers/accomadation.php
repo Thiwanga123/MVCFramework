@@ -55,6 +55,15 @@ public function deleteproperty($id) {
 }
 
 
+public function myPayments(){
+    if (isset($_SESSION['id'])) {
+        $this->view('accomadation/Mypayments');
+    } else {
+        redirect('ServiceProvider/login');
+    }
+}
+
+
     public function orders(){
         
         if (isset($_SESSION['id'])) {
@@ -88,6 +97,7 @@ public function deleteproperty($id) {
         }
         
     }
+
 
     public function profile(){
 
@@ -144,6 +154,15 @@ public function deleteproperty($id) {
         }
         
        
+    }
+
+    public function paymenthistory(){
+        if (isset($_SESSION['id'])) {
+            $this->view('accomadation/paymenthistory');
+        } else {
+            redirect('ServiceProvider');
+        }
+        
     }
 
     public function basicinfo(){
@@ -321,6 +340,30 @@ public function deleteproperty($id) {
 
             }
 
+        } else {
+            echo json_encode(['status' => 'error', 'message' => 'Invalid request method']);
+        }
+    }
+
+    public function getpayments(){
+        //get the paymnets for the relavant accomodation supplier
+        if (isset($_SESSION['id'])) {
+            $userId = $_SESSION['id'];
+
+            $payments=$this->accomadationModel->getPayments($userId);
+
+            if ($payments) {
+                echo json_encode(['status' => 'success', 'data' => $payments]);
+            } else {
+                echo json_encode(['status' => 'error', 'message' => 'No payments found']);
+            }
+
+        
+            $data=[
+                'payments'=>$payments,
+            ];
+
+            $this->view('accomadation/paymenthistory',$data);
         } else {
             echo json_encode(['status' => 'error', 'message' => 'Invalid request method']);
         }

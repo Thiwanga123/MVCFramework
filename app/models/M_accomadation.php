@@ -180,6 +180,25 @@ class M_accomadation{
         }
     }
 
+    //get the Payments from the property_booking table to the related service provider
+
+    public function getPayments($userId) {
+        try {
+            $sql = "SELECT * FROM property_booking WHERE supplier_id = ?";
+
+            $this->db->query($sql);
+            $this->db->bind(1, $userId);
+
+            $payments = $this->db->resultSet();
+
+            return $payments;
+
+        } catch (Exception $e) {
+            echo "<script>alert('An error occurred: {$e->getMessage()}');</script>";
+            return [];
+        }
+    }
+
 }
 
 ?>
