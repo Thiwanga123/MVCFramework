@@ -4,6 +4,7 @@ class Equipment_Suppliers extends Controller{
 
     private $productModel;
     private $userModel;
+    private $supplierModel;
 
     public function __construct(){
         $this->productModel = $this->model('ProductModel');
@@ -106,6 +107,25 @@ class Equipment_Suppliers extends Controller{
         $this->userModel = $this->model('ServiceProviderModel');
         $data = $this->userModel->getUserData($id,$type);
         return $data;
+    }
+
+    public function getSuppliersByLocation(){
+        $latitude = isset($_GET['lat']) ? $_GET['lat'] : null;
+        $longitude = isset($_GET['lon']) ? $_GET['lon'] : null;
+
+        if (!$latitude || !$longitude) {
+            echo json_encode(["success" => false, "message" => "Invalid coordinates"]);
+            return;
+        }
+
+        $this->supplierModel = $this->model('SupplierModel');
+        $suppliers = $this->supplierModel->getSuppliersWithinRadius($latitude, $longitude);
+
+        echo json_encode([
+            "success" => true,
+            "suppliers" => $suppliers
+        ]);
+
     }
 } 
 

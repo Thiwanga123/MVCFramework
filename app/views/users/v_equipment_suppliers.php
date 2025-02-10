@@ -61,8 +61,9 @@
                                     <svg xmlns="http://www.w3.org/2000/svg" height="30px" viewBox="0 -960 960 960" width="30px" fill="#1d5a62">
                                         <path d="M480-480q33 0 56.5-23.5T560-560q0-33-23.5-56.5T480-640q-33 0-56.5 23.5T400-560q0 33 23.5 56.5T480-480Zm0 294q122-112 181-203.5T720-552q0-109-69.5-178.5T480-800q-101 0-170.5 69.5T240-552q0 71 59 162.5T480-186Zm0 106Q319-217 239.5-334.5T160-552q0-150 96.5-239T480-880q127 0 223.5 89T800-552q0 100-79.5 217.5T480-80Zm0-480Z"/>
                                     </svg>
-                                    <input type="text" id="location" placeholder="Where Are You Going?">
+                                    <input type="text" id="location" placeholder="Where Are You Going?" class="form-control">
                                 </div>
+                                <span class="form-invalid" id="location-error"> </span>
                             </li>
                     <!--Dates-->
                             <div class="dates">
@@ -75,6 +76,8 @@
 
                                         <input type="date" id="sDate" placeholder="Starting Date">
                                     </div>
+                                    <span class="form-invalid" id="sDate-error"> </span>
+
                                 </div>
 
                                 <div class="search-item">
@@ -82,6 +85,8 @@
                                     <div class="group">
                                         <input type="date" id="eDate" placeholder="End Date">
                                     </div>
+                                    <span class="form-invalid" id="eDate-error"> </span>
+
                                 </div>
                             </div>
 
@@ -134,6 +139,8 @@
             </div>
 
 
+            <div id="map" style="height: 300px; width: 50%; display: none;"></div>
+
            <!--<pre><?php print_r($data['equipments']); ?></pre> -->
            <!--<pre><?php print_r($data['categories']); ?></pre> -->
 
@@ -166,7 +173,9 @@
 
      
      <script src="<?php echo URLROOT;?>/js/Sidebar.js"></script>
-     <script src="<?php echo URLROOT;?>/js/equipmentFilter.js"></script>
+     <script src="<?php echo URLROOT;?>/js/supplierLocations.js"></script>
+     <script src="https://maps.googleapis.com/maps/api/js?key=<?php echo API_KEY; ?>&libraries=places"></script>
+
 
 </body>
 
