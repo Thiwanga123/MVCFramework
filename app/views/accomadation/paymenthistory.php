@@ -182,11 +182,11 @@
         <div class="summary">
             <div>
                 <h3>Total Earnings</h3>
-                <p>Rs. 430,000 <span>as of 01-December 2022</span></p>
+                <p>Rs.<?php echo number_format($data['totalEarnings'], 2); ?>  <span>as of <?php echo date('d-F-Y'); ?></span></p>
             </div>
             <div>
                 <h3>Pending Payments</h3>
-                <p>Rs. 100,000 <span>as of 01-December 2022</span></p>
+                <p>Rs. <?php echo number_format($data['totalToBeReceived'], 2); ?> <span>as of <?php echo date('d-F-Y'); ?> </span></p>
             </div>
         </div>
         <div class="tabs">
@@ -202,69 +202,70 @@
                         <th>Booking ID</th>
                         <th>Date</th>
                         <th>Amount</th>
-                        <th>Customer ID</th>
+                        <th>Accommadation</th>
                         <th>Customer Name</th>
-                        <th>Payment Method</th>
                         <th>Status</th>
-                        <th>Amount to be Received</th>
+                        
                     </tr>
                 </thead>
                 <tbody id="all">
 
-                <?php echo $data; ?>
+                <?php foreach($data['payments'] as $payment): ?>
                     <tr>
-                        <td>#</td>
                         <td><?php echo $payment->booking_id; ?></td>
+                        <td><?php echo $payment->payment_date; ?></td>
                         <td>Rs. <?php echo $payment->paid; ?></td>
-                        <td>4</td>
-                        <td>5</td>
-                        <td>6</td>
-                        <td class="status-full">Full Payment</td>
-                        <td>-</td>
-            </tr>
-
-
+                        <td><?php echo $payment->property_name; ?></td>
+                        <td><?php echo $payment->traveler_name; ?></td>
+                      
+                        <td class="<?php echo $payment->paid < $payment->amount ? 'status-advance' : 'status-full'; ?>">
+                            <?php echo $payment->paid < $payment->amount ? 'Advance Only' : 'Full Payment'; ?>
                         
-                    
-                    
-                   
+                    </tr>
+                <?php endforeach; ?>
                 </tbody>
                 <tbody id="complete" style="display: none;">
-                    <tr>
-                        <td>#15267</td>
-                        <td>Mar 1, 2023</td>
-                        <td>Rs. 5,000</td>
-                        <td>C123</td>
-                        <td>Kumar Perera</td>
-                        <td>Credit Card</td>
-                        <td class="status-full">Full Payment</td>
-                        <td>-</td>
-                    </tr>
-                   
+                    <?php foreach($data['payments'] as $payment): ?>
+                        <?php if ($payment->paid == $payment->amount): ?>
+                            <tr>
+                                <td><?php echo $payment->booking_id; ?></td>
+                                <td><?php echo $payment->payment_date; ?></td>
+                                <td>Rs. <?php echo $payment->paid; ?></td>
+                                <td><?php echo $payment->property_name; ?></td>
+                                <td><?php echo $payment->traveler_name; ?></td>
+                                <td class="status-full">Full Payment</td>
+                            </tr>
+                        <?php endif; ?>
+                    <?php endforeach; ?>
                 </tbody>
                 <tbody id="pending" style="display: none;">
-                    <tr>
-                        <td>#16907</td>
-                        <td>March 18, 2033</td>
-                        <td>Rs. 3,000</td>
-                        <td>C129</td>
-                        <td>Gayan Rajapaksha</td>
-                        <td>PayPal</td>
-                        <td class="status-advance" onclick="openModal()">Advance Only</td>
-                        <td>Rs. 1,500</td>
-                    </tr>
+                    <?php foreach($data['payments'] as $payment): ?>
+                        <?php if ($payment->paid < $payment->amount): ?>
+                            <tr>
+                                <td><?php echo $payment->booking_id; ?></td>
+                                <td><?php echo $payment->payment_date; ?></td>
+                                <td>Rs. <?php echo $payment->paid; ?></td>
+                                <td><?php echo $payment->property_name; ?></td>
+                                <td><?php echo $payment->traveler_name; ?></td>
+                                <td class="status-advance" onclick="openModal()">Advance Only</td>
+                            </tr>
+                        <?php endif; ?>
+                    <?php endforeach; ?>
                 </tbody>
                 <tbody id="refund" style="display: none;">
-                    <tr>
-                        <td>#16378</td>
-                        <td>Feb 28, 2033</td>
-                        <td>Rs. 5,000</td>
-                        <td>C127</td>
-                        <td>Chandana Wickramasinghe</td>
-                        <td>Credit Card</td>
-                        <td class="status-advance" onclick="openModal()">Advance Only</td>
-                        <td>Rs. 2,000</td>
-                    </tr>
+                    <?php foreach($data['payments'] as $payment): ?>
+                        <?php if ($payment->paid < $payment->amount): ?>
+                            <tr>
+                                <td><?php echo $payment->booking_id; ?></td>
+                                <td><?php echo $payment->payment_date; ?></td>
+                                <td>Rs. <?php echo $payment->paid; ?></td>
+                                <td><?php echo $payment->property_name; ?></td>
+                                <td><?php echo $payment->traveler_name; ?></td>
+                                <td class="status-advance" onclick="openModal()">Advance Only</td>
+                            
+                            </tr>
+                        <?php endif; ?>
+                    <?php endforeach; ?>
                 </tbody>
             </table>
             <div class="pagination">

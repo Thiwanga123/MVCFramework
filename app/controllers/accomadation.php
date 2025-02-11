@@ -10,9 +10,25 @@ class Accomadation extends Controller{
 
 
     public function dashboard(){
-
         if (isset($_SESSION['id'])) {
-            $this->view('accomadation/Dashboard');
+            $userId = $_SESSION['id'];
+
+            // // Get total accommodations
+            // $totalAccommodations = $this->accomadationModel->getAccommodation($userId);
+
+            // // Get total bookings
+            // $totalBookings = $this->accomadationModel->getBookings($userId);
+
+            // Get total earnings
+           
+
+            // $data = [
+            // 'totalAccommodations' => $totalAccommodations,
+            // 'totalBookings' => $totalBookings
+            
+            // ];
+
+            $this->view('accomadation/Dashboard' );
         } else {
             redirect('ServiceProvider/login');
         }
@@ -57,7 +73,29 @@ public function deleteproperty($id) {
 
 public function myPayments(){
     if (isset($_SESSION['id'])) {
-        $this->view('accomadation/Mypayments');
+
+          
+            $userId = $_SESSION['id'];
+
+            $payments=$this->accomadationModel->getpayments($userId);
+
+              // Calculate total earnings
+                $totalEarnings = array_reduce($payments, function($sum, $payment) {
+                    return $sum + $payment->paid;
+                }, 0);
+
+
+            // Calculate total amount to be received
+        $totalToBeReceived = array_reduce($payments, function($sum, $payment) {
+            return $sum + ($payment->amount - $payment->paid);
+        }, 0);
+                
+            $data=[
+                'payments'=>$payments,
+                'totalEarnings' => $totalEarnings,
+                'totalToBeReceived' => $totalToBeReceived
+            ];
+        $this->view('accomadation/Mypayments',$data);
     } else {
         redirect('ServiceProvider/login');
     }
@@ -156,14 +194,23 @@ public function myPayments(){
        
     }
 
-    public function paymenthistory(){
-        if (isset($_SESSION['id'])) {
-            $this->view('accomadation/paymenthistory');
-        } else {
-            redirect('ServiceProvider');
-        }
+    // public function paymenthistory(){
+    //     if (isset($_SESSION['id'])) {
+          
+    //             $userId = $_SESSION['id'];
+    
+    //             $payments=$this->accomadationModel->getpayments($userId);
+    
+    //             $data=[
+    //                 'payments'=>$payments,
+    //             ];
+
+    //         $this->view('accomadation/paymenthistory',$data);
+    //     } else {
+    //         redirect('ServiceProvider');
+    //     }
         
-    }
+    // }
 
     public function basicinfo(){
         if (isset($_SESSION['id'])) {
@@ -345,29 +392,7 @@ public function myPayments(){
         }
     }
 
-    public function getpayments(){
-        //get the paymnets for the relavant accomodation supplier
-        if (isset($_SESSION['id'])) {
-            $userId = $_SESSION['id'];
 
-            $payments=$this->accomadationModel->getPayments($userId);
-
-            if ($payments) {
-                echo json_encode(['status' => 'success', 'data' => $payments]);
-            } else {
-                echo json_encode(['status' => 'error', 'message' => 'No payments found']);
-            }
-
-        
-            $data=[
-                'payments'=>$payments,
-            ];
-
-            $this->view('accomadation/paymenthistory',$data);
-        } else {
-            echo json_encode(['status' => 'error', 'message' => 'Invalid request method']);
-        }
-    }
 
  
 

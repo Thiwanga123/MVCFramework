@@ -40,7 +40,7 @@
 
             
     <main>
-    <?php  include('paymenthistory.php'); ?>
+    <?php include('paymenthistory.php'); ?>
        
     </main>
 </body>

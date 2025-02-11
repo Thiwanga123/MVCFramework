@@ -166,7 +166,11 @@ class M_accomadation{
     //get the bookings from the property_booking table to the related service provider
     public function getBookings($userId) {
         try {
-            $sql = "SELECT * FROM property_booking WHERE supplier_id = ?";
+            $sql = "SELECT pb.*, t.name as traveler_name, p.property_name, p.property_type
+                FROM property_booking pb
+                JOIN traveler t ON pb.traveler_id = t.traveler_id
+                JOIN properties p ON pb.property_id = p.property_id
+                WHERE pb.supplier_id = ?";
 
             $this->db->query($sql);
             $this->db->bind(1, $userId);
@@ -184,7 +188,11 @@ class M_accomadation{
 
     public function getPayments($userId) {
         try {
-            $sql = "SELECT * FROM property_booking WHERE supplier_id = ?";
+            $sql = "SELECT p.*, t.name as traveler_name, pr.property_name
+            FROM property_booking p
+            JOIN traveler t ON p.traveler_id = t.traveler_id
+            JOIN properties pr ON p.property_id = pr.property_id
+            WHERE p.supplier_id = ?";
 
             $this->db->query($sql);
             $this->db->bind(1, $userId);
