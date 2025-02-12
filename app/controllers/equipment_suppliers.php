@@ -8,6 +8,9 @@ class Equipment_Suppliers extends Controller{
 
     public function __construct(){
         $this->productModel = $this->model('ProductModel');
+        $this->supplierModel = $this->model('SupplierModel');
+        $this->userModel = $this->model('ServiceProviderModel');
+
     }
 
     public function index(){
@@ -104,28 +107,70 @@ class Equipment_Suppliers extends Controller{
     }
 
     public function getProfileDetails($id, $type){
-        $this->userModel = $this->model('ServiceProviderModel');
         $data = $this->userModel->getUserData($id,$type);
         return $data;
     }
 
     public function getSuppliersByLocation(){
-        $latitude = isset($_GET['lat']) ? $_GET['lat'] : null;
-        $longitude = isset($_GET['lon']) ? $_GET['lon'] : null;
 
-        if (!$latitude || !$longitude) {
-            echo json_encode(["success" => false, "message" => "Invalid coordinates"]);
+        $jsonData = file_get_contents("php://input");
+        $data = json_decode($jsonData, true);
+
+
+        if (!$data || !isset($data['latitude']) || !isset($data['longitude'])) {
+            http_response_code(400); 
+            echo json_encode(["error" => "Invalid input data"]);
             return;
         }
 
-        $this->supplierModel = $this->model('SupplierModel');
-        $suppliers = $this->supplierModel->getSuppliersWithinRadius($latitude, $longitude);
+        $latitude = $data['latitude'];
+        $longitude = $data['longitude'];
+        $radius = 10;
 
-        echo json_encode([
-            "success" => true,
-            "suppliers" => $suppliers
-        ]);
+        $suppliers = $this->supplierModel->getAllSuppliers();
 
+        if (!$suppliers) {
+            echo json_encode(["error" => "No suppliers found"]);
+            exit;
+        }
+
+        $filteredSuppliers = [];
+
+        foreach($suppliers as $supplier){
+            $distance = $this->calculateDistance($latitude, $longitude, $supplier->latitude, $supplier->longitude);
+            if($distance <= $radius){
+                $supplier->distance = $distance;
+                $filteredSuppliers[] = $supplier;
+            }
+        }
+
+        usort($filteredSuppliers, function($a, $b) {
+            return $a->distance <=> $b->distance;
+        });
+        
+        header("Content-Type: application/json");
+        echo json_encode(["suppliers" => $filteredSuppliers]);
+
+    }
+
+    private function calculateDistance($lat1, $lon1, $lat2, $lon2) {
+        $earthRadius = 6371; 
+    
+        $lat1 = deg2rad($lat1);
+        $lon1 = deg2rad($lon1);
+        $lat2 = deg2rad($lat2);
+        $lon2 = deg2rad($lon2);
+    
+        $dLat = $lat2 - $lat1;
+        $dLon = $lon2 - $lon1;
+    
+        $a = sin($dLat / 2) * sin($dLat / 2) +
+             cos($lat1) * cos($lat2) * 
+             sin($dLon / 2) * sin($dLon / 2);
+        
+        $c = 2 * atan2(sqrt($a), sqrt(1 - $a));
+    
+        return $earthRadius * $c;
     }
 } 
 

@@ -40,10 +40,12 @@
 
             <div class="filter">
                 <h2>Rent Equipments</h2>
-                <button class="filter-btn" id="filter-btn">Add Filters</button>
+                <button class="filter-btn" id="filter-btn">Nearby Suppliers</button>
             </div>
 
             <hr>
+
+         
 
             <div class="box" id="filter-box">
 
@@ -99,7 +101,14 @@
                     </div>
                 </div>
 
-                <div class="filter-menu" id="filter-bar">
+                <div class="map-section">
+                    <div id="map" style="height: 300px; width: 50%; border-radius: 10px; display: none;"> </div>
+    
+                </div>
+
+            </div>
+
+            <div class="filter-menu" id="filter-bar">
                     <li class="search-item">
                         <p>Sort By</p>
                         <div class="group">
@@ -134,16 +143,18 @@
                         </div>
                     </li>
 
+                    <li class="search-item">
+                        <button id="clear-filters" class="clear-filters-btn">Clear Filters</button>
+                    </li>
+
                 </div>
 
-            </div>
 
-
-            <div id="map" style="height: 300px; width: 50%; display: none;"></div>
 
            <!--<pre><?php print_r($data['equipments']); ?></pre> -->
            <!--<pre><?php print_r($data['categories']); ?></pre> -->
-
+           
+            <p>Showing All Products()</p>
             <div class="container1">
                 <?php if (!empty($data['equipments']) && is_array($data['equipments'])) : ?>
                 <?php foreach ($data['equipments'] as $equipment) : ?>
@@ -175,6 +186,8 @@
      <script src="<?php echo URLROOT;?>/js/Sidebar.js"></script>
      <script src="<?php echo URLROOT;?>/js/supplierLocations.js"></script>
      <script src="https://maps.googleapis.com/maps/api/js?key=<?php echo API_KEY; ?>&libraries=places"></script>
+     <script>const URLROOT = "<?php echo URLROOT; ?>";</script>
+
 
 
 </body>

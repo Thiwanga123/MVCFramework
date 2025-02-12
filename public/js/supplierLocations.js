@@ -14,6 +14,7 @@ document.addEventListener("DOMContentLoaded", function(){
         filterBox.classList.toggle("show");
     });
 
+    //Validating the inputs
     searchBtn.addEventListener("click", function (event){
         event.preventDefault();
         clearErrors();
@@ -65,6 +66,7 @@ document.addEventListener("DOMContentLoaded", function(){
         });
     }
 
+    //Autocompleting Places
     if (google && google.maps && google.maps.places) {
         const autocomplete = new google.maps.places.Autocomplete(locationInput, {
             componentRestrictions: { country: "LK" },
@@ -80,23 +82,58 @@ document.addEventListener("DOMContentLoaded", function(){
         });
     }
 
+
     function initMap(location) {
         const geocoder = new google.maps.Geocoder();
         geocoder.geocode({ address: location }, function (results, status) {
             if (status === "OK" && results[0]) {
+                const latitude = results[0].geometry.location.lat();
+                const longitude = results[0].geometry.location.lng();
+
+                console.log(`Latitude : ${latitude}, Longitude : ${longitude}`);
+
                 const mapOptions = {
                     center: results[0].geometry.location,
                     zoom: 14,
                 };
 
                 const mapInstance = new google.maps.Map(map, mapOptions);
-
                 new google.maps.Marker({
                     position: results[0].geometry.location,
                     map: mapInstance,
                     title: results[0].formatted_address,
+                    icon: "http://maps.google.com/mapfiles/ms/icons/blue-dot.png",
                 });
-            } else {
+
+                fetch(URLROOT + "/equipment_suppliers/getSuppliersByLocation", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify({ latitude: latitude, longitude: longitude }),
+                })
+                    .then(response => response.json())
+                    .then(data => {
+                        console.log("Suppliers:", data);
+                
+                        if (data.suppliers && data.suppliers.length > 0) {
+                            data.suppliers.forEach(supplier => {
+                                new google.maps.Marker({
+                                    position: {
+                                        lat: parseFloat(supplier.latitude),
+                                        lng: parseFloat(supplier.longitude),
+                                    },
+                                    map: mapInstance,
+                                    title: supplier.name,
+                                    icon: "http://maps.google.com/mapfiles/ms/icons/red-dot.png", // Red marker for suppliers
+                                });
+                            });
+                        } else {
+                            console.log("No nearby suppliers found.");
+                        }
+                    })
+                    .catch(error => console.log("Error fetching suppliers:", error));
+                } else {
                 displayError("location", "Unable to find location on map.");
             }
         });
