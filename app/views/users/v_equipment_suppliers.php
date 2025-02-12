@@ -102,7 +102,11 @@
                 </div>
 
                 <div class="map-section">
-                    <div id="map" style="height: 300px; width: 50%; border-radius: 10px; display: none;"> </div>
+                    <div id="map" style="height: 300px; width: 100%; border-radius: 10px; display: none;"> </div>
+                    <div id="supplier-details" class="supplier-details" style="display: none;">
+                        <h3 id="supplier-name"></h3>
+                        <p id="supplier-details-text"></p>
+                    </div>
     
                 </div>
 

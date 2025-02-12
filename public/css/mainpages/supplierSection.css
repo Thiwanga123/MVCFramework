@@ -138,15 +138,35 @@ body {
     align-items: center;
 }
 
-.map-section{
-    background-color: #164744;
-    padding: 10px;
+.map-section {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+#map {
+    flex-grow: 1; 
+}
+
+.supplier-details {
+    width: 0;
+    overflow: hidden; 
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 10px;
+    transition: width 0.3s ease; 
+    opacity: 0;
+    visibility: hidden;
+}
+
+.supplier-details.show {
+    width: 50%; 
+    opacity: 1;
+    visibility: visible;
 }
 
 
 
-
-/* Styling for the Search Items */
 .search-item {
     display: flex;
     flex-direction: column;

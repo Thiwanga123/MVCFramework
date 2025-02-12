@@ -8,9 +8,9 @@ document.addEventListener("DOMContentLoaded", function(){
     const map = document.getElementById("map");
     const filterBtn = document.getElementById("filter-btn");
     const filterBox = document.getElementById("filter-box");
+    const supplierDetails = document.getElementById("supplier-details");
 
     filterBtn.addEventListener("click", function () {
-        console.log("clicked");
         filterBox.classList.toggle("show");
     });
 
@@ -49,6 +49,9 @@ document.addEventListener("DOMContentLoaded", function(){
         if (isValid) {
             map.style.display = "block";
             initMap(location);
+
+            document.querySelector(".map-section").classList.remove("shrink");
+            supplierDetails.innerHTML = '';
         }
 
     });
@@ -82,9 +85,9 @@ document.addEventListener("DOMContentLoaded", function(){
         });
     }
 
-
+    //Displaying the map with the markers for suppliers
     function initMap(location) {
-        const geocoder = new google.maps.Geocoder();
+        const geocoder = new google.maps.Geocoder(); 
         geocoder.geocode({ address: location }, function (results, status) {
             if (status === "OK" && results[0]) {
                 const latitude = results[0].geometry.location.lat();
@@ -117,8 +120,8 @@ document.addEventListener("DOMContentLoaded", function(){
                         console.log("Suppliers:", data);
                 
                         if (data.suppliers && data.suppliers.length > 0) {
-                            data.suppliers.forEach(supplier => {
-                                new google.maps.Marker({
+                            data.suppliers.forEach(function (supplier, index) {
+                               const supplierMarker =  new google.maps.Marker({
                                     position: {
                                         lat: parseFloat(supplier.latitude),
                                         lng: parseFloat(supplier.longitude),
@@ -126,6 +129,29 @@ document.addEventListener("DOMContentLoaded", function(){
                                     map: mapInstance,
                                     title: supplier.name,
                                     icon: "http://maps.google.com/mapfiles/ms/icons/red-dot.png", // Red marker for suppliers
+                                    label: {
+                                        text: (index + 1).toString(),
+                                        color: "white", 
+                                        fontWeight: "bold", 
+                                        fontSize: "14px",
+                                        padding: "5px",
+                                    },
+                                });
+
+                                supplierMarker.addListener("click", function() {
+                                    console.log(`${supplier.name} clicked`);
+                                
+                                    document.querySelector("#map").style.width = "50%"; 
+                                    document.querySelector("#supplier-details").classList.add("show"); 
+                                
+                                    const supplierName = document.getElementById("supplier-name");
+                                    const supplierDetailsText = document.getElementById("supplier-details-text");
+                                
+                                    supplierName.innerHTML = supplier.name;
+                                    supplierDetailsText.innerHTML = `
+                                        <p>Location: ${supplier.address}</p>
+                                        <p>Contact: ${supplier.contact}</p>
+                                    `;
                                 });
                             });
                         } else {
