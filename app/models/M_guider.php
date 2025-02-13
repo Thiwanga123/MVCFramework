@@ -43,7 +43,7 @@ class guider{
         $this->db->bind(':phone_number', $data['phone_number']);
         
 
-
+    }
 
     
 

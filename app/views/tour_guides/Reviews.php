@@ -1,4 +1,4 @@
- <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -9,17 +9,17 @@
     
     <title>Home</title>
 </head>
-<body> 
+<body>
    <!--SideBar -->
-  <?php
+    <?php
         include('Sidebar.php');;
     ?>
           <!-- End Of Sidebar -->
 
      <!--Main Content-->
-     <div class="content"> 
+     <div class="content">
         <!--navbar-->
-      <nav>
+        <nav>
             <svg class="menu" xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#000000"><path d="M160-269.23v-40h640v40H160ZM160-460v-40h640v40H160Zm0-190.77v-40h640v40H160Z"/></svg>
             <form action="#">
                 <div class="form-input">
@@ -164,7 +164,6 @@
 
 </body>
 
-</html> 
+</html>
 
  
-  

@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <link rel="stylesheet" href="<?php echo URLROOT;?>/css/Common/Profile.css">
+    <link rel="stylesheet" href="<?php echo URLROOT;?>/css/Common/Profile_pre.css">
     <link rel="stylesheet" href="<?php echo URLROOT;?>/css/Common/sidebarHeader.css">
     <title>Profile</title>
 </head>
@@ -47,7 +47,7 @@
             
             <div class="profile">
                 <div class="profile-left">
-                <img src="/Images/Profile pic.jpg" alt="">
+                <img src="<?php echo URLROOT;?>/Images/Profile pic.jpg" alt="">
                 </div>
 
                 <div class="profile-center">

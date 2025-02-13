@@ -5,10 +5,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="<?php echo URLROOT;?>/css/Common/MyInventory.css">
     <link rel="stylesheet" href="<?php echo URLROOT;?>/css/Common/sidebarHeader.css">
+    <link rel="stylesheet" href="<?php echo URLROOT;?>/css/Modals/addProductModal.css">
+    <link rel="stylesheet" href="<?php echo URLROOT;?>/css/Modals/editProductModal.css">
+    <link rel="stylesheet" href="<?php echo URLROOT;?>/css/Modals/deleteWarningModal.css">
     <title>Home</title>
 </head>
 <body>
-    <div class="box">
+    <div class="box" id="box">
     <!-- SideBar -->
     <?php
         include('Sidebar.php');;
@@ -34,14 +37,14 @@
                 <span class="count">12</span>
             </a>
             <a href="#" class="profile">
-                <img src="../../../Public/Images/Profile pic.jpg">
+            <img src="<?php echo URLROOT;?>/Images/Profile pic.jpg">
             </a>
         </nav>
 
         <main>
             <div class="header">
                 <div class="left">
-                    <h1>My Inventory</h1>
+                    <h1>Available Rentals</h1>
                 </div>
 
                 <div class="right">
@@ -56,7 +59,7 @@
                 <div>
                 <div class="header">
                     <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#000000"><path d="M620-163 450-333l56-56 114 114 226-226 56 56-282 282Zm220-397h-80v-200h-80v120H280v-120h-80v560h240v80H200q-33 0-56.5-23.5T120-200v-560q0-33 23.5-56.5T200-840h167q11-35 43-57.5t70-22.5q40 0 71.5 22.5T594-840h166q33 0 56.5 23.5T840-760v200ZM480-760q17 0 28.5-11.5T520-800q0-17-11.5-28.5T480-840q-17 0-28.5 11.5T440-800q0 17 11.5 28.5T480-760Z"/></svg>
-                    <h3>All Products</h3>
+                    <h3>All Rental Products</h3>
                     <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#000000"><path d="M440-160q-17 0-28.5-11.5T400-200v-240L168-736q-15-20-4.5-42t36.5-22h560q26 0 36.5 22t-4.5 42L560-440v240q0 17-11.5 28.5T520-160h-80Zm40-308 198-252H282l198 252Zm0 0Z"/></svg>
                 </div>
                 <table>
@@ -72,6 +75,12 @@
                         </tr>
                     </thead>
                     <tbody>
+                        
+                    <?php if (empty($products)): ?>
+                        <tr>
+                            <td colspan="7" style="text-align: center; font-size: 24px; font-weight: bold;">Inventory is empty</td>
+                        </tr>
+                    <?php else: ?>
                         <?php foreach ($products as $product): ?>
                         <tr>
                             <td>
@@ -90,41 +99,52 @@
                                 <a href="#" class="delete" productId="<?php echo $product->product_id; ?>">
                                     <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#000000"><path d="M280-120q-33 0-56.5-23.5T200-200v-520h-40v-80h200v-40h240v40h200v80h-40v520q0 33-23.5 56.5T680-120H280Zm400-600H280v520h400v-520ZM360-280h80v-360h-80v360Zm160 0h80v-360h-80v360ZM280-720v520-520Z"/></svg>
                                 </a>
-                                <a href="#" class="edit">
-                                <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#000000"><path d="M200-200h57l391-391-57-57-391 391v57Zm-80 80v-170l528-527q12-11 26.5-17t30.5-6q16 0 31 6t26 18l55 56q12 11 17.5 26t5.5 30q0 16-5.5 30.5T817-647L290-120H120Zm640-584-56-56 56 56Zm-141 85-28-29 57 57-29-28Z"/></svg>
+                                <a href="#" class="edit" 
+                                    productId="<?php echo $product->product_id; ?>"
+                                    productName ="<?php echo $product->product_name; ?>"
+                                    productRate ="<?php echo $product->rate; ?>"
+                                    productQuantity ="<?php echo $product->quantity; ?>"
+                                    productCategory ="<?php echo $product->category_name; ?>"
+                                    productDescription ="<?php echo $product->description; ?>"
+                                    productCategoryId ="<?php echo $product->category_id; ?>">
+                                    <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#000000"><path d="M200-200h57l391-391-57-57-391 391v57Zm-80 80v-170l528-527q12-11 26.5-17t30.5-6q16 0 31 6t26 18l55 56q12 11 17.5 26t5.5 30q0 16-5.5 30.5T817-647L290-120H120Zm640-584-56-56 56 56Zm-141 85-28-29 57 57-29-28Z"/></svg>
                                 </a>
                             </td>
                         </tr>
                         <?php endforeach; ?>
-                        
+                        <?php endif; ?>    
                     </tbody>
                 </table> 
-            </div> 
+            </div>
             </div>
             
           </main>
 
      </div>
-     </div>
+    </div>
      <!--Modal Structure-->
     
 
-    <?php
+     <?php
         include('Warning_Modal.php');;
     ?>
 
-     <?php
+    <?php
         include('AddProduct.php');;
     ?>
 
+    <?php
+        include('EditProduct.php');;
+    ?>
 
+    <script> const URLROOT = "<?php echo URLROOT; ?>"; </script>
     
+    <script src="<?php echo URLROOT;?>/js/Sidebar.js" ></script> 
+    <script src="<?php echo URLROOT;?>/js/addProduct.js" ></script>
+    <script src="<?php echo URLROOT;?>/js/viewDetails.js" ></script>
+    <script src="<?php echo URLROOT;?>/js/ImagePreview.js" ></script>  
+    <script src="<?php echo URLROOT;?>/js/warningModel.js" ></script>  
 
-    <script src="<?php echo URLROOT;?>/js/Sidebar.js"></script> 
-    <script src="<?php echo URLROOT;?>/js/addProduct.js"></script>
-    <script src="<?php echo URLROOT;?>/js/ImagePreview.js"></script>
-    <script src="<?php echo URLROOT;?>/js/warningModel.js"></script>
-     
 </body>
 
 </html>

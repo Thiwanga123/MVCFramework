@@ -1,11 +1,19 @@
 <?php
-class M_Pages {
-    private $db;
+    class M_Pages{
+        private $db;
 
-    public function __construct() {
-        $this->db = new Database; // Assuming you have a Database class for DB operations
+        public function __construct(){
+            $this->db = new Database;
+        }
+
+        public function getUsers(){
+            $this->db->query("SELECT * FROM users");
+            return $this->db->resultSet();
+        }
+
+        
+
+       
     }
 
-   
-}
 ?>

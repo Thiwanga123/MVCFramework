@@ -56,8 +56,8 @@
         }
         .form-group button {
             padding: 10px 20px;
-            background-color: #2ba78;
-            color: #fff;
+            background-color:#2ba789;
+            color:#fff;
             border: none;
             border-radius: 4px;
             cursor: pointer;
@@ -174,7 +174,7 @@
          Account Number: 123456789
         </span>
         <span>
-         Holder: Nimal Perera
+         Holder: Sanjula Ranathunga
         </span>
        </div>
       </div>
@@ -186,98 +186,7 @@
        </button>
       </div>
      </li>
-     <li>
-      <div class="account-info">
-       <img alt="Bank logo placeholder" height="50" src="https://storage.googleapis.com/a1aa/image/UqBnOZuNAJLFIx8ARHs7MAx6tALvwM2NjiWA9bd5kMNBgi9E.jpg" width="50"/>
-       <div class="account-details">
-        <span class="account-name">
-         Commercial Bank
-        </span>
-        <span>
-         Account Number: 987654321
-        </span>
-        <span>
-         Holder: Nimal Perera
-        </span>
-       </div>
-      </div>
-      <div class="account-actions">
-       <button onclick="removeAccount(this)" type="button">
-        <i class="fas fa-trash-alt">
-        </i>
-        Remove
-       </button>
-      </div>
-     </li>
-     <li>
-      <div class="account-info">
-       <img alt="Bank logo placeholder" height="50" src="https://storage.googleapis.com/a1aa/image/UqBnOZuNAJLFIx8ARHs7MAx6tALvwM2NjiWA9bd5kMNBgi9E.jpg" width="50"/>
-       <div class="account-details">
-        <span class="account-name">
-         Sampath Bank
-        </span>
-        <span>
-         Account Number: 112233445
-        </span>
-        <span>
-         Holder: Nimal Perera
-        </span>
-       </div>
-      </div>
-      <div class="account-actions">
-       <button onclick="removeAccount(this)" type="button">
-        <i class="fas fa-trash-alt">
-        </i>
-        Remove
-       </button>
-      </div>
-     </li>
-     <li>
-      <div class="account-info">
-       <img alt="Bank logo placeholder" height="50" src="https://storage.googleapis.com/a1aa/image/UqBnOZuNAJLFIx8ARHs7MAx6tALvwM2NjiWA9bd5kMNBgi9E.jpg" width="50"/>
-       <div class="account-details">
-        <span class="account-name">
-         Hatton National Bank
-        </span>
-        <span>
-         Account Number: 556677889
-        </span>
-        <span>
-         Holder: Nimal Perera
-        </span>
-       </div>
-      </div>
-      <div class="account-actions">
-       <button onclick="removeAccount(this)" type="button">
-        <i class="fas fa-trash-alt">
-        </i>
-        Remove
-       </button>
-      </div>
-     </li>
-     <li>
-      <div class="account-info">
-       <img alt="Bank logo placeholder" height="50" src="https://storage.googleapis.com/a1aa/image/UqBnOZuNAJLFIx8ARHs7MAx6tALvwM2NjiWA9bd5kMNBgi9E.jpg" width="50"/>
-       <div class="account-details">
-        <span class="account-name">
-         People's Bank
-        </span>
-        <span>
-         Account Number: 998877665
-        </span>
-        <span>
-         Holder: Nimal Perera
-        </span>
-       </div>
-      </div>
-      <div class="account-actions">
-       <button onclick="removeAccount(this)" type="button">
-        <i class="fas fa-trash-alt">
-        </i>
-        Remove
-       </button>
-      </div>
-     </li>
+    
     </ul>
    </div>
   </div>

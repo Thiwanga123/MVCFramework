@@ -1,0 +1,52 @@
+a{
+    text-decoration: none;
+}
+
+ul{
+    list-style: none;
+}
+
+header{
+    background-color: white;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    align-items: center;
+    height: 65px;
+    position: fixed;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+header .logo img{
+    margin-left: 10px;
+    width: 40px;
+    height: 40px;
+}
+
+header .logo a{
+    color: rgb(15, 15, 72);
+    display: flex;
+    align-items: center;
+    font-size: 18px;
+    font-weight: 700;
+    gap: 0.5rem;
+}
+
+header .logo span{
+    color: teal;
+}
+
+header .navbar {
+    display: flex;
+    justify-content: space-between;
+    gap: 60px;
+    align-items: center;
+    font-size: 16px;
+    margin-left: auto;
+    margin-right: 40px;
+    
+}

@@ -13,4 +13,3 @@
     define('API_KEY', 'AIzaSyBWPZDukN31Cm_aSc5ZBkEw65wzpaA27cE');
     define('WEATHER_API_KEY', '77949cb1697845208e994415251401');
 ?>
-

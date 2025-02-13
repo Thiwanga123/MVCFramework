@@ -152,7 +152,7 @@
         
                 <!--Recent updates-->
                 <div class="reminders">
-    <div class="header">
+                    <div class="header">
         <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#000000">
             <path d="M200-120q-33 0-56.5-23.5T120-200v-560q0-33 23.5-56.5T200-840h440l200 200v440q0 33-23.5 56.5T760-120H200Zm0-80h560v-400H600v-160H200v560Zm80-80h400v-80H280v80Zm0-320h200v-80H280v80Zm0 160h400v-80H280v80Zm-80-320v160-160 560-560Z"/>
         </svg>
@@ -168,7 +168,7 @@
                 <h4>System Maintenance</h4>
            
 <p>Scheduled downtime for updates from 2:00 AM to 4:00 AM.</p>
-        </div>
+                    </div>
       </li>
       <li>
         <div class="event-date">
@@ -181,11 +181,11 @@
         </div>
       </li>
       
-    </ul>
-    </div>
+                    </ul>
+                </div>
        
         
-               
+        
           </main>
 
      </div>

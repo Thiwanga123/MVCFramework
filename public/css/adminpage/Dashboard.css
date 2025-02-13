@@ -156,15 +156,18 @@
 }
 
 .content main .bottom-data .orders table tbody tr td .status.completed{
-    background: rgb(89, 231, 96);
+    background-color: #d4edda;
+    color: #155724;
 }
 
 .content main .bottom-data .orders table tbody tr td .status.pending{
-    background: rgb(255, 247, 9);
+    background-color: #fff3cd;
+    color: #856404;
 }
 
 .content main .bottom-data .orders table tbody tr td .status.cancelled{
-    background: rgb(255, 50, 50);
+    background-color: rgb(245, 180, 180);
+    color: rgb(175, 5, 5);
 }
 
 .action-buttons {

@@ -95,7 +95,7 @@
                             <th>Available Time To</th>
                             <th>Chargers per hour</th>
                             <th>Location</th>
-                            <th>Action</th>
+                           <th>Action</th>
                           
                         </tr>
                     </thead>
@@ -112,18 +112,18 @@
                             <td><?php echo $available->location; ?></td>
                             <td class="action-button">
                                 <button class="edit-btn" name ="edit-btn" id="edit-btn" style="delete-btn {background-color: rgb(107, 239, 122);color: white; font-size: medium;cursor: pointer;padding: 5px 15px;border-radius: 20px;border-style: none; margin-top: 1rem;}">
-                                    Edit
-                                </button>
+        Edit
+    </button>
                                 <a href="<?php echo URLROOT; ?>/tour_guides/delete_availability/<?php echo $available->id; ?>"><button class="delete-btn" onclick="return confirm('Are u Sure?');" name ="delete-btn" id="delete-btn">
                                    Delete
                                 </button></a>
                     </tr>
                     <?php endforeach; ?>
                   
+                  
+                  
                            
                        
-                        
-                        
                     </tbody>
                 </table> 
                 <div id="map" style="height: 500px; width: 100%;"></div>

@@ -73,7 +73,7 @@
     <td><?php echo $booking->date; ?></td>
     <td>Rs.<?php echo $booking->total; ?></td>
     <td><?php echo $booking->status; ?></td>
-</tr>
+                        </tr>
 <?php endforeach; ?>
 
                        

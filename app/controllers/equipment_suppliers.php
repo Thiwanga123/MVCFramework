@@ -3,6 +3,7 @@
 class Equipment_Suppliers extends Controller{
 
     private $productModel;
+    private $userModel;
 
     public function __construct(){
         $this->productModel = $this->model('ProductModel');
@@ -17,29 +18,29 @@ class Equipment_Suppliers extends Controller{
         if (isset($_SESSION['id'])) {
             $this->view('equipment_supplier/Dashboard');
         } else {
-            redirect('ServiceProvider/login');
+            redirect('ServiceProvider');
         }
        
     
 }
 
 
-public function myInventory(){
 
-    if (isset($_SESSION['id'])) {
+    public function myInventory(){
 
-        $supplierId = $_SESSION['id'];
+        if (isset($_SESSION['id'])) {
 
-        $this->productModel = $this->model('ProductModel');
-        $products = $this->productModel->getAllProducts($supplierId);
-        //var_dump ($products); //Debugging
-        $this->view('equipment_supplier/MyInventory',['products' => $products]);
+            $supplierId = $_SESSION['id'];
 
-    } else {
-        redirect('ServiceProvider/login');
+            $this->productModel = $this->model('ProductModel');
+            $products = $this->productModel->getAllProducts($supplierId);
+            $this->view('equipment_supplier/MyInventory',['products' => $products]);
+
+        } else {
+            redirect('ServiceProvider');
+        }
+
     }
-}
-
 
     public function orders(){
         
@@ -48,6 +49,8 @@ public function myInventory(){
         } else {
             redirect('ServiceProvider/login');
         }
+        
+
     }
 
     public function reviews(){
@@ -59,10 +62,28 @@ public function myInventory(){
         }
     }
 
+    public function bankdetails(){
+
+        if (isset($_SESSION['id'])) {
+            $this->view('equipment_supplier/bankdetails');
+        } else {
+            redirect('ServiceProvider');
+        }
+    }
+
+    public function Mypayments(){
+
+        if (isset($_SESSION['id'])) {
+            $this->view('equipment_supplier/Mypayments');
+        } else {
+            redirect('ServiceProvider');
+        }
+    }
+
     public function notifications(){
 
         if (isset($_SESSION['id'])) {
-            $this->view('equipment_supplier/Notifications');
+            $this->view('equipment_supplier/Earnings');
         } else {
             redirect('ServiceProvider');
         }
@@ -72,12 +93,21 @@ public function myInventory(){
     public function profile(){
 
         if (isset($_SESSION['id'])) {
-            $this->view('equipment_supplier/Myprofile');
+            $id = $_SESSION['id'];
+            $type = $_SESSION['type'];
+            $details = $this->getProfileDetails($id,$type);
+            $this->view('equipment_supplier/Myprofile',['details' => $details]);
         } else {
             redirect('ServiceProvider');
         }
     }
-}
+
+    public function getProfileDetails($id, $type){
+        $this->userModel = $this->model('ServiceProviderModel');
+        $data = $this->userModel->getUserData($id,$type);
+        return $data;
+    }
+} 
 
 
 ?>
