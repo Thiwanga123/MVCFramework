@@ -27,14 +27,14 @@ public function getGuiderBookings($guider_id){
 
     $this->db->bind(':guider_id', $guider_id);
 
-    $row = $this->db->single();
+   $row = $this->db->single();
 
     return $row->number_of_bookings;
 }
 
 //get the available bookings with the relavannt of the guider
 public function getAvailability($guider_id){
-    $this->db->query('SELECT * FROM guider_availability WHERE guider_id = :guider_id');
+   $this->db->query('SELECT * FROM guider_availability WHERE guider_id = :guider_id');
 
     $this->db->bind(':guider_id', $guider_id);
 
@@ -50,10 +50,11 @@ public function getAvailability($guider_id){
 public function deleteGuiderAvailability($id){
     $this->db->query('DELETE FROM guider_availability WHERE id = :id');
 
-    $this->db->bind(':id', $id);
+   $this->db->bind(':id', $id);
 
-    $this->db->execute();
+   $this->db->execute();
 }
+
 
 //add the availability of the guider
 
@@ -62,7 +63,7 @@ public function addAvailability($data){
 
     $this->db->bind(':guider_id', $data['guider_id']);
     $this->db->bind(':date', $data['date']);
-    $this->db->bind(':charges_per_hour', $data['charges_per_hour']);
+   $this->db->bind(':charges_per_hour', $data['charges_per_hour']);
     $this->db->bind(':location', $data['location']);
     $this->db->bind(':available_time_from', $data['available_time_from']);
     $this->db->bind(':available_time_to', $data['available_time_to']);
@@ -71,8 +72,8 @@ public function addAvailability($data){
 
     if($this->db->rowCount() > 0){
         return true;
-    } else {
-        return false; 
+   } else {
+       return false; 
     }
 }
 
@@ -82,18 +83,18 @@ public function editAvailability($data){
     $this->db->query('UPDATE guider_availability SET available_date = :date, available_time = :time, charges_per_hour = :charges_per_hour, location = :location WHERE id = :id && guider_id = :guider_id');
 
     $this->db->bind(':date', $data['date']);
-    $this->db->bind(':time', $data['time']);
+   $this->db->bind(':time', $data['time']);
     $this->db->bind(':charges_per_hour', $data['charges_per_hour']);
     $this->db->bind(':location', $data['location']);
     $this->db->bind(':id', $data['id']);
-    $this->db->bind(':guider_id', $data['guider_id']);
+   $this->db->bind(':guider_id', $data['guider_id']);
 
     $this->db->execute();
 
     if($this->db->rowCount() > 0){
-        return true;
-    } else {
-        return false;
+       return true;
+   } else {
+      return false;
     }
 }
 
@@ -104,15 +105,15 @@ public function updateProfile($data){
     $this->db->bind(':name', $data['name']);
     $this->db->bind(':address', $data['address']);
     $this->db->bind(':email', $data['email']);
-    $this->db->bind(':phone_number', $data['phone']);
+   $this->db->bind(':phone_number', $data['phone']);
     $this->db->bind(':language', $data['language']);
-    $this->db->bind(':password', $data['password']);
-    $this->db->execute();
-    if($this->db->rowCount() > 0){
-        return true;
-    } else {
-        return false;
-    }
+   $this->db->bind(':password', $data['password']);
+ $this->db->execute();
+   if($this->db->rowCount() > 0){
+       return true;
+  } else {
+      return false;
+ }
 
 }
 
@@ -120,7 +121,6 @@ public function updateProfile($data){
 }
 ?>
 
- 
 
 
    

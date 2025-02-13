@@ -6,8 +6,33 @@
     <link rel="stylesheet" href="<?php echo URLROOT;?>/css/Common/MyInventory.css">
     <link rel="stylesheet" href="<?php echo URLROOT;?>/css/Common/sidebarHeader.css">
     <title>Home</title>
+    <script src="https://maps.googleapis.com/maps/api/js?key=<?php echo API_KEY; ?>"></script>
+    <script>
+        function initMap() {
+            var mapOptions = {
+                zoom: 10,
+                center: {lat: -34.397, lng: 150.644}
+            };
+            var map = new google.maps.Map(document.getElementById('map'), mapOptions);
+
+            <?php foreach($availability as $available): ?>
+                var marker = new google.maps.Marker({
+                    position: {lat: <?php echo $available->latitude; ?>, lng: <?php echo $available->longitude; ?>},
+                    map: map,
+                    title: '<?php echo $available->location; ?>'
+                });
+
+                // Check if the place is already booked
+                if (<?php echo $available->is_booked ? 'true' : 'false'; ?>) {
+                    marker.setIcon('http://maps.google.com/mapfiles/ms/icons/red-dot.png');
+                } else {
+                    marker.setIcon('http://maps.google.com/mapfiles/ms/icons/green-dot.png');
+                }
+            <?php endforeach; ?>
+        }
+    </script>
 </head>
-<body>
+<body onload="initMap()">
     <div class="box">
     <!-- SideBar -->
     <?php
@@ -101,6 +126,7 @@
                         
                     </tbody>
                 </table> 
+                <div id="map" style="height: 500px; width: 100%;"></div>
             </div>
             </div>
             
@@ -131,3 +157,5 @@
 </body>
 
 </html>
+
+
