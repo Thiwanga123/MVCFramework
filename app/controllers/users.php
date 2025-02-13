@@ -506,6 +506,8 @@ public function showaccommodation(){
 }
 
 }
+
+
 }
 
 

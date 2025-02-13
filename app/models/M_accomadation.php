@@ -184,6 +184,41 @@ class M_accomadation{
         }
     }
 
+    public function getTotalBookings($userId) {
+        try {
+            $sql = "SELECT COUNT(*) as total_bookings FROM property_booking WHERE supplier_id = ?";
+
+            $this->db->query($sql);
+            $this->db->bind(1, $userId);
+
+            $totalBookings = $this->db->single();
+
+            return $totalBookings;
+        } catch (Exception $e) {
+            echo "<script>alert('An error occurred: {$e->getMessage()}');</script>";
+            return [];
+        }
+    }
+
+
+    public function getTotalAccomadation($userId) {
+        try {
+            $sql = "SELECT COUNT(*) as total_accomadation FROM properties WHERE service_provider_id = ?";
+
+            $this->db->query($sql);
+            $this->db->bind(1, $userId);
+
+            $totalAccomadation = $this->db->single();
+
+            print_r($totalAccomadation);
+
+            return $totalAccomadation;
+        } catch (Exception $e) {
+            echo "<script>alert('An error occurred: {$e->getMessage()}');</script>";
+            return [];
+        }
+    }
+
     //get the Payments from the property_booking table to the related service provider
 
     public function getPayments($userId) {
