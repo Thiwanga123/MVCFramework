@@ -33,7 +33,14 @@ class Trips extends Controller{
 
     public function guider(){
         if (isset($_SESSION['user_id'])) {
-            $this->view('users/bookguider');
+            $guides=$this->tripModel->getGuider();
+
+
+   
+            $data = [
+                'guides' => $guides
+            ];
+            $this->view('users/bookguider',$data);
         } else {
             redirect('users/login');
         }

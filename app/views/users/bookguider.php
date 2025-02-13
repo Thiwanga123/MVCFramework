@@ -91,125 +91,25 @@
             </div>
             
             <div class="bottom">
+                
+                <?php foreach ($data['guides'] as $guides): ?>
                 <div class="card">
-                <img src="<?php echo URLROOT;?>/images/guide.jpeg" alt="guider ">
-                <h3>Mr.Jayasinghe</h3>
-                <p>Laguages: Sinhala,Tamil,English</p>
-                <br>
-                <p>Price:Rs.5,000 per day</p>
-                <a href="#"><button class="pay-btn" style=" background-color: rgb(21, 126, 126);color: white;font-size: medium;height: 30px;
-                border-radius: 30px;
-                border: none;
-                margin-top: 1rem;
-                cursor: pointer;
-                padding: 0 10px;
-                transition: all 0.3s ease;">Book</button></a>
+                    <img src="<?php echo URLROOT;?>/images/guide.jpeg" alt="guide">
+                    <h3><?php echo $guides->name; ?></h3>
+                    <p>Languages: <?php echo $guides->id; ?></p>
+                    <br>
+                    <p>Price: Rs.5000 per day</p>
+                    <a href="#"><button class="pay-btn" style=" background-color: rgb(21, 126, 126);color: white;font-size: medium;height: 30px;
+                    border-radius: 30px;
+                    border: none;
+                    margin-top: 1rem;
+                    cursor: pointer;
+                    padding: 0 10px;
+                    transition: all 0.3s ease;">Book</button></a>
                 </div>
+                <?php endforeach; ?>
 
-                <div class="card">
-                <img src="<?php echo URLROOT;?>/images/guide.jpeg" alt="guider ">
-                <h3>Mr.Jayasinghe</h3>
-                <p>Laguages: Sinhala,Tamil,English</p>
-                <br>
-                <p>Price:Rs.5,000 per day</p>
-                <a href="#"><button class="pay-btn" style=" background-color: rgb(21, 126, 126);color: white;font-size: medium;height: 30px;
-                border-radius: 30px;
-                border: none;
-                margin-top: 1rem;
-                cursor: pointer;
-                padding: 0 10px;
-                transition: all 0.3s ease;">Book</button></a>
-                </div>
-
-                <div class="card">
-                <img src="<?php echo URLROOT;?>/images/guide.jpeg" alt="guider ">
-                <h3>Mr.Jayasinghe</h3>
-                <p>Laguages: Sinhala,Tamil,English</p>
-                <br>
-                <p>Price:Rs.5,000 per day</p>
-                <a href="#"><button class="pay-btn" style=" background-color: rgb(21, 126, 126);color: white;font-size: medium;height: 30px;
-                border-radius: 30px;
-                border: none;
-                margin-top: 1rem;
-                cursor: pointer;
-                padding: 0 10px;
-                transition: all 0.3s ease;">Book</button></a>
-                </div>
-
-                <div class="card">
-                <img src="<?php echo URLROOT;?>/images/guide.jpeg" alt="guider ">
-                <h3>Mr.Jayasinghe</h3>
-                <p>Laguages: Sinhala,Tamil,English</p>
-                <br>
-                <p>Price:Rs.5,000 per day</p>
-                <a href="#"><button class="pay-btn" style=" background-color: rgb(21, 126, 126);color: white;font-size: medium;height: 30px;
-                border-radius: 30px;
-                border: none;
-                margin-top: 1rem;
-                cursor: pointer;
-                padding: 0 10px;
-                transition: all 0.3s ease;">Book</button></a>
-                </div>
-
-                <div class="card">
-                <img src="<?php echo URLROOT;?>/images/guide.jpeg" alt="guider ">
-                <h3>Mr.Jayasinghe</h3>
-                <p>Laguages: Sinhala,Tamil,English</p>
-                <br>
-                <p>Price:Rs.5,000 per day</p>
-                <a href="#"><button class="pay-btn" style=" background-color: rgb(21, 126, 126);color: white;font-size: medium;height: 30px;
-                border-radius: 30px;
-                border: none;
-                margin-top: 1rem;
-                cursor: pointer;
-                padding: 0 10px;
-                transition: all 0.3s ease;">Book</button></a>
-                </div>
-
-                <div class="card">
-                <img src="<?php echo URLROOT;?>/images/guide.jpeg" alt="guider ">
-                <h3>Mr.Jayasinghe</h3>
-                <p>Laguages: Sinhala,Tamil,English</p>
-                <br>
-                <p>Price:Rs.5,000 per day</p>
-                <a href="#"><button class="pay-btn" style=" background-color: rgb(21, 126, 126);color: white;font-size: medium;height: 30px;
-                border-radius: 30px;
-                border: none;
-                margin-top: 1rem;
-                cursor: pointer;
-                padding: 0 10px;
-                transition: all 0.3s ease;">Book</button></a>
-                </div>
-
-                <div class="card">
-                <img src="<?php echo URLROOT;?>/images/guide.jpeg" alt="guider ">
-                <h3>Mr.Jayasinghe</h3>
-                <p>Laguages: Sinhala,Tamil,English</p>
-                <br>
-                <p>Price:Rs.5,000 per day</p>
-                <a href="#"><button class="pay-btn" style=" background-color: rgb(21, 126, 126);color: white;font-size: medium;height: 30px;
-                border-radius: 30px;
-                border: none;
-                margin-top: 1rem;
-                cursor: pointer;
-                padding: 0 10px;
-                transition: all 0.3s ease;">Book</button></a>
-                </div>
-
-                <div class="card">
-                <img src="<?php echo URLROOT;?>/images/guide.jpeg" alt="guider ">
-                <h3>Mr.Jayasinghe</h3>
-                <p>Laguages: Sinhala,Tamil,English</p>
-                <br>
-                <p>Price:Rs.5,000 per day</p>
-                <a href="#"><button class="pay-btn" style=" background-color: rgb(21, 126, 126);color: white;font-size: medium;height: 30px;
-                border-radius: 30px;
-                border: none;
-                margin-top: 1rem;
-                cursor: pointer;
-                padding: 0 10px;
-                transition: all 0.3s ease;">Book</button></a>
-                </div>
+               
             </div>
         </div>
     </div>

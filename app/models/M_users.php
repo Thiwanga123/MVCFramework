@@ -227,12 +227,11 @@ class M_users{
         print($this->db->resultSet());
         return $this->db->resultSet();
 
-        
-
-
     
 
 }
+
+
 }
 
 

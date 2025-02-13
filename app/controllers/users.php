@@ -508,6 +508,22 @@ public function showaccommodation(){
 }
 
 
+public function showGuider(){
+    if(isset($_SESSION['user_id'])) {
+        $guide=$this->userModel->getGuider();
+
+
+   
+        $data = [
+            'guide' => $guide
+        ];
+        $this->view('users/bookguider',$data);
+    }else{
+        redirect('users/login');
+    }
+}
+
+
 }
 
 
