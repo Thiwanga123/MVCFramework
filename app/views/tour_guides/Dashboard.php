@@ -58,7 +58,7 @@
                         <h3></h3>
 
                        
-
+`
                         <p>Total Bookings</p>
                     </span>
                 </li>

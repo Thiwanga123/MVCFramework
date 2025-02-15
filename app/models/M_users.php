@@ -159,8 +159,8 @@ class M_users{
 
         //print the data
         print_r($data);
-        $this->db->query('INSERT INTO property_booking(traveler_id, property_id, supplier_id,check_in, check_out,amount, guests,singlerooms,doublerooms,familyrooms,totalrooms,paid,payment_date) 
-        VALUES(:traveler_id, :property_id, :service_provider_id, :check_in, :check_out, :total_price , :no_of_people , :singleroom, :doubleroom, :familyroom, :totalrooms, :paid, CURRENT_DATE)');
+        $this->db->query('INSERT INTO property_booking(traveler_id, property_id, supplier_id, check_in, check_out, amount, guests, singlerooms, doublerooms, familyrooms, totalrooms, paid, payment_date, payment_status) 
+        VALUES(:traveler_id, :property_id, :service_provider_id, :check_in, :check_out, :total_price, :no_of_people, :singleroom, :doubleroom, :familyroom, :totalrooms, :paid, CURRENT_DATE, "charged")');
         //bind values
         $this->db->bind(':traveler_id', $data['user_id']);
         $this->db->bind(':property_id', $data['property_id']);
@@ -173,8 +173,7 @@ class M_users{
         $this->db->bind(':doubleroom', $data['doubleamount']);
         $this->db->bind(':familyroom', $data['familyamount']);
         $this->db->bind(':service_provider_id', $data['service_provider_id']);
-        $this->db->bind(':paid',$data['paid']);
-        
+        $this->db->bind(':paid', $data['paid']);
 
         //execute
         if($this->db->execute()){

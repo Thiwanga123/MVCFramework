@@ -37,6 +37,9 @@ class Accomadation extends Controller{
 }
 
 
+
+
+
 public function myInventory(){
 
     if (isset($_SESSION['id'])) {
@@ -67,6 +70,14 @@ public function deleteproperty($id) {
         }
     } else {
         echo "<script>alert('Please log in to delete a property'); window.location.href = '" . URLROOT . "/ServiceProvider/login';</script>";
+    }
+}
+
+public function bankdetails(){
+    if (isset($_SESSION['id'])) {
+        $this->view('accomadation/bankdetails');
+    } else {
+        redirect('ServiceProvider');
     }
 }
 
@@ -192,6 +203,17 @@ public function myPayments(){
         }
         
        
+    }
+
+
+
+    public function wallet(){
+        if (isset($_SESSION['id'])) {
+            $this->view('accomadation/bankdetails');
+        } else {
+            redirect('ServiceProvider');
+        }
+        
     }
 
     // public function paymenthistory(){

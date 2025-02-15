@@ -106,7 +106,7 @@ public function deleteVehicleAvailability($id){
 
 public function updateprofile($data){
 
-    $sql = 
+
     $this->db->query('UPDATE transport_suppliers SET name = :name, email = :email, password= :password, address = :address, phone = :phone, nic = :nic WHERE id = :id');
 
     $this->db->bind(':id', $data['id']);

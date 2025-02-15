@@ -6,6 +6,70 @@
     <link rel="stylesheet" href="<?php echo URLROOT;?>/css/Common/Orders.css">
     <link rel="stylesheet" href="<?php echo URLROOT;?>/css/Common/sidebarHeader.css">
     <title>Home</title>
+    <style>
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgb(0,0,0);
+            background-color: rgba(0,0,0,0.4);
+            padding-top: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-content {
+            background-color: #fefefe;
+            margin: auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 40%;
+            height: auto;
+            border-radius: 10px;
+        }
+
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        .close:hover,
+        .close:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        .modal-content p {
+            line-height: 2;
+        }
+
+        .modal-buttons {
+            display: flex;
+            justify-content: center;
+            margin-top: 20px;
+        }
+
+        .modal-button {
+            padding: 10px 20px;
+            border-radius: 8px;
+            border: none;
+            cursor: pointer;
+        }
+
+        .delete-button {
+            background: var(--danger);
+            color: var(--light);
+        }
+    </style>
 </head>
 <body>
     <!-- SideBar -->
@@ -81,8 +145,7 @@
                             <td>Rs.<?php echo htmlspecialchars($accomadation->amount); ?></td>
                             <td>Rs.<?php echo htmlspecialchars($accomadation->paid); ?></td>                           
                             <td class="action-btn">
-                                    <button class="view-btn">View</button>
-                                    
+                                <button class="view-btn" onclick="openModal(<?php echo htmlspecialchars(json_encode($accomadation)); ?>)">View</button>
                             </td>
 
                         </tr>
@@ -97,11 +160,51 @@
 
      </div>
 
+     <!-- Modal -->
+     <div id="bookingModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal()">&times;</span>
+            <h2>Booking Details</h2>
+            <p id="bookingDetails"></p>
+            <div class="modal-buttons">
+                <button class="modal-button delete-button" onclick="deleteBooking()">Cancel</button>
+            </div>
+        </div>
+     </div>
 
      <script src="<?php echo URLROOT;?>/js/Sidebar.js"></script> 
+     <script>
+        function openModal(accomadation) {
+            document.getElementById('bookingDetails').innerHTML = `<br>
+                <strong>Traveler Name:</strong> ${accomadation.traveler_name}<br>
+                <strong>Booking ID:</strong> ${accomadation.booking_id}<br>
+                <strong>Accommodation Type:</strong> ${accomadation.property_type}<br>
+                <strong>Accommodation Name:</strong> ${accomadation.property_name}<br>
+                <strong>Check-In:</strong> ${accomadation.check_in}<br>
+                <strong>Check-Out:</strong> ${accomadation.check_out}<br>
+                <strong>Full Amount:</strong> Rs.${accomadation.amount}<br>
+                <strong>Paid Amount:</strong> Rs.${accomadation.paid}<br>
+            `;
+           
+            document.getElementById('bookingModal').style.display = 'flex';
+        }
 
-    
-     
+        function closeModal() {
+            document.getElementById('bookingModal').style.display = 'none';
+        }
+
+        function deleteBooking() {
+            // Add your delete booking logic here
+            alert('Booking deleted successfully!');
+            closeModal();
+        }
+
+        window.onclick = function(event) {
+            if (event.target == document.getElementById('bookingModal')) {
+                closeModal();
+            }
+        }
+     </script>
 </body>
 
 </html>
