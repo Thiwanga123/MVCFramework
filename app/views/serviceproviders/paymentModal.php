@@ -1,5 +1,5 @@
-<div id="payment-modal" style="display: none;">
-    <div class="modal-content">
+<div id="paymentModalContainer" class="paymentModal">
+    <div class="wrapper">
         <h2>Payment Required</h2>
         <p>You have selected the <span id="selected-plan-name"></span> plan. Please enter your payment details to complete your registration.</p>
 

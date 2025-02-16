@@ -4,7 +4,10 @@ document.addEventListener("DOMContentLoaded", function () {
         if (validateStep(currentStep)) {
             if (currentStep === 4) {
                 const selectedPlan = document.getElementById('selected-plan').value;
+                console.log('selectedPlan');
 
+                return;
+                
                 if (selectedPlan === 'free') {
                     // If the selected plan is 'free', directly submit the form (insert data into the database)
                     sendDataToServer(currentStep).then(serverValidationSuccess => {
@@ -28,20 +31,19 @@ document.addEventListener("DOMContentLoaded", function () {
     };
     
     function promptPayment(plan){
-        const modal = document.getElementById('payment-modal');
+        const modal = document.getElementById('paymentModalContainer');
         const selectedPlanName = document.getElementById('selected-plan-name');
         const cancelButton = document.getElementById('cancel-button');
         const submitButton = document.getElementById('submit-button');
     
         // Set the selected plan name in the modal
         selectedPlanName.innerText = plan.charAt(0).toUpperCase() + plan.slice(1) + " Plan";
-    
+
         // Show the payment modal
-        modal.style.display = "flex";
-    
+        modal.classList.add('active');
         // Handle cancel button to close the modal
         cancelButton.addEventListener('click', function() {
-            modal.style.display = "none";
+            modal.classList.remove('active');
         });
     
     }
