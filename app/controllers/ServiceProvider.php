@@ -94,11 +94,11 @@ class ServiceProvider extends Controller {
                 'password' => trim($_POST['password']),
                 'nic'=>trim($_POST['nic']),
                 'reg_number'=>trim($_POST['reg_num']),
-                'address'=>trim($_POST['address']),
+                //'address'=>trim($_POST['address']),
                 'confirm_password'=>trim($_POST['confirm_password']),
                 'sptype'=>trim($_POST['sptype']),
-                'longitude' => $_POST['longitude'], 
-                'latitude' => $_POST['latitude'],
+                //'longitude' => $_POST['longitude'], 
+                //'latitude' => $_POST['latitude'],
                 
                 'sptype_err'=>'',
                 'name_err' => '',
@@ -108,9 +108,9 @@ class ServiceProvider extends Controller {
                 'nic_err'=>'',
                 'confirmpassword_err'=>'',
                 'reg_num_err'=>'',
-                'address_err'=>'',
-                'latitude_err' => '',
-                'longitude_err' => '',
+                //'address_err'=>'',
+                //'latitude_err' => '',
+                //'longitude_err' => '',
             ];
 
             // Validate name
@@ -256,7 +256,6 @@ class ServiceProvider extends Controller {
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
             $currentStep = $_POST['current_step'];
-    
             $errors = [];
     
             switch ($currentStep) {
@@ -268,7 +267,6 @@ class ServiceProvider extends Controller {
                         $serviceType = $_POST['sptype']; 
     
                         if ($this->serviceProviderModel->findUserByName($name, $serviceType)) {
-                            
                             $errors['name'] = 'User already exists';
                         }
                     }
@@ -287,6 +285,13 @@ class ServiceProvider extends Controller {
     
                     if (empty($_POST['nic'])) {
                         $errors['nic'] = 'NIC Number is required';
+                    }else{
+                        $nic = $_POST['nic'];
+                        $serviceType = $_POST['sptype'];
+
+                        if($this->serviceProviderModel->findUsersByNIC($nic, $serviceType)){
+                            $errors['nic'] = "NIC number already exists";
+                        }
                     }
     
                     if (empty($_POST['phone'])) {
@@ -310,7 +315,7 @@ class ServiceProvider extends Controller {
                     
                     break;
 
-                case 3:
+                /*case 3:
                     if (empty($_POST['address'])) {
                         $errors['address'] = 'Address is required';
                     }
@@ -319,31 +324,43 @@ class ServiceProvider extends Controller {
                         $errors['presentaddress'] = 'Present Address is required';
                     }
     
-                    break;
+                    break; */
     
-                case 4:
-                    if (empty($_POST['reg_num'])) {
-                        $errors['reg_num'] = 'Government Registration Number is required';
-                    }
-    
-                    if (empty($_POST['password'])) {
-                        $errors['password'] = 'Password is required';
-                    }
-    
-                    if ($_POST['password'] !== $_POST['confirm_password']) {
-                        $errors['confirm_password'] = 'Passwords do not match';
-                    }
-    
-                    if (empty($_FILES['pdfFile']['name'])) {
-                        $errors['pdfFile'] = 'PDF file is required';
-                    } elseif ($_FILES['pdfFile']['type'] !== 'application/pdf') {
-                        $errors['pdfFile'] = 'Only PDF files are allowed';
-                    }
-    
-                    break;
-    
-                default:
-                    break;
+                    case 3:
+                        if (empty($_POST['reg_num'])) {
+                            $errors['reg_num'] = 'Government Registration Number is required';
+                        }
+        
+                        // Password and confirm password validation
+                        $password = $_POST['password'];
+                        $confirmPassword = $_POST['confirm_password'];
+        
+                            // Check if password meets criteria
+                        if (strlen($password) < 8) {
+                            $errors['password'] = 'Password must be at least 8 characters long';
+                        } 
+
+                        if (!preg_match('/[A-Z]/', $password) || !preg_match('/\d/', $password) || !preg_match('/[!@#$%^&*(),.?":{}|<>]/', $password)) {
+                            $errors['password']  = 'Password must contain at least one uppercase letter, one number and a special character';
+                        }
+
+                        // Confirm Password validation
+                        if (empty($_POST['confirm_password'])) {
+                            $errors['confirm_password'] = 'Confirm Password is required';
+                        } elseif ($_POST['password'] !== $_POST['confirm_password']) {
+                            $errors['confirm_password'] = 'Passwords do not match';
+                        }
+        
+                        if (empty($_FILES['pdfFile']['name'])) {
+                            $errors['pdfFile'] = 'PDF file is required';
+                        } elseif ($_FILES['pdfFile']['type'] !== 'application/pdf') {
+                            $errors['pdfFile'] = 'Only PDF files are allowed';
+                        }
+                        break;
+        
+                    default:
+                        break;
+               
             }
     
             if (!empty($errors)) {
@@ -356,95 +373,34 @@ class ServiceProvider extends Controller {
 
     public function registerUpdated() {
         // Check if the submitted method is POST
-        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-            $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+       
+        if ($_SERVER["REQUEST_METHOD"] == "POST") {
+            // Validate form fields again (for security)
+            if (empty($_POST['password']) || empty($_POST['confirm_password'])) {
+                die("Invalid form submission");
+            }
+        
+            // Hash the password before saving it to the database
+            $hashedPassword = password_hash($_POST['password'], PASSWORD_DEFAULT);
+        
+            // Example: Prepare data for insertion
             $data = [
-                'name' => trim($_POST['name']),
-                'phone' => trim($_POST['phone']),
-                'email' => trim($_POST['email']),
-                'password' => trim($_POST['password']),
-                'nic'=> trim($_POST['nic']),
-                'reg_number'=> trim($_POST['reg_num']),
-                'subscription_type' => trim($_POST['subscription_type']),
-                'address'=> trim($_POST['address']),
-                'confirm_password'=> trim($_POST['confirm_password']),
-                'sptype'=> trim($_POST['sptype']),
-                'longitude' => $_POST['longitude'],
-                'latitude' => $_POST['latitude'],
-                'password_err' => '',
-                'confirmpassword_err' => '',
-                'reg_num_err' => '',
-                
+                'name' => $_POST['name'],
+                'email' => $_POST['email'],
+                'nic' => $_POST['nic'],
+                'phone' => $_POST['phone'],
+                'sptype' => $_POST['sptype'],
+                'reg_num' => $_POST['reg_num'],
+                'password' => $hashedPassword, // Save hashed password
+                'plan' => $_POST['selected_plan']
             ];
-    
-           
-    
-            // Validate password
-            if (empty($data['password'])) {
-                $data['password_err'] = 'Please enter password';
-            }
-    
-            // Validate confirm password
-            if (empty($data['confirm_password'])) {
-                $data['confirmpassword_err'] = 'Please confirm password';
+        
+            // Insert data into the database (assuming you have a model function)
+            if ($this->serviceProviderModel->registerUser($data)) {
+                echo json_encode(['success' => true, 'message' => 'Registration successful!']);
             } else {
-                if ($data['password'] != $data['confirm_password']) {
-                    $data['confirmpassword_err'] = 'Passwords do not match';
-                }
+                echo json_encode(['success' => false, 'errors' => ['database' => 'Failed to register. Try again later.']]);
             }
-    
-            // If no errors, hash password and save user
-            if (empty($data['name_err']) && empty($data['phone_err']) && empty($data['email_err']) && empty($data['password_err']) && empty($data['nic_err']) && empty($data['reg_num_err']) && empty($data['address_err']) && empty($data['sptype_err']) && empty($data['latitude_err']) && empty($data['longitude_err'])) {
-                // Hash the password
-                $data['password'] = password_hash($data['password'], PASSWORD_DEFAULT);
-    
-                // Attempt to register the user
-                if ($this->serviceProviderModel->register($data, $data['sptype'])) {
-                    // Send success response
-                    echo json_encode([
-                        'success' => true,
-                        'message' => 'Your Registration is Successful!',
-                        'redirect' => 'ServiceProvider/login'
-                    ]);
-                } else {
-                    // Send error response
-                    echo json_encode([
-                        'success' => false,
-                        'message' => 'Something went wrong, please try again.'
-                    ]);
-                }
-            } else {
-                // Send validation errors as a response
-                echo json_encode([
-                    'success' => false,
-                    'errors' => $data
-                ]);
-            }
-        } else {
-            // Initial data for GET request (view rendering)
-            $data = [
-                'name' => '',
-                'phone' => '',
-                'email' => '',
-                'password' => '',
-                'nic' => '',
-                'subscription_type' => '',
-                'reg_number' => '',
-                'address' => '',
-                'confirm_password' => '',
-                'sptype' => '',
-                'name_err' => '',
-                'phone_err' => '',
-                'email_err' => '',
-                'password_err' => '',
-                'nic_err' => '',
-                'confirmpassword_err' => '',
-                'reg_num_err' => '',
-                'address_err' => ''
-            ];
-    
-            // Load the registration view
-            $this->view('serviceproviders/register_updated', $data);
         }
     }
 

@@ -24,7 +24,7 @@
             <h1>Create your account</h1>
 
             <div class="box">
-                <form action="<?php echo URLROOT;?>/ServiceProvider/register" method="POST" id="registration-form">
+                <form action="<?php echo URLROOT;?>/ServiceProvider/registerUpdated" method="POST" id="registration-form">
 
                 <div class="step" id="step-1">
                     <h2>Basic Details</h2>                    
@@ -105,6 +105,7 @@
                     </div>
                 </div>
 
+                <!--
                 <div class="step" id="step-3"  style="display:none;">
                     <h2>Address & Location Details</h2>
                     <div class="content">
@@ -134,7 +135,8 @@
                     </div>
                 </div>
 
-                <div class="step" id="step-4" style="display:none;">
+-->
+                <div class="step" id="step-3" style="display:none;">
                     <h2>Verification Details</h2>
                     <div class="content">
                         <div class="side">
@@ -182,7 +184,7 @@
     </div>
 
         <script src="<?php echo URLROOT;?>/js/Sign In.js" defer></script>
-        <script src="https://maps.googleapis.com/maps/api/js?key=<?php echo API_KEY; ?>&libraries=places"></script>
+        <!--<script src="https://maps.googleapis.com/maps/api/js?key=<?php echo API_KEY; ?>&libraries=places"></script> !-->
         <script src="<?php echo URLROOT;?>/js/registration.js" defer> </script>
         <script src="<?php echo URLROOT;?>/js/plansSelect.js" defer> </script>
         <script>const URLROOT = "<?php echo URLROOT; ?>";</script>

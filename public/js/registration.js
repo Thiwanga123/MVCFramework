@@ -1,25 +1,35 @@
 document.addEventListener("DOMContentLoaded", function () {
     
     window.nextStep = function (currentStep) {
-        if (validateStep(currentStep)) {
-            if (currentStep === 4) {
-                const selectedPlan = document.getElementById('selected-plan').value;
-                console.log('selectedPlan');
+        console.log("Frontend Validation for step: " + currentStep);
 
-                return;
-                
+        if (validateStep(currentStep)) {
+            if (currentStep === 3) {
+                console.log("arrived at the last step validation");
+                const selectedPlan = document.getElementById('selected-plan').value;
+
                 if (selectedPlan === 'free') {
                     // If the selected plan is 'free', directly submit the form (insert data into the database)
+                    console.log("freeplan");
                     sendDataToServer(currentStep).then(serverValidationSuccess => {
                         if (serverValidationSuccess) {
                             document.getElementById("registration-form").submit(); // Submit the form
+                        }else {
+                            console.log("Server validation failed");
+                                sendDataToServer(currentStep).then(response => {
+                                if (!response.success) {
+                                displayServerErrors(response.errors); // Display errors below the relevant fields
+                        }
+                    }); // Display errors if response is not successful
                         }
                     });
                 } else {
                     // If the plan is not free, prompt the user to make a payment
+                    console.log("Not freeplan");
                     promptPayment(selectedPlan);
                 }
             } else {
+                console.log("Not step 3");
                 sendDataToServer(currentStep).then(serverValidationSuccess => {
                     if (serverValidationSuccess) {
                         document.getElementById(`step-${currentStep}`).style.display = "none";
@@ -57,8 +67,8 @@ document.addEventListener("DOMContentLoaded", function () {
 
     document.getElementById("registration-form").addEventListener("submit", function(event) {
         event.preventDefault();
-        if (validateStep(4)) {
-            sendDataToServer(4).then(serverValidationSuccess => {
+        if (validateStep(3)) {
+            sendDataToServer(3).then(serverValidationSuccess => {
                 if (serverValidationSuccess) {
                     this.submit();
                 }
@@ -70,24 +80,33 @@ document.addEventListener("DOMContentLoaded", function () {
         let isValid = true;
         switch (currentStep) {
             case 1:
-                console.log("step1");
+                console.log("Validation for step: " + currentStep);
                 isValid = validateStep1();
+                if(isValid){
+                    console.log("validation success for step :" + currentStep);
+                }
                 break;
     
             case 2:
-                console.log("step2");
+                console.log("Validation for step: " + currentStep);
                 isValid = validateStep2();
+                if(isValid){
+                    console.log("validation success for step :" + currentStep);
+                }
                 break;  
 
             case 3:
-                console.log("step3");
+                console.log("Validation for step: " + currentStep);
                 isValid = validateStep3();
+                if(isValid){
+                    console.log("validation success for step :" + currentStep);
+                }
                 break;
     
-            case 4:
+            /*case 4:
                 console.log("step4");
                 isValid = validateStep4();
-                break;
+                break;*/
         }
     
         return isValid;
@@ -95,7 +114,7 @@ document.addEventListener("DOMContentLoaded", function () {
     
     function validateStep1() {
         let isValid = true;
-    
+        
         const name = document.getElementById("name").value;
         const email = document.getElementById("email").value;
         const nic = document.getElementById("nic").value;
@@ -155,7 +174,7 @@ document.addEventListener("DOMContentLoaded", function () {
         return isValid;
     }
 
-    function validateStep3() {
+    /*function validateStep3() {
         let isValid = true;
     
         const address = document.getElementById("address").value;
@@ -186,8 +205,8 @@ document.addEventListener("DOMContentLoaded", function () {
     
         return isValid;
     }
-    
-    function validateStep4() {
+    */
+    function validateStep3() {
         let isValid = true;
     
         const regNum = document.getElementById("reg_num").value;
@@ -258,19 +277,28 @@ document.addEventListener("DOMContentLoaded", function () {
                 body: formData
             })
             .then(response => {
-                if (response.ok) {
-                    return response.json(); // Parse JSON response
-                } else {
+                if (!response.ok) {
                     throw new Error('Server error');
                 }
+                return response.text();  // Directly parse JSON response
             })
-            .then(data => {
-                // Debugging
-                console.log("Parsed Response:", data);
+            .then(text => {
+                console.log("Response Text:", text); // Log raw response for debugging
+    
+                let data;
+                try {
+                    data = JSON.parse(text); // Correctly parse JSON
+                } catch (e) {
+                    console.error("Failed to parse JSON:", e);
+                    return resolve(false);
+                }
+    
+                console.log("Parsed Response:", data); // Log parsed response
+    
                 if (data.success) {
                     resolve(true);
                 } else {
-                    displayServerErrors(data.errors);
+                    displayServerErrors(data.errors); // Show errors properly
                     resolve(false);
                 }
             })
@@ -282,16 +310,17 @@ document.addEventListener("DOMContentLoaded", function () {
     }
     
     function displayServerErrors(errors) {
-        console.log("Server Errors:", errors);
         for (const field in errors) {
-            if (errors.hasOwnProperty(field)) {
-                displayError(field, errors[field]);
-            } 
+            const errorElement = document.getElementById(`${field}-error`);
+            if (errorElement) {
+                errorElement.innerText = errors[field]; // Set error text
+                errorElement.style.display = "block"; // Show error message
+            }
         }
     }
     
 
-    function initMap() {
+    /*function initMap() {
         let map, marker;
         let geocoder = new google.maps.Geocoder();
 
@@ -350,5 +379,5 @@ document.addEventListener("DOMContentLoaded", function () {
             });
         });
     }
-    initMap();
+    initMap(); */
 });

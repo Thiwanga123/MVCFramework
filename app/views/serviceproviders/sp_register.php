@@ -14,7 +14,7 @@
                     <img src="<?php echo URLROOT;?>/Images/Logo1.png" alt="Logo">
                 </div>
                 <h2>Create your account</h2>
-                <form action="<?php echo URLROOT;?>/ServiceProvider/register" method="POST">
+                <form action="<?php echo URLROOT;?>/ServiceProvider/registerTesting" method="POST">
                     <div class="left-container">
                         <div class="input-field">
                             <label for="name">Business Name</label>
