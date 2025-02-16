@@ -2,12 +2,20 @@ document.addEventListener("DOMContentLoaded", function () {
     
     window.nextStep = function (currentStep) {
         if (validateStep(currentStep)) {
-            if (currentStep === 3) {
-                sendDataToServer(currentStep).then(serverValidationSuccess => {
-                    if (serverValidationSuccess) {
-                        document.getElementById("registration-form").submit();
-                    }
-                });
+            if (currentStep === 4) {
+                const selectedPlan = document.getElementById('selected-plan').value;
+
+                if (selectedPlan === 'free') {
+                    // If the selected plan is 'free', directly submit the form (insert data into the database)
+                    sendDataToServer(currentStep).then(serverValidationSuccess => {
+                        if (serverValidationSuccess) {
+                            document.getElementById("registration-form").submit(); // Submit the form
+                        }
+                    });
+                } else {
+                    // If the plan is not free, prompt the user to make a payment
+                    promptPayment(selectedPlan);
+                }
             } else {
                 sendDataToServer(currentStep).then(serverValidationSuccess => {
                     if (serverValidationSuccess) {
@@ -19,6 +27,24 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     };
     
+    function promptPayment(plan){
+        const modal = document.getElementById('payment-modal');
+        const selectedPlanName = document.getElementById('selected-plan-name');
+        const cancelButton = document.getElementById('cancel-button');
+        const submitButton = document.getElementById('submit-button');
+    
+        // Set the selected plan name in the modal
+        selectedPlanName.innerText = plan.charAt(0).toUpperCase() + plan.slice(1) + " Plan";
+    
+        // Show the payment modal
+        modal.style.display = "flex";
+    
+        // Handle cancel button to close the modal
+        cancelButton.addEventListener('click', function() {
+            modal.style.display = "none";
+        });
+    
+    }
 
     window.prevStep = function (currentStep) {
         if (currentStep > 1) {
@@ -29,8 +55,8 @@ document.addEventListener("DOMContentLoaded", function () {
 
     document.getElementById("registration-form").addEventListener("submit", function(event) {
         event.preventDefault();
-        if (validateStep(3)) {
-            sendDataToServer(3).then(serverValidationSuccess => {
+        if (validateStep(4)) {
+            sendDataToServer(4).then(serverValidationSuccess => {
                 if (serverValidationSuccess) {
                     this.submit();
                 }
@@ -49,11 +75,16 @@ document.addEventListener("DOMContentLoaded", function () {
             case 2:
                 console.log("step2");
                 isValid = validateStep2();
-                break;
-    
+                break;  
+
             case 3:
                 console.log("step3");
                 isValid = validateStep3();
+                break;
+    
+            case 4:
+                console.log("step4");
+                isValid = validateStep4();
                 break;
         }
     
@@ -110,6 +141,21 @@ document.addEventListener("DOMContentLoaded", function () {
     function validateStep2() {
         let isValid = true;
     
+        const selectedPlan = document.getElementById('selected-plan').value;
+    
+        if (!selectedPlan) {
+            displayError('subscription', 'Please select a subscription plan.');
+            isValid = false;
+        } else {
+            clearError('subscription');
+        }
+    
+        return isValid;
+    }
+
+    function validateStep3() {
+        let isValid = true;
+    
         const address = document.getElementById("address").value;
         const presentAddress = document.getElementById("present_address").value;
         const latitude = document.getElementById("latitude").value;
@@ -139,7 +185,7 @@ document.addEventListener("DOMContentLoaded", function () {
         return isValid;
     }
     
-    function validateStep3() {
+    function validateStep4() {
         let isValid = true;
     
         const regNum = document.getElementById("reg_num").value;
@@ -193,46 +239,45 @@ document.addEventListener("DOMContentLoaded", function () {
         document.getElementById(`${field}-error`).innerText = '';
     }
     
+
     function sendDataToServer(currentStep) {
         return new Promise((resolve) => {
             const formData = new FormData(document.getElementById("registration-form"));
             formData.append("current_step", currentStep);
-
-            //Debugging
+    
+            // Debugging
             console.log(`Sending data for step ${currentStep}:`);
             for (let [key, value] of formData.entries()) {
                 console.log(`${key}: ${value}`);
             }
-
-            const xhr = new XMLHttpRequest();
-            xhr.open("POST", URLROOT + "/ServiceProvider/validation", true);
-
-            xhr.onload = function () {
-                if (xhr.status === 200) {
-                    try {
-                        const response = JSON.parse(xhr.responseText);
-                        
-                        //Debugging
-                        console.log("Parsed Response:", response);
-                        if (response.success) {
-                            resolve(true);
-                        } else {
-                            displayServerErrors(response.errors);
-                            resolve(false);
-                        }
-                    } catch (error) {
-                        console.error("Failed to parse response:", error);
-                        resolve(false);
-                    }
+    
+            fetch(URLROOT + "/ServiceProvider/validation", {
+                method: "POST",
+                body: formData
+            })
+            .then(response => {
+                if (response.ok) {
+                    return response.json(); // Parse JSON response
                 } else {
+                    throw new Error('Server error');
+                }
+            })
+            .then(data => {
+                // Debugging
+                console.log("Parsed Response:", data);
+                if (data.success) {
+                    resolve(true);
+                } else {
+                    displayServerErrors(data.errors);
                     resolve(false);
                 }
-            };
-
-            xhr.send(formData);
+            })
+            .catch(error => {
+                console.error("Request failed:", error);
+                resolve(false);
+            });
         });
     }
-
     
     function displayServerErrors(errors) {
         console.log("Server Errors:", errors);

@@ -69,7 +69,41 @@
                     </div>
                 </div>
 
-                <div class="step" id="step-2"  style="display:none;">
+                <div class="step" id="step-2" style="display:none;">
+                <h2>Choose Your Subscription Plan</h2>
+                <span class="form-invalid" id="subscription-error"></span>
+
+                    <div class="content">
+                        <div class="plans-container">
+                            <div class="plan-card" id="free-plan">
+                                <h3>Free Plan</h3>
+                                <span class="price">$0</span>
+                                <p>Basic access to services.</p>
+                                <button type="button" class="choose-btn">Choose</button>
+                            </div>
+                            <div class="plan-card" id="basic-plan">
+                                <h3>Basic Plan</h3>
+                                <span class="price">$19.99/month</span>
+                                <p>Access to essential services and features.</p>
+                                <button type="button" class="choose-btn">Choose</button>
+                            </div>
+                            <div class="plan-card" id="pro-plan">
+                                <h3>Pro Plan</h3>
+                                <span class="price">$49.99/month</span>
+                                <p>All premium features and priority support.</p>
+                                <button type="button" class="choose-btn">Choose</button>
+                            </div>
+                        </div>
+                    </div>
+                    <input type="hidden" id="selected-plan" name="selected_plan" value="">
+
+                    <div class="buttons">
+                        <button type="button" onclick="prevStep(2)">Previous</button>
+                        <button type="button" onclick="nextStep(2)">Next</button>
+                    </div>
+                </div>
+
+                <div class="step" id="step-3"  style="display:none;">
                     <h2>Address & Location Details</h2>
                     <div class="content">
                         <div class="side">
@@ -93,12 +127,12 @@
                     <input type="hidden" id="longitude" name="longitude">
                             
                     <div class="buttons">
-                        <button type="button" onclick="prevStep(2)">Previous</button>
-                        <button type="button" onclick="nextStep(2)">Next</button>
+                        <button type="button" onclick="prevStep(3)">Previous</button>
+                        <button type="button" onclick="nextStep(3)">Next</button>
                     </div>
                 </div>
 
-                <div class="step" id="step-3" style="display:none;">
+                <div class="step" id="step-4" style="display:none;">
                     <h2>Verification Details</h2>
                     <div class="content">
                         <div class="side">
@@ -138,11 +172,17 @@
 
             </div>
 
+            <?php
+                include('paymentModal.php');;
+            ?>
+
+
     </div>
 
         <script src="<?php echo URLROOT;?>/js/Sign In.js" defer></script>
         <script src="https://maps.googleapis.com/maps/api/js?key=<?php echo API_KEY; ?>&libraries=places"></script>
         <script src="<?php echo URLROOT;?>/js/registration.js" defer> </script>
+        <script src="<?php echo URLROOT;?>/js/plansSelect.js" defer> </script>
         <script>const URLROOT = "<?php echo URLROOT; ?>";</script>
         
 </body>

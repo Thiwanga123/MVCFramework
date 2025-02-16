@@ -302,8 +302,15 @@ class ServiceProvider extends Controller {
                     }
     
                     break;
-    
+
                 case 2:
+                    if(empty($_POST['selected_plan'])){
+                        $errors['selected_plan'] = 'Select a plan';
+                    }
+                    
+                    break;
+
+                case 3:
                     if (empty($_POST['address'])) {
                         $errors['address'] = 'Address is required';
                     }
@@ -314,7 +321,7 @@ class ServiceProvider extends Controller {
     
                     break;
     
-                case 3:
+                case 4:
                     if (empty($_POST['reg_num'])) {
                         $errors['reg_num'] = 'Government Registration Number is required';
                     }
@@ -358,6 +365,7 @@ class ServiceProvider extends Controller {
                 'password' => trim($_POST['password']),
                 'nic'=> trim($_POST['nic']),
                 'reg_number'=> trim($_POST['reg_num']),
+                'subscription_type' => trim($_POST['subscription_type']),
                 'address'=> trim($_POST['address']),
                 'confirm_password'=> trim($_POST['confirm_password']),
                 'sptype'=> trim($_POST['sptype']),
@@ -420,6 +428,7 @@ class ServiceProvider extends Controller {
                 'email' => '',
                 'password' => '',
                 'nic' => '',
+                'subscription_type' => '',
                 'reg_number' => '',
                 'address' => '',
                 'confirm_password' => '',
