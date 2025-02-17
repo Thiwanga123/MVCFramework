@@ -54,10 +54,10 @@
                 <table>
                     <thead>
                         <tr>
-                            <th>Traveler ID </th>
+                            <th>Traveler Name </th>
                             <th>Booking ID</th>
                             <th>Accomadation Type</th>
-                            <th>Accommodation ID</th>
+                            <th>Accommodation Name</th>
                             <th>Check-In</th>
                             <th>Check-Out</th>
                             <th>Full Amount</th>
@@ -71,11 +71,11 @@
                         <tr>
 
                             <td>
-                                <img src="<?php echo URLROOT;?>/Images/Profile pic.jpg"><?php echo htmlspecialchars($accomadation->traveler_id); ?>
+                                <img src="<?php echo URLROOT;?>/Images/Profile pic.jpg"><?php echo htmlspecialchars($accomadation->traveler_name); ?>
                             </td>
                             <td><?php echo htmlspecialchars($accomadation->booking_id); ?></td>
                             <td><?php echo htmlspecialchars($accomadation->property_type); ?></td>
-                            <td>10</td>
+                            <td><?php echo htmlspecialchars($accomadation->property_name); ?></td>
                             <td><?php echo htmlspecialchars($accomadation->check_in); ?></td>
                             <td><?php echo htmlspecialchars($accomadation->check_out); ?></td>
                             <td>Rs.<?php echo htmlspecialchars($accomadation->amount); ?></td>

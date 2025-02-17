@@ -10,7 +10,7 @@ class BookingModel{
 
    public function getBookings($guider_id){
 //get the bookings from the database with the relavent guiderid
-    $this->db->query('SELECT * FROM bookings WHERE guider_id = :guider_id');
+    $this->db->query('SELECT * FROM bookings WHERE id = :guider_id');
 
     $this->db->bind(':guider_id', $guider_id);
 
@@ -23,7 +23,7 @@ class BookingModel{
 public function getGuiderBookings($guider_id){
    
     //count the bookings by the guider id
-    $this->db->query('SELECT COUNT(*) as number_of_bookings FROM bookings WHERE guider_id = :guider_id');
+    $this->db->query('SELECT COUNT(*) as number_of_bookings FROM bookings WHERE id = :guider_id');
 
     $this->db->bind(':guider_id', $guider_id);
 
@@ -34,7 +34,7 @@ public function getGuiderBookings($guider_id){
 
 //get the available bookings with the relavannt of the guider
 public function getAvailability($guider_id){
-    $this->db->query('SELECT * FROM guider_availability WHERE guider_id = :guider_id');
+    $this->db->query('SELECT * FROM guider_availability WHERE id = :guider_id');
 
     $this->db->bind(':guider_id', $guider_id);
 
@@ -118,6 +118,7 @@ public function updateProfile($data){
     }
 
 }
+
 
 
 }

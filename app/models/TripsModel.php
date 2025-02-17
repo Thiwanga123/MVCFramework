@@ -8,5 +8,12 @@
         $this->db = new Database();
     }
 
+    public function getGuider(){
+        $this->db->query('SELECT * FROM tour_guides');
+    
+        return $this->db->resultSet();
+        
+    }
+
  }
 ?>
