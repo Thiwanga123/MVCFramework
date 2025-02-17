@@ -87,10 +87,13 @@ class Transport_suppliers extends Controller
                 'vehicleMake' => trim($_POST['vehicleMake']),    //These variables are used to store the values which are sent via the form data
                 'plateNumber' => trim($_POST['licensePlateNumber']),
                 'rate' => trim($_POST['vehicleRate']),
+                'litre' => trim($_POST['vehicleLitre']),
                 'fuelType' => trim($_POST['fuelType']),
                 'description' => trim($_POST['description']),
                 'availability' => trim($_POST['availability']),
                 'driver' => trim($_POST['driver']),
+                'cost' => trim($_POST['vehicleCost']),
+                'location' => trim($_POST['vehicleLocation']),
             ];
 
             if(empty($data['vehicleType'])){
@@ -112,6 +115,11 @@ class Transport_suppliers extends Controller
             if(empty($data['rate'])){
                 $errors[] = 'Rate is required';
             }
+          
+            if(empty($data['litre'])){
+                $errors[] = 'Litre is required';
+            }
+          
             
             if(empty($data['fuelType'])){
                 $errors[] = 'Fuel Type is required';
@@ -129,6 +137,13 @@ class Transport_suppliers extends Controller
                 $errors[] = 'driver is required';
             }
 
+            if(empty($data['cost'])){
+                $errors[] = 'Driver Rates are required';
+            }
+
+            if(empty($data['location'])){
+                $errors[] = 'Location is required';
+            }
             $imageExtensions = ['jpeg','jpg','png']; //Extension array to check whether the uploaded files are eligible to upload
             $imagePaths = [];   //Array to store the paths of the uploaded images
             $images =  $_FILES['vehicleImages'];
@@ -144,7 +159,7 @@ class Transport_suppliers extends Controller
             }
 
              //Creating the model instance to interact with the database
-            $isInserted = $this->transportModel->addVehicle($data['id'], $data['vehicleType'], $data['vehicleModel'], $data['vehicleMake'], $data['plateNumber'], $data['rate'], $data['fuelType'], $data['description'], $data['availability'], $data['driver']);
+            $isInserted = $this->transportModel->addVehicle($data['id'], $data['vehicleType'], $data['vehicleModel'], $data['vehicleMake'], $data['plateNumber'], $data['rate'], $data['litre'], $data['fuelType'], $data['description'], $data['availability'], $data['driver'], $data['cost'],$data['location']);
             if($isInserted){
                 $vehicleId = $isInserted;
                 $vehicleFolder = "$supplierFolder/$vehicleId";
@@ -371,6 +386,7 @@ public function addriver() {
             redirect('transport_suppliers/driver');
         }
     }
+    
 }
 
 

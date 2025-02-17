@@ -16,10 +16,10 @@ class TransportModel
         return $this->db->resultSet();
     }
 
-    public function addVehicle($supplierId, $vehicleType, $vehicleModel, $vehicleMake, $plateNumber, $rate, $fuelType, $description, $availabilty,$driver){
+    public function addVehicle($supplierId, $vehicleType, $vehicleModel, $vehicleMake, $plateNumber, $rate, $litre, $fuelType, $description, $availabilty,$driver, $cost, $location){
         try{
-             $sql = "INSERT INTO vehicles (supplierId, type, model, make, license_plate_number, rate, fuel_type, description, availability, driver) 
-                         VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?,?)";
+             $sql = "INSERT INTO vehicles (supplierId, type, model, make, license_plate_number, rate, litre, fuel_type, description, availability, driver, cost, location) 
+                         VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?,?,?,?,?)";
  
              $this->db->query($sql);
  
@@ -29,11 +29,13 @@ class TransportModel
              $this->db->bind(4, $vehicleMake);
              $this->db->bind(5, $plateNumber);
              $this->db->bind(6, $rate);
-             $this->db->bind(7, $fuelType);
-             $this->db->bind(8, $description);
-             $this->db->bind(9, $availabilty);
-             $this->db->bind(10, $driver);
- 
+             $this->db->bind(7, $litre);
+             $this->db->bind(8, $fuelType);
+             $this->db->bind(9, $description);
+             $this->db->bind(10, $availabilty);
+             $this->db->bind(11, $driver);
+             $this->db->bind(12, $cost);
+             $this->db->bind(13, $location);
              if ($this->db->execute()) {
                  // Get the inserted product ID
                  $vehicleId = $this->db->insertId();
@@ -128,7 +130,7 @@ public function updateprofile($data){
            
 
             $sql = "UPDATE vehicles
-                SET type = ?, model = ?, make = ?, license_plate_number = ?, rate= ?, fuel_type=?, description=?, driver=?, availability =? 
+                SET type = ?, model = ?, make = ?, license_plate_number = ?, rate= ?, litre=?, fuel_type=?, description=?, driver=?, availability =? 
                 WHERE supplierId = ? AND id = ? ";
 
                
@@ -207,7 +209,7 @@ public function updateprofile($data){
                 return false;
         }
     }
-    
+  
     
 
 }

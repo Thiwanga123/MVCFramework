@@ -54,8 +54,11 @@
                         <label for="licensePlateNumber">License Plate Number</label>
                         <input type="text" id="licensePlateNumber" name="licensePlateNumber" value="<?php echo $vehicle->license_plate_number; ?>" readonly>
                 
-                        <label for="vehicleRate">Rental Price</label>
+                        <label for="vehicleRate">Rental Price Per Day</label>
                         <input type="text" id="vehicleRate" name="vehicleRate" value ="<?php echo $vehicle->rate; ?>" readonly>
+
+                        <label for="vehicleLitre">Rental Price Per Litre</label>
+                        <input type="text" id="vehicleLitre" name="vehicleLitre" value ="<?php echo $vehicle->litre; ?>" readonly>
 
                         <label for="fuelType">Fuel Type</label>
                         <select id="fuelType" name="fuelType" required style="width: 100%; max-width: 300px; height: 40px;" disabled>
