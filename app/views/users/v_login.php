@@ -33,7 +33,7 @@
                     <span class="form-invalid"><?php echo isset($data['password_err']) ? $data['password_err'] : ''; ?></span>
 
                     <div class="forgot-password">
-                        <a href="#">Forgot password?</a>
+                        <a href="<?php echo URLROOT; ?>/users/forgotPassword">Forgot password?</a>
                     </div>
 
                     <button type="submit" class="login-btn">Login</button>
