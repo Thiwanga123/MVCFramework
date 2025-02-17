@@ -144,6 +144,7 @@
 
 
 
+
 .modal-form form input{
     border: none;
     background-color: rgb(239, 239, 239);
@@ -151,6 +152,7 @@
     border-radius: 10px;
     padding: 20px;
 }
+
 
 .modal-form form .right, .modal-form form .left{
     display: flex;
@@ -236,3 +238,32 @@
     transition: all 0.3s ease;
 }
 
+/* Edit Button */
+.edit-btn {
+    background-color: #4CAF50; /* Green */
+    color: white;
+}
+
+.edit-btn:hover {
+    background-color: #45a049; /* Darker green */
+    transform: scale(1.05);
+}
+
+/* Delete Button */
+.delete-btn {
+    background-color: #f44336; /* Red */
+    color: white;
+    margin-left: 8px; /* Spacing between buttons */
+}
+
+.delete-btn:hover {
+    background-color: #d32f2f; /* Darker red */
+    transform: scale(1.05);
+}
+
+/* Ensure buttons are inline and spaced */
+.action-button {
+    display: flex;
+    justify-content: flex-start;
+    gap: 10px; /* Gap between buttons */
+}
