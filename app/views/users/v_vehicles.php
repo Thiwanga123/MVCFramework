@@ -69,7 +69,7 @@
                                 <td colspan="7" style="text-align: center; font-size: 24px; font-weight: bold;">Currently no cars available</td>
                             </tr>
                         <?php else: ?>
-                            <?php foreach ($vehicles as $vehicle): ?>
+                            <?php foreach ( $data ['vehicles'] as $vehicle): ?>
                             <tr>
                                 <td>
                                     <?php if (!empty($vehicle['image_path'])): ?>
