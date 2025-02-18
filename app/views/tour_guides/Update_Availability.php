@@ -101,19 +101,24 @@
                     </thead>
                     <tbody>
 
-                  
+                    <?php foreach($availability as $available): ?>
                         <tr>
                            
                         
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
+                            <td><?php echo $available->available_date; ?></td>
+                            <td><?php echo $available->available_time_from; ?></td>
+                            <td><?php echo $available->available_time_to; ?></td>
+                            <td><?php echo $available->charges_per_hour; ?></td>
+                            <td><?php echo $available->location; ?></td>
                             <td class="action-button">
-                               
+                                <button class="edit-btn" name ="edit-btn" id="edit-btn" style="delete-btn {background-color: rgb(107, 239, 122);color: white; font-size: medium;cursor: pointer;padding: 5px 15px;border-radius: 20px;border-style: none; margin-top: 1rem;}">
+        Edit
+    </button>
+                                <a href="<?php echo URLROOT; ?>/tour_guides/delete_availability/<?php echo $available->id; ?>"><button class="delete-btn" onclick="return confirm('Are u Sure?');" name ="delete-btn" id="delete-btn">
+                                   Delete
+                                </button></a>
                     </tr>
-               
+                    <?php endforeach; ?>
                   
                   
                   

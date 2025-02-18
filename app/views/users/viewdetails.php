@@ -762,7 +762,7 @@
                 document.getElementById('totalAmount').innerText = 'LKR ' + totalAmount;
                 document.getElementById('totalRooms').innerText = totalRooms;
                 document.getElementById('roomCharges').innerHTML = 'LKR ' + totalAmount;
-                document.getElementById('pay').innerHTML = 'LKR' + (0.5*totalAmount);
+                document.getElementById('pay').innerHTML = 'LKR' + (totalAmount);
             } else {
                 alert('Please enter a valid number of rooms.');
             }

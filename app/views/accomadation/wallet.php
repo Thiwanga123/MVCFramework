@@ -239,7 +239,7 @@
         <!-- Wallet Card -->
         <div class="wallet-card">
           <div>Wallet Balance</div>
-          <div class="balance">$15,750.00</div>
+          <div class="balance">Rs. 15,750.00</div>
           <div class="button-group">
             <button class="button" onclick="showWithdrawModal()">
               ↓ Withdraw
@@ -276,11 +276,11 @@
               <div class="stat-icon" style="background: var(--primary)">💳</div>
               <div>Card Payments</div>
             </div>
-            <div class="stat-amount">$8,250.00</div>
+            <div class="stat-amount">Rs. 8,250.00</div>
             <div>Last payment: Feb 12, 2025</div>
             <!-- <div style="margin-top: 10px">
-              <div>Credit: $5,750.00</div>
-              <div>Debit: $2,500.00</div>
+              <div>Credit: Rs. 5,750.00</div>
+              <div>Debit: Rs. 2,500.00</div>
             </div> -->
           </div>
 
@@ -289,11 +289,11 @@
               <div class="stat-icon" style="background: var(--success)">💵</div>
               <div>Cash Payments</div>
             </div>
-            <div class="stat-amount">$7,500.00</div>
+            <div class="stat-amount">Rs. 7,500.00</div>
             <div>Last payment: Feb 14, 2025</div>
             <!-- <div style="margin-top: 10px">
               <div>Received: 12 transactions</div>
-              <div>Average: $625.00</div>
+              <div>Average: Rs. 625.00</div>
             </div> -->
           </div>
         </div>
@@ -308,7 +308,7 @@
               <div class="stat-icon" style="background: var(--primary)">💰</div>
               <div>Holding Amount</div>
             </div>
-            <div class="stat-amount">$5,200.00</div>
+            <div class="stat-amount">Rs. 5,200.00</div>
             <div>3 pending transactions</div>
           </div>
 
@@ -317,7 +317,7 @@
               <div class="stat-icon" style="background: var(--success)">✓</div>
               <div>Completed Payments</div>
             </div>
-            <div class="stat-amount">$12,450.00</div>
+            <div class="stat-amount">Rs. 12,450.00</div>
             <div>15 transactions</div>
           </div>
 
@@ -326,7 +326,7 @@
               <div class="stat-icon" style="background: var(--warning)">↩</div>
               <div>Refunded Payments</div>
             </div>
-            <div class="stat-amount">$800.00</div>
+            <div class="stat-amount">Rs. 800.00</div>
             <div>2 transactions</div>
           </div>
 
@@ -335,7 +335,7 @@
               <div class="stat-icon" style="background: var(--danger)">⚠</div>
               <div>Penalty Payments</div>
             </div>
-            <div class="stat-amount">$150.00</div>
+            <div class="stat-amount">Rs. 150.00</div>
             <div>1 transaction</div>
           </div>
         </div>

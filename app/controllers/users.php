@@ -452,10 +452,12 @@ public function book(){
         }
 
         if(empty($errors)){
-            print_r('no errors');
             $isInserted = $this->userModel->book($data);
             if($isInserted){
-                redirect('users/history');
+
+                if($this->userModel->holdPayment($data['price'], $data['service_provider_id'],$data['user_id'] ,$isInserted)){
+                    redirect('users/history');
+                };
             }else{
                 print_r('Something went wrong');
             }

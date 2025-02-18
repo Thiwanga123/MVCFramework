@@ -45,6 +45,7 @@
         
 
 <div class="container1">
+<?php if (!empty($data['accomadation'])): ?>
 <?php foreach ($data['accomadation'] as $accomadation):?>
 <div class="feature">
     <img src="<?php echo URLROOT;?>/images/Accomadation.jpg" alt="Accommodation ">
@@ -64,6 +65,9 @@
 
 </div>
 <?php endforeach; ?>
+<?php else: ?>
+    <p><center>Search your Accommadation</center></p>
+<?php endif; ?>
 </div>
 
           </main>

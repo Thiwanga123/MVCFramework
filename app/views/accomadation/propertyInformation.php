@@ -14,24 +14,40 @@
                 <br>
                 <div class="sleeping-places">
                     <div class="place">
-                        <label>Single Bedroom</label>
-                        <input type="number" name="single" id="single">
+                    <label>Single Bedroom</label>
+                        <div class="input-group">
+                            <input type="number" name="single" id="single" min="0" placeholder="Number of single beds">
+                            <input type="text" id="singleprice" name="singleprice" placeholder="Price">
+                        </div>
                     </div>
                     <div class="place">
-                        <label>Double Bedroom</label>
-                        <input type="number" name="double" id="double">
+                    <label>Double Bedroom</label>
+                        <div class="input-group">
+                            <input type="number" name="double" id="double" min="0" placeholder="Number of double beds">
+                            <input type="text" id="doubleprice" name="doubleprice" placeholder="Price">
+                        </div>
                     </div>
                     <div class="place">
-                        <label>Living Room</label>
-                        <input type="number" name="living" id="living">
+                    <label>Living Room</label>  
+                        <div class="input-group">
+                            
+                            <input type="number" name="living" id="living" min="0" placeholder="Number of living rooms">
+                     
+                            <input type="text" id="livingprice" name="livingprice" placeholder="Price">
+                        </div>
                     </div>
                     <div class="place">
-                        <label>Family Bedroom</label>
-                        <input type="number" name="family" id="family">
+                    <label>Family Bedroom</label>
+                        <div class="input-group">
+                    
+                            <input type="number" name="family" id="family" min="0" placeholder="Number of family rooms">
+                          
+                            <input type="text" id="familyprice" name="familyprice" placeholder="Price">
+                        </div>
                     </div>
                 </div>
             </div>
-            <div class="section" id="max-occupants-section">
+            <div class="section">
                 <label>How many guests can stay?</label>
                 <div class="counter">
                     <input type="number" id="guests" name="guests" min="0">
@@ -58,7 +74,7 @@
                 </div>
             </div>
             <div class="section">
-                <label>How big is this Property?</label>
+                <label>How big is this apartment?</label>
                 <input type="text" id="apartment_size" name="apartment_size" placeholder="Apartment size - optional">
                 <select id="apartment_unit" name="apartment_unit">
                     <option value="square metres">square metres</option>
@@ -92,17 +108,11 @@
                     <label><input type="checkbox" id="sauna" name="entertainment[]" value="sauna"> Sauna</label>
                 </div>
             </div>
-            <div class="section" id="meal-options-section" style="display: none;">
-                <label>Meal Options</label>
-                <div class="radio-group">
-                    <label><input type="radio" id="breakfast_only" name="meal_options" value="breakfast_only"> Breakfast Only</label>
-                    <label><input type="radio" id="lunch_only" name="meal_options" value="lunch_only"> Lunch Only</label>
-                    <label><input type="radio" id="breakfast_and_lunch" name="meal_options" value="breakfast_and_lunch"> Breakfast and Lunch</label>
-                </div>
-            </div>
+           
+            
         </div>
         <div class="content">
-            <h2>Property Rules</h2>
+            <h2>House Rules</h2>
             <div class="section">
                 <label>Smoking allowed</label>
                 <div class="radio-group">
@@ -188,33 +198,18 @@
     </div>
     
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const propertyType = JSON.parse(localStorage.getItem("startpageData")).type;
-            if (propertyType === 'hotel') {
-                document.getElementById('max-occupants-section').style.display = 'none';
-                document.getElementById('meal-options-section').style.display = 'block';
-            }
-        });
+
+
 
         function propertyinfo(){
             const single=document.getElementById('single').value;
-            const singleprice=document.getElementById('singleprice').value;
-            const single_guests=document.getElementById('single_guests').value;
-            const single_meal_plan=document.getElementById('single_meal_plan').value;
-            const single_meal_price=document.getElementById('single_meal_price').value;
-            
+            const singleprice=document.getElementById('singleprice').value;            
             const double=document.getElementById('double').value;
             const doubleprice=document.getElementById('doubleprice').value;
-            const double_guests=document.getElementById('double_guests').value;
-            const double_meal_plan=document.getElementById('double_meal_plan').value;
-            const double_meal_price=document.getElementById('double_meal_price').value;
-            
+            const living=document.getElementById('living').value;
+            const livingprice=document.getElementById('livingprice').value;
             const family=document.getElementById('family').value;
             const familyprice=document.getElementById('familyprice').value;
-            const family_guests=document.getElementById('family_guests').value;
-            const family_meal_plan=document.getElementById('family_meal_plan').value;
-            const family_meal_price=document.getElementById('family_meal_price').value;
-            
             const guests=document.getElementById('guests').value;
             const bathrooms=document.getElementById('bathrooms').value;
             const children=document.querySelector('input[name="children"]:checked').value;

@@ -7,6 +7,9 @@ class M_users{
         $this->db = new Database;
     }
 
+  
+
+
 
     //get all users
     public function getUsers(){
@@ -157,11 +160,10 @@ class M_users{
     //add a booking to the proerty_booking
     public function book($data){
 
-        //print the data
-        print_r($data);
         $this->db->query('INSERT INTO property_booking(traveler_id, property_id, supplier_id, check_in, check_out, amount, guests, singlerooms, doublerooms, familyrooms, totalrooms, paid, payment_date, payment_status) 
         VALUES(:traveler_id, :property_id, :service_provider_id, :check_in, :check_out, :total_price, :no_of_people, :singleroom, :doubleroom, :familyroom, :totalrooms, :paid, CURRENT_DATE, "charged")');
-        //bind values
+        //bind values and after excution get the booking_id
+
         $this->db->bind(':traveler_id', $data['user_id']);
         $this->db->bind(':property_id', $data['property_id']);
         $this->db->bind(':check_in', $data['check_in']);
@@ -174,14 +176,39 @@ class M_users{
         $this->db->bind(':familyroom', $data['familyamount']);
         $this->db->bind(':service_provider_id', $data['service_provider_id']);
         $this->db->bind(':paid', $data['paid']);
+    
+        //call the function to hold the payment
+        
 
         //execute
         if($this->db->execute()){
+            $booking= $this->db->insertId();{
+                return $booking;
+            }
+        }else{
+            return false;
+        }
+}
+
+    //hold the payment
+    public function holdPayment($amount, $providerId, $user_id,$bookingId){ {
+     
+        // Hold payment in the provider's wallet
+        $this->db->query("INSERT INTO accomadation_wallet (provider_id,traveler_id, holding_amount, transaction_type, related_booking_id, transaction_date) VALUES (:provider_id, :traveler_id, :amount, 'deposit', :booking_id, CURRENT_DATE)");
+        $this->db->bind(':amount', $amount);
+        $this->db->bind(':provider_id', $providerId);
+        $this->db->bind(':booking_id', $bookingId);
+        $this->db->bind(':traveler_id', $user_id);
+        //execute
+        if($this->db->execute()){
+            //print the data
+            
             return true;
         }else{
             return false;
         }
     }
+}
 
     //cancel the booking
     public function cancelBooking($bookingId) {
@@ -197,16 +224,16 @@ class M_users{
             $this->db->execute();
 
             // Release the rooms
-            $this->db->query('UPDATE properties SET 
-                                single_bedrooms = single_bedrooms + :single_rooms, 
-                                double_bedrooms = double_bedrooms + :double_rooms, 
-                                family_rooms = family_rooms + :family_rooms 
-                              WHERE property_id = :property_id');
-            $this->db->bind(':single_rooms', $booking->single_rooms);
-            $this->db->bind(':double_rooms', $booking->double_rooms);
-            $this->db->bind(':family_rooms', $booking->family_rooms);
-            $this->db->bind(':property_id', $booking->property_id);
-            $this->db->execute();
+            // $this->db->query('UPDATE properties SET 
+            //                     single_bedrooms = single_bedrooms + :single_rooms, 
+            //                     double_bedrooms = double_bedrooms + :double_rooms, 
+            //                     family_rooms = family_rooms + :family_rooms 
+            //                   WHERE property_id = :property_id');
+            // $this->db->bind(':single_rooms', $booking->single_rooms);
+            // $this->db->bind(':double_rooms', $booking->double_rooms);
+            // $this->db->bind(':family_rooms', $booking->family_rooms);
+            // $this->db->bind(':property_id', $booking->property_id);
+            // $this->db->execute();
 
             return true;
         } else {

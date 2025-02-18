@@ -167,7 +167,6 @@
             <h2>Booking Details</h2>
             <p id="bookingDetails"></p>
             <div class="modal-buttons">
-               
                 <button class="modal-button delete-button" onclick="deleteBooking()">Cancel</button>
             </div>
         </div>
@@ -190,7 +189,6 @@
                 <strong>Full Amount:</strong> Rs.${accomadation.amount}<br>
                 <strong>Paid Amount:</strong> Rs.${accomadation.paid}<br>
             `;
-           
             document.getElementById('bookingModal').style.display = 'flex';
         }
 

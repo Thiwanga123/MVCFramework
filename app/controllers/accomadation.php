@@ -261,6 +261,8 @@ public function myPayments(){
         
     }
 
+
+
     public function success(){
         if (isset($_SESSION['id'])) {
             $this->view('accomadation/successful');
@@ -412,6 +414,10 @@ public function myPayments(){
         } else {
             echo json_encode(['status' => 'error', 'message' => 'Invalid request method']);
         }
+    }
+
+    public function releaseHoldingAmount() {
+        $this->accomadationModel->releaseHoldingAmount();
     }
 
 

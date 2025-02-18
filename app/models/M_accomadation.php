@@ -1,6 +1,6 @@
 <?php
 
-class M_accomadation{
+class M_accomadation {
     private $db;
 
     public function __construct() {
@@ -8,12 +8,7 @@ class M_accomadation{
     }
 
     public function addProperty($data) {
-
-
-            try {
-            // Begin transaction
-
-           
+        try {
             // Insert property data into the main properties table
             $query = ('INSERT INTO properties(postal_code,city,property_name,property_type,address,service_provider_id,latitude,
             longitude,single_bedrooms,double_bedrooms,living_rooms,singleprice,doubleprice,familyprice,livingprice,family_rooms,max_occupants,
@@ -31,7 +26,6 @@ class M_accomadation{
             $this->db->query($query);
 
             // Bind values
-
             $this->db->bind(':postal_code', $data['postalCode']);
             $this->db->bind(':city', $data['city']);
             $this->db->bind(':property_type', $data['type']);
@@ -48,11 +42,17 @@ class M_accomadation{
             $this->db->bind(':livingprice', $data['livingprice']);
             $this->db->bind(':family_rooms', $data['family']);
             $this->db->bind(':familyprice', $data['familyprice']);
-            $this->db->bind(':max_occupants',$data['guests']);
-            $this->db->bind(':bathrooms',$data['bathrooms']);
-            $this->db->bind(':children_allowed',$data['children']);
-            $this->db->bind(':offers_ctos',$data['cots']);
-            $this->db->bind(':apartment_size',$data['apartment_size']);
+            $this->db->bind(':max_occupants', $data['guests']);
+            $this->db->bind(':bathrooms', $data['bathrooms']);
+            $this->db->bind(':children_allowed', $data['children']);
+            $this->db->bind(':offers_ctos', $data['cots']);
+            $this->db->bind(':apartment_size', $data['apartment_size']);
+            $this->db->bind(':air_conditioning', $data['air_conditioning']);
+            $this->db->bind(':heating', $data['heating']);
+            $this->db->bind(':free_wifi', $data['wifi']);
+            $this->db->bind(':ev_charging', $data['ev_charging']);
+            $this->db->bind(':kitchen', $data['kitchen']);
+            $this->db->bind(':kitchenette', $data['kitchenette']);
             $this->db->bind(':air_conditioning',$data['air_conditioning']);
             $this->db->bind(':heating',$data['heating']);
             $this->db->bind(':free_wifi',$data['wifi']);
@@ -239,6 +239,49 @@ class M_accomadation{
         } catch (Exception $e) {
             echo "<script>alert('An error occurred: {$e->getMessage()}');</script>";
             return [];
+        }
+    }
+
+    public function releaseHoldingAmount() {
+        $currentDate = date('Y-m-d 23:59:59');
+        $this->db->query("SELECT * FROM property_booking WHERE status = 'Pending' AND check_in <= :current_date");
+        $this->db->bind(':current_date', $currentDate);
+        $bookings = $this->db->resultSet();
+
+        foreach ($bookings as $booking) {
+            $this->db->query("UPDATE accomadation_wallet SET wallet_balance = wallet_balance + holding_amount, holding_amount = 0 WHERE provider_id = :provider_id");
+            $this->db->bind(':provider_id', $booking['supplier_id']);
+            $this->db->execute();
+
+            $this->db->query("UPDATE property_booking SET status = 'Confirmed' WHERE booking_id = :id");
+            $this->db->bind(':id', $booking['booking_id']);
+            $this->db->execute();
+        }
+    }
+
+    public function createReleaseHoldingAmountEvent() {
+        $this->db->query("
+            CREATE EVENT IF NOT EXISTS release_holding_amount_event
+            ON SCHEDULE EVERY 1 DAY
+            STARTS CURRENT_TIMESTAMP
+            DO
+            BEGIN
+                DECLARE current_date DATETIME;
+                SET current_date = NOW();
+                
+                UPDATE accomadation_wallet aw
+                JOIN property_booking pb ON aw.provider_id = pb.supplier_id
+                SET aw.wallet_balance = aw.wallet_balance + aw.holding_amount, 
+                    aw.holding_amount = 0,
+                    pb.status = 'Confirmed'
+                WHERE pb.status = 'Pending' AND pb.check_in <= current_date;
+            END
+        ");
+
+        if ($this->db->execute()) {
+            return true;
+        } else {
+            return false;
         }
     }
 
