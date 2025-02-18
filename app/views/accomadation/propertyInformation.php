@@ -15,48 +15,19 @@
                 <div class="sleeping-places">
                     <div class="place">
                         <label>Single Bedroom</label>
-                        <div class="input-group">
-                            <input type="number" name="single" id="single" min="0" placeholder="Number of single beds">
-                            <input type="text" id="singleprice" name="singleprice" placeholder="Price">
-                            <input type="number" name="single_guests" id="single_guests" min="0" placeholder="Max guests">
-                            <select id="single_meal_plan" name="single_meal_plan" style="display: none;">
-                                <option value="no_meal">No Meal Plan</option>
-                                <option value="breakfast_only">Breakfast Only</option>
-                                <option value="lunch_only">Lunch Only</option>
-                                <option value="breakfast_and_lunch">Breakfast and Lunch</option>
-                            </select>
-                            <input type="text" id="single_meal_price" name="single_meal_price" placeholder="Meal Plan Price" style="display: none;">
-                        </div>
+                        <input type="number" name="single" id="single">
                     </div>
                     <div class="place">
                         <label>Double Bedroom</label>
-                        <div class="input-group">
-                            <input type="number" name="double" id="double" min="0" placeholder="Number of double beds">
-                            <input type="text" id="doubleprice" name="doubleprice" placeholder="Price">
-                            <input type="number" name="double_guests" id="double_guests" min="0" placeholder="Max guests">
-                            <select id="double_meal_plan" name="double_meal_plan" style="display: none;">
-                                <option value="no_meal">No Meal Plan</option>
-                                <option value="breakfast_only">Breakfast Only</option>
-                                <option value="lunch_only">Lunch Only</option>
-                                <option value="breakfast_and_lunch">Breakfast and Lunch</option>
-                            </select>
-                            <input type="text" id="double_meal_price" name="double_meal_price" placeholder="Meal Plan Price" style="display: none;">
-                        </div>
+                        <input type="number" name="double" id="double">
+                    </div>
+                    <div class="place">
+                        <label>Living Room</label>
+                        <input type="number" name="living" id="living">
                     </div>
                     <div class="place">
                         <label>Family Bedroom</label>
-                        <div class="input-group">
-                            <input type="number" name="family" id="family" min="0" placeholder="Number of family rooms">
-                            <input type="text" id="familyprice" name="familyprice" placeholder="Price">
-                            <input type="number" name="family_guests" id="family_guests" min="0" placeholder="Max guests">
-                            <select id="family_meal_plan" name="family_meal_plan" style="display: none;">
-                                <option value="no_meal">No Meal Plan</option>
-                                <option value="breakfast_only">Breakfast Only</option>
-                                <option value="lunch_only">Lunch Only</option>
-                                <option value="breakfast_and_lunch">Breakfast and Lunch</option>
-                            </select>
-                            <input type="text" id="family_meal_price" name="family_meal_price" placeholder="Meal Plan Price" style="display: none;">
-                        </div>
+                        <input type="number" name="family" id="family">
                     </div>
                 </div>
             </div>

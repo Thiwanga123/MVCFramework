@@ -108,7 +108,7 @@
 
    
     <script src="<?php echo URLROOT;?>/js/Sidebar.js"></script> 
-    <script src="<?php echo URLROOT;?>/js/addProduct.js"></script>
+    <script src="<?php echo URLROOT;?>/js/addvehicle.js"></script>
     <script src="<?php echo URLROOT;?>/js/ImagePreview.js"></script>
      
 </body>

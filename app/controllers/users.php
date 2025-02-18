@@ -1,11 +1,17 @@
 <?php
+
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\Exception;
+
 class Users extends Controller {
     private $userModel;
+    private $equipmentModel;
     
 
     public function __construct() {
 
         $this->userModel = $this->model('M_users');
+        $this->equipmentModel = $this->model('equipmentModel');
     }
 
     public function index() {
@@ -133,13 +139,23 @@ class Users extends Controller {
 
     public function equipment_suppliers(){
         if(isset($_SESSION['user_id'])) {
-            $this->view('users/v_equipment_suppliers');
+            $equipment = $this->equipmentModel->getAllEquipment();
+            $categories = $this->equipmentModel->getAllCategories();
+    
+            $data = [
+                'equipments' => $equipment,
+                'categories' => $categories
+            ];
+    
+            $this->view('users/v_equipment_suppliers', $data);
+        
         }else{
             redirect('users/login');
         }
         
     }
 
+   
     public function guider(){
         if(isset($_SESSION['user_id'])) {
             $this->view('users/v_guider');
@@ -524,7 +540,70 @@ public function showGuider(){
 }
 
 
+public function forgotPassword(){
+    $data = json_decode(file_get_contents('php://input'), true);
+    
+    if($data){
+        $step = $data['step'];
+        if ($step == 'email') {
+
+            $email = $data['email'];
+
+            if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+                echo json_encode(['error' => 'Invalid email format.']);
+                return;
+            }
+
+            $user = $this->userModel->findUserByEmail($email);
+            if (!$user) {
+                echo json_encode(['error' => 'This email does not exist.']);
+                return;
+            }
+
+            // Send OTP (dummy code, replace with real OTP generation and sending logic)
+            $otp = rand(100000, 999999);
+            // Assume this function sends the OTP to the user.
+
+            // Return success and indicate to move to OTP step
+            if($this->sendOtpToEmail($email, $otp)){
+                echo json_encode(['success' => true, 'step' => 'email']);
+            }
+            else{
+                echo json_encode(['success' => false, 'step' => 'email']);
+            }
+        } 
+    }else{
+        $this->view('users/v_forgot_password');
+    }
+}
+
+public function sendOtpToEmail($email, $otp) {
+    $mail = new PHPMailer(true);  // Create a new PHPMailer instance
+
+    try {
+        $mail->isSMTP();
+        $mail->Host = 'smtp.gmail.com';  // Use your SMTP server here
+        $mail->SMTPAuth = true;
+        $mail->Username = 'your_email@example.com';
+        $mail->Password = 'your_password';
+        $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
+        $mail->Port = 587;
+
+        $mail->setFrom('no-reply@journeybeyond.com', 'No Reply');
+        $mail->addAddress($email);  // Add the recipient's email address
+
+        $mail->isHTML(true);
+        $mail->Subject = 'Your OTP for Password Reset';
+        $mail->Body    = "Use the following OTP to reset your password: $otp";
+
+        $mail->send();
+        return true;
+    } catch (Exception $e) {
+        return false;
+    }
+}
 }
 
 
 ?>
+

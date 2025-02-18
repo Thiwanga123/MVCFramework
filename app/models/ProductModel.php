@@ -8,38 +8,41 @@
         $this->db = new Database();
     }
 
-    public function addProduct($supplierId, $productName, $rate, $category, $quantity, $description){
-       try{
+    public function addProduct($supplierId, $productName, $rate, $category, $quantity, $description) {
+        try {
             $row = $this->getCategoryIdByName($category);
-            $categoryId = $row->category_id;
-            
-            if(!$categoryId){
+    
+            if (!$row || !isset($row->category_id)) {
                 throw new Exception("Category not found.");
             }
-
+    
+            $categoryId = $row->category_id;
+    
+            echo "Supplier: $supplierId, Product: $productName, Rate: $rate, Category: $categoryId, Quantity: $quantity, Description: $description";
+    
             $sql = "INSERT INTO products (supplier_id, product_name, rate, category_id, quantity, description) 
-                        VALUES (?, ?, ?, ?, ?, ?)";
-
+                    VALUES (?, ?, ?, ?, ?, ?)";
+    
             $this->db->query($sql);
-
             $this->db->bind(1, $supplierId);
             $this->db->bind(2, $productName);
             $this->db->bind(3, $rate);
             $this->db->bind(4, $categoryId);
             $this->db->bind(5, $quantity);
             $this->db->bind(6, $description);
-
+    
             if ($this->db->execute()) {
-                // Get the inserted product ID
-                $productId = $this->db->insertId();
+                $productId = $this->db->insertId(); 
+                echo "Inserted Product ID: $productId";
                 return $productId;
             } else {
                 throw new Exception("Error inserting product.");
             }
-        }catch(Exception $e){
-        return false;
+        } catch (Exception $e) {
+            echo "Error: " . $e->getMessage();
+            return false;
         }
-    }     
+    }
         
     public function addProductImage($supplierId, $productId, $imagePath) {
         try {
@@ -104,31 +107,15 @@
     }
 
     public function deleteProductById($productId){
-
         try{
-            $finalResult = false;
-
             $sql = "DELETE FROM products WHERE product_id = ?";
             $this->db->query($sql);
             $this->db->bind(1,$productId);
             $result = $this->db->execute();
 
-            if($result){
-                $sql2 = "DELETE FROM product_images WHERE product_id = ?";
-                $this->db->query($sql2);
-                $this->db->bind(1,$productId);
-                $finalResult = $this->db->execute();
-                
-                if(!$finalResult){
-                    throw new Exception("Failed to delete the images");
-                }
-            }
-
-            return $finalResult;
         }catch(Exception $e){
             $error_msg = $e->getMessage();
             echo "<script>alert('An error occured: $error_msg');</script>";
-            return false;
         }
     }
 
@@ -138,6 +125,7 @@
                     FROM products p
                     JOIN equipment_categories c ON p.category_id = c.category_id
                     WHERE p.product_id = ?';
+
                     
             $this->db->query($sql);
             $this->db->bind(1,$productId);
@@ -193,6 +181,8 @@
         }
         }
     }
+
+    
 
 
 ?>

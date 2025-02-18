@@ -76,7 +76,7 @@
             <div class="top">
                 <div class="bar">
                     <div class="group">
-                        <h1>Plan Your Trip Here</h1>
+                        <h1>Dream. Plan. Go! Your Adventure Starts Here. </h1>
                     </div>
                 </div>
             </div>

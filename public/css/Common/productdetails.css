@@ -1,0 +1,263 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    background-color: #f5f5f5;
+}
+
+a {
+    text-decoration: none;
+}
+
+.container {
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Top Section */
+.container .top {
+    display: flex;
+    align-items: center;
+    padding: 15px;
+    justify-content: space-between;
+    height: 70px;
+    background: white;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.container .top .logo {
+    display: flex;
+    gap: 0.5rem;
+    align-items: center;
+    font-size: 18px;
+    font-weight: 700;
+    color: rgb(15, 15, 72);
+}
+
+.container .top .logo span {
+    color: rgb(18, 138, 138);
+}
+
+.container .top .logo img {
+    width: 55px;
+    height: 55px;
+}
+
+.container .top .prof img {
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+}
+
+/* Content Section */
+.container .content {
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+    width: 100%;
+}
+
+/* Actions */
+.container .actions {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 10px;
+    padding: 5px;
+}
+
+.container .actions .edit {
+    background: #4e807a;
+    color: white;
+    padding: 8px 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.container .actions .delete {
+    background-color: rgb(221, 23, 23);
+    color: white;
+    padding: 8px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.container .actions .save {
+    background-color: #316660(19, 14, 96);
+    color: white;
+    padding: 8px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.container .details {
+    background-color: white;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    gap: 20px;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.container .details .product-details {
+    display: flex;
+    align-items: flex-start;
+    width: 100%;
+    gap: 40px;
+}
+
+/* Left Side: Image Slider */
+.slider-container {
+    position: relative;
+    width: 100%;
+    max-width: 400px;
+    height: 300px;
+    overflow: hidden;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.slider {
+    display: flex;
+    transition: transform 0.5s ease-in-out;
+}
+
+.slide {
+    min-width: 100%;
+    transition: opacity 0.5s ease-in-out;
+}
+
+.slide img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 10px;
+}
+
+/* Navigation Buttons */
+.prev, .next {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background-color: rgba(0, 0, 0, 0.5);
+    color: white;
+    border: none;
+    padding: 10px;
+    cursor: pointer;
+    border-radius: 50%;
+    font-size: 18px;
+    transition: 0.3s;
+}
+
+.prev { left: 10px; }
+.next { right: 10px; }
+
+.prev:hover, .next:hover {
+    background-color: rgba(0, 0, 0, 0.8);
+}
+
+.left {
+    flex: 0.3;
+    display: flex;
+    justify-content: center;
+}
+/* Right Side: Product Information */
+.right {
+    flex: 0.6;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.right h4 {
+    margin: 10px 0 5px;
+    font-weight: bold;
+}
+
+/* Input Fields */
+.container .details .product-details input {
+    height: 40px;
+    width: 100%;
+    max-width: 400px;
+    border-radius: 30px;
+    padding: 0 20px;
+    border: none;
+    background-color: rgb(232, 232, 232);
+    font-size: 16px;
+}
+
+.right textarea {
+    height: 80px;
+    resize: none;
+}
+
+/* Disabled Effect */
+.fade-out {
+    opacity: 0.2;
+    pointer-events: none;
+}
+
+/* --- 📱 Responsive Design --- */
+@media screen and (max-width: 768px) {
+    .container {
+        height: auto;
+        padding: 10px;
+    }
+
+    /* Stack elements for small screens */
+    .container .top {
+        flex-direction: column;
+        height: auto;
+        text-align: center;
+        gap: 10px;
+    }
+
+    .container .top .logo img {
+        width: 45px;
+        height: 45px;
+    }
+
+    /* Adjust Product Details Layout */
+    .container .details .product-details {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+    }
+
+    /* Make Image Slider Responsive */
+    .slider-container {
+        width: 100%;
+        max-width: 100%;
+        height: auto;
+    }
+
+    .slide img {
+        width: 100%;
+        height: auto;
+    }
+
+    /* Inputs Full Width */
+    .container .details .product-details input {
+        width: 100%;
+        font-size: 14px;
+    }
+
+    /* Stack Buttons */
+    .container .actions {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .container .actions button {
+        width: 100%;
+        font-size: 14px;
+    }
+}

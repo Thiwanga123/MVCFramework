@@ -7,6 +7,21 @@
     <link rel="stylesheet" href="<?php echo URLROOT;?>/css/Common/Profile_pre.css">
     <link rel="stylesheet" href="<?php echo URLROOT;?>/css/Common/sidebarHeader.css">
     <title>Profile</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" rel="stylesheet" />
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
+    <style>
+        .select2-container--default .select2-selection--multiple {
+            border: 1px solid #e83e8c; /* Pink border */
+            border-radius: 5px;
+            padding: 5px;
+        }
+        .select2-container--default .select2-selection--multiple .select2-selection__choice {
+            background-color: #e83e8c; /* Pink background */
+            border: none;
+            color: white;
+        }
+    </style>
 </head>
 <body>
     <!-- SideBar -->
@@ -54,7 +69,23 @@
                     <h4>Guider Name</h4>
                     <input type="name" id="name" name="name">
                     <h4>Language</h4>
-                    <input type="Guider ID" id="language" name="language">
+                   
+                    <select id="language-select" multiple="multiple" style="width: 300px;">
+                        <option value="English">Englishr</option>
+                        <option value="Sinhala">Sinhala</option>
+                        <option value="Russian">Russian</option>
+                        <option value="German">German</option>
+                        <option value="Arabic">Arabic</option>
+                        <option value="French">French</option>
+                    </select>
+                    <script>
+                        $(document).ready(function() {
+                            $('#language-select').select2({
+                                placeholder: "Select languages",
+                                tags: true
+                            });
+                        });
+                    </script>
                     <h4>Email</h4>
                     <input type="email" id="email" name="email">
                     <h4> Address</h4>
@@ -67,13 +98,12 @@
                     <input type="Phone Number" id="phone" name="phone">
                     <h4>Government Registration No</h4>
                     <input type="Government Registration No" id="reg_num" name="reg_num" value="ALB2043">
+                    <h4>Government National Guider License</h4>
+                    <img src="<?php echo URLROOT;?>/Images/Government license.jpg" alt="">
                     <h4>NIC</h4>
                     <input type="Government Registration No" id="nic" name="nic" value="200233513599">
-                    
-                    
                     <h4>Password</h4>
                     <input type="password" id="password" name="password">
-
                     
                     
                 </div>

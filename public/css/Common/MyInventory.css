@@ -94,6 +94,14 @@
     cursor: pointer;
     transition: all 0.3s ease;
 }
+
+table tbody tr td img {
+    width: 50px;  
+    height: 50px; 
+    object-fit: cover; 
+    border-radius: 5px;
+}
+
     
 .content main .Inventory table tbody tr:hover{
     background: var(--grey);

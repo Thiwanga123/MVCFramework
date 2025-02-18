@@ -60,6 +60,7 @@
                 
                 if($isInserted){
                     $productId = $isInserted;
+                    echo($productId);
                     $productFolder = "$supplierFolder/$productId";
 
                     if (!is_dir($productFolder)) {
@@ -147,50 +148,81 @@
             }
         }
 
-        public function updateProduct() {
-            if(isset($_POST['submit'])){
-                $data = [
-                    'id'=> $_SESSION['id'],
-                    'pid'=> trim($_POST['productId']),
-                    'productname' => trim($_POST['productName']),
-                    'rate' =>trim($_POST['productPrice']) ,
-                    'category' => trim($_POST['productCategory']),    //These variables are used to store the values which are sent via the form data
-                    'quantity' => trim($_POST['stockQuantity']),
-                    'description' => trim($_POST['productDescription']),
-                ];
-                
-                if(empty($data['productname'])){
-                    $errors[] = 'Product name is required';
+        public function updateProduct()
+        {
+            if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+                // Sanitize and validate inputs
+                $productId = trim($_POST['productId']);
+                $productName = trim($_POST['productName']);
+                $category = trim($_POST['productCategory']);
+                $rate = trim($_POST['productRate']);
+                $quantity = trim($_POST['stockQuantity']);
+                $description = trim($_POST['productDescription']);
+        
+                $errors = [];
+        
+                // Validate Product Name
+                if (empty($productName)) {
+                    $errors['nameError'] = "Product name is required.";
                 }
-
-                if(empty($data['rate']) || is_numeric($data['rate'])){
-                    $errors[] = 'A valid rate for the product is required';
+        
+                // Validate Category
+                if (empty($category)) {
+                    $errors['categoryError'] = "Category is required.";
                 }
-
-                if(empty($data['category'])){
-                    $errors[] = 'Product category is required';
+        
+                // Validate Quantity
+                if (!is_numeric($quantity)) {
+                    $errors['quantityError'] = "Quantity must be a number.";
+                } elseif ($quantity < 1 || $quantity > 15) {
+                    $errors['quantityError'] = "Stock quantity must be between 1 and 15.";
                 }
-
-                if(empty($data['quantity']) || is_numeric($data['quantity'])){
-                    $errors[] = 'A valid quantity for the product is required';
+        
+                // Validate Description
+                if (empty($description)) {
+                    $errors['descriptionError'] = "Description is required.";
                 }
-
-                if(empty($data['description'])){
-                    $errors[] = 'Product description is required';
+        
+                if (empty($rate)) {
+                    $errors['rateError'] = "Rate is required.";
                 }
-
-                $update = $this->productModel->updateProduct($data['id'], $data['pid'], $data['productname'], $data['rate'], $data['category'], $data['quantity'], $data['description']);
-                
-                if($update){
-                    echo "<script>
-                        alert('Product updated successfully!');
-                     </script>";
-                     
-                    redirect('equipment_suppliers/MyInventory');
+        
+                if (!empty($errors)) {
+                    $_SESSION['errors'] = $errors;
+                    $_SESSION['old_input'] = $_POST; 
+                    header("Location: " . URLROOT . "/product/edit/$productId");
+                    exit();
                 }
-                
+        
+                if ($this->productModel->updateProduct($productId, $productName, $category, $rate, $quantity, $description)) {
+                    $_SESSION['success'] = "Product updated successfully!";
+                    header("Location: " . URLROOT . "/product/edit/$productId");
+                    exit();
+                } else {
+                    $_SESSION['error'] = "Failed to update the product.";
+                    header("Location: " . URLROOT . "/product/edit/$productId");
+                    exit();
+                }
             }
         }
+
+            public function viewProduct($productId) {
+                $productModel = $this->model('ProductModel');
+                $product = $productModel->getProductDetailsById($productId);
+        
+                if ($product) {
+                    $data = [
+                        'product' => $product
+                    ];
+        
+                    $this->view('equipment_supplier/viewProduct', $data);
+                } else {
+                    header('Location: ' . URLROOT . '/products');
+                    exit();
+                }
+            }
+
+       
 }
 
 ?>
