@@ -167,6 +167,7 @@
             <h2>Booking Details</h2>
             <p id="bookingDetails"></p>
             <div class="modal-buttons">
+               
                 <button class="modal-button delete-button" onclick="deleteBooking()">Cancel</button>
             </div>
         </div>
@@ -174,6 +175,10 @@
 
      <script src="<?php echo URLROOT;?>/js/Sidebar.js"></script> 
      <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            closeModal();
+        });
+
         function openModal(accomadation) {
             document.getElementById('bookingDetails').innerHTML = `<br>
                 <strong>Traveler Name:</strong> ${accomadation.traveler_name}<br>
