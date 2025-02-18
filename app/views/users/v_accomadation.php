@@ -45,25 +45,26 @@
         
 
 <div class="container1">
-<?php foreach ($data['accomadation'] as $accomadation):?>
-<div class="feature">
-    <img src="<?php echo URLROOT;?>/images/Accomadation.jpg" alt="Accommodation ">
-    <h3><?php echo $accomadation->property_name;?></h3>
-    <p>Location:<?php echo $accomadation->city;?></p>
-    <br>
-    <p>Price:Rs.<?php echo $accomadation->singleprice;?> per person</p>
-    <p>Price:Rs.<?php echo $accomadation->doubleprice;?> per 2 persons</p>
-    <p>Type:<?php echo $accomadation->property_type;?></p>
-    <a href="<?php echo URLROOT;?>/users/viewdetails/<?php echo $accomadation->property_id;?>"><button class="pay-btn" style=" background-color: rgb(21, 126, 126);color: white;font-size: medium;height: 30px;
-    border-radius: 30px;
-    border: none;
-    margin-top: 1rem;
-    cursor: pointer;
-    padding: 0 10px;
-    transition: all 0.3s ease;">View & Book</button></a>
-
-</div>
-<?php endforeach; ?>
+<?php if (!empty($data['accomadation'])): ?>
+    <?php foreach ($data['accomadation'] as $accomadation): ?>
+        <div class="feature">
+            <img src="<?php echo URLROOT;?>/images/Accomadation.jpg" alt="Accommodation ">
+            <h3><?php echo htmlspecialchars($accomadation->property_name); ?></h3>
+            <p>Location: <?php echo htmlspecialchars($accomadation->city); ?></p>
+            <br>
+            <p>Price: Rs. <?php echo htmlspecialchars($accomadation->singleprice); ?> per person</p>
+            <p>Price: Rs. <?php echo htmlspecialchars($accomadation->doubleprice); ?> per 2 persons</p>
+            <p>Type: <?php echo htmlspecialchars($accomadation->property_type); ?></p>
+            <a href="<?php echo URLROOT;?>/users/viewdetails/<?php echo htmlspecialchars($accomadation->property_id); ?>">
+                <button class="pay-btn" style="background-color: rgb(21, 126, 126); color: white; font-size: medium; height: 30px; border-radius: 30px; border: none; margin-top: 1rem; cursor: pointer; padding: 0 10px; transition: all 0.3s ease;">
+                    View & Book
+                </button>
+            </a>
+        </div>
+    <?php endforeach; ?>
+<?php else: ?>
+    <p><center>Search your Accommadation.</center></p>
+<?php endif; ?>
 </div>
 
           </main>

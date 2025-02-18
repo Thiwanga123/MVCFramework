@@ -49,6 +49,7 @@ class Users extends Controller {
 
         if(isset($_SESSION['user_id'])) {
             //when Enter the location, number of guests, and the budget then click the search button, after that the system will display the available accomodations
+            
             $this->view('users/v_accomadation');
         }else{
             redirect('users/login');
