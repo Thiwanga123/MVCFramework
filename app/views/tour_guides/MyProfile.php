@@ -12,12 +12,11 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
     <style>
         .select2-container--default .select2-selection--multiple {
-            border: 1px solid #e83e8c; /* Pink border */
-            border-radius: 5px;
+            border: 1px solid rgb(232, 62, 62); 
             padding: 5px;
         }
         .select2-container--default .select2-selection--multiple .select2-selection__choice {
-            background-color: #e83e8c; /* Pink background */
+            background-color:rgb(232, 62, 62);
             border: none;
             color: white;
         }
@@ -88,6 +87,8 @@
                     </script>
                     <h4>Email</h4>
                     <input type="email" id="email" name="email">
+                    <h4>Password</h4>
+                    <input type="password" id="password" name="password">
                     <h4> Address</h4>
                     <input type="address" id="address" name="address">
                     
@@ -99,11 +100,12 @@
                     <h4>Government Registration No</h4>
                     <input type="Government Registration No" id="reg_num" name="reg_num" value="ALB2043">
                     <h4>Government National Guider License</h4>
-                    <img src="<?php echo URLROOT;?>/Images/Government license.jpg" alt="">
+                    <input type="file" id="gov_license" name="gov_license" accept="image/*">
+                    <h4>Experienced Areas</h4>
+                    <input type="text" id="exp_area" name="exp_area">
                     <h4>NIC</h4>
-                    <input type="Government Registration No" id="nic" name="nic" value="200233513599">
-                    <h4>Password</h4>
-                    <input type="password" id="password" name="password">
+                    <input type="NIC" id="nic" name="nic" value="200233513599">
+                    
                     
                     
                 </div>
