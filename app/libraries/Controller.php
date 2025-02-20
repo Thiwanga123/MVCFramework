@@ -1,6 +1,31 @@
 <?php
 class Controller{
 
+    public $breadcrumbs;
+
+    public function __construct() {
+        $this->breadcrumbs = $this->generateBreadcrumbs();
+    }
+
+    public function generateBreadcrumbs() {
+        $path = trim($_SERVER['REQUEST_URI'], "/");
+        $segments = explode("/", $path);
+        $url = URLROOT;
+        $breadcrumbs = [];
+    
+        $breadcrumbs[] = ['name' => 'Home', 'url' => URLROOT];
+    
+        for ($i = 0; $i < count($segments); $i++) {
+            $url .= "/" . $segments[$i];
+            $breadcrumbs[] = [
+                'name' => ucfirst(str_replace("-", " ", $segments[$i])),
+                'url' => $url
+            ];
+        }
+    
+        return $breadcrumbs;
+    }
+    
     public function model($model){
         require_once '../app/models/' . $model . '.php';
 

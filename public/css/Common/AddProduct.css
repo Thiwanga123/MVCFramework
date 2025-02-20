@@ -1,0 +1,170 @@
+.content main .header{
+    color: teal;
+}
+
+
+.AddProduct {
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+}
+
+.basic-details, .image-upload, .policies {
+    background-color: #ffffff;
+    padding: 25px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.div input{
+    border: none;
+    background-color: rgb(239, 239, 239);
+    height: 40px;
+    border-radius: 40px;
+    padding: 20px;
+}
+
+h2 {
+    font-size: 24px;
+    color: #2c3e50;
+    margin-bottom: 15px;
+}
+
+/* Basic Details Section */
+.basic-details .details {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.basic-details .details .div{
+    display: flex;
+    width: 100%;
+    flex-wrap: wrap;
+    gap: 50px;
+}
+
+.basic-details .left, .basic-details .right {
+    flex: 1;
+}
+
+label {
+    font-weight: 600;
+    color: #2c3e50;
+    margin-bottom: 5px;
+    display: block;
+}
+
+input[type="text"], input[type="number"], input[type="file"], select, textarea {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    margin-top: 10px;
+    border: 0,3px solid #ddd;
+    font-size: 16px;
+}
+
+textarea {
+    resize: vertical;
+}
+
+.image-container {
+    margin-top: 20px;
+    text-align: center;
+}
+
+#image-preview {
+    max-width: 100%;
+    max-height: 300px;
+    object-fit: contain; /* To keep the image aspect ratio */
+}
+
+input[type="checkbox"] {
+    margin-right: 8px;
+}
+
+/* Image Upload Section */
+.image-upload {
+    display: flex;
+    flex-direction: column;
+}
+
+.image-upload input[type="file"] {
+    padding: 10px;
+}
+
+/* Policies Section */
+.policies textarea {
+    resize: vertical;
+}
+
+.policies input[type="checkbox"] {
+    margin-right: 8px;
+}
+
+button[type="submit"] {
+    padding: 12px 25px;
+    background-color: teal;
+    color: white;
+    font-size: 16px;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    margin-top: 15px;
+}
+
+button[type="submit"]:hover {
+    background-color:rgb(2, 82, 82);
+}
+
+button[type="submit"]:active {
+    background-color: #1c6e8c;
+}
+
+/* Responsive Design */
+@media screen and (max-width: 768px) {
+    .AddProduct {
+        gap: 20px;
+    }
+
+    .basic-details .details {
+        flex-direction: column;
+    }
+
+    .basic-details .left, .basic-details .right {
+        flex: none;
+        width: 100%;
+    }
+
+    .image-upload input[type="file"] {
+        width: 100%;
+    }
+}
+
+/* Breadcrumb Styling */
+.breadcrumb {
+    margin-bottom: 20px;
+}
+
+.breadcrumb ul {
+    list-style: none;
+    padding: 0;
+    display: flex;
+    gap: 8px;
+}
+
+.breadcrumb a {
+    text-decoration: none;
+    color: #3498db;
+}
+
+.breadcrumb .separator {
+    color: #2c3e50;
+}
+
+.breadcrumb li:last-child {
+    font-weight: bold;
+    color: #2c3e50;
+}
+

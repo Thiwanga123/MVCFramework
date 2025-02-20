@@ -60,4 +60,9 @@ items.forEach(item=>{
     });
 });
 
+// document.querySelector('.dropdown-btn').addEventListener('click', function() {
+//     var subMenu = this.nextElementSibling;
+//     subMenu.classList.toggle('active');
+// });
+
 })

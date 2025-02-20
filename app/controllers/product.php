@@ -110,6 +110,9 @@
                 } else {
                     echo "<script type='text/javascript'>alert('Failed to add product.');</script>";
                 }
+            }else{
+                
+                $this->view('equipment_supplier/AddProduct');
             }
         }
 

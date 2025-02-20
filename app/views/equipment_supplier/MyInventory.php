@@ -41,6 +41,23 @@
         </nav>
 
         <main>
+            <div class="breadcrumb">
+               
+                <!-- <nav>
+                    <ul>
+                        <?php foreach ($data['breadcrumbs'] as $index => $breadcrumb): ?>
+                            <?php if ($index < count($data['breadcrumbs']) - 1): ?>
+                                <li><a href="<?php echo $breadcrumb['url']; ?>"><?php echo $breadcrumb['name']; ?></a></li>
+                                <li class="separator">></li>
+                            <?php else: ?>
+                                <li><?php echo $breadcrumb['name']; ?></li>
+                            <?php endif; ?>
+                        <?php endforeach; ?>
+                    </ul>
+                </nav> -->
+            </div>
+            <hr>
+
             <div class="header">
                 <div class="left">
                     <h1>Available Rentals</h1>
@@ -61,44 +78,44 @@
                     <h3>All Rental Products</h3>
                     <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#000000"><path d="M440-160q-17 0-28.5-11.5T400-200v-240L168-736q-15-20-4.5-42t36.5-22h560q26 0 36.5 22t-4.5 42L560-440v240q0 17-11.5 28.5T520-160h-80Zm40-308 198-252H282l198 252Zm0 0Z"/></svg>
                 </div>
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Product Image</th>
-                            <th>Product Id</th>
-                            <th>Product</th>
-                            <th>Price</th>
-                            <th>Current Stock</th>
-                            <th>Category</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        
-                    <?php if (empty($products)): ?>
-                        <tr>
-                            <td colspan="7" style="text-align: center; font-size: 24px; font-weight: bold;">Inventory is empty</td>
-                        </tr>
-                    <?php else: ?>
-                        <?php foreach ($products as $product): ?>
-                            <tr class="clickable-row" data-href="<?php echo URLROOT; ?>/product/viewProduct/<?php echo $product->product_id; ?>">
-                            <td>
-                                <?php if (!empty($product->image_path)): ?>
-                                <img src="<?php echo URLROOT . '/' . $product->image_path; ?>" alt="Product Image">
-                                <?php else: ?>
-                                <img src="<?php echo URLROOT; ?>/Images/default_profile.png" alt="Default Image">
-                                <?php endif; ?>
-                            </td>
-                            <td><?php echo $product->product_id; ?></td>
-                            <td><?php echo $product->product_name; ?></td>
-                            <td><?php echo $product->rate; ?></td>
-                            <td><?php echo $product->quantity; ?></td>
-                            <td><?php echo $product->category_name; ?></td>
-                            
-                        </tr>
-                        <?php endforeach; ?>
-                        <?php endif; ?>    
-                    </tbody>
-                </table> 
+
+                <div class="product-container">
+                <div class="product-card">
+                    <img src="https://via.placeholder.com/150" alt="Product Image">
+                    <h4>Product Name</h4>
+                    <div class="star-rating">
+                        <span class="star">&#9734;</span> <!-- Empty star -->
+                        <span class="star">&#9734;</span> <!-- Empty star -->
+                        <span class="star">&#9734;</span> <!-- Empty star -->
+                        <span class="star">&#9734;</span> <!-- Empty star -->
+                        <span class="star">&#9734;</span> <!-- Empty star -->
+                    </div>
+                </div>
+
+                <div class="product-card">
+                    <img src="https://via.placeholder.com/150" alt="Product Image">
+                    <h4>Product Name</h4>
+                    <div class="star-rating">
+                        <span class="star">&#9734;</span> <!-- Empty star -->
+                        <span class="star">&#9734;</span> <!-- Empty star -->
+                        <span class="star">&#9734;</span> <!-- Empty star -->
+                        <span class="star">&#9734;</span> <!-- Empty star -->
+                        <span class="star">&#9734;</span> <!-- Empty star -->
+                    </div>
+                </div>
+
+                <div class="product-card">
+                    <img src="https://via.placeholder.com/150" alt="Product Image">
+                    <h4>Product Name</h4>
+                    <div class="star-rating">
+                        <span class="star">&#9734;</span> <!-- Empty star -->
+                        <span class="star">&#9734;</span> <!-- Empty star -->
+                        <span class="star">&#9734;</span> <!-- Empty star -->
+                        <span class="star">&#9734;</span> <!-- Empty star -->
+                        <span class="star">&#9734;</span> <!-- Empty star -->
+                    </div>
+                </div>
+                
             </div>
             </div>
             
@@ -111,21 +128,18 @@
 
    
 
-    <?php
-        include('AddProduct.php');;
-    ?>
 
     <?php
         include('EditProduct.php');;
-    ?>
+    ?> 
 
     <script> const URLROOT = "<?php echo URLROOT; ?>"; </script>
     
     <script src="<?php echo URLROOT;?>/js/Sidebar.js" ></script> 
     <script src="<?php echo URLROOT;?>/js/addProduct.js" ></script>
-    <script src="<?php echo URLROOT;?>/js/viewDetails.js" ></script>
-    <script src="<?php echo URLROOT;?>/js/ImagePreview.js" ></script>  
-    <script src="<?php echo URLROOT;?>/js/Productpage.js" ></script> 
+    <script src="<?php echo URLROOT;?>/js/editProduct.js" ></script>
+    <script src="<?php echo URLROOT;?>/js/ImagePreview.js" ></script> 
+    <!-- <script src="<?php echo URLROOT;?>/js/Productpage.js" ></script>  -->
     
 
 </body>

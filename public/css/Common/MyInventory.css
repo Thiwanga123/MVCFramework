@@ -1,46 +1,4 @@
 
-
-.content main {
-    justify-content: center;
-    align-items: center;
-    width: 100%;
-    padding: 20px 24px;
-    max-height: calc(100vh - 56px);
-}
-
-.content main .header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-bottom: 20px;
-    flex-wrap: wrap;
-}
-
-.content main .header .left h1 {
-    font-size: 32px;
-    font-weight: 600;
-    margin-bottom: 10px;
-    color: var(--light-primary);
-}
-
-.content main .header .add-btn{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background: rgb(12, 12, 85);
-    color: whitesmoke;
-    padding: 8px;
-    border-radius: 20px;
-    cursor: pointer;
-    gap: 1px;
-    border: none;
-    transition: all 0.3s ease-out;
-}
-
-.content main .header .add-btn:hover{
-    background-color: teal;
-}
-
 .content main .Inventory{
     display: flex;
     flex-wrap: wrap;
@@ -56,69 +14,40 @@
     width: 100%;
 }
 
-.content main .Inventory .header{
-    display: flex;
-    align-items: center;
-    gap: 16px;
-    margin-bottom: 24px;
+.product-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 20px;
+    padding: 20px;
 }
 
-.content main .Inventory .header h3{
-    margin-right: auto;
-    font-size: 24px;
-    font-weight: 600;
+.product-card {
+    background: white;
+    border-radius: 8px;
+    padding: 15px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    transition: transform 0.2s ease-in-out;
 }
 
-.content main .Inventory .header svg{
-   cursor: pointer;
+.product-card:hover {
+    transform: scale(1.05);
 }
 
-.content main .Inventory table{
+.product-card img {
     width: 100%;
-    border-collapse: collapse;
+    height: 150px;
+    object-fit: cover;
+    border-radius: 8px;
 }
 
-.content main .Inventory table th{
-    padding-bottom: 12px;
-    font-size: 14px;
-    text-align: left;
-    border-bottom: 1px solid var(--light-success);
+.star-rating {
+    font-size: 24px;
+    color: #d3d3d3; /* Empty star color */
 }
 
-.content main .Inventory table td{
-    padding: 16px 0;
-}
-
-
-.content main .Inventory table tbody tr{
-    cursor: pointer;
-    transition: all 0.3s ease;
-}
-
-table tbody tr td img {
-    width: 50px;  
-    height: 50px; 
-    object-fit: cover; 
-    border-radius: 5px;
-}
-
-    
-.content main .Inventory table tbody tr:hover{
-    background: var(--grey);
-}
-
-.Action{
-    display: flex;
-    gap: 10px; 
-    transition: all 0.3s ease;
-}
-
-.Action .edit svg:hover{
-    fill: rgb(1, 14, 191);
-}
-
-.Action .delete svg:hover{
-    fill: red;
+.star-rating .filled {
+    color: #ffcc00; /* Filled star color */
 }
 
 
