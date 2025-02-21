@@ -97,24 +97,15 @@ body{
 
 .sidebar .side-menu{
     width: 100%;
-    margin-top: 35px;
+    margin-top: 20px;
 }
 
 .sidebar .side-menu li{
     height: 48px;
-    position: relative;
     margin-left: 8px;
     border-radius: 48px 0 0 48px;
     padding: 5px;
 }
-
-.sidebar .side-menu li:last-child{
-    position: absolute;
-    bottom: 2rem;
-    width: 100%;
-    margin-top: auto;
-}
-
 
 .sidebar .side-menu li a{
     width: 100%;
@@ -128,7 +119,9 @@ body{
     white-space: nowrap;
     overflow-x: hidden;
     transition: all 0.3s ease-out;
+    gap: 5px;
 }
+
 
 .sidebar.close .side-menu li a{
     width: 40px;
@@ -164,6 +157,36 @@ body{
 
 .side-menu li a svg:hover {
    fill: var(--light-primary);
+}
+
+.submenu {
+    max-height: 0; 
+    padding-left: 30px;
+    background-color: antiquewhite;
+    overflow: hidden;
+    opacity: 0; 
+    transition: max-height 0.3s ease-out, opacity 0.3s ease-out;
+}
+
+.submenu.show {
+    opacity: 1;
+    max-height: 300px; /* Expand submenu */
+}
+
+.submenu-arrow {
+    transition: transform 0.3s ease;
+}
+
+.submenu li {
+    list-style: none;
+}
+
+.submenu li a {
+    text-decoration: none;
+    color: #333;
+    padding: 5px 15px;
+    display: block;
+    font-size: 14px;
 }
 
 .content{
