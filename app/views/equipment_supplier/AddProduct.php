@@ -5,8 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="<?php echo URLROOT;?>/css/Common/AddProduct.css">
     <link rel="stylesheet" href="<?php echo URLROOT;?>/css/Common/sidebarHeader.css">
-    <link rel="stylesheet" href="<?php echo URLROOT;?>/css/Modals/addProductModal.css">
-    <link rel="stylesheet" href="<?php echo URLROOT;?>/css/Modals/editProductModal.css">
     <title>Home</title>
 </head>
 <body>
@@ -64,9 +62,9 @@
            
             <div class="AddProduct">
     <!-- Basic Details Section -->
-    <div class="basic-details">
-        <h2>Basic Details</h2>
-        <div class="details">
+            <div class="basic-details">
+                <h2>Basic Details</h2>
+                <div class="details">
                     
                         <div class="div">
                             <div class="left">
@@ -89,12 +87,17 @@
                             </div>
 
                             <div class="right">
-                                <label for="minimumRentalPeriod">Minimum Rental Period (days):</label>
-                                <input type="number" id="minimumRentalPeriod" name="minimumRentalPeriod" min="1">
+                                <label for="minimumRentalPeriod">Maximum Rental Period (days):</label>
+                                <input type="number" id="maximumRentalPeriod" name="maximumRentalPeriod" min="1">
                             
-                                <label for="availability">Availability:</label>
-                                <input type="checkbox" id="availability" name="availability" checked>
-                                <label for="availability">Available for Rent</label>
+                                <label>Delivery Available:</label>
+                                <div class="group">
+                                <input type="radio" id="deliveryYes" name="deliveryAvailable" value="yes">
+                                <label for="deliveryYes">Yes</label>
+
+                                <input type="radio" id="deliveryNo" name="deliveryAvailable" value="no" checked>
+                                <label for="deliveryNo">No</label>
+                                </div>
 
                                </div>
                         </div>
@@ -106,44 +109,80 @@
                     </div>
     </div>
     <!-- Image Upload Section -->
-    <div class="image-upload">
-        <div class="details">
-            <h2>Upload Images</h2>
-            <label for="image">Choose upto 6 images</label>
-            <input type="file" id="image" name="image" accept="image/*" required>
-        </div>
+            <div class="image-upload">
+                <div class="details">
+                    <h2>Upload Images</h2>
+                    <label for="image">Choose upto 6 images</label>
+                    <input type="file" id="image" name="image" accept="image/*" multiple required>
+                </div>
 
-        <div class="image-container" id="image-container">
-        <img id="image-preview" src="" alt="Image Preview" style="display:none; max-width: 100%; max-height: 300px;">
-    </div>
-    </div>
+                <div class="image-container" id="image-container">
+                    <img id="image-preview" src="" alt="Image Preview" style="display:none; max-width: 100%; max-height: 300px;">
+                </div>
+            </div>
 
     <!-- Policies Section -->
     <div class="policies">
         <div class="details">
-            <h2>Rental Policies</h2>
-            <label for="rentalPolicy">Rental Policy Description:</label>
-            <textarea id="rentalPolicy" name="rentalPolicy" rows="4" cols="50" required></textarea>
+            <h2>Policies</h2>
+            <br>
+            <label for="returnPolicy">Return Policy:</label>
+            <select id="returnPolicy" name="returnPolicy" required>
+                <option value="noReturn">No return policies</option>
+                <option value="fullRefund">Full refund</option>
+                <option value="partialRefund">Partial refund</option>
+                <option value="bothRefunds">Both full and partial refund</option>
+            </select>
+
             <br><br>
 
-            <label for="depositRequired">Deposit Required:</label>
-            <input type="checkbox" id="depositRequired" name="depositRequired">
-            <label for="depositRequired">Yes, a deposit is required</label>
-            <br><br>
+            <!-- Full Refund Time -->
+            <div id="fullRefundSection" style="display: none;">
+                <h4>Full refund:</h4>
+                <label for="fullRefundTime">Cancel Time (hours before pickup for full refund):</label>
+                <select id="fullRefundTime" name="fullRefundTime" required>
+                    <option value="12">12 hours</option>
+                    <option value="24">24 hours</option>
+                    <option value="36">36 hours</option>
+                    <option value="48">48 hours</option>
+                </select>
+            </div>
 
+<!-- Partial Refund Time -->
+            <div id="partialRefundSection" style="display: none;">
+                <h4>Partial refund:</h4>
+                <div>
+                    <div class="div">
+                    <label for="partialRefundTime">Cancel Time (hours before pickup for partial refund):</label>
+                    <select id="partialRefundTime" name="partialRefundTime" required>
+                        <option value="12">12 hours</option>
+                        <option value="24">24 hours</option>
+                        <option value="36">36 hours</option>
+                        <option value="48">48 hours</option>
+                    </select>
+                    </div>
+
+                    <div>
+                        <label for="partialRefundPercentage">Partial Refund Percentage:</label>
+                        <input type="number" id="partialRefundPercentage" name="partialRefundPercentage" min="0" max="100" step="10" required>
+                    </div>
+                </div>
+            </div>
             <label for="damagePolicy">Damage Policy:</label>
             <textarea id="damagePolicy" name="damagePolicy" rows="4" cols="50" required></textarea>
-        
-        <button type="submit">Add Equipment</button>
+        <div class="btn">
+        <button type="submit" class="addRentalBtn">Add Equipment</button>
+        </div>
         </div>
         </form>
     </div>
 </div>
+        </main>
   
     <script> const URLROOT = "<?php echo URLROOT; ?>"; </script>
     
     <script src="<?php echo URLROOT;?>/js/Sidebar.js" ></script> 
-    <!-- <script src="<?php echo URLROOT;?>/js/addProduct.js" ></script> -->
+    <script src="<?php echo URLROOT;?>/js/addProduct.js" ></script>
     <!-- <script src="<?php echo URLROOT;?>/js/editProduct.js" ></script> -->
     <script src="<?php echo URLROOT;?>/js/ImagePreview.js" ></script> 
     <!-- <script src="<?php echo URLROOT;?>/js/Productpage.js" ></script>  -->
