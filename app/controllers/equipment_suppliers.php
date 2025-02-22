@@ -29,25 +29,41 @@ class Equipment_Suppliers extends Controller{
 
 
 
+    // public function myInventory(){
+
+    //     if (isset($_SESSION['id'])) {
+
+    //         $supplierId = $_SESSION['id'];
+    //         $this->productModel = $this->model('ProductModel');
+    //         $products = $this->productModel->getAllProducts($supplierId);
+    //         $data = [
+    //             'products' => $products,
+    //             'breadcrumbs' => $this->generateBreadcrumbs()
+    //         ];
+            
+    //         $this->view('equipment_supplier/MyInventory',$data);
+
+    //     } else {
+    //         redirect('ServiceProvider');
+    //     }
+
+    // }
+
+    
     public function myInventory(){
-
-        if (isset($_SESSION['id'])) {
-
-            $supplierId = $_SESSION['id'];
-            $this->productModel = $this->model('ProductModel');
-            $products = $this->productModel->getAllProducts($supplierId);
+        if(isset($_SESSION['id'])){
+            $rentals = $this->productModel->getAllProducts($_SESSION['id']);
             $data = [
-                'products' => $products,
-                'breadcrumbs' => $this->generateBreadcrumbs()
+                'rentals' =>  $rentals  
             ];
             
-            $this->view('equipment_supplier/MyInventory',$data);
-
-        } else {
-            redirect('ServiceProvider');
+            $this->view('equipment_supplier/MyInventory', $data);
+        }else{
+            redirect("ServiceProvider");
         }
-
     }
+
+
 
     public function orders(){
         
