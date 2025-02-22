@@ -42,6 +42,8 @@
        
 
             <?php
+            
+    
 $destinations = [
     'Kandy, Sri Lanka',
     'Colombo, Sri Lanka',

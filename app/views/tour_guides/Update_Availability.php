@@ -32,7 +32,7 @@
             padding: 20px;
             border-radius: 8px;
             margin-bottom: 20px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            box-shadow: 0 2px 4px #17252a;
         }
         .add-form {
             display: grid;
@@ -55,7 +55,7 @@
             border-radius: 4px;
         }
         button {
-            background: #4CAF50;
+            background: #2b7a78;
             color: white;
             padding: 10px 15px;
             border: none;
@@ -64,13 +64,13 @@
             width: 100%;
         }
         button:hover {
-            background: #45a049;
+            background: #2b7a78;
         }
         .schedule-list {
             background: #fff;
             padding: 20px;
             border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            box-shadow: 0 2px 4px #17252a;
         }
         .schedule-item {
             display: grid;
@@ -92,7 +92,7 @@
         }
         .price {
             font-weight: bold;
-            color: #4CAF50;
+            color: #3aafa9;
         }
         .location {
             color: #666;
@@ -112,7 +112,7 @@
             font-size: 0.9em;
         }
         .filter-btn.active {
-            background: #4CAF50;
+            background: #3aafa9;
         }
         @media (max-width: 768px) {
             .schedule-item {
@@ -126,14 +126,11 @@
 </head>
 <body>
     <!-- SideBar -->
- <!-- SideBar -->
- <?php
-        include('Sidebar.php');;
-    ?>
-          <!-- End Of Sidebar -->
+    <?php include('Sidebar.php'); ?>
+    <!-- End Of Sidebar -->
 
-     <!--Main Content-->
-     <div class="content">
+    <!--Main Content-->
+    <div class="content">
         <!--navbar-->
         <nav>
             <svg class="menu" xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#000000"><path d="M160-269.23v-40h640v40H160ZM160-460v-40h640v40H160Zm0-190.77v-40h640v40H160Z"/></svg>
@@ -195,7 +192,7 @@
                     <input type="time" id="endTime" required>
                 </div>
                 <div class="form-group">
-                    <label for="price">Price ($)</label>
+                    <label for="price">Price (LKR)</label>
                     <input type="number" id="price" min="0" step="0.01" required>
                 </div>
                 <div class="form-group">
@@ -219,7 +216,7 @@
     </div>
 
     <script>
-        let schedules = [];
+        let schedules = JSON.parse(localStorage.getItem('schedules')) || [];
         let currentFilter = 'all';
 
         function getCurrentLocation() {
@@ -269,12 +266,14 @@
             };
 
             schedules.push(schedule);
+            localStorage.setItem('schedules', JSON.stringify(schedules));
             updateScheduleDisplay();
             this.reset();
         });
 
         function deleteSchedule(id) {
             schedules = schedules.filter(schedule => schedule.id !== id);
+            localStorage.setItem('schedules', JSON.stringify(schedules));
             updateScheduleDisplay();
         }
 
@@ -308,7 +307,7 @@
                 <div class="schedule-item">
                     <div><strong>${schedule.day}</strong></div>
                     <div>${formatTime(schedule.startTime)} - ${formatTime(schedule.endTime)}</div>
-                    <div class="price">$${schedule.price.toFixed(2)}</div>
+                    <div class="price">LKR ${schedule.price.toFixed(2)}</div>
                     <div class="location">📍 ${schedule.location}</div>
                     <div>
                         <button class="delete-btn" onclick="deleteSchedule(${schedule.id})">Delete</button>
@@ -324,6 +323,9 @@
                 hour12: true 
             });
         }
+
+        // Initial display update
+        updateScheduleDisplay();
     </script>
 </body>
 </html>

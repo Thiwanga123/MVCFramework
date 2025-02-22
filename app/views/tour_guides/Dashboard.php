@@ -8,8 +8,47 @@
     <link rel="stylesheet" href="<?php echo URLROOT;?>/css/adminpage/Dashboard.css">
     <link rel="stylesheet" href="<?php echo URLROOT;?>/css/Common/sidebarHeader.css">
     
-
     <title>Home</title>
+    <style>
+        .event-date {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background: #007bff;
+            color: white;
+            padding: 10px;
+            border-radius: 8px;
+            width: 80px;
+            text-align: center;
+            font-weight: bold;
+        }
+
+        .event-date strong {
+            font-size: 1.5em;
+        }
+
+        .event-date span {
+            font-size: 1em;
+        }
+
+        .event-details {
+            margin-left: 15px;
+            padding: 10px;
+            background: #f8f9fa;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        }
+
+        .event-details h3 {
+            margin: 0;
+            color: #333;
+        }
+
+        .event-details p {
+            color: #666;
+            margin-top: 5px;
+        }
+    </style>
 </head>
 <body>
     <!-- SideBar -->
@@ -40,12 +79,14 @@
             </a>
         </nav>
 
+
         <main>
             <div class="header">
                 <div class="left">
                     <h1 id = "header-title">Dashboard</h1>
                 </div>
             </div>
+            
         
             <!--Insights-->
             <ul class="insights">
@@ -151,12 +192,13 @@
                 </div>
         
                 <!--Recent updates-->
+                
                 <div class="reminders">
                     <div class="header">
         <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#000000">
             <path d="M200-120q-33 0-56.5-23.5T120-200v-560q0-33 23.5-56.5T200-840h440l200 200v440q0 33-23.5 56.5T760-120H200Zm0-80h560v-400H600v-160H200v560Zm80-80h400v-80H280v80Zm0-320h200v-80H280v80Zm0 160h400v-80H280v80Zm-80-320v160-160 560-560Z"/>
         </svg>
-        <h3>System Annnouncement</h3>
+        <h3>System Announcement</h3>
     </div>
     <ul class="event-list">
         <li>
@@ -166,19 +208,21 @@
             </div>
             <div class="event-details">
                 <h4>System Maintenance</h4>
-           
-<p>Scheduled downtime for updates from 2:00 AM to 4:00 AM.</p>
-                    </div>
-      </li>
-      <li>
-        <div class="event-date">
-          <strong>Dec 05</strong>
-          <span>2024</span>
-        </div>
-        <div class="event-details">
-          <h3>Version 3.0 Release</h3>
-          <p>Launch of new features and performance improvements.</p>
-        </div>
+                <p>Scheduled downtime for updates from 2:00 AM to 4:00 AM.</p>
+            </div>
+        </li>
+        <li>
+        <div class="event-container">
+    <div class="event-date">
+        <strong>Dec 05</strong>
+        <span>2024</span>
+    </div>
+    <div class="event-details">
+        <h3>Version 3.0 Release</h3>
+        <p>Launch of new features and performance improvements.</p>
+    </div>
+</div>
+
       </li>
       
                     </ul>
