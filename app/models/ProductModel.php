@@ -156,10 +156,12 @@
 
     public function getProductDetailsById($productId){
         try{
-            $sql = 'SELECT p.*, c.category_name
-                    FROM products p
-                    JOIN equipment_categories c ON p.category_id = c.category_id
-                    WHERE p.product_id = ?';
+            
+            $sql = 'SELECT r.*, c.category_name, i.*
+                    FROM rental_equipments r
+                    JOIN equipment_categories c ON r.category_id = c.category_id
+                    LEFT JOIN rental_images i ON r.id = i.product_id
+                    WHERE r.id = ?';
 
                     
             $this->db->query($sql);
@@ -169,7 +171,6 @@
             if (!$result) {
                 throw new Exception("Product not found.");
             }
-            
             return $result; 
 
         }catch(Exception $e){

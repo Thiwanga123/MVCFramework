@@ -14,7 +14,7 @@
     <?php
         include('Sidebar.php');;
     ?>
-    \
+    
         <main>
             <!-- <div class="breadcrumb">
                
@@ -52,8 +52,7 @@
 
                 <div class="product-container">
                     <?php foreach ($data['rentals'] as $rental): ?>
-                        <a href="product-info.php?id=<?php echo $rental->id; ?>" class="product-card-link">
-                        <div class="product-card">
+                        <a href="<?php echo URLROOT; ?>/product/viewProduct/<?php echo $rental->id; ?>" class="product-card-link">                        <div class="product-card">
                             <div class="img">
                                 <img src="<?php echo URLROOT . '/' . $rental->image_path; ?>" alt="<?php echo $rental->product_name; ?>">
                             </div>

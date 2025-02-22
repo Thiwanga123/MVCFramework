@@ -82,6 +82,22 @@
             <a href="#" class="profile">
             <img src="<?php echo URLROOT;?>/Images/Profile pic.jpg">
             </a>
+
+            <div class="profile-submenu">
+                <div class="profile-info">
+                    <div class="profile-pic">
+                        <img src="<?php echo URLROOT . '/path/to/profile-pic.jpg'; ?>" alt="Profile Picture">
+                    </div>
+                    <h4><?php echo $_SESSION['username']; ?></h4>
+                    <p><?php echo $_SESSION['email']; ?></p>
+                </div>
+                <ul>
+                    <li><a href="profile.php">My Profile</a></li>
+                    <li><a href="change-password.php">Change Password</a></li>
+                    <li><a href="feedback.php">Give Feedback</a></li>
+                    <li><a href="logout.php">Logout</a></li>
+                </ul>
+            </div>
         </nav>
 
      <script>

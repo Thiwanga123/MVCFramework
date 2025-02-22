@@ -287,11 +287,11 @@
 
             public function viewProduct($productId) {
                 $productModel = $this->model('ProductModel');
-                $product = $productModel->getProductDetailsById($productId);
-        
-                if ($product) {
+                $rental = $productModel->getProductDetailsById($productId);
+            
+                if ($rental) {
                     $data = [
-                        'product' => $product
+                        'rental' => $rental
                     ];
         
                     $this->view('equipment_supplier/viewProduct', $data);
