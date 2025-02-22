@@ -112,7 +112,13 @@ class Equipment_Suppliers extends Controller{
     public function addProduct(){
 
         if (isset($_SESSION['id'])) {
-            $this->view('equipment_supplier/AddProduct');
+            $supplierId = $_SESSION['id'];
+            $this->productModel = $this->model('ProductModel');
+            $categories = $this->productModel->getAllCategories();
+            $data = [
+                'categories' => $categories,
+            ];
+            $this->view('equipment_supplier/AddProduct', $data);
         } else {
             redirect('ServiceProvider');
         }

@@ -133,10 +133,6 @@ textarea {
     resize: vertical;
 }
 
-/* Image Upload Section */
-.image-upload {
-    text-align: center;
-}
 
 .image-container {
     margin-top: 25px;
@@ -211,6 +207,12 @@ textarea {
     transform: translateY(1px);
     background-color: rgb(0, 90, 90);
 }
+
+.error-message {
+    color: red;
+    font-size: 0.9rem;
+}
+
 
 /* Responsive Design */
 @media screen and (max-width: 768px) {

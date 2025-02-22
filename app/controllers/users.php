@@ -281,6 +281,7 @@ public function login() {
             'password_err' => ''
         ];
 
+        
         // Validate email
         if (empty($data['email'])) {
             $data['email_err'] = 'Please enter email';
