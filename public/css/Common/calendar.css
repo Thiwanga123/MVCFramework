@@ -1,0 +1,158 @@
+.calendar-container {
+    width: 100%;
+    max-width: 400px;
+    background: white;
+    border-radius: 12px;
+    padding: 24px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+}
+
+.calendar-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 24px;
+}
+
+#calendar-month-name {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: #1a1a1a;
+}
+
+.prev-month,
+.next-month {
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    color: #666;
+    transition: all 0.2s ease;
+}
+
+.prev-month:hover,
+.next-month:hover {
+    background-color: #f3f4f6;
+    color: #1a1a1a;
+}
+
+.calendar-days {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 8px;
+    margin-bottom: 12px;
+}
+
+.calendar-day {
+    text-align: center;
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: #666;
+    padding: 8px;
+}
+
+.calendar-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 8px;
+}
+
+.calendar-grid div {
+    aspect-ratio: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.875rem;
+    color: #1a1a1a;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.calendar-grid div:not(:empty):hover {
+    background-color: #f3f4f6;
+}
+
+.calendar-grid div.today {
+    background-color: #cee5f6;
+    color: #1174d6;
+    font-weight: 600;
+}
+
+.calendar-grid div.selected {
+    background-color: #1976d2;
+    color: white;
+}
+
+/* Add responsive design for smaller screens */
+@media (max-width: 480px) {
+    .calendar-container {
+        padding: 16px;
+    }
+
+    .calendar-header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    #calendar-month-name {
+        font-size: 1rem;
+    }
+
+    .prev-month,
+    .next-month {
+        width: 28px;
+        height: 28px;
+        font-size: 1.25rem;
+    }
+
+    .calendar-day {
+        font-size: 0.75rem;
+    }
+
+    .calendar-grid div {
+        font-size: 0.75rem;
+        padding: 6px;
+    }
+}
+
+/* Add responsive design for medium screens (768px) 
+@media (max-width: 768px) {
+    .calendar-container {
+        
+        padding: 20px;
+    }
+
+    .calendar-header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    #calendar-month-name {
+        font-size: 1.125rem;
+    }
+
+    .prev-month,
+    .next-month {
+        width: 30px;
+        height: 30px;
+        font-size: 1.4rem;
+    }
+
+    .calendar-day {
+        font-size: 0.8rem;
+    }
+
+    .calendar-grid div {
+        font-size: 0.8rem;
+        padding: 7px;
+    }
+}
+*/

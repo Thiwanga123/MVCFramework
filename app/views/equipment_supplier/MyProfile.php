@@ -19,6 +19,7 @@
 
 
         <main>
+            <hr>
             <div class="header">
                 <div class="left">
                     <h1>My Profile</h1>

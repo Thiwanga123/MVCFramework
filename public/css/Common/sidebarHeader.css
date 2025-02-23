@@ -1,5 +1,5 @@
 :root {
-    --light: snow;
+    --light: rgb(255, 255, 255);
     --primary: rgb(36, 36, 118);
     --light-primary: teal;
     --grey: rgb(239, 239, 239);
@@ -486,6 +486,7 @@ hr{
     border: 0.3px solid teal;
     margin-bottom: 15px;
 }
+
 .Action a{
     gap: 12px;
 }

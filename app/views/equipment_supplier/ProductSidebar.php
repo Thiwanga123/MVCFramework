@@ -11,7 +11,7 @@
 
     <ul class="side-menu">
         <li>
-            <a href="<?php echo URLROOT;?>/equipment_suppliers/">
+            <a href="<?php echo URLROOT; ?>/product/viewProduct/<?php echo $rental->id; ?>">
             <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#000000">
                 <path d="M120-160q-33 0-56.5-23.5T40-240v-560q0-33 23.5-56.5T120-880h200q43 0 80.5 16.5T464-824q27-19 64.5-31.5T600-868h240q33 0 56.5 23.5T920-788v548q0 33-23.5 56.5T840-160H600q-36 0-73.5 12.5T462-116q-38-27-75.5-40.5T300-170H120Zm0-80h180q45 0 85 14t75 38q36-25 75.5-38.5T600-240h240v-520H600q-48 0-91.5 21.5T432-678l-24 18-24-18q-37-28-80.5-49T200-760H120v520Zm0 0v-520 520Z"/>
             </svg>
@@ -19,15 +19,15 @@
             </a>
         </li>
         <li>
-            <a href="<?php echo URLROOT;?>equipment_suppliers/">
+            <a href="<?php echo URLROOT; ?>/product/bookings/<?php echo $rental->id; ?>">
                 <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#000000">
                     <path d="M160-120v-720h640v720H160Zm80-80h480v-560H240v560Zm80-120v-40h320v40H320Zm0-120v-40h320v40H320Zm0-120v-40h320v40H320Zm0-120v-40h320v40H320Z"/>
                 </svg>
-                Booking History
+                Bookings
             </a>
         </li>
         <li>
-            <a href="<?php echo URLROOT;?>equipment_suppliers/">
+            <a href="<?php echo URLROOT; ?>/product/reviews/<?php echo $rental->id; ?>">
                 <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#000000">
                     <path d="m363-390 117-71 117 71-31-133 104-90-137-11-53-126-53 126-137 11 104 90-31 133ZM80-80v-720q0-33 23.5-56.5T160-880h640q33 0 56.5 23.5T880-800v480q0 33-23.5 56.5T800-240H240L80-80Zm126-240h594v-480H160v525l46-45Z"/>
                 </svg>
@@ -83,20 +83,4 @@
             </div>
         </nav>
 
-     <script>
-     document.addEventListener('DOMContentLoaded', function() {
-        
-        const rentalsLink = document.getElementById("rentalsLink");
-        const submenu = document.querySelector(".submenu");
-        const arrow = rentalsLink.querySelector(".arrow");
-
-        rentalsLink.addEventListener("click", function(event) {
-        event.preventDefault(); 
-        
-        submenu.classList.toggle("show");  
-        arrow.style.transform = submenu.classList.contains("show") ? "rotate(180deg)" : "rotate(0deg)"; 
-        
-    });
-});
-
-</script>
+     

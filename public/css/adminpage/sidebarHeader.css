@@ -35,6 +35,7 @@ html{
 body{
     background: var(--grey);
     overflow-x: hidden;
+    padding-top: 55px;
 }
 
 
@@ -58,6 +59,8 @@ body{
 
 .sidebar.close{
     width: 60px;
+    transition: all 0.3s ease;
+
 }
 
 .sidebar .logo{
@@ -173,6 +176,11 @@ body{
     left: 60px;
 }
 
+.sidebar.close~.content nav{
+    width: calc(100% - 60px);
+    left: 60px;
+}
+
 .content nav{
     height: 55px;
     background: var(--light);
@@ -180,10 +188,11 @@ body{
     display: flex;
     align-items: center;
     gap: 24px;
-    position: sticky;
+    position: fixed; 
     top: 0;
-    left: 0;
-    z-index: 900;
+    left: 200px; 
+    width: calc(100% - 200px); 
+    z-index: 9000;
 }
 
 .content nav::before{
@@ -287,6 +296,12 @@ body{
 .content main {
     width: 100%;
     max-height: calc(100vh - 56px);
+    padding: 10px 20px;
+}
+
+hr{
+    border: 0.3px solid teal;
+    margin-bottom: 15px;
 }
 
 .content main .header {

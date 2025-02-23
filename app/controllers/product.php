@@ -2,9 +2,11 @@
 
     class Product extends Controller{
         private $productModel;
+        private $bookingModel;
 
         public function __construct(){
             $this->productModel = $this->model('ProductModel');
+            $this->bookingModel = $this->model('BookingModel');
         }
 
         public function addProduct(){
@@ -285,21 +287,39 @@
             }
         }
 
-            public function viewProduct($productId) {
-                $productModel = $this->model('ProductModel');
-                $rental = $productModel->getProductDetailsById($productId);
-            
-                if ($rental) {
-                    $data = [
-                        'rental' => $rental,
-                    ];
+        public function viewProduct($productId) {
+            $productModel = $this->model('ProductModel');
+            $rental = $productModel->getProductDetailsById($productId);
         
-                    $this->view('equipment_supplier/viewProduct', $data);
-                } else {
-                    header('Location: ' . URLROOT . '/products');
-                    exit();
-                }
+            if ($rental) {
+                $data = [
+                    'rental' => $rental,
+                ];
+                
+                $this->view('equipment_supplier/viewProduct', $data);
+            } else {
+                header('Location: ' . URLROOT . '/products');
+                exit();
             }
+        }
+
+        public function bookings($productId){
+            $bookingModel = $this->model('BookingModel');
+            // $bookings = $bookingModel->getProductBookings($productId);
+
+            // if($bookings){
+            //    $data = [
+            //        'bookings' => $bookings
+            //    ];
+
+                $this->view('equipment_supplier/bookings');
+            //  }else{
+            //     header('Location: ' . URLROOT . '/viewProduct');
+            //    exit();
+            // }
+        }
+
+
 
        
 }

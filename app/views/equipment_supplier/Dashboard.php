@@ -18,10 +18,13 @@
 
     
         <main>
+        <hr>
             <div class="header">
                 <div class="left">
-                    <h1 id = "header-title"">Dashboard</h1>
+                    <h1>Dashboard</h1>
                 </div>
+
+        
             </div>
         
             <!--Insights-->

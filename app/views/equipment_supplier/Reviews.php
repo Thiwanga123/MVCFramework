@@ -20,10 +20,13 @@
     
 
         <main>
+        <hr>
             <div class="header">
                 <div class="left">
-                    <h1>Reviews</h1>
+                    <h1>Reviews & Ratings</h1>
                 </div>
+
+        
             </div>
 
             <div class="reviews">

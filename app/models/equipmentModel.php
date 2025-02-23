@@ -9,12 +9,12 @@ class EquipmentModel {
 
    
     public function getAllEquipment() {
-        $this->db->query("SELECT p.*, 
-                             GROUP_CONCAT(pi.image_path) AS images 
-                            FROM products p 
-                            LEFT JOIN product_images pi 
-                            ON p.product_id = pi.product_id
-                            GROUP BY p.product_id");
+        $this->db->query("SELECT r.*, 
+                             GROUP_CONCAT(ri.image_path) AS images 
+                            FROM rental_equipments r 
+                            LEFT JOIN rental_images ri 
+                            ON r.id = ri.product_id
+                            GROUP BY r.id");
         return $this->db->resultSet();
     }
 
