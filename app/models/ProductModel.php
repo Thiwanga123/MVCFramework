@@ -157,12 +157,12 @@
     public function getProductDetailsById($productId){
         try{
             
-            $sql = 'SELECT r.*, c.category_name, i.*
+            $sql = 'SELECT r.*, c.category_name, GROUP_CONCAT(i.image_path) AS image_paths
                     FROM rental_equipments r
                     JOIN equipment_categories c ON r.category_id = c.category_id
                     LEFT JOIN rental_images i ON r.id = i.product_id
-                    WHERE r.id = ?';
-
+                    WHERE r.id = ?
+                    GROUP BY r.id';
                     
             $this->db->query($sql);
             $this->db->bind(1,$productId);

@@ -85,7 +85,7 @@
 
                         <div class="bottom">
                             <label for="rentalDescription">Description:</label>
-                            <textarea id="rentalDescription" name="rentalDescription" rows="4" cols="50" required></textarea>
+                            <textarea id="rentalDescription" name="rentalDescription" rows="6" cols="50" required></textarea>
                         </div>
                         <span id="rentalDescription-error" class="error-message"></span>
 

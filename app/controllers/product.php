@@ -291,7 +291,7 @@
             
                 if ($rental) {
                     $data = [
-                        'rental' => $rental
+                        'rental' => $rental,
                     ];
         
                     $this->view('equipment_supplier/viewProduct', $data);
