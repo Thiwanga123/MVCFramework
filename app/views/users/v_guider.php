@@ -219,7 +219,7 @@ $destinations = [
             </div>
         </div>
 
-        <form action="#" method="POST">
+        <form action="v_guider2.php" method="POST">
             <div class="form-group">
                 <label>I am travelling to</label>
                 <select name="destination" required>
