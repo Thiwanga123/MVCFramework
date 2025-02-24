@@ -242,48 +242,84 @@ class M_accomadation {
         }
     }
 
-    public function releaseHoldingAmount() {
-        $currentDate = date('Y-m-d 23:59:59');
-        $this->db->query("SELECT * FROM property_booking WHERE status = 'Pending' AND check_in <= :current_date");
-        $this->db->bind(':current_date', $currentDate);
-        $bookings = $this->db->resultSet();
 
-        foreach ($bookings as $booking) {
-            $this->db->query("UPDATE accomadation_wallet SET wallet_balance = wallet_balance + holding_amount, holding_amount = 0 WHERE provider_id = :provider_id");
-            $this->db->bind(':provider_id', $booking['supplier_id']);
+    public function cancelBooking($bookingId, $supplierId) {
+        try {
+            // Fetch booking details
+            $this->db->query("SELECT check_in, amount, supplier_id, status FROM property_booking WHERE booking_id = :booking_id AND supplier_id = :supplier_id");
+            $this->db->bind(':booking_id', $bookingId);
+            $this->db->bind(':supplier_id', $supplierId);
+            $booking = $this->db->single();
+
+            if (!$booking || $booking['status'] !== 'pending') {
+                return ['success' => false, 'message' => 'Booking not found or already processed.'];
+            }
+
+            $daysDiff = (strtotime($booking['check_in']) - time()) / (60 * 60 * 24);
+            $penalty = ($daysDiff <= 3) ? $booking['amount'] * 0.2 : 0;
+            $refund = $booking['amount']; // Full refund to traveler
+
+            // Update booking with cancellation details
+            $this->db->query("UPDATE property_booking 
+                              SET status = 'cancelled', 
+                                  refund_amount = :refund, 
+                                  penalty_amount = :penalty, 
+                                  cancellation_date = NOW(), 
+                                  cancellation_by = 'provider' 
+                              WHERE booking_id = :booking_id");
+            $this->db->bind(':refund', $refund);
+            $this->db->bind(':penalty', $penalty);
+            $this->db->bind(':booking_id', $bookingId);
             $this->db->execute();
 
-            $this->db->query("UPDATE property_booking SET status = 'Confirmed' WHERE booking_id = :id");
-            $this->db->bind(':id', $booking['booking_id']);
-            $this->db->execute();
+            // Apply penalty if within 3 days
+            if ($penalty > 0) {
+                $this->applyPenalty($supplierId, $penalty);
+            }
+
+            return [
+                'success' => true,
+                'message' => 'Booking cancelled successfully.',
+                'penalty' => $penalty
+            ];
+        } catch (Exception $e) {
+            error_log("Error cancelling booking by provider: " . $e->getMessage());
+            return ['success' => false, 'message' => 'Error cancelling booking: ' . $e->getMessage()];
         }
     }
 
-    public function createReleaseHoldingAmountEvent() {
-        $this->db->query("
-            CREATE EVENT IF NOT EXISTS release_holding_amount_event
-            ON SCHEDULE EVERY 1 DAY
-            STARTS CURRENT_TIMESTAMP
-            DO
-            BEGIN
-                DECLARE current_date DATETIME;
-                SET current_date = NOW();
-                
-                UPDATE accomadation_wallet aw
-                JOIN property_booking pb ON aw.provider_id = pb.supplier_id
-                SET aw.wallet_balance = aw.wallet_balance + aw.holding_amount, 
-                    aw.holding_amount = 0,
-                    pb.status = 'Confirmed'
-                WHERE pb.status = 'Pending' AND pb.check_in <= current_date;
-            END
-        ");
+    private function applyPenalty($supplierId, $penalty) {
+        // Fetch current wallet balance
+        $this->db->query("SELECT wallet_balance FROM accomadation_wallet WHERE provider_id = :supplier_id ORDER BY transaction_date DESC LIMIT 1");
+        $this->db->bind(':supplier_id', $supplierId);
+        $wallet = $this->db->single();
+        $currentBalance = $wallet ? $wallet['wallet_balance'] : 0;
 
-        if ($this->db->execute()) {
-            return true;
+        if ($currentBalance >= $penalty) {
+            // Deduct penalty from wallet
+            $this->db->query("INSERT INTO accomadation_wallet (provider_id, traveler_id, wallet_balance, transaction_type) 
+                              VALUES (:supplier_id, 0, :new_balance, 'penalty')");
+            $newBalance = $currentBalance - $penalty;
+            $this->db->bind(':supplier_id', $supplierId);
+            $this->db->bind(':new_balance', $newBalance);
+            $this->db->execute();
+
+            // Update earnings
+            $this->db->query("UPDATE accomadation SET earnings = earnings - :penalty WHERE id = :supplier_id");
+            $this->db->bind(':penalty', $penalty);
+            $this->db->bind(':supplier_id', $supplierId);
+            $this->db->execute();
         } else {
-            return false;
+            // Track penalty in accomadation.penalty_amount if insufficient funds
+            $this->db->query("UPDATE accomadation SET penalty_amount = penalty_amount + :penalty WHERE id = :supplier_id");
+            $this->db->bind(':penalty', $penalty);
+            $this->db->bind(':supplier_id', $supplierId);
+            $this->db->execute();
         }
     }
+
+    
+
 
 }
 

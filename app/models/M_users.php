@@ -211,35 +211,47 @@ class M_users{
 }
 
     //cancel the booking
-    public function cancelBooking($bookingId) {
-        // Get the booking details
-        $this->db->query('SELECT * FROM property_booking WHERE booking_id = :booking_id');
-        $this->db->bind(':booking_id', $bookingId);
-        $booking = $this->db->single();
-
-        if ($booking) {
-            // Update the deleted_at column
-            $this->db->query('UPDATE property_booking SET deleted_at = NOW() WHERE booking_id = :booking_id');
-            $this->db->bind(':booking_id', $bookingId);
-            $this->db->execute();
-
-            // Release the rooms
-            // $this->db->query('UPDATE properties SET 
-            //                     single_bedrooms = single_bedrooms + :single_rooms, 
-            //                     double_bedrooms = double_bedrooms + :double_rooms, 
-            //                     family_rooms = family_rooms + :family_rooms 
-            //                   WHERE property_id = :property_id');
-            // $this->db->bind(':single_rooms', $booking->single_rooms);
-            // $this->db->bind(':double_rooms', $booking->double_rooms);
-            // $this->db->bind(':family_rooms', $booking->family_rooms);
-            // $this->db->bind(':property_id', $booking->property_id);
-            // $this->db->execute();
-
-            return true;
-        } else {
-            return false;
+   
+        public function cancelBooking($bookingId, $travelerId) {
+            try {
+                // Fetch booking details
+                $this->db->query("SELECT check_in, amount, supplier_id, status FROM property_booking WHERE booking_id = :booking_id AND traveler_id = :traveler_id");
+                $this->db->bind(':booking_id', $bookingId);
+                $this->db->bind(':traveler_id', $travelerId);
+                $booking = $this->db->single();
+    
+                if (!$booking || $booking['status'] !== 'pending') {
+                    return ['success' => false, 'message' => 'Booking not found or already processed.'];
+                }
+    
+                $daysDiff = (strtotime($booking['check_in']) - time()) / (60 * 60 * 24);
+                $refund = ($daysDiff > 3) ? $booking['amount'] : $booking['amount'] * 0.9;
+    
+                // Update booking with cancellation details
+                $this->db->query("UPDATE property_booking 
+                                  SET status = 'cancelled', 
+                                      refund_amount = :refund, 
+                                      cancellation_date = NOW(), 
+                                      cancellation_by = 'user' 
+                                  WHERE booking_id = :booking_id");
+                $this->db->bind(':refund', $refund);
+                $this->db->bind(':booking_id', $bookingId);
+                $this->db->execute();
+    
+                // If within 3 days, retain 10% in provider's wallet (already in holding_amount, will release via event)
+                return [
+                    'success' => true,
+                    'message' => 'Booking cancelled successfully.',
+                    'refund' => $refund
+                ];
+            } catch (Exception $e) {
+                error_log("Error cancelling booking: " . $e->getMessage());
+                return ['success' => false, 'message' => 'Error cancelling booking: ' . $e->getMessage()];
+            }
         }
-    }
+    
+
+
 
     //show the accomodation details
     public function showAccommodation($data){

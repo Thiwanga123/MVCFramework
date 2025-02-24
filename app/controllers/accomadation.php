@@ -416,9 +416,7 @@ public function myPayments(){
         }
     }
 
-    public function releaseHoldingAmount() {
-        $this->accomadationModel->releaseHoldingAmount();
-    }
+    
 
 
 

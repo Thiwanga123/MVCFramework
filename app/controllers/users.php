@@ -368,9 +368,10 @@ public function cancelBooking() {
 
         // Process form
         $bookingId = trim($_POST['booking_id']);
+        $travelerId= $_SESSION['user_id'];
 
         // Cancel the booking
-        if ($this->userModel->cancelBooking($bookingId)) {
+        if ($this->userModel->cancelBooking($bookingId, $travelerId)) {
             echo "<script>alert('Booking cancelled successfully'); window.location.href = '" . URLROOT . "/users/history';</script>";
         } else {
             echo "<script>alert('An error occurred. Please try again'); window.location.href = '" . URLROOT . "/users/history';</script>";
