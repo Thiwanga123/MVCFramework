@@ -1,6 +1,6 @@
 <?php
 
-class M_guider{
+class M_guider {
     private $db;
 
     public function __construct() {
@@ -9,6 +9,7 @@ class M_guider{
 
 
 
+    require_once __DIR__ . '/../../config/Database.php';
 
 
 
@@ -137,17 +138,35 @@ class M_guider{
         }
         
        
-        
+   {
+    private $db;
+
+    public function __construct() {
+        $this->db = new Database();
+    }
+
+    public function getGuides($location, $language, $gender) {
+        $this->db->query("SELECT * FROM guides WHERE location = :location AND FIND_IN_SET(:language, languages) > 0 AND gender = :gender");
+        $this->db->bind(':location', $location);
+        $this->db->bind(':language', $language);
+        $this->db->bind(':gender', $gender);
+        return $this->db->resultSet();
+    }
+}
+}
+
+?>
+
        
         
 
     
 
-}
 
 
 
 
 
 
-?>
+
+

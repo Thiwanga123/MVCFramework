@@ -22,5 +22,11 @@
         
        
     }
-
+    
+    require_once '../app/controllers/GuideController.php';
+    
+    $controller = new GuideController();
+    $controller->index();
+    
+    
 ?>

@@ -1,121 +1,236 @@
+<?php
+
+// MUST BE THE FIRST LINE
+session_start();
+
+// Check if session data exists
+if (!isset($_SESSION['trip_data'])) {
+    header('Location: v_guider.php');
+    exit;
+}
+
+// Use $_SESSION['trip_data'] to display guides...
+
+$guides = [
+    [
+        'name' => 'John Silva',
+        'rating' => 4.8,
+        'reviews' => 156,
+        'languages' => ['English', 'Sinhala'],
+        'location' => 'Galle, Sri Lanka',
+        'specialties' => ['Heritage Sites', 'Local Cuisine'],
+        'contact' => [
+            'email' => 'john.silva@email.com',
+            'phone' => '+94 77 123 4567'
+        ],
+        'price' => 50,
+        'experience' => 5,
+        'tours' => 234
+    ],
+    [
+        'name' => 'Marie Curie',
+        'rating' => 4.5,
+        'reviews' => 156,
+        'languages' => ['French', 'English'],
+        'location' => 'Galle, Sri Lanka',
+        'specialties' => ['Cultural Tours', 'Photography'],
+        'contact' => [
+            'email' => 'marie.curie@email.com',
+            'phone' => '+94 77 987 6543'
+        ],
+        'price' => 45,
+        'experience' => 3,
+        'tours' => 156
+    ]
+];
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="<?php echo URLROOT;?>/css/mainpages/features.css">
-    <link rel="stylesheet" href="<?php echo URLROOT;?>/css/adminpage/sidebarHeader.css">
-    <title>Equipment</title>
-</head>
-<body>
-    <!-- SideBar -->
-    <?php require APPROOT . '/views/inc/components/usersidebar.php'; ?>
-    <!-- End Of Sidebar -->
-
-    <!--Main Content-->
-    <div class="content">
-        <!--navbar-->
-        <nav>
-            <svg class="menu" xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#000000"><path d="M160-269.23v-40h640v40H160ZM160-460v-40h640v40H160Zm0-190.77v-40h640v40H160Z"/></svg>
-            <form action="#">
-                <div class="form-input">
-                    <input type="search" placeholder="Search ..">
-                    <button class="search-btn" type="submit">
-                        <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#000000"><path d="M784-120 532-372q-30 24-69 38t-83 14q-109 0-184.5-75.5T120-580q0-109 75.5-184.5T380-840q109 0 184.5 75.5T640-580q0 44-14 83t-38 69l252 252-56 56ZM380-400q75 0 127.5-52.5T560-580q0-75-52.5-127.5T380-760q-75 0-127.5 52.5T200-580q0 75 52.5 127.5T380-400Z"/></svg>
-                    </button>
-                </div>
-            </form>
-            <a href="#" class="updates">
-                <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#000000"><path d="M160-200v-80h80v-280q0-83 50-147.5T420-792v-28q0-25 17.5-42.5T480-880q25 0 42.5 17.5T540-820v28q80 20 130 84.5T720-560v280h80v80H160Zm320-300Zm0 420q-33 0-56.5-23.5T400-160h160q0 33-23.5 56.5T480-80ZM320-280h320v-280q0-66-47-113t-113-47q-66 0-113 47t-47 113v280Z"/></svg>
-                <span class="count">12</span>
-            </a>
-            <p>Hii Welcome <?php echo isset($_SESSION['name']) ? ' ' . htmlspecialchars($_SESSION['name']) : ''; ?> </p>
-            <a href="#" class="profile">
-                <img src="<?php echo URLROOT;?>/Images/Profile pic.jpg">
-            </a>
-        </nav>
-
-        <!-- Additional Content -->
-        <?php
-        session_start();
-
-        // Check if session data exists
-        if (!isset($_SESSION['trip_data'])) {
-            header('Location: trip1.php');
-            exit;
+    <title>Local Guides</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            font-family: 'Arial', sans-serif;
         }
 
-        $tripData = $_SESSION['trip_data'];
+        body {
+            background: #f5f5f5;
+            margin: 0;
+            padding: 20px;
+        }
 
-        // Sample Guide Data (Should come from database in real implementation)
-        $guides = [
-            [
-                'name' => 'John Silva',
-                'languages' => ['English', 'Sinhala'],
-                'destination' => 'Galle, Sri Lanka',
-                'experience' => '5 years',
-                'rating' => 4.8,
-                'price' => '$50/day'
-            ],
-            [
-                'name' => 'Marie Curie',
-                'languages' => ['French', 'English'],
-                'destination' => 'Galle, Sri Lanka',
-                'experience' => '3 years',
-                'rating' => 4.5,
-                'price' => '$45/day'
-            ]
-        ];
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
 
-        // Filter guides based on selection
-        $filteredGuides = array_filter($guides, function($guide) use ($tripData) {
-            return $guide['destination'] === $tripData['destination'] && 
-                   in_array($tripData['language'], $guide['languages']);
-        });
-        ?>
-        <!DOCTYPE html>
-        <html>
-        <head>
-            <title>Available Guides</title>
-            <style>
-                .guide-card {
-                    border: 1px solid #ddd;
-                    padding: 15px;
-                    margin: 10px 0;
-                    border-radius: 5px;
-                }
-                .back-btn {
-                    background: #FF6B00;
-                    color: white;
-                    padding: 10px 20px;
-                    text-decoration: none;
-                    display: inline-block;
-                    margin-top: 20px;
-                }
-            </style>
-        </head>
-        <body>
-            <div class="container">
-                <h2>Available Guides in <?= htmlspecialchars($tripData['destination']) ?></h2>
-                
-                <?php if (count($filteredGuides) > 0): ?>
-                    <?php foreach ($filteredGuides as $guide): ?>
-                        <div class="guide-card">
-                            <h3><?= htmlspecialchars($guide['name']) ?></h3>
-                            <p><strong>Languages:</strong> <?= implode(', ', $guide['languages']) ?></p>
-                            <p><strong>Experience:</strong> <?= $guide['experience'] ?></p>
-                            <p><strong>Rating:</strong> <?= $guide['rating'] ?>/5</p>
-                            <p><strong>Price:</strong> <?= $guide['price'] ?></p>
-                        </div>
-                    <?php endforeach; ?>
-                <?php else: ?>
-                    <p>No guides found matching your criteria.</p>
-                <?php endif; ?>
+        .guide-card {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+            padding: 25px;
+        }
 
-                <a href="trip1.php" class="back-btn">Back to Planner</a>
+        .guide-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .guide-name {
+            font-size: 24px;
+            font-weight: bold;
+            color: #333;
+        }
+
+        .rating {
+            color: #ffb400;
+            font-size: 18px;
+        }
+
+        .reviews {
+            color: #666;
+            font-size: 14px;
+        }
+
+        .details-section {
+            margin: 15px 0;
+            padding: 15px 0;
+            border-top: 1px solid #eee;
+            border-bottom: 1px solid #eee;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 5px 12px;
+            background: #f0f0f0;
+            border-radius: 20px;
+            margin: 5px 5px 5px 0;
+            font-size: 14px;
+        }
+
+        .contact-info {
+            color: #666;
+            font-size: 14px;
+            margin: 10px 0;
+        }
+
+        .price-section {
+            text-align: right;
+        }
+
+        .price {
+            font-size: 28px;
+            color: #2ecc71;
+            font-weight: bold;
+        }
+
+        .per-day {
+            color: #888;
+            font-size: 14px;
+        }
+
+        .button-group {
+            margin-top: 20px;
+            display: flex;
+            gap: 10px;
+        }
+
+        .btn {
+            padding: 12px 25px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        .btn-outline {
+            background: white;
+            border: 2px solid #2ecc71;
+            color: #2ecc71;
+        }
+
+        .btn-primary {
+            background: #2ecc71;
+            color: white;
+        }
+
+        .back-btn {
+            display: inline-block;
+            margin-top: 20px;
+            color: #666;
+            text-decoration: none;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Available Local Guides</h1>
+        
+        <?php foreach ($guides as $guide): ?>
+        <div class="guide-card">
+            <div class="guide-header">
+                <div>
+                    <div class="guide-name"><?= htmlspecialchars($guide['name']) ?></div>
+                    <div class="rating">
+                        ★★★★★ <?= $guide['rating'] ?>/5 
+                        <span class="reviews">(<?= $guide['reviews'] ?> reviews)</span>
+                    </div>
+                </div>
             </div>
-        </body>
-        </html>
+
+            <div class="details-section">
+                <div class="badge"><?= implode('</div><div class="badge">', $guide['languages']) ?></div>
+                <div class="location"><?= htmlspecialchars($guide['location']) ?></div>
+                
+                <div class="specialties" style="margin-top: 15px;">
+                    <strong>Specialties:</strong><br>
+                    <?php foreach ($guide['specialties'] as $specialty): ?>
+                        <div class="badge"><?= htmlspecialchars($specialty) ?></div>
+                    <?php endforeach; ?>
+                </div>
+
+                <div class="contact-info">
+                    <?= htmlspecialchars($guide['contact']['email']) ?>   •   
+                    <?= htmlspecialchars($guide['contact']['phone']) ?>
+                </div>
+            </div>
+
+            <div class="price-section">
+                <div class="price">$<?= $guide['price'] ?></div>
+                <div class="per-day">per day</div>
+                <div style="margin-top: 10px;">
+                    <?= $guide['experience'] ?> years experience<br>
+                    <?= $guide['tours'] ?> tours completed
+                </div>
+            </div>
+
+            <div class="button-group">
+                <button class="btn btn-outline">View Profile</button>
+                <button class="btn btn-primary" onclick="showBookingForm('<?= $guide['name'] ?>')">
+                    Book Now
+                </button>
+            </div>
+        </div>
+        <?php endforeach; ?>
+
+        <a href="#" class="back-btn">← Back to Search</a>
     </div>
+
+    <script>
+        function showBookingForm(guideName) {
+            if (confirm(`Book ${guideName}? We'll contact you to confirm details.`)) {
+                // Add actual booking logic here
+                alert('Booking request sent! We will contact you shortly.');
+            }
+        }
+    </script>
 </body>
 </html>

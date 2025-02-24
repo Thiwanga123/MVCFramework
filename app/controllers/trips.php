@@ -94,3 +94,17 @@ class Trips extends Controller{
     
     // }
 }
+// app/controllers/TripController.php
+public function create() {
+    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        // ... process form data ...
+
+        // Use FULL PATH for redirection
+        header('Location: ' . BASE_URL . '/guides/list');
+        exit;
+    }
+    
+    // Show form view
+    require_once '../views/trip/form.php';
+}
+

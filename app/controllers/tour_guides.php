@@ -101,6 +101,27 @@ public function deleteBooking($id){
 
 }
 
-      }
+    private $guideModel;
+
+    public function __construct() {
+        $this->guideModel = new GuideModel();
+    }
+
+    public function index() {
+        session_start();
+        if (!isset($_SESSION['trip_data'])) {
+            header('Location: index.php');
+            exit();
+        }
+
+        $tripData = $_SESSION['trip_data'];
+        $guides = $this->guideModel->getGuides($tripData['destination'], $tripData['language'], $tripData['gender']);
+
+        require APPROOT . '/views/guides.php';
+    }
+}
+
+
+      
 
 ?>

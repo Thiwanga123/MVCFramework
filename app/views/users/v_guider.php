@@ -1,3 +1,21 @@
+<?php
+
+
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    $_SESSION['trip_data'] = [
+        'destination' => $_POST['destination'],
+        'start_date' => $_POST['start_date'],
+        'end_date' => $_POST['end_date'],
+        'language' => $_POST['language'],
+        'gender' => $_POST['gender'],
+        'adults' => $_POST['adults'],
+        'children' => $_POST['children']
+    ];
+    header('Location: v_guider2.php');
+    exit;
+}
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -35,15 +53,11 @@
             </a>
         </nav>
 
-
         <main>
             <?php require APPROOT . '/views/inc/components/topbar.php'; ?>
             <section id="features" class="features">
        
-
             <?php
-            
-    
 $destinations = [
     'Kandy, Sri Lanka',
     'Colombo, Sri Lanka',
@@ -219,7 +233,7 @@ $destinations = [
             </div>
         </div>
 
-        <form action="v_guider2.php" method="POST">
+        <form action="v_guider.php" method="POST">
             <div class="form-group">
                 <label>I am travelling to</label>
                 <select name="destination" required>
@@ -314,19 +328,19 @@ $destinations = [
 
             <div class="form-group">
                 <label>I need a guide who speaks</label>
-                <select>
-                    <option>Select language</option>
-                    <option>English</option>
-                    <option>French</option>
-                    <option>German</option>
+                <select name="language" required>
+                    <option value="" selected>Select language</option>
+                    <option value="English">English</option>
+                    <option value="French">French</option>
+                    <option value="German">German</option>
                 </select>
             </div>
 
             <div class="form-group">
                 <label>Gender of the Guider that you want</label>
                 <div class="checkbox-group">
-                    <button type="button" class="am-pm">Male</button>
-                    <button type="button" class="am-pm">Female</button>
+                    <button type="button" class="am-pm" name="gender" value="Male">Male</button>
+                    <button type="button" class="am-pm" name="gender" value="Female">Female</button>
                 </div>
             </div>
 
