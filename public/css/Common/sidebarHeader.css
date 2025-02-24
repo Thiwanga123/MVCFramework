@@ -450,14 +450,29 @@ nav {
     justify-content: space-between;
     margin-bottom: 20px;
     flex-wrap: wrap;
+    color: #008080;
+    margin-bottom: 30px;
 }
 
-.content main .header .left h1 {
-    font-size: 32px;
+.content main .header h1 {
+    font-size: 28px;
     font-weight: 600;
-    margin-bottom: 10px;
-    color: var(--light-primary);
+    position: relative;
+    padding-bottom: 10px;
 }
+
+.content main .header h1::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 60px;
+    height: 3px;
+    background: #4ccbcb;
+    border-radius: 2px;
+}
+
+
 
 .content main .header .add-btn{
     display: flex;
