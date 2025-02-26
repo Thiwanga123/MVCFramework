@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="<?php echo URLROOT;?>/css/mainpages/supplierSection.css">
+    <link rel="stylesheet" href="<?php echo URLROOT;?>/css/userspage/supplierSection.css">
     <link rel="stylesheet" href="<?php echo URLROOT;?>/css/Common/sidebarHeader.css">
     
     <title>Equipment</title>
@@ -142,10 +142,12 @@
             <!--<pre><?php print_r($data['equipments']); ?></pre> -->
             <!--<pre><?php print_r($data['categories']); ?></pre> -->
             
+        
                 <p>Showing All Products()</p>
                 <div class="container1">
                     <?php if (!empty($data['equipments']) && is_array($data['equipments'])) : ?>
                     <?php foreach ($data['equipments'] as $equipment) : ?>
+
                     <div class="equipment-card">
                         <div class="image-container">
                             <?php
@@ -157,14 +159,20 @@
                         <div class="card-content">
                             <h3 class="product-name"><?php echo htmlspecialchars($equipment->rental_name); ?></h3>
                             <p class="rate">Rs. <?php echo htmlspecialchars($equipment->price_per_day); ?></p>
-                            <a href="<?php echo URLROOT;?>/users/payments" class="payment-link">
-                                <button class="pay-button">Book & Pay Now</button>
-                            </a>
+                            <div class="rating-container">
+                                <div class="stars">★★★★☆</div> <!-- 4 out of 5 stars -->
+                                <p class="rating-text">4.0</p>
+                            </div>
+                            <div class="bottom">
+                            <a href="<?php echo URLROOT; ?>/users/viewProduct/<?php echo $equipment->id; ?>">                 
+                                <button class="pay-button">View & Rent</button>
+                            </a></div>
                         </div>
                     </div>
                 <?php endforeach; ?>
                     <?php else : ?>
                         <p>No equipment found.</p>
+                
                     <?php endif; ?>
                 </div>
             </div>

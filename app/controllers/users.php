@@ -198,6 +198,14 @@ class Users extends Controller {
         }
     }
 
+    public function viewProduct($equipmentId){
+        if(isset($_SESSION['user_id'])){
+            $this->view('users/rentEquipment');
+        }else{
+            redirect('users/login');
+        }
+    }
+
     public function register() {
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_FULL_SPECIAL_CHARS);

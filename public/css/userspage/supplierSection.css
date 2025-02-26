@@ -5,6 +5,10 @@ body {
     padding: 0;
 }
 
+a {
+    display: block;
+    text-decoration: none; /* Optional: To remove underline from the link */
+}
 
 /* .filter{
     display: flex;
@@ -112,7 +116,7 @@ body {
     display: flex;
     align-items: center;
     flex-wrap: wrap;
-    justify-content: flex-start;
+    justify-content: center;
     gap: 20px;
 }
 
@@ -132,7 +136,7 @@ body {
 
 
 .rental-container .location .filter-btn:hover{
-    background-color: #2c7e7a;
+    background: linear-gradient(135deg, teal, rgb(1, 85, 85));
 }
 
 
@@ -151,7 +155,6 @@ body {
     box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
     transition: transform 0.3s ease;
     overflow: hidden;
-    height: 340px; /* Fixed height */
     margin: 0; /* Remove margin */
     width: 100%; /* Take full width of grid cell */
 }
@@ -179,10 +182,35 @@ body {
 
 .card-content {
     padding: 0.75rem;
-    height: calc(280px - 150px); /* Remaining height */
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+    gap: 10px;
+}
+
+.rating-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.stars {
+    color: gold; /* Star color */
+    font-size: 20px; /* Adjust star size */
+    letter-spacing: 2px; /* Space between stars */
+    font-family: Arial, sans-serif;
+}
+
+.rating-text {
+    font-size: 16px;
+    color: #333; /* Text color */
+    font-weight: bold;
+}
+
+.card-content .bottom{
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .product-name {
@@ -214,7 +242,7 @@ body {
 }
 
 .pay-button {
-    background: linear-gradient(135deg, #4299e1, #3182ce);
+    background: linear-gradient(135deg, #10b5b5, #079b9b);
     color: white;
     border: none;
     padding: 0.5rem 1rem;
@@ -226,7 +254,7 @@ body {
 }
 
 .pay-button:hover {
-    background: linear-gradient(135deg, #3182ce, #2c5282);
+    background: linear-gradient(135deg, teal, rgb(1, 85, 85));
     transform: translateY(-2px);
 }
 

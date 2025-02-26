@@ -20,8 +20,7 @@
         <hr>
 
             <div class="header">
-                    <h1>Product Details</h1>
-                    
+                <h1>Product Details</h1>      
             </div>
 
             <div class="container">

@@ -49,29 +49,30 @@
 
                     <div class="product-container">
                         <?php foreach ($data['rentals'] as $rental): ?>
-                            <a href="<?php echo URLROOT; ?>/product/viewProduct/<?php echo $rental->id; ?>" class="product-card-link">                        <div class="product-card">
-                                <div class="img">
-                                    <img src="<?php echo URLROOT . '/' . $rental->image_path; ?>" alt="<?php echo $rental->product_name; ?>">
-                                </div>
-                                <div class="details">
-                                    <h4><?php echo $rental->rental_name ?></h4>
-                                    <h4><?php echo $rental->price_per_day ?></h4>
-                                </div>
-                                <div class="ratings">   
-                                    <div class="star-rating">
-                                        <span class="star">&#9734;</span> <!-- Empty star -->
-                                        <span class="star">&#9734;</span> <!-- Empty star -->
-                                        <span class="star">&#9734;</span> <!-- Empty star -->
-                                        <span class="star">&#9734;</span> <!-- Empty star -->
-                                        <span class="star">&#9734;</span> <!-- Empty star -->
+                            <a href="<?php echo URLROOT; ?>/product/viewProduct/<?php echo $rental->id; ?>" class="product-card-link">                        
+                                <div class="product-card">
+                                    <div class="img">
+                                        <img src="<?php echo URLROOT . '/' . $rental->image_path; ?>" alt="<?php echo $rental->product_name; ?>">
                                     </div>
+                                    <div class="details">
+                                        <h4><?php echo $rental->rental_name ?></h4>
+                                        <h4><?php echo $rental->price_per_day ?></h4>
+                                    </div>
+                                    <div class="ratings">   
+                                        <div class="star-rating">
+                                            <span class="star">&#9734;</span> <!-- Empty star -->
+                                            <span class="star">&#9734;</span> <!-- Empty star -->
+                                            <span class="star">&#9734;</span> <!-- Empty star -->
+                                            <span class="star">&#9734;</span> <!-- Empty star -->
+                                            <span class="star">&#9734;</span> <!-- Empty star -->
+                                        </div>
 
-                                    <div class="rating-count">
-                                        <h4><span>4.0/</span>5</h4>
-                                    </div>
-                                </div> 
-                            </div>
-                        </a>
+                                        <div class="rating-count">
+                                            <h4><span>4.0/</span>5</h4>
+                                        </div>
+                                    </div> 
+                                </div>
+                            </a>
                         <?php endforeach; ?>
                     </div>
                 </div>
