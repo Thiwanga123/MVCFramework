@@ -6,6 +6,85 @@
     <link rel="stylesheet" href="<?php echo URLROOT;?>/css/Common/newbooking.css">
     <link rel="stylesheet" href="<?php echo URLROOT;?>/css/Common/sidebarHeader.css">
     <title>History</title>
+    <style>
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0,0,0,0.4);
+            padding-top: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-content {
+            background-color: #fefefe;
+            margin: auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 40%;
+            height: auto;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+            animation: fadeIn 0.3s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        .close:hover,
+        .close:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        .modal-content p {
+            line-height: 1.6;
+            font-size: 16px;
+            color: #333;
+        }
+
+        .modal-buttons {
+            display: flex;
+            justify-content: center;
+            margin-top: 20px;
+        }
+
+        .modal-button {
+            padding: 10px 20px;
+            border-radius: 8px;
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+            margin: 0 10px;
+        }
+
+        .delete-button {
+            background: var(--danger);
+            color: var(--light);
+        }
+
+        .cancel-button {
+            background: var(--grey);
+            color: var(--dark);
+        }
+    </style>
 </head>
 <body>
     <!-- SideBar -->
@@ -76,13 +155,9 @@
                             <td><?php echo htmlspecialchars($booking->CheckOut); ?></td>
                             <td><?php echo htmlspecialchars($booking->Amount); ?></td>
                             <td><div class="action-btn">
-                            <button class="view-btn">View</button>
+                            <button class="view-btn" onclick="openModal(<?php echo htmlspecialchars(json_encode($booking)); ?>)">View</button>
                             <?php if($booking->Action == 'Active'): ?>
-                            <!--when submit cancel button the booking will cancel and release the number of bokkings from the booking table-->
-                            <form action="<?php echo URLROOT; ?>/users/cancelBooking" method="post" style="display:inline;">
-                                <input type="hidden" name="booking_id" value="<?php echo $booking->BookingID; ?>">
-                                <button type="submit" class="cancel-btn">Cancel</button>
-                            </form>
+                            <button class="cancel-btn" onclick="confirmCancel(<?php echo $booking->BookingID; ?>)">Cancel</button>
                             <?php endif; ?>
                             </div>
                         </td>
@@ -98,11 +173,74 @@
 
      </div>
 
+     <!-- Modal -->
+     <div id="bookingModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal()">&times;</span>
+            <h2>Booking Details</h2>
+            <p id="bookingDetails"></p>
+        </div>
+     </div>
+
+     <!-- Confirmation Modal -->
+     <div id="confirmModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeConfirmModal()">&times;</span>
+            <h2>Confirm Cancellation</h2>
+            <p>Are you sure you want to cancel this booking?</p>
+            <p>If you cancel within the last 3 days, you will only receive 90% of the payment as 10% will be charged as a penalty. If you cancel before the last 3 days, you will receive the full amount of the payment you have made. It will take some days to refund your money.</p>
+            <div class="modal-buttons">
+                <button class="modal-button cancel-button" onclick="closeConfirmModal()">No</button>
+                <form id="cancelForm" action="<?php echo URLROOT; ?>/users/cancelBooking" method="post">
+                    <input type="hidden" name="booking_id" id="cancelBookingId">
+                    <button type="submit" class="modal-button delete-button">Yes</button>
+                </form>
+            </div>
+        </div>
+     </div>
 
      <script src="<?php echo URLROOT;?>/js/Sidebar.js"></script> 
+     <script>
+        function openModal(booking) {
+            document.getElementById('bookingDetails').innerHTML = `<br>
+                <strong>Booking ID:</strong> ${booking.BookingID}<br>
+                <strong>Service Taken:</strong> ${booking.ServiceTaken}<br>
+                <strong>Service Provider ID:</strong> ${booking.SupplierID}<br>
+                <strong>Check-In:</strong> ${booking.CheckIn}<br>
+                <strong>Check-Out:</strong> ${booking.CheckOut}<br>
+                <strong>Amount:</strong> Rs.${booking.Amount}<br>
+                <strong>Status:</strong> ${booking.Action}<br>
+            `;
+            document.getElementById('bookingModal').style.display = 'flex';
+        }
 
-    
-     
+        function closeModal() {
+            document.getElementById('bookingModal').style.display = 'none';
+        }
+
+        function confirmCancel(bookingId) {
+            document.getElementById('cancelBookingId').value = bookingId;
+            document.getElementById('confirmModal').style.display = 'flex';
+        }
+
+        function closeConfirmModal() {
+            document.getElementById('confirmModal').style.display = 'none';
+        }
+
+        window.onclick = function(event) {
+            if (event.target == document.getElementById('bookingModal')) {
+                closeModal();
+            }
+            if (event.target == document.getElementById('confirmModal')) {
+                closeConfirmModal();
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            closeModal();
+            closeConfirmModal();
+        });
+     </script>
 </body>
 
 </html>

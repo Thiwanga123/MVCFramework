@@ -76,7 +76,8 @@ class Users extends Controller {
             $data=[
                 $location = trim($_POST['location']),
                 $budget = trim($_POST['budget']),
-                $people = trim($_POST['people']),
+                $check_in=trim($_POST['check_in']),
+                $check_out=trim($_POST['check_out'])
 
             ];
 
@@ -408,7 +409,7 @@ public function book(){
             'people' => trim($_POST['guests']),
             'price' => trim($_POST['totalamount']),
             'user_id' => $_SESSION['user_id'],
-            'paid' => trim($_POST['totalpaid']),
+            // 'paid' => trim($_POST['totalpaid']),
             'totalrooms' => trim($_POST['totalrooms']),
             'singleamount'=> trim($_POST['singleamount']),
             'doubleamount'=> trim($_POST['doubleamount']),
@@ -442,9 +443,9 @@ public function book(){
 
         // Validate total paid
 
-        if (empty($data['paid'])) {
-            $errors[] = 'Please enter total paid';
-        }
+        // if (empty($data['paid'])) {
+        //     $errors[] = 'Please enter total paid';
+        // }
 
         // Validate total rooms
 

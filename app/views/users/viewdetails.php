@@ -25,6 +25,25 @@
         function goBack() {
             window.history.back();
         }
+
+        function setMinDates() {
+            const today = new Date().toISOString().split('T')[0];
+            const tomorrow = new Date(Date.now() + 86400000).toISOString().split('T')[0]; // 86400000 ms = 1 day
+
+            const checkInInput = document.querySelector('input[name="check-in-date"]');
+            const checkOutInput = document.querySelector('input[name="check-out-date"]');
+
+            checkInInput.setAttribute('min', today);
+            checkOutInput.setAttribute('min', tomorrow);
+
+            checkInInput.addEventListener('change', function() {
+                const checkInDate = new Date(this.value);
+                const minCheckOutDate = new Date(checkInDate.getTime() + 86400000).toISOString().split('T')[0];
+                checkOutInput.setAttribute('min', minCheckOutDate);
+            });
+        }
+
+        document.addEventListener('DOMContentLoaded', setMinDates);
    
     </script>
     <style>
@@ -674,12 +693,12 @@
                         <input type="hidden" id="totalamount" name="totalamount" value="0">
 
                     </div>
-                    <div class="total-row">
+                    <!-- <div class="total-row">
                         <span>Amount Should Pay Now (50%)</span>
                         <span id="pay" style="color: #0071c2;">LKR.0</span>
                         <input type="hidden" id="totalpaid" name="totalpaid" value="">
 
-                    </div>
+                    </div> -->
 
                     <input type="hidden" name="property_id" value="<?php echo $accomadation->property_id; ?>">
                     <input type="hidden" name="service_provider_id" value="<?php echo $accomadation->service_provider_id; ?>">
