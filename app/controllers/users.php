@@ -6,6 +6,8 @@ use PHPMailer\PHPMailer\Exception;
 class Users extends Controller {
     private $userModel;
     private $equipmentModel;
+
+    private $accomadationModel;
     
 
     public function __construct() {
