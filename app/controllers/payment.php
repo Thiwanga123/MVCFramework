@@ -1,13 +1,11 @@
 <?php
-require_once 'app/models/PaymentModel.php';
+// require_once 'app/models/PaymentModel.php';
 
 class Payment extends Controller {
 
-    public function index() {
-        include 'app/views/payment/payhere_form.php';
-    }
-
-    public function payment(){
+    private $PaymentModel;
+    
+    public function index(){
         $this->view('payment/payhere_form');
     }
 
