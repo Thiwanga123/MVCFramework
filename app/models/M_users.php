@@ -159,8 +159,8 @@ class M_users{
 
         //print the data
         print_r($data);
-        $this->db->query('INSERT INTO property_booking(traveler_id, property_id, supplier_id,check_in, check_out,amount, guests,singlerooms,doublerooms,familyrooms,totalrooms,paid) 
-        VALUES(:traveler_id, :property_id, :service_provider_id, :check_in, :check_out, :total_price , :no_of_people , :singleroom, :doubleroom, :familyroom, :totalrooms, :paid)');
+        $this->db->query('INSERT INTO property_booking(traveler_id, property_id, supplier_id,check_in, check_out,amount, guests,singlerooms,doublerooms,familyrooms,totalrooms,paid,payment_date) 
+        VALUES(:traveler_id, :property_id, :service_provider_id, :check_in, :check_out, :total_price , :no_of_people , :singleroom, :doubleroom, :familyroom, :totalrooms, :paid, CURRENT_DATE)');
         //bind values
         $this->db->bind(':traveler_id', $data['user_id']);
         $this->db->bind(':property_id', $data['property_id']);
@@ -215,12 +215,38 @@ class M_users{
         }
     }
 
+    //show the accomodation details
+    public function showAccommodation($data){
+        //select the properties that relavant place and start date and end date
+        $this->db->query('SELECT * FROM properties WHERE city = :city AND  max_occupants >= :people');
+        //bind parameters 
+        $this->db->bind(':city', $data[0]);
+        $this->db->bind(':people', $data[1]);
 
+        //print the result
+        print($this->db->resultSet());
+        return $this->db->resultSet();
 
     
 
 }
 
+public function getAllVehicles($supplierId){
+    try {
+        $sql = "SELECT v.*, i.image_path 
+                FROM vehicles v 
+                LEFT JOIN vehicle_images i ON v.id = i.vehicle_id 
+                WHERE v.supplierId = ? 
+                GROUP BY v.id"; // Ensure unique vehicles
 
+        $this->db->query($sql);
+        $this->db->bind(1, $supplierId);
+        return $this->db->resultSet();
+    } catch (Exception $e) {
+        error_log("Error fetching vehicles: " . $e->getMessage());
+        return [];
+    }
+}
+}
 
 ?>

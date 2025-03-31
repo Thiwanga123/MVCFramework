@@ -52,11 +52,11 @@
                 <p class="amount">Rs.60000</p>
             </div>
             <div class="card">
-                <h3>Pending Payments</h3>
+                <h3>Pending Earnings</h3>
                 <p class="amount">Rs.10000</p>
             </div>
             <div class="card">
-                <h3>Next Payment Date</h3>
+                <h3>Last Earning Date</h3>
                 <p class="date">Nov 25, 2024</p>
             </div>
         </section>

@@ -1,0 +1,254 @@
+#details {
+    padding: 20px;
+  }
+  
+  #details h2 {
+    color: #2d3748;
+    font-weight: 600;
+    margin: 20px 0;
+  }
+  
+  .details-container {
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+  }
+  
+  /* Top section with image gallery and basic details */
+  .details-top {
+    display: flex;
+    gap: 30px;
+    padding: 20px;
+  }
+  
+  /* Left side - Image gallery */
+  .details-top .left {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+  }
+  
+  .image-top {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #f7f8fa;
+    border-radius: 10px;
+    overflow: hidden;
+    min-height: 300px;
+  }
+  
+  .image-top img {
+    max-width: 100%;
+    max-height: 400px;
+    object-fit: contain;
+  }
+  
+  .change-image {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background-color: rgba(0, 0, 0, 0.4);
+    border: none;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    z-index: 2;
+  }
+  
+  .change-image:hover {
+    background-color: rgba(0, 0, 0, 0.6);
+  }
+  
+  #prevImage {
+    left: 10px;
+  }
+  
+  #nextImage {
+    right: 10px;
+  }
+  
+  .image-bottom {
+    display: flex;
+    gap: 10px;
+    overflow-x: auto;
+    padding-bottom: 5px;
+  }
+  
+  .image-thumbnail {
+    width: 80px;
+    height: 80px;
+    border-radius: 8px;
+    overflow: hidden;
+    cursor: pointer;
+    flex-shrink: 0;
+    border: 2px solid transparent;
+    transition: border-color 0.3s;
+  }
+  
+  .image-thumbnail:hover {
+    border-color: #3a86ff;
+  }
+  
+  .image-thumbnail.active {
+    border-color: #3a86ff;
+  }
+  
+  .image-thumbnail img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  
+  /* Right side - Basic details */
+  .details-top .right {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    background-color: #f7f8fa;
+    border-radius: 10px;
+    padding: 20px;
+  }
+  
+  .product-details {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+  }
+  
+  .product-details p {
+    margin: 0;
+    font-size: 15px;
+    color: #4a5568;
+    line-height: 1.5;
+  }
+  
+  .product-details strong {
+    color: #2d3748;
+    font-weight: 600;
+  }
+  
+  /* Bottom section - Description and Policies */
+  .bottom {
+    padding: 0 20px 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+  
+  .bottom h2 {
+    font-size: 20px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #e2e8f0;
+  }
+  
+  .bottom h4 {
+    font-size: 16px;
+    margin: 15px 0 10px;
+    color: #2d3748;
+  }
+  
+  .bottom p {
+    margin: 10px 0;
+    color: #4a5568;
+    line-height: 1.6;
+  }
+  
+  #fullRefundSection, #partialRefundSection {
+    background-color: #f7f8fa;
+    padding: 15px;
+    border-radius: 8px;
+    margin: 10px 0;
+  }
+  
+  /* Responsive styles */
+  @media (max-width: 992px) {
+    .details-top {
+      flex-direction: column;
+    }
+    
+    .details-top .left, 
+    .details-top .right {
+      width: 100%;
+    }
+  }
+  
+  @media (max-width: 768px) {
+    .image-top {
+      min-height: 250px;
+    }
+    
+    .image-thumbnail {
+      width: 70px;
+      height: 70px;
+    }
+    
+    .bottom {
+      padding: 0 15px 15px;
+    }
+  }
+  
+  @media (max-width: 576px) {
+    .details-top {
+      padding: 15px;
+      gap: 20px;
+    }
+    
+    .image-top {
+      min-height: 200px;
+    }
+    
+    .change-image {
+      width: 35px;
+      height: 35px;
+    }
+    
+    .image-thumbnail {
+      width: 60px;
+      height: 60px;
+    }
+    
+    .details-top .right {
+      padding: 15px;
+    }
+    
+    .product-details p {
+      font-size: 14px;
+    }
+    
+    .bottom h2 {
+      font-size: 18px;
+    }
+    
+    .bottom h4 {
+      font-size: 15px;
+    }
+    
+    .bottom p {
+      font-size: 14px;
+    }
+  }
+  
+  @media (max-width: 400px) {
+    .image-thumbnail {
+      width: 50px;
+      height: 50px;
+    }
+    
+    .change-image {
+      width: 30px;
+      height: 30px;
+    }
+    
+    .change-image svg {
+      width: 20px;
+      height: 20px;
+    }
+  }

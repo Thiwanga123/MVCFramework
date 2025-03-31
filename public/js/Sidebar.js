@@ -50,14 +50,6 @@ window.addEventListener('resize',resize);
 
 //Changing the active status dynamically when click on a menu
 
-const items = document.querySelectorAll('.side-menu li');
 
-items.forEach(item=>{
-    item.addEventListener('click',function(){
-
-        items.forEach(menu =>menu.classList.remove('active'));
-        item.classList.add('active');
-    });
-});
 
 })

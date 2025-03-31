@@ -72,9 +72,15 @@
                             <th>Type</th>
                             <th>Model</th>
                             <th>Make</th>
-                            <th>Rental Price</th>
-                            <th>License Number</th>
-                            <th>Availability</th>
+                            
+                    
+                            <th>Vehicle Number</th>
+                            <th>Self Drive Rates per day</th>
+                            <th>Driver Availability</th>
+                            <th>With Driver Rates Per Day</th>
+                            <th>Description</th>
+                            <th>Vehicle Availability</th>
+                            <th>Vehicle Location</th>
                             <th>Action</th>
                         </tr>
                     </thead>
@@ -96,9 +102,13 @@
                             <td><?php echo $vehicle->type; ?></td>
                             <td><?php echo $vehicle->model; ?></td>
                             <td><?php echo $vehicle->make; ?></td>
-                            <td><?php echo $vehicle->rate; ?></td>
                             <td><?php echo $vehicle->license_plate_number; ?></td>
+                            <td><?php echo $vehicle->rate; ?></td>
+                            <td><?php echo $vehicle->driver; ?></td>
+                            <td><?php echo $vehicle->cost; ?></td>
+                            <td><?php echo $vehicle->description; ?></td>
                             <td><?php echo $vehicle->availability; ?></td>
+                            <td><?php echo $vehicle->location; ?></td>
                             <td class="action-button">
                                 <button class="vehicle-edit-btn" name ="vehicle-edit-btn" id="vehicle-edit-btn"
                                     vehicleType = "<?php echo $vehicle->type; ?>"
@@ -106,9 +116,12 @@
                                     vehicleMake = "<?php echo $vehicle->make; ?>"
                                     vehicleRate = "<?php echo $vehicle->rate; ?>"
                                     licensePlateNumber = "<?php echo $vehicle->license_plate_number; ?>"
+                                    driver = "<?php echo $vehicle->driver; ?>"
+                                    vehicleCost = "<?php echo $vehicle->cost; ?>"
                                     availability = "<?php echo $vehicle->availability; ?>"
                                     fuelType = "<?php echo $vehicle->fuel_type; ?>"
                                     description = "<?php echo $vehicle->description; ?>"
+                                    vehicleLocation = "<?php echo $vehicle->location; ?>"
                                     vid= "<?php echo $vehicle->id; ?>">
                                     Edit
                                 </button>

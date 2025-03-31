@@ -22,17 +22,23 @@
                 </tr>
             </thead>
             <tbody>
-                <!--loop through the data and print the data-->
-                <?php foreach($data['travelers'] as $user) : ?>
-                    <tr>
-                        <td><?php echo $user->admin_id; ?></td>
-                        <td><?php echo $user->name; ?></td>
-                        <td><?php echo $user->email; ?></td>
-                        <td><?php echo $user->telephone_number; ?></td>
-                        <td><?php echo $user->date_of_joined; ?></td>
-                    </tr>
-                <?php endforeach; ?>
-            </tbody>
+    <?php if (!empty($data['travelers'])) : ?>
+        <?php foreach ($data['travelers'] as $user) : ?>
+            <tr>
+                <td><?php echo $user->admin_id; ?></td>
+                <td><?php echo $user->name; ?></td>
+                <td><?php echo $user->email; ?></td>
+                <td><?php echo $user->telephone_number; ?></td>
+                <td><?php echo $user->date_of_joined; ?></td>
+            </tr>
+        <?php endforeach; ?>
+    <?php else : ?>
+        <tr>
+            <td colspan="5">No users found.</td>
+        </tr>
+    <?php endif; ?>
+</tbody>
+
         </table>
    
 </body>

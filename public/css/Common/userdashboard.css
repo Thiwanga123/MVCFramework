@@ -6,8 +6,7 @@ main{
 }
 
 main .top{
-    background-color: aqua;
-    height: 40%;
+    height: 60%;
     background-image: url('../../Images/sri-lanka-sh-conde-nast-traveller-27jul20-1129567869.jpg'); /* Update with your image path */
     background-size: cover; 
     background-repeat: no-repeat;
@@ -19,7 +18,7 @@ main .top{
     font-size: 25px;
     color: rgb(255, 255, 255); 
     line-height: 60px;
-    filter :opacity(0.8);
+    filter :opacity(0.9);
     border-radius: 10px;
 }
 

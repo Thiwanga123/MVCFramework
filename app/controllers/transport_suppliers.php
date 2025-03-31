@@ -34,23 +34,36 @@ class Transport_suppliers extends Controller
 
     public function orders()
     {
-        
+           
             $this->view('transport_supplier/Orders');
         
     }
 
     public function reviews()
-    {
+    {   
+        
    
             $this->view('transport_supplier/Reviews');
         
     }
 
-    public function notifications()
-    {
-        
-            $this->view('transport_supplier/Notifications');
+    public function driver()
+    {       
+        if(isset($_SESSION['id'])){
+            $supplierId = $_SESSION['id'];
+            $this->transportModel = $this->model('TransportModel');
+            $drivers = $this->transportModel->getAllDrivers($supplierId);
 
+            $data = [
+                'drivers' => $drivers
+            ];
+
+            $this->view('transport_supplier/driver', $data);
+            
+            }else{
+                redirect('users/login');
+            }
+        
     }
 
     public function Myprofile()
@@ -74,9 +87,13 @@ class Transport_suppliers extends Controller
                 'vehicleMake' => trim($_POST['vehicleMake']),    //These variables are used to store the values which are sent via the form data
                 'plateNumber' => trim($_POST['licensePlateNumber']),
                 'rate' => trim($_POST['vehicleRate']),
+                'litre' => trim($_POST['vehicleLitre']),
                 'fuelType' => trim($_POST['fuelType']),
                 'description' => trim($_POST['description']),
                 'availability' => trim($_POST['availability']),
+                'driver' => trim($_POST['driver']),
+                'cost' => trim($_POST['vehicleCost']),
+                'location' => trim($_POST['vehicleLocation']),
             ];
 
             if(empty($data['vehicleType'])){
@@ -98,6 +115,11 @@ class Transport_suppliers extends Controller
             if(empty($data['rate'])){
                 $errors[] = 'Rate is required';
             }
+          
+            if(empty($data['litre'])){
+                $errors[] = 'Litre is required';
+            }
+          
             
             if(empty($data['fuelType'])){
                 $errors[] = 'Fuel Type is required';
@@ -110,8 +132,18 @@ class Transport_suppliers extends Controller
             if(empty($data['availability'])){
                 $errors[] = 'Availability is required';
             }
-            
 
+            if(empty($data['driver'])){
+                $errors[] = 'driver is required';
+            }
+
+            if(empty($data['cost'])){
+                $errors[] = 'Driver Rates are required';
+            }
+
+            if(empty($data['location'])){
+                $errors[] = 'Location is required';
+            }
             $imageExtensions = ['jpeg','jpg','png']; //Extension array to check whether the uploaded files are eligible to upload
             $imagePaths = [];   //Array to store the paths of the uploaded images
             $images =  $_FILES['vehicleImages'];
@@ -127,7 +159,7 @@ class Transport_suppliers extends Controller
             }
 
              //Creating the model instance to interact with the database
-            $isInserted = $this->transportModel->addVehicle($data['id'], $data['vehicleType'], $data['vehicleModel'], $data['vehicleMake'], $data['plateNumber'], $data['rate'], $data['fuelType'], $data['description'], $data['availability']);
+            $isInserted = $this->transportModel->addVehicle($data['id'], $data['vehicleType'], $data['vehicleModel'], $data['vehicleMake'], $data['plateNumber'], $data['rate'], $data['litre'], $data['fuelType'], $data['description'], $data['availability'], $data['driver'], $data['cost'],$data['location']);
             if($isInserted){
                 $vehicleId = $isInserted;
                 $vehicleFolder = "$supplierFolder/$vehicleId";
@@ -241,6 +273,7 @@ public function editVehicle(){
             'fuelType' => trim($_POST['fuelType']),
             'description' => trim($_POST['description']),
             'availability' => trim($_POST['availability']),
+            'driver' => trim($_POST['driver']),
 
         ];
 
@@ -276,6 +309,9 @@ public function editVehicle(){
         if(empty($data['availability'])){
             $errors[] = 'Availability is required';
         }
+        if(empty($data['driver'])){
+            $errors[] = 'driver is required';
+        }
         
         $update = $this->transportModel->updateVehicle($data);
         if($update){
@@ -288,7 +324,72 @@ public function editVehicle(){
 }
 
 }
+public function addriver() {
+    if ($_SERVER['REQUEST_METHOD'] == 'POST')
+        // Ensure the form fields are set before accessing them
+        $data = [
+            'id' => $_SESSION['id'] ?? null,
+            'name' => isset($_POST['name']) ? trim($_POST['name']) : '',
+            'gender' => isset($_POST['gender']) ? trim($_POST['gender']) : '',
+            'phone' => isset($_POST['phone']) ? trim($_POST['phone']) : '',
+            'email' => isset($_POST['email']) ? trim($_POST['email']) : '',
+            'description' => isset($_POST['description']) ? trim($_POST['description']) : '',
+            'drive' => isset($_POST['drive']) ? trim($_POST['drive']) : '',
+        ];
+
+        $errors = [];
+
+        // Validation checks
+        if (empty($data['name'])) {
+            $errors[] = 'Name is required';
+        }
+
+        if (empty($data['gender'])) {
+            $errors[] = 'Gender is required';
+        }
+
+        if (empty($data['phone'])) {
+            $errors[] = 'Phone number is required';
+        } elseif (!preg_match('/^\d{10}$/', $data['phone'])) { // Example validation for a 10-digit phone number
+            $errors[] = 'Invalid phone number format';
+        }
+
+        if (empty($data['email'])) {
+            $errors[] = 'Email is required';
+        } elseif (!filter_var($data['email'], FILTER_VALIDATE_EMAIL)) {
+            $errors[] = 'Invalid email format';
+        }
+
+        if (empty($data['description'])) {
+            $errors[] = 'Description is required';
+        }
+
+        if (empty($data['drive'])) {
+            $errors[] = 'Driver is required';
+        }
+
+
+        if (!empty($errors)) {
+            $_SESSION['errors'] = $errors; // Store errors in session
+            redirect('transport_suppliers/driver'); // Redirect back to form page
+        }
+    
+        // Insert driver details into the database
+        $isInserted = $this->transportModel->addriver($data['name'], $data['gender'], $data['phone'], $data['email'], $data['description'], $data['drive'], $data['id']);
+      
+
+        if ($isInserted) {
+            $_SESSION['message'] = "Driver added successfully!";
+            redirect('/transport_suppliers/driver');  
+        } else {
+            $_SESSION['message'] = "Failed to add driver.";
+            redirect('transport_suppliers/driver');
+        }
+    }
+    
 }
+
+
 
 
     

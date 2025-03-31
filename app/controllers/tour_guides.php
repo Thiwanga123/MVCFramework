@@ -12,8 +12,9 @@ public function __construct() {
 
 public function dashboard(){
     if (isset($_SESSION['id'])) {
-        $data = $this->guiderModel->getBookings();
-        $this->view('tour_guides/Dashboard',$data);
+       
+
+        $this->view('tour_guides/Dashboard',);
     } else {
         redirect('ServiceProvider');
     }
@@ -22,7 +23,17 @@ public function dashboard(){
 public function mypayments(){
 
     if (isset($_SESSION['id'])) {
-        $this->view('tour_guides/Mypayments');
+        $this->view('tour_guides/MyPayments');
+    } else {
+        redirect('ServiceProvider');
+    }
+
+}
+
+public function bankDetails(){
+
+    if (isset($_SESSION['id'])) {
+        $this->view('tour_guides/bankdetails');
     } else {
         redirect('ServiceProvider');
     }
@@ -89,6 +100,7 @@ public function deleteBooking($id){
     }
 
 }
+
       }
 
 ?>

@@ -56,6 +56,11 @@
             background-color: #2e2d4d;
         }
     </style>
+    <script>
+        function goBack() {
+            window.history.back();
+        }
+    </script>
 </head>
 <body>
     <div class="container">
@@ -64,7 +69,9 @@
         </div>
         <h1 class="title">No Result Found!</h1>
         <p class="message">"Sorry, we came up empty-handed. Let's broaden our search and help you find what you're looking for."</p>
-        <a href="<?php echo URLROOT;?>/users/accomadation"><button class="search-button">Back to Page </button></a>
+
+
+       <button class="search-button" onclick="goBack()">Back to Page </button></a>
     </div>
 </body>
 </html>

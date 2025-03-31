@@ -1,7 +1,6 @@
-
-document.addEventListener('DOMContentLoaded', () =>{
+document.addEventListener('DOMContentLoaded', () => {
     const modalContainer = document.getElementById('warningModalContainer');
-    const deleteBtn = document.querySelectorAll('.delete');
+    const deleteBtn = document.getElementById('delete'); 
     const confirmBtn = document.getElementById('confirmDelete');
     const cancelBtn = document.getElementById('cancelDelete');
     const box = document.getElementById('box');
@@ -10,29 +9,35 @@ document.addEventListener('DOMContentLoaded', () =>{
 
     let currentProductId = null;
 
-    deleteBtn.forEach((deleteButton) => {
-        deleteButton.addEventListener('click',(event) =>{
+    if (deleteBtn) {
+        deleteBtn.addEventListener('click', (event) => {
             event.preventDefault();
-            currentProductId = deleteButton.getAttribute('productId');
-            modalContainer.classList.add('active');  
-            box.classList.add('blur');
+            currentProductId = deleteBtn.getAttribute('data-product-id'); 
+            if (currentProductId) {
+                modalContainer.classList.add('active');
+                box.classList.add('blur');
+            }
         });
-    });
+    }
 
-    cancelBtn.addEventListener('click', () =>{
-        modalContainer.classList.remove('active');
-        box.classList.remove('blur');
-        currentProductId = null;
-    });
+    if (cancelBtn) {
+        cancelBtn.addEventListener('click', () => {
+            modalContainer.classList.remove('active');
+            box.classList.remove('blur');
+            currentProductId = null;
+        });
+    }
 
-    confirmBtn.addEventListener('click',() => {
-        if(currentProductId){
-            idInput.value = currentProductId;
-            deleteForm.submit();
-        }
+    if (confirmBtn) {
+        confirmBtn.addEventListener('click', () => {
+            if (currentProductId) {
+                idInput.value = currentProductId;
+                deleteForm.submit();
+            }
 
-        modalContainer.classList.remove('active');
-        box.classList.remove('blur');
-        currentProductId = null;
-    }); 
+            modalContainer.classList.remove('active');
+            box.classList.remove('blur');
+            currentProductId = null;
+        });
+    }
 });

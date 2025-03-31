@@ -52,62 +52,74 @@
         }
 
         function fetchNearbyPlaces(location) {
-            const service = new google.maps.places.PlacesService(document.createElement('div'));
-            const request = {
-                query: location,
-                fields: ['name', 'geometry'],
+    const service = new google.maps.places.PlacesService(document.createElement('div'));
+    const request = {
+        query: location,
+        fields: ['name', 'geometry'],
+    };
+
+    service.findPlaceFromQuery(request, function(results, status) {
+        if (status === google.maps.places.PlacesServiceStatus.OK) {
+            const nearbyLocation = results[0].geometry.location;
+            const nearbyRequest = {
+                location: nearbyLocation,
+                radius: '10000', // 10 km radius
+                type: ['tourist_attraction']
             };
 
-            service.findPlaceFromQuery(request, function(results, status) {
-                if (status === google.maps.places.PlacesServiceStatus.OK) {
-                    const nearbyLocation = results[0].geometry.location;
-                    const nearbyRequest = {
-                        location: nearbyLocation,
-                        radius: '10000', // 10 km radius
-                        type: ['tourist_attraction']
-                    };
+            service.nearbySearch(nearbyRequest, function(nearbyResults, nearbyStatus) {
+                if (nearbyStatus === google.maps.places.PlacesServiceStatus.OK) {
+                    console.log('Nearby results:', nearbyResults); // Debugging log
+                    const placesList = document.querySelector('.bottom1');
+                    placesList.innerHTML = ''; // Clear existing content
 
-                    service.nearbySearch(nearbyRequest, function(nearbyResults, nearbyStatus) {
-                        if (nearbyStatus === google.maps.places.PlacesServiceStatus.OK) {
-                            const placesList = document.querySelector('.bottom1');
-                            placesList.innerHTML = ''; // Clear existing content
+                    // Sort the results by the number of user reviews in descending order
+                    nearbyResults.sort((a, b) => b.user_ratings_total - a.user_ratings_total);
 
-                            nearbyResults.sort((a, b) => b.user_ratings_total - a.user_ratings_total);
-                            nearbyResults.slice(0, 6).forEach(place => 
-                            {
-                                const placeItem = document.createElement('div');
-                                placeItem.className = 'card';
+                    // Limit to 6 places
+                    nearbyResults.slice(0, 6).forEach(place => {
+                        console.log('Place name:', place.name); // Print location names to console
 
-                                const placeImage = document.createElement('img');
-                                placeImage.src = place.photos ? place.photos[0].getUrl() : 'https://via.placeholder.com/150';
-                                placeImage.alt = place.name;
+                        const placeItem = document.createElement('div');
+                        placeItem.className = 'card';
 
-                                const placeName = document.createElement('h3');
-                                placeName.textContent = place.name;
+                        const placeImage = document.createElement('img');
+                        placeImage.src = place.photos ? place.photos[0].getUrl() : 'https://via.placeholder.com/150';
+                        placeImage.alt = place.name;
 
-                                // const placeAddress = document.createElement('p');
-                                // placeAddress.textContent = `Location: ${place.vicinity}`;
+                        const placeName = document.createElement('h3');
+                        placeName.textContent = place.name;
 
-                                placeItem.appendChild(placeImage);
-                                placeItem.appendChild(placeName);
-                                // placeItem.appendChild(placeAddress);
+                        const placeAddress = document.createElement('p');
+                        placeAddress.textContent = `Location: ${place.vicinity}`;
 
-                                placesList.appendChild(placeItem);
-                            });
-                        }
+                        const placeReviews = document.createElement('p');
+                        placeReviews.textContent = `Reviews: ${place.user_ratings_total}`;
+
+                        placeItem.appendChild(placeImage);
+                        placeItem.appendChild(placeName);
+                        placeItem.appendChild(placeAddress);
+                        placeItem.appendChild(placeReviews);
+
+                        placesList.appendChild(placeItem);
                     });
+                } else {
+                    console.error('Nearby search failed:', nearbyStatus); // Debugging log
                 }
             });
+        } else {
+            console.error('Place search failed:', status); // Debugging log
         }
+    });
+}
 
-        
-        document.addEventListener('DOMContentLoaded', function() {
-            const script = document.createElement('script');
-            script.src = `https://maps.googleapis.com/maps/api/js?key=<?php echo API_KEY; ?>&libraries=places&callback=initMap`;
-            script.async = true;
-            script.defer = true;
-            document.head.appendChild(script);
-        });
+document.addEventListener('DOMContentLoaded', function() {
+    const script = document.createElement('script');
+    script.src = `https://maps.googleapis.com/maps/api/js?key=<?php echo API_KEY; ?>&libraries=places&callback=initMap`;
+    script.async = true;
+    script.defer = true;
+    document.head.appendChild(script);
+});
     </script>
 
 </head>
@@ -185,11 +197,7 @@
              
                     <h2>Near By Locations To visit</h2>
                     <div class="bottom1">
-                    <!-- <div class="card">
-                    <h3 class="location-name">Loading...</h3>
-                    <br>
-                    <p class="location-address">Loading..</p>
-                    </div> -->
+                
                     </div>
                
 
