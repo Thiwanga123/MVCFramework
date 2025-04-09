@@ -156,7 +156,6 @@
 
     public function getProductDetailsById($productId){
         try{
-            
             $sql = 'SELECT r.*, c.category_name, GROUP_CONCAT(i.image_path) AS image_paths
                     FROM rental_equipments r
                     JOIN equipment_categories c ON r.category_id = c.category_id

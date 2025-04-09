@@ -14,6 +14,70 @@ class M_users{
         return $this->db->resultSet();
     }
 
+    public function findUsersByEmail($email,$table){
+        $sql = "SELECT * FROM $table WHERE email = :email";
+        try{
+            $this->db->query($sql);
+            $this->db->bind(':email', $email);
+            $result = $this->db->single();
+            return $result;
+        } catch (Exception $e) {
+            error_log("Error fetching users by email: " . $e->getMessage());
+            return [];
+        }
+        
+    }
+
+    public function storeResetToken($email, $table, $token, $expiry){
+        $sql = "INSERT INTO password_resets (email, user_type, token, expires_at)
+                    VALUES (:email, :tableName, :token, :expiry)
+                    ON DUPLICATE KEY UPDATE 
+                    token = VALUES(token),
+                    expires_at = VALUES(expires_at),
+                    created_at = CURRENT_TIMESTAMP";
+        try{
+            $this->db->query($sql);
+            $this->db->bind(':email', $email);
+            $this->db->bind(':tableName', $table);
+            $this->db->bind(':token', $token);
+            $this->db->bind(':expiry', $expiry);
+            return $this->db->execute();
+        } catch (Exception $e) {
+            error_log("Error storing reset token: " . $e->getMessage());
+            return false;
+        }
+    }
+
+    public function findUserByResetToken($token){
+        echo($token);
+        $sql = "SELECT * FROM password_resets WHERE token = :token";
+        
+        try{
+            $this->db->query($sql);
+            $this->db->bind(':token', $token);
+            $result = $this->db->single();
+            print_r($result);
+            exit;
+            return $result;
+        } catch (Exception $e) {
+            error_log("Error fetching user by reset token: " . $e->getMessage());
+            return [];
+        }
+    }
+
+    public function updateUserPassword($email, $password){
+        $sql = "UPDATE traveler SET password = :password WHERE email = :email";
+        try{
+            $this->db->query($sql);
+            $this->db->bind(':email', $email);
+            $this->db->bind(':password', $password);
+            return $this->db->execute();
+        } catch (Exception $e) {
+            error_log("Error updating user password: " . $e->getMessage());
+            return false;
+        }
+    }
+
     //find user by email
     public function findUserByEmail($email){
         $this->db->query('SELECT * FROM traveler WHERE email = :email');
@@ -81,26 +145,22 @@ class M_users{
         $this->db->bind(':email', $email);
 
         $row = $this->db->single();
-
-           
-           
-           
-    if ($row) {
-        $hashedPassword = $row->password;
-        if (password_verify($password, $hashedPassword)) {
-            return $row;
+       
+        if ($row) {
+            $hashedPassword = $row->password;
+            if (password_verify($password, $hashedPassword)) {
+                return $row;
+            } else {
+                return false;
+            }
         } else {
             return false;
         }
-    } else {
-        return false;
-    }
         }
         
     //get all the accomodations from the database
     public function searchAccommodations($data){
 
-        
         $this->db->query('SELECT * FROM properties WHERE city = :city AND (singleprice <= :price OR doubleprice <= :price OR familyprice <= :price OR livingprice <= :price) AND max_occupants >= :people');
         //bind parameters indexes
 

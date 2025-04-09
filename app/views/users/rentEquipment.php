@@ -17,6 +17,7 @@
 
         <?php include_once APPROOT . '/views/inc/components/navbar.php'; ?>
 
+
         <main>
             <hr>
             <div class="view-container">
@@ -31,6 +32,7 @@
                         <button class="tab-button" onclick="openTab(event, 'book-now')">Book Now</button>
 
                     </div>
+
 
                     <!-- Tab Content -->
                     <div class="tab-content" id="details">
