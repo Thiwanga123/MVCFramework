@@ -23,10 +23,7 @@
        
     }
     
-    require_once '../app/controllers/GuideController.php';
-    
-    $controller = new GuideController();
-    $controller->index();
-    
+    // Removed unnecessary instantiation of GuideController outside the Pages class.
+    // Ensure GuideController functionality is integrated properly within the Pages class or another relevant context if needed.
     
 ?>

@@ -1,5 +1,10 @@
 <?php
+session_start();
  require_once '../app/bootloader.php';
+
+// Include necessary controllers
+require_once '../app/controllers/TripController.php';
+require_once '../app/controllers/GuideController.php';
 
     //init Core library
     $init = new Core();
