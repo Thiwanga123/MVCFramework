@@ -1,5 +1,7 @@
 <?php
 
+require_once __DIR__ . '/../../config/Database.php';
+
 class M_guider {
     private $db;
 
@@ -17,8 +19,6 @@ class M_guider {
     public function getBookings(){
         $this->db->query("SELECT COUNT(*) FROM booking");
         return $this->db->resultSet();
-
-
     }
 
     //delete the booking from the bookingTable
@@ -150,12 +150,10 @@ class M_guider {
         $this->db->bind(':location', $location);
         $this->db->bind(':language', $language);
         $this->db->bind(':gender', $gender);
+
         return $this->db->resultSet();
     }
 }
-}
-
-?>
 
        
         

@@ -3,6 +3,7 @@
       
 //creating the guider model
 private $guiderModel;
+private $guideModel;
 
 public function __construct() {
     $this->guiderModel = $this->model('M_guider');
@@ -99,11 +100,7 @@ public function deleteBooking($id){
         die('Something went wrong');
     }
 
-}
-
-    private $guideModel;
-
-    public function __construct() {
+    // Removed duplicate constructor and guideModel declaration
         $this->guideModel = new GuideModel();
     }
 
