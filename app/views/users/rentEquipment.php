@@ -12,54 +12,47 @@
 </head>
 <body>
     <div class="box" id="box">
+        <div class="content">
+            <?php include_once APPROOT . '/views/inc/components/navbar.php'; ?>
+            <main>
+                <hr>
+                <div class="view-container">
+                    <div class="container">
+                        <div class="header">
+                            <h1>Product Details</h1>
+                        </div>
+                    <!-- Navigation Tabs -->
+                        <div class="menu-bar">
+                            <button class="tab-button active" onclick="openTab(event, 'details')">Details</button>
+                            <button class="tab-button" onclick="openTab(event, 'reviews')">Reviews</button>
+                            <button class="tab-button" onclick="openTab(event, 'book-now')">Book Now</button>
 
-    <div class="content">
+                        </div>
+                        <!-- Tab Content -->
+                        <div class="tab-content" id="details">
+                            <?php include_once APPROOT . '/views/users/includes/equipment_supplier/details.php'; ?> 
+                        </div>
 
-        <?php include_once APPROOT . '/views/inc/components/navbar.php'; ?>
+                        <div class="tab-content" id="reviews" style="display: none;">
+                            <?php include_once APPROOT . '/views/users/includes/equipment_supplier/reviews.php'; ?> 
+                        </div>
 
-
-        <main>
-            <hr>
-            <div class="view-container">
-                <div class="container">
-                    <div class="header">
-                        <h1>Product Details</h1>
+                        <div class="tab-content" id="book-now" style="display: none;">
+                            <?php include_once APPROOT . '/views/users/includes/equipment_supplier/bookings.php'; ?> 
+                        </div>
                     </div>
-                <!-- Navigation Tabs -->
-                    <div class="menu-bar">
-                        <button class="tab-button active" onclick="openTab(event, 'details')">Details</button>
-                        <button class="tab-button" onclick="openTab(event, 'reviews')">Reviews</button>
-                        <button class="tab-button" onclick="openTab(event, 'book-now')">Book Now</button>
+                </div>  
+            </main>
+        </div>
 
-                    </div>
+        
+    </div>
 
+    <script>var bookings = <?php echo $data['bookings']; ?></script>
+    <script src="<?php echo URLROOT;?>/js/changeContent.js"></script>
+    <script src="<?php echo URLROOT;?>/js/Calendar.js"></script>
 
-                    <!-- Tab Content -->
-                    <div class="tab-content" id="details">
-                        <?php include_once APPROOT . '/views/users/includes/equipment_supplier/details.php'; ?> 
-                    </div>
-
-                    <div class="tab-content" id="reviews" style="display: none;">
-                        <?php include_once APPROOT . '/views/users/includes/equipment_supplier/reviews.php'; ?> 
-                    </div>
-
-                    <div class="tab-content" id="book-now" style="display: none;">
-                        <?php include_once APPROOT . '/views/users/includes/equipment_supplier/bookings.php'; ?> 
-                    </div>
-                </div>
-            </div>
-            
-        </main>
-
-     </div>
-
-     
-     <script src="<?php echo URLROOT;?>/js/changeContent.js"></script>
-     <script src="<?php echo URLROOT;?>/js/Calendar.js"></script>
-
-     <script>const URLROOT = "<?php echo URLROOT; ?>";</script>
-
-
+    <script>const URLROOT = "<?php echo URLROOT; ?>";</script>
 
 </body>
 

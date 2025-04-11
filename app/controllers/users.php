@@ -201,9 +201,10 @@ class Users extends Controller {
     public function viewProduct($equipmentId){
         if(isset($_SESSION['user_id'])){
             $details = $this->equipmentModel->getProductDetailsById($equipmentId);
-           
+            $bookings = $this->equipmentModel->getBookingsByEquipmentId($equipmentId);
             $data = [
-                'details' => $details
+                'details' => $details,
+                'bookings' => json_encode($bookings)
             ];
 
             $this->view('users/rentEquipment',$data);
@@ -596,12 +597,7 @@ class Users extends Controller {
 
                     $this->userModel->storeResetToken($email, $table, $hashedToken, $expiryFormatted);
                     $resetLink = URLROOT . "/users/resetPassword?token=$token" . urlencode($token);
-
-                    echo "Sending the link to the mail: " . $email . "<br>";
-                    echo "Generated token: " . $token . "<br>";
-                    echo "Hashed token: " . $hashedToken . "<br>";
-                    echo "Expiry time: " . date('Y-m-d H:i:s', $expiry) . "<br>";
-                    echo "Reset link: " . $resetLink . "<br>";
+                    
                     $this->sendPasswordResetEmail($email, $resetLink);
                     $data['success_msg'] = 'A reset link has been sent to your email address.';
                 }

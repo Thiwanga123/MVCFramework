@@ -49,6 +49,19 @@ class EquipmentModel {
         }
     }
 
+    public function getBookingsByEquipmentId($productId){
+        $sql = "SELECT start_date,end_date FROM rental_equipment_bookings WHERE equipment_id = ?";
+        try{
+            $this->db->query($sql);
+            $this->db->bind(1,$productId);
+            $result = $this->db->resultSet();
+            return $result;
+        }catch(Exception $e){
+            $error_msg = $e->getMessage();
+            echo "<script>alert('An error occured: $error_msg');</script>";
+            return false;
+        }
+    }
 
   
 }

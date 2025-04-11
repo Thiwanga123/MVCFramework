@@ -182,6 +182,7 @@ main {
     flex: 1;
     padding: 20px 30px;
     overflow-y: auto;
+    height: calc(100vh - 55px);
   }
 
 hr {

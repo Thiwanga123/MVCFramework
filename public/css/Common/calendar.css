@@ -58,6 +58,18 @@
     padding: 8px;
 }
 
+.calendar-day.booked {
+    background-color: rgb(255 225 205); /* Red background for booked dates */
+    color: #1a1a1a;
+    padding: 8px;
+}
+
+.calendar-day.booked:hover {
+    background-color: rgb(110 187 172); /* Red background for booked dates */
+    color: #1a1a1a;
+    cursor: not-allowed;
+}
+
 .calendar-grid {
     display: grid;
     grid-template-columns: repeat(7, 1fr);

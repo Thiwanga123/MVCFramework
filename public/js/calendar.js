@@ -36,22 +36,53 @@ document.addEventListener("DOMContentLoaded", () => {
                 dayDiv.classList.add('today');
             }
 
+            if (isBooked(dayString)) {
+                dayDiv.classList.add('booked');
+            }
+
             calendarGrid.appendChild(dayDiv);  // Add the day to the grid
         }
     }
 
-        function isToday(date) {
-            const today = new Date();
-            const formattedDate = today.toISOString().split('T')[0];  // YYYY-MM-DD format
-            return date === formattedDate;
-        }
+    function isToday(date) {
+        const today = new Date();
+        const formattedDate = today.toISOString().split('T')[0];  // YYYY-MM-DD format
+        return date === formattedDate;
+    }
 
-        // Function to change the month (forward or backward)
-        window.changeMonth = function(offset) {
-            currentDate.setMonth(currentDate.getMonth() + offset);
-            generateCalendar(currentDate.getMonth(), currentDate.getFullYear());
-        }
+    // Function to check if a given date is part of any booking
+    function isBooked(date) {
+        for (let booking of bookings) {
+            const startDate = booking.start_date;
+            const endDate = booking.end_date;
 
-    // Generate the calendar initially
+            // Check if the date falls between start and end of the booking range
+            if (date >= startDate && date <= endDate) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+// Function to change the month (forward or backward)
+    window.changeMonth = function(offset) {
+        currentDate.setMonth(currentDate.getMonth() + offset);
+        generateCalendar(currentDate.getMonth(), currentDate.getFullYear());
+    }
+
+    function isBooked(date) {
+        for (let booking of bookings) {
+            const startDate = booking.start_date;
+            const endDate = booking.end_date;
+
+            // Check if the date falls between start and end of the booking range
+            if (date >= startDate && date <= endDate) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+// Generate the calendar initially
     generateCalendar(currentDate.getMonth(), currentDate.getFullYear());
 });
