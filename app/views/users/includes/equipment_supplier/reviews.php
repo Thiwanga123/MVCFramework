@@ -53,7 +53,7 @@
                                         <div class="date"><?php echo htmlspecialchars($review->created_at); ?></div>
                                     </div>
                                 </div>
-                                <div class="right">
+                                <div class="right-side">
                                     <div class="starRating"><?php echo htmlspecialchars($review->rating); ?></div>
                                     <div class="stars">
                                     <?php

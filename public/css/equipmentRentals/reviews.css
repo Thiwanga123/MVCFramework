@@ -10,7 +10,6 @@
     height: auto;
 }
   
-  /* Top Section */
   .reviews .top {
     display: flex;
     border-radius: 20px;
@@ -94,18 +93,21 @@
   align-items: center;
   margin-bottom: 10px;
 }
+
 .rating-label {
   width: 60px;
   font-weight: normal;
 }
+
 .bar-container {
   flex: 1;
   background: #eee;
-  height: 10px;
+  height: 6px;
   border-radius: 10px;
   overflow: hidden;
   margin: 0 10px;
 }
+
 .bar-fill {
   background: #FFA726;
   height: 100%;
@@ -184,7 +186,7 @@
   }
   
   
-  .right {
+  .right-side {
     display: flex;
     font-size: 14px;
     color: #f39c12;
@@ -193,7 +195,7 @@
     gap: 15px; 
   }
 
-  .right .starRating{
+  .right-side .starRating{
     font-size: 18px;
     color: #f39c12; /* Gold color for stars */
   }

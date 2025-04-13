@@ -6,6 +6,8 @@
     <link rel="stylesheet" href="<?php echo URLROOT;?>/css/equipmentRentals/view_product.css">
     <link rel="stylesheet" href="<?php echo URLROOT;?>/css/equipmentRentals/productDetailsDiv.css">
     <link rel="stylesheet" href="<?php echo URLROOT;?>/css/equipmentRentals/reviews.css">
+    <link rel="stylesheet" href="<?php echo URLROOT;?>/css/equipmentRentals/booking.css">
+
     <link rel="stylesheet" href="<?php echo URLROOT;?>/css/Common/calendar.css">
     
     <title>Equipment</title>
@@ -20,13 +22,14 @@
                     <div class="container">
                         <div class="header">
                             <h1>Product Details</h1>
+                            <div class="back-button"><a href="<?php echo URLROOT;?>/users/equipment_suppliers"> Back to Products</a></div>
                         </div>
                     <!-- Navigation Tabs -->
                         <div class="menu-bar">
                             <button class="tab-button active" onclick="openTab(event, 'details')">Details</button>
                             <button class="tab-button" onclick="openTab(event, 'reviews')">Reviews</button>
                             <button class="tab-button" onclick="openTab(event, 'book-now')">Book Now</button>
-
+    
                         </div>
                         <!-- Tab Content -->
                         <div class="tab-content" id="details">
