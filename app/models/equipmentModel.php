@@ -63,6 +63,42 @@ class EquipmentModel {
         }
     }
 
+    public function getReviewsByEquipmentId($equipmentId){
+       
+        $sql = "SELECT r.* , t.name 
+                FROM rental_equipments_reviews r 
+                JOIN traveler t ON r.traveler_id = t.traveler_id  
+                WHERE r.equipment_id = ?";
+        try{
+            $this->db->query($sql);
+            $this->db->bind(1,$equipmentId);
+            $result = $this->db->resultSet();
+            return $result;
+        }catch(Exception $e){
+            $error_msg = $e->getMessage();
+            echo "<script>alert('An error occured: $error_msg');</script>";
+            return false;
+        }
+    }
+
+    public function getRatingsByEquipmentId($equipmentId){
+        $sql = "SELECT rating, COUNT(*) as total
+                FROM rental_equipments_reviews
+                WHERE equipment_id = ?
+                GROUP BY rating
+                ORDER BY rating DESC";
+
+        try{
+            $this->db->query($sql);
+            $this->db->bind(1,$equipmentId);
+            $result = $this->db->resultSet();
+            return $result; 
+        }catch(Exception $e){
+            $error_msg = $e->getMessage();
+            echo "<script>alert('An error occured: $error_msg');</script>";
+            return false;
+        }
+    }
   
 }
 

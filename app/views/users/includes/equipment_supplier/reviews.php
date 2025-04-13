@@ -1,47 +1,81 @@
-<div class="reviews">
-                <div>
-                <div class="header">
-                    <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#000000"><path d="M620-163 450-333l56-56 114 114 226-226 56 56-282 282Zm220-397h-80v-200h-80v120H280v-120h-80v560h240v80H200q-33 0-56.5-23.5T120-200v-560q0-33 23.5-56.5T200-840h167q11-35 43-57.5t70-22.5q40 0 71.5 22.5T594-840h166q33 0 56.5 23.5T840-760v200ZM480-760q17 0 28.5-11.5T520-800q0-17-11.5-28.5T480-840q-17 0-28.5 11.5T440-800q0 17 11.5 28.5T480-760Z"/></svg>
-                    <h3>All Reviews</h3>
-                    <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#000000"><path d="M440-160q-17 0-28.5-11.5T400-200v-240L168-736q-15-20-4.5-42t36.5-22h560q26 0 36.5 22t-4.5 42L560-440v240q0 17-11.5 28.5T520-160h-80Zm40-308 198-252H282l198 252Zm0 0Z"/></svg>
+
+       <div class="reviews">
+             <div class="top">
+                <div class="total">
+                    <h2>Total Reviews</h2>
+                    <p><?php echo htmlspecialchars($data['reviewCount']); ?></p>
                 </div>
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Customer</th>
-                            <th>Review</th>
-                            <th>Date</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td class="customer">
-                                <img src="Images/default profile.png"> 
-                                <p>John Doe</p>
-                            </td>
-                            <td class="rev">Lorem ipsum dolor sit amet consectetur adipisicing elit. Quibusdam omnis reiciendis tenetur nihil saepe, recusandae necessitatibus tempora ea consectetur ut autem dolores voluptates fugiat, in ipsum culpa quae aliquam voluptatibus.</td>
-                            <td>2024/05/05</td>
-                            
-                        </tr>
-                        <tr>
-                            <td class="customer">
-                                <img src="Images/default profile.png"> 
-                                <p>John Doe</p>
-                            </td>
-                            <td class="rev">Lorem ipsum dolor sit amet consectetur adipisicing elit. Quibusdam omnis reiciendis tenetur nihil saepe, recusandae necessitatibus tempora ea consectetur ut autem dolores voluptates fugiat, in ipsum culpa quae aliquam voluptatibus.</td>
-                            <td>2024/05/05</td>
-                            
-                        </tr>
-                        <tr>
-                            <td class="customer">
-                                <img src="Images/default profile.png"> 
-                                <p>John Doe</p>
-                            </td>
-                            <td class="rev">Lorem ipsum dolor sit amet consectetur adipisicing elit. Quibusdam omnis reiciendis tenetur nihil saepe, recusandae necessitatibus tempora ea consectetur ut autem dolores voluptates fugiat, in ipsum culpa quae aliquam voluptatibus.</td>
-                            <td>2024/05/05</td>
-                           
-                        </tr>
-                    </tbody>
-                </table> 
+                <div class="average">
+                    <h2>Average Rating</h2>
+                    <div class="inside">
+                        <h2><?php echo htmlspecialchars($data['averageRating']); ?></h2>
+                        <div class="stars">
+                            <span></span>
+                        </div>
+                    </div>
                 </div>
-            </div>
+
+                <?php  
+                    $ratingMap = [];
+                    foreach ($ratings as $row) {
+                        $ratingMap[$row->rating] = $row->total;
+                    }
+                ?>
+
+                <div class="ratings" id="rating-container">
+                    <?php 
+                        for($i = 5; $i >= 1; $i--):
+                            $count = isset($ratingMap[$i]) ? $ratingMap[$i] : 0;
+                            $widthPercent = $reviewCount > 0 ? ($count / $reviewCount) * 100 : 0;
+                            $label = $i === 1 ? '1 Star' : "{$i} Stars";
+                    ?>
+                    <div class="rating-bar">
+                        <div class="rating-label"><?= $label ?></div>
+                        <div class="bar-container">
+                            <div class="bar-fill" style="width: <?= $widthPercent ?>%"></div>
+                        </div>
+                        <div class="rating-count">(<?= $count ?>)</div>
+                    </div>
+                    <?php endfor; ?>
+                </div>
+             </div>
+
+             <div class="content">
+                <div class="list">
+
+                    <?php foreach($data['reviews'] as $review):?>
+                        <div class="card">
+                            <div class="card-top">
+                                <div class="left">
+                                <img src="<?php echo URLROOT;?>/Images/profile.png" class="profile-pic">
+                                    <div class="info">
+                                        <div class="name"><?php echo htmlspecialchars($review->name); ?></div>
+                                        <div class="date"><?php echo htmlspecialchars($review->created_at); ?></div>
+                                    </div>
+                                </div>
+                                <div class="right">
+                                    <div class="starRating"><?php echo htmlspecialchars($review->rating); ?></div>
+                                    <div class="stars">
+                                    <?php
+                                        $rating = $review->rating; 
+                                        for ($i = 1; $i <= 5; $i++) {
+                                            if ($i <= $rating) {
+                                                echo '<span class="starFilled">★</span>';
+                                            } else {
+                                                echo '<span class="star">☆</span>';
+                                            }
+                                        }
+                                    ?>
+                                    </div>
+                                </div>
+                            </div>
+                            <hr class="hr">
+                            <div class="bottom"><?php echo htmlspecialchars($review->comment); ?></div>
+                        </div>
+                    <?php endforeach;?>
+                    </div>
+                </div>
+       </div>
+        
+        
+        

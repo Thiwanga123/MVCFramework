@@ -5,8 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="<?php echo URLROOT;?>/css/userspage/supplierSection.css">
     <link rel="stylesheet" href="<?php echo URLROOT;?>/css/Common/sidebarHeader.css">
-    
-    <title>Equipment</title>
+    <title>Equipment Rentals</title>
 </head>
 <body>
     <div class="box" id="box">
@@ -17,7 +16,6 @@
      <!--Main Content-->
     
         <main>
-          
             <div class="rental-container">
                 <div class="filter">
                     <h1>Rent Equipments</h1>

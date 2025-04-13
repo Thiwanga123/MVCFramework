@@ -1,0 +1,209 @@
+
+.reviews {
+    background: #ffffff;
+    border-radius: 16px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 5px;
+    height: auto;
+}
+  
+  /* Top Section */
+  .reviews .top {
+    display: flex;
+    border-radius: 20px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 2rem;
+    width: 100%;
+    padding: 10px 30px;
+    margin-bottom: 60px;
+  }
+  
+  .reviews .total,
+  .reviews .average {
+    flex: 1;
+    min-width: 200px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+  }
+  
+  .reviews .total h2,
+  .reviews .average h2 {
+    font-size: 1.5rem;
+    margin-bottom: 0.5rem;
+  }
+  
+  .reviews .total p {
+    font-size: 2.5rem;
+    font-weight: bold;
+    color: teal;
+  }
+  
+  .reviews .average .inside {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+  
+  .reviews .average .inside h2 {
+    font-size: 2.5rem;
+    font-weight: bold;
+    color: #FFA726;
+  }
+  
+  .stars {
+    font-size: 24px;
+    color: gold; /* Full stars color */
+}
+.star {
+    font-size: 24px;
+}
+.full {
+    color: gold; /* Full star color */
+}
+.half {
+    color: gold; /* Full color for half star */
+    position: relative;
+}
+.half:before {
+    content: '★'; /* Full star symbol */
+    position: absolute;
+    top: 0;
+    left: 0;
+    color: lightgray; /* Empty part of half star */
+    width: 50%;
+    overflow: hidden;
+}
+.empty {
+    color: lightgray; /* Empty star color */
+}
+
+    
+.ratings {
+  width: 100%;
+  max-width: 400px;
+}
+.rating-bar {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+}
+.rating-label {
+  width: 60px;
+  font-weight: normal;
+}
+.bar-container {
+  flex: 1;
+  background: #eee;
+  height: 10px;
+  border-radius: 10px;
+  overflow: hidden;
+  margin: 0 10px;
+}
+.bar-fill {
+  background: #FFA726;
+  height: 100%;
+  transition: width 0.3s ease;
+}
+.rating-count {
+  min-width: 30px;
+  text-align: right;
+}
+
+
+  .container {
+    display: flex;
+    gap: 20px; /* space between cards */
+    flex-wrap: wrap; /* wrap on smaller screens */
+    justify-content: center;
+    padding: 20px;
+  }
+
+  .list {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-gap: 20px;
+    width: 100%;  
+  }
+  
+  .card {
+    border: 1px solid #ddd;
+    border-radius: 12px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 16px;
+    background-color: #fff;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+  
+  .card-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 12px;
+  }
+  
+  .left {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  
+  .left .profile-pic{
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    object-fit: cover;
+  }
+  
+  .info {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+  }
+  
+  .name {
+    font-weight: bold;
+    font-size: 18px;
+  }
+  
+  .date {
+    font-size: 12px;
+    color: #777;
+  }
+
+  .content .hr{
+    border: 0.2px solid lightgrey;
+  }
+  
+  
+  .right {
+    display: flex;
+    font-size: 14px;
+    color: #f39c12;
+    align-items: center;
+    justify-content: center;
+    gap: 15px; 
+  }
+
+  .right .starRating{
+    font-size: 18px;
+    color: #f39c12; /* Gold color for stars */
+  }
+  
+  .starFilled, .star{
+    font-size: 17px;
+    color: #f39c12; /* Gold color for stars */
+  }
+  .bottom {
+    font-size: 15px;
+    color: #555;
+    line-height: 1.4;
+  }

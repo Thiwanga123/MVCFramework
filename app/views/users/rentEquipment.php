@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="<?php echo URLROOT;?>/css/equipmentRentals/view_product.css">
     <link rel="stylesheet" href="<?php echo URLROOT;?>/css/equipmentRentals/productDetailsDiv.css">
-
+    <link rel="stylesheet" href="<?php echo URLROOT;?>/css/equipmentRentals/reviews.css">
     <link rel="stylesheet" href="<?php echo URLROOT;?>/css/Common/calendar.css">
     
     <title>Equipment</title>
@@ -49,7 +49,7 @@
     </div>
 
     <script>var bookings = <?php echo $data['bookings']; ?></script>
-    <script src="<?php echo URLROOT;?>/js/changeContent.js"></script>
+    <script src="<?php echo URLROOT;?>/js/changeContent.js" defer></script>
     <script src="<?php echo URLROOT;?>/js/Calendar.js"></script>
 
     <script>const URLROOT = "<?php echo URLROOT; ?>";</script>

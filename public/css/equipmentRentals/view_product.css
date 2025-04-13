@@ -233,6 +233,7 @@ font-weight: 600;
     padding: 18px;
     overflow-x: auto;
     width: 100%;
+    height: auto;
 }
 
 
@@ -287,6 +288,7 @@ font-weight: 600;
     padding: 20px;
     border-radius: 10px;
     width: 100%;
+    height: auto;
 }
 
 .tab-content h2 {
@@ -394,4 +396,13 @@ button[type="submit"]:hover {
 
 }
 
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  
+  #reviews, #details, #book-now{
+    animation: fadeIn 0.5s ease-out;
+  }
 

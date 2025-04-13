@@ -37,15 +37,14 @@ class Users extends Controller {
         if(isset($_SESSION['user_id'])) {
              // Get booking history
         $userId = $_SESSION['user_id'];
-        $bookingHistory = $this->userModel->getBookingHistory($userId);
-
-        // Pass data to view
+        $bookings = $this->userModel->getBookingHistory($userId);
+        $totalBookings = count($bookings);
         $data = [
-            'bookingHistory' => $bookingHistory
+            'bookings' => $bookings,
+            'booking_count' => $totalBookings
         ];
 
         $this->view('users/v_history', $data);
-
         }else{
             redirect('users/login');
         }
@@ -202,9 +201,23 @@ class Users extends Controller {
         if(isset($_SESSION['user_id'])){
             $details = $this->equipmentModel->getProductDetailsById($equipmentId);
             $bookings = $this->equipmentModel->getBookingsByEquipmentId($equipmentId);
+            $reviews = $this->equipmentModel->getReviewsByEquipmentId($equipmentId);
+            $ratings = $this->equipmentModel->getRatingsByEquipmentId($equipmentId);
+            $reviewCount = count($reviews);
+            
+            $totalRating = 0;
+            foreach ($reviews as $review) {
+                $totalRating += $review->rating;
+            }
+            $averageRating = $reviewCount > 0 ? round($totalRating / $reviewCount, 1) : 0;
+
             $data = [
                 'details' => $details,
-                'bookings' => json_encode($bookings)
+                'bookings' => json_encode($bookings),
+                'reviews' => $reviews,
+                'reviewCount' => $reviewCount,
+                'averageRating' => $averageRating,
+                'ratings' => $ratings
             ];
 
             $this->view('users/rentEquipment',$data);

@@ -6,7 +6,7 @@ document.addEventListener("DOMContentLoaded", () =>{
 
 });
 
-function openTab(event,name){
+window.openTab = function(event, name){
     let tabContent = document.getElementsByClassName("tab-content");
 
     for(let i =0; i < tabContent.length; i++){
