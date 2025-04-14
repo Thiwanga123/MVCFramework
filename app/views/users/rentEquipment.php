@@ -51,11 +51,13 @@
         
     </div>
 
+    <script>const URLROOT = "<?php echo URLROOT; ?>"; </script>
     <script>var bookings = <?php echo $data['bookings']; ?></script>
     <script src="<?php echo URLROOT;?>/js/changeContent.js" defer></script>
     <script src="<?php echo URLROOT;?>/js/Calendar.js"></script>
+    <script src="<?php echo URLROOT;?>/js/equipmentBooking.js"></script>
 
-    <script>const URLROOT = "<?php echo URLROOT; ?>";</script>
+
 
 </body>
 
