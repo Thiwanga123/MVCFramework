@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     
     <link rel="stylesheet" href="<?php echo URLROOT;?>/css/adminpage/Dashboard.css">
-    <link rel="stylesheet" href="<?php echo URLROOT;?>/css/adminpage/sidebarHeader.css">
+    <link rel="stylesheet" href="<?php echo URLROOT;?>/css/accomodation/sidebarHeader.css">
     
 
     <title>Home</title>
@@ -55,7 +55,7 @@
                     <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#5f6368"><path d="M240-200h120v-240h240v240h120v-360L480-740 240-560v360Zm-80 80v-480l320-240 320 240v480H520v-240h-80v240H160Zm320-350Z"/></svg>
                     </div>
                     <span class = "info">
-                        <h3></h3>
+                        <h3> <?php echo isset($data['totalAccommodations']) ? $data['totalAccommodations'] : 'N/A'; ?></h3>
                         <p>Total Accommadations</p>
                     </span>
                 </li>
@@ -63,7 +63,7 @@
                     <div class="view">
                     <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#5f6368"><path d="M480-160q-48-38-104-59t-116-21q-42 0-82.5 11T100-198q-21 11-40.5-1T40-234v-482q0-11 5.5-21T62-752q46-24 96-36t102-12q58 0 113.5 15T480-740v484q51-32 107-48t113-16q36 0 70.5 6t69.5 18v-480q15 5 29.5 10.5T898-752q11 5 16.5 15t5.5 21v482q0 23-19.5 35t-40.5 1q-37-20-77.5-31T700-240q-60 0-116 21t-104 59Zm80-200v-380l200-200v400L560-360Zm-160 65v-396q-33-14-68.5-21.5T260-720q-37 0-72 7t-68 21v397q35-13 69.5-19t70.5-6q36 0 70.5 6t69.5 19Zm0 0v-396 396Z"/></svg>                    </div>
                     <span class = "info">
-                        <h3></h3>
+                        <h3> <?php echo isset($totalBookings) ? $totalBookings : 'N/A'; ?> </h3>
                         <p>Total Bookings</p>
                     </span>
                 </li>
@@ -73,7 +73,7 @@
                     </div>
                     <span class = "info">
                         <h3>Rs.30,000</h3>
-                        <p>Earnings Received</p>
+                        <p>Total Withdrwals</p>
                     </span>
                 </li>
                 <li>
@@ -82,7 +82,7 @@
                     </div>
                     <span class = "info">
                         <h3>2</h3>
-                        <p>Pending Accommadations</p>
+                        <p>Pending Earnings</p>
                     </span>
                 </li>
             </ul>
@@ -92,56 +92,35 @@
                 <div class="orders">
                     <div class="header">
                         <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#000000"><path d="M120-80v-800l60 60 60-60 60 60 60-60 60 60 60-60 60 60 60-60 60 60 60-60 60 60 60-60v800l-60-60-60 60-60-60-60 60-60-60-60 60-60-60-60 60-60-60-60 60-60-60-60 60Zm120-200h480v-80H240v80Zm0-160h480v-80H240v80Zm0-160h480v-80H240v80Zm-40 404h560v-568H200v568Zm0-568v568-568Z"/></svg>
-                        <h3>Recent Orders</h3>
+                        <h3>Recent Bookings</h3>
                         <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#000000"><path d="M440-160q-17 0-28.5-11.5T400-200v-240L168-736q-15-20-4.5-42t36.5-22h560q26 0 36.5 22t-4.5 42L560-440v240q0 17-11.5 28.5T520-160h-80Zm40-308 198-252H282l198 252Zm0 0Z"/></svg>
                     </div>
                     <table>
                         <thead>
                             <tr>
                                 <th>Customer</th>
-                                <th>Booking Date</th>
-                                <th>Accommadation</th>
-                                <th>Quantity</th>
-                                <th>Status</th>
+                                <th>Check In Date</th>
+                                <th>Check Out Date</th>
+                                <th>Property Name</th>
+                                <th>Payment Status</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td>
-                                    <img src="<?php echo URLROOT;?>/Images/default profile.png">
-                                    <p>Thiwanga</p>
-                                </td>
-                                <td>21-08-2024</td>
-                                <td>Villa</td>
-                                <td>4</td>
-                                <td>
-                                    <span class="status completed">Completed</span>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                <img src="<?php echo URLROOT;?>/Images/default profile.png">
-                                    <p>Ushan</p>
-                                </td>
-                                <td>14-07-2024</td>
-                                <td>Double Room</td>
-                                <td>10</td>
-                                <td>
-                                    <span class="status pending">Pending</span>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                <img src="<?php echo URLROOT;?>/Images/default profile.png">
-                                    <p>Ruvin</p>
-                                </td>
-                                <td>01-01-2024</td>
-                                <td>Single Room</td>
-                                <td>4</td>
-                                <td>
-                                    <span class="status cancelled">Cancelled</span>
-                                </td>
-                            </tr>
+                        <?php if (!empty($data['recentBookings'])): ?>
+        <?php foreach ($data['recentBookings'] as $booking): ?>
+            <tr>
+                <td><?php echo $booking->traveler_name; ?></td>
+                <td><?php echo $booking->check_in; ?></td>
+                <td><?php echo $booking->check_out; ?></td>
+                <td><?php echo $booking->property_name; ?></td>
+                <td><?php echo $booking->payment_status; ?></td>
+            </tr>
+        <?php endforeach; ?>
+    <?php else: ?>
+        <tr>
+            <td colspan="5">No recent bookings available.</td>
+        </tr>
+    <?php endif; ?>
                         </tbody>
                     </table> 
                 </div>

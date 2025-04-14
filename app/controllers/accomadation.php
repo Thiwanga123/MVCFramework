@@ -14,21 +14,26 @@ class Accomadation extends Controller{
             $userId = $_SESSION['id'];
 
             // // Get total accommodations
-            // $totalAccommodations = $this->accomadationModel->getTotalAccommodation($userId);
+            $totalAccommodations = $this->accomadationModel->getTotalAccomadation($userId)->total_accomadation;
 
             // Get total bookings
-            // $totalBookings = $this->accomadationModel->getTotalBookings($userId);
+            $totalBookings = $this->accomadationModel->getTotalBookings($userId)->total_bookings;
 
         // Get total earnings
         // $totalEarnings = $this->accomadationModel->getTotalEarnings($userId);
 
-        // $data = [
-        //     'totalAccommodations' => $totalAccommodations,
-        //     'totalBookings' => $totalBookings,
-         
-        //     ];
+            //get the last 3 bookings
+            $recentBookings = $this->accomadationModel->getRecentBookings($userId);
 
-            $this->view('accomadation/Dashboard');
+        $data = [
+            'totalAccommodations' => $totalAccommodations,
+            'totalBookings' => $totalBookings,
+            'recentBookings' => $recentBookings,
+            
+         
+            ];
+
+            $this->view('accomadation/Dashboard',$data);
         } else {
             redirect('ServiceProvider/login');
         }

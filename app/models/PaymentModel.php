@@ -2,12 +2,14 @@
 
 class PaymentModel {
 
-    public function generatePaymentHash($order_id, $amount) {
-        $config = include 'config/payhere.php';
+    public function generatePaymentHash() {
+        $config = '<?php echo URLROOT;?>/config/payhere.php';
 
-        $merchant_id = $config['merchant_id'];
+        $order_id='ORDER123';
+        $amount=1000;
+        $merchant_id = '1229635';
         $currency = $config['currency'];
-        $merchant_secret = $config['merchant_secret'];
+        $merchant_secret = 'MTc4NjQxNDY3MzExNTkxOTYxMzIyNjMzMDAzNzk1NDE3NTI3ODk5MA==';
 
         $hash = strtoupper(md5(
             $merchant_id . 
@@ -17,7 +19,16 @@ class PaymentModel {
             strtoupper(md5($merchant_secret))
         ));
 
-        return $hash;
+        $array = array(
+            'merchant_id' => $merchant_id,
+            'order_id' => $order_id,
+            'amount' => $amount,
+            'currency' => $currency,
+            'hash' => $hash
+        );
+
+       //return $array;
+       return $array;
     }
 
     public function handleIPN() {

@@ -200,6 +200,31 @@ class M_accomadation {
         }
     }
 
+    //get the last theree bookings by the checking check_in and check_out dates
+    public function getRecentBookings($userId) {
+        try {
+            $sql = "SELECT pb.*, p.property_name, t.name as traveler_name 
+                    FROM property_booking pb
+                    JOIN properties p ON pb.property_id = p.property_id
+                    JOIN traveler t ON pb.traveler_id = t.traveler_id
+                    WHERE pb.supplier_id = ? 
+                    ORDER BY pb.check_in DESC 
+                    LIMIT 3";
+
+            $this->db->query($sql);
+            $this->db->bind(1, $userId);
+
+            $lastThreeBookings = $this->db->resultSet();
+
+ // Debugging line to check the result
+
+            return $lastThreeBookings;
+        } catch (Exception $e) {
+            echo "<script>alert('An error occurred: {$e->getMessage()}');</script>";
+            return [];
+        }
+    }
+
 
     public function getTotalAccomadation($userId) {
         try {
@@ -210,7 +235,7 @@ class M_accomadation {
 
             $totalAccomadation = $this->db->single();
 
-            print_r($totalAccomadation);
+          
 
             return $totalAccomadation;
         } catch (Exception $e) {
