@@ -79,27 +79,41 @@ class M_accomadation {
             $this->db->bind(':other_details',$data['other_details']);
             $this->db->bind(':image_path',$data['imageUrls']);
 
-
             // Execute the query
-           
             $this->db->execute();
 
             if($this->db->rowCount() > 0){
-                return true;
+                // Get the last inserted ID using a standard SQL query
+                $this->db->query("SELECT LAST_INSERT_ID() as id");
+                $result = $this->db->single();
+                return $result->id;
             } else {
                 return false;
             }
         } catch (PDOException $e) {
-            // Rollback transaction on error
-          
             error_log($e->getMessage());
             return false;
         }
     }
 
-    
-       
+    public function addPropertyImage($propertyId, $imagePath) {
+        try {
+            // Insert into property_images table
+            $sql = "INSERT INTO property_images (property_id, image_path) VALUES (?, ?)";
+            $this->db->query($sql);
+            $this->db->bind(1, $propertyId);
+            $this->db->bind(2, $imagePath);
             
+            if ($this->db->execute()) {
+                return true;
+            }
+            return false;
+        } catch (Exception $e) {
+            error_log($e->getMessage());
+            return false;
+        }
+    }
+    
     public function deleteProperty($propertyId) {
         try {
             // Check for existing bookings with check_out date today or in the future
@@ -330,6 +344,88 @@ class M_accomadation {
         } catch (Exception $e) {
             error_log($e->getMessage());
             return [];
+        }
+    }
+
+    public function updateProperty($data) {
+        try {
+            $this->db->query('UPDATE properties SET 
+                property_name = :property_name,
+                singleprice = :singleprice,
+                doubleprice = :doubleprice,
+                livingprice = :livingprice,
+                familyprice = :familyprice,
+                max_occupants = :max_occupants,
+                children_allowed = :children_allowed,
+                offers_ctos = :offers_ctos,
+                air_conditioning = :air_conditioning,
+                heating = :heating,
+                free_wifi = :free_wifi,
+                ev_charging = :ev_charging,
+                kitchen = :kitchen,
+                kitchenette = :kitchenette,
+                washing_machine = :washing_machine,
+                flat_screen_tv = :flat_screen_tv,
+                swimming_pool = :swimming_pool,
+                hot_tub = :hot_tub,
+                minibar = :minibar,
+                sauna = :sauna,
+                smoking_allowed = :smoking_allowed,
+                parties_allowed = :parties_allowed,
+                pets_allowed = :pets_allowed,
+                check_in_from = :check_in_from,
+                check_in_until = :check_in_until,
+                check_out_from = :check_out_from,
+                check_out_until = :check_out_until,
+                balcony = :balcony,
+                garden_view = :garden_view,
+                terrace = :terrace,
+                view = :view,
+                other_details = :other_details
+            WHERE property_id = :property_id');
+
+            // Bind values
+            $this->db->bind(':property_id', $data['property_id']);
+            $this->db->bind(':property_name', $data['property_name']);
+            $this->db->bind(':singleprice', $data['singleprice']);
+            $this->db->bind(':doubleprice', $data['doubleprice']);
+            $this->db->bind(':livingprice', $data['livingprice']);
+            $this->db->bind(':familyprice', $data['familyprice']);
+            $this->db->bind(':max_occupants', $data['max_occupants']);
+            $this->db->bind(':children_allowed', $data['children_allowed']);
+            $this->db->bind(':offers_ctos', $data['offers_ctos']);
+            $this->db->bind(':air_conditioning', $data['air_conditioning']);
+            $this->db->bind(':heating', $data['heating']);
+            $this->db->bind(':free_wifi', $data['free_wifi']);
+            $this->db->bind(':ev_charging', $data['ev_charging']);
+            $this->db->bind(':kitchen', $data['kitchen']);
+            $this->db->bind(':kitchenette', $data['kitchenette']);
+            $this->db->bind(':washing_machine', $data['washing_machine']);
+            $this->db->bind(':flat_screen_tv', $data['flat_screen_tv']);
+            $this->db->bind(':swimming_pool', $data['swimming_pool']);
+            $this->db->bind(':hot_tub', $data['hot_tub']);
+            $this->db->bind(':minibar', $data['minibar']);
+            $this->db->bind(':sauna', $data['sauna']);
+            $this->db->bind(':smoking_allowed', $data['smoking_allowed']);
+            $this->db->bind(':parties_allowed', $data['parties_allowed']);
+            $this->db->bind(':pets_allowed', $data['pets_allowed']);
+            $this->db->bind(':check_in_from', $data['check_in_from']);
+            $this->db->bind(':check_in_until', $data['check_in_until']);
+            $this->db->bind(':check_out_from', $data['check_out_from']);
+            $this->db->bind(':check_out_until', $data['check_out_until']);
+            $this->db->bind(':balcony', $data['balcony']);
+            $this->db->bind(':garden_view', $data['garden_view']);
+            $this->db->bind(':terrace', $data['terrace']);
+            $this->db->bind(':view', $data['view']);
+            $this->db->bind(':other_details', $data['other_details']);
+
+            // Execute the query
+            $this->db->execute();
+
+            return true;
+        } catch (Exception $e) {
+            error_log($e->getMessage());
+            return false;
         }
     }
 
