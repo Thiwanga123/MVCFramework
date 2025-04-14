@@ -1,0 +1,108 @@
+.recent-bookings-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    background-color: var(--light);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.recent-bookings-table thead {
+    background-color: #a1e3e3;
+    color: white;
+    text-align: left;
+}
+
+.recent-bookings-table th, 
+.recent-bookings-table td {
+    padding: 12px 15px;
+    text-align: left;
+    border-bottom: 1px solid rgba(66, 66, 246, 0.1);
+}
+
+.recent-bookings-table tbody tr:nth-child(even) {
+    background-color: var(--light-danger);
+}
+
+.recent-bookings-table tbody tr:nth-child(odd) {
+    background-color: white;
+}
+
+.recent-bookings-table tbody tr:hover {
+    background-color: var(--light--warning);
+    cursor: pointer;
+}
+
+.recent-bookings-table th {
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.recent-bookings-table td {
+    font-size: 14px;
+    color: var(--dark-grey);
+}
+
+.recent-bookings-table tbody tr td:last-child {
+    font-weight: bold;
+    color: var(--dark);
+}
+
+/* Style for the calendar section */
+.calendar {
+    background-color: white;
+    border-radius: 8px;
+    padding: 10px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+}
+
+.calendar .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px 0;
+    color: var(--primary);
+}
+
+.calendar .header button {
+    background-color: var(--light-primary);
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+    font-size: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+}
+
+.calendar .header button:hover {
+    background-color: var(--primary);
+}
+
+.calendar .days {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 3px;
+    margin-top: 10px;
+}
+
+.calendar .day {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 35px;
+    font-size: 14px;
+    color: var(--dark-grey);
+    border-radius: 4px;
+}
+
+/* Override the red background for booked dates with a lighter red */
+.calendar .day[style*="background-color: red"] {
+    background-color: rgb(255, 200, 200) !important;
+    color: var(--danger) !important;
+    font-weight: bold;
+}

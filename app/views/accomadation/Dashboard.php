@@ -6,6 +6,7 @@
     
     <link rel="stylesheet" href="<?php echo URLROOT;?>/css/adminpage/Dashboard.css">
     <link rel="stylesheet" href="<?php echo URLROOT;?>/css/accomodation/sidebarHeader.css">
+    <link rel="stylesheet" href="<?php echo URLROOT;?>/css/adminpage/RecentBookings.css">
     
 
     <title>Home</title>
@@ -91,11 +92,11 @@
             <div class="bottom-data">
                 <div class="orders">
                     <div class="header">
-                        <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#000000"><path d="M120-80v-800l60 60 60-60 60 60 60-60 60 60 60-60 60 60 60-60 60 60 60-60 60 60 60-60v800l-60-60-60 60-60-60-60 60-60-60-60 60-60-60-60 60-60-60-60 60-60-60-60 60Zm120-200h480v-80H240v80Zm0-160h480v-80H240v80Zm0-160h480v-80H240v80Zm-40 404h560v-568H200v568Zm0-568v568-568Z"/></svg>
+                        <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#000000"><path d="M120-80v-800l60 60 60-60 60 60 60-60 60 60 60-60 60 60 60-60 60 60 60-60v800l-60-60-60 60-60-60-60 60-60-60-60 60-60-60-60 60-60-60-60 60-60-60-60 60-60-60-60 60-60-60-60 60Zm120-200h480v-80H240v80Zm0-160h480v-80H240v80Zm0-160h480v-80H240v80Zm-40 404h560v-568H200v568Zm0-568v568-568Z"/></svg>
                         <h3>Recent Bookings</h3>
                         <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#000000"><path d="M440-160q-17 0-28.5-11.5T400-200v-240L168-736q-15-20-4.5-42t36.5-22h560q26 0 36.5 22t-4.5 42L560-440v240q0 17-11.5 28.5T520-160h-80Zm40-308 198-252H282l198 252Zm0 0Z"/></svg>
                     </div>
-                    <table>
+                    <table class="recent-bookings-table">
                         <thead>
                             <tr>
                                 <th>Customer</th>
@@ -130,13 +131,10 @@
                     <div class="header">
                         <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#000000"><path d="M200-120q-33 0-56.5-23.5T120-200v-560q0-33 23.5-56.5T200-840h440l200 200v440q0 33-23.5 56.5T760-120H200Zm0-80h560v-400H600v-160H200v560Zm80-80h400v-80H280v80Zm0-320h200v-80H280v80Zm0 160h400v-80H280v80Zm-80-320v160-160 560-560Z"/></svg>
                         <h3>Recent Updates</h3>
-        
                     </div>
-                    <ul class="update-list">
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                    </ul>
+                
+                    <div class="calendar" id="calendar"></div>
+                    <input type="hidden" id="bookingDates" value='<?php echo json_encode($data["bookingDates"]); ?>'>
                 </div>
             </div>
         
@@ -145,6 +143,7 @@
      </div>
 
      <script src="<?php echo URLROOT;?>/js/Sidebar.js"></script>
+     <script src="<?php echo URLROOT;?>/js/Calendar.js"></script>
 
 </body>
 

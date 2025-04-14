@@ -209,7 +209,7 @@ class M_accomadation {
                     JOIN traveler t ON pb.traveler_id = t.traveler_id
                     WHERE pb.supplier_id = ? 
                     ORDER BY pb.check_in DESC 
-                    LIMIT 3";
+                    LIMIT 5";
 
             $this->db->query($sql);
             $this->db->bind(1, $userId);
@@ -307,6 +307,29 @@ class M_accomadation {
             return true;
         } else {
             return false;
+        }
+    }
+
+    public function getBookingDates($userId) {
+        try {
+            $sql = "SELECT check_in, check_out FROM property_booking WHERE supplier_id = ?";
+            $this->db->query($sql);
+            $this->db->bind(1, $userId);
+            $bookings = $this->db->resultSet();
+
+            $dates = [];
+            foreach ($bookings as $booking) {
+                $start = new DateTime($booking->check_in);
+                $end = new DateTime($booking->check_out);
+                while ($start <= $end) {
+                    $dates[] = $start->format('Y-m-d');
+                    $start->modify('+1 day');
+                }
+            }
+            return $dates;
+        } catch (Exception $e) {
+            error_log($e->getMessage());
+            return [];
         }
     }
 
