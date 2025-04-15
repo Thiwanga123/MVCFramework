@@ -53,9 +53,12 @@
 
     <script>const URLROOT = "<?php echo URLROOT; ?>"; </script>
     <script>var bookings = <?php echo $data['bookings']; ?></script>
+    <script>const userId = <?php echo json_encode($data['user_id']); ?>;</script>
     <script src="<?php echo URLROOT;?>/js/changeContent.js" defer></script>
     <script src="<?php echo URLROOT;?>/js/Calendar.js"></script>
     <script src="<?php echo URLROOT;?>/js/equipmentBooking.js"></script>
+    <script src="<?php echo URLROOT;?>/js/equipmentReview.js"></script>
+
 
 
 

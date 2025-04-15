@@ -40,6 +40,11 @@
                 </div>
              </div>
 
+             <div class="addReviews">
+                   <button class="reviewBtn" id="reviewBtn">Add Review</button>
+             </div>
+             <div id="errorReviewContainer" style="display: none;"><p></p></div>
+
              <div class="content">
                 <div class="list">
 
@@ -77,5 +82,29 @@
                 </div>
        </div>
         
+
+
+       <div id="reviewModal" class="modal" style="display: none;">
+            <div class="review-modal-content">
+                <span class="close-button" id="closeReviewModal">&times;</span>
+                <h3>Leave a Review</h3>
+
+                <div id="reviewStarRating" style="margin: 10px 0;">
+                    <span class="reviewStar" data-value="1">&#9733;</span>
+                    <span class="reviewStar" data-value="2">&#9733;</span>
+                    <span class="reviewStar" data-value="3">&#9733;</span>
+                    <span class="reviewStar" data-value="4">&#9733;</span>
+                    <span class="reviewStar" data-value="5">&#9733;</span>
+                </div>
+
+                <input type="hidden" id="ratingValue" name="rating" value="0">
+
+                <textarea id="reviewText" name="review" placeholder="Write your review here..." rows="4"></textarea>
+
+                <button id="submitReview">Submit Review</button>
+
+                <p id="successModalMessage"></p>
+            </div>
+        </div>
         
         

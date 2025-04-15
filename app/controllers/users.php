@@ -212,6 +212,7 @@ class Users extends Controller {
             $averageRating = $reviewCount > 0 ? round($totalRating / $reviewCount, 1) : 0;
 
             $data = [
+                'user_id' => $_SESSION['user_id'],
                 'details' => $details,
                 'bookings' => json_encode($bookings),
                 'reviews' => $reviews,
