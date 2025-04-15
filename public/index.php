@@ -1,28 +1,46 @@
 <?php
 session_start();
- require_once '../app/bootloader.php';
+require_once __DIR__ . '/../app/bootloader.php';
+
+// Debugging: Check resolved paths and request URI
+echo 'Resolved TripController Path: ' . realpath(__DIR__ . '/../app/controllers/TripController.php') . PHP_EOL;
+echo 'Resolved GuideController Path: ' . realpath(__DIR__ . '/../app/controllers/GuideController.php') . PHP_EOL;
+echo 'Request URI: ' . $_SERVER['REQUEST_URI'] . PHP_EOL;
 
 // Include necessary controllers
-require_once '../app/controllers/TripController.php';
-require_once '../app/controllers/GuideController.php';
+require_once __DIR__ . '/../app/controllers/TripController.php';
+require_once __DIR__ . '/../app/controllers/GuideController.php';
+require_once __DIR__ . '/../app/controllers/ServiceProvider.php'; // Include ServiceProvider controller
 
-    //init Core library
-    $init = new Core();
-  
- // Add these routes
-switch ($_SERVER['REQUEST_URI']) {
-    case '/trip/create':
-        (new TripController())->create();
-        break;
+// Normalize the request URI
+$requestUri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
 
-    case '/guides/list':
-        (new GuideController())->list();
-        break;
+// Extract controller and method from the URI
+$url = explode('/', trim($requestUri, '/'));
+$controllerName = !empty($url[1]) ? ucfirst($url[1]) : 'Home'; // Default to 'Home' controller
+$methodName = !empty($url[2]) ? $url[2] : 'index'; // Default to 'index' method
 
-    // Add error handling
-    default:
+// Build the controller class name
+$controllerClass = $controllerName;
+
+
+// Check if the controller class exists
+if (file_exists(__DIR__ . '/../app/controllers/' . $controllerClass . '.php')) {
+    require_once __DIR__ . '/../app/controllers/' . $controllerClass . '.php';
+
+    // Instantiate the controller and call the method
+    if (class_exists($controllerClass)) {
+        $controller = new $controllerClass();
+
+        if (method_exists($controller, $methodName)) {
+            $controller->$methodName();
+        } else {
+            http_response_code(404);
+            echo '404 Method Not Found';
+        }
+    } else {
         http_response_code(404);
-        echo '404 Not Found';
-        break;
+        echo '404 Controller Class Not Found';
+    }
 }
 ?>
