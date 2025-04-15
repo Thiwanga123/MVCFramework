@@ -8,7 +8,7 @@ document.addEventListener("DOMContentLoaded", function () {
     console.log("Bookings", bookings);
     console.log("User ID", userId);
     
-   
+   //CHECKING THE IDEAL CONDITIONS TO LET A USER MAKE A REVIEW
     reviewBtn.addEventListener('click', function() {
         const today = new Date();
         let userHasBooking = false;
@@ -16,10 +16,10 @@ document.addEventListener("DOMContentLoaded", function () {
 
         for(let booking of bookings){
             const endDate = new Date(booking.end_date);
-            const bookingUserId = booking.user_id;
-            if (bookingUserId == userId) {
+            const bookingUserId = booking.user_id; 
+            if (bookingUserId == userId) {  // Checking if the booking belongs to the current user
                 userHasBooking = true;
-                if (booking.status.toLowerCase() === 'completed' &&endDate < today) {
+                if (booking.status.toLowerCase() === 'completed' &&endDate < today) { //Checking if the booking is completed and the rental period is over
                     canReview = true;
                     break;
                 }
@@ -43,4 +43,41 @@ document.addEventListener("DOMContentLoaded", function () {
     closeBtn.addEventListener('click', function() {
         reviewModal.style.display = 'none';
     });
+
+    //HANDLING THE STAR RATING SYSTEM IN REVIEWS
+    const stars = document.querySelectorAll(".reviewStar");
+    const ratingValueInput = document.getElementById("ratingValue");
+
+    let selectedRating = 0;
+
+    stars.forEach((star) => {
+      star.addEventListener("mouseover", () => {
+        const value = parseInt(star.getAttribute("data-value"));
+        highlightStars(value);
+      });
+
+      star.addEventListener("mouseout", () => {
+        highlightStars(selectedRating);
+      });
+
+      star.addEventListener("click", () => {
+        selectedRating = parseInt(star.getAttribute("data-value"));
+        ratingValueInput.value = selectedRating;
+        highlightStars(selectedRating);
+      });
+    });
+
+    function highlightStars(rating) {
+      stars.forEach((star) => {
+        const starValue = parseInt(star.getAttribute("data-value"));
+        if (starValue <= rating) {
+          star.style.color = "#f5c518"; 
+        } else {
+          star.style.color = "#ccc"; 
+        }
+      });
+    }
+
+    highlightStars(0);
+
 });
