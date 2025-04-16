@@ -236,15 +236,5 @@ class ServiceProvider extends Controller {
         $this->view('serviceproviders/sp_profile', $data);
     }
 }
-
-require_once dirname(__DIR__, 2) . '/libraries/Router.php'; // Dynamically resolve the correct path to Router.php
-
-if (!isset($router)) {
-    // Initialize the router if not already defined
-    $router = new Router();
-}
-
-// Add the route for ServiceProvider
-$router->add('ServiceProvider', ['controller' => 'ServiceProvider', 'action' => 'index']);
 ?>
 
