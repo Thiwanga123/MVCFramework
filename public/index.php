@@ -8,7 +8,7 @@ echo 'Resolved GuideController Path: ' . realpath(__DIR__ . '/../app/controllers
 echo 'Request URI: ' . $_SERVER['REQUEST_URI'] . PHP_EOL;
 
 // Include necessary controllers
-require_once __DIR__ . '/../app/controllers/TripController.php';
+// require_once __DIR__ . '/../app/controllers/TripController.php'; // Removed as the file no longer exists
 require_once __DIR__ . '/../app/controllers/GuideController.php';
 require_once __DIR__ . '/../app/controllers/ServiceProvider.php'; // Include ServiceProvider controller
 

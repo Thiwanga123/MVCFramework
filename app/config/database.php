@@ -1,5 +1,6 @@
 <?php
-class Database {
+if (!class_exists('Database')) {
+    class Database {
     private $host = 'localhost';
     private $user = 'root';
     private $pass = 'root';
@@ -38,4 +39,6 @@ class Database {
         return $this->stmt->fetchAll(PDO::FETCH_OBJ);
     }
 }
+}
 ?>
+
