@@ -8,11 +8,15 @@ use PHPMailer\PHPMailer\Exception;
 class Users extends Controller {
     private $userModel;
     private $equipmentModel;
+    private $reviewModel;
+    private $bookingModel;
     
 
     public function __construct() {
         $this->userModel = $this->model('M_users');
         $this->equipmentModel = $this->model('equipmentModel');
+        $this->reviewModel = $this->model('ReviewModel');
+        $this->bookingModel = $this->model('BookingModel');
     }
 
     public function index() {
@@ -200,14 +204,18 @@ class Users extends Controller {
     public function viewProduct($equipmentId){
         if(isset($_SESSION['user_id'])){
             $details = $this->equipmentModel->getProductDetailsById($equipmentId);
-            $bookings = $this->equipmentModel->getBookingsByEquipmentId($equipmentId);
-            $reviews = $this->equipmentModel->getReviewsByEquipmentId($equipmentId);
-            $ratings = $this->equipmentModel->getRatingsByEquipmentId($equipmentId);
+            $bookings = $this->bookingModel->getBookingsByEquipmentId($equipmentId);
+            $reviews = $this->reviewModel->getReviewsByEquipmentId($equipmentId);
+            $ratings = $this->reviewModel->getRatingsByEquipmentId($equipmentId);
             $reviewCount = count($reviews);
             
             $totalRating = 0;
+            $userReview = null;
             foreach ($reviews as $review) {
                 $totalRating += $review->rating;
+                if ($review->traveler_id == $_SESSION['user_id']) {
+                    $userReview = $review;
+                }
             }
             $averageRating = $reviewCount > 0 ? round($totalRating / $reviewCount, 1) : 0;
 
@@ -216,6 +224,7 @@ class Users extends Controller {
                 'details' => $details,
                 'bookings' => json_encode($bookings),
                 'reviews' => $reviews,
+                'userReview' => $userReview,
                 'reviewCount' => $reviewCount,
                 'averageRating' => $averageRating,
                 'ratings' => $ratings

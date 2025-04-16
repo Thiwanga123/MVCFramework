@@ -11,7 +11,7 @@ document.addEventListener("DOMContentLoaded", function(){
 
     const startDateInput = document.getElementById("booking_start_date");
     const endDateInput = document.getElementById("booking_end_date");
-
+    
     let totalPrice = null;
 
     startDateInput.addEventListener('change', updateTotalPrice);
@@ -29,10 +29,6 @@ document.addEventListener("DOMContentLoaded", function(){
                     method: "POST",
                     body: formData,
                 });
-                        
-                //Debugging
-                const contentType = response.headers.get("Content-Type");
-                console.log("Content-Type:", contentType);
                 
                 let resultText; 
                 if (response.ok) {
