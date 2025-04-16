@@ -88,6 +88,9 @@
                 <div class="list">
 
                     <?php foreach($data['reviews'] as $review):?>
+                        <?php if(isset($data['userReview']) && $review->review_id == $data['userReview']->review_id){
+                            continue;
+                        }?>
                         <div class="card">
                             <div class="card-top">
                                 <div class="left">
