@@ -182,6 +182,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     if(deleteBtn){
       deleteBtn.addEventListener('click', function () {
+        console.log(deleteModal);
         deleteModal.style.display = 'flex';
       });
     }

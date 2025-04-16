@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="<?php echo URLROOT;?>/css/equipmentRentals/productDetailsDiv.css">
     <link rel="stylesheet" href="<?php echo URLROOT;?>/css/equipmentRentals/reviews.css">
     <link rel="stylesheet" href="<?php echo URLROOT;?>/css/equipmentRentals/booking.css">
+    <link rel="stylesheet" href="<?php echo URLROOT;?>/css/Modals/logoutModal.css">
 
     <link rel="stylesheet" href="<?php echo URLROOT;?>/css/Common/calendar.css">
     
@@ -48,6 +49,8 @@
             </main>
         </div>
 
+        <?php include_once APPROOT . '/views/users/includes/components/logoutModal.php'; ?>
+
         
     </div>
 
@@ -58,7 +61,8 @@
     <script src="<?php echo URLROOT;?>/js/Calendar.js"></script>
     <script src="<?php echo URLROOT;?>/js/equipmentBooking.js"></script>
     <script src="<?php echo URLROOT;?>/js/equipmentReview.js"></script>
-
+    <script src="<?php echo URLROOT;?>/js/logout.js"></script>
+    <script src="<?php echo URLROOT;?>/js/subMenu.js"></script>
 
 
 

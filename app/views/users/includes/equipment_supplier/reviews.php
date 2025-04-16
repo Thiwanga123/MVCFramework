@@ -156,7 +156,7 @@
 
         
 
-        <div id="reviewDeleteModal" class="modal" style="display: none;" <?php if (isset($userReview)) : ?> data-review-id="<?php echo htmlspecialchars($userReview->review_id); ?>"<?php endif; ?>> >
+        <div id="reviewDeleteModal" class="modal" style="display: none;" <?php if (isset($userReview)) : ?> data-review-id="<?php echo htmlspecialchars($userReview->review_id); ?>"<?php endif; ?> > 
             <div class="review-modal-content">
                 <div class="deleteContent" id="deleteContent">
                     <span class="close-button" id="closeReviewDeleteModal">&times;</span>
@@ -179,7 +179,10 @@
         </div>
 
 
-        <div id="reviewEditModal" class="modal" style="display: none;" data-product-id="<?php echo htmlspecialchars($details->id); ?>" data-review-id="<?php echo htmlspecialchars($data['userReview']->review_id); ?>)">
+        <div id="reviewEditModal" class="modal" style="display: none;" 
+            <?php if (isset($userReview)) : ?> data-review-id="<?php echo htmlspecialchars($userReview->review_id); ?>"<?php endif; ?> 
+            <?php if (isset($userReview)) : ?> data-product-id="<?php echo htmlspecialchars($userReview->equipment_id); ?>"<?php endif; ?> 
+            >
             <div class="review-modal-content">
                 <div class="editContent" id="editContent">
                     <span class="close-button" id="closeReviewEditModal">&times;</span>
