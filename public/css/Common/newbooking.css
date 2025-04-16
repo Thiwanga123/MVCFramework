@@ -20,7 +20,8 @@ a {
     border-radius: 8px;
     padding: 20px;
     height: auto;
-    min-height: calc(100vh - 80px); /* Adjust height to fit the screen */
+    min-height: calc(100vh - 80px);
+    animation: fadeIn 0.4s ease-in-out;
 }
 
 .content main .header {
@@ -128,30 +129,38 @@ a {
     color: white;
 }
 
-/* Amount Column */
 .content main .history-container table td:nth-child(8) {
     font-weight: 500;
     color: #2d3748;
 }
 
-/* Mobile-Friendly Adjustments: */
+@keyframes fadeIn {
+    from {opacity: 0;}
+    to {opacity: 1;}
+}
+
+@keyframes slideUp {
+    from {transform: translateY(40px); opacity: 0;}
+    to {transform: translateY(0); opacity: 1;}
+}
+
 @media (max-width: 768px) {
     .search-container {
-        flex-direction: column;  /* Stack the items vertically */
-        align-items: stretch;    /* Make them stretch to fill the container */
+        flex-direction: column; 
+        align-items: stretch;  
     }
 
     .search-item {
-        width: 100%; /* Ensure each item takes full width */
+        width: 100%; 
     }
 
     .search-item input[type="text"], 
     .search-item select {
-        width: 100%;  /* Input fields take up full width on small screens */
+        width: 100%;
     }
 
     .search-btn {
-        width: 100%;  /* Make the button fill available space */
+        width: 100%;  
     }
 }
 

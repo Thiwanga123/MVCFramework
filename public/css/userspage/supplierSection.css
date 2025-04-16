@@ -28,6 +28,7 @@ a {
     background-color: white;
     border-radius: 8px;
     padding: 20px;
+    animation: fadeIn 0.4s ease-in-out;
 }
 
 .filter .filter-btn{
@@ -397,6 +398,18 @@ a {
     margin-top: 5px; 
     display: block; 
 }
+
+
+@keyframes fadeIn {
+    from {opacity: 0;}
+    to {opacity: 1;}
+}
+
+@keyframes slideUp {
+    from {transform: translateY(40px); opacity: 0;}
+    to {transform: translateY(0); opacity: 1;}
+}
+ 
 
 /* Mobile-Friendly Adjustments: */
 @media (max-width: 768px) {

@@ -392,9 +392,41 @@ button[type="submit"]:hover {
     transform: translateY(-2px);
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
 }
+    
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  
+  #reviews, #details, #book-now{
+    animation: fadeIn 0.5s ease-out;
+  }
 
-    /* Responsive Adjustments */
-    @media (max-width: 768px) {
+
+   /* Responsive Adjustments */
+  @media (max-width: 768px) {
+    .content nav {
+        padding: 10px;
+        gap: 16px;
+    }
+
+    .content nav .div {
+        gap: 18px;
+    }
+
+    .content nav form {
+        width: 100%;
+        margin-right: 0;
+    }
+
+    .content nav .updates {
+        order: 1;
+    }
+
+    .content nav .profile {
+        order: 2;
+    }
+
     .form-input {
         width: 200px;
     }
@@ -416,9 +448,9 @@ button[type="submit"]:hover {
     nav {
         padding: 10px 15px;
     }
-    }
+}
 
-    @media (max-width: 576px) {
+@media (max-width: 576px) {
     .form-input {
     display: none;
     }
@@ -440,68 +472,30 @@ button[type="submit"]:hover {
 
 }
 
+    @media (max-width: 480px) {
+        .content nav {
+            flex-direction: column;
+            height: auto;
+            align-items: stretch;
+        }
 
-@keyframes fadeIn {
-    from { opacity: 0; transform: translateY(20px); }
-    to { opacity: 1; transform: translateY(0); }
-  }
-  
-  #reviews, #details, #book-now{
-    animation: fadeIn 0.5s ease-out;
-  }
+        .content nav .logo-box {
+            justify-content: flex-start;
+        }
 
-  @media (max-width: 768px) {
-    .content nav {
-        padding: 10px;
-        gap: 16px;
+        .content nav .profile img {
+            width: 40px;
+            height: 40px;
+        }
+
+        .content nav form .form-input button svg {
+            height: 24px;
+            width: 24px;
+        }
+
+        .content nav .updates .count {
+            font-size: 0.6rem;
+            width: 16px;
+            height: 16px;
+        }
     }
-
-    .content nav .div {
-        gap: 18px;
-    }
-
-    .content nav form {
-        width: 100%;
-        margin-right: 0;
-    }
-
-    .content nav form .form-input {
-        width: 100%;
-    }
-
-    .content nav .updates {
-        order: 1;
-    }
-
-    .content nav .profile {
-        order: 2;
-    }
-}
-
-@media (max-width: 480px) {
-    .content nav {
-        flex-direction: column;
-        height: auto;
-        align-items: stretch;
-    }
-
-    .content nav .logo-box {
-        justify-content: flex-start;
-    }
-
-    .content nav .profile img {
-        width: 40px;
-        height: 40px;
-    }
-
-    .content nav form .form-input button svg {
-        height: 24px;
-        width: 24px;
-    }
-
-    .content nav .updates .count {
-        font-size: 0.6rem;
-        width: 16px;
-        height: 16px;
-    }
-}
