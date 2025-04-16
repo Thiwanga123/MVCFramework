@@ -236,5 +236,7 @@ class ServiceProvider extends Controller {
         $this->view('serviceproviders/sp_profile', $data);
     }
 }
+
+$router->add('ServiceProvider', ['controller' => 'ServiceProvider', 'action' => 'index']);
 ?>
 
