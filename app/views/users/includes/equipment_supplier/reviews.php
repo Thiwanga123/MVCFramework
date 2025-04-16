@@ -176,7 +176,7 @@
         </div>
 
 
-        <div id="reviewEditModal" class="modal" style="display: none;" data-product-id="<?php echo htmlspecialchars($details->id); ?>" >
+        <div id="reviewEditModal" class="modal" style="display: none;" data-product-id="<?php echo htmlspecialchars($details->id); ?>" data-review-id="<?php echo htmlspecialchars($data['userReview']->review_id); ?>)">
             <div class="review-modal-content">
                 <div class="editContent" id="editContent">
                     <span class="close-button" id="closeReviewEditModal">&times;</span>
@@ -204,6 +204,12 @@
                     <img src="<?php echo URLROOT;?>/Images/1930264_check_complete_done_green_success_icon.png" alt="" class="reviewDeleteIcon">
                     <p id="editSuccessModalMessage"></p>
                 </div> 
+
+                <div class="editErrorContent" style="display: none;" id="editErrorContent">
+                    <span class="close-button" id="closeReviewEditErrorModal">&times;</span>
+                    <img src="<?php echo URLROOT;?>/Images/warning.png" alt="" class="reviewDeleteIcon">
+                    <p id="editErrorModalMessage"></p>
+                </div>
             </div>
         </div>
 

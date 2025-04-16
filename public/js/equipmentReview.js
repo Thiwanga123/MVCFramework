@@ -88,7 +88,6 @@ document.addEventListener("DOMContentLoaded", function () {
     const insertContent = document.getElementById('insertContent');
     const insertSuccessContent = document.getElementById('insertSuccessContent');
     const insertSuccessMessage = document.getElementById('insertSuccessModalMessage');
-
     const closeInsertSuccessModal = document.getElementById('closeReviewinsertSuccessModal');
     const closeInsertModal = document.getElementById('closeReviewInsertModal');
 
@@ -111,6 +110,8 @@ document.addEventListener("DOMContentLoaded", function () {
     if(closeInsertSuccessModal){
       closeInsertSuccessModal.addEventListener('click', function () {
         reviewModal.style.display = 'none';
+        location.reload();
+
       });
     }
 
@@ -148,8 +149,6 @@ document.addEventListener("DOMContentLoaded", function () {
             insertSuccessContent.style.display = "flex";
             insertSuccessMessage.textContent = result.message || "Review submitted successfully!";
             insertSuccessMessage.style.display = "flex";
-
-            location.reload();
           }else{
             errorMessage.textContent = result.message || "Failed to submit review. Please try again.";
             errorMessage.style.display = "flex";
@@ -243,14 +242,23 @@ document.addEventListener("DOMContentLoaded", function () {
     const saveBtn = document.getElementById('submitEditReviewBtn');
     const saveRatingValueInput = document.getElementById("editRatingValue");
     const editReviewText = document.getElementById('editReviewText');
+    const editContent = document.getElementById('editContent');
+    const editSuccessContent = document.getElementById('editSuccessContent');
+    const editSuccessModalMessage = document.getElementById('editSuccessModalMessage');
+    const editErrorContent = document.getElementById('editErrorContent');
+    const editErrorModalMessage = document.getElementById('editErrorModalMessage');
+    const closeReviewEditErrorModal = document.getElementById('closeReviewEditErrorModal');
+    const closeReviewEditSuccessModal = document.getElementById('closeReviewEditSuccessModal');
 
 
+    closeReviewEditErrorModal.addEventListener('click', function() {
+      reviewEditModal.style.display = 'none';
+    });
+    
     if(editBtn){
       editBtn.addEventListener('click', function(){
-        const reviewId = this.getAttribute('data-review-id');
         const ratingValueInput = document.getElementById("editRatingValue");
         let selectedRating = parseInt(ratingValueInput.value) || 0; 
-        console.log(selectedRating);
         reviewEditModal.style.display = 'flex';
         highlightStars(selectedRating);
 
@@ -276,11 +284,13 @@ document.addEventListener("DOMContentLoaded", function () {
 
     if(saveBtn){
       saveBtn.addEventListener('click', async function(){
-        const productId = reviewModal.dataset.productId;
-        const rating = ratingValueInput.value;
+        const productId = reviewEditModal.dataset.productId;
+        const reviewId = reviewEditModal.dataset.reviewId;
+        const rating = saveRatingValueInput.value; 
         const comment = editReviewText.value;
 
         formData = new FormData();
+        formData.append("reviewId", reviewId);
         formData.append("productId", productId);
         formData.append("rating", rating);
         formData.append("comment", comment);
@@ -290,29 +300,51 @@ document.addEventListener("DOMContentLoaded", function () {
             method: "POST",
             body: formData,
           });
-
-          if(response.ok){
-            const result = await response.json();
-            console.log("JSON Response:", result);
-           
-            location.reload();
-          }else{
-           
+      
+          if (response.ok) {
+              const result = await response.json();
+              console.log("JSON Response:", result);
+              
+            if(result.success){
+              editContent.style.display = "none";
+              editSuccessContent.style.display = "flex";
+              editSuccessModalMessage.textContent = result.message || "Review Updated successfully!";
+            }else{
+              editContent.style.display = "none";
+              editErrorContent.style.display = "flex"
+              editErrorModalMessage.textContent = result.message || "Failed to submit review. Please try again.";
+              editErrorModalMessage.style.display = "flex";
+            }
+          } else {
+              const errorText = await response.text();
+              console.log("Error Text:", errorText);
+              editContent.style.display = "none";
+              editErrorContent.style.display = "flex"
+              editErrorModalMessage.textContent =  "An error occurred while processing your request. Please try again later.";
+              editErrorModalMessage.style.display = "flex";
           }
-        
-        }catch(error){
-          console.error("Error:", error);
-          errorMessage.textContent = "An error occurred while processing your request. Please try again later.";
-          errorMessage.style.display = "block";
-          return;
+        } catch (error) {
+          console.error("Error occurred during fetch:", error);
+              editContent.style.display = "none";
+              editErrorContent.style.display = "flex"
+              editErrorModalMessage.textContent =  "An error occurred while processing your request. Please try again later.";
+              editErrorModalMessage.style.display = "flex";
         }
-    })
-  }  
+  });  
+}
 
     closeEditModal.addEventListener('click', function(){
       reviewEditModal.style.display = 'none';
     });
 
+    if(closeReviewEditSuccessModal){
+      closeReviewEditSuccessModal.addEventListener('click',function() {
+        editSuccessModalMessage.textContent = "";
+        reviewEditModal.style.display = 'none';
+        location.reload();
+      });
+    }
 
+  
 });
 

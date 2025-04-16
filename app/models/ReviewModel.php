@@ -86,12 +86,12 @@ class ReviewModel {
     }
 
     public function updateEquipmentReview($data){
-        $sql = "UPDATE rental_equipment_review SET rating = ?, comment = ? WHERE review_id = ?;";
+        $sql = "UPDATE rental_equipments_reviews SET rating = ?, comment = ?, created_at = NOW() WHERE review_id = ?;";
         try{
             $this->db->query($sql);
             $this->db->bind(1, $data['rating']);
-            $this->db->bind(1, $data['comment']);
-            $this->db->bind(1, $data['reviewId']);
+            $this->db->bind(2, $data['comment']);
+            $this->db->bind(3, $data['reviewId']);
 
             $result = $this->db->execute();
             if($result){

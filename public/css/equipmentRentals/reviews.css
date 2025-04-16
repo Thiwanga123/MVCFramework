@@ -421,7 +421,7 @@
   font-size: 16px;
 }
 
-.deleteSuccessContent, .insertSuccessContent{
+.deleteSuccessContent, .insertSuccessContent, .editSuccessContent, .editErrorContent{
   display: flex;
   flex-direction: column;
   align-items: center;
