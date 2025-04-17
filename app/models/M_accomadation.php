@@ -166,7 +166,11 @@ class M_accomadation{
     //get the bookings from the property_booking table to the related service provider
     public function getBookings($userId) {
         try {
-            $sql = "SELECT * FROM property_booking WHERE supplier_id = ?";
+            $sql = "SELECT pb.*, t.name as traveler_name, p.property_name, p.property_type
+                FROM property_booking pb
+                JOIN traveler t ON pb.traveler_id = t.traveler_id
+                JOIN properties p ON pb.property_id = p.property_id
+                WHERE pb.supplier_id = ?";
 
             $this->db->query($sql);
             $this->db->bind(1, $userId);
@@ -174,6 +178,64 @@ class M_accomadation{
             $bookings = $this->db->resultSet();
 
             return $bookings;
+        } catch (Exception $e) {
+            echo "<script>alert('An error occurred: {$e->getMessage()}');</script>";
+            return [];
+        }
+    }
+
+    public function getTotalBookings($userId) {
+        try {
+            $sql = "SELECT COUNT(*) as total_bookings FROM property_booking WHERE supplier_id = ?";
+
+            $this->db->query($sql);
+            $this->db->bind(1, $userId);
+
+            $totalBookings = $this->db->single();
+
+            return $totalBookings;
+        } catch (Exception $e) {
+            echo "<script>alert('An error occurred: {$e->getMessage()}');</script>";
+            return [];
+        }
+    }
+
+
+    public function getTotalAccomadation($userId) {
+        try {
+            $sql = "SELECT COUNT(*) as total_accomadation FROM properties WHERE service_provider_id = ?";
+
+            $this->db->query($sql);
+            $this->db->bind(1, $userId);
+
+            $totalAccomadation = $this->db->single();
+
+            print_r($totalAccomadation);
+
+            return $totalAccomadation;
+        } catch (Exception $e) {
+            echo "<script>alert('An error occurred: {$e->getMessage()}');</script>";
+            return [];
+        }
+    }
+
+    //get the Payments from the property_booking table to the related service provider
+
+    public function getPayments($userId) {
+        try {
+            $sql = "SELECT p.*, t.name as traveler_name, pr.property_name
+            FROM property_booking p
+            JOIN traveler t ON p.traveler_id = t.traveler_id
+            JOIN properties pr ON p.property_id = pr.property_id
+            WHERE p.supplier_id = ?";
+
+            $this->db->query($sql);
+            $this->db->bind(1, $userId);
+
+            $payments = $this->db->resultSet();
+
+            return $payments;
+
         } catch (Exception $e) {
             echo "<script>alert('An error occurred: {$e->getMessage()}');</script>";
             return [];

@@ -1,46 +1,4 @@
 
-
-.content main {
-    justify-content: center;
-    align-items: center;
-    width: 100%;
-    padding: 20px 24px;
-    max-height: calc(100vh - 56px);
-}
-
-.content main .header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-bottom: 20px;
-    flex-wrap: wrap;
-}
-
-.content main .header .left h1 {
-    font-size: 32px;
-    font-weight: 600;
-    margin-bottom: 10px;
-    color: var(--light-primary);
-}
-
-.content main .header .add-btn{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background: rgb(12, 12, 85);
-    color: whitesmoke;
-    padding: 8px;
-    border-radius: 20px;
-    cursor: pointer;
-    gap: 1px;
-    border: none;
-    transition: all 0.3s ease-out;
-}
-
-.content main .header .add-btn:hover{
-    background-color: teal;
-}
-
 .content main .Inventory{
     display: flex;
     flex-wrap: wrap;
@@ -56,99 +14,118 @@
     width: 100%;
 }
 
-.content main .Inventory .header{
+.product-container {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 25px;
+    padding: 20px;
+}
+
+.product-card {
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease;
+    overflow: hidden;
     display: flex;
-    align-items: center;
-    gap: 16px;
-    margin-bottom: 24px;
+    flex-direction: column;
 }
 
-.content main .Inventory .header h3{
-    margin-right: auto;
-    font-size: 24px;
-    font-weight: 600;
+.product-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
 }
 
-.content main .Inventory .header svg{
-   cursor: pointer;
-}
-
-.content main .Inventory table{
+.product-card .img {
     width: 100%;
-    border-collapse: collapse;
+    height: 200px;
+    overflow: hidden;
+    padding: 25px;
 }
 
-.content main .Inventory table th{
-    padding-bottom: 12px;
-    font-size: 14px;
-    text-align: left;
-    border-bottom: 1px solid var(--light-success);
+.product-card .img img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 10px;
 }
 
-.content main .Inventory table td{
-    padding: 16px 0;
+.details {
+    padding: 15px;
+    text-align: center;
 }
 
-
-.content main .Inventory table tbody tr{
-    cursor: pointer;
-    transition: all 0.3s ease;
+.details h4 {
+    margin: 0;
+    font-size: 16px;
+    color: #333;
 }
 
-table tbody tr td img {
-    width: 50px;  
-    height: 50px; 
-    object-fit: cover; 
-    border-radius: 5px;
+.details h4:first-child {
+    margin-bottom: 8px;
 }
 
-    
-.content main .Inventory table tbody tr:hover{
-    background: var(--grey);
+/* For the price */
+.details h4:last-child {
+    color: #333;
+    font-weight: bold;
 }
 
-.Action{
+.ratings {
+    padding: 15px;
     display: flex;
-    gap: 10px; 
-    transition: all 0.3s ease;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: auto; /* Pushes ratings to bottom */
 }
 
-.Action .edit svg:hover{
-    fill: rgb(1, 14, 191);
+.star-rating {
+    display: flex;
+    gap: 2px;
 }
 
-.Action .delete svg:hover{
-    fill: red;
+.star {
+    color: #ffd700;
+    font-size: 22px;
 }
 
-
-.btn {
-    padding: 6px 16px;
-    border: none;
-    border-radius: 6px;
-    color: white;
-    cursor: pointer;
-    font-size: 0.9em;
-    transition: transform 0.2s, box-shadow 0.2s;
+.rating-count {
+    margin-left: 10px;
 }
 
-.btn:hover {
-    transform: translateY(-1px);
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+.rating-count h4 {
+    margin: 0;
+    font-size: 14px;
+    color: #666;
 }
 
-.btn-view {
-    background: #059669;
+.rating-count h4 span{
+    font-size: 20px;
+    color: rgb(74, 70, 70);
+    font-weight: 200;
 }
 
-.btn-edit {
-    background: #1d4ed8;
+/* Responsive grid layouts */
+@media (max-width: 1400px) {
+    .product-container {
+        grid-template-columns: repeat(4, 1fr);
+    }
 }
 
-.btn-delete {
-    background: #dc2626;
+@media (max-width: 1200px) {
+    .product-container {
+        grid-template-columns: repeat(3, 1fr);
+    }
 }
 
+@media (max-width: 900px) {
+    .product-container {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
 
-
-
+@media (max-width: 600px) {
+    .product-container {
+        grid-template-columns: 1fr;
+    }
+}

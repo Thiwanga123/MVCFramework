@@ -10,7 +10,7 @@ class BookingModel{
 
    public function getBookings($guider_id){
 //get the bookings from the database with the relavent guiderid
-    $this->db->query('SELECT * FROM bookings WHERE guider_id = :guider_id');
+    $this->db->query('SELECT * FROM bookings WHERE id = :guider_id');
 
     $this->db->bind(':guider_id', $guider_id);
 
@@ -23,7 +23,7 @@ class BookingModel{
 public function getGuiderBookings($guider_id){
    
     //count the bookings by the guider id
-    $this->db->query('SELECT COUNT(*) as number_of_bookings FROM bookings WHERE guider_id = :guider_id');
+    $this->db->query('SELECT COUNT(*) as number_of_bookings FROM bookings WHERE id = :guider_id');
 
     $this->db->bind(':guider_id', $guider_id);
 
@@ -34,12 +34,14 @@ public function getGuiderBookings($guider_id){
 
 //get the available bookings with the relavannt of the guider
 public function getAvailability($guider_id){
-    $this->db->query('SELECT * FROM guider_availability WHERE guider_id = :guider_id');
+    $this->db->query('SELECT * FROM guider_availability WHERE id = :guider_id');
 
     $this->db->bind(':guider_id', $guider_id);
 
     $results = $this->db->resultSet();
     return $results;
+
+
 
 
 
@@ -118,6 +120,42 @@ public function updateProfile($data){
     }
 
 }
+
+
+
+//////////////////////////////////////////////////////////// EQUIPMENT BOOKINGS////////////////////////////////////////////////////////////////////////////
+
+    public function addEquipmentBooking($data){   
+        $sql = "INSERT INTO rental_equipment_bookings (user_id, equipment_id, supplier_id, start_date, end_date, total_price) VALUES (?, ?, ?, ?, ?, ?)";
+        try{
+            $this->db->query($sql);
+            $this->db->bind(1,$data['user_id']);
+            $this->db->bind(2,$data['product_id']);
+            $this->db->bind(3,$data['supplier_id']);
+            $this->db->bind(4,$data['booking_start_date']);
+            $this->db->bind(5,$data['booking_end_date']);
+            $this->db->bind(6,$data['totalPrice']);
+            return $this->db->execute();
+        }catch(Exception $e){
+            $error_msg = $e->getMessage();
+            echo "<script>alert('An error occured: $error_msg');</script>";
+            return false;
+        }
+    }
+
+    public function getBookingsByEquipmentId($productId){
+        $sql = "SELECT user_id, start_date, end_date, status FROM rental_equipment_bookings WHERE equipment_id = ?";
+        try{
+            $this->db->query($sql);
+            $this->db->bind(1,$productId);
+            $result = $this->db->resultSet();
+            return $result;
+        }catch(Exception $e){
+            $error_msg = $e->getMessage();
+            echo "<script>alert('An error occured: $error_msg');</script>";
+            return false;
+        }
+    }
 
 
 }

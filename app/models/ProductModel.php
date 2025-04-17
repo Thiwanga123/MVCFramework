@@ -3,50 +3,73 @@
  class ProductModel{
 
     private $db;
+    private $errorMessage = ''; 
 
     public function __construct() {
         $this->db = new Database();
     }
 
-    public function addProduct($supplierId, $productName, $rate, $category, $quantity, $description) {
+    public function addProduct($data) {
+
         try {
-            $row = $this->getCategoryIdByName($category);
+            $supplierId = $data['id'];
+            $rentalName = $data['rentalName'];
+            $rentalType = $data['rentalType'];
+            $pricePerDay = $data['pricePerDay'];
+            $maximumRentalPeriod = $data['maximumRentalPeriod'];
+            $deliveryAvailable = $data['deliveryAvailable'];
+            $rentalDescription = $data['rentalDescription'];
+            $returnPolicy = $data['returnPolicy'];
+            $fullRefundTime = $data['fullRefundTime'];
+            $partialRefundTime = $data['partialRefundTime'];
+            $partialRefundPercentage = $data['partialRefundPercentage'];
+            $damagePolicy = $data['damagePolicy'];
+
+            $row = $this->getCategoryIdByName($rentalType);
     
             if (!$row || !isset($row->category_id)) {
                 throw new Exception("Category not found.");
             }
     
             $categoryId = $row->category_id;
-    
-            echo "Supplier: $supplierId, Product: $productName, Rate: $rate, Category: $categoryId, Quantity: $quantity, Description: $description";
-    
-            $sql = "INSERT INTO products (supplier_id, product_name, rate, category_id, quantity, description) 
-                    VALUES (?, ?, ?, ?, ?, ?)";
-    
-            $this->db->query($sql);
-            $this->db->bind(1, $supplierId);
-            $this->db->bind(2, $productName);
-            $this->db->bind(3, $rate);
-            $this->db->bind(4, $categoryId);
-            $this->db->bind(5, $quantity);
-            $this->db->bind(6, $description);
-    
-            if ($this->db->execute()) {
-                $productId = $this->db->insertId(); 
-                echo "Inserted Product ID: $productId";
-                return $productId;
-            } else {
-                throw new Exception("Error inserting product.");
+        
+            $sql = "INSERT INTO rental_equipments
+            (supplier_id, rental_name, category_id, price_per_day, maximum_rental_period, 
+             delivery_available, rental_description, return_policy, full_refund_time, 
+             partial_refund_time, partial_refund_percentage, damage_policy) 
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+
+                // Execute the query
+                $this->db->query($sql);
+                $this->db->bind(1, $supplierId);
+                $this->db->bind(2, $rentalName);
+                $this->db->bind(3, $categoryId);
+                $this->db->bind(4, $pricePerDay);
+                $this->db->bind(5, $maximumRentalPeriod);
+                $this->db->bind(6, $deliveryAvailable);
+                $this->db->bind(7, $rentalDescription);
+                $this->db->bind(8, $returnPolicy);
+                $this->db->bind(9, $fullRefundTime);
+                $this->db->bind(10, $partialRefundTime);
+                $this->db->bind(11, $partialRefundPercentage);
+                $this->db->bind(12, $damagePolicy);
+
+                if ($this->db->execute()) {
+                    $productId = $this->db->insertId();  // Get the ID of the newly inserted product
+                    return $productId;
+                } else {
+                    throw new Exception("Error inserting product.");
+                }
+            } catch (Exception $e) {
+                $this->errorMessage = $e->getMessage();
+                return false;
             }
-        } catch (Exception $e) {
-            echo "Error: " . $e->getMessage();
-            return false;
-        }
     }
         
     public function addProductImage($supplierId, $productId, $imagePath) {
         try {
-            $sql = "INSERT INTO product_images (supplier_id, product_id, image_path) VALUES (?, ?, ?)";
+           
+            $sql = "INSERT INTO rental_images (supplier_id, product_id, image_path) VALUES (?, ?, ?)";
             $this->db->query($sql);
 
             $this->db->bind(1, $supplierId);
@@ -60,12 +83,25 @@
             }
     
         } catch (Exception $e) {
-            $error_msg = $e->getMessage();
-            echo "<script>alert('An error occurred: $error_msg');</script>";
+            $this->errorMessage = $e->getMessage();
             return false;
         }
     }
 
+    public function getAllCategories(){
+        try{
+            $sql = "SELECT * FROM equipment_categories";
+            $this->db->query($sql);
+
+            if ($this->db->execute()) {                
+                $result = $this->db->resultSet();
+                return $result;
+            } 
+        }catch(Exception $e){
+            echo "Error: " . $e->getMessage() . "<br>";
+        return false;
+        }
+    }
 
     public function getCategoryIdByName($category){
         try{
@@ -84,13 +120,13 @@
 
     public function getAllProducts($supplierId){
         try{
-            $sql = "SELECT p.*, c.category_name, i.image_path 
-                    FROM products p
-                    JOIN equipment_categories c ON p.category_id = c.category_id
-                    LEFT JOIN (SELECT product_id, MIN(image_path) AS image_path FROM product_images
+            $sql = "SELECT r.*, c.category_name, i.image_path 
+                    FROM rental_equipments r
+                    JOIN equipment_categories c ON r.category_id = c.category_id
+                    LEFT JOIN (SELECT product_id, MIN(image_path) AS image_path FROM rental_images
                     GROUP BY product_id) i
-                    ON p.product_id = i.product_id
-                    WHERE p.supplier_id = ?";
+                    ON r.id = i.product_id
+                    WHERE r.supplier_id = ?";
 
             $this->db->query($sql);
             $this->db->bind(1,$supplierId);
@@ -100,9 +136,8 @@
             return $result;            
 
         }catch(Exception $e){
-            $error_msg = $e->getMessage();
-                echo "<script>alert('An error occurred: $error_msg');</script>";
-                return false;
+            $this->errorMessage = $e->getMessage();
+            return false;
         }
     }
 
@@ -121,11 +156,12 @@
 
     public function getProductDetailsById($productId){
         try{
-            $sql = 'SELECT p.*, c.category_name
-                    FROM products p
-                    JOIN equipment_categories c ON p.category_id = c.category_id
-                    WHERE p.product_id = ?';
-
+            $sql = 'SELECT r.*, c.category_name, GROUP_CONCAT(i.image_path) AS image_paths
+                    FROM rental_equipments r
+                    JOIN equipment_categories c ON r.category_id = c.category_id
+                    LEFT JOIN rental_images i ON r.id = i.product_id
+                    WHERE r.id = ?
+                    GROUP BY r.id';
                     
             $this->db->query($sql);
             $this->db->bind(1,$productId);
@@ -134,7 +170,6 @@
             if (!$result) {
                 throw new Exception("Product not found.");
             }
-            
             return $result; 
 
         }catch(Exception $e){
@@ -179,10 +214,16 @@
             echo "<script>alert('An error occured: $error_msg');</script>";
             return false;
         }
-        }
+    }
+
+
+    public function getErrorMessage() {
+        return $this->errorMessage;
+    }
+        
+    
     }
 
     
-
 
 ?>

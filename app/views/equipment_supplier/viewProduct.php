@@ -1,135 +1,180 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="<?php echo URLROOT;?>/css/common/productdetails.css">
-    <link rel="stylesheet" href="<?php echo URLROOT;?>/css/Modals/deleteWarningModal.css">
-    <title>Sign Up</title>
+    <link rel="stylesheet" href="<?php echo URLROOT;?>/css/Common/ProductDetails.css">
+    <link rel="stylesheet" href="<?php echo URLROOT;?>/css/Common/sidebarHeader.css">
+    
+    <title>Product Details</title>
 </head>
 <body>
-    <div class="container">
-            <div class="top">
-                <div class="logo">
-                    <a href="<?php echo URLROOT;?>/pages/home" class = "logo">
-                    <img src="<?php echo URLROOT;?>/Images/Logo1.png">
-                    <p>JOURNEY <br><span>BEYOND</span></p>
-                </div>
+    <div class="box" id="box">
+    <!-- SideBar -->
+    <?php include('productSidebar.php'); ?>
+    
+    <!-- Main Content -->
+        <main>
 
-                <div class="prof">
-                    <a href="#" class="profile">
-                    <img src="<?php echo URLROOT;?>/Images/Profile pic.jpg">
-                    </a>
-                </div>
+        <!-- <?php var_dump($rental) ?>;  -->
+        <hr>
 
+            <div class="header">
+                <h1>Product Details</h1>      
             </div>
 
-            <div class="content">
-                <div class="details">
-                    <h2>Product Details :</h2>
+            <div class="container">
+            <form method="POST" action="submit-product-details.php">
+                <div class="details-top">
+                    <div class="left">
+                            <?php
+                                $imagePaths = explode(',', $rental->image_paths);
+                            ?>
+                            <div class="image-top">
+                                <button type="button" class="change-image" id="prevImage" onclick="previousImage()">
+                                    <svg xmlns="http://www.w3.org/2000/svg" height="28px" viewBox="0 -960 960 960" width="28px" fill="#e8eaed">
+                                        <path d="M640-80 240-480l400-400 71 71-329 329 329 329-71 71Z"/>
+                                    </svg>
+                                </button>
 
-                    <form id="editProductForm" action="<?php echo URLROOT; ?>/product/updateProduct" method="POST">
+                                <img src="<?php echo URLROOT . '/' . $imagePaths[0]; ?>" alt="Main Image" id="mainImage">
 
-                    <div class="actions">
-                            <button class="edit" id="edit">Edit Product</button>
-                            <button type="submit" class="save" id="save" style="display: none;">Save</button>
-                            <button class="delete" id="delete" data-product-id="<?php echo $data['product']->product_id; ?>">Delete Product</button>
+                            <button type="button" class="change-image" id="nextImage" onclick="nextImage()">
+                                    <svg xmlns="http://www.w3.org/2000/svg" height="28px" viewBox="0 -960 960 960" width="28px" fill="#e8eaed">
+                                        <path d="m321-80-71-71 329-329-329-329 71-71 400 400L321-80Z"/>
+                                    </svg>
+                                </button>
+                            </div>
 
-                        </div>
+                            <div class="image-bottom">
+                                <?php foreach ($imagePaths as $imagePath): ?>
+                                    <div class="image-thumbnail">
+                                        <img src="<?php echo URLROOT . '/' . $imagePath; ?>" alt="Thumbnail Image" onclick="changeMainImage('<?php echo URLROOT . '/' . $imagePath; ?>')">
+                                    </div>
+                                <?php endforeach; ?>
+                            </div>
+                    </div>
+                    <div class="right">
+                    <h2>Basic Details</h2>
 
                         <div class="product-details">
-                            <div class="left">
-                                <div class="slider-container">
-                                    <div class="slider">
-                                        <?php if (!empty($data['product']->images)): ?>
-                                            <?php foreach ($data['product']->images as $image): ?>
-                                                <div class="slide">
-                                                    <img src="<?php echo URLROOT . '/' . $image; ?>" alt="Product Image">
-                                                </div>
-                                            <?php endforeach; ?>
-                                        <?php else: ?>
-                                            <div class="slide">
-                                                <img src="<?php echo URLROOT; ?>/Images/default_product.png" alt="Default Image">
-                                            </div>
-                                        <?php endif; ?>
+                            <label for="product-name">Rental Name</label>
+                            <input type="text" id="product-name" name="product-name" value="<?php echo htmlspecialchars($rental->rental_name); ?> ">
+
+                            <label for="product-price">Price (Per day)</label>
+                            <input type="number" id="product-price" name="product-price" value="<?php echo htmlspecialchars($rental->price_per_day); ?>">
+
+                            <label for="product-category">Category</label>
+                            <input type="text" id="product-category" name="product-category" value="<?php echo htmlspecialchars($rental->category_name); ?>">
+
+                            <label for="max-rental-period">Maximum Rental Period (Days)</label>
+                            <input type="number" id="max-rental-period" name="max-rental-period" value="<?php echo htmlspecialchars($rental->maximum_rental_period); ?>">
+
+                            <label for="delivery-available">Delivery Available</label>
+                                <div>
+                                    <div class="group">
+                                        <input type="radio" id="delivery-yes" name="delivery-available" value="yes" 
+                                            <?php echo ($rental->delivery_available == 'yes') ? 'checked' : ''; ?>>
+                                        <label for="delivery-yes">Yes</label>
                                     </div>
-                                    <button class="prev" onclick="moveSlide(-1)">&#10094;</button>
-                                    <button class="next" onclick="moveSlide(1)">&#10095;</button>
+                                    <div class="group">
+                                        <input type="radio" id="delivery-no" name="delivery-available" value="no" 
+                                            <?php echo ($rental->delivery_available == 'no') ? 'checked' : ''; ?>>
+                                        <label for="delivery-no">No</label>
+                                    </div>
                                 </div>
-                            </div>
-
-                            <div class="right">
-                                <label for="productId">Product ID</label>
-                                <input type="text" value="<?php echo $data['product']->product_id; ?>" readonly>
-
-                                
-            <label for="productName">Product Name</label>
-            <input type="text" name="productName" value="<?php echo isset($_SESSION['old_input']['productName']) ? $_SESSION['old_input']['productName'] : $data['product']->product_name; ?>" 
-                   <?php echo isset($_SESSION['errors']['nameError']) ? 'style="border-color: red;"' : ''; ?> 
-                   <?php echo isset($_SESSION['errors']['nameError']) ? 'aria-invalid="true"' : ''; ?>>
-            <?php if (isset($_SESSION['errors']['nameError'])): ?>
-                <p style="color: red;"><?php echo $_SESSION['errors']['nameError']; ?></p>
-            <?php endif; ?>
-
-            <label for="productCategory">Category</label>
-            <select id="productCategoryEdit" name="productCategory" required style="width: 100%; max-width: 300px; height: 40px;" 
-                    <?php echo isset($_SESSION['errors']['categoryError']) ? 'style="border-color: red;"' : ''; ?>>
-                <option disabled selected><?php echo isset($_SESSION['old_input']['productCategory']) ? $_SESSION['old_input']['productCategory'] : $data['product']->category_name; ?></option>
-                <option value="Camping & Outdoor Gear" <?php echo (isset($_SESSION['old_input']['productCategory']) && $_SESSION['old_input']['productCategory'] == 'Camping & Outdoor Gear') ? 'selected' : ''; ?>>Camping & Outdoor Gear</option>
-                <option value="Luggage & Bags" <?php echo (isset($_SESSION['old_input']['productCategory']) && $_SESSION['old_input']['productCategory'] == 'Luggage & Bags') ? 'selected' : ''; ?>>Luggage & Bags</option>
-                <option value="Music & Entertainment" <?php echo (isset($_SESSION['old_input']['productCategory']) && $_SESSION['old_input']['productCategory'] == 'Music & Entertainment') ? 'selected' : ''; ?>>Music & Entertainment</option>
-                <option value="Photography & Videography Gear" <?php echo (isset($_SESSION['old_input']['productCategory']) && $_SESSION['old_input']['productCategory'] == 'Photography & Videography Gear') ? 'selected' : ''; ?>>Photography & Videography Gear</option>
-            </select>
-            <?php if (isset($_SESSION['errors']['categoryError'])): ?>
-                <p style="color: red;"><?php echo $_SESSION['errors']['categoryError']; ?></p>
-            <?php endif; ?>
-
-            <label for="stockQuantity">Stock Quantity</label>
-            <input type="number" id="stockQuantityEdit" name="stockQuantity" min="1" max="15" value="<?php echo isset($_SESSION['old_input']['stockQuantity']) ? $_SESSION['old_input']['stockQuantity'] : $data['product']->quantity; ?>" required>
-            <?php if (isset($_SESSION['errors']['quantityError'])): ?>
-                <p style="color: red;"><?php echo $_SESSION['errors']['quantityError']; ?></p>
-            <?php endif; ?>
-
-            <label for="productDescription">Description</label>
-            <textarea name="productDescription" <?php echo isset($_SESSION['errors']['descriptionError']) ? 'style="border-color: red;"' : ''; ?>><?php echo isset($_SESSION['old_input']['productDescription']) ? $_SESSION['old_input']['productDescription'] : $data['product']->description; ?></textarea>
-            <?php if (isset($_SESSION['errors']['descriptionError'])): ?>
-                <p style="color: red;"><?php echo $_SESSION['errors']['descriptionError']; ?></p>
-            <?php endif; ?>
-
-            <label for="productRate">Rate</label>
-            <input type="text" name="productRate" value="<?php echo isset($_SESSION['old_input']['productRate']) ? $_SESSION['old_input']['productRate'] : $data['product']->rate; ?>" 
-                   <?php echo isset($_SESSION['errors']['rateError']) ? 'style="border-color: red;"' : ''; ?>>
-            <?php if (isset($_SESSION['errors']['rateError'])): ?>
-                <p style="color: red;"><?php echo $_SESSION['errors']['rateError']; ?></p>
-            <?php endif; ?>
-                            </div>
                         </div>
-
-                    </form>
-
-                
-                        <div class="reviews">
-
-                        </div>
-
-                        <div class="booking-history">
-                            
-                        </div>
-
+                    </div>    
                 </div>
-              
-            </div>
+                <div class="bottom">
+                    <h2>Description</h2>
+                        <label for="rentalDescription"></label>
+                        <textarea id="rentalDescription" name="rentalDescription" rows="4" cols="50">
+                            <?php echo htmlspecialchars(trim($rental->rental_description)); ?> 
+                        </textarea>
+
+                    <h2>Policies</h2>
+                    <label for="returnPolicy">Return Policy:</label>
+                            <select id="returnPolicy" name="returnPolicy" required>
+                                <option value="noReturn" <?php echo ($rental->return_policy == 'noReturn') ? 'selected' : ''; ?>>No return policies</option>
+                                <option value="fullRefund" <?php echo ($rental->return_policy == 'fullRefund') ? 'selected' : ''; ?>>Full refund</option>
+                                <option value="partialRefund" <?php echo ($rental->return_policy == 'partialRefund') ? 'selected' : ''; ?>>Partial refund</option>
+                                <option value="bothRefunds" <?php echo ($rental->return_policy == 'bothRefunds') ? 'selected' : ''; ?>>Both full and partial refund</option>
+                            </select>
+
+                    <div id="fullRefundSection">
+                        <h4>Full refund:</h4>
+                        <label for="fullRefundTime">Cancel Time (hours before pickup for full refund):</label>
+                        <select id="fullRefundTime" name="fullRefundTime" required>
+                            <option value="12">12 hours</option>
+                            <option value="24">24 hours</option>
+                            <option value="36">36 hours</option>
+                            <option value="48">48 hours</option>
+                        </select>
+                        <span id="fullRefundTime-error" class="error-message"></span>
+
+                    </div>
+
+                            <!-- Partial Refund Time -->
+                    <div id="partialRefundSection" style="display: none;">
+                        <h4>Partial refund:</h4>
+                        <div>
+                            <div class="div">
+                                <label for="partialRefundTime">Cancel Time (hours before pickup for partial refund):</label>
+                                <select id="partialRefundTime" name="partialRefundTime" required>
+                                    <option value="12">12 hours</option>
+                                    <option value="24">24 hours</option>
+                                    <option value="36">36 hours</option>
+                                    <option value="48">48 hours</option>
+                                </select>
+                                <span id="partialRefundTime-error" class="error-message"></span>
+
+                            </div>
+                            <div>
+                                <label for="partialRefundPercentage">Partial Refund Percentage:</label>
+                                <input type="number" id="partialRefundPercentage" name="partialRefundPercentage" min="0" max="100" step="10">
+                                <span id="partialRefundPercentage-error" class="error-message"></span>
+                            </div>
+                        </div>
+                    </div>
+
+                            <label for="damagePolicy">Damage Policy:</label>
+                            <textarea id="damagePolicy" name="damagePolicy" rows="4" cols="50" required></textarea>
+                            <span id="damagePolicy-error" class="error-message"></span>
+                </div>
+            </form>
         </div>
 
-        <?php
-        include('Warning_Modal.php');;
-         ?>
+        </main>
+    </div>
 
-        <script src="<?php echo URLROOT;?>/js/warningModel.js" ></script>  
-        <script src="<?php echo URLROOT;?>/js/editProduct.js" ></script>  
-        <script>const URLROOT = "<?php echo URLROOT; ?>";</script>
+    <script src="<?php echo URLROOT;?>/js/Sidebar.js" ></script> 
+    <script src="<?php echo URLROOT;?>/js/ImageSlider.js" ></script> 
+    <script> const URLROOT = "<?php echo URLROOT; ?>"; </script>
 
+    <script>
+         let currentIndex = 0;
+    
+    const imagePaths = <?php echo json_encode(array_map(fn($path) => URLROOT . '/' . trim($path), $imagePaths)); ?>;
 
-</body>
+     function changeMainImage(imagePath) {
+        document.getElementById('mainImage').src = imagePath;
+        currentIndex = imagePaths.indexOf(imagePath); 
+        }
+
+        function previousImage() {
+            currentIndex = (currentIndex > 0) ? currentIndex - 1 : imagePaths.length - 1;
+            updateMainImage();
+        }
+
+        function nextImage() {
+            currentIndex = (currentIndex < imagePaths.length - 1) ? currentIndex + 1 : 0;
+            updateMainImage();
+        }
+
+        function updateMainImage() {
+            document.getElementById('mainImage').src = imagePaths[currentIndex];
+        }
+    </script>
+    </body>
 </html>

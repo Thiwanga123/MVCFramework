@@ -3,64 +3,107 @@
 class ReviewModel {
     private $db;
 
-    public function __construct($db) {
-        $this->db = $db;
-    }
-    public function getReviewsByTourGuideId($tourGuideId) {
-        $sql = "SELECT * FROM reviews WHERE tour_guide_id = :tour_guide_id";
-        $stmt = $this->db->prepare($sql);
-        $stmt->bindParam(':tour_guide_id', $tourGuideId);
-        $stmt->execute();
-        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    public function __construct() {
+        $this->db = new Database();
     }
 
-    public function getReviewById($reviewId) {
-        $sql = "SELECT * FROM reviews WHERE id = :id";
-        $stmt = $this->db->prepare($sql);
-        $stmt->bindParam(':id', $reviewId);
-        $stmt->execute();
-        return $stmt->fetch(PDO::FETCH_ASSOC);
-    }
+    /////////////////////////////////////////      EQUIPMENT REVIEWS SECTION      /////////////////////////////////////////
 
-    public function updateReview($reviewId, $rating, $comment) {
-        $sql = "UPDATE reviews SET rating = :rating, comment = :comment, updated_at = NOW() WHERE id = :id";
-        $stmt = $this->db->prepare($sql);
-        $stmt->bindParam(':id', $reviewId);
-        $stmt->bindParam(':rating', $rating);
-        $stmt->bindParam(':comment', $comment);
-
-        if ($stmt->execute()) {
-            return true;
-        } else {
+    public function getReviewsByEquipmentId($equipmentId){
+       
+        $sql = "SELECT r.* , t.name 
+                FROM rental_equipments_reviews r 
+                JOIN traveler t ON r.traveler_id = t.traveler_id  
+                WHERE r.equipment_id = ?";
+        try{
+            $this->db->query($sql);
+            $this->db->bind(1,$equipmentId);
+            $result = $this->db->resultSet();
+            return $result;
+        }catch(Exception $e){
+            $error_msg = $e->getMessage();
+            echo "<script>alert('An error occured: $error_msg');</script>";
             return false;
         }
     }
 
-    public function deleteReview($reviewId) {
-        $sql = "DELETE FROM reviews WHERE id = :id";
-        $stmt = $this->db->prepare($sql);
-        $stmt->bindParam(':id', $reviewId);
+    public function getRatingsByEquipmentId($equipmentId){
+        $sql = "SELECT rating, COUNT(*) as total
+                FROM rental_equipments_reviews
+                WHERE equipment_id = ?
+                GROUP BY rating
+                ORDER BY rating DESC";
 
-        if ($stmt->execute()) {
-            return true;
-        } else {
+        try{
+            $this->db->query($sql);
+            $this->db->bind(1,$equipmentId);
+            $result = $this->db->resultSet();
+            return $result; 
+        }catch(Exception $e){
+            $error_msg = $e->getMessage();
+            echo "<script>alert('An error occured: $error_msg');</script>";
             return false;
         }
     }
-    public function createReview($tourGuideId, $userId, $rating, $comment) {
-        $sql = "INSERT INTO reviews (tour_guide_id, user_id, rating, comment, created_at) VALUES (:tour_guide_id, :user_id, :rating, :comment, NOW())";
-        $stmt = $this->db->prepare($sql);
-        
-        $stmt->bindParam(':tour_guide_id', $tourGuideId);
-        $stmt->bindParam(':user_id', $userId);
-        $stmt->bindParam(':rating', $rating);
-        $stmt->bindParam(':comment', $comment);
 
-        if ($stmt->execute()) {
-            return true;
-        } else {
+
+    public function addEquipmentReview($data){
+        try{
+            $sql = 'INSERT INTO rental_equipments_reviews (equipment_id, traveler_id, rating, comment) VALUES (?, ?, ?, ?)';
+            $this->db->query($sql);
+            $this->db->bind(1, $data['productId']);
+            $this->db->bind(2, $data['userId']);
+            $this->db->bind(3, $data['rating']);
+            $this->db->bind(4, $data['comment']);
+
+            $result = $this->db->execute();
+            if($result){
+                return true;
+            }else{
+                throw new Exception("Error in inserting review into the database.");
+            }
+        }catch(Exception $e){
+            echo "Error: " . $e->getMessage() . "<br>";
             return false;
         }
     }
+
+    public function deleteEquipmentReview($data){
+        $sql = "DELETE FROM rental_equipments_reviews WHERE review_id = ?";
+        try{
+            $this->db->query($sql);
+            $this->db->bind(1, $data['reviewId']);
+            $result = $this->db->execute();
+            if($result){
+                return true;
+            }else{
+                throw new Exception("Error in deleting review from the database.");
+            }
+        }catch(Exception $e){
+            echo "Error: " . $e->getMessage() . "<br>";
+            return false;
+        }
+    }
+
+    public function updateEquipmentReview($data){
+        $sql = "UPDATE rental_equipments_reviews SET rating = ?, comment = ?, created_at = NOW() WHERE review_id = ?;";
+        try{
+            $this->db->query($sql);
+            $this->db->bind(1, $data['rating']);
+            $this->db->bind(2, $data['comment']);
+            $this->db->bind(3, $data['reviewId']);
+
+            $result = $this->db->execute();
+            if($result){
+                return true;
+            }else{
+                throw new Exception("Error in deleting review from the database.");
+            }
+        }catch(Exception $e){
+            echo "Error: " . $e->getMessage() . "<br>";
+            return false;
+        }
+    }
+
 }
 ?>

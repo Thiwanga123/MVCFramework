@@ -10,7 +10,6 @@ class Equipment_Suppliers extends Controller{
         $this->productModel = $this->model('ProductModel');
         $this->supplierModel = $this->model('SupplierModel');
         $this->userModel = $this->model('ServiceProviderModel');
-
     }
 
     public function index(){
@@ -23,28 +22,46 @@ class Equipment_Suppliers extends Controller{
             $this->view('equipment_supplier/Dashboard');
         } else {
             redirect('ServiceProvider');
-        }
-       
-    
-}
-
-
-
-    public function myInventory(){
-
-        if (isset($_SESSION['id'])) {
-
-            $supplierId = $_SESSION['id'];
-
-            $this->productModel = $this->model('ProductModel');
-            $products = $this->productModel->getAllProducts($supplierId);
-            $this->view('equipment_supplier/MyInventory',['products' => $products]);
-
-        } else {
-            redirect('ServiceProvider');
-        }
-
+        } 
     }
+
+
+
+    // public function myInventory(){
+
+    //     if (isset($_SESSION['id'])) {
+
+    //         $supplierId = $_SESSION['id'];
+    //         $this->productModel = $this->model('ProductModel');
+    //         $products = $this->productModel->getAllProducts($supplierId);
+    //         $data = [
+    //             'products' => $products,
+    //             'breadcrumbs' => $this->generateBreadcrumbs()
+    //         ];
+            
+    //         $this->view('equipment_supplier/MyInventory',$data);
+
+    //     } else {
+    //         redirect('ServiceProvider');
+    //     }
+
+    // }
+
+    
+    public function myInventory(){
+        if(isset($_SESSION['id'])){
+            $rentals = $this->productModel->getAllProducts($_SESSION['id']);
+            $data = [
+                'rentals' =>  $rentals  
+            ];
+            
+            $this->view('equipment_supplier/MyInventory', $data);
+        }else{
+            redirect("ServiceProvider");
+        }
+    }
+
+
 
     public function orders(){
         
@@ -104,6 +121,40 @@ class Equipment_Suppliers extends Controller{
         } else {
             redirect('ServiceProvider');
         }
+    }
+
+    public function addProduct(){
+
+        if (isset($_SESSION['id'])) {
+            $supplierId = $_SESSION['id'];
+            $this->productModel = $this->model('ProductModel');
+            $categories = $this->productModel->getAllCategories();
+            $data = [
+                'categories' => $categories,
+            ];
+            $this->view('equipment_supplier/AddProduct', $data);
+        } else {
+            redirect('ServiceProvider');
+        }
+    }
+
+    public function generateBreadcrumbs(){
+        $path = trim($_SERVER['REQUEST_URI'], '/');
+        $parts = explode('/', $path);
+        $url = URLROOT;
+        $breadcrumbs = [];
+
+        $breadcrumbs[] = ['name' => 'Home', 'url' => URLROOT];
+
+        for($i = 0; $i <count($parts); $i++){
+            $url .= "/". $parts[$i];
+
+            $breadcrumbs[] = [
+                'name' =>ucfirst(str_replace("-", " ", $parts[$i])), 
+                'url' => $url
+            ];
+        }
+        return $breadcrumbs;
     }
 
     public function getProfileDetails($id, $type){

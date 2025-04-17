@@ -182,6 +182,23 @@
             return $results;
         }
 
+        //get the total serviceproviders from the database
+        public function getTotalServiceProviders(){
+            $this->db->query('
+            SELECT SUM(total_service_providers) as total_service_providers FROM (
+            SELECT COUNT(id) as total_service_providers FROM accomadation
+            UNION ALL
+            SELECT COUNT(id) as total_service_providers FROM vehicle_suppliers
+            UNION ALL
+            SELECT COUNT(id) as total_service_providers FROM equipment_suppliers
+            UNION ALL
+            SELECT COUNT(id) as total_service_providers FROM tour_guides
+        ) as combined_counts
+        ');
+            $row=$this->db->single();
+            return $row->total_service_providers;
+        }
+
 
     }
 
