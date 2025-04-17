@@ -49,6 +49,7 @@ class Users extends Controller {
 
         if(isset($_SESSION['user_id'])) {
             //when Enter the location, number of guests, and the budget then click the search button, after that the system will display the available accomodations
+            
             $this->view('users/v_accomadation');
         }else{
             redirect('users/login');
@@ -466,6 +467,58 @@ public function weather(){
 public function planhome(){
     if(isset($_SESSION['user_id'])) {
         $this->view('users/planHome');
+    }else{
+        redirect('users/login');
+    }
+}
+
+public function showaccommodation(){
+    if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+        // Sanitize POST data
+        $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
+
+        // Get the form data
+        $data=[
+            $location = trim($_POST['location']),
+            $people = trim($_POST['people']),
+            $start_date = trim($_POST['startDate']),
+            $end_date = trim($_POST['endDate']),
+        ];
+
+     
+
+        // Call the model to search for accommodations
+        if($showaccomadation=$this->userModel->showAccommodation($data)){
+            // If the search is successful, load the view with the search results
+            $data = [
+                'showaccomadation' => $showaccomadation
+            ];
+
+            //print the data
+            
+            // Load the view with the search results
+            $this->view('users/bookAccomodations',$data );
+        } else {
+            // If the search is not successful, load the view with an error message
+            $this->view('users/notfound');
+        }
+
+
+}
+
+}
+
+
+public function showGuider(){
+    if(isset($_SESSION['user_id'])) {
+        $guide=$this->userModel->getGuider();
+
+
+   
+        $data = [
+            'guide' => $guide
+        ];
+        $this->view('users/bookguider',$data);
     }else{
         redirect('users/login');
     }

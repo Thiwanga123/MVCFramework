@@ -16,8 +16,10 @@ class Admin extends Controller {
         //if an admin is logged in
         if (isset($_SESSION['user_id'])) {
             $number_of_travelers = $this->adminModel->getNumberOfTravelers();
+            $total_service_providers = $this->adminModel->getTotalServiceProviders();
             $data=[
-                'number_of_travelers'=>$number_of_travelers
+                'number_of_travelers'=>$number_of_travelers,
+                'total_service_providers'=>$total_service_providers
             ];
             $this->view('admin/v_dashboard', $data);
         } else {

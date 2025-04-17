@@ -21,6 +21,11 @@
                 map: map
             });
         }
+ 
+        function goBack() {
+            window.history.back();
+        }
+   
     </script>
     <style>
         body {
@@ -713,7 +718,7 @@
    
 
     <!-- Fixed Back to Search Button -->
-    <a href="<?php echo URLROOT;?>/users/accomadation"><button class="fixed-button">Back to search</button></a>
+    <button class="fixed-button" onclick="goBack()">Back to search</button></a>
 
     <script>
         let totalAmount = 0;
