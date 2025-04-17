@@ -2,10 +2,10 @@
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
-if (!isset($_SESSION['id']) || $_SESSION['id'] != 5) {
+//if (!isset($_SESSION['id']) || $_SESSION['id'] != 5) {
     header('Location: ' . URLROOT . '/login');
     exit();
-}
+//}
 ?>
 
 <!DOCTYPE html>
