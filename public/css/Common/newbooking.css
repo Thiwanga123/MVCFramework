@@ -10,6 +10,12 @@ a {
     text-decoration: none; /* Optional: To remove underline from the link */
 }
 
+.content main {
+    align-items: center;
+    width: 100%;
+    padding: 10px 20px;
+}
+
 .content main .history-container{
     display: flex;
     flex-direction: column;

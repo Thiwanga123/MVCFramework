@@ -4,69 +4,77 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="<?php echo URLROOT;?>/css/Common/Profile_pre.css">
+    <link rel="stylesheet" href="<?php echo URLROOT;?>/css/Modals/logoutModal.css">
+
     <title>Profile</title>
 </head>
 <body>
-    <!-- SideBar -->
-    <?php require APPROOT . '/views/inc/components/usersidebar.php'; ?>
-     <!-- End Of Sidebar -->
-
-     <!--Main Content-->
+    <div class="box">
+        <!-- SideBar -->
+        <?php require APPROOT . '/views/inc/components/usersidebar.php'; ?>
+        <!-- End Of Sidebar -->
     
+            <main>
+                <div class="profile-container">
+                    <div class="header">
+                        <h1>My Profile</h1>
+                    </div>
 
-        <main>
-            <div class="header">
-                <div class="left">
-                    <h1>User Information</h1>
-                </div>
-            </div>
-            
-            <!--send the details with the SESSION_ID in post method-->
-            <form action="<?php echo URLROOT; ?>users/updateprofile/<?php echo $_SESSION['user_id'];?>"  method="POST">
-            <div class="profile">
-                <div class="profile-left">
-                <img src="<?php echo URLROOT;?>/Images/Profile pic.jpg" alt="">
-                </div>
-                
-                <div class="profile-center">
-                    <h4>Name</h4>
-                    <input type="name" id="name" name="name" value="<?php echo $data['name'];?>">
-                    <h4>Email</h4>
-                    <input type="email" id="email" name="email" value="<?php echo $data['email'];?>">
-                    <h4>Telephone Number</h4>
-                    <input type="phone_number" id="phone_number" name="phone_number" value="<?php echo $data['phone_number'];?>">
-                   
-                    
-                </div>
+                    <div class="profileContentMain">
+                        <div class="profile-top">
+                            <div class="imageDiv">
+                                <div class="div1">
+                                    <img src="<?php echo URLROOT;?>/Images/Profile pic.jpg">
+                                    <button class="change-btn" id="imageChangeBtn">Change Image</button>
+                                </div>
+                                <div class="div2">
+                                    <h4><?php echo htmlspecialchars($data['details']->name); ?></h4>
+                                    <h5><?php echo htmlspecialchars($data['details']->email); ?></h5>
 
-                <div class="profile-right">
-                    
-                    
-                    <h4>NIC number</h4>
-                    <input type="nic" id="nic" name="nic"value="<?php echo $data['nic'];?>">
-                    <h4>Password</h4>
-                   
+                                </div>
+                            </div>
 
-                  <!--get the password from the user-->
-               
-                    <input type="password" id="password" name="password" required>
-                    <h4>Confirm Passowrd</h4>
-                    <input type="password" id="confirm_password" name="confirm_password" required>
-            
-                    
+                            <div class="editBtn">
+                            <button class="editProfile" id="editProfileBtn">Edit</button>
+                            </div>
+                        </div>
+
+                        <div class="profileContent">
+                            <form action="" method="POST">
+                                <div class="profile-center">
+                                    <div class="left">
+                                        <h4>Name</h4>
+                                        <input type="name" id="name" name="name" value="<?php echo $data['details']->name; ?>">
+                                        <h4>Email</h4>
+                                        <input type="email" id="email" name="email" value="<?php echo $data['details']->email; ?>">
+                                    </div>
+
+                                    <div class="right">
+                                        <h4>Username</h4>
+                                        <input type="businessName" id="businessName" name="businessName" value="<?php echo $data['details']->username; ?>">
+                                        <h4>Contact Number</h4>
+                                        <input type="presentAddress" id="presentAddress" name="presentAddress" value="<?php echo $data['details']->telephone_number; ?>">
+                                    </div>
+                                </div>
+
+                                <div class="profile-actions">
+                                    <div class="group">
+                                        <button type="submit">Confirm Changes</button>
+                                    </div>
+
+                                    <button type="submit" class="delete">Delete My Account</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
                 </div>
-                <div class="profile-actions">
-                    <input type="Submit"></input>
-                </div>
-                </form>
-            </div>
-            
-         
-        </main>
-
-    </div>
-
+            </main>
+        </div>
+  
     <script src="<?php echo URLROOT;?>/js/Sidebar.js"></script>
+    <script src="<?php echo URLROOT;?>/js/logout.js"></script>
+    <script src="<?php echo URLROOT;?>/js/submenu.js"></script>
+
 </body>
 
 </html>

@@ -14,6 +14,19 @@ class M_users{
         return $this->db->resultSet();
     }
 
+    public function getUserDetailsById($userId){
+        $sql = "SELECT name, email, username, telephone_number, date_of_joined FROM traveler WHERE traveler_id = ?";
+        try {
+            $this->db->query($sql);
+            $this->db->bind(1, $userId); 
+            $result = $this->db->single();
+            return $result;        
+        } catch (Exception $e) {
+            error_log("Error fetching user by ID: " . $e->getMessage());
+            return [];
+        }
+    }
+
     public function findUsersByEmail($email,$table){
         $sql = "SELECT * FROM $table WHERE email = :email";
         try{

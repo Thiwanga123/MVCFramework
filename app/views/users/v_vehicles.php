@@ -7,6 +7,8 @@
     <link rel="stylesheet" href="<?php echo URLROOT;?>/css/adminpage/sidebarHeader.css">
     <link rel="stylesheet" href="<?php echo URLROOT;?>/css/Common/MyInventorys.css">
     <link rel="stylesheet" href="<?php echo URLROOT;?>/css/Modals/UpdateVehicleModal.css">
+    <link rel="stylesheet" href="<?php echo URLROOT;?>/css/Modals/logoutModal.css">
+
     <title>Vehicles</title>
 </head>
 <body>
@@ -104,5 +106,7 @@
     <script src="<?php echo URLROOT;?>/js/Sidebar.js"></script>
     <script src="<?php echo URLROOT;?>/js/editVehicle.js"></script>
     <script src="<?php echo URLROOT;?>/js/ImagePreview.js"></script>
+    <script src="<?php echo URLROOT;?>/js/logout.js"></script>
+    <script src="<?php echo URLROOT;?>/js/submenu.js"></script>
 </body>
 </html>

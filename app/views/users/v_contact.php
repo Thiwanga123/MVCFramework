@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="<?php echo URLROOT;?>/css/adminpage/sidebarHeader.css">
     <link rel="stylesheet" href="<?php echo URLROOT;?>/css/Common/Profile_pre.css">
+    <link rel="stylesheet" href="<?php echo URLROOT;?>/css/Modals/logoutModal.css">
+
     <title>Contact</title>
 </head>
 <body>
@@ -70,6 +72,8 @@
 
      
      <script src="<?php echo URLROOT;?>/js/Sidebar.js"></script>
+     <script src="<?php echo URLROOT;?>/js/logout.js"></script>
+    <script src="<?php echo URLROOT;?>/js/submenu.js"></script>
 </body>
 
 </html>

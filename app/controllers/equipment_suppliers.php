@@ -22,10 +22,8 @@ class Equipment_Suppliers extends Controller{
             $this->view('equipment_supplier/Dashboard');
         } else {
             redirect('ServiceProvider');
-        }
-       
-    
-}
+        } 
+    }
 
 
 

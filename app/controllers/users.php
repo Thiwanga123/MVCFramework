@@ -187,7 +187,12 @@ class Users extends Controller {
 
     public function profile(){
         if(isset($_SESSION['user_id'])) {
-            $this->view('users/v_profile');
+            $userId = $_SESSION['user_id'];
+            $details = $this->userModel->getUserDetailsById($userId);
+            $data = [
+                'details' => $details
+            ];
+            $this->view('users/v_profile', $data);
         }else{
             redirect('users/login');
         }

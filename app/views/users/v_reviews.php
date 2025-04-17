@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="<?php echo URLROOT;?>/css/Common/MyInventory.css">
     <link rel="stylesheet" href="<?php echo URLROOT;?>/css/Common/sidebarHeader.css">
+    <link rel="stylesheet" href="<?php echo URLROOT;?>/css/Modals/logoutModal.css">
+
     <title>Reviews</title>
 </head>
 <body>
@@ -102,6 +104,8 @@
     <script src="<?php echo URLROOT;?>/js/addProduct.js"></script>
     <script src="<?php echo URLROOT;?>/js/ImagePreview.js"></script>
     <script src="<?php echo URLROOT;?>/js/warningModel.js"></script>
+    <script src="<?php echo URLROOT;?>/js/logout.js"></script>
+    <script src="<?php echo URLROOT;?>/js/submenu.js"></script>
      
 </body>
 

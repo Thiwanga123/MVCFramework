@@ -84,3 +84,5 @@
         </nav>
 
 
+        <?php include_once APPROOT . '/views/users/includes/components/logoutModal.php'; ?>
+
