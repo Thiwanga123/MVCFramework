@@ -3,8 +3,8 @@ session_start();
 require_once __DIR__ . '/../app/bootloader.php';
 
 // Debugging: Check resolved paths and request URI
-echo 'Resolved TripController Path: ' . realpath(__DIR__ . '/../app/controllers/TripController.php') . PHP_EOL;
-echo 'Resolved GuideController Path: ' . realpath(__DIR__ . '/../app/controllers/GuideController.php') . PHP_EOL;
+//echo 'Resolved TripController Path: ' . realpath(__DIR__ . '/../app/controllers/TripController.php') . PHP_EOL;
+//echo 'Resolved GuideController Path: ' . realpath(__DIR__ . '/../app/controllers/GuideController.php') . PHP_EOL;
 echo 'Request URI: ' . $_SERVER['REQUEST_URI'] . PHP_EOL;
 
 // Include necessary controllers
