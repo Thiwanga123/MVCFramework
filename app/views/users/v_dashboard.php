@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="<?php echo URLROOT;?>/css/Common/userdashboard.css">
     <link rel="stylesheet" href="<?php echo URLROOT;?>/css/Modals/logoutModal.css">
 
-    <title>Start</title>
+    <title>Start Journey</title>
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
@@ -49,8 +49,10 @@
 });
     </script>
 </head>
+
 <body>
     <div class="box">
+        <?php $currentPage = $data['currentPage']; ?>
     <!-- SideBar -->
         <?php require APPROOT . '/views/inc/components/usersidebar.php'; ?>
         <!-- End Of Sidebar -->
@@ -110,15 +112,9 @@
                         </ul>
                     </div>
                 </div>
-               
-
             </main>
-
         </div>
-
-       
-
-     </div>
+    </div>
 
      
     <script src="<?php echo URLROOT;?>/js/Sidebar.js"></script>

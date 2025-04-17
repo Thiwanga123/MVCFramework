@@ -3,14 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="<?php echo URLROOT;?>/css/adminpage/sidebarHeader.css">
     <link rel="stylesheet" href="<?php echo URLROOT;?>/css/userspage/supplierSection.css">
-    <link rel="stylesheet" href="<?php echo URLROOT;?>/css/Common/sidebarHeader.css">
     <link rel="stylesheet" href="<?php echo URLROOT;?>/css/Modals/logoutModal.css">
 
     <title>Equipment Rentals</title>
 </head>
 <body>
     <div class="box" id="box">
+    <?php $currentPage = $data['currentPage']; ?>
+
     <!-- SideBar -->
         <?php require APPROOT . '/views/inc/components/usersidebar.php'; ?>
      <!-- End Of Sidebar -->

@@ -7,7 +7,8 @@ class Reviews extends Controller{
         $this->reviewModel = $this->model('ReviewModel');
     }
 
-    //////////////////////////////////////////////     EQUIPMENT REVIEWS SECTION     /////////////////////////////////////////////////////
+    //////////////////////////////////////////////     EQUIPMENT REVIEWS SECTION     ///////////
+    //////////////////////////////////////////
 
     public function addEquipmentReview(){
         header('Content-Type: application/json');

@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="<?php echo URLROOT;?>/css/adminpage/sidebarHeader.css">
     <link rel="stylesheet" href="<?php echo URLROOT;?>/css/Common/Profile_pre.css">
     <link rel="stylesheet" href="<?php echo URLROOT;?>/css/Modals/logoutModal.css">
 
@@ -10,6 +11,8 @@
 </head>
 <body>
     <div class="box">
+    <?php $currentPage = $data['currentPage']; ?>
+
         <!-- SideBar -->
         <?php require APPROOT . '/views/inc/components/usersidebar.php'; ?>
         <!-- End Of Sidebar -->

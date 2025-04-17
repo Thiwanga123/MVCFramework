@@ -5,21 +5,20 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="<?php echo URLROOT;?>/css/Common/Orders_ushan.css">
     <link rel="stylesheet" href="<?php echo URLROOT;?>/css/Common/sidebarHeader.css">
+    <link rel="stylesheet" href="<?php echo URLROOT;?>/css/Modals/logoutModal.css">
+
     <title>Home</title>
 </head>
+
 <body>
-    <!-- SideBar -->
-    <?php
-        include('Sidebar.php');;
-    ?>
-         <!-- End Of Sidebar -->
-
-     <!--Main Content-->
-     
-
-        <main>
-        <hr>
-            <div class="header">
+    <div class="box">
+    
+        <!-- SideBar -->
+        <?php require APPROOT . '/views/inc/components/equipmentSupplierSidebar.php'; ?>
+        <!-- End Of Sidebar -->
+            <main>
+                <div class="initial-container">
+                <div class="header">
                 <div class="left">
                     <h1>Orders</h1>
                 </div>
@@ -78,16 +77,14 @@
                 </table> 
                 </div>
             </div>
-            
-          </main>
+                </div>
+            </main>
 
-     </div>
+    </div>
 
+    <script src="<?php echo URLROOT;?>/js/Sidebar.js"></script>
+    <script src="<?php echo URLROOT;?>/js/logout.js"></script>
+    <script src="<?php echo URLROOT;?>/js/subMenu.js"></script>
 
-     <script src="<?php echo URLROOT;?>/js/Sidebar.js"></script> 
-
-    
-     
 </body>
-
 </html>

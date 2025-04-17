@@ -10,6 +10,8 @@
     <title>Guider</title>
 </head>
 <body>
+<?php $currentPage = $data['currentPage']; ?>
+
     <!-- SideBar -->
      <?php require APPROOT . '/views/inc/components/usersidebar.php'; ?>
      <!-- End Of Sidebar -->

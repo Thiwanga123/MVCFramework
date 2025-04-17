@@ -27,7 +27,8 @@ class Users extends Controller {
     public function dashboard() {
         // Check if logged in
         if(isset($_SESSION['user_id'])) {
-            $this->view('users/v_dashboard');
+            $data['currentPage'] = 'dashboard';
+            $this->view('users/v_dashboard', $data);
             
         }else{
             redirect('users/login');
@@ -43,9 +44,12 @@ class Users extends Controller {
         $userId = $_SESSION['user_id'];
         $bookings = $this->userModel->getBookingHistory($userId);
         $totalBookings = count($bookings);
+        $currentPage = 'history';
+
         $data = [
             'bookings' => $bookings,
-            'booking_count' => $totalBookings
+            'booking_count' => $totalBookings,
+            'currentPage' => $currentPage
         ];
 
         $this->view('users/v_history', $data);
@@ -57,8 +61,14 @@ class Users extends Controller {
     public function accomadation() {
 
         if(isset($_SESSION['user_id'])) {
+            $currentPage = 'accomadation';
+
+            $data = [
+                'currentPage' => $currentPage
+            ];
+
             //when Enter the location, number of guests, and the budget then click the search button, after that the system will display the available accomodations
-            $this->view('users/v_accomadation');
+            $this->view('users/v_accomadation', $data);
         }else{
             redirect('users/login');
         }
@@ -118,7 +128,13 @@ class Users extends Controller {
 
     public function vehicles(){
         if(isset($_SESSION['user_id'])) {
-            $this->view('users/v_vehicles');
+            $currentPage = 'vehicles';
+
+            $data = [
+                'currentPage' => $currentPage
+            ];
+
+            $this->view('users/v_vehicles', $data);
         }else{
             redirect('users/login');
         }
@@ -144,10 +160,12 @@ class Users extends Controller {
         if(isset($_SESSION['user_id'])) {
             $equipment = $this->equipmentModel->getAllEquipment();
             $categories = $this->equipmentModel->getAllCategories();
-    
+            $currentPage = 'equipment_suppliers';
+
             $data = [
                 'equipments' => $equipment,
-                'categories' => $categories
+                'categories' => $categories,
+                'currentPage' => $currentPage
             ];
     
             $this->view('users/v_equipment_suppliers', $data);
@@ -161,7 +179,11 @@ class Users extends Controller {
    
     public function guider(){
         if(isset($_SESSION['user_id'])) {
-            $this->view('users/v_guider');
+            $currentPage = 'guider';
+            $data = [
+                'currentPage' => $currentPage
+            ];            
+            $this->view('users/v_guider', $data);
         }else{
             redirect('users/login');
         }
@@ -170,7 +192,11 @@ class Users extends Controller {
 
     public function package(){
         if(isset($_SESSION['user_id'])) {
-            $this->view('users/v_package');
+            $currentPage = 'package';
+            $data = [
+                'currentPage' => $currentPage
+            ];
+            $this->view('users/v_package', $data);
         }else{
             redirect('users/login');
         }
@@ -179,7 +205,11 @@ class Users extends Controller {
     
     public function contact(){
         if(isset($_SESSION['user_id'])) {
-            $this->view('users/v_contact');
+            $currentPage = 'contact';
+            $data = [
+                'currentPage' => $currentPage
+            ];
+            $this->view('users/v_contact', $data);
         }else{
             redirect('users/login');
         }
@@ -189,18 +219,25 @@ class Users extends Controller {
         if(isset($_SESSION['user_id'])) {
             $userId = $_SESSION['user_id'];
             $details = $this->userModel->getUserDetailsById($userId);
+            $currentPage = 'profile';
             $data = [
-                'details' => $details
+                'details' => $details,
+                'currentPage' => $currentPage
             ];
             $this->view('users/v_profile', $data);
         }else{
+
             redirect('users/login');
         }
     }
 
     public function reviews(){
         if(isset($_SESSION['user_id'])) {
-            $this->view('users/v_reviews');
+            $currentPage = 'revies';
+            $data = [
+                'currentPage' => $currentPage
+            ];
+            $this->view('users/v_reviews', $data);
         }else{
             redirect('users/login');
         }

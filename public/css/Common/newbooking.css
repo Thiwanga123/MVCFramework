@@ -1,20 +1,3 @@
-:body {
-    font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
-    background-color: #f0f0f0;
-    margin: 0;
-    padding: 0;
-}
-
-a {
-    display: block;
-    text-decoration: none; /* Optional: To remove underline from the link */
-}
-
-.content main {
-    align-items: center;
-    width: 100%;
-    padding: 10px 20px;
-}
 
 .content main .history-container{
     display: flex;
