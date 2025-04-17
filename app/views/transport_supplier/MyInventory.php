@@ -58,6 +58,7 @@
                 </div>
             </div>
 
+
             <div class="Inventory">
                 <div>
                 <div class="header">
@@ -143,7 +144,7 @@
      <!--Modal Structure-->
 
      <?php
-        include('AddVehicle.php');;
+        include('AddVehicle.php');
     ?>
 
     <?php

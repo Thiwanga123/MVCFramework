@@ -1,42 +1,48 @@
+/* Container for the modal */
 .vehicle-modal-container {
-    position: fixed;             /* Fix the container to the screen */
-    top: 50%;                      /* Align to the top of the screen */
-    left: 50%;    
-    transform: translate(-50%, -50%);  /* Align to the left of the screen */
-    width: auto;                /* Full viewport width */
-    height: auto; 
-    display: flex;               /* Use flexbox to center the modal */
-    justify-content: center;     /* Center horizontally */
-    align-items: center;               /* Full viewport height */        /* Center vertically */
+    position: fixed;                    /* Fix the container to the screen */
+    top: 0;
+    left: 0;
+    width: 100vw;                       /* Full viewport width */
+    height: 100vh;                      /* Full viewport height */
+    display: flex;                      /* Use flexbox to center the modal */
+    justify-content: center;            /* Center horizontally */
+    align-items: center;                /* Center vertically */
     background-color: rgba(0, 0, 0, 0.4); /* Semi-transparent background */
-    z-index: 6000;               /* Ensure it's above other content */
-    display: block; 
-    border-radius: 20px;              
-    pointer-events: none;   
-    visibility: hidden;  
-    transition: opacity 0.3s ease; 
+    z-index: 6000;                      /* Ensure it's above other content */
+    pointer-events: none;               /* Prevent interaction before it's active */
+    visibility: hidden;                 /* Hidden by default */
+    opacity: 0;                         /* Start with invisible */
+    transition: opacity 0.3s ease;      /* Smooth transition when modal appears */
+    padding: 1rem;                      /* Ensure padding so it doesn't touch screen edges */
+    overflow-y: auto;                   /* Allow scroll if content is too tall */
 }
 
+/* When modal is active, make it visible and interactive */
 .vehicle-modal-container.active {
     opacity: 1;
     pointer-events: auto;   
     visibility: visible;
 }
 
+/* Modal box style */
 .vehicleModal {
     background-color: white;
     display: flex;
     flex-direction: column;
-    width: 800px;                /* Fixed width for modal */
+    width: 100%;                       /* Full width within constraints */
+    max-width: 800px;                  /* Limit maximum width */
+    max-height: 90vh;                  /* Limit maximum height */
+    overflow-y: auto;                  /* Scrollable content */
     padding: 20px 40px;
     border-radius: 20px;
     gap: 1.5rem;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
-    position: relative;          /* Ensure modal stays in place */
-    pointer-events: auto;       
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);  /* Shadow for better visibility */
+    position: relative;                /* Keeps the modal in place */
 }
 
-.vehicleModal-top{
+/* Header section of the modal */
+.vehicleModal-top {
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -52,52 +58,49 @@
     cursor: pointer;
 }
 
-.vehicle-modal-form form{
+/* Form style inside modal */
+.vehicle-modal-form form {
     margin-top: 1rem;
     display: flex;
     flex-direction: column;
-    gap: 2rem
+    gap: 2rem;
 }
 
+/* Styling for body inside form */
 .vehicle-modal-form form .body {
     display: flex;
     gap: 2rem;
 }
 
-.vehicle-modal-form form .submit-btn{
+/* Submit button inside modal */
+.vehicle-modal-form form .submit-btn {
     display: flex;
     justify-content: center;
 }
 
-
-
-.vehicle-modal-form form input{
+/* Styling for input fields */
+.vehicle-modal-form form input {
     border: none;
     background-color: rgb(239, 239, 239);
-    height: 20px;
+    height: 40px;                       /* Increased height for better visibility */
     border-radius: 10px;
-    padding: 20px;
+    padding: 10px;
 }
 
-.vehicle-modal-form form .right, .vehicle-modal-form form .left{
+/* Dividing the form inputs into left and right */
+.vehicle-modal-form form .right, .vehicle-modal-form form .left {
     display: flex;
     flex-direction: column;
     flex: 1;
     gap: 1rem;
 }
 
-/* .modal-form form .right .img{
-    width: 36px;
-    height: 36px;
-    border-radius: 50%;
-    object-fit: cover;
-} */
-
-.vehicle-modal-container button{
+/* Button style */
+.vehicle-modal-container button {
     background-color: rgb(21, 126, 126);
     color: white;
     font-size: medium;
-    height: 30px;
+    height: 40px;
     border-radius: 30px;
     border: none;
     margin-top: 1rem;
@@ -106,16 +109,19 @@
     transition: all 0.3s ease;
 }
 
-.vehicle-modal-container button:hover{
+/* Button hover effect */
+.vehicle-modal-container button:hover {
     background-color: rgb(0, 102, 122);
 }
 
-.uploadimagecontainer{
+/* Image upload container style */
+.uploadimagecontainer {
     cursor: pointer;
     display: flex;
     align-items: flex-end;
 }
 
+/* Close button style */
 .close {
     color: #8f8f8f;
     float: right;
@@ -131,7 +137,8 @@
     transition: all 0.3s ease-in;
 }
 
+/* Blur effect for background when modal is active */
 .blur {
-    filter: blur(5px); 
-    transition: filter 0.3s ease; 
+    filter: blur(5px);
+    transition: filter 0.3s ease;
 }

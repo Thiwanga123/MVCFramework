@@ -35,7 +35,15 @@ class Transport_suppliers extends Controller
     public function orders()
     {
            
-            $this->view('transport_supplier/Orders');
+        $data['activePage'] = 'Orders';
+        if (isset($_SESSION['id'])) {
+            $supplierId = $_SESSION['id'];
+            $this->transportModel = $this->model('TransportModel');
+            $vehicles = $this->transportModel->getAllVehicles($supplierId);//Debugging
+            $this->view('transport_supplier/Orders', ['vehicles' => $vehicles]);
+        } else {
+            redirect('ServiceProvider');
+        }
         
     }
 

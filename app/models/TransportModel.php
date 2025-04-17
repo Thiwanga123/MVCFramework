@@ -78,7 +78,7 @@ class TransportModel
                     FROM vehicle_images 
                     GROUP BY vehicle_id) i 
                     ON 
-                    v.id = i.vehicle_id
+                    v.vehicle_id = i.vehicle_id
                      WHERE 
                     v.supplierId = ?";
 
@@ -128,7 +128,7 @@ public function updateprofile($data){
 
             $sql = "UPDATE vehicles
                 SET type = ?, model = ?, make = ?, license_plate_number = ?, rate= ?, litre=?, fuel_type=?, description=?, driver=?, availability =? 
-                WHERE supplierId = ? AND id = ? ";
+                WHERE supplierId = ? AND vehicle_id = ? ";
 
                
 
