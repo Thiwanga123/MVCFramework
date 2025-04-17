@@ -335,9 +335,16 @@ body{
     background-color: #ffe5e5;
 }
 
+
 hr{
     border: 0.3px solid teal;
     margin-bottom: 15px;
+}
+
+.content main{
+    align-items: center;
+    width: 100%;
+    padding: 10px 20px;
 }
 
 .content main .header {

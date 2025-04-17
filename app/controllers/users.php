@@ -559,8 +559,7 @@ public function myInventory()
         redirect('ServiceProvider');
     }
 }
-}
-    public function showaccommodation(){
+  public function showaccommodation(){
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             // Sanitize POST data
             $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);

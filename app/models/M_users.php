@@ -382,22 +382,6 @@ class M_users{
         return $this->db->resultSet();
     }
 
-    public function getAllVehicles($supplierId){
-        try {
-            $sql = "SELECT v.*, i.image_path 
-                    FROM vehicles v 
-                    LEFT JOIN vehicle_images i ON v.id = i.vehicle_id 
-                    WHERE v.supplierId = ? 
-                    GROUP BY v.id"; // Ensure unique vehicles
-
-            $this->db->query($sql);
-            $this->db->bind(1, $supplierId);
-            return $this->db->resultSet();
-        } catch (Exception $e) {
-            error_log("Error fetching vehicles: " . $e->getMessage());
-            return [];
-        }
-    }
 }
 
 ?>

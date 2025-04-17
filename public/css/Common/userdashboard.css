@@ -1,9 +1,4 @@
 
-.content main{
-    align-items: center;
-    width: 100%;
-    padding: 10px 20px;
-}
 
 .content main .dashboard-container{
     display: flex;

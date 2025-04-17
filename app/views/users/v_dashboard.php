@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="<?php echo URLROOT;?>/css/Common/userdashboard.css">
     <link rel="stylesheet" href="<?php echo URLROOT;?>/css/Modals/logoutModal.css">
 
-    <title>Start</title>
+    <title>Start Journey</title>
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
