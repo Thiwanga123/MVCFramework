@@ -3,7 +3,7 @@
      <div class="sidebar">
         <a href="#" class="logo">
             <img src="<?php echo URLROOT;?>/Images/Logo1.png">
-            <div class="logo-name">Journey<br><span>Beyond</span></div>
+            <div class="logo-name">JOURNEY<br><span>BEYOND</span></div>
         </a>
 
         <ul class="side-menu">

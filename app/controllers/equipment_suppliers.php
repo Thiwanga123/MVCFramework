@@ -5,11 +5,14 @@ class Equipment_Suppliers extends Controller{
     private $productModel;
     private $userModel;
     private $supplierModel;
+    private $bookingModel;
 
     public function __construct(){
         $this->productModel = $this->model('ProductModel');
         $this->supplierModel = $this->model('SupplierModel');
         $this->userModel = $this->model('ServiceProviderModel');
+        $this->bookingModel = $this->model('BookingModel');
+
     }
 
     public function index(){
@@ -64,9 +67,15 @@ class Equipment_Suppliers extends Controller{
 
 
     public function orders(){
-        
         if (isset($_SESSION['id'])) {
-            $this->view('equipment_supplier/Orders');
+            $currentPage = 'bookings';
+            $bookings = $this->bookingModel->getBookingsBySupplierId($_SESSION['id']);
+        
+            $data =[
+                'currentPage' => $currentPage,
+                'bookings' => $bookings
+            ];
+            $this->view('equipment_supplier/Orders', $data);
         } else {
             redirect('ServiceProvider/login');
         }
