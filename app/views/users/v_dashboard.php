@@ -56,7 +56,7 @@
         <!-- End Of Sidebar -->
 
             <main>
-                <div class="dashboard-container">
+                <div class="vehicle-container">
                     <div class="header">
                         <h1>Plan Your Journey</h1>
                     </div>
