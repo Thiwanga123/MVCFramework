@@ -133,7 +133,7 @@ class M_users{
             vb.status, 
             vb.paid AS price
          FROM vehicle_booking vb
-         JOIN vehicles v ON vb.vehicle_id = v.id
+         JOIN vehicles v ON vb.vehicle_id = v.vehicle_id
          WHERE vb.traveler_id = :traveler_id)
 
         UNION ALL

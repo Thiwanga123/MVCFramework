@@ -7,12 +7,11 @@
     <link rel="stylesheet" href="<?php echo URLROOT;?>/css/Common/sidebarHeader.css">
     <link rel="stylesheet" href="<?php echo URLROOT;?>/css/Modals/logoutModal.css">
 
-    <title>Home</title>
+    <title>Bookings</title>
 </head>
 
 <body>
     <div class="box">
-    
         <!-- SideBar -->
         <?php require APPROOT . '/views/inc/components/equipmentSupplierSidebar.php'; ?>
         <!-- End Of Sidebar -->
@@ -23,8 +22,10 @@
                             <h1>Bookings</h1>
                         </div>
                     </div>
+
                     <p>Showing All Bookings()</p>
                     <div class="table-container">
+
                         <?php if(!empty($data['bookings'])): ?>
                         <table>
                             <thead>

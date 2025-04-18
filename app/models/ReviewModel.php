@@ -105,5 +105,28 @@ class ReviewModel {
         }
     }
 
+    public function getReviewsBySupplierId($supplierId){
+
+        $sql = "SELECT rer.*, ri.image_path, re.rental_name
+                FROM rental_equipments_reviews r
+                LEFT JOIN rental_images ri ON r.equipment_id = ri.product_id
+                AND ri.image_id = (SELECT MIN(image_id) FROM rental_images WHERE product_id = r.equipment_id)
+                WHERE r.supplier_id = ?";
+
+        try{
+            $this->db->query($sql);
+            $this->db->bind(1, $supplierId);
+            $result = $this->db->resultSet();
+            print_r($result);
+            exit;
+            return $result;
+        }catch(Exception $e){
+            $error_msg = $e->getMessage();
+            echo "<script>alert('An error occured: $error_msg');</script>";
+            return false;
+        }
+    }
+
+
 }
 ?>

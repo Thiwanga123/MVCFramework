@@ -96,6 +96,7 @@ class ServiceProviderModel{
         if($this->db->execute()){
             return true;
         }else{
+     
             return false;
         }
     }
@@ -113,6 +114,25 @@ class ServiceProviderModel{
             $err_msg = $e->getMessage();
         }
     }
+
+    public function updateProfileImage($userType, $userId, $filename) {
+        $allowedTables = ['equipment_suppliers', 'tour_guides', 'vehicle_suppliers', 'accomadation']; 
+    
+        if (!in_array($userType, $allowedTables)) {
+            return false;
+        }
+    
+        $sql = "UPDATE $userType SET profile_pic = :filename WHERE id = :id";
+    
+        $this->db->query($sql);
+        $this->db->bind(':filename', $filename);
+        $this->db->bind(':id', $userId);
+    
+        return $this->db->execute();
     }
+
+}
+
+    
 
 ?>

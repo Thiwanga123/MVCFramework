@@ -235,7 +235,7 @@ class ServiceProvider extends Controller {
         $_SESSION['name'] = $user->name;
         $_SESSION['type'] = $sptype;
         
-        // redirect($sptype .'/dashboard');
+    // redirect($sptype .'/dashboard');
     }
 
     public function logout(){
@@ -403,6 +403,42 @@ class ServiceProvider extends Controller {
                 echo json_encode(['success' => true, 'message' => 'Registration successful!']);
             } else {
                 echo json_encode(['success' => false, 'errors' => ['database' => 'Failed to register. Try again later.']]);
+            }
+        }
+    }
+
+
+
+    public function uploadImage() {
+        if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_FILES['profile_image'])) {
+            $file = $_FILES['profile_image'];
+            $allowedTypes = ['jpg', 'jpeg', 'png'];
+            $extension = strtolower(pathinfo($file['name'], PATHINFO_EXTENSION));
+    
+            if (in_array($extension, $allowedTypes)) {
+                $userId = $_SESSION['id'];
+                $userType = $_SESSION['type'];
+                $baseDir = 'Uploads/ProfilePictures/';
+                $userDir = $baseDir . $userType . '/' . $userId . '/';
+                
+                if (!is_dir($userDir)) {
+                    mkdir($userDir, 0777, true); // Create directory recursively
+                }
+
+                $uniqueName = uniqid() . '.' . $extension;
+                $targetFilePath = $userDir . $uniqueName;
+    
+                if (move_uploaded_file($file['tmp_name'], $targetFilePath)) {
+                    $relativePath = $userType . '/' . $userId . '/' . $uniqueName;
+                    $this->serviceProviderModel->updateProfileImage($userType, $userId, $relativePath);
+    
+                    header('Location: ' . URLROOT . '/profile');
+                    exit;
+                } else {
+                    die('Error uploading file.');
+                }
+            } else {
+                die('Invalid file type.');
             }
         }
     }

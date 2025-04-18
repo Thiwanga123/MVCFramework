@@ -25,14 +25,18 @@
                             <h1>My Profile</h1>
                         </div>
                     </div>
-            
+           
                     <div class="profile-content">
                         <div class="profile-top">
                             <div class="imageDiv">
-                                <div class="div1">
-                                    <img src="<?php echo URLROOT;?>/Images/Profile pic.jpg">
-                                    <button class="change-btn" id="imageChangeBtn">Change Image</button>
-                                </div>
+                                <form action="<?php echo URLROOT; ?>/ServiceProvider/uploadImage" method="POST" enctype="multipart/form-data">
+                                    <div class="div1">
+                                        <img src="<?php echo URLROOT;?>/Images/Profile pic.jpg" id="profileImagePreview">
+                                        <input type="file" name="profile_image" id="profileImageInput" style="display: none;" accept="image/*">
+                                        <button type="button" class="change-btn" id="imageChangeBtn">Change Image</button>
+                                        <button type="submit" class="upload-btn">Upload</button>
+                                    </div>
+                                </form>
                                 <div class="div2">
                                     <h4><?php echo htmlspecialchars($data['details']->name); ?></h4>
                                     <h5><?php echo htmlspecialchars($data['details']->email); ?></h5>
@@ -56,9 +60,9 @@
                                     <h4>Email</h4>
                                     <input type="email" id="email" name="email" value="<?php echo $data['details']->email; ?>">
                                     <h4>Business Name</h4>
-                                    <input type="businessName" id="businessName" name="businessName" value="<?php echo $data['details']->business_name; ?>">
+                                    <input type="businessName" id="businessName" name="businessName" value="<?php echo isset($data['details']->business_name) ? $data['details']->business_name : ''; ?>">
                                     <h4>City</h4>
-                                    <input type="city" id="city" name="city" value="<?php echo $data['details']->city; ?>">
+                                    <input type="city" id="city" name="city" value="<?php echo isset($data['details']->city) ? $data['details']->city : ''; ?>">
                                 </div>
 
                                 <div class="right">
@@ -73,7 +77,7 @@
 
                             <h2>Password Settings :</h2>
 
-                            <div class="profile-bottom">
+                            <!-- <div class="profile-bottom">
                                 <div class="group">
                                     <h4>Password</h4>
                                     <input type="password" id="password" name="password" value="<?php echo $data['details']->password; ?>" readonly>
@@ -83,7 +87,7 @@
                                     <h4>Confirm Password</h4>
                                     <input type="password" id="password" name="password" value="<?php echo $data['details']->password; ?>" readonly>
                                 </div>
-                            </div>
+                            </div> -->
 
                             <div class="profile-actions">
                                 <div class="group">
@@ -103,7 +107,7 @@
     <script src="<?php echo URLROOT;?>/js/Sidebar.js"></script>
     <script src="<?php echo URLROOT;?>/js/logout.js"></script>
     <script src="<?php echo URLROOT;?>/js/subMenu.js"></script>
-    <script src="<?php echo URLROOT;?>/js/Test.js"></script>
+    <script src="<?php echo URLROOT;?>/js/profileImage.js"></script>
 
 </body>
 
