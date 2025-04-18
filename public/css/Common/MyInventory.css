@@ -14,6 +14,28 @@
     width: 100%;
 }
 
+.addBtn button, .backBtn button {
+    background: teal;
+    color: white;
+    border: none;
+    padding: 12px 24px;
+    border-radius: 12px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.addBtn button:hover, .backBtn button :hover {
+    background: rgb(45, 167, 167);
+    transform: translateY(-2px);
+}
+
+.addBtn button:active, .backBtn button:active {
+    transform: scale(0.97);
+    box-shadow: 0 2px 6px rgba(46, 125, 50, 0.2);
+}
+
 .product-container {
     display: grid;
     grid-template-columns: repeat(5, 1fr);

@@ -12,6 +12,8 @@
 </head>
 <body>
     <div class="box">
+    <?php $currentPage = $data['currentPage']; ?>
+
         <!-- SideBar -->
         <?php require APPROOT . '/views/inc/components/usersidebar.php'; ?>
         <!-- End Of Sidebar -->

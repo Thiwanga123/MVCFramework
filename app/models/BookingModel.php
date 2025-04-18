@@ -157,6 +157,24 @@ public function updateProfile($data){
         }
     }
 
+    public function getBookingsBySupplierId($supplierId){
+        $sql = "SELECT b.*, ri.image_path
+                FROM rental_equipment_bookings b 
+                LEFT JOIN rental_images ri ON b.equipment_id = ri.product_id
+                AND ri.image_id = (SELECT MIN(image_id) FROM rental_images WHERE product_id = b.equipment_id)
+                WHERE b.supplier_id = ?";
+        try{
+            $this->db->query($sql);
+            $this->db->bind(1, $supplierId);
+            $result = $this->db->resultSet();
+            return $result;
+        }catch(Exception $e){
+            $error_msg = $e->getMessage();
+            echo "<script>alert('An error occured: $error_msg');</script>";
+            return false;
+        }
+    }
+
 
 }
 ?>

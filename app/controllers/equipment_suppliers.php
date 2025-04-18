@@ -5,11 +5,14 @@ class Equipment_Suppliers extends Controller{
     private $productModel;
     private $userModel;
     private $supplierModel;
+    private $bookingModel;
 
     public function __construct(){
         $this->productModel = $this->model('ProductModel');
         $this->supplierModel = $this->model('SupplierModel');
         $this->userModel = $this->model('ServiceProviderModel');
+        $this->bookingModel = $this->model('BookingModel');
+
     }
 
     public function index(){
@@ -19,7 +22,13 @@ class Equipment_Suppliers extends Controller{
     public function dashboard(){
 
         if (isset($_SESSION['id'])) {
-            $this->view('equipment_supplier/Dashboard');
+            
+            $currentPage = 'dashboard';
+            $data = [
+                'currentPage' => $currentPage
+            ];
+            $this->view('equipment_supplier/Dashboard', $data);
+
         } else {
             redirect('ServiceProvider');
         } 
@@ -51,8 +60,12 @@ class Equipment_Suppliers extends Controller{
     public function myInventory(){
         if(isset($_SESSION['id'])){
             $rentals = $this->productModel->getAllProducts($_SESSION['id']);
+            $categories = $this->productModel->getAllCategories();
+            $curentPage = 'myInventory';
             $data = [
-                'rentals' =>  $rentals  
+                'rentals' =>  $rentals,
+                'categories' => $categories, 
+                'currentPage' => $curentPage
             ];
             
             $this->view('equipment_supplier/MyInventory', $data);
@@ -64,9 +77,15 @@ class Equipment_Suppliers extends Controller{
 
 
     public function orders(){
-        
         if (isset($_SESSION['id'])) {
-            $this->view('equipment_supplier/Orders');
+            $currentPage = 'bookings';
+            $bookings = $this->bookingModel->getBookingsBySupplierId($_SESSION['id']);
+            
+            $data =[
+                'currentPage' => $currentPage,
+                'bookings' => $bookings
+            ];
+            $this->view('equipment_supplier/Orders', $data);
         } else {
             redirect('ServiceProvider/login');
         }
@@ -77,7 +96,12 @@ class Equipment_Suppliers extends Controller{
     public function reviews(){
 
         if (isset($_SESSION['id'])) {
-            $this->view('equipment_supplier/Reviews');
+            $currentPage = 'reviews';
+            $data = [
+                'currentPage' => $currentPage
+            ];
+
+            $this->view('equipment_supplier/Reviews', $data);
         } else {
             redirect('ServiceProvider');
         }
@@ -117,7 +141,11 @@ class Equipment_Suppliers extends Controller{
             $id = $_SESSION['id'];
             $type = $_SESSION['type'];
             $details = $this->getProfileDetails($id,$type);
-            $this->view('equipment_supplier/Myprofile',['details' => $details]);
+            $currentPage = 'profile';
+            $data = [
+                'currentPage' => $currentPage
+            ];
+            $this->view('equipment_supplier/Myprofile',$data);
         } else {
             redirect('ServiceProvider');
         }
@@ -130,7 +158,7 @@ class Equipment_Suppliers extends Controller{
             $this->productModel = $this->model('ProductModel');
             $categories = $this->productModel->getAllCategories();
             $data = [
-                'categories' => $categories,
+                
             ];
             $this->view('equipment_supplier/AddProduct', $data);
         } else {

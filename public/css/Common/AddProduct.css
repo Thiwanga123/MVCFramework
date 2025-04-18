@@ -1,254 +1,194 @@
-
 .AddProduct {
-    display: flex;
-    flex-direction: column;
-    gap: 35px;
-    max-width: 1400px;
-    margin: 0 auto;
-}
-
-.basic-details, 
-.image-upload, 
-.policies {
-    background-color: #ffffff;
-    padding: 35px 50px;
-    border-radius: 12px;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-
-.basic-details:hover, 
-.image-upload:hover, 
-.policies:hover {
-    /* transform: translateY(-2px); */
-    box-shadow: 0 6px 25px rgba(0, 0, 0, 0.12);
-}
-
-/* Section Headers */
-h2 {
-    font-size: 24px;
-    color: #2c3e50;
-    margin-bottom: 25px;
-    font-weight: 600;
-    position: relative;
+    max-width: 100%;
+    padding: 15px;
+  }
+  
+  /* Section Styling */
+  .basic-details, .image-upload, .policies {
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    margin-bottom: 30px;
+    padding: 20px;
+  }
+  
+  h2 {
+    color: #333;
+    border-bottom: 2px solid #eaeaea;
     padding-bottom: 10px;
-    border-bottom: 2px solid #eef2f7;
-}
-
-/* Form Layout */
-.basic-details .details {
-    display: flex;
-    flex-direction: column;
-    gap: 25px;
-}
-
-.basic-details .details .div {
-    display: flex;
-    width: 100%;
-    flex-wrap: wrap;
-    gap: 50px;
-}
-
-.basic-details .left, 
-.basic-details .right {
-    flex: 1;
-    min-width: 250px;
-}
-
-/* Input Styling */
-.div input {
-    border: 2px solid transparent;
-    background-color: #f5f5f5;
-    height: 45px;
-    border-radius: 25px;
-    padding: 0 20px;
-    transition: all 0.3s ease;
-    font-size: 15px;
-}
-
-.div input:focus {
-    border-color: teal;
-    background-color: #ffffff;
-    box-shadow: 0 0 0 4px rgba(0, 128, 128, 0.1);
-    outline: none;
-}
-
-/* Label Styling */
-.basic-details label,
-.policies label {
-    font-weight: 600;
-    color: #2c3e50;
-    margin-bottom: 10px;
+    margin-bottom: 20px;
+    font-size: 24px;
+  }
+  
+  /* Form Elements */
+  label {
     display: block;
-    font-size: 15px;
-}
-
-.group{
-    display: flex;
-    gap: 25px;
-    align-items: center;
-}
-/* Form Elements */
-input[type="text"],
-input[type="number"],
-input[type="file"],
-select,
-textarea {
+    margin-bottom: 8px;
+    font-weight: 600;
+    color: #444;
+  }
+  
+  input[type="text"],
+  input[type="number"],
+  select,
+  textarea {
     width: 100%;
-    padding: 12px 20px;
-    margin: 10px 0 15px;
-    font-size: 15px;
-    border: 2px solid transparent;
-    background-color: #f5f5f5;
-    border-radius: 25px;
-    transition: all 0.3s ease;
-}
-
-
-textarea {
-    border-radius: 15px;
-    min-height: 120px;
+    padding: 12px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    margin-bottom: 20px;
+    font-size: 16px;
+  }
+  
+  input[type="file"] {
+    margin-bottom: 20px;
+  }
+  
+  textarea {
     resize: vertical;
-}
-
-
-.image-container {
-    margin-top: 25px;
-    padding: 20px;
-    border: 2px dashed #ccc;
-    border-radius: 12px;
-    min-height: 200px;
+    min-height: 100px;
+  }
+  
+  .error-message {
+    color: #e74c3c;
+    font-size: 14px;
+    margin-top: -15px;
+    display: block;
+    margin-bottom: 15px;
+  }
+  
+  /* Radio Button Styling */
+  .group {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 20px;
+  }
+  
+  input[type="radio"] {
+    margin-right: 5px;
+  }
+  
+  /* Layout for two columns */
+  .details .div {
     display: flex;
     flex-wrap: wrap;
-    align-items: center;
-    justify-content: center;
-    background-color: #f9f9f9;
-    gap: 10px; 
-}
-
-.image-container img {
-    width: 100%;
-    max-width: 120px;
-    height: auto;
-    object-fit: cover;
-    border-radius: 10px;
-    border: 1px solid #ccc;
-    transition: all 0.3s ease-in-out;
-}
-
-/* Policies Section */
-#fullRefundSection,
-#partialRefundSection {
-    background-color: #f8fafc;
-    border-radius: 12px;
-    padding: 20px;
-    margin: 15px 0;
-}
-
-#partialRefundSection div {
-    display: flex;
-    gap: 25px;
+    gap: 20px;
+  }
+  
+  .left, .right {
     flex: 1;
-    flex-wrap: wrap;
-}
-
-#partialRefundSection div div {
+    min-width: 300px;
+  }
+  
+  .bottom {
+    width: 100%;
+    margin-top: 10px;
+  }
+  
+  /* Image Preview Section */
+  .image-container {
+    margin-top: 15px;
     display: flex;
-    flex-direction: column;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+  
+  #image-preview {
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    object-fit: contain;
+  }
+  
+  /* Policies Section */
+  #fullRefundSection, #partialRefundSection {
+    background: #f9f9f9;
+    padding: 15px;
+    border-radius: 5px;
+    margin-bottom: 20px;
+  }
+  
+  #partialRefundSection .div {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+  }
+  
+  #partialRefundSection .div > div {
     flex: 1;
     min-width: 250px;
-}
-
-/* Submit Button */
-.addRentalBtn {
-    padding: 14px 30px;
-    background-color: teal;
+  }
+  
+  h4 {
+    margin-bottom: 15px;
+    color: #555;
+  }
+  
+  /* Button Styling */
+  .btn {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    margin-top: 20px;
+  }
+  
+  .addRentalBtn {
+    background-color: #3498db;
     color: white;
+    border: none;
+    padding: 12px 25px;
     font-size: 16px;
     font-weight: 600;
-    border: none;
-    border-radius: 25px;
+    border-radius: 5px;
     cursor: pointer;
-    transition: all 0.3s ease;
-    margin-top: 20px;
-    width: 50%;
-    box-shadow: 0 4px 15px rgba(0, 128, 128, 0.2);
-}
-
-.addRentalBtn:hover {
-    background-color: rgb(0, 105, 105);
-    transform: translateY(-2px);
-    box-shadow: 0 6px 20px rgba(0, 128, 128, 0.3);
-}
-
-.addRentalBtn:active {
-    transform: translateY(1px);
-    background-color: rgb(0, 90, 90);
-}
-
-.error-message {
-    color: red;
-    font-size: 0.9rem;
-}
-
-
-/* Responsive Design */
-@media screen and (max-width: 768px) {
+    transition: background-color 0.3s;
+  }
+  
+  .addRentalBtn:hover {
+    background-color: #2980b9;
+  }
+  
+  #loadingSpinner {
+    margin-left: 15px;
+  }
+  
+  /* Responsive adjustments */
+  @media (max-width: 768px) {
+    .details .div {
+      flex-direction: column;
+    }
+    
+    .left, .right {
+      width: 100%;
+    }
+    
+    h2 {
+      font-size: 20px;
+    }
+    
+    .btn {
+      justify-content: center;
+    }
+    
     .AddProduct {
-        gap: 25px;
-        padding: 15px;
+      padding: 10px;
     }
-
-    .basic-details,
-    .image-upload,
-    .policies {
-        padding: 25px;
+  }
+  
+  @media (max-width: 480px) {
+    input[type="text"],
+    input[type="number"],
+    select,
+    textarea {
+      padding: 10px;
     }
-
-    .basic-details .details .div {
-        gap: 20px;
+    
+    .addRentalBtn {
+      width: 100%;
+      padding: 10px 15px;
     }
-
-    .basic-details .left,
-    .basic-details .right {
-        flex: none;
-        width: 100%;
+    
+    .group {
+      flex-direction: column;
+      gap: 5px;
     }
-
-    #partialRefundSection div {
-        gap: 15px;
-    }
-}
-
-/* Breadcrumb */
-.breadcrumb {
-    margin-bottom: 25px;
-}
-
-.breadcrumb ul {
-    list-style: none;
-    padding: 0;
-    display: flex;
-    gap: 10px;
-    align-items: center;
-}
-
-.breadcrumb a {
-    text-decoration: none;
-    color: #008080;
-    transition: color 0.3s ease;
-}
-
-.breadcrumb a:hover {
-    color: #006666;
-}
-
-.breadcrumb .separator {
-    color: #2c3e50;
-    font-size: 12px;
-}
-
-.breadcrumb li:last-child {
-    font-weight: 600;
-    color: #2c3e50;
-}
+  }

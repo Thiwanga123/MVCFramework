@@ -49,8 +49,10 @@
 });
     </script>
 </head>
+
 <body>
     <div class="box">
+        <?php $currentPage = $data['currentPage']; ?>
     <!-- SideBar -->
         <?php require APPROOT . '/views/inc/components/usersidebar.php'; ?>
         <!-- End Of Sidebar -->
@@ -110,15 +112,9 @@
                         </ul>
                     </div>
                 </div>
-               
-
             </main>
-
         </div>
-
-       
-
-     </div>
+    </div>
 
      
     <script src="<?php echo URLROOT;?>/js/Sidebar.js"></script>
