@@ -22,7 +22,13 @@ class Equipment_Suppliers extends Controller{
     public function dashboard(){
 
         if (isset($_SESSION['id'])) {
-            $this->view('equipment_supplier/Dashboard');
+            
+            $currentPage = 'dashboard';
+            $data = [
+                'currentPage' => $currentPage
+            ];
+            $this->view('equipment_supplier/Dashboard', $data);
+
         } else {
             redirect('ServiceProvider');
         } 
@@ -55,10 +61,11 @@ class Equipment_Suppliers extends Controller{
         if(isset($_SESSION['id'])){
             $rentals = $this->productModel->getAllProducts($_SESSION['id']);
             $categories = $this->productModel->getAllCategories();
-
+            $curentPage = 'myInventory';
             $data = [
                 'rentals' =>  $rentals,
-                'categories' => $categories,  
+                'categories' => $categories, 
+                'currentPage' => $curentPage
             ];
             
             $this->view('equipment_supplier/MyInventory', $data);
@@ -89,7 +96,12 @@ class Equipment_Suppliers extends Controller{
     public function reviews(){
 
         if (isset($_SESSION['id'])) {
-            $this->view('equipment_supplier/Reviews');
+            $currentPage = 'reviews';
+            $data = [
+                'currentPage' => $currentPage
+            ];
+
+            $this->view('equipment_supplier/Reviews', $data);
         } else {
             redirect('ServiceProvider');
         }
@@ -129,7 +141,11 @@ class Equipment_Suppliers extends Controller{
             $id = $_SESSION['id'];
             $type = $_SESSION['type'];
             $details = $this->getProfileDetails($id,$type);
-            $this->view('equipment_supplier/Myprofile',['details' => $details]);
+            $currentPage = 'profile';
+            $data = [
+                'currentPage' => $currentPage
+            ];
+            $this->view('equipment_supplier/Myprofile',$data);
         } else {
             redirect('ServiceProvider');
         }
