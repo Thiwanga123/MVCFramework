@@ -21,12 +21,16 @@ class Transport_suppliers extends Controller
 
     public function myInventory()
     {
-        $data['activePage'] = 'My Inventory';
         if (isset($_SESSION['id'])) {
             $supplierId = $_SESSION['id'];
-            $this->transportModel = $this->model('TransportModel');
-            $vehicles = $this->transportModel->getAllVehicles($supplierId);//Debugging
-            $this->view('transport_supplier/MyInventory', ['vehicles' => $vehicles]);
+            $vehicles = $this->transportModel->getAllVehicles($supplierId);
+            $currentPage = 'vehicles';
+
+            $data = [
+                'vehicles' => $vehicles,
+                'currentPage' => $currentPage
+            ];
+            $this->view('transport_supplier/MyInventory', $data);
         } else {
             redirect('ServiceProvider');
         }
@@ -86,8 +90,8 @@ class Transport_suppliers extends Controller
     }
     public function addVehicle(){
         
-        if(isset($_POST['submit'])){
-
+        if ($_SERVER['REQUEST_METHOD'] == 'POST'){
+           
             $data = [
                 'id'=> $_SESSION['id'],
                 'vehicleType' => trim($_POST['vehicleType']),
@@ -95,7 +99,6 @@ class Transport_suppliers extends Controller
                 'vehicleMake' => trim($_POST['vehicleMake']),    //These variables are used to store the values which are sent via the form data
                 'plateNumber' => trim($_POST['licensePlateNumber']),
                 'rate' => trim($_POST['vehicleRate']),
-                'litre' => trim($_POST['vehicleLitre']),
                 'fuelType' => trim($_POST['fuelType']),
                 'description' => trim($_POST['description']),
                 'availability' => trim($_POST['availability']),
@@ -124,9 +127,6 @@ class Transport_suppliers extends Controller
                 $errors[] = 'Rate is required';
             }
           
-            if(empty($data['litre'])){
-                $errors[] = 'Litre is required';
-            }
           
             
             if(empty($data['fuelType'])){
@@ -167,7 +167,7 @@ class Transport_suppliers extends Controller
             }
 
              //Creating the model instance to interact with the database
-            $isInserted = $this->transportModel->addVehicle($data['id'], $data['vehicleType'], $data['vehicleModel'], $data['vehicleMake'], $data['plateNumber'], $data['rate'], $data['litre'], $data['fuelType'], $data['description'], $data['availability'], $data['driver'], $data['cost'],$data['location']);
+            $isInserted = $this->transportModel->addVehicle($data['id'], $data['vehicleType'], $data['vehicleModel'], $data['vehicleMake'], $data['plateNumber'], $data['rate'], $data['fuelType'], $data['description'], $data['availability'], $data['driver'], $data['cost'],$data['location']);
             if($isInserted){
                 $vehicleId = $isInserted;
                 $vehicleFolder = "$supplierFolder/$vehicleId";

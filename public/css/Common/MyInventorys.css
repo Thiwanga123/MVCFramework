@@ -1,286 +1,92 @@
 
 
-.content main .dashboard-container{
-    display: flex;
-    flex-direction: column;
-    flex-wrap: wrap;
-    gap: 20px;
-    margin-top: 10px;
-    background-color: white;
-    border-radius: 8px;
-    padding: 20px;
-    height: auto;
-    min-height: calc(100vh - 80px); 
-    animation: fadeIn 0.4s ease-in-out;
-}
-
-.content main .header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    flex-wrap: wrap;
-    color: #008080;
-}
-
-.content main .header h1 {
-    font-size: 28px;
-    font-weight: 600;
-    position: relative;
-    padding-bottom: 10px;
-}
-
-.content main .header h1::after {
-    content: '';
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    width: 60px;
-    height: 3px;
-    background: #4ccbcb;
-    border-radius: 2px;
-}
-
-.content main .header .add-btn, .add-availability-btn{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background: rgb(12, 12, 85);
-    color: whitesmoke;
-    padding: 8px;
-    border-radius: 20px;
-    cursor: pointer;
-    gap: 1px;
-    border: none;
-    transition: all 0.3s ease-out;
-}
-
-.content main .header .add-btn:hover{
-    background-color: teal;
-}
-
-.content main .Inventory{
-    display: flex;
-    flex-wrap: wrap;
-    gap: 20px;
-    margin-top: 24px;
-}
-
-.content main .Inventory>div{
-    border-radius: 20px;
-    background: var(--light);
-    padding: 18px;
-    overflow-x: auto;
-    width: 100%;
-}
-
-.content main .Inventory .header{
-    display: flex;
-    align-items: center;
-    gap: 16px;
-    margin-bottom: 24px;
-}
-
-.content main .Inventory .header h3{
-    margin-right: auto;
-    font-size: 24px;
-    font-weight: 600;
-}
-
-.content main .Inventory .header svg{
-   cursor: pointer;
-}
-
-.content main .Inventory table{
+.content main .initial-container table {
     width: 100%;
     border-collapse: collapse;
+    background: white;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow : 0 2px 10px rgba(0, 0, 0, 0.1);
 }
 
-.content main .Inventory table th{
-    padding-bottom: 12px;
+.content main .initial-container table th {
+    padding: 16px 20px;
     font-size: 14px;
     text-align: left;
-    border-bottom: 1px solid var(--light-success);
+    background: rgb(0, 143, 143);
+    color: white;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    border: none;
 }
 
-.content main .Inventory table td{
-    align-items: center;
-    padding: 5px 0;
+.content main .initial-container table td {
+    padding: 16px 20px;
+    border-bottom: 1px solid #f0f7ff;
+    color: #2d3748;
+    font-size: 14px;
 }
 
-/* .content main .Inventory table tr td:first-child{
+
+
+.content main .initial-container table tr td:first-child {
     display: flex;
     align-items: center;
     gap: 12px;
     padding-left: 20px;
-} */
-
-.content main .Inventory table td img{
-    width: 72x;
-    height: 72px;
-    object-fit: cover;
-}
-
-.content main .Inventory table tbody tr{
-    display: table-row;
-    cursor: pointer;
-    transition: all 0.3s ease;
-}
-    
-.content main .Inventory table tbody tr:hover{
-    background: var(--grey);
-}
-
-.action-button{
-    margin-top: 20px;
-    display: flex;
-    justify-content: flex-start;
-    gap: 10px; /* Gap between buttons */
-}
-
-.vehicle-edit-btn {
-    background-color: #4CAF50; /* Green */
-    color: white;
-}
-
-.vehicle-edit-btn:hover {
-    background-color: #45a049; /* Darker green */
-    transform: scale(1.05);
-}
-
-/* Delete Button */
-.delete-btn {
-    background-color: #f44336; /* Red */
-    color: white;
-    margin-left: 8px; /* Spacing between buttons */
-}
-
-.delete-btn:hover {
-    background-color: #d32f2f; /* Darker red */
-    transform: scale(1.05);
+    font-family: monospace;
+    color: #4a5568;
+    font-weight: 500;
 }
 
 
-
-
-.modal-form form input{
-    border: none;
-    background-color: rgb(239, 239, 239);
-    height: 20px;
-    border-radius: 10px;
-    padding: 20px;
-}
-
-
-.modal-form form .right, .modal-form form .left{
-    display: flex;
-    flex-direction: column;
-    flex: 1;
-    gap: 1rem;
-}
-
-/* .modal-form form .right .img{
-    width: 36px;
-    height: 36px;
+.content main .initial-container table td img {
+    width: 80px;
+    height: 80px;
     border-radius: 50%;
     object-fit: cover;
-} */
-
-.modal-container button{
-    background-color: rgb(21, 126, 126);
-    color: white;
-    font-size: medium;
-    height: 30px;
-    border-radius: 30px;
-    border: none;
-    margin-top: 1rem;
-    cursor: pointer;
-    padding: 0 10px;
-    transition: all 0.3s ease;
+    margin-left: 20px;
 }
 
-.modal-container button:hover{
-    background-color: rgb(0, 102, 122);
-}
-
-.uploadimagecontainer{
-    cursor: pointer;
-    display: flex;
-    align-items: flex-end;
-}
-
-.close {
-    color: #8f8f8f;
-    float: right;
-    font-size: 28px;
-    font-weight: bold;
-}
-
-.close:hover,
-.close:focus {
-    color: black;
-    text-decoration: none;
-    cursor: pointer;
-    transition: all 0.3s ease-in;
-}
-
-.blur {
-    filter: blur(5px); 
-    transition: filter 0.3s ease; 
-}
-
-@media (max-width: 768px) {
-    .modal {
-        width: 90%;  
-        max-width: 400px; 
-        padding: 15px 25px;  
-    }
-}
-
-/* Very small screens (mobile phones) */
-@media (max-width: 480px) {
-    .modal {
-        width: 90%;  
-        max-width: 320px;  
-        padding: 10px 15px;
-    }
-}
-/* General button styling */
-.action-button button {
-    padding: 8px 16px;
+.content main .initial-container table tbody tr {
     font-size: 14px;
-    font-weight: bold;
-    border: none;
-    border-radius: 5px;
     cursor: pointer;
-    transition: all 0.3s ease;
+    transition: all 0.2s ease;
 }
 
-/* Edit Button */
-.edit-btn {
-    background-color: #4CAF50; /* Green */
+.content main .initial-container table tbody tr:hover {
+    background: #f8fafc;
+    transform:  scale(1.01);
+}
+
+/* Status Styling */
+.content main .initial-container table td:last-child {
+    font-weight: 500;
+}
+
+.status {
+    text-transform: capitalize;
+    font-weight: 500;
+    padding: 4px 10px;
+    border-radius: 20px;
+    font-size: 0.9rem;
+    width: auto;
+    height: 15px;
+}
+
+.status .complete{
+    background-color: #4caf50;
     color: white;
 }
 
-.edit-btn:hover {
-    background-color: #45a049; /* Darker green */
-    transform: scale(1.05);
+.content main .initial-container table td:nth-child(8) {
+    font-weight: 500;
+    color: #2d3748;
 }
 
-/* Delete Button */
-.delete-btn {
-    background-color: #f44336; /* Red */
-    color: white;
-    margin-left: 8px; /* Spacing between buttons */
+
+@media screen {
+    
 }
 
-.delete-btn:hover {
-    background-color: #d32f2f; /* Darker red */
-    transform: scale(1.05);
-}
-
-/* Ensure buttons are inline and spaced */
-.action-button {
-    display: flex;
-    justify-content: flex-start;
-    gap: 10px; /* Gap between buttons */
-}

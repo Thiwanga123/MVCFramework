@@ -10,6 +10,7 @@ class Users extends Controller {
     private $equipmentModel;
     private $reviewModel;
     private $bookingModel;
+    private $transportModel;
     
 
     public function __construct() {
@@ -17,6 +18,8 @@ class Users extends Controller {
         $this->equipmentModel = $this->model('equipmentModel');
         $this->reviewModel = $this->model('ReviewModel');
         $this->bookingModel = $this->model('BookingModel');
+        $this->transportModel = $this->model('TransportModel');
+
     }
 
     public function index() {
@@ -129,13 +132,11 @@ class Users extends Controller {
     public function vehicles(){
         if(isset($_SESSION['user_id'])) {
             $vehicles = $this->userModel->getAllvehicles($_SESSION['user_id']); 
-            $data = [
-                'vehicles' => $vehicles
-            ];
             $currentPage = 'vehicles';
 
             $data = [
-                'currentPage' => $currentPage
+                'currentPage' => $currentPage,
+                'vehicles' => $vehicles
             ];
 
             $this->view('users/v_vehicles',$data, $data);
@@ -280,6 +281,45 @@ class Users extends Controller {
             redirect('users/login');
         }
     }
+
+   public function viewVehicle($vehicleId) {
+    if (isset($_SESSION['user_id'])) {
+        // Get detailed info for one vehicle
+        $vehicle = $this->transportModel->getVehicleWithImages($vehicleId);
+        $bookings = $this->bookingModel->getBookingsByVehicleId($vehicleId);
+        $reviews = $this->reviewModel->getReviewsByVehicleId($vehicleId);
+        $ratings = $this->reviewModel->getRatingsByVehicleId($vehicleId);
+        $reviewCount = count($reviews);
+
+        $totalRating = 0;
+        $userReview = null;
+
+        foreach ($reviews as $review) {
+            $totalRating += $review->rating;
+            if ($review->user_id == $_SESSION['user_id']) {
+                $userReview = $review;
+            }
+        }
+
+        $averageRating = $reviewCount > 0 ? round($totalRating / $reviewCount, 1) : 0;
+
+        $data = [
+            'user_id' => $_SESSION['user_id'],
+            'details' => $details,
+            'bookings' => json_encode($bookings),
+            'reviews' => $reviews,
+            'userReview' => $userReview,
+            'reviewCount' => $reviewCount,
+            'averageRating' => $averageRating,
+            'ratings' => $ratings
+        ];
+
+        $this->view('users/rentVehicle', $data);
+    } else {
+        redirect('users/login');
+    }
+}
+
 
     public function register() {
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {

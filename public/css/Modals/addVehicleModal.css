@@ -1,144 +1,99 @@
-/* Container for the modal */
-.vehicle-modal-container {
-    position: fixed;                    /* Fix the container to the screen */
-    top: 0;
-    left: 0;
-    width: 100vw;                       /* Full viewport width */
-    height: 100vh;                      /* Full viewport height */
-    display: flex;                      /* Use flexbox to center the modal */
-    justify-content: center;            /* Center horizontally */
-    align-items: center;                /* Center vertically */
-    background-color: rgba(0, 0, 0, 0.4); /* Semi-transparent background */
-    z-index: 6000;                      /* Ensure it's above other content */
-    pointer-events: none;               /* Prevent interaction before it's active */
-    visibility: hidden;                 /* Hidden by default */
-    opacity: 0;                         /* Start with invisible */
-    transition: opacity 0.3s ease;      /* Smooth transition when modal appears */
-    padding: 1rem;                      /* Ensure padding so it doesn't touch screen edges */
-    overflow-y: auto;                   /* Allow scroll if content is too tall */
+.vehicle-form-container {
+    max-width: 1000px;
+    margin: 30px auto;
+    background-color: #f9f9f9;
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 0 15px rgba(0,0,0,0.1);
+    font-family: Arial, sans-serif;
 }
 
-/* When modal is active, make it visible and interactive */
-.vehicle-modal-container.active {
-    opacity: 1;
-    pointer-events: auto;   
-    visibility: visible;
-}
-
-/* Modal box style */
-.vehicleModal {
-    background-color: white;
-    display: flex;
-    flex-direction: column;
-    width: 100%;                       /* Full width within constraints */
-    max-width: 800px;                  /* Limit maximum width */
-    max-height: 90vh;                  /* Limit maximum height */
-    overflow-y: auto;                  /* Scrollable content */
-    padding: 20px 40px;
-    border-radius: 20px;
-    gap: 1.5rem;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);  /* Shadow for better visibility */
-    position: relative;                /* Keeps the modal in place */
-}
-
-/* Header section of the modal */
-.vehicleModal-top {
+.form-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    margin-bottom: 25px;
 }
 
-.vehicleModal-top h1 {
+.form-header h1 {
     margin: 0;
-    font-size: 28px;
 }
 
-.vehicleModal-top .close {
-    font-size: 2em;
-    cursor: pointer;
-}
-
-/* Form style inside modal */
-.vehicle-modal-form form {
-    margin-top: 1rem;
+.back-button {
     display: flex;
-    flex-direction: column;
-    gap: 2rem;
-}
-
-/* Styling for body inside form */
-.vehicle-modal-form form .body {
-    display: flex;
-    gap: 2rem;
-}
-
-/* Submit button inside modal */
-.vehicle-modal-form form .submit-btn {
-    display: flex;
-    justify-content: center;
-}
-
-/* Styling for input fields */
-.vehicle-modal-form form input {
+    align-items: center;
+    background-color: #2a7de1;
     border: none;
-    background-color: rgb(239, 239, 239);
-    height: 40px;                       /* Increased height for better visibility */
-    border-radius: 10px;
-    padding: 10px;
-}
-
-/* Dividing the form inputs into left and right */
-.vehicle-modal-form form .right, .vehicle-modal-form form .left {
-    display: flex;
-    flex-direction: column;
-    flex: 1;
-    gap: 1rem;
-}
-
-/* Button style */
-.vehicle-modal-container button {
-    background-color: rgb(21, 126, 126);
     color: white;
-    font-size: medium;
-    height: 40px;
-    border-radius: 30px;
-    border: none;
-    margin-top: 1rem;
+    padding: 8px 12px;
+    border-radius: 8px;
     cursor: pointer;
-    padding: 0 10px;
-    transition: all 0.3s ease;
+    font-size: 14px;
 }
 
-/* Button hover effect */
-.vehicle-modal-container button:hover {
-    background-color: rgb(0, 102, 122);
+.back-button svg {
+    margin-right: 5px;
 }
 
-/* Image upload container style */
-.uploadimagecontainer {
-    cursor: pointer;
+.vehicle-form {
     display: flex;
-    align-items: flex-end;
+    flex-direction: column;
 }
 
-/* Close button style */
-.close {
-    color: #8f8f8f;
-    float: right;
-    font-size: 28px;
+.form-section {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 30px;
+}
+
+.form-left, .form-right {
+    flex: 1;
+    min-width: 300px;
+    display: flex;
+    flex-direction: column;
+}
+
+.form-left label, .form-right label {
+    margin-top: 10px;
     font-weight: bold;
 }
 
-.close:hover,
-.close:focus {
-    color: black;
-    text-decoration: none;
-    cursor: pointer;
-    transition: all 0.3s ease-in;
+.form-left input, 
+.form-right input,
+.form-left select, 
+.form-right select,
+textarea {
+    padding: 8px;
+    margin-top: 5px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    width: 100%;
+    box-sizing: border-box;
 }
 
-/* Blur effect for background when modal is active */
-.blur {
-    filter: blur(5px);
-    transition: filter 0.3s ease;
+textarea {
+    resize: vertical;
+}
+
+.form-actions {
+    text-align: center;
+    margin-top: 25px;
+}
+
+.submit-button {
+    background-color: #28a745;
+    color: white;
+    padding: 12px 25px;
+    font-size: 16px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+.submit-button:hover {
+    background-color: #218838;
+}
+
+input[type="file"] {
+    padding: 5px;
 }
