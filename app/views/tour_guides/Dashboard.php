@@ -43,7 +43,7 @@
         <main>
             <div class="header">
                 <div class="left">
-                    <h1 id = "header-title">Dashboard</h1>
+                    <h1 id = "header-title">Dashboard new</h1>
                 </div>
             </div>
         
