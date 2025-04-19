@@ -39,46 +39,22 @@
     </style>
 </head>
 <body>
-    <?php if (!empty($data['check_in']) && !empty($data['check_out'])): ?>
-        <div class="container">
-            <h2>Thank You for Selecting to Book Your Accommodation</h2>
-            
-            <div class="details">
-                <p><strong>Check-in:</strong> <?php echo $data['check_in']; ?></p>
-                <p><strong>Check-out:</strong> <?php echo $data['check_out']; ?></p>
-                <p><strong>Total Rooms:</strong> <?php echo $data['totalrooms']; ?></p>
-                <p><strong>Total Amount:</strong> LKR <?php echo number_format($data['amount'], 2); ?></p>
-            </div>
-            
-            <button id="payhere-payment" disabled>Loading Payment Gateway...</button>
+    <div class="container">
+        <h2>Complete Your Payment</h2>
+        
+        <div class="details">
+            <p><strong>Check-in:</strong> <?php echo $data['check_in']; ?></p>
+            <p><strong>Check-out:</strong> <?php echo $data['check_out']; ?></p>
+            <p><strong>Total Rooms:</strong> <?php echo $data['totalrooms']; ?></p>
+            <p><strong>Total Amount:</strong> LKR <?php echo number_format($data['amount'], 2); ?></p>
         </div>
-    <?php endif; ?>
+        
+        <button id="payhere-payment" disabled>Loading Payment Gateway...</button>
+    </div>
 
     <script>
         // Load PayHere script with error handling
         window.addEventListener('load', function() {
-
-            <?php
-            // Store all booking details in session for retrieval after payment
-            $_SESSION['booking_data'] = [
-                'property_id' => $data['property_id'],
-                'service_provider_id' => $data['service_provider_id'],
-                'property_name' => $data['property_name'],
-                'check_in' => $data['check_in'],
-                'check_out' => $data['check_out'],
-                'single_rooms' => $data['singlerooms'],
-                'double_rooms' => $data['doublerooms'],
-                'family_rooms' => $data['familyrooms'],
-                'totalrooms' => $data['totalrooms'],
-                'totalamount' => $data['amount'],
-                'order_id' => $data['order_id']
-            ];
-
-            
-
-            
-        ?>
-
             var script = document.createElement('script');
             script.src = 'https://www.payhere.lk/lib/payhere.js';
             script.onload = function() {
@@ -113,7 +89,7 @@
                 // Payment completed handler
                 payhere.onCompleted = function onCompleted(orderId) {
                     alert("Payment completed. Order ID: " + orderId);
-                    window.location.href = "<?php echo URLROOT; ?>/payment/success_accomodation?order_id=" + orderId;
+                    window.location.href = "<?php echo URLROOT; ?>/payment/success?order_id=" + orderId;
                 };
                 
                 // Payment dismissed handler

@@ -55,13 +55,16 @@
     <p>Price:Rs.<?php echo $accomadation->singleprice;?> per person</p>
     <p>Price:Rs.<?php echo $accomadation->doubleprice;?> per 2 persons</p>
     <p>Type:<?php echo $accomadation->property_type;?></p>
-    <a href="<?php echo URLROOT;?>/users/viewdetails/<?php echo $accomadation->property_id;?>?check_in=<?php echo $data['check_in'];?>&check_out=<?php echo $data['check_out'];?>"><button class="pay-btn" style=" background-color: rgb(21, 126, 126);color: white;font-size: medium;height: 30px;
-    border-radius: 30px;
-    border: none;
-    margin-top: 1rem;
-    cursor: pointer;
-    padding: 0 10px;
-    transition: all 0.3s ease;">View & Book</button></a>
+
+
+
+    
+    <a href="<?php echo URLROOT;?>/users/viewdetails/<?php echo $accomadation->property_id;?>" 
+       onclick="this.href += '?budget=' + localStorage.getItem('budget') + '&check_in=' + localStorage.getItem('check_in') + '&check_out=' + localStorage.getItem('check_out');">
+        <button class="pay-btn" style="background-color: rgb(21, 126, 126); color: white; font-size: medium; height: 30px; border-radius: 30px; border: none; margin-top: 1rem; cursor: pointer; padding: 0 10px; transition: all 0.3s ease;">
+            View & Book
+        </button>
+    </a>
 
 </div>
 <?php endforeach; ?>

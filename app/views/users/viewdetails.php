@@ -3,7 +3,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-    <title>The Grand Kandyan</title>
+    <title>Hotel Booking</title>
     <script src="https://maps.googleapis.com/maps/api/js?key=<?php echo API_KEY; ?>&callback=initMap" async defer></script>
     <script>
         function initMap() {
@@ -605,19 +605,10 @@
         <div class="availability">
             <div class="availability-header">
                 <h2>Availability</h2>
-                <p>Enter the Check-in ,Check-out Dates and the People</p>
+                
             </div>
 
-            <div class="search-container">
-            <form id="bookingForm" action="<?php echo URLROOT;?>/users/book" method="POST">
-                <div class="search-inputs">
-                    <input type="date" class="search-field" name="check-in-date" placeholder="Date">
-                    <input type="date" class="search-field" name="check-out-date" placeholder="Check-out date">
-                    <input type="text" class="search-field" name="guests" placeholder="Enter the Number of People">
-                </div>
           
-            </div>
-
             <div class="overflow-x-auto">
                 <table class="availability-table">
                     <thead>
@@ -631,32 +622,36 @@
                     </thead>
                     <tbody>
                         <tr>
-                            <td>Single Room (1 person)</td>
+                        <td>Single Room (1 person)</td>
                             <td>LKR.<?php echo $data['accomadation']->singleprice; ?></td>
-                            <td><?php echo $data['availableRooms']['single_bedrooms']; ?></td>
-                            <td><input type="number" min="0" max="<?php echo $data['availableRooms']['single_bedrooms']; ?>"id="singleRoomInput" name="singleamount" value="0" readonly></td>
-                            <td><button type="button" class="book-button" onclick="addRoom('single', <?php echo $data['accomadation']->singleprice; ?>,<?php echo $data['availableRooms']['single_bedrooms']; ?>)" >Add</button>
-                            <button type="button" class="book-button" onclick="removeRoom('single', <?php echo $data['accomadation']->singleprice; ?>)">Remove</button>
+                            <td><?php echo $data['accomadation']->available_rooms['single']; ?></td>
+                            <td><input type="number" min="0" max="<?php echo $data['accomadation']->available_rooms['single']; ?>" id="singleRoomInput" name="singleamount" value="0" readonly></td>
+                            <td>
+                                <button type="button" class="book-button" onclick="addRoom('single', <?php echo $data['accomadation']->singleprice; ?>, <?php echo $data['accomadation']->available_rooms['single']; ?>)">Add</button>
+                                <button type="button" class="book-button" onclick="removeRoom('single', <?php echo $data['accomadation']->singleprice; ?>)">Remove</button>
+                        
                         </td>
                         </tr>
                         <tr>
-                            <td>Double Room (2 persons)</td>
-                            <td>LKR.<?php echo $data['accomadation']->doubleprice; ?></td>
-                            <td><?php echo $data['availableRooms']['double_bedrooms']; ?></td>
-                            <td><input type="number" min="0" max="<?php echo $data['availableRooms']['double_bedrooms']; ?>" id="doubleRoomInput" name="doubleamount" value="0" readonly></td>
-                            <td><button type="button" class="book-button" onclick="addRoom('double', <?php echo $data['accomadation']->doubleprice; ?>,<?php echo $data['availableRooms']['double_bedrooms']; ?>)" >Add</button>
-                            <button type="button" class="book-button" onclick="removeRoom('double', <?php echo $data['accomadation']->doubleprice; ?>)">Remove</button>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>Family Room (4 persons)</td>
-                            <td>LKR.<?php echo $data['accomadation']->familyprice; ?></td>
-                            <td><?php echo $data['availableRooms']['family_rooms']; ?></td>
-                            <td><input type="number" min="0" max="<?php echo $data['availableRooms']['family_rooms']; ?>" id="familyRoomInput" name="familyamount"value="0" readonly></td>
-                            <td><button type="button" class="book-button" onclick="addRoom('family', <?php echo $data['accomadation']->familyprice; ?>,<?php echo $data['availableRooms']['family_rooms']; ?>)" >Add</button>
-                            <button type="button" class="book-button" onclick="removeRoom('family', <?php echo $data['accomadation']->familyprice; ?>)">Remove</button>
-                            </td>
-                        </tr>
+    <td>Double Room (2 persons)</td>
+    <td>LKR.<?php echo $data['accomadation']->doubleprice; ?></td>
+    <td><?php echo $data['accomadation']->available_rooms['double']; ?></td>
+    <td><input type="number" min="0" max="<?php echo $data['accomadation']->available_rooms['double']; ?>" id="doubleRoomInput" name="doubleamount" value="0" readonly></td>
+    <td>
+        <button type="button" class="book-button" onclick="addRoom('double', <?php echo $data['accomadation']->doubleprice; ?>, <?php echo $data['accomadation']->available_rooms['double']; ?>)">Add</button>
+        <button type="button" class="book-button" onclick="removeRoom('double', <?php echo $data['accomadation']->doubleprice; ?>)">Remove</button>
+    </td>
+</tr>
+<tr>
+    <td>Family Room (4 persons)</td>
+    <td>LKR.<?php echo $data['accomadation']->familyprice; ?></td>
+    <td><?php echo $data['accomadation']->available_rooms['family']; ?></td>
+    <td><input type="number" min="0" max="<?php echo $data['accomadation']->available_rooms['family']; ?>" id="familyRoomInput" name="family_rooms" value="0" readonly></td>
+    <td>
+        <button type="button" class="book-button" onclick="addRoom('family', <?php echo $data['accomadation']->familyprice; ?>, <?php echo $data['accomadation']->available_rooms['family']; ?>)">Add</button>
+        <button type="button" class="book-button" onclick="removeRoom('family', <?php echo $data['accomadation']->familyprice; ?>)">Remove</button>
+    </td>
+</tr>
 
                     </tbody>
                 </table>
@@ -675,6 +670,7 @@
 
             </div>
             <h3>Order Summary</h3>
+            <form action="<?php echo URLROOT; ?>/payment/payment_accomodation" method="POST">
             <div class="order-summary">
                     
                     <div class="summary-row">
@@ -700,9 +696,15 @@
 
                     </div> -->
 
-                    <input type="hidden" name="property_id" value="<?php echo $accomadation->property_id; ?>">
-                    <input type="hidden" name="service_provider_id" value="<?php echo $accomadation->service_provider_id; ?>">
-
+                    <input type="hidden" name="property_id" value="<?php echo $data['accomadation']->property_id; ?>">
+                    <input type="hidden" name="service_provider_id" value="<?php echo $data['accomadation']->service_provider_id; ?>">
+                    <input type="hidden" name="property_name" value="<?php echo $data['accomadation']->property_name; ?>">
+                    <input type="hidden" name="check_in" value="<?php echo $data['check_in']; ?>">
+                    <input type="hidden" name="check_out" value="<?php echo $data['check_out']; ?>">
+                    <input type="hidden" name="single_rooms" id="single_rooms" value="0">
+                    <input type="hidden" name="double_rooms" id="double_rooms" value="0">
+                    <input type="hidden" name="family_rooms" id="family_rooms" value="0">
+        
 
                     <button type="submit" class="pay-button">Pay & Book Now</button>
                     </form>
@@ -723,7 +725,7 @@
                 <img src="https://storage.googleapis.com/a1aa/image/RKqSWqHEctrZE50PA46uyJilRmemhPRMeVNYWhISKMxrvoAUA.jpg" alt="Guest avatar" class="guest-avatar">
                 <div class="guest-country">
                     
-                    Romania
+                   Sri Lanka
                 </div>
             </div>
         </div>
@@ -744,49 +746,53 @@
         let totalRooms = 0;
 
         function addRoom(type, price, max) {
-            let inputId = type + 'RoomInput';
-            let roomInput = document.getElementById(inputId);
-            let numberOfRooms = parseInt(roomInput.value);
-            let maximum = max;
-         
+    let inputId = type + 'RoomInput';
+    let roomInput = document.getElementById(inputId);
+    let numberOfRooms = parseInt(roomInput.value);
+    
+    // Check if numberOfRooms is valid and less than maximum
+    if (!isNaN(numberOfRooms) && numberOfRooms >= 0 && numberOfRooms < max) {
+        numberOfRooms++;
+        roomInput.value = numberOfRooms;
+        totalAmount += price;
+        totalRooms++;
+        
+        // Update display values
+        document.getElementById('totalAmount').innerText = 'LKR ' + totalAmount;
+        document.getElementById('totalamount').value = totalAmount;
+        document.getElementById('totalRooms').innerText = totalRooms;
+        document.getElementById('totalrooms').value = totalRooms;
+        document.getElementById('roomCharges').innerHTML = 'LKR ' + totalAmount;
+        
+        // Update hidden fields for room counts
+        document.getElementById(type + '_rooms').value = numberOfRooms;
+    } else {
+        alert('No more rooms of this type available.');
+    }
+}
 
-            // Check if numberOfRooms is a valid number and greater than or equal to 0
-            if (!isNaN(numberOfRooms) && numberOfRooms >= 0 && numberOfRooms < max) {
-                numberOfRooms++;
-                roomInput.value = numberOfRooms;
-                totalAmount += price;
-                totalRooms++;
-                document.getElementById('totalAmount').innerText = 'LKR ' + totalAmount;
-                document.getElementById('totalamount').value=totalAmount;
-                document.getElementById('totalRooms').innerText = totalRooms;
-                document.getElementById('totalrooms').value=totalRooms;
-                document.getElementById('roomCharges').innerHTML = 'LKR ' + totalAmount;
-                document.getElementById('pay').innerHTML ='LKR' + (0.5*totalAmount);
-                document.getElementById('totalpaid').value=0.5*totalAmount;
-            } else {
-                alert('Please enter a valid number of rooms.');
-            }
-        }
-
-        function removeRoom(type, price) {
-            let inputId = type + 'RoomInput';
-            let roomInput = document.getElementById(inputId);
-            let numberOfRooms = parseInt(roomInput.value);
-
-            if (!isNaN(numberOfRooms) && numberOfRooms > 0 ) {
-                numberOfRooms--;
-                roomInput.value = numberOfRooms;
-                totalAmount -= price;
-                totalRooms--;
-                document.getElementById('totalAmount').innerText = 'LKR ' + totalAmount;
-                document.getElementById('totalRooms').innerText = totalRooms;
-                document.getElementById('roomCharges').innerHTML = 'LKR ' + totalAmount;
-                document.getElementById('pay').innerHTML = 'LKR' + (totalAmount);
-            } else {
-                alert('Please enter a valid number of rooms.');
-            }
-        }
-
+function removeRoom(type, price) {
+    let inputId = type + 'RoomInput';
+    let roomInput = document.getElementById(inputId);
+    let numberOfRooms = parseInt(roomInput.value);
+    
+    if (!isNaN(numberOfRooms) && numberOfRooms > 0) {
+        numberOfRooms--;
+        roomInput.value = numberOfRooms;
+        totalAmount -= price;
+        totalRooms--;
+        
+        // Update display values
+        document.getElementById('totalAmount').innerText = 'LKR ' + totalAmount;
+        document.getElementById('totalamount').value = totalAmount;
+        document.getElementById('totalRooms').innerText = totalRooms;
+        document.getElementById('totalrooms').value = totalRooms;
+        document.getElementById('roomCharges').innerHTML = 'LKR ' + totalAmount;
+        
+        // Update hidden fields for room counts
+        document.getElementById(type + '_rooms').value = numberOfRooms;
+    }
+}
     </script>
 
     <!-- <script>

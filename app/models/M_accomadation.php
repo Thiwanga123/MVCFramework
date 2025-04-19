@@ -80,19 +80,34 @@ class M_accomadation {
             $this->db->bind(':image_path',$data['imageUrls']);
 
             // Execute the query
-            $this->db->execute();
-
-            if($this->db->rowCount() > 0){
+            if ($this->db->execute()) {
                 // Get the last inserted ID using a standard SQL query
                 $this->db->query("SELECT LAST_INSERT_ID() as id");
+
+               
                 $result = $this->db->single();
+                
                 return $result->id;
             } else {
-                return false;
+                // Return detailed error
+                return ['error' => 'Database insertion failed. Please check your input data.'];
             }
         } catch (PDOException $e) {
             error_log($e->getMessage());
-            return false;
+            
+            // Determine a user-friendly error message based on the exception
+            $errorMessage = 'Database error occurred';
+            
+            // Check for specific error types
+            if (strpos($e->getMessage(), 'Duplicate entry') !== false) {
+                $errorMessage = 'This property already exists in the database.';
+            } elseif (strpos($e->getMessage(), 'Data too long') !== false) {
+                $errorMessage = 'Some input data exceeds the maximum allowed length.';
+            } elseif (strpos($e->getMessage(), 'Cannot add or update a child row') !== false) {
+                $errorMessage = 'Invalid reference data. Please check your inputs.';
+            }
+            
+            return ['error' => $errorMessage];
         }
     }
 

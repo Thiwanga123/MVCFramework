@@ -382,17 +382,21 @@ public function myPayments(){
                         $data['imageUrls'] = $imagePaths[0];
                         
                         // Add property to database
-                        $propertyId = $this->accomadationModel->addProperty($data);
+                        $result = $this->accomadationModel->addProperty($data);
                         
-                        if ($propertyId) {
+                        if (is_numeric($result) && $result > 0) {
+                            // Success case - $result contains the property ID
                             // Add additional images to property_images table
                             foreach ($imagePaths as $path) {
-                                $this->accomadationModel->addPropertyImage($propertyId, $path);
+                                $this->accomadationModel->addPropertyImage($result, $path);
                             }
                             
                             echo json_encode(['status' => 'success', 'message' => 'Property added successfully']);
                         } else {
-                            echo json_encode(['status' => 'error', 'message' => 'Failed to add property']);
+                            // Error case - check if it's an array with error details
+                            $errorMessage = is_array($result) && isset($result['error']) ? 
+                                $result['error'] : 'Failed to add property. Database error occurred.';
+                            echo json_encode(['status' => 'error', 'message' => $errorMessage]);
                         }
                     } else {
                         echo json_encode(['status' => 'error', 'message' => 'No valid images were uploaded']);
@@ -518,14 +522,15 @@ public function myPayments(){
 
                 //send the data to the model
                 if (empty($errors)) {
-                    $isInserted = $this->accomadationModel->addProperty($data);
+                    $result = $this->accomadationModel->addProperty($data);
 
-                    if ($isInserted) {
+                    if (is_numeric($result) && $result > 0) {
                         echo json_encode(['status' => 'success', 'message' => 'Data added successfully']);
-                    
-                    
                     } else {
-                        echo json_encode(['status' => 'error', 'message' => 'An error occurred. Please try again']);
+                        // Error case - check if it's an array with error details
+                        $errorMessage = is_array($result) && isset($result['error']) ? 
+                            $result['error'] : 'An error occurred while adding the property. Please try again.';
+                        echo json_encode(['status' => 'error', 'message' => $errorMessage]);
                     }
                 } else {
                     echo json_encode(['status' => 'error', 'message' => $errors]);

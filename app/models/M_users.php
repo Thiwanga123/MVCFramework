@@ -104,7 +104,9 @@ class M_users{
     public function searchAccommodations($data){
 
         
-        $this->db->query('SELECT * FROM properties WHERE city = :city AND (singleprice <= :price OR doubleprice <= :price OR familyprice <= :price OR livingprice <= :price) AND max_occupants >= :people');
+
+        
+        $this->db->query('SELECT * FROM properties WHERE city = :city AND (singleprice <= :price OR doubleprice <= :price OR familyprice <= :price OR livingprice <= :price) ');
         //bind parameters indexes
 
 
@@ -119,13 +121,19 @@ class M_users{
     }
 
     //get the accomodation details
-    public function getAccommodationById($property_id){
+    public function getAccommodationById($property_id, $check_in = null, $check_out = null){
+        // Get basic property information
         $this->db->query('SELECT * FROM properties WHERE property_id = :property_id');
         $this->db->bind(':property_id', $property_id);
+        $property = $this->db->single();
+        
+        // If dates are provided, get room availability for those dates
+        if ($check_in && $check_out) {
+            $property->available_rooms = $this->getAvailableRooms($property_id, $check_in, $check_out);
 
-        $row = $this->db->single();
-
-        return $row;
+        }
+        
+        return $property;
     }
 
 
@@ -158,45 +166,32 @@ class M_users{
     // }
 
     //add a booking to the proerty_booking
-    public function book($data) {
+    public function book_accomodation($data) {
+ // Debugging line to check the data
         try {
-            // Validate input
-            if (strtotime($data['check_in']) >= strtotime($data['check_out']) || 
-                strtotime($data['check_in']) < time() || 
-                $data['singleamount'] < 0 || $data['doubleamount'] < 0 || $data['familyamount'] < 0 || 
-                $data['totalrooms'] < 0) {
-                return ['success' => false, 'message' => 'Invalid booking details (dates or room counts).'];
-            }
-
-            // Check availability for the date range
-            $available = $this->getAvailableRooms($data['property_id'], $data['check_in'], $data['check_out']);
-            if ($available['single'] < $data['singleamount'] || 
-                $available['double'] < $data['doubleamount'] || 
-                $available['living'] < $data['familyamount']) { // Assuming 'familyamount' maps to 'living'
-                return ['success' => false, 'message' => 'Not enough rooms available for the selected dates.'];
-            }
-
+           
             // Insert booking
-            $this->db->query('INSERT INTO property_booking (traveler_id, property_id, supplier_id, check_in, check_out, amount, guests, singlerooms, doublerooms, familyrooms, totalrooms, payment_date, payment_status) 
-                              VALUES (:traveler_id, :property_id, :service_provider_id, :check_in, :check_out, :total_price, :no_of_people, :singlerooms, :doublerooms, :familyrooms, :totalrooms, CURRENT_DATE, "charged")');
+            $this->db->query('INSERT INTO property_booking (traveler_id, property_id, supplier_id, check_in, check_out, amount,  singlerooms, doublerooms, familyrooms, totalrooms, payment_date, payment_status) 
+                              VALUES (:traveler_id, :property_id, :service_provider_id, :check_in, :check_out, :total_price,  :singlerooms, :doublerooms, :familyrooms, :totalrooms, CURRENT_DATE, "charged")');
             
             $this->db->bind(':traveler_id', $data['user_id']);
             $this->db->bind(':property_id', $data['property_id']);
             $this->db->bind(':check_in', $data['check_in']);
-            $this->db->bind(':check_out', $data['check_out']);
-            $this->db->bind(':no_of_people', $data['people']);
-            $this->db->bind(':total_price', $data['price']);
+            $this->db->bind(':check_out', $data['check_out']);          
+            $this->db->bind(':total_price', $data['totalamount']);
             $this->db->bind(':totalrooms', $data['totalrooms']);
-            $this->db->bind(':singlerooms', $data['singleamount']);
-            $this->db->bind(':doublerooms', $data['doubleamount']);
-            $this->db->bind(':familyrooms', $data['familyamount']); // Maps to familyrooms in table
+            $this->db->bind(':singlerooms', $data['single_rooms']);
+            $this->db->bind(':doublerooms', $data['double_rooms']);
+            $this->db->bind(':familyrooms', $data['family_rooms']); // Maps to familyrooms in table
             $this->db->bind(':service_provider_id', $data['service_provider_id']);
 
             if ($this->db->execute()) {
+
+                
                 $bookingId = $this->db->insertId(); // Assuming insertId() gets last inserted ID
 
                 // Call function to hold payment (assuming it exists elsewhere)
-                $this->holdPayment($bookingId, $data['price'], $data['service_provider_id'], $data['user_id']);
+                $this->holdPayment($bookingId, $data['totalamount'], $data['service_provider_id'], $data['user_id']);
 
                 return ['success' => true, 'message' => 'Booking successful.', 'booking_id' => $bookingId];
             } else {
@@ -212,20 +207,20 @@ class M_users{
     public function getAvailableRooms($propertyId, $checkIn, $checkOut) {
         try {
             // Get total rooms from properties
-            $this->db->query("SELECT single_bedrooms, double_bedrooms, living_rooms FROM properties WHERE property_id = :property_id");
+            $this->db->query("SELECT single_bedrooms, double_bedrooms, family_rooms FROM properties WHERE property_id = :property_id");
             $this->db->bind(':property_id', $propertyId);
             $total = $this->db->single();
-
+    
             // Calculate maximum booked rooms across the date range
             $this->db->query("SELECT 
                                  COALESCE(MAX(single_booked), 0) as booked_single,
                                  COALESCE(MAX(double_booked), 0) as booked_double,
-                                 COALESCE(MAX(living_booked), 0) as booked_living
+                                 COALESCE(MAX(family_booked), 0) as booked_family
                               FROM (
                                   SELECT 
                                       SUM(pb.singlerooms) as single_booked,
                                       SUM(pb.doublerooms) as double_booked,
-                                      SUM(pb.familyrooms) as living_booked
+                                      SUM(pb.familyrooms) as family_booked
                                   FROM property_booking pb
                                   WHERE pb.property_id = :property_id
                                     AND pb.status IN ('pending', 'confirmed')
@@ -236,26 +231,29 @@ class M_users{
             $this->db->bind(':check_in', $checkIn);
             $this->db->bind(':check_out', $checkOut);
             $booked = $this->db->single();
-
-            // Calculate available rooms
+    
+            // Calculate available rooms - ensure no negative values
             $availablerooms = [
-                'single' => $total['single_bedrooms'] - $booked['booked_single'],
-                'double' => $total['double_bedrooms'] - $booked['booked_double'],
-                'living' => $total['living_rooms'] - $booked['booked_living'] // Assumes familyrooms maps to living_rooms
+                'single' => max(0, $total->single_bedrooms - ($booked->booked_single ?? 0)),
+                'double' => max(0, $total->double_bedrooms - ($booked->booked_double ?? 0)),
+                'family' => max(0, $total->family_rooms - ($booked->booked_family ?? 0))
             ];
-
+    
+            // Calculate the stay duration in nights
+            
+            
             return $availablerooms;
         } catch (Exception $e) {
             error_log("Error getting available rooms: " . $e->getMessage());
-            return ['single' => 0, 'double' => 0, 'living' => 0];
+            return ['single' => 0, 'double' => 0, 'living' => 0, 'nights' => 0];
         }
     }
     //hold the payment
-    public function holdPayment($amount, $providerId, $user_id,$bookingId){ {
+    public function holdPayment($bookingId, $totalamount, $providerId, $user_id){
      
         // Hold payment in the provider's wallet
         $this->db->query("INSERT INTO accomadation_wallet (provider_id,traveler_id, holding_amount, transaction_type, related_booking_id, transaction_date) VALUES (:provider_id, :traveler_id, :amount, 'deposit', :booking_id, CURRENT_DATE)");
-        $this->db->bind(':amount', $amount);
+        $this->db->bind(':amount', $totalamount);
         $this->db->bind(':provider_id', $providerId);
         $this->db->bind(':booking_id', $bookingId);
         $this->db->bind(':traveler_id', $user_id);
@@ -268,7 +266,7 @@ class M_users{
             return false;
         }
     }
-}
+
 
     //cancel the booking
    

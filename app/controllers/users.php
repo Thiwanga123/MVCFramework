@@ -80,8 +80,20 @@ class Users extends Controller {
                 $budget = trim($_POST['budget']),
                 $check_in=trim($_POST['check_in']),
                 $check_out=trim($_POST['check_out'])
-
             ];
+
+            // Store the data in local storage
+            echo "<script>
+                localStorage.setItem('location', '$location');
+                localStorage.setItem('budget', '$budget');
+                localStorage.setItem('check_in', '$check_in');
+                localStorage.setItem('check_out', '$check_out');
+            </script>";
+
+
+
+
+    
 
 
             // Call the model to search for accommodations
@@ -107,8 +119,11 @@ class Users extends Controller {
 
     }
 
-    public function payments() {
+   
+    
+    public function payment_accomadation() {
         if(isset($_SESSION['user_id'])) {
+
             $this->view('users/payment');
         }else{
             redirect('users/login');
@@ -125,13 +140,22 @@ class Users extends Controller {
         
     }
 
-    public function viewdetails($property_id){
+    public function viewdetails($property_id) {
+
+
         if(isset($_SESSION['user_id'])) {
-            $availableRooms = $this->userModel->getAvailableRooms($property_id);
-            $accomadation = $this->userModel->getAccommodationById($property_id);
+
+            $check_in = $_GET['check_in'];
+            $check_out = $_GET['check_out'];
+            $budget = $_GET['budget'];
+
+            $accomadation = $this->userModel->getAccommodationById($property_id, $check_in, $check_out,$budget);
             $data=[
                 'accomadation' => $accomadation,
-                'availableRooms' => $availableRooms
+                'check_in' => $check_in,
+                'check_out' => $check_out,
+                'budget' => $budget,
+                
             ];
             $this->view('users/viewdetails',$data);
         }else{
@@ -384,24 +408,9 @@ public function cancelBooking() {
     }
 }
 
-//get all the accomodations from the database
-   // public function addAccommodationImage($accommodationId, $imagePath) {
-    //     $userId = $_SESSION['id'];
-
-    //     $isInserted = $this->accomadationModel->addAccommodationImage($userId, $accommodationId, $imagePath);
-
-    //     if ($isInserted) {
-    //         return true;
-    //     } else {
-    //         return false;
-    //     }
-    // }
-
- 
 
 
-
-public function book(){
+public function book_accomodation(){
     if($_SERVER['REQUEST_METHOD'] == 'POST') {
         $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_FULL_SPECIAL_CHARS);
         $data = [
@@ -456,7 +465,7 @@ public function book(){
         }
 
         if(empty($errors)){
-            $isInserted = $this->userModel->book($data);
+            $isInserted = $this->userModel->book_accomodation($data);
             if($isInserted){
 
                 if($this->userModel->holdPayment($data['price'], $data['service_provider_id'],$data['user_id'] ,$isInserted)){
@@ -608,6 +617,9 @@ public function sendOtpToEmail($email, $otp) {
         return false;
     }
 }
+
+
+
 }
 
 
