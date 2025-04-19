@@ -41,7 +41,7 @@
                                             <div class="img">
                                                 <img src="<?php echo URLROOT . '/' . $rental->image_path; ?>" alt="<?php echo $rental->product_name; ?>">
                                             </div>
-                                            <div class="details">
+                                            <div class="detailsCard">
                                                 <h4><?php echo $rental->rental_name ?></h4>
                                                 <h4><?php echo $rental->price_per_day ?></h4>
                                             </div>
@@ -69,10 +69,18 @@
                 <?php include_once('AddForm.php'); ?>
 
             </main>
-
     </div>
 
+        <?php
+            include_once('errorModal.php');
+        ?>
+
+        <?php   
+            include('successModal.php')
+        ?>
+
     <script src="<?php echo URLROOT;?>/js/EquipmentSupplierJS/AddRentalBtn.js"></script>
+    <script src="<?php echo URLROOT;?>/js/EquipmentSupplierJS/AddProduct.js"></script>
     <script src="<?php echo URLROOT;?>/js/Sidebar.js"></script>
     <script src="<?php echo URLROOT;?>/js/logout.js"></script>
     <script src="<?php echo URLROOT;?>/js/subMenu.js"></script> 

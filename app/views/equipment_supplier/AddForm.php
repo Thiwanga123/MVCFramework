@@ -1,4 +1,5 @@
-<div class="initial-container" id="addRentalContainer" style="display: none;">
+            
+            <div class="initial-container" id="addRentalContainer" style="display: none;">
                     <div class="header">
                             <div class="left">
                                 <h1>Add Rental</h1>
@@ -65,12 +66,12 @@
                                         <textarea id="rentalDescription" name="rentalDescription" rows="6" cols="50" required></textarea>
                                     </div>
                                     <span id="rentalDescription-error" class="error-message"></span>
-
-                                </div>
                             </div>
+                        </div>
+
                             <!-- Image Upload Section -->
-                            <div class="image-upload">
-                                <h2>Upload Images</h2>
+                        <div class="image-upload">
+                            <h2>Upload Images</h2>
                                 <div class="details">
                                     <label for="image">Choose upto 6 images</label>
                                     <input type="file" id="image" name="image[]" accept="image/*" multiple required>
@@ -79,75 +80,71 @@
 
                                 <div class="image-container" id="image-container">
                                     <img id="image-preview" src="" alt="Image Preview" style="display:none; max-width: 100%; max-height: 300px;">
-                                </div>
-                                
-                            </div>
+                                </div>  
+                        </div>
 
                         <!-- Policies Section -->
-                            <div class="policies">
-                                <div class="details">
-                                    <h2>Policies</h2>
-                                    <br>
-                                    <label for="returnPolicy">Return Policy:</label>
+                        <div class="policies">
+                            <div class="details">
+                                <h2>Policies</h2>
+                                <br>
+                                <label for="returnPolicy">Return Policy:</label>
                                     <select id="returnPolicy" name="returnPolicy" required>
                                         <option value="noReturn">No return policies</option>
                                         <option value="fullRefund">Full refund</option>
                                         <option value="partialRefund">Partial refund</option>
                                         <option value="bothRefunds">Both full and partial refund</option>
                                     </select>
-                                    <span id="returnPolicy-error" class="error-message"></span>
-
-                                    <br><br>
+                                <span id="returnPolicy-error" class="error-message"></span>
 
                                     <!-- Full Refund Time -->
-                                    <div id="fullRefundSection" style="display: none;">
-                                        <h4>Full refund:</h4>
-                                        <label for="fullRefundTime">Cancel Time (hours before pickup for full refund):</label>
-                                        <select id="fullRefundTime" name="fullRefundTime" required>
-                                            <option value="12">12 hours</option>
-                                            <option value="24">24 hours</option>
-                                            <option value="36">36 hours</option>
-                                            <option value="48">48 hours</option>
-                                        </select>
-                                        <span id="fullRefundTime-error" class="error-message"></span>
+                                <div id="fullRefundSection" style="display: none;">
+                                    <h4>Full refund:</h4>
+                                    <label for="fullRefundTime">Cancel Time (hours before pickup for full refund):</label>
+                                    <select id="fullRefundTime" name="fullRefundTime" required>
+                                        <option value="12">12 hours</option>
+                                        <option value="24">24 hours</option>
+                                        <option value="36">36 hours</option>
+                                        <option value="48">48 hours</option>
+                                    </select>
+                                    <span id="fullRefundTime-error" class="error-message"></span>
 
-                                    </div>
+                                </div>
 
                                     <!-- Partial Refund Time -->
-                                    <div id="partialRefundSection" style="display: none;">
-                                        <h4>Partial refund:</h4>
+                                <div id="partialRefundSection" style="display: none;">
+                                    <h4>Partial refund:</h4>
+                                    <div class="partialContent">
                                         <div>
-                                            <div class="div">
-                                                <label for="partialRefundTime">Cancel Time (hours before pickup for partial refund):</label>
-                                                <select id="partialRefundTime" name="partialRefundTime" required>
-                                                    <option value="12">12 hours</option>
-                                                    <option value="24">24 hours</option>
-                                                    <option value="36">36 hours</option>
-                                                    <option value="48">48 hours</option>
-                                                </select>
-                                                <span id="partialRefundTime-error" class="error-message"></span>
+                                            <label for="partialRefundTime">Cancel Time (hours before pickup for partial refund):</label>
+                                            <select id="partialRefundTime" name="partialRefundTime" required>
+                                                <option value="12">12 hours</option>
+                                                <option value="24">24 hours</option>
+                                                <option value="36">36 hours</option>
+                                                <option value="48">48 hours</option>
+                                            </select>
+                                            <span id="partialRefundTime-error" class="error-message"></span>
 
-                                            </div>
-                                            <div>
-                                                <label for="partialRefundPercentage">Partial Refund Percentage:</label>
-                                                <input type="number" id="partialRefundPercentage" name="partialRefundPercentage" min="0" max="100" step="10">
-                                                <span id="partialRefundPercentage-error" class="error-message"></span>
-                                            </div>
                                         </div>
-                                    </div>
-
-                                    <label for="damagePolicy">Damage Policy:</label>
-                                    <textarea id="damagePolicy" name="damagePolicy" rows="4" cols="50" required></textarea>
-                                    <span id="damagePolicy-error" class="error-message"></span>
-
-                                    <div class="btn">
-                                        <button type="submit" id = "addRentalBtn" class="addRentalBtn">Add Equipment</button>
-                                        <div id="loadingSpinner" style="display: none;">
-                                            <img src="spinner.gif" alt="Loading..." width="30">
+                                        <div>
+                                            <label for="partialRefundPercentage">Partial Refund Percentage:</label>
+                                            <input type="number" id="partialRefundPercentage" name="partialRefundPercentage" min="0" max="100" step="10">
+                                            <span id="partialRefundPercentage-error" class="error-message"></span>
                                         </div>
                                     </div>
                                 </div>
+
+                                <div class="damage">
+                                    <label for="damagePolicy">Damage Policy:</label>
+                                    <textarea id="damagePolicy" name="damagePolicy" rows="4" cols="50" required></textarea>
+                                    <span id="damagePolicy-error" class="error-message"></span>
+                                </div>
                             </div>
-                        </form>
-                    </div>
+                        </div>
+
+                        <div class="btn">
+                            <button type="submit" id = "addRentalBtn" class="addRentalBtn">Add Equipment</button>          
+                        </div>
+                    </form>
                 </div>
+            </div>

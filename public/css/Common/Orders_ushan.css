@@ -66,21 +66,67 @@
 }
 
 .status {
-    text-transform: capitalize;
-    font-weight: 500;
-    padding: 4px 10px;
-    border-radius: 20px;
+    padding: 4px 8px;
+    border-radius: 12px;
+    font-weight: bold;
     font-size: 0.9rem;
-    width: auto;
-    height: 15px;
+    display: inline-block;
+    text-transform: capitalize;
 }
 
-.status .complete{
-    background-color: #4caf50;
+.status.booked {
+    background-color: #f0ad4e; /* orange-ish */
     color: white;
 }
 
-.content main .initial-container table td:nth-child(8) {
-    font-weight: 500;
-    color: #2d3748;
+.status.complete {
+    background-color: #5cb85c; /* green */
+    color: white;
+}
+
+.status.cancelled {
+    background-color: #d9534f; /* red */
+    color: white;
+}
+
+.action-menu-container {
+    position: relative;
+    display: inline-block;
+    cursor: pointer;
+}
+
+.action-trigger {
+    font-size: 1.5rem;
+    font-weight: bold;
+    padding: 0 10px;
+    user-select: none;
+    z-index: 400;
+}
+
+.action-menu {
+    display: none;
+    position: absolute;
+    right: 0;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+    z-index: 2000;
+    min-width: 100px;
+}
+
+.action-menu a {
+    display: block;
+    padding: 8px 12px;
+    color: #333;
+    text-decoration: none;
+}
+
+.action-menu a:hover {
+    background-color: #f5f5f5;
+}
+
+.action-menu-container:hover .action-menu {
+    display: block;
+    z-index: 5000;
 }

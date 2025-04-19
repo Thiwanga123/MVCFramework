@@ -36,7 +36,8 @@
                                     <th>Start Date</th>
                                     <th>End Date</th>
                                     <th>Status</th>
-                                    <th>Price</th>                            
+                                    <th>Price</th> 
+                                    <th>Actions</th>                           
                                 </tr>
                             </thead>
                             <tbody>
@@ -53,8 +54,28 @@
                                         <td><?php echo htmlspecialchars($booking->booking_id); ?></td>
                                         <td><?php echo htmlspecialchars($booking->start_date); ?></td>
                                         <td><?php echo htmlspecialchars($booking->end_date); ?></td>
-                                        <td><?php echo htmlspecialchars($booking->status); ?></td>
+                                        <td>
+                                            <span class="status <?php echo strtolower($booking->status); ?>">
+                                                <?php echo htmlspecialchars($booking->status); ?>
+                                            </span>
+                                        </td>
                                         <td><?php echo htmlspecialchars($booking->total_price); ?></td>
+                                        <td class="actions">
+                                            <div class="action-menu-container">
+                                                <span class="action-trigger">  
+                                                    <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#000000"><path d="M480-160q-33 0-56.5-23.5T400-240q0-33 23.5-56.5T480-320q33 0 56.5 23.5T560-240q0 33-23.5 56.5T480-160Zm0-240q-33 0-56.5-23.5T400-480q0-33 23.5-56.5T480-560q33 0 56.5 23.5T560-480q0 33-23.5 56.5T480-400Zm0-240q-33 0-56.5-23.5T400-720q0-33 23.5-56.5T480-800q33 0 56.5 23.5T560-720q0 33-23.5 56.5T480-640Z"/></svg>
+                                                </span>
+                                                <div class="action-menu">
+                                                    <a href="<?= URLROOT ?>/booking/view/<?php echo htmlspecialchars($booking->booking_id) ?>">View</a>
+                                                    <?php if (strtolower($booking->status) === 'booked'): ?>
+                                                        <a href="<?= URLROOT ?>/booking/cancel/<?= $booking->booking_id ?>"
+                                                        onclick="return confirm('Are you sure you want to cancel this booking?')">
+                                                        Cancel
+                                                        </a>
+                                                    <?php endif; ?>
+                                                </div>
+                                            </div>
+                                        </td>
                                     </tr>
                                 <?php endforeach; ?>
                             </tbody>

@@ -1,8 +1,34 @@
 
 document.addEventListener('DOMContentLoaded', () => {
     const addRentalForm = document.getElementById("addRentalForm");
-    
+    const returnPolicySelect = document.getElementById('returnPolicy');
+    const fullRefundSection = document.getElementById('fullRefundSection');
+    const partialRefundSection = document.getElementById('partialRefundSection');
 
+    function toggleRefundSections() {
+        const selectedValue = returnPolicySelect.value;
+
+        if (selectedValue === 'fullRefund') {
+            fullRefundSection.style.display = 'block';
+            partialRefundSection.style.display = 'none';
+        } else if (selectedValue === 'partialRefund') {
+            fullRefundSection.style.display = 'none';
+            partialRefundSection.style.display = 'block';
+        } else if (selectedValue === 'bothRefunds') {
+            fullRefundSection.style.display = 'block';
+            partialRefundSection.style.display = 'block';
+        } else {
+            fullRefundSection.style.display = 'none';
+            partialRefundSection.style.display = 'none';
+        }
+    }
+
+    // Initial toggle when the page loads
+    toggleRefundSections();
+
+    // Change event listener
+    returnPolicySelect.addEventListener('change', toggleRefundSections);
+    
     addRentalForm.addEventListener("submit", function (event) {
         event.preventDefault(); // Prevent default form submission
     
@@ -194,46 +220,6 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         }
         
-        document.getElementById("returnPolicy").addEventListener("change", function () {
-            const fullRefundSection = document.getElementById("fullRefundSection");
-            const partialRefundSection = document.getElementById("partialRefundSection");
-            const partialRefundPercentageInput = document.getElementById("partialRefundPercentage");
-
-            const fullRefundInputs = fullRefundSection.querySelectorAll("input, select, textarea");
-            const partialRefundInputs = partialRefundSection.querySelectorAll("input, select, textarea");
-            const fullRefundTimeInput = document.getElementById("fullRefundTime");
-    
-            fullRefundSection.style.display = "none";
-            partialRefundSection.style.display = "none";
-    
-            if (this.value === "fullRefund") {
-                fullRefundTimeInput.setAttribute("required", true); 
-                fullRefundSection.style.display = "block";
-                partialRefundSection.style.display = "none"; 
-                
-                partialRefundInputs.forEach(function(input) {
-                input.value = 0;  
-                });
-
-            } else if (this.value === "partialRefund") {
-                fullRefundSection.style.display = "none";
-                partialRefundSection.style.display = "block";
-                partialRefundPercentageInput.setAttribute("required", true);
-                fullRefundTimeInput.removeAttribute("required");
-
-
-                fullRefundInputs.forEach(function(input) {
-                    input.value = ""; 
-                });
-
-            } else if (this.value === "bothRefunds") {
-                fullRefundSection.style.display = "block";
-                partialRefundSection.style.display = "block";
-                fullRefundTimeInput.setAttribute("required", true);
-                partialRefundPercentageInput.setAttribute("required", true);
-            }
-        });
-
 
 });
 

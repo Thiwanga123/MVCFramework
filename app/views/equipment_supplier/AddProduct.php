@@ -27,13 +27,7 @@
     </div>
     
             
-            <?php
-                include('errorModal.php');
-            ?>
-
-            <?php   
-                include('successModal.php')
-            ?>
+            
     
     <script src="<?php echo URLROOT;?>/js/Sidebar.js"></script>
     <script src="<?php echo URLROOT;?>/js/logout.js"></script>
