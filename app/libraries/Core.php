@@ -13,7 +13,15 @@ class Core {
             require_once '../app/controllers/' . $this->currentController . '.php';
             $this->currentController = new $this->currentController;
             
-            call_user_func_array([$this->currentController, $this->currentMethod], $this->params);
+            if (method_exists($this->currentController, $this->currentMethod)) {
+                if (method_exists($this->currentController, $this->currentMethod)) {
+                    call_user_func_array([$this->currentController, $this->currentMethod], $this->params);
+                } else {
+                    throw new Exception("Method {$this->currentMethod} does not exist in controller " . get_class($this->currentController));
+                }
+            } else {
+                throw new Exception("Method {$this->currentMethod} does not exist in controller " . get_class($this->currentController));
+            }
             return;
         }
 
@@ -41,8 +49,13 @@ class Core {
             // Get params
             $this->params = $url ? array_values($url) : [];
 
-            //call method and pass in params
-            call_user_func_array([$this->currentController, $this->currentMethod], $this->params);
+            // Check if the method exists before calling it
+            if (method_exists($this->currentController, $this->currentMethod)) {
+                // Call method and pass in params
+                call_user_func_array([$this->currentController, $this->currentMethod], $this->params);
+            } else {
+                throw new Exception("Method {$this->currentMethod} does not exist in controller " . get_class($this->currentController));
+            }
             
         }
     }
