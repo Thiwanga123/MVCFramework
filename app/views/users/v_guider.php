@@ -292,12 +292,167 @@ $destinations = [
                 <div class="checkbox-group">
                     <button type="button" class="am-pm" name="gender" value="Male">Male</button>
                     <button type="button" class="am-pm" name="gender" value="Female">Female</button>
+                    <button type="button" class="am-pm" name="gender" value="Female">Any</button>
+
                 </div>
             </div>
 
             <button type="submit" class="submit-btn" style="margin-top: 10px;">Next</button>
         </form>
     </div>
+   
+    <div class="container" style="display: none;" id="step2-container">
+        <div class="header">
+            <h1>Step 2: Available Local Guides</h1>
+        </div>
+
+        <?php
+        $maleGuides = [
+            [
+                'name' => 'Mohan Silva',
+                'rating' => 4.9,
+                'reviews' => 156,
+                'languages' => ['English', 'Sinhala'],
+                'location' => 'Galle, Sri Lanka',
+                'specialties' => ['Heritage Sites', 'Local Cuisine'],
+                'contact' => [
+                    'email' => 'mohan.silva@email.com',
+                    'phone' => '+94 77 123 4567'
+                ],
+                'price' => 1000,
+                'experience' => 5,
+                'tours' => 234
+            ],
+            // Add more guides here if needed
+        ];
+
+        foreach ($maleGuides as $guide): ?>
+            <div class="guide-card" style="border: 1px solid #ddd; padding: 15px; margin-bottom: 15px; border-radius: 5px;">
+                <h3><?= htmlspecialchars($guide['name']) ?></h3>
+                <p><strong>Rating:</strong> <?= htmlspecialchars($guide['rating']) ?> (<?= htmlspecialchars($guide['reviews']) ?> reviews)</p>
+                <p><strong>Languages:</strong> <?= htmlspecialchars(implode(', ', $guide['languages'])) ?></p>
+                <p><strong>Location:</strong> <?= htmlspecialchars($guide['location']) ?></p>
+                <p><strong>Specialties:</strong> <?= htmlspecialchars(implode(', ', $guide['specialties'])) ?></p>
+                <p><strong>Contact:</strong> Email: <?= htmlspecialchars($guide['contact']['email']) ?>, Phone: <?= htmlspecialchars($guide['contact']['phone']) ?></p>
+                <p><strong>Price:</strong> Rs.<?= htmlspecialchars($guide['price']) ?>/hour</p>
+                <p><strong>Experience:</strong> <?= htmlspecialchars($guide['experience']) ?> years</p>
+                <p><strong>Tours Conducted:</strong> <?= htmlspecialchars($guide['tours']) ?></p>
+            </div>
+        <?php endforeach; ?>
+        <?php
+        $femaleGuides = [
+            [
+                'name' => 'Saduni Ranathunga',
+                'rating' => 4.5,
+                'reviews' => 156,
+                'languages' => ['French', 'English'],
+                'location' => 'Galle, Sri Lanka',
+                'specialties' => ['Cultural Tours', 'Photography'],
+                'contact' => [
+                    'email' => 'saduni.ranathunga@email.com',
+                    'phone' => '+94 77 987 6543'
+                ],
+                'price' => 1500,
+                'experience' => 3,
+                'tours' => 156
+            ],
+            // Add more female guides here if needed
+        ];
+        ?>
+
+        <?php foreach ($femaleGuides as $guide): ?>
+            <div class="guide-card" style="border: 1px solid #ddd; padding: 15px; margin-bottom: 15px; border-radius: 5px;">
+                <h3><?= htmlspecialchars($guide['name']) ?></h3>
+                <p><strong>Rating:</strong> <?= htmlspecialchars($guide['rating']) ?> (<?= htmlspecialchars($guide['reviews']) ?> reviews)</p>
+                <p><strong>Languages:</strong> <?= htmlspecialchars(implode(', ', $guide['languages'])) ?></p>
+                <p><strong>Location:</strong> <?= htmlspecialchars($guide['location']) ?></p>
+                <p><strong>Specialties:</strong> <?= htmlspecialchars(implode(', ', $guide['specialties'])) ?></p>
+                <p><strong>Contact:</strong> Email: <?= htmlspecialchars($guide['contact']['email']) ?>, Phone: <?= htmlspecialchars($guide['contact']['phone']) ?></p>
+                <p><strong>Price:</strong> Rs.<?= htmlspecialchars($guide['price']) ?>/hour</p>
+                <p><strong>Experience:</strong> <?= htmlspecialchars($guide['experience']) ?> years</p>
+                <p><strong>Tours Conducted:</strong> <?= htmlspecialchars($guide['tours']) ?></p>
+            </div>
+        <?php endforeach; ?>
+
+
+        <button type="button" class="submit-btn" id="back-to-step1">Back</button>
+        <button type="button" class="submit-btn" id="next-to-step3">Next</button>
+        </form>
+
+    </div>
+
+
+
+   
+<div class="container" style="display: none;" id="step3-container">
+        <div class="header">
+            <h1>Step 3: Select a Guide</h1>
+        </div>
+        <p>Please select a guide from the list below:</p>
+
+        <div class="form-group">
+            <label for="guide">Select a Guide:</label>
+            <select name="guide" id="guide" required>
+                <option value="" selected>Select a guide</option>
+                <?php 
+                $allGuides = array_merge($maleGuides, $femaleGuides);
+                foreach ($allGuides as $guide): ?>
+                    <option value="<?= htmlspecialchars($guide['name']) ?>"><?= htmlspecialchars($guide['name']) ?></option>
+                <?php endforeach; ?>
+            </select>
+            
+            <div class="button-group">
+                
+                <button class="btn btn-primary" style="background-color: #3aafa9; color: #fff; padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer;" onclick="showBookingForm('<?= $guide['name'] ?>')">
+                    Book Now
+                </button>
+            </div>
+       
+    <script>
+        function showBookingForm(guideName) {
+            if (confirm(`Book ${guideName}? We'll contact you to confirm details.`)) {
+                // Add actual booking logic here
+                alert('Booking request sent! We will contact you shortly.');
+            }
+        }
+    </script>
+
+        </div>
+
+        <button type="button" class="submit-btn" id="back-to-step2" style="margin-top: 10px;">Back</button>
+        <button type="submit" class="submit-btn" style="margin-top: 10px;">Submit</button>
+    </div>
+
+    <script>
+        const step1Container = document.querySelector('.container');
+        const step2Container = document.getElementById('step2-container');
+        const nextButton = document.querySelector('.submit-btn');
+        const backButton = document.getElementById('back-to-step1');
+        const nextToStep3Button = document.getElementById('next-to-step3');
+        const step3Container = document.getElementById('step3-container');
+
+        nextButton.addEventListener('click', (e) => {
+            e.preventDefault();
+            step1Container.style.display = 'none';
+            step2Container.style.display = 'block';
+        });
+
+        backButton.addEventListener('click', () => {
+            step2Container.style.display = 'none';
+            step1Container.style.display = 'block';
+        });
+
+        nextToStep3Button.addEventListener('click', () => {
+            step2Container.style.display = 'none';
+            step3Container.style.display = 'block';
+        });
+
+        const backToStep2Button = document.getElementById('back-to-step2');
+        backToStep2Button.addEventListener('click', () => {
+            step3Container.style.display = 'none';
+            step2Container.style.display = 'block';
+        });
+    </script>
 
     <script>
         // Add JavaScript for interactive elements
