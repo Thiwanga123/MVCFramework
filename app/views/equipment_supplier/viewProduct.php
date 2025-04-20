@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<<<<<<< HEAD
     <link rel="stylesheet" href="<?php echo URLROOT;?>/css/Common/ProductDetails.css">
     <link rel="stylesheet" href="<?php echo URLROOT;?>/css/Common/sidebarHeader.css">
     
@@ -151,12 +152,76 @@
     <script src="<?php echo URLROOT;?>/js/Sidebar.js" ></script> 
     <script src="<?php echo URLROOT;?>/js/ImageSlider.js" ></script> 
     <script> const URLROOT = "<?php echo URLROOT; ?>"; </script>
+=======
+    <link rel="stylesheet" href="<?php echo URLROOT;?>/css/equipmentRentals/supplierViewProduct.css">
+    <link rel="stylesheet" href="<?php echo URLROOT;?>/css/equipmentRentals/editProduct.css">
+    <!-- <link rel="stylesheet" href="<?php echo URLROOT;?>/css/equipmentRentals/reviews.css">
+    <link rel="stylesheet" href="<?php echo URLROOT;?>/css/equipmentRentals/booking.css">
+    <link rel="stylesheet" href="<?php echo URLROOT;?>/css/Common/calendar.css"> -->
+    <link rel="stylesheet" href="<?php echo URLROOT;?>/css/Modals/logoutModal.css">
+
+    
+    <title>Equipment</title>
+</head>
+<body>
+    <div class="box" id="box">
+        <div class="content">
+            <?php include_once APPROOT . '/views/inc/components/supplierNavBar.php'; ?>
+            <main>
+                <hr>
+                <div class="view-container">
+                    <div class="container">
+                        <div class="header">
+                            <h1>Product Details</h1>
+                            <div class="back-button"><a href="<?php echo URLROOT;?>/users/equipment_suppliers"> Back to My Rentals</a></div>
+                        </div>
+                    <!-- Navigation Tabs -->
+                        <div class="menu-bar">
+                            <button class="tab-button active" onclick="openTab(event, 'details')">Details</button>
+                            <button class="tab-button" onclick="openTab(event, 'reviews')">Reviews</button>
+                            <button class="tab-button" onclick="openTab(event, 'book-now')">Bookings</button>
+    
+                        </div>
+                        <!-- Tab Content -->
+                        <div class="tab-content" id="details">
+                            <?php include_once APPROOT . '/views/equipment_supplier/includes/details.php'; ?> 
+                        </div>
+
+                        <div class="tab-content" id="reviews" style="display: none;">
+                            <?php include_once APPROOT . '/views/users/includes/equipment_supplier/reviews.php'; ?> 
+                        </div>
+
+                        <div class="tab-content" id="book-now" style="display: none;">
+                            <?php include_once APPROOT . '/views/users/includes/equipment_supplier/bookings.php'; ?> 
+                        </div>
+                    </div>
+                </div>  
+            </main>
+        </div>
+
+        <?php include_once APPROOT . '/views/users/includes/components/logoutModal.php'; ?>
+
+        
+    </div>
+
+    <script>const URLROOT = "<?php echo URLROOT; ?>"; </script>
+    <script>var bookings = <?php echo $data['bookings']; ?></script>
+    <script>const userId = <?php echo json_encode($data['user_id']); ?>;</script>
+    <script src="<?php echo URLROOT;?>/js/changeContent.js" defer></script>
+    <script src="<?php echo URLROOT;?>/js/Calendar.js"></script>
+    <script src="<?php echo URLROOT;?>/js/equipmentBooking.js"></script>
+    <script src="<?php echo URLROOT;?>/js/equipmentReview.js"></script>
+    <script src="<?php echo URLROOT;?>/js/logout.js"></script>
+    <script src="<?php echo URLROOT;?>/js/subMenu.js"></script>
+
+>>>>>>> main
 
     <script>
          let currentIndex = 0;
     
     const imagePaths = <?php echo json_encode(array_map(fn($path) => URLROOT . '/' . trim($path), $imagePaths)); ?>;
 
+<<<<<<< HEAD
      function changeMainImage(imagePath) {
         document.getElementById('mainImage').src = imagePath;
         currentIndex = imagePaths.indexOf(imagePath); 
@@ -178,3 +243,8 @@
     </script>
     </body>
 </html>
+=======
+</body>
+
+</html>
+>>>>>>> main

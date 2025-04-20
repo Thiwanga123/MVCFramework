@@ -8,7 +8,10 @@
     <link rel="stylesheet" href="<?php echo URLROOT;?>/css/equipmentRentals/reviews.css">
     <link rel="stylesheet" href="<?php echo URLROOT;?>/css/equipmentRentals/booking.css">
     <link rel="stylesheet" href="<?php echo URLROOT;?>/css/Modals/logoutModal.css">
+<<<<<<< HEAD
 
+=======
+>>>>>>> main
     <link rel="stylesheet" href="<?php echo URLROOT;?>/css/Common/calendar.css">
     
     <title>Equipment</title>

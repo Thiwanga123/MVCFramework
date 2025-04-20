@@ -12,9 +12,13 @@ public function __construct() {
 
 public function dashboard(){
     if (isset($_SESSION['id'])) {
-       
+        // $guider=($_SESSION['id']);
+        // $totalBookings = $this->guiderModel->getBookings($guider);
+        // $data=[
+        //     'totalBookings' => $totalBookings,
+        // ];
 
-        $this->view('tour_guides/Dashboard',);
+        $this->view('tour_guides/Dashboard');
     } else {
         redirect('ServiceProvider');
     }
@@ -101,6 +105,18 @@ public function deleteBooking($id){
 
 }
 
-      }
+
+//get the total number of bookings
+public function getNumberOfBookings(){
+    $guider_id = $_SESSION['id'];
+    $bookings = $this->guiderModel->getBookings($guider_id);
+    $this->view('tour_guides/Dashboard', $bookings);
+       
+
+
+
+    }
+
+}
 
 ?>

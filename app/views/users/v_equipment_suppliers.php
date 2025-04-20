@@ -141,8 +141,12 @@
                 </div>
 
 
+<<<<<<< HEAD
             <!--<pre><?php print_r($data['equipments']); ?></pre> -->
             <!--<pre><?php print_r($data['categories']); ?></pre> -->
+=======
+            
+>>>>>>> main
             
         
                 <p>Showing All Products()</p>

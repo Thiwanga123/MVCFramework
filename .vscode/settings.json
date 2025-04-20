@@ -1,4 +1,5 @@
 {
+<<<<<<< HEAD
   "editor.fontSize": 13,
   "C_Cpp_Runner.cCompilerPath": "gcc",
   "C_Cpp_Runner.cppCompilerPath": "g++",
@@ -57,4 +58,7 @@
   "C_Cpp_Runner.showCompilationTime": false,
   "C_Cpp_Runner.useLinkTimeOptimization": false,
   "C_Cpp_Runner.msvcSecureNoWarnings": false
+=======
+    "editor.fontSize": 14
+>>>>>>> main
 }

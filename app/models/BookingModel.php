@@ -161,14 +161,21 @@ public function updateProfile($data){
         $sql = "SELECT b.*, ri.image_path
                 FROM rental_equipment_bookings b 
                 LEFT JOIN rental_images ri ON b.equipment_id = ri.product_id
+<<<<<<< HEAD
                 AND ri.id = (SELECT MIN(image_id) FROM rental_images WHERE product_id = b.equipment_id)
+=======
+                AND ri.image_id = (SELECT MIN(image_id) FROM rental_images WHERE product_id = b.equipment_id)
+>>>>>>> main
                 WHERE b.supplier_id = ?";
         try{
             $this->db->query($sql);
             $this->db->bind(1, $supplierId);
             $result = $this->db->resultSet();
+<<<<<<< HEAD
             print_r($result);
             exit;
+=======
+>>>>>>> main
             return $result;
         }catch(Exception $e){
             $error_msg = $e->getMessage();
@@ -185,6 +192,5 @@ public function updateProfile($data){
 
 
    
-
 
 

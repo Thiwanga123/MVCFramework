@@ -6,12 +6,20 @@ class Equipment_Suppliers extends Controller{
     private $userModel;
     private $supplierModel;
     private $bookingModel;
+<<<<<<< HEAD
+=======
+    private $reviewModel;
+>>>>>>> main
 
     public function __construct(){
         $this->productModel = $this->model('ProductModel');
         $this->supplierModel = $this->model('SupplierModel');
         $this->userModel = $this->model('ServiceProviderModel');
         $this->bookingModel = $this->model('BookingModel');
+<<<<<<< HEAD
+=======
+        $this->reviewModel = $this->model('ReviewModel');
+>>>>>>> main
 
     }
 
@@ -22,7 +30,17 @@ class Equipment_Suppliers extends Controller{
     public function dashboard(){
 
         if (isset($_SESSION['id'])) {
+<<<<<<< HEAD
             $this->view('equipment_supplier/Dashboard');
+=======
+            
+            $currentPage = 'dashboard';
+            $data = [
+                'currentPage' => $currentPage
+            ];
+            $this->view('equipment_supplier/Dashboard', $data);
+
+>>>>>>> main
         } else {
             redirect('ServiceProvider');
         } 
@@ -54,8 +72,17 @@ class Equipment_Suppliers extends Controller{
     public function myInventory(){
         if(isset($_SESSION['id'])){
             $rentals = $this->productModel->getAllProducts($_SESSION['id']);
+<<<<<<< HEAD
             $data = [
                 'rentals' =>  $rentals  
+=======
+            $categories = $this->productModel->getAllCategories();
+            $currentPage = 'myInventory';
+            $data = [
+                'rentals' =>  $rentals,
+                'categories' => $categories, 
+                'currentPage' => $currentPage
+>>>>>>> main
             ];
             
             $this->view('equipment_supplier/MyInventory', $data);
@@ -70,7 +97,11 @@ class Equipment_Suppliers extends Controller{
         if (isset($_SESSION['id'])) {
             $currentPage = 'bookings';
             $bookings = $this->bookingModel->getBookingsBySupplierId($_SESSION['id']);
+<<<<<<< HEAD
         
+=======
+            
+>>>>>>> main
             $data =[
                 'currentPage' => $currentPage,
                 'bookings' => $bookings
@@ -86,7 +117,13 @@ class Equipment_Suppliers extends Controller{
     public function reviews(){
 
         if (isset($_SESSION['id'])) {
-            $this->view('equipment_supplier/Reviews');
+            $currentPage = 'reviews';
+            $reviews = $this->reviewModel->getReviewsBySupplierId($_SESSION['id']);
+            $data = [
+                'currentPage' => $currentPage
+            ];
+
+            $this->view('equipment_supplier/Reviews', $data);
         } else {
             redirect('ServiceProvider');
         }
@@ -126,7 +163,12 @@ class Equipment_Suppliers extends Controller{
             $id = $_SESSION['id'];
             $type = $_SESSION['type'];
             $details = $this->getProfileDetails($id,$type);
-            $this->view('equipment_supplier/Myprofile',['details' => $details]);
+            $currentPage = 'profile';
+            $data = [
+                'details' => $details,
+                'currentPage' => $currentPage
+            ];
+            $this->view('equipment_supplier/Myprofile',$data);
         } else {
             redirect('ServiceProvider');
         }
@@ -139,7 +181,11 @@ class Equipment_Suppliers extends Controller{
             $this->productModel = $this->model('ProductModel');
             $categories = $this->productModel->getAllCategories();
             $data = [
+<<<<<<< HEAD
                 'categories' => $categories,
+=======
+                
+>>>>>>> main
             ];
             $this->view('equipment_supplier/AddProduct', $data);
         } else {

@@ -9,6 +9,7 @@ class EquipmentModel {
 
    
     public function getAllEquipment() {
+<<<<<<< HEAD
         $this->db->query("SELECT r.*, 
                              GROUP_CONCAT(ri.image_path) AS images 
                             FROM rental_equipments r 
@@ -16,11 +17,25 @@ class EquipmentModel {
                             ON r.id = ri.product_id
                             GROUP BY r.id");
         return $this->db->resultSet();
+=======
+        $sql = 'SELECT r.*, GROUP_CONCAT(ri.image_path) AS images 
+        FROM rental_equipments r 
+        LEFT JOIN rental_images ri ON r.id = ri.product_id
+        WHERE r.deleted_at IS NULL
+        GROUP BY r.id';
+$this->db->query($sql);
+$result = $this->db->resultSet();
+return $result;
+
+>>>>>>> main
     }
 
     // Fetch all categories from the database
     public function getAllCategories() {
         $this->db->query("SELECT * FROM equipment_categories"); 
+
+      
+        
         return $this->db->resultSet();
     }
 

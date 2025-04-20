@@ -13,12 +13,7 @@ class M_guider{
 
 
     //retrive the bookings from the bookingTable
-    public function getBookings(){
-        $this->db->query("SELECT COUNT(*) FROM booking");
-        return $this->db->resultSet();
 
-
-    }
 
     //delete the booking from the bookingTable
     public function deleteBooking($id){
@@ -135,6 +130,16 @@ class M_guider{
             print_r($this->db->resultSet());
             return $this->db->resultSet();
         }
+
+
+        //get the number of bookings relavnt to the guider
+        // public function getBookings($guider_id){
+        //     $this->db->query('SELECT COUNT(*)  FROM guider_booking WHERE guider_id = :guider_id');
+        
+        //     $this->db->bind(':guider_id', $guider_id);
+        
+        //     return $this->db->single();
+        // }
         
        
         

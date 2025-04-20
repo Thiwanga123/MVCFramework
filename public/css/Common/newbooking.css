@@ -123,6 +123,14 @@
     color: #2d3748;
 }
 
+<<<<<<< HEAD
+=======
+.cancellationBtn{
+    border: none;
+    background: white;
+}
+
+>>>>>>> main
 @keyframes fadeIn {
     from {opacity: 0;}
     to {opacity: 1;}

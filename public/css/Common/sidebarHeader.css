@@ -138,14 +138,20 @@ body{
     transition: all 0.3s ease;
 }
 
+<<<<<<< HEAD
 
 .sidebar .side-menu li.active a{
     background: var(--light-primary);
     color: var(--light);
+=======
+.sidebar .side-menu li a.active{
+    background: teal;
+    color: white;
+>>>>>>> main
 }
 
-.sidebar .side-menu li.active a svg{
-    fill: var(--light);
+.sidebar .side-menu li a.active svg{
+    fill: white;
 }
 
 

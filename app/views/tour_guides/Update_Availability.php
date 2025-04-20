@@ -153,7 +153,73 @@
      <main>
             <div class="header">
                 <div class="left">
+<<<<<<< HEAD
             <h1>Guider Availability</h1>
+=======
+                    <h1>Update Availability</h1>
+                </div>
+
+                <div class="right">
+                        <button class="add-btn" name ="add-btn" id="add-btn">
+                        
+                            <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#ffffff"><path d="M440-440H200v-80h240v-240h80v240h240v80H520v240h-80v-240Z"/></svg>
+                            <h3>Add Availability</h3>
+                        </button>
+                </div>
+            </div>
+
+            <div class="Inventory ">
+                <div>
+                <div class="header">
+                    <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#000000"><path d="M620-163 450-333l56-56 114 114 226-226 56 56-282 282Zm220-397h-80v-200h-80v120H280v-120h-80v560h240v80H200q-33 0-56.5-23.5T120-200v-560q0-33 23.5-56.5T200-840h167q11-35 43-57.5t70-22.5q40 0 71.5 22.5T594-840h166q33 0 56.5 23.5T840-760v200ZM480-760q17 0 28.5-11.5T520-800q0-17-11.5-28.5T480-840q-17 0-28.5 11.5T440-800q0 17 11.5 28.5T480-760Z"/></svg>
+                    <h3>Guider Availability</h3>
+                    <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#000000"><path d="M440-160q-17 0-28.5-11.5T400-200v-240L168-736q-15-20-4.5-42t36.5-22h560q26 0 36.5 22t-4.5 42L560-440v240q0 17-11.5 28.5T520-160h-80Zm40-308 198-252H282l198 252Zm0 0Z"/></svg>
+                </div>
+                <table>
+                    <thead>
+                        <tr>
+                           
+                            
+                            <th>Available Date</th>
+                            <th>Available Time From</th>
+                            <th>Available Time To</th>
+                            <th>Chargers per hour</th>
+                            <th>Location</th>
+                           <th>Action</th>
+                          
+                        </tr>
+                    </thead>
+                    <tbody>
+
+                    <?php foreach($availability as $available): ?>
+                        <tr>
+                           
+                        
+                            <td><?php echo $available->available_date; ?></td>
+                            <td><?php echo $available->available_time_from; ?></td>
+                            <td><?php echo $available->available_time_to; ?></td>
+                            <td><?php echo $available->charges_per_hour; ?></td>
+                            <td><?php echo $available->location; ?></td>
+                            <td class="action-button">
+                                <button class="edit-btn" name ="edit-btn" id="edit-btn" style="delete-btn {background-color: rgb(107, 239, 122);color: white; font-size: medium;cursor: pointer;padding: 5px 15px;border-radius: 20px;border-style: none; margin-top: 1rem;}">
+        Edit
+    </button>
+                                <a href="<?php echo URLROOT; ?>/tour_guides/delete_availability/<?php echo $available->id; ?>"><button class="delete-btn" onclick="return confirm('Are u Sure?');" name ="delete-btn" id="delete-btn">
+                                   Delete
+                                </button></a>
+                    </tr>
+                    <?php endforeach; ?>
+                  
+                  
+                  
+                           
+                       
+                    </tbody>
+                </table> 
+                <div id="map" style="height: 500px; width: 100%;"></div>
+            </div>
+            </div>
+>>>>>>> main
             
         </div>
         <div class="right">

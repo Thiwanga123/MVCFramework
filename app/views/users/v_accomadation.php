@@ -3,17 +3,28 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="<?php echo URLROOT;?>/css/mainpages/features.css">
     <link rel="stylesheet" href="<?php echo URLROOT;?>/css/adminpage/sidebarHeader.css">
+<<<<<<< HEAD
     <link rel="stylesheet" href="<?php echo URLROOT;?>/css/Modals/logoutModal.css">
 
     <title>Accomadation</title>
 </head>
 <body>
+=======
+    <link rel="stylesheet" href="<?php echo URLROOT;?>/css/userspage/AccomodationsSection.css">
+    <link rel="stylesheet" href="<?php echo URLROOT;?>/css/Modals/logoutModal.css">
+    <link rel="stylesheet" href="<?php echo URLROOT;?>/css/mainpages/features.css">
+
+    <title>Accomadations</title>
+</head>
+<body>
+<div class="box" id="box">
+>>>>>>> main
 <?php $currentPage = $data['currentPage']; ?>
     <!-- SideBar -->
      <?php require APPROOT . '/views/inc/components/usersidebar.php'; ?>
      <!-- End Of Sidebar -->
+<<<<<<< HEAD
 
      <!--Main Content-->
      
@@ -21,6 +32,11 @@
         <main>
 
         <?php include 'topbar.php';
+=======
+     <main>
+          
+        <?php include 'topbar_acc.php';
+>>>>>>> main
           ?>
            
         
@@ -28,6 +44,7 @@
         
 
 <div class="container1">
+<?php if (!empty($data['accomadation'])): ?>
 <?php foreach ($data['accomadation'] as $accomadation):?>
 <div class="feature">
     <img src="<?php echo URLROOT;?>/images/Accomadation.jpg" alt="Accommodation ">
@@ -37,17 +54,25 @@
     <p>Price:Rs.<?php echo $accomadation->singleprice;?> per person</p>
     <p>Price:Rs.<?php echo $accomadation->doubleprice;?> per 2 persons</p>
     <p>Type:<?php echo $accomadation->property_type;?></p>
-    <a href="<?php echo URLROOT;?>/users/viewdetails/<?php echo $accomadation->property_id;?>"><button class="pay-btn" style=" background-color: rgb(21, 126, 126);color: white;font-size: medium;height: 30px;
-    border-radius: 30px;
-    border: none;
-    margin-top: 1rem;
-    cursor: pointer;
-    padding: 0 10px;
-    transition: all 0.3s ease;">View & Book</button></a>
+
+
+
+    
+    <a href="<?php echo URLROOT;?>/users/viewdetails/<?php echo $accomadation->property_id;?>" 
+       onclick="this.href += '?budget=' + localStorage.getItem('budget') + '&check_in=' + localStorage.getItem('check_in') + '&check_out=' + localStorage.getItem('check_out');">
+        <button class="pay-btn" style="background-color: rgb(21, 126, 126); color: white; font-size: medium; height: 30px; border-radius: 30px; border: none; margin-top: 1rem; cursor: pointer; padding: 0 10px; transition: all 0.3s ease;">
+            View & Book
+        </button>
+    </a>
 
 </div>
 <?php endforeach; ?>
+<?php else: ?>
+    
+<?php endif; ?>
 </div>
+
+          </main>
 
           </main>
 

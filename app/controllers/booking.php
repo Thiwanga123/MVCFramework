@@ -8,6 +8,46 @@
             $this->equipmentModel = $this->model('equipmentModel');
         }
 
+<<<<<<< HEAD
+=======
+        public function policyCheck(){
+            if ($_SERVER['REQUEST_METHOD'] == 'POST'){
+                $data = json_decode(file_get_contents("php://input"), true);
+
+                if(isset($data['id']) && isset($data['type'])){
+                    $id = $data['id'];
+                    $table = $data['type'];
+
+                    switch ($table) {
+                        case 'Equipment':
+                            // $result = $this->handleEquipmentPolicy($id);
+                            break;
+        
+                        case 'Accommodation':
+                            // $result = $this->handleAccommodationPolicy($id);
+                            break;
+        
+                        case 'Vehicle':
+                            // $result = $this->handleVehiclePolicy($id);
+                            break;
+        
+                        case 'Guider':
+                            // $result = $this->handleGuiderPolicy($id);
+                            break;
+        
+                        default:
+                            echo json_encode(['success' => false, 'message' => 'Unknown actor type.']);
+                            return;
+                    }
+
+                }else{
+
+                }
+            }
+        }
+
+     //////////////////////////////////////////Equipment Booking Section//////////////////////////////////////////////////////////////////////////
+>>>>>>> main
 
         public function addEquipmentBooking(){    
             header('Content-Type: application/json');        

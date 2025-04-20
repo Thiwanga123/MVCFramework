@@ -3,9 +3,11 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Guider Payments </title>
-<link rel="stylesheet" href="<?php echo URLROOT;?>/css/Common/payments.css">
+<title>Wallet</title>
+<link rel="stylesheet" href="<?php echo URLROOT;?>/css/adminpage/Dashboard.css">
 <link rel="stylesheet" href="<?php echo URLROOT;?>/css/Common/sidebarHeader.css">
+
+
 <title>Home</title>
 </head>
 <body>
@@ -40,7 +42,7 @@
 
             
     <main>
-    <?php require APPROOT . '/views/inc/components/bankdetails.php'; ?>
+    <?php include ('wallet.php'); ?>
        
     </main>
 </body>

@@ -1,0 +1,230 @@
+.details-container {
+    max-width: 1400px;
+    background-color: #fff;
+    border-radius: 10px;
+    padding: 30px;
+}
+
+h2 {
+    color: #2c3e50;
+    margin-bottom: 20px;
+    border-bottom: 2px solid #eaeaea;
+    padding-bottom: 10px;
+}
+
+form {
+    margin-bottom: 40px;
+}
+
+.form1{
+    display: flex;
+    justify-content: center;
+}
+
+.image-section{
+    width: 70%;
+}
+
+.form-section {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 30px;
+    margin-bottom: 30px;
+}
+
+.left, .right {
+    flex: 1;
+    min-width: 300px;
+}
+
+label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 600;
+    color: #444;
+}
+
+input[type="text"],
+input[type="number"],
+select,
+textarea {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    margin-bottom: 20px;
+    font-size: 16px;
+    transition: border-color 0.3s;
+}
+
+input[type="text"]:focus,
+input[type="number"]:focus,
+select:focus,
+textarea:focus {
+    border-color: #3498db;
+    outline: none;
+    box-shadow: 0 0 5px rgba(52, 152, 219, 0.5);
+}
+
+textarea {
+    resize: vertical;
+    min-height: 100px;
+}
+
+input[type="radio"] {
+    margin-right: 5px;
+}
+
+label input[type="radio"] {
+    display: inline;
+    margin-bottom: 0;
+}
+
+label + label {
+    margin-top: 0;
+}
+
+.radio-group {
+    display: flex;
+    gap: 20px;
+    margin-bottom: 20px;
+}
+
+.radio-group label {
+    font-weight: normal;
+}
+
+button {
+    background-color: #3498db;
+    color: white;
+    border: none;
+    padding: 12px 20px;
+    font-size: 16px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+button:hover {
+    background-color: #2980b9;
+}
+
+button[type="submit"] {
+    display: block;
+    margin-top: 20px;
+    width: 100%;
+    background-color: #2ecc71;
+}
+
+button[type="submit"]:hover {
+    background-color: #27ae60;
+}
+
+/* Image gallery styles */
+.image-top {
+    display: flex;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+#mainImage {
+    flex: 1;
+    max-width: 100%;
+    height: auto;
+    border-radius: 5px;
+    object-fit: contain;
+    max-height: 300px;
+}
+
+.change-image {
+    background-color: rgba(0, 0, 0, 0.5);
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    margin: 0 10px;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s;
+}
+
+.change-image:hover {
+    background-color: rgba(0, 0, 0, 0.7);
+}
+
+.image-bottom {
+    display: flex;
+    align-self: center;
+    justify-content: center;
+    gap: 10px;
+    overflow-x: auto;
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+}
+
+.image-thumbnail {
+    flex: 0 0 80px;
+    height: 80px;
+    border: 2px solid transparent;
+    cursor: pointer;
+    transition: border-color 0.3s;
+}
+
+.image-thumbnail:hover {
+    border-color: #3498db;
+}
+
+.image-thumbnail img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 5px;
+}
+
+input[type="file"] {
+    padding: 10px;
+    margin-bottom: 20px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    width: 100%;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .form-section {
+        flex-direction: column;
+        gap: 15px;
+    }
+
+    .left, .right {
+        width: 100%;
+    }
+
+    .details-container {
+        padding: 15px;
+    }
+
+    .image-thumbnail {
+        flex: 0 0 70px;
+        height: 70px;
+    }
+}
+
+@media (max-width: 480px) {
+    h2 {
+        font-size: 20px;
+    }
+
+    .image-top {
+        flex-direction: column;
+    }
+
+    .change-image {
+        margin: 10px 0;
+    }
+
+    .radio-group {
+        flex-direction: column;
+        gap: 5px;
+    }
+}
