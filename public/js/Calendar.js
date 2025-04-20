@@ -79,12 +79,10 @@ document.addEventListener("DOMContentLoaded", () => {
             if (date >= startDate && date <= endDate) {
                 return true;
             }
-
-            daysContainer.appendChild(dayElement);
         }
-
-        calendar.appendChild(daysContainer);
+        return false;
     }
 
-    renderCalendar(currentDate);
+// Generate the calendar initially
+    generateCalendar(currentDate.getMonth(), currentDate.getFullYear());
 });
