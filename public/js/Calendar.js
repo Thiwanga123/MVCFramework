@@ -1,74 +1,83 @@
-document.addEventListener("DOMContentLoaded", function () {
-    const calendar = document.getElementById("calendar");
-    const bookingDates = JSON.parse(document.getElementById("bookingDates").value);
-    let currentDate = new Date();
+document.addEventListener("DOMContentLoaded", () => {
 
-    function renderCalendar(date) {
-        calendar.innerHTML = "";
+    let currentDate = new Date();  // Current date for initial display
 
-        const month = date.toLocaleString("default", { month: "long" });
-        const year = date.getFullYear();
+    // Function to generate the calendar for a given month and year
+    function generateCalendar(month, year) {
+        const firstDay = new Date(year, month, 1);  // Get the first day of the month
+        const lastDay = new Date(year, month + 1, 0);  // Get the last day of the month
+        const calendarGrid = document.getElementById('calendar-days');  // Where the days will go
 
-        // Create header
-        const header = document.createElement("div");
-        header.className = "header";
+        // Update the calendar month/year in the header
+        const monthName = firstDay.toLocaleString('default', { month: 'long' });
+        document.getElementById('calendar-month-name').innerText = `${monthName} ${year}`;
 
-        const prevButton = document.createElement("button");
-        prevButton.textContent = "<";
-        prevButton.addEventListener("click", () => {
-            currentDate.setMonth(currentDate.getMonth() - 1);
-            renderCalendar(currentDate);
-        });
+        // Clear the calendar grid before adding new days
+        calendarGrid.innerHTML = '';
 
-        const nextButton = document.createElement("button");
-        nextButton.textContent = ">";
-        nextButton.addEventListener("click", () => {
-            currentDate.setMonth(currentDate.getMonth() + 1);
-            renderCalendar(currentDate);
-        });
-
-        const title = document.createElement("span");
-        title.textContent = `${month} ${year}`;
-
-        header.appendChild(prevButton);
-        header.appendChild(title);
-        header.appendChild(nextButton);
-        calendar.appendChild(header);
-
-        // Create days container
-        const daysContainer = document.createElement("div");
-        daysContainer.className = "days";
-
-        // Days of the week
-        const daysOfWeek = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
-        daysOfWeek.forEach(day => {
-            const dayElement = document.createElement("div");
-            dayElement.className = "day";
-            dayElement.textContent = day;
-            daysContainer.appendChild(dayElement);
-        });
-
-        // Get the first day of the month
-        const firstDay = new Date(date.getFullYear(), date.getMonth(), 1).getDay();
-        const daysInMonth = new Date(date.getFullYear(), date.getMonth() + 1, 0).getDate();
-
-        // Add empty slots for days before the first day
-        for (let i = 0; i < firstDay; i++) {
-            const emptySlot = document.createElement("div");
-            emptySlot.className = "day";
-            daysContainer.appendChild(emptySlot);
+        // Add empty divs for the days before the 1st of the month
+        for (let i = 0; i < firstDay.getDay(); i++) {
+            const emptyDiv = document.createElement('div');
+            calendarGrid.appendChild(emptyDiv);  // Empty space before first day
         }
 
-        // Add days of the month
-        for (let i = 1; i <= daysInMonth; i++) {
-            const dayElement = document.createElement("div");
-            dayElement.className = "day";
-            const currentDateString = `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(i).padStart(2, '0')}`;
-            dayElement.textContent = i;
+        // Add the actual days of the month
+        for (let i = 1; i <= lastDay.getDate(); i++) {
+            const dayDiv = document.createElement('div');
+            dayDiv.innerText = i;
+            dayDiv.classList.add('calendar-day');
+            dayDiv.onclick = function() {
+                alert(`You clicked on: ${i} ${monthName} ${year}`);
+            };
 
-            if (bookingDates.includes(currentDateString)) {
-                dayElement.style.backgroundColor = "red";
-                dayElement.style.color = "white";
+            // Check if today is the current day and add special styling
+            const dayString = `${year}-${String(month + 1).padStart(2, '0')}-${String(i).padStart(2, '0')}`;
+            if (isToday(dayString)) {
+                dayDiv.classList.add('today');
+            }
+
+            if (isBooked(dayString)) {
+                dayDiv.classList.add('booked');
+            }
+
+            calendarGrid.appendChild(dayDiv);  // Add the day to the grid
+        }
+    }
+
+    function isToday(date) {
+        const today = new Date();
+        const formattedDate = today.toISOString().split('T')[0];  // YYYY-MM-DD format
+        return date === formattedDate;
+    }
+
+    // Function to check if a given date is part of any booking
+    function isBooked(date) {
+        for (let booking of bookings) {
+            const startDate = booking.start_date;
+            const endDate = booking.end_date;
+
+            // Check if the date falls between start and end of the booking range
+            if (date >= startDate && date <= endDate) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+// Function to change the month (forward or backward)
+    window.changeMonth = function(offset) {
+        currentDate.setMonth(currentDate.getMonth() + offset);
+        generateCalendar(currentDate.getMonth(), currentDate.getFullYear());
+    }
+
+    function isBooked(date) {
+        for (let booking of bookings) {
+            const startDate = booking.start_date;
+            const endDate = booking.end_date;
+
+            // Check if the date falls between start and end of the booking range
+            if (date >= startDate && date <= endDate) {
+                return true;
             }
 
             daysContainer.appendChild(dayElement);
