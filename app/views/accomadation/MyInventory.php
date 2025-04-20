@@ -165,8 +165,6 @@
                         <tr>
                             <th>Accomodation Name</th>
                             <th>Location</th>
-                            <th>Property-Id</th>
-                            <th>Price</th>
                             <th>Number of Guests Can stay</th>
                             <th>Category</th>
                             <th>Action</th>
@@ -178,8 +176,6 @@
                         <tr>
                             <td><?php echo $accomadation->property_name;?></td>
                             <td><?php echo $accomadation->address;?></td>
-                            <td><?php echo $accomadation->property_id;?></td>
-                            <td><?php echo $accomadation->price;?></td>
                             <td><?php echo $accomadation->max_occupants;?></td>
                             <td><?php echo $accomadation->property_type;?></td>
                             <td class="actionn">                   
