@@ -7,6 +7,22 @@ class ServiceProviderModel{
         $this->db = new Database;
     }
 
+    public function getLastServiceProviderId($sptype) {
+        $allowedTables = ['accomadation', 'equipment_suppliers', 'tour_guides', 'vehicle_suppliers']; 
+        if (!in_array($sptype, $allowedTables)) {
+            throw new Exception("Invalid service provider type.");
+        }
+    
+        $sql = "SELECT MAX(id) AS last_id FROM $sptype";
+        try {
+            $this->db->query($sql);
+            $result = $this->db->single();
+            return $result && $result->last_id ? $result->last_id : null;
+        } catch (Exception $e) {
+            error_log("Error getting last service provider ID: " . $e->getMessage());
+            return 1;
+        }
+    }
     
     public function login($email, $password, $sptype) {
         $this->db->query("SELECT * FROM $sptype WHERE email = :email");
@@ -76,6 +92,31 @@ class ServiceProviderModel{
         }
     }
 
+    public function registerSupplier($data){
+        
+        $sptype = $data['sptype'];
+        $sql = "INSERT INTO $sptype (name, nic, address, phone, email, password, reg_number, plan, document_path) 
+                VALUES (:name, :nic, :address, :phone, :email, :password, :reg_num, :plan, :document_path)";
+    
+    
+        try {
+            $this->db->query($sql);
+            $this->db->bind(':name', $data['name']);
+            $this->db->bind(':nic', $data['nic']);
+            $this->db->bind(':address', $data['address']);
+            $this->db->bind(':phone', $data['phone']);
+            $this->db->bind(':email', $data['email']);
+            $this->db->bind(':password', $data['password']);
+            $this->db->bind(':reg_num', $data['reg_num']);
+            $this->db->bind(':plan', $data['plan']);
+            $this->db->bind(':document_path', $data['document_path']);
+    
+            return $this->db->execute();
+        } catch (PDOException $e) {
+            return $e->getMessage();
+           
+        }
+    }
 
     //register the service provider with the relavent service type
     public function register($data){

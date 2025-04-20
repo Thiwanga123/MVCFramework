@@ -64,6 +64,7 @@ a{
     border-radius: 40px;
     padding: 20px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    animation: fadeIn 0.4s ease-in-out;
 }
 
 .container .box .step{
@@ -130,9 +131,15 @@ a{
  }
 
  .bottom{
-    padding: 10px;
+    display: flex;
+    gap: 1rem;
+ }
+
+ .bottom .div{
     display: flex;
     flex-direction: column;
+    flex: 1;
+    padding: 10px;
     gap: 1rem;
  }
 
@@ -239,6 +246,17 @@ input.invalid {
 }
 .choose-btn:focus {
     outline: none;
+}
+
+
+@keyframes fadeIn {
+    from {opacity: 0;}
+    to {opacity: 1;}
+}
+
+@keyframes slideUp {
+    from {transform: translateY(40px); opacity: 0;}
+    to {transform: translateY(0); opacity: 1;}
 }
 
 /* Responsive Design */

@@ -3,9 +3,14 @@
     class Booking extends Controller{
 
         private $equipmentModel;
+        private $bookingModel;
+        private $supplierModel;
+        private $productModel;
 
         public function __construct(){
             $this->equipmentModel = $this->model('equipmentModel');
+            $this->bookingModel = $this->model('BookingModel');
+            $this->productModel = $this->model('ProductModel');
         }
 
         public function policyCheck(){
@@ -44,10 +49,9 @@
             }
         }
 
-     //////////////////////////////////////////Equipment Booking Section//////////////////////////////////////////////////////////////////////////
+     /////////////////////////////////////////////////////////////Equipment Booking Section//////////////////////////////////////////////////////////////////////////
 
         public function addEquipmentBooking(){    
-            header('Content-Type: application/json');        
             if(isset($_SESSION['user_id'])) {
                 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     $data = [
@@ -58,9 +62,8 @@
                         'booking_start_date' => $_POST['booking_start_date'],
                         'booking_end_date' => $_POST['booking_end_date']
                     ];
-
                 
-                    $bookings = $this->equipmentModel->getBookingsByEquipmentId($data['product_id']);
+                    $bookings = $this->bookingModel->getBookingsByEquipmentId($data['product_id']);
                     $conflict = false;
             
                     foreach ($bookings as $booking) {
@@ -69,33 +72,62 @@
                             break;
                         }
                     }
-            
-                    if ($conflict) {
-                        $response = [
-                            'success' => false,
-                            'message' => 'The selected dates are already booked'
-                        ];
-                        
-                        echo json_encode($response);
 
+                    if ($conflict) {
+                        $response = ['success' => false, 'message' => 'The selected dates are already booked'];
+                        echo json_encode($response);
                     } else {
-                        $this->equipmentModel->addEquipmentBooking($data);
-                        $response = [
-                            'success' => true,
-                            'message' => 'Booking successful'
-                        ];
+                        $this->bookingModel->addEquipmentBooking($data);
+                        $response = ['success' => true, 'message' => 'Booking successful'];
                         echo json_encode($response);
                     }
                 } else {
-                    $response = [
-                        'success' => false,
-                        'message' => 'Invalid request method'
-                    ];
+                    $response = ['success' => false, 'message' => 'Invalid request method'];
                     echo json_encode($response);
                 }
             }else{
                 redirect('users/login');
             } 
+        }
+
+
+       public function cancelEquipmentBooking($id){
+            if($_SERVER['REQUEST_METHOD'] == 'POST'){
+                $data = json_decode(file_get_contents("php://input"), true);
+                $bookingId = isset($data['booking_id']) ? (int) trim($data['booking_id']) : (int) $id;
+
+                if (!$bookingId) {
+                    echo json_encode(['success' => false, 'message' => 'Invalid booking ID']);
+                    exit;
+                }
+
+                $booking = $this->bookingModel->getEquipmentBookingById($bookingId);
+
+                if (!$booking) {
+                    echo json_encode(['success' => false, 'message' => 'Booking not found']);
+                     exit;
+                }
+
+                if (in_array($booking->status, ['cancelled', 'completed'])) {
+                    echo json_encode(['success' => false, 'message' => 'Booking is already cancelled or completed']);
+                    exit;
+                }
+
+                $product = $this->productModel->getDetailsForCancellations($booking->equipment_id);
+
+                if (!$product) {
+                    echo json_encode(['success' => false, 'message' => 'Product not found']);
+                    exit;
+                }
+
+                date_default_timezone_set('Asia/Colombo');
+                $bookingStartDate = new DateTime($booking->start_date);
+                $currentDate = new DateTime();
+                $interval = $currentDate->diff($bookingStartDate);
+                $daysUntillBooking = (int)$interval->format('%r%a');
+
+            }
+        
         }
 
 

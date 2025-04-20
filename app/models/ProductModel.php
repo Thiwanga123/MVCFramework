@@ -216,6 +216,22 @@
         }
     }
 
+    public function getDetailsForCancellations($productId){
+    $sql = 'SELECT id, return_policy, full_refund_time, partial_refund_time, partial_refund_percentage 
+            FROM rental_equipments 
+            WHERE id = :id';
+    try { 
+        $this->db->query($sql);
+        $this->db->bind(':id', $productId); // use named binding
+        $result = $this->db->single();
+        return $result;
+    } catch(Error $e){
+        $error_msg = $e->getMessage();
+        echo "<script>alert('An error occurred: $error_msg');</script>";
+        return false;
+    }
+}
+
 
     public function getErrorMessage() {
         return $this->errorMessage;

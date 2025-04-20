@@ -89,44 +89,24 @@
     color: white;
 }
 
-.action-menu-container {
-    position: relative;
-    display: inline-block;
-    cursor: pointer;
-}
-
-.action-trigger {
-    font-size: 1.5rem;
-    font-weight: bold;
-    padding: 0 10px;
-    user-select: none;
-    z-index: 400;
-}
-
-.action-menu {
-    display: none;
-    position: absolute;
-    right: 0;
-    background-color: #fff;
-    border: 1px solid #ccc;
-    border-radius: 6px;
-    box-shadow: 0 2px 6px rgba(0,0,0,0.15);
-    z-index: 2000;
-    min-width: 100px;
-}
-
-.action-menu a {
-    display: block;
-    padding: 8px 12px;
-    color: #333;
+.cancel-button {
+    background-color: #3498db;
+    color: white;
+    padding: 5px 10px;
+    margin-right: 5px;
+    border-radius: 4px;
     text-decoration: none;
+    font-size: 13px;
 }
 
-.action-menu a:hover {
-    background-color: #f5f5f5;
+.cancel-button svg{
+    fill: red;
 }
 
-.action-menu-container:hover .action-menu {
-    display: block;
-    z-index: 5000;
+.cancel-button {
+    background-color: #ffffff;
+}
+
+.cancel-button:hover {
+    background-color: #facec9;
 }

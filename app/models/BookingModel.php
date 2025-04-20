@@ -175,6 +175,49 @@ public function updateProfile($data){
         }
     }
 
+    public function checkBooking($productId){
+        $sql = "SELECT COUNT(*) AS booking_count FROM rental_equipment_bookings WHERE equipment_id = ? AND status IN ('booked', 'active')";
+        try{
+            $this->db->query($sql);
+            $this->db->bind(1, $productId);
+            $result = $this->db->single();
+            return $result -> booking_count;
+        }catch(Exception $e){
+            $error_msg = $e->getMessage();
+            echo "<script>alert('An error occured: $error_msg');</script>";
+            return false;
+        }
+    }
+
+    public function softDeleteProduct($productId) {
+        $sql = "UPDATE rental_equipments SET deleted_at = NOW() WHERE id = ?";
+
+        try {
+            $this->db->query($sql);
+            $this->db->bind(1, $productId);
+            $result  = $this->db->execute();
+            return $result;
+        } catch (Exception $e) {
+            $error_msg = $e->getMessage();
+            echo "<script>alert('An error occurred: $error_msg');</script>";
+            return false;
+        }
+    }
+
+    public function getEquipmentBookingById($bookingId){
+        $sql = 'SELECT * FROM rental_equipment_bookings WHERE booking_id = ?';
+
+        try{
+            $this->db->query($sql);
+            $this->db->bind(1, $bookingId);
+            $result = $this->db->single();
+            return $result;
+        }catch(Exception $e){
+            $error_msg = $e->getMessage();
+            echo "<script>alert('An error occurred: $error_msg');</script>";
+            return false;
+        }
+    }
 
 }
 ?>

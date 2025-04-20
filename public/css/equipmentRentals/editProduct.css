@@ -5,6 +5,11 @@
     padding: 30px;
 }
 
+.title{
+    display: flex;
+    justify-content: space-between;
+}
+
 h2 {
     color: #2c3e50;
     margin-bottom: 20px;
@@ -12,7 +17,7 @@ h2 {
     padding-bottom: 10px;
 }
 
-form {
+.form1, .form2 {
     margin-bottom: 40px;
 }
 
@@ -109,17 +114,6 @@ button:hover {
     background-color: #2980b9;
 }
 
-button[type="submit"] {
-    display: block;
-    margin-top: 20px;
-    width: 100%;
-    background-color: #2ecc71;
-}
-
-button[type="submit"]:hover {
-    background-color: #27ae60;
-}
-
 /* Image gallery styles */
 .image-top {
     display: flex;
@@ -188,6 +182,70 @@ input[type="file"] {
     border-radius: 5px;
     width: 100%;
 }
+
+.delete-item-btn {
+    background-color: #e74c3c; 
+    color: white;
+    font-size: 16px;
+    padding: 10px 20px; 
+    border: none;
+    border-radius: 5px; 
+    cursor: pointer; 
+    transition: background-color 0.3s ease, transform 0.2s ease; 
+  }
+
+  .delete-item-btn:hover {
+    background-color: #c0392b; 
+    transform: scale(1.05);
+  }
+
+
+  .modal {
+    position: fixed;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.5);
+    animation: fadeIn 0.3s ease-in-out;
+}
+
+.modal-content {
+    background-color: #fff;
+    margin: 15% auto;
+    padding: 20px;
+    border-radius: 12px;
+    width: 80%;
+    max-width: 400px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+    text-align: center;
+    position: relative;
+    animation: slideUp 0.3s ease-in-out;
+}
+
+.modal-content img{
+    height: 100px;
+    width: 100px;
+    margin-bottom: 20px;
+    margin-top: 10px;
+}
+
+.modal-content p{
+    font-size: 18px;
+}
+
+.close-button {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    font-size: 24px;
+    cursor: pointer;
+}
+
 
 /* Responsive adjustments */
 @media (max-width: 768px) {
