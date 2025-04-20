@@ -3,24 +3,12 @@
         <div class="left">
             <h1>My Vehicles</h1>
         </div>
-                            
-        <div class="right">
-            <button class="add-btn" name ="vehicle-add-btn" id="vehicle-add-btn">
-                <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#ffffff"><path d="M440-440H200v-80h240v-240h80v240h240v80H520v240h-80v-240Z"/></svg>
-                <h3>Add Vehicle</h3>
-            </button>
-        </div>
 </div>
 
 <div class="vehicle-form-container">
     <div class="form-header">
         <h1>Add Vehicle</h1>
-        <button class="back-button" id="vehicle-back-btn">
-            <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#ffffff">
-                <path d="M440-440H200v-80h240v-240h80v240h240v80H520v240h-80v-240Z" />
-            </svg>
-            <span>Back to Vehicles</span>
-        </button>
+        
     </div>
 
     <form id="addVehicleForm" action="<?php echo URLROOT; ?>/transport_suppliers/addVehicle" method="post" enctype="multipart/form-data" class="vehicle-form">

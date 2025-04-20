@@ -1,5 +1,3 @@
-
-
 .content main .initial-container table {
     width: 100%;
     border-collapse: collapse;
@@ -25,7 +23,7 @@
     padding: 16px 20px;
     border-bottom: 1px solid #f0f7ff;
     color: #2d3748;
-    font-size: 14px;
+    font-size: 16px;
 }
 
 
@@ -36,8 +34,8 @@
     gap: 12px;
     padding-left: 20px;
     font-family: monospace;
-    color: #4a5568;
-    font-weight: 500;
+    color: #2d3748;
+    font-weight: 600;
 }
 
 
@@ -89,4 +87,66 @@
 @media screen {
     
 }
+/* Green Edit Button */
+.vehicle-edit-btn {
+    background-color: #4CAF50; /* green */
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    font-size: 14px;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
 
+.vehicle-edit-btn:hover {
+    background-color: #45a049;
+}
+
+/* Red Delete Button */
+.delete-btn {
+    background-color: #f44336; /* red */
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    font-size: 14px;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.delete-btn:hover {
+    background-color: #e53935;
+}
+.vehicle-info-btn {
+    background-color: #3498db;
+    color: white;
+    border: none;
+    padding: 8px 12px;
+    border-radius: 6px;
+    cursor: pointer;
+    margin-left: 6px;
+    font-size: 14px;
+    transition: background-color 0.2s ease;
+}
+
+.vehicle-info-btn:hover {
+    background-color: #2980b9;
+}
+
+.action-button {
+    display: flex;
+    gap: 6px;
+}
+
+.action-button button {
+    flex: 0 0 auto;
+    white-space: nowrap;
+}
+
+.vehicle-img {
+    width: 100px;
+    height: auto;
+    object-fit: cover;
+    border-radius: 5px;
+  }

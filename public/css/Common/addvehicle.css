@@ -1,0 +1,89 @@
+/* Page Header */
+main .header h1 {
+    font-size: 28px;
+    margin-bottom: 20px;
+}
+
+/* Table Container */
+.Inventory {
+    overflow-x: auto;
+}
+
+/* Table Styles */
+.Inventory table {
+    width: 100%;
+    border-collapse: collapse;
+    background: white;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    min-width: 1000px;
+}
+
+.Inventory th {
+    padding: 16px 20px;
+    font-size: 14px;
+    text-align: left;
+    background: linear-gradient(135deg, rgb(0, 143, 143) 0%, rgb(0, 123, 123) 100%);
+    color: white;
+    font-weight: 700; /* Bold header text */
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    border: none;
+}
+
+.Inventory td {
+    padding: 16px 20px;
+    border-bottom: 1px solid #f0f7ff;
+    color: #2d3748;
+    font-size: 16px;
+    font-weight: 600; /* Bold body text */
+}
+
+.Inventory tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+
+
+.Inventory tr td:first-child {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding-left: 20px;
+    font-family: monospace;
+    color: #4a5568;
+    font-weight: 500;
+}
+
+/* Image Style */
+.vehicle-img {
+    width: 100px;
+    height: auto;
+    object-fit: cover;
+    border-radius: 5px;
+    margin-left: 20px;
+}
+
+/* No Data Message */
+.Inventory td[colspan] {
+    padding: 40px 0;
+    color: #666;
+    text-align: center;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .Inventory table {
+        font-size: 12px;
+    }
+
+    .Inventory th,
+    .Inventory td {
+        padding: 12px 10px;
+    }
+
+    .vehicle-img {
+        width: 70px;
+    }
+}

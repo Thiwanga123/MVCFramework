@@ -46,7 +46,51 @@ class TransportModel
          return false;
          }
      }     
-         
+     public function updateVehicle($data){
+        try {
+            $sql = "UPDATE vehicles
+                    SET type = ?, 
+                        model = ?, 
+                        make = ?, 
+                        license_plate_number = ?, 
+                        rate = ?, 
+                        fuel_type = ?, 
+                        description = ?, 
+                        availability = ?, 
+                        driver = ?, 
+                        cost = ?, 
+                        location = ?
+                    WHERE supplierId = ? AND vehicle_id = ?";
+    
+            $this->db->query($sql);
+    
+            $this->db->bind(1, $data['vehicleType']);
+            $this->db->bind(2, $data['vehicleModel']);
+            $this->db->bind(3, $data['vehicleMake']);
+            $this->db->bind(4, $data['plateNumber']);
+            $this->db->bind(5, $data['rate']);
+            $this->db->bind(6, $data['fuelType']);
+            $this->db->bind(7, $data['description']);
+            $this->db->bind(8, $data['availability']);
+            $this->db->bind(9, $data['driver']);
+            $this->db->bind(10, $data['cost']);
+            $this->db->bind(11, $data['location']);
+            $this->db->bind(12, $data['id']);      // supplierId
+            $this->db->bind(13, $data['vid']);     // vehicle_id
+    
+            if ($this->db->execute()) {
+                return true;
+            } else {
+                throw new Exception("Error in updating Vehicle details");
+            }
+    
+        } catch(Exception $e) {
+            $error_msg = $e->getMessage();
+            echo "<script>alert('An error occurred: $error_msg');</script>";
+            return false;
+        }
+    }
+    
      public function addVehicleImage($supplierId, $vehicleId, $imagePath) {
          try {
              $sql = "INSERT INTO vehicle_images (supplier_id, vehicle_id, image_path) VALUES (?, ?, ?)";
@@ -97,11 +141,22 @@ class TransportModel
 
     //delete a specific the availability of the tour guider with the relavannt of the guider by id
 
-public function deleteVehicleAvailability($id){
-    $this->db->query('DELETE FROM vehicles WHERE id = :id');
-    $this->db->bind(':id', $id);
-    $this->db->execute();
-}
+    public function deleteVehicleAvailability($id){
+        try {
+            $sql = "DELETE FROM vehicles WHERE id = ?";
+            $this->db->query($sql);
+            $this->db->bind(1, $id);
+    
+            if ($this->db->execute()) {
+                return true;
+            } else {
+                throw new Exception("Error deleting vehicle.");
+            }
+        } catch (Exception $e) {
+            return false;
+        }
+    }
+    
 
 public function updateprofile($data){
 
@@ -121,43 +176,7 @@ public function updateprofile($data){
             return false;
             }
     }
-    public function updateVehicle($data){
-        try{
-           
-
-            $sql = "UPDATE vehicles
-                SET type = ?, model = ?, make = ?, license_plate_number = ?, rate= ?, litre=?, fuel_type=?, description=?, driver=?, availability =? 
-                WHERE supplierId = ? AND vehicle_id = ? ";
-
-               
-
-            $this->db->query($sql);
-
-            $this->db->bind(1, $data['vehicleType']);
-            $this->db->bind(2, $data['vehicleModel']);
-            $this->db->bind(3, $data['vehicleMake']);
-            $this->db->bind(4, $data['plateNumber']);
-            $this->db->bind(5, $data['rate']);
-            $this->db->bind(6, $data['fuelType']);
-            $this->db->bind(7, $data['description']);
-            $this->db->bind(8, $data['driver']);
-            $this->db->bind(9, $data['availability']);
-            $this->db->bind(10, $data['id']);
-            $this->db->bind(11, $data['vid']);
-            
-            if ($this->db->execute()) {
-                return true;
-            } else {
-               throw new Exception("Error in updating Vehicle details");
-            }
-
-        }catch(Exception $e){
-            $error_msg = $e->getMessage();
-            echo "<script>alert('An error occured: $error_msg');</script>";
-            return false;
-        }
     
-    }
 
     public function addriver($name, $gender, $phone, $email, $description, $drive, $supplierId ) {
 

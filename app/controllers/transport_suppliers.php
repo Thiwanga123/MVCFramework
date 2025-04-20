@@ -19,6 +19,24 @@ class Transport_suppliers extends Controller
         $this->view('transport_supplier/Dashboard');
     }
 
+    public function details()
+    {
+        if (isset($_SESSION['id'])) {
+            $supplierId = $_SESSION['id'];
+            $vehicles = $this->transportModel->getAllVehicles($supplierId);
+            $currentPage = 'vehicles';
+
+            $data = [
+                'vehicles' => $vehicles,
+                'currentPage' => $currentPage
+            ];
+            $this->view('transport_supplier/AddVehicle', $data);
+        } else {
+            redirect('ServiceProvider');
+        }
+    }
+    
+
     public function myInventory()
     {
         if (isset($_SESSION['id'])) {
@@ -223,15 +241,17 @@ class Transport_suppliers extends Controller
     }
 
 
-    public function delete_availability($id){
-
-        if (isset($_SESSION['id'])) {
-            $this->transportModel->deleteVehicleAvailability($id);
-            redirect('transport_suppliers/myInventory');
+    public function delete_availability($id) {
+        if ($this->vehicleModel->deleteVehicleById($id)) {
+            flash('vehicle_message', 'Vehicle deleted successfully');
+            redirect('transport_suppliers/myinventory');
         } else {
-            redirect('ServiceProvider');
+            die('Something went wrong');
         }
     }
+    
+    
+    
    
     public function updateprofile()
 {
@@ -267,71 +287,89 @@ public function logout() {
     redirect('ServiceProvider/login');
 }
 
-public function editVehicle(){
-
+public function editVehicle() {
     if (isset($_SESSION['id'])) {
         $data = [
-            'id'=> $_SESSION['id'],
+            'id' => $_SESSION['id'],
             'vid' => trim($_POST['vehicleId']),
             'vehicleType' => trim($_POST['vehicleType']),
-            'vehicleModel' =>trim($_POST['vehicleModel']) ,
-            'vehicleMake' => trim($_POST['vehicleMake']),    //These variables are used to store the values which are sent via the form data
+            'vehicleModel' => trim($_POST['vehicleModel']),
+            'vehicleMake' => trim($_POST['vehicleMake']),
             'plateNumber' => trim($_POST['licensePlateNumber']),
             'rate' => trim($_POST['vehicleRate']),
             'fuelType' => trim($_POST['fuelType']),
             'description' => trim($_POST['description']),
             'availability' => trim($_POST['availability']),
             'driver' => trim($_POST['driver']),
-
+            'cost' => trim($_POST['vehicleCost']),        // added
+            'location' => trim($_POST['vehicleLocation']) // added
         ];
 
-        if(empty($data['vehicleType'])){
+        $errors = [];
+
+        if (empty($data['vehicleType'])) {
             $errors[] = 'Vehicle Type is required';
         }
 
-        if(empty($data['vehicleModel'])){
+        if (empty($data['vehicleModel'])) {
             $errors[] = 'Vehicle Model is required';
         }
 
-        if(empty($data['vehicleMake'])){
+        if (empty($data['vehicleMake'])) {
             $errors[] = 'Vehicle Make is required';
         }
 
-        if(empty($data['plateNumber'])){
+        if (empty($data['plateNumber'])) {
             $errors[] = 'Vehicle License Plate Number is required';
         }
 
-        if(empty($data['rate'])){
+        if (empty($data['rate'])) {
             $errors[] = 'Rate is required';
         }
-        
-        
-        if(empty($data['fuelType'])){
+
+        if (empty($data['fuelType'])) {
             $errors[] = 'Fuel Type is required';
         }
 
-        if(empty($data['description'])){
+        if (empty($data['description'])) {
             $errors[] = 'Description is required';
         }
 
-        if(empty($data['availability'])){
+        if (empty($data['availability'])) {
             $errors[] = 'Availability is required';
         }
-        if(empty($data['driver'])){
-            $errors[] = 'driver is required';
+
+        if (empty($data['driver'])) {
+            $errors[] = 'Driver is required';
         }
-        
+
+        if (empty($data['cost'])) {
+            $errors[] = 'Cost is required';
+        }
+
+        if (empty($data['location'])) {
+            $errors[] = 'Location is required';
+        }
+
+        // Show errors if any
+        if (!empty($errors)) {
+            foreach ($errors as $error) {
+                echo "<script>alert('$error');</script>";
+            }
+            return;
+        }
+
+        // Proceed with update if no errors
         $update = $this->transportModel->updateVehicle($data);
-        if($update){
+        if ($update) {
             echo "<script>
                 alert('Vehicle Details updated successfully!');
-             </script>";
-             
+            </script>";
             redirect('transport_suppliers/myInventory');
         }
+    }
 }
 
-}
 public function addriver() {
     if ($_SERVER['REQUEST_METHOD'] == 'POST')
         // Ensure the form fields are set before accessing them
