@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="<?php echo URLROOT;?>/css/Common/MyInventory.css">
-    <link rel="stylesheet" href="<?php echo URLROOT;?>/css/Common/sidebarHeader.css">
+    <link rel="stylesheet" href="<?php echo URLROOT;?>/css/Common/MyInventory_acc.css">
+    <link rel="stylesheet" href="<?php echo URLROOT;?>/css/Common/sidebarHeader_acc.css">
     <link rel="stylesheet" href="<?php echo URLROOT;?>/css/Modals/addAccomodationModal.css">
     <link rel="stylesheet" href="<?php echo URLROOT;?>/css/Modals/propertyModals.css">
     <title>Home</title>

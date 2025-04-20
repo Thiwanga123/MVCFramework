@@ -1,5 +1,7 @@
 <?php
 
+require_once __DIR__ . '/../../vendor/autoload.php';
+
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 
@@ -8,16 +10,18 @@ class Users extends Controller {
     private $equipmentModel;
 
     private $accomadationModel;
+    private $reviewModel;
+    private $bookingModel;
     
 
     public function __construct() {
-
         $this->userModel = $this->model('M_users');
         $this->equipmentModel = $this->model('equipmentModel');
+        $this->reviewModel = $this->model('ReviewModel');
+        $this->bookingModel = $this->model('BookingModel');
     }
 
     public function index() {
-
         $data = $this->userModel->getUsers();
         $this->view('pages/index', $data);
     }
@@ -25,7 +29,8 @@ class Users extends Controller {
     public function dashboard() {
         // Check if logged in
         if(isset($_SESSION['user_id'])) {
-            $this->view('users/v_dashboard');
+            $data['currentPage'] = 'dashboard';
+            $this->view('users/v_dashboard', $data);
             
         }else{
             redirect('users/login');
@@ -34,30 +39,48 @@ class Users extends Controller {
         
     }
 
+
     public function history() {
         //check if logged in
         if(isset($_SESSION['user_id'])) {
              // Get booking history
         $userId = $_SESSION['user_id'];
-        $bookingHistory = $this->userModel->getBookingHistory($userId);
+     
+        $bookings = $this->userModel->getBookingHistory($userId);
+        $totalBookings = count($bookings);
+        $currentPage = 'history';
 
-        // Pass data to view
         $data = [
-            'bookingHistory' => $bookingHistory
+            'bookings' => $bookings,
+            'booking_count' => $totalBookings,
+            'currentPage' => $currentPage
         ];
 
-        $this->view('users/v_history', $data);
+        
 
+        
+
+        $this->view('users/v_history', $data);
         }else{
             redirect('users/login');
         }
+    
     }
+
+  
+
 
     public function accomadation() {
 
         if(isset($_SESSION['user_id'])) {
+            $currentPage = 'accomadation';
+
+            $data = [
+                'currentPage' => $currentPage
+            ];
+
             //when Enter the location, number of guests, and the budget then click the search button, after that the system will display the available accomodations
-            $this->view('users/v_accomadation');
+            $this->view('users/v_accomadation', $data);
         }else{
             redirect('users/login');
         }
@@ -133,7 +156,13 @@ class Users extends Controller {
 
     public function vehicles(){
         if(isset($_SESSION['user_id'])) {
-            $this->view('users/v_vehicles');
+            $currentPage = 'vehicles';
+
+            $data = [
+                'currentPage' => $currentPage
+            ];
+
+            $this->view('users/v_vehicles', $data);
         }else{
             redirect('users/login');
         }
@@ -166,12 +195,19 @@ class Users extends Controller {
 
     public function equipment_suppliers(){
         if(isset($_SESSION['user_id'])) {
-            $equipment = $this->equipmentModel->getAllEquipment();
+
+            
+
+            // $equipment = $this->equipmentModel->getAllEquipment();
+         
+
             $categories = $this->equipmentModel->getAllCategories();
-    
+            $currentPage = 'equipment_suppliers';
+
             $data = [
-                'equipments' => $equipment,
-                'categories' => $categories
+                // 'equipments' => $equipment,
+                'categories' => $categories,
+                'currentPage' => $currentPage
             ];
     
             $this->view('users/v_equipment_suppliers', $data);
@@ -185,7 +221,11 @@ class Users extends Controller {
    
     public function guider(){
         if(isset($_SESSION['user_id'])) {
-            $this->view('users/v_guider');
+            $currentPage = 'guider';
+            $data = [
+                'currentPage' => $currentPage
+            ];            
+            $this->view('users/v_guider', $data);
         }else{
             redirect('users/login');
         }
@@ -194,7 +234,11 @@ class Users extends Controller {
 
     public function package(){
         if(isset($_SESSION['user_id'])) {
-            $this->view('users/v_package');
+            $currentPage = 'package';
+            $data = [
+                'currentPage' => $currentPage
+            ];
+            $this->view('users/v_package', $data);
         }else{
             redirect('users/login');
         }
@@ -203,7 +247,11 @@ class Users extends Controller {
     
     public function contact(){
         if(isset($_SESSION['user_id'])) {
-            $this->view('users/v_contact');
+            $currentPage = 'contact';
+            $data = [
+                'currentPage' => $currentPage
+            ];
+            $this->view('users/v_contact', $data);
         }else{
             redirect('users/login');
         }
@@ -211,15 +259,62 @@ class Users extends Controller {
 
     public function profile(){
         if(isset($_SESSION['user_id'])) {
-            $this->view('users/v_profile');
+            $userId = $_SESSION['user_id'];
+            $details = $this->userModel->getUserDetailsById($userId);
+            $currentPage = 'profile';
+            $data = [
+                'details' => $details,
+                'currentPage' => $currentPage
+            ];
+            $this->view('users/v_profile', $data);
         }else{
+
             redirect('users/login');
         }
     }
 
     public function reviews(){
         if(isset($_SESSION['user_id'])) {
-            $this->view('users/v_reviews');
+            $currentPage = 'revies';
+            $data = [
+                'currentPage' => $currentPage
+            ];
+            $this->view('users/v_reviews', $data);
+        }else{
+            redirect('users/login');
+        }
+    }
+
+    public function viewProduct($equipmentId){
+        if(isset($_SESSION['user_id'])){
+            $details = $this->equipmentModel->getProductDetailsById($equipmentId);
+            $bookings = $this->bookingModel->getBookingsByEquipmentId($equipmentId);
+            $reviews = $this->reviewModel->getReviewsByEquipmentId($equipmentId);
+            $ratings = $this->reviewModel->getRatingsByEquipmentId($equipmentId);
+            $reviewCount = count($reviews);
+            
+            $totalRating = 0;
+            $userReview = null;
+            foreach ($reviews as $review) {
+                $totalRating += $review->rating;
+                if ($review->traveler_id == $_SESSION['user_id']) {
+                    $userReview = $review;
+                }
+            }
+            $averageRating = $reviewCount > 0 ? round($totalRating / $reviewCount, 1) : 0;
+
+            $data = [
+                'user_id' => $_SESSION['user_id'],
+                'details' => $details,
+                'bookings' => json_encode($bookings),
+                'reviews' => $reviews,
+                'userReview' => $userReview,
+                'reviewCount' => $reviewCount,
+                'averageRating' => $averageRating,
+                'ratings' => $ratings
+            ];
+
+            $this->view('users/rentEquipment',$data);
         }else{
             redirect('users/login');
         }
@@ -295,71 +390,74 @@ class Users extends Controller {
     }
 
 
-public function login() {
-    if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-        // Sanitize POST data
-        $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+    public function login() {
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            // Sanitize POST data
+            $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_FULL_SPECIAL_CHARS);
 
-        // Init data
-        $data = [
-            'email' => trim($_POST['email']),
-            'password' => trim($_POST['password']),
-            'email_err' => '',
-            'password_err' => ''
-        ];
+            // Init data
+            $data = [
+                'email' => trim($_POST['email']),
+                'password' => trim($_POST['password']),
+                'email_err' => '',
+                'password_err' => ''
+            ];
 
-        // Validate email
-        if (empty($data['email'])) {
-            $data['email_err'] = 'Please enter email';
-        } else {
-            // Check if user exists
-            if (!$this->userModel->findUserByEmail($data['email'])) {
-                $data['email_err'] = 'No user found';
+            
+            // Validate email
+            if (empty($data['email'])) {
+                $data['email_err'] = 'Please enter email';
+            } else {
+                // Check if user exists
+                if (!$this->userModel->findUserByEmail($data['email'])) {
+                    $data['email_err'] = 'No user found';
+                }
             }
-        }
 
-        // Validate password
-        if (empty($data['password'])) {
-            $data['password_err'] = 'Please enter password';
-        }
+            // Validate password
+            if (empty($data['password'])) {
+                $data['password_err'] = 'Please enter password';
+            }
 
-        // Check for errors
-        if (empty($data['email_err']) && empty($data['password_err'])) {
-            // Attempt to log in
+            // Check for errors
+            if (empty($data['email_err']) && empty($data['password_err'])) {
+                // Attempt to log in
 
-            
-            $loggedInUser = $this->userModel->login($data['email'], $data['password']);
-            if ($loggedInUser) {
-                // Create session
-                $this->createUserSession($loggedInUser);
-                //redirect('pages/index');
-                redirect('users/dashboard');         
+                
+                $loggedInUser = $this->userModel->login($data['email'], $data['password']);
+                if ($loggedInUser) {
+                    // Create session
+                    $this->createUserSession($loggedInUser);
+                    //redirect('pages/index');
+                    redirect('users/dashboard');         
 
-            } 
-            
-            
-            else {
-                $data['password_err'] = 'Password Incorrect';
+                } 
+                
+                
+                else {
+                    $data['password_err'] = 'Password Incorrect';
+                    // Load view with errors
+                    $this->view('users/v_login', $data);
+                }
+            } else {
                 // Load view with errors
                 $this->view('users/v_login', $data);
             }
         } else {
-            // Load view with errors
+            // Init data for GET request
+            $data = [
+                'email' => '',
+                'password' => '',
+                'email_err' => '',
+                'password_err' => ''
+            ];
+
+            // Load view
             $this->view('users/v_login', $data);
         }
-    } else {
-        // Init data for GET request
-        $data = [
-            'email' => '',
-            'password' => '',
-            'email_err' => '',
-            'password_err' => ''
-        ];
-
-        // Load view
-        $this->view('users/v_login', $data);
     }
-}
+
+    
 
 
 public function createUserSession($user) {
@@ -369,6 +467,8 @@ public function createUserSession($user) {
     redirect('pages/index');
   
 }
+
+
 
 public function logout() {
     if(isset($_SESSION['user_id'])) {
@@ -521,107 +621,221 @@ public function showaccommodation(){
         if($showaccomadation=$this->userModel->showAccommodation($data)){
             // If the search is successful, load the view with the search results
             $data = [
-                'showaccomadation' => $showaccomadation
+                'email' => '',
+                'password' => '',
+                'email_err' => '',
+                'password_err' => ''
             ];
 
-            //print the data
-            
-            // Load the view with the search results
-            $this->view('users/bookAccomodations',$data );
-        } else {
-            // If the search is not successful, load the view with an error message
-            $this->view('users/notfound');
+            // Load view
+            $this->view('users/v_login', $data);
+        }
+    }
+    }
+
+
+    public function showGuider(){
+        if(isset($_SESSION['user_id'])) {
+            $guide=$this->userModel->getGuider();
+
+
+    
+            $data = [
+                'guide' => $guide
+            ];
+            $this->view('users/bookguider',$data);
+        }else{
+            redirect('users/login');
+        }
+    }
+
+
+    public function forgotPassword(){
+        if($_SERVER['REQUEST_METHOD'] == 'POST'){
+            // Sanitize POST data
+            $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
+            $email = trim($_POST['email']);
+        
+            $data = [
+                'email' => $email,
+                'table' => '',
+                'email_err' => '',
+                'success_msg' => '',
+            ];
+
+            if (empty($email)) {
+                $data['email_err'] = 'Email is required.';
+            } elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+                $data['email_err'] = 'Invalid email format.';
+            }
+
+            if (empty($data['email_err'])){
+                $tables = ['traveler', 'accomadation', 'equipment_suppliers', 'tour_guides', 'transport_suppliers'];
+                $user = null;
+
+                foreach ($tables as $table) {
+                    $user = $this->userModel->findUsersByEmail($email, $table);
+                    
+                    if ($user) {
+                        $data['table'] = $table; // Store the table name where the user was found
+                        break;
+                    }
+                }
+
+                if($user){
+                    $token = bin2hex(random_bytes(16));
+                    $hashedToken = hash('sha256', $token);
+                    date_default_timezone_set('Asia/Colombo'); 
+                    $expiry = time() + 1800;
+                    $expiryFormatted = date('Y-m-d H:i:s', $expiry);
+
+                    $this->userModel->storeResetToken($email, $table, $hashedToken, $expiryFormatted);
+                    $resetLink = URLROOT . "/users/resetPassword?token=$token" . urlencode($token);
+                    
+                    $this->sendPasswordResetEmail($email, $resetLink);
+                    $data['success_msg'] = 'A reset link has been sent to your email address.';
+                }
+                else{
+                    $data['email_err'] = 'No account found with that email address.';
+                }
+            }
+            $this->view('users/v_forgot_password', $data);
+        }
+        else{
+            $data = [
+                'email' => '',
+                'email_err' => '',
+                'success_msg' => ''
+            ];
+            $this->view('users/v_forgot_password', $data);
+        }
+    }
+    
+    public function sendPasswordResetEmail($email, $resetLink) {
+        $mail = new PHPMailer(true);  // Create a new PHPMailer instance
+       
+        try {
+            $mail->isSMTP();
+            $mail->Host = 'smtp.gmail.com';  // Use your SMTP server here
+            $mail->SMTPAuth = true;
+            $mail->Username = 'journeybeyond.noreply@gmail.com';
+            $mail->Password = 'dksv nbbg hvdy kjfp';
+            $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
+            $mail->Port = 587;
+
+            $mail->setFrom('journeybeyond.noreply@gmail.com', 'JourneyBeyond');
+            $mail->addAddress($email);  // Add the recipient's email address
+
+            $mail->isHTML(true);
+            $mail->Subject = 'Your Link for Password Reset';
+            $mail->Body    = "
+                <html>
+                <head>
+                    <title>Password Reset</title>
+                </head>
+                <body>
+                    <p>Hi,</p>
+                    <p>You requested a password reset. Please click the link below to reset your password:</p>
+                    <p><a href='$resetLink'>$resetLink</a></p>
+                    <p>If you didn't request a password reset, please ignore this email.</p>
+                </body>
+                </html>
+            ";
+
+            $mail->send();
+            return true;
+        } catch (Exception $e) {
+            return false;
+        }
+    }
+
+    public function validateResetToken($token){
+        $hashedToken = hash('sha256', $token);
+        echo ($token);
+        echo ("<br>");
+        echo ($hashedToken);
+        echo ("<br>");
+        $user = $this->userModel->findUserByResetToken($hashedToken);
+        echo ("user is: " . $user);
+        exit;
+        if($user && $user['expires_at'] > time()){
+            echo ("token is valid");
+            return $user;
+        }else{
+            echo ("token is not valid");
+            return false;
+        }
+    }
+
+    public function resetPassword(){
+        if(isset($_GET['token']) && !empty($_GET['token'])){
+            $token = $_GET['token'];
+
+            if($_SERVER['REQUEST_METHOD'] == 'GET'){
+                $user = $this->validateResetToken($token);
+               
+                if($user){
+                    $data = [
+                        'email' => $user['email'],
+                        'token' => $token,
+                        'password_err' => '',
+                    ];
+                    $this->view('users/v_reset_password', $data);
+                }
+                else{
+                    $data = [
+                        'error_msg' => 'Invalid or expired token.',
+                    ];
+                    echo "<script>alert('Invalid or expired token.'); window.location.href = '" . URLROOT . "/users/forgotPassword';</script>";
+                }
+            }
         }
 
+        if($_SERVER['REQUEST_METHOD'] == 'POST'){
+            $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
 
-}
+            $newPassword = trim($_POST['password']);
+            $confirmPassword = trim($_POST['confirmPassword']);
+            $data = [
+                'password_err' => '',
+                'success_msg' => '',
+            ];
+            $user = $this->validateResetToken($token);
 
-}
+            if($user){
+                if(empty($newPassword)){
+                    $data['password_err'] = 'Please enter a new password.';
+                } elseif(strlen($newPassword) < 6){
+                    $data['password_err'] = 'Password must be at least 6 characters.';
+                }
 
+                if($newPassword !== $confirmPassword){
+                    $data['password_err'] = 'Passwords do not match.';
+                }
 
-public function showGuider(){
-    if(isset($_SESSION['user_id'])) {
-        $guide=$this->userModel->getGuider();
+                if(empty($data['password_err'])){
+                    $hashedPassword = password_hash($newPassword, PASSWORD_DEFAULT);
+                    $result = $this->userModel->updatePassword($user['email'], $hashedPassword);
+                    if($result){
+                        $data['success_msg'] = 'Password reset successfully.';
+                        $data['success_msg'] = 'Your password has been reset successfully. You can now log in with your new password.';
+                    }
+                else{
+                    $this->view('users/v_reset_password', $data);
+                    }
+                }
+            
 
-
-   
-        $data = [
-            'guide' => $guide
-        ];
-        $this->view('users/bookguider',$data);
-    }else{
-        redirect('users/login');
+            
+            }
+        
+        }
     }
+            
+            
 }
-
-
-public function forgotPassword(){
-    $data = json_decode(file_get_contents('php://input'), true);
-    
-    if($data){
-        $step = $data['step'];
-        if ($step == 'email') {
-
-            $email = $data['email'];
-
-            if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-                echo json_encode(['error' => 'Invalid email format.']);
-                return;
-            }
-
-            $user = $this->userModel->findUserByEmail($email);
-            if (!$user) {
-                echo json_encode(['error' => 'This email does not exist.']);
-                return;
-            }
-
-            // Send OTP (dummy code, replace with real OTP generation and sending logic)
-            $otp = rand(100000, 999999);
-            // Assume this function sends the OTP to the user.
-
-            // Return success and indicate to move to OTP step
-            if($this->sendOtpToEmail($email, $otp)){
-                echo json_encode(['success' => true, 'step' => 'email']);
-            }
-            else{
-                echo json_encode(['success' => false, 'step' => 'email']);
-            }
-        } 
-    }else{
-        $this->view('users/v_forgot_password');
-    }
-}
-
-public function sendOtpToEmail($email, $otp) {
-    $mail = new PHPMailer(true);  // Create a new PHPMailer instance
-
-    try {
-        $mail->isSMTP();
-        $mail->Host = 'smtp.gmail.com';  // Use your SMTP server here
-        $mail->SMTPAuth = true;
-        $mail->Username = 'your_email@example.com';
-        $mail->Password = 'your_password';
-        $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
-        $mail->Port = 587;
-
-        $mail->setFrom('no-reply@journeybeyond.com', 'No Reply');
-        $mail->addAddress($email);  // Add the recipient's email address
-
-        $mail->isHTML(true);
-        $mail->Subject = 'Your OTP for Password Reset';
-        $mail->Body    = "Use the following OTP to reset your password: $otp";
-
-        $mail->send();
-        return true;
-    } catch (Exception $e) {
-        return false;
-    }
-}
-
-
-
-}
-
+        
+        
 
 ?>
 

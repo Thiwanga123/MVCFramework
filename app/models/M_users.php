@@ -17,6 +17,83 @@ class M_users{
         return $this->db->resultSet();
     }
 
+    public function getUserDetailsById($userId){
+        $sql = "SELECT name, email, username, telephone_number, date_of_joined FROM traveler WHERE traveler_id = ?";
+        try {
+            $this->db->query($sql);
+            $this->db->bind(1, $userId); 
+            $result = $this->db->single();
+            return $result;        
+        } catch (Exception $e) {
+            error_log("Error fetching user by ID: " . $e->getMessage());
+            return [];
+        }
+    }
+
+    public function findUsersByEmail($email,$table){
+        $sql = "SELECT * FROM $table WHERE email = :email";
+        try{
+            $this->db->query($sql);
+            $this->db->bind(':email', $email);
+            $result = $this->db->single();
+            return $result;
+        } catch (Exception $e) {
+            error_log("Error fetching users by email: " . $e->getMessage());
+            return [];
+        }
+        
+    }
+
+    public function storeResetToken($email, $table, $token, $expiry){
+        $sql = "INSERT INTO password_resets (email, user_type, token, expires_at)
+                    VALUES (:email, :tableName, :token, :expiry)
+                    ON DUPLICATE KEY UPDATE 
+                    token = VALUES(token),
+                    expires_at = VALUES(expires_at),
+                    created_at = CURRENT_TIMESTAMP";
+        try{
+            $this->db->query($sql);
+            $this->db->bind(':email', $email);
+            $this->db->bind(':tableName', $table);
+            $this->db->bind(':token', $token);
+            $this->db->bind(':expiry', $expiry);
+            return $this->db->execute();
+        } catch (Exception $e) {
+            error_log("Error storing reset token: " . $e->getMessage());
+            return false;
+        }
+    }
+
+    public function findUserByResetToken($token){
+        echo($token);
+        $sql = "SELECT * FROM password_resets WHERE token = :token";
+        
+        try{
+            $this->db->query($sql);
+            $this->db->bind(':token', $token);
+            $result = $this->db->single();
+            print_r($result);
+            exit;
+            return $result;
+        } catch (Exception $e) {
+            error_log("Error fetching user by reset token: " . $e->getMessage());
+            return [];
+        }
+    }
+
+    public function updateUserPassword($email, $password){
+        $sql = "UPDATE traveler SET password = :password WHERE email = :email";
+        try{
+            $this->db->query($sql);
+            $this->db->bind(':email', $email);
+            $this->db->bind(':password', $password);
+            return $this->db->execute();
+        } catch (Exception $e) {
+            error_log("Error updating user password: " . $e->getMessage());
+            return false;
+        }
+    }
+
     //find user by email
     public function findUserByEmail($email){
         $this->db->query('SELECT * FROM traveler WHERE email = :email');
@@ -35,10 +112,88 @@ class M_users{
 
     //get the booking history of the user
     public function getBookingHistory($id){
-        $this->db->query('SELECT * FROM user_bookings WHERE TravelerID = :traveler_id');
-        $this->db->bind(':traveler_id', $id);
+        // Get booking history for the user
+       
+        $sql = "
+        SELECT 
+            pb.booking_id AS booking_id, 
+            'Accommodation' AS type, 
+            p.property_name AS name, 
+            p.property_id AS id,
+            pb.check_in AS start_date, 
+            pb.check_out AS end_date, 
+            pb.status, 
+            pb.amount AS price
+         FROM property_booking pb
+         JOIN properties p ON pb.property_id = p.property_id
+         WHERE pb.traveler_id = :traveler_id AND pb.status IS NOT NULL
 
-        return $this->db->resultSet();
+        UNION ALL
+
+        SELECT 
+            vb.booking_id AS booking_id, 
+            'Vehicle' AS type, 
+            v.model AS name, 
+            v.vehicle_id AS id,
+            vb.check_in AS start_date, 
+            vb.check_out AS end_date, 
+            vb.status, 
+            vb.paid AS price
+         FROM vehicle_booking vb
+         JOIN vehicles v ON vb.vehicle_id = v.vehicle_id
+         WHERE vb.traveler_id = :traveler_id AND vb.status IS NOT NULL
+
+        UNION ALL
+
+        SELECT 
+            eb.booking_id AS booking_id, 
+            'Equipment' AS type, 
+            e.rental_name AS name,
+            e.id AS id,
+            eb.start_date, 
+            eb.end_date, 
+            eb.status, 
+            eb.total_price
+         FROM rental_equipment_bookings eb
+         JOIN rental_equipments e ON eb.equipment_id = e.id
+         WHERE eb.user_id = :traveler_id AND eb.status IS NOT NULL
+
+        UNION ALL
+
+        SELECT 
+            gb.booking_id AS booking_id, 
+            'Guide' AS type, 
+            g.name AS name, 
+            g.id AS id,
+            gb.check_in AS start_date,
+            gb.check_out AS end_date, 
+            gb.status, 
+            gb.paid AS price
+         FROM guider_booking gb
+         JOIN tour_guides g ON gb.guider_id = g.id
+         WHERE gb.traveler_id = :traveler_id AND gb.status IS NOT NULL
+
+        ORDER BY start_date DESC
+        ";
+    
+
+
+        try {
+            $this->db->query($sql);
+            $this->db->bind(':traveler_id', $id);
+
+            $row = $this->db->resultSet();
+
+            if (!$row) {
+                error_log("No results found for traveler_id: " . $id);
+                return [];
+            }
+
+            return $row;
+        } catch (Exception $e) {
+            error_log("Error executing query for booking history: " . $e->getMessage());
+            return [];
+        }
     }
 
     //register user
@@ -84,20 +239,17 @@ class M_users{
         $this->db->bind(':email', $email);
 
         $row = $this->db->single();
-
-           
-           
-           
-    if ($row) {
-        $hashedPassword = $row->password;
-        if (password_verify($password, $hashedPassword)) {
-            return $row;
+       
+        if ($row) {
+            $hashedPassword = $row->password;
+            if (password_verify($password, $hashedPassword)) {
+                return $row;
+            } else {
+                return false;
+            }
         } else {
             return false;
         }
-    } else {
-        return false;
-    }
         }
         
     //get all the accomodations from the database
@@ -119,6 +271,8 @@ class M_users{
     
         
     }
+
+ 
 
     //get the accomodation details
     public function getAccommodationById($property_id, $check_in = null, $check_out = null){
@@ -322,27 +476,24 @@ class M_users{
         //print the result
         print($this->db->resultSet());
         return $this->db->resultSet();
-
-    
-
-}
-
-public function getAllVehicles($supplierId){
-    try {
-        $sql = "SELECT v.*, i.image_path 
-                FROM vehicles v 
-                LEFT JOIN vehicle_images i ON v.id = i.vehicle_id 
-                WHERE v.supplierId = ? 
-                GROUP BY v.id"; // Ensure unique vehicles
-
-        $this->db->query($sql);
-        $this->db->bind(1, $supplierId);
-        return $this->db->resultSet();
-    } catch (Exception $e) {
-        error_log("Error fetching vehicles: " . $e->getMessage());
-        return [];
     }
-}
+
+    public function getAllVehicles($supplierId){
+        try {
+            $sql = "SELECT v.*, i.image_path 
+                    FROM vehicles v 
+                    LEFT JOIN vehicle_images i ON v.id = i.vehicle_id 
+                    WHERE v.supplierId = ? 
+                    GROUP BY v.id"; // Ensure unique vehicles
+
+            $this->db->query($sql);
+            $this->db->bind(1, $supplierId);
+            return $this->db->resultSet();
+        } catch (Exception $e) {
+            error_log("Error fetching vehicles: " . $e->getMessage());
+            return [];
+        }
+    }
 }
 
 ?>

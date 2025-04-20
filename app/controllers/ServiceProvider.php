@@ -50,22 +50,24 @@ class ServiceProvider extends Controller {
             if (empty($data['email_err']) && empty($data['password_err']) && empty($data['sptype_err'])) {
                 // Attempt to log in the user
                 $loggedInUser = $this->serviceProviderModel->login($data['email'], $data['password'], $data['sptype']);
-                
+               
                 if ($loggedInUser) {
                     // Create session for the logged-in user and redirect
-        
                     $this->createUserSession($loggedInUser, $data['sptype']);
                     //redirect to the relevant dashboard
                     redirect($data['sptype'] . '/dashboard');
                    
                 } else {
-                    // If login fails (wrong password), set error message
+                    // If login fails (wrong password), set error messagee
                     $data['password_err'] = 'Incorrect password. Please try again.';
+                    $this->view('serviceproviders/sp_login', $data);
+                    return;
                 }
-            } else {
-                // If there are any errors, re-render the login form with validation errors
+            }else{
                 $this->view('serviceproviders/sp_login', $data);
+                return;
             }
+
         } else {
             // If it's a GET request, initialize empty data for the form
             $data = [
@@ -233,7 +235,7 @@ class ServiceProvider extends Controller {
         $_SESSION['name'] = $user->name;
         $_SESSION['type'] = $sptype;
         
-        redirect($sptype .'/dashboard');
+    // redirect($sptype .'/dashboard');
     }
 
     public function logout(){
@@ -401,6 +403,42 @@ class ServiceProvider extends Controller {
                 echo json_encode(['success' => true, 'message' => 'Registration successful!']);
             } else {
                 echo json_encode(['success' => false, 'errors' => ['database' => 'Failed to register. Try again later.']]);
+            }
+        }
+    }
+
+
+
+    public function uploadImage() {
+        if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_FILES['profile_image'])) {
+            $file = $_FILES['profile_image'];
+            $allowedTypes = ['jpg', 'jpeg', 'png'];
+            $extension = strtolower(pathinfo($file['name'], PATHINFO_EXTENSION));
+    
+            if (in_array($extension, $allowedTypes)) {
+                $userId = $_SESSION['id'];
+                $userType = $_SESSION['type'];
+                $baseDir = 'Uploads/ProfilePictures/';
+                $userDir = $baseDir . $userType . '/' . $userId . '/';
+                
+                if (!is_dir($userDir)) {
+                    mkdir($userDir, 0777, true); // Create directory recursively
+                }
+
+                $uniqueName = uniqid() . '.' . $extension;
+                $targetFilePath = $userDir . $uniqueName;
+    
+                if (move_uploaded_file($file['tmp_name'], $targetFilePath)) {
+                    $relativePath = $userType . '/' . $userId . '/' . $uniqueName;
+                    $this->serviceProviderModel->updateProfileImage($userType, $userId, $relativePath);
+    
+                    header('Location: ' . URLROOT . '/profile');
+                    exit;
+                } else {
+                    die('Error uploading file.');
+                }
+            } else {
+                die('Invalid file type.');
             }
         }
     }

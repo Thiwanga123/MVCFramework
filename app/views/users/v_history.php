@@ -4,105 +4,78 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="<?php echo URLROOT;?>/css/Common/newbooking.css">
-    <link rel="stylesheet" href="<?php echo URLROOT;?>/css/Common/sidebarHeader.css">
+    <link rel="stylesheet" href="<?php echo URLROOT;?>/css/adminpage/sidebarHeader.css">
+    <link rel="stylesheet" href="<?php echo URLROOT;?>/css/Modals/logoutModal.css">
+
     <title>History</title>
 </head>
 <body>
-    <!-- SideBar -->
-    <?php require APPROOT . '/views/inc/components/usersidebar.php'; ?>
-     <!-- End Of Sidebar -->
-
-     <!--Main Content-->
-     <div class="content">
-        <!--navbar-->
-        <nav>
-            <svg class="menu" xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#000000"><path d="M160-269.23v-40h640v40H160ZM160-460v-40h640v40H160Zm0-190.77v-40h640v40H160Z"/></svg>
-            <form action="#">
-                <div class="form-input">
-                    <input type="search" placeholder="Search ..">
-                    <button class="search-btn" type="submit">
-                        <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#000000"><path d="M784-120 532-372q-30 24-69 38t-83 14q-109 0-184.5-75.5T120-580q0-109 75.5-184.5T380-840q109 0 184.5 75.5T640-580q0 44-14 83t-38 69l252 252-56 56ZM380-400q75 0 127.5-52.5T560-580q0-75-52.5-127.5T380-760q-75 0-127.5 52.5T200-580q0 75 52.5 127.5T380-400Z"/></svg>
-                    </button>
-                </div>
-            </form>
-            <a href="#" class="updates">
-                <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#000000"><path d="M160-200v-80h80v-280q0-83 50-147.5T420-792v-28q0-25 17.5-42.5T480-880q25 0 42.5 17.5T540-820v28q80 20 130 84.5T720-560v280h80v80H160Zm320-300Zm0 420q-33 0-56.5-23.5T400-160h160q0 33-23.5 56.5T480-80ZM320-280h320v-280q0-66-47-113t-113-47q-66 0-113 47t-47 113v280Z"/></svg>
-                <span class="count">12</span>
-            </a>
-            <p>Hii Welcome <?php echo $_SESSION['name'];?></p>
-            <a href="#" class="profile">
-                <img src="<?php echo URLROOT;?>/Images/Profile pic.jpg">
-            </a>
-        </nav>
-
-        <main>
-            <div class="header">
-                <div class="left">
-                    <h1>History</h1>
-                </div>
-            </div>
-
-            <div class="item-orders">
-                <div>
-                <div class="header">
-                    <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#000000"><path d="M620-163 450-333l56-56 114 114 226-226 56 56-282 282Zm220-397h-80v-200h-80v120H280v-120h-80v560h240v80H200q-33 0-56.5-23.5T120-200v-560q0-33 23.5-56.5T200-840h167q11-35 43-57.5t70-22.5q40 0 71.5 22.5T594-840h166q33 0 56.5 23.5T840-760v200ZM480-760q17 0 28.5-11.5T520-800q0-17-11.5-28.5T480-840q-17 0-28.5 11.5T440-800q0 17 11.5 28.5T480-760Z"/></svg>
-                    <h3>My Bookings</h3>
-                    <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#000000"><path d="M440-160q-17 0-28.5-11.5T400-200v-240L168-736q-15-20-4.5-42t36.5-22h560q26 0 36.5 22t-4.5 42L560-440v240q0 17-11.5 28.5T520-160h-80Zm40-308 198-252H282l198 252Zm0 0Z"/></svg>
-                </div>
-                <table>
-                    <thead>
-                        <tr>
-                            
-                            
-                            <th>Booking ID</th>
-                            <th>Service Taken</th>
-                            <th>Service Provider ID</th>
-                            <th>Check-In</th>
-                            <th>Check-Out</th>
-                            <th>Amount</th>
-                            <th>Action</th>
-                            <th>Status</th>
-                            
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <?php foreach ($data['bookingHistory'] as $booking):?>
-                        <tr> 
-                           
-                            <td><?php echo htmlspecialchars($booking->BookingID); ?></td>
-                            <td><?php echo htmlspecialchars($booking->ServiceTaken); ?></td>
-                            <td><?php echo htmlspecialchars($booking->SupplierID); ?></td>
-                            <td><?php echo htmlspecialchars($booking->CheckIn); ?></td>
-                            <td><?php echo htmlspecialchars($booking->CheckOut); ?></td>
-                            <td><?php echo htmlspecialchars($booking->Amount); ?></td>
-                            <td><div class="action-btn">
-                            <button class="view-btn">View</button>
-                            <?php if($booking->Action == 'Active'): ?>
-                            <!--when submit cancel button the booking will cancel and release the number of bokkings from the booking table-->
-                            <form action="<?php echo URLROOT; ?>/users/cancelBooking" method="post" style="display:inline;">
-                                <input type="hidden" name="booking_id" value="<?php echo $booking->BookingID; ?>">
-                                <button type="submit" class="cancel-btn">Cancel</button>
-                            </form>
-                            <?php endif; ?>
-                            </div>
-                        </td>
-                        <td><?php echo htmlspecialchars($booking->Action); ?> </td>                           
-                        </tr> 
-                        <?php endforeach; ?>
-                    </tbody>
-                </table> 
-                </div>
-            </div>
-            
-          </main>
-
-     </div>
-
-
-     <script src="<?php echo URLROOT;?>/js/Sidebar.js"></script> 
-
+    <div class="box" id="box">
     
-     
-</body>
 
+    <!-- SideBar -->
+        <?php require APPROOT . '/views/inc/components/usersidebar.php'; ?>
+    <!-- End Of Sidebar -->
+
+    <!--Main Content-->
+        <main>
+            <div class="history-container">
+                <div class="header">
+                    <h1>Booking History</h1>
+                </div>
+                <p>Showing All Bookings (<?php echo htmlspecialchars($data['booking_count']); ?>)</p>
+
+                    <div class="table-container">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Booking ID</th>
+                                    <th>Type</th>
+                                    <th>Name</th>
+                                    <th>Start Date</th>
+                                    <th>End Date</th>
+                                    <th>Status</th>
+                                    <th>Price</th>   
+                                    <th>Actions</th>                         
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <?php foreach ($data['bookings'] as $booking):?>
+                                <tr> 
+                                    <td><?php echo htmlspecialchars($booking->booking_id); ?></td>
+                                    <td><?php echo htmlspecialchars($booking->type); ?></td>
+                                    <td><?php echo htmlspecialchars($booking->name); ?></td>
+                                    <td><?php echo htmlspecialchars($booking->start_date); ?></td>
+                                    <td><?php echo htmlspecialchars($booking->end_date); ?></td>
+                                    <td class="status <?php echo strtolower($booking->status); ?>">
+                                        <?php echo htmlspecialchars($booking->status); ?>
+                                    </td>                                    
+                                    <td><?php echo htmlspecialchars($booking->price); ?> </td>  
+                                    <td>
+                                    <?php if (strtolower($booking->status) === 'booked' || strtolower($booking->status) === 'pending'): ?>
+                                        <button class="cancellationBtn" 
+                                        data-id = "<?php echo htmlspecialchars($booking->id); ?>"
+                                        data-type = "<?php echo htmlspecialchars($booking->type); ?>"> 
+                                            <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#EA3323"><path d="m336-280 144-144 144 144 56-56-144-144 144-144-56-56-144 144-144-144-56 56 144 144-144 144 56 56ZM480-80q-83 0-156-31.5T197-197q-54-54-85.5-127T80-480q0-83 31.5-156T197-763q54-54 127-85.5T480-880q83 0 156 31.5T763-763q54 54 85.5 127T880-480q0 83-31.5 156T763-197q-54 54-127 85.5T480-80Zm0-80q134 0 227-93t93-227q0-134-93-227t-227-93q-134 0-227 93t-93 227q0 134 93 227t227 93Zm0-320Z"/></svg>
+                                        </button>
+                                    <?php endif; ?>
+                                    </td>
+                                </tr> 
+                                <?php endforeach; ?>
+                            </tbody>
+                        </table> 
+                    </div>
+            </div>
+        </main>
+    </div>
+   
+    <script src="<?php echo URLROOT;?>/js/Sidebar.js"></script> 
+    <script src="<?php echo URLROOT;?>/js/logout.js"></script>
+    <script src="<?php echo URLROOT;?>/js/submenu.js"></script>
+    <script src="<?php echo URLROOT;?>/js/cancellationPolicy.js"></script>
+    <script>const URLROOT = "<?php echo URLROOT; ?>";</script>
+
+
+
+</body>
 </html>

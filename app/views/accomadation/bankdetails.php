@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Guider Payments </title>
+<title>Wallet</title>
 <link rel="stylesheet" href="<?php echo URLROOT;?>/css/adminpage/Dashboard.css">
 <link rel="stylesheet" href="<?php echo URLROOT;?>/css/Common/sidebarHeader.css">
 

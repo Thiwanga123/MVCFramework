@@ -285,13 +285,13 @@
                         <tr>
                             <th>#</th>
                             <th>Traveler Name</th>
-                            <th>Booking ID</th>
+                           
                             <th>Accomadation Type</th>
                             <th>Accommodation Name</th>
                             <th>Check-In</th>
                             <th>Check-Out</th>
                             <th>Full Amount</th>
-                            <th>Paid Amount</th>
+                           
                             <th>Status</th>
                             <th>Action</th>
                         </tr>
@@ -327,13 +327,13 @@
                             <td>
                                 <img src="<?php echo URLROOT;?>/Images/Profile pic.jpg"><?php echo htmlspecialchars($accomadation->traveler_name); ?>
                             </td>
-                            <td><?php echo htmlspecialchars($accomadation->booking_id); ?></td>
+                            
                             <td><?php echo htmlspecialchars($accomadation->property_type); ?></td>
                             <td><?php echo htmlspecialchars($accomadation->property_name); ?></td>
                             <td><?php echo htmlspecialchars($accomadation->check_in); ?></td>
                             <td><?php echo htmlspecialchars($accomadation->check_out); ?></td>
                             <td>Rs.<?php echo htmlspecialchars($accomadation->amount); ?></td>
-                            <td>Rs.<?php echo htmlspecialchars($accomadation->paid); ?></td>
+                            
                             <td><span class="status <?php echo $statusClass; ?>"><?php echo $statusText; ?></span></td>                         
                             <td class="action-btn">
                                 <button class="view-btn" onclick="openModal(<?php echo htmlspecialchars(json_encode($accomadation)); ?>, '<?php echo $statusText; ?>')">View</button>

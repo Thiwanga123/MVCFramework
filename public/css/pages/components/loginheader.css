@@ -78,14 +78,43 @@ a{
     flex-direction: column;
     border: none;
     gap: 1rem;
+    padding: 8px;
 }
 
-.container .left .login-box form input{
+.container .left .login-box form input , .password-container input{
     border: none;
     background-color: rgb(239, 239, 239);
     height: 40px;
     border-radius: 30px;
     padding: 0 20px;
+    position: relative;
+}
+
+.password-container{
+    position: relative;
+    width: 100%;
+}
+
+.password-container input{
+    width: 100%;
+}
+
+.eye-icon {
+    position: absolute;
+    right: 10px;
+    top: 10%;
+    transform: translateY(-50%);
+    background: transparent;  /* Ensure no background */
+    border: none;             /* Remove any border */
+    cursor: pointer;
+    font-size: 18px;
+    color: gray; 
+}
+
+
+
+.eye-icon:hover {
+    color: black;
 }
 
 .container .left .login-box form label{
@@ -93,6 +122,17 @@ a{
    font-weight:bolder;
 }
 
+.container .left .login-box form .password-container button{
+    background: transparent;
+    border: none;
+    position: absolute;
+    right: 10px;
+    top: 10%;
+    transform: translateY(-50%);
+    font-size: 18px;
+    color: rgb(104, 104, 104);
+    cursor: pointer;
+}
 .container .left .login-box form button{
     background-color: rgb(21, 126, 126);
     color: white;
@@ -103,6 +143,17 @@ a{
     margin-top: 1rem;
     cursor: pointer;
  }
+
+ .eye-icon svg {
+    width: 22px;
+    height: 22px;
+    stroke: rgb(158, 158, 158);
+    transition: stroke 0.3s ease;
+}
+
+.eye-icon:hover svg {
+    stroke: black;
+}
 
  .form-invalid {
     color: #ff0000; /* Red color for error text */
