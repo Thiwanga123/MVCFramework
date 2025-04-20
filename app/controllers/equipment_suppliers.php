@@ -92,7 +92,6 @@ class Equipment_Suppliers extends Controller{
             redirect('ServiceProvider/login');
         }
         
-
     }
 
     public function reviews(){

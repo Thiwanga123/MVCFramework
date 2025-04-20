@@ -223,7 +223,6 @@ class ServiceProvider extends Controller {
                 'reg_num_err'=>'',
                 'address_err'=>''
             ];
-
             // Load view
             $this->view('serviceproviders/register_updated', $data);
         }
@@ -252,157 +251,72 @@ class ServiceProvider extends Controller {
         $this->view('serviceproviders/sp_profile', $data);
     }
 
-    public function validation() {
-
-        header('Content-Type: application/json');
-
-        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-
-            $currentStep = $_POST['current_step'];
-            $errors = [];
     
-            switch ($currentStep) {
-                case 1:
-                    if (empty($_POST['name'])) {
-                        $errors['name'] = 'Business Name is required';
-                    }else{
-                        $name = $_POST['name'];
-                        $serviceType = $_POST['sptype']; 
-    
-                        if ($this->serviceProviderModel->findUserByName($name, $serviceType)) {
-                            $errors['name'] = 'User already exists';
-                        }
-                    }
-    
-                    if (empty($_POST['email'])) {
-                        $errors['email'] = 'Email is required';
-                    }else {
-                        $email = $_POST['email'];
-                        $serviceType = $_POST['sptype']; 
-    
-                        if ($this->serviceProviderModel->findUserByEmail($email, $serviceType)) {
-                            
-                            $errors['email'] = 'This email is already registered for the selected service type';
-                        }
-                    }
-    
-                    if (empty($_POST['nic'])) {
-                        $errors['nic'] = 'NIC Number is required';
-                    }else{
-                        $nic = $_POST['nic'];
-                        $serviceType = $_POST['sptype'];
-
-                        if($this->serviceProviderModel->findUsersByNIC($nic, $serviceType)){
-                            $errors['nic'] = "NIC number already exists";
-                        }
-                    }
-    
-                    if (empty($_POST['phone'])) {
-                        $errors['phone'] = 'Contact Number is required';
-                    }else{
-                        if (!is_numeric($_POST['phone']) || strlen($_POST['phone']) !== 10) {
-                            $errors['phone'] = 'Invalid contact number';
-                        }
-                    }
-    
-                    if (empty($_POST['sptype'])) {
-                        $errors['sptype'] = 'Service Type is required';
-                    }
-    
-                    break;
-
-                case 2:
-                    if(empty($_POST['selected_plan'])){
-                        $errors['selected_plan'] = 'Select a plan';
-                    }
-                    
-                    break;
-
-                /*case 3:
-                    if (empty($_POST['address'])) {
-                        $errors['address'] = 'Address is required';
-                    }
-    
-                    if (empty($_POST['presentaddress'])) {
-                        $errors['presentaddress'] = 'Present Address is required';
-                    }
-    
-                    break; */
-    
-                    case 3:
-                        if (empty($_POST['reg_num'])) {
-                            $errors['reg_num'] = 'Government Registration Number is required';
-                        }
-        
-                        // Password and confirm password validation
-                        $password = $_POST['password'];
-                        $confirmPassword = $_POST['confirm_password'];
-        
-                            // Check if password meets criteria
-                        if (strlen($password) < 8) {
-                            $errors['password'] = 'Password must be at least 8 characters long';
-                        } 
-
-                        if (!preg_match('/[A-Z]/', $password) || !preg_match('/\d/', $password) || !preg_match('/[!@#$%^&*(),.?":{}|<>]/', $password)) {
-                            $errors['password']  = 'Password must contain at least one uppercase letter, one number and a special character';
-                        }
-
-                        // Confirm Password validation
-                        if (empty($_POST['confirm_password'])) {
-                            $errors['confirm_password'] = 'Confirm Password is required';
-                        } elseif ($_POST['password'] !== $_POST['confirm_password']) {
-                            $errors['confirm_password'] = 'Passwords do not match';
-                        }
-        
-                        if (empty($_FILES['pdfFile']['name'])) {
-                            $errors['pdfFile'] = 'PDF file is required';
-                        } elseif ($_FILES['pdfFile']['type'] !== 'application/pdf') {
-                            $errors['pdfFile'] = 'Only PDF files are allowed';
-                        }
-                        break;
-        
-                    default:
-                        break;
-               
-            }
-    
-            if (!empty($errors)) {
-                echo json_encode(['success' => false, 'errors' => $errors]);
-            } else {
-                echo json_encode(['success' => true]);
-            }
-        }
-    }
-
     public function registerUpdated() {
-        // Check if the submitted method is POST
-       
         if ($_SERVER["REQUEST_METHOD"] == "POST") {
-            // Validate form fields again (for security)
-            if (empty($_POST['password']) || empty($_POST['confirm_password'])) {
-                die("Invalid form submission");
+            // Sanitize form inputs
+            $name = trim(htmlspecialchars($_POST['name'] ?? ''));
+            $email = trim(htmlspecialchars($_POST['email'] ?? ''));
+            $nic = trim(htmlspecialchars($_POST['nic'] ?? ''));
+            $phone = trim(htmlspecialchars($_POST['phone'] ?? ''));
+            $sptype = trim(htmlspecialchars($_POST['sptype'] ?? ''));
+            $address = trim(htmlspecialchars($_POST['address'] ?? ''));
+            $reg_num = trim(htmlspecialchars($_POST['reg_num'] ?? ''));
+            $password = trim($_POST['password'] ?? '');
+            $confirm_password = trim($_POST['confirm_password'] ?? '');
+            $selectedPlan = trim($_POST['selectedPlan'] ?? '');
+    
+            // Hash the password
+            $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
+    
+            // Handle file upload
+            if (isset($_FILES['pdfFile']) && $_FILES['pdfFile']['error'] === 0) {
+                $baseUploadDir = 'Uploads/Documents/';
+                $typeFolder = $baseUploadDir . $sptype . '/';
+    
+                if (!file_exists($typeFolder)) {
+                    mkdir($typeFolder, 0777, true);
+                }
+    
+                // Get the last ID from the relevant service provider table
+                $lastId = $this->serviceProviderModel->getLastServiceProviderId($sptype);
+                $nextId = $lastId + 1;
+    
+                // Build the new file path (e.g., Uploads/Documents/drivers/driver_12.pdf)
+                $pdfFilename = strtolower($sptype) . '_' . $nextId . '.pdf';
+                $pdfPath = $typeFolder . $pdfFilename;
+    
+                // Move the uploaded file to the target path
+                if (!move_uploaded_file($_FILES['pdfFile']['tmp_name'], $pdfPath)) {
+                    echo json_encode(['success' => false, 'errors' => ['pdfFile' => 'Failed to upload file.']]);
+                    exit; // Ensure the script stops after sending the response
+                }
+            } else {
+                echo json_encode(['success' => false, 'errors' => ['pdfFile' => 'No file uploaded.']]);
+                exit;
             }
-        
-            // Hash the password before saving it to the database
-            $hashedPassword = password_hash($_POST['password'], PASSWORD_DEFAULT);
-        
-            // Example: Prepare data for insertion
+    
+            // Prepare data for registration
             $data = [
-                'name' => $_POST['name'],
-                'email' => $_POST['email'],
-                'nic' => $_POST['nic'],
-                'phone' => $_POST['phone'],
-                'sptype' => $_POST['sptype'],
-                'reg_num' => $_POST['reg_num'],
-                'password' => $hashedPassword, // Save hashed password
-                'plan' => $_POST['selected_plan']
+                'sptype' => $sptype,
+                'name' => $name,
+                'nic' => $nic,
+                'address' => $address,
+                'phone' => $phone,
+                'email' => $email,
+                'password' => $hashedPassword,
+                'reg_num' => $reg_num,
+                'plan' => $selectedPlan,
+                'document_path' => $pdfPath
             ];
-        
-            // Insert data into the database (assuming you have a model function)
-            if ($this->serviceProviderModel->registerUser($data)) {
+
+            // Insert user data
+            if ($this->serviceProviderModel->registerSupplier($data)) {
                 echo json_encode(['success' => true, 'message' => 'Registration successful!']);
+                exit; // Ensure the script stops after sending the response
             } else {
                 echo json_encode(['success' => false, 'errors' => ['database' => 'Failed to register. Try again later.']]);
+                exit;
             }
         }
     }
@@ -443,6 +357,88 @@ class ServiceProvider extends Controller {
         }
     }
 
+    public function validationNew() {
+        header('Content-Type: application/json');
+    
+        // Ensure the request method is POST
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+           
+            $data = json_decode(file_get_contents('php://input'), true);
+            $errors = [];        
+            $step = isset($data['step']) ? intval($data['step']) : 0;
+        
+            if ($step === 1) {
+                // Step 1: Basic info
+                if (empty(trim($data['name'] ?? ''))) {
+                    $errors['name'] = 'Name is required.';
+                }
+        
+                if (empty(trim($data['email'] ?? ''))) {
+                    $errors['email'] = 'Email is required.';
+                } elseif (!filter_var($data['email'], FILTER_VALIDATE_EMAIL)) {
+                    $errors['email'] = 'Invalid email format.';
+                } else{
+                    $email = $data['email'];
+                    $serviceType = $data['sptype']; 
+                    
+                    if ($this->serviceProviderModel->findUserByEmail($email, $serviceType)) {
+                        $errors['email'] = 'This email is already registered for the selected service type.';
+                    }
+                }
+        
+                if (empty(trim($data['nic'] ?? '')) || !preg_match('/^[0-9]{9}[vVxX]?$|^[0-9]{12}$/', $data['nic'])) {
+                    $errors['nic'] = 'Invalid NIC number.';
+                }
+        
+                if (empty(trim($data['phone'] ?? '')) || !preg_match('/^[0-9]{10}$/', $data['phone'])) {
+                    $errors['phone'] = 'Phone number must be 10 digits.';
+                }
+        
+                if (empty(trim($data['sptype'] ?? ''))) {
+                    $errors['sptype'] = 'Service type is required.';
+                }
+            }
+        
+            if ($step === 2) {
+                // Step 2: Address info
+                if (empty(trim($data['reg_num'] ?? ''))) {
+                    $errors['reg_num'] = 'Government Registration Number is required.';
+                }
+            
+                // // Validate PDF File
+                // if (empty($data['pdfFile'] ?? '')) {
+                //     $errors['pdfFile'] = 'Document is required.';
+                // } elseif (!preg_match('/\.pdf$/i', $data['pdfFile'])) {
+                //     $errors['pdfFile'] = 'Only PDF files are allowed.';
+                // }
+            
+                // Validate Password
+                if (empty(trim($data['password'] ?? ''))) {
+                    $errors['password'] = 'Password is required.';
+                } elseif (strlen($data['password']) < 6) {
+                    $errors['password'] = 'Password must be at least 6 characters.';
+                }
+            
+                // Validate Confirm Password
+                if (empty(trim($data['confirm_password'] ?? ''))) {
+                    $errors['confirm_password'] = 'Confirm Password is required.';
+                } elseif ($data['password'] !== $data['confirm_password']) {
+                    $errors['confirm_password'] = 'Passwords do not match.';
+                }
+            }
+
+            if (!empty($errors)) {
+                echo json_encode(['success' => false, 'errors' => $errors]);
+            } else {
+                echo json_encode(['success' => true]);
+            }
+        }else{
+            echo json_encode(['success' => false, 'errors' => ['common' => 'Invalid request method.']]);
+            http_response_code(405); 
+            return;
+    }
 }
+}
+
 ?>
                    

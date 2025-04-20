@@ -1,6 +1,7 @@
     <div class="booking">
         <h2>Rent Equipment</h2>
         <div class="div">
+
             <div class="left">
                 <div class="cal">
                     <?php 
@@ -11,7 +12,6 @@
                     include_once APPROOT . '/views/inc/components/calendar.php'; ?> 
                 </div>
             </div>
-        
             <div class="right">
                 <div class="booking-form">
                     <form action="<?php echo URLROOT; ?>/booking/addEquipmentBooking" method="POST" class="bookingForm" id="bookingForm">
