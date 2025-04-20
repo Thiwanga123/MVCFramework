@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -152,6 +151,9 @@
 
                 <div class="step" id="step-3" style="display:none;">
                 <h2>Choose Your Subscription Plan</h2>
+                <div style="background-color: #e3f2fd; padding: 12px; border-radius: 5px; border-left: 4px solid #2196F3; margin-bottom: 20px; color: #0d47a1; font-size: 14px;">
+                    <strong>Notice:</strong> When you first log in to the system, you will need to pay for your subscription to access the JourneyBeyond system.
+                </div>
                 <span class="form-invalid" id="subscription-error"></span>
 
                     <div class="content">

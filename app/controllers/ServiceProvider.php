@@ -309,17 +309,17 @@ class ServiceProvider extends Controller {
                 'plan' => $selectedPlan,
                 'document_path' => $pdfPath
             ];
-
-            $result= $this->serviceProviderModel->registerSupplier($data);
-
-    
-           
+            $result=$this->serviceProviderModel->registerSupplier($data);
+            
+            var_dump($result);
+            exit;
             // Insert user data
-            if ($result== true) {
+            if ($result) {
                 echo json_encode(['success' => true, 'message' => 'Registration successful!']);
                 exit; // Ensure the script stops after sending the response
             } else {
-                echo json_encode(['success' => false, 'errors' => ['database' => $result]]);
+                
+                // echo json_encode(['success' => false, 'errors' => ['database' => $result]]);
                 exit;
             }
         }

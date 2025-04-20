@@ -54,6 +54,8 @@
         </div>
     <?php endif; ?>
 
+    
+
     <script>
         // Load PayHere script with error handling
         window.addEventListener('load', function() {

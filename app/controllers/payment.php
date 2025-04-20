@@ -110,6 +110,47 @@ class Payment extends Controller {
     }
     }
 
+    public function payment_subscription(){
+
+        prinT_r($_POST);
+
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            // Get subscription details from form
+            $data = [
+                'plan_id' => $_POST['plan_id'],
+                'amount' => $_POST['amount'],
+                'currency' => $_POST['currency'],
+                'order_id' => 'ORDER' . time() . rand(1000, 9999)
+            ];
+
+            // Debugging line to check the data
+            
+            $merchant_id = '1229635';
+            $merchant_secret = 'MzgwMDgyNjc2ODIwOTcyNzYwNjExODUyODIzOTYyNzY3NTk4ODY5';
+            
+            $hash = strtoupper(md5(
+                $merchant_id . 
+                $data['order_id'] . 
+                number_format($data['amount'], 2, '.', '') . 
+                $data['currency'] .  
+                strtoupper(md5($merchant_secret)) 
+            ));
+            
+            $data['hash'] = $hash;
+            $data['merchant_id'] = $merchant_id;
+
+
+  
+   
+            
+            // Pass data to payment form view
+            $this->view('payment/payhere_form', $data);
+        } else {
+            // Redirect to subscription page if accessed directly
+            redirect('users/subscription');
+        }
+    }
+
     public function failed() {
         echo "Payment Failed!";
     }

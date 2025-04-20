@@ -110,12 +110,13 @@ class ServiceProviderModel{
             $this->db->bind(':reg_num', $data['reg_num']);
             $this->db->bind(':plan', $data['plan']);
             $this->db->bind(':document_path', $data['document_path']);
+
     
             return $this->db->execute();
         } catch (PDOException $e) {
-            return $e->getMessage();
-           
+           return $e->getMessage();
         }
+       
     }
 
     //register the service provider with the relavent service type
