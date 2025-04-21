@@ -28,6 +28,7 @@ class ServiceProviderModel{
         $this->db->query("SELECT * FROM $sptype WHERE email = :email");
         $this->db->bind(':email', $email);
 
+
         $row = $this->db->single();
         
         if ($row) {
@@ -57,6 +58,32 @@ class ServiceProviderModel{
             return true;
         }else{
             return false;
+        }
+    }
+    public function checkSubscriptionStatus($email, $sptype) {
+        $this->db->query("SELECT sub FROM $sptype WHERE email = :email");
+        $this->db->bind(':email', $email);
+        $row = $this->db->single();
+
+       
+        
+        if ($row && $row->sub === 'true') {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+
+    public function getSubscriptionDetails($email, $sptype) {
+        $this->db->query("SELECT * FROM $sptype WHERE email = :email");
+        $this->db->bind(':email', $email);
+        $row = $this->db->single();
+
+        if ($row) {
+            return $row;
+        } else {
+            return null;
         }
     }
 
@@ -112,7 +139,7 @@ class ServiceProviderModel{
             $this->db->bind(':document_path', $data['document_path']);
 
     
-            return $this->db->execute();
+             return $this->db->execute();
         } catch (PDOException $e) {
            return $e->getMessage();
         }
@@ -171,6 +198,49 @@ class ServiceProviderModel{
         $this->db->bind(':id', $userId);
     
         return $this->db->execute();
+    }
+
+    public function updateSubscriptionStatus($email, $sptype) {
+        $this->db->query("UPDATE $sptype SET sub = 'true' WHERE email = :email");
+        $this->db->bind(':email', $email);
+        return $this->db->execute();
+    }
+
+    public function updateSubscriptionPlan($id, $plan, $price, $name, $sptype) {
+        try {
+            $duration = null;
+
+            //print the data
+            echo "<script>console.log('ID: $id, Plan: $plan, Price: $price, Email: $name, Service Type: $sptype');</script>";
+            // Calculate duration based on the plan
+            switch ($plan) {
+                case '3month':
+                    $duration = date('Y-m-d', strtotime('+3 months'));
+                    break;
+                case '6month':
+                    $duration = date('Y-m-d', strtotime('+6 months'));
+                    break;
+                case '12month':
+                    $duration = date('Y-m-d', strtotime('+12 months'));
+                    break;
+                default:
+                    throw new Exception("Invalid plan type.");
+            }
+
+            $this->db->query("INSERT INTO subscription_plans (sp_id, name, price, duration, created_at, sptype, plan) 
+                              VALUES (:sp_id, :name, :price, :duration, NOW(), :sptype, :plan)");
+            $this->db->bind(':plan', $plan);
+            $this->db->bind(':name', $name);
+            $this->db->bind(':price', $price);
+            $this->db->bind(':sp_id', $id);
+            $this->db->bind(':sptype', $sptype);
+            $this->db->bind(':duration', $duration);
+
+            return $this->db->execute();
+        } catch (Exception $e) {
+            error_log("Error updating subscription plan: " . $e->getMessage());
+            return "Error: " . $e->getMessage();
+        }
     }
 
 }

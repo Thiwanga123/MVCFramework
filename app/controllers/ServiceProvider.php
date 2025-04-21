@@ -12,6 +12,11 @@ class ServiceProvider extends Controller {
         $this->view('serviceproviders/sp_login');
     }
 
+    public function subscription() {
+
+        $this->view('serviceproviders/subscription');
+    }
+
 
     public function login() {
         // Check if the form was submitted (POST request)
@@ -41,13 +46,38 @@ class ServiceProvider extends Controller {
     
             if (empty($data['email_err']) && empty($data['sptype_err'])) {
                 $existingUser = $this->serviceProviderModel->findUserByEmail($data['email'], $data['sptype']);
+                //check if the sub is paid
+                
+                $isPaid = $this->serviceProviderModel->checkSubscriptionStatus($data['email'], $data['sptype']);
+              
+                if (!$isPaid) {
+                    $data['subscription_err'] = 'Your subscription is not active.';
+
+                    //get the details from the database
+                    $subscriptionDetails = $this->serviceProviderModel->getSubscriptionDetails($data['email'], $data['sptype']);
+                  
+                   $data = [
+                    'sptype' => $data['sptype'],
+                    'email' => $data['email'],
+                    'plan' => $subscriptionDetails->plan,
+                    'name' => $subscriptionDetails->name,
+                    'id' => $subscriptionDetails->id
+                    
+                   ];
+                    // Load the subscription view with the details
+                 
+
+                    $this->view('serviceproviders/subscription', $data);
+                    exit;
+                   
+                }
                 if (!$existingUser) {
                     $data['email_err'] = 'No user found with that email for the selected service type.';
                 }
             }
 
             // Proceed with login if there are no errors
-            if (empty($data['email_err']) && empty($data['password_err']) && empty($data['sptype_err'])) {
+            if (empty($data['email_err']) && empty($data['password_err']) && empty($data['sptype_err']) && empty($data['subscription_err'])) {
                 // Attempt to log in the user
                 $loggedInUser = $this->serviceProviderModel->login($data['email'], $data['password'], $data['sptype']);
                
@@ -311,8 +341,7 @@ class ServiceProvider extends Controller {
             ];
             $result=$this->serviceProviderModel->registerSupplier($data);
             
-            var_dump($result);
-            exit;
+       
             // Insert user data
             if ($result) {
                 echo json_encode(['success' => true, 'message' => 'Registration successful!']);

@@ -6,11 +6,13 @@ class Payment extends Controller {
     private $PaymentModel;
 
     private $userModel;
+    private $serviceProviderModel;
 
 
     public function __construct(){
         $this->PaymentModel = $this->model('PaymentModel');
         $this->userModel = $this->model('M_users');
+        $this->serviceProviderModel = $this->model('ServiceProviderModel');
     }
     
     public function index(){
@@ -110,6 +112,41 @@ class Payment extends Controller {
     }
     }
 
+    public function success_sub() {
+
+        // Check if order_id exists in URL and booking data exists in session
+        if(isset($_GET['order_id']) && isset($_SESSION['subscription_data'])) {
+            $order_id = $_GET['order_id'];
+            $subscription_data = $_SESSION['subscription_data'];
+
+           // Debugging line to check the subscription data
+
+            if($subscription_data['order_id'] == $order_id) {
+
+                $updateSubscriptionStatus = $this->serviceProviderModel->updateSubscriptionStatus($subscription_data['email'], $subscription_data['sptype']);
+
+                $updateSubscriptionPlan = $this->serviceProviderModel->updateSubscriptionPlan($subscription_data['id'], $subscription_data['plan'], $subscription_data['price'],  $subscription_data['name'], $subscription_data['sptype']);
+
+                if($updateSubscriptionStatus && $updateSubscriptionPlan) {
+
+                   
+                    unset($_SESSION['subscription_data']);
+
+                    //redirect to the login page
+                    $this->view('serviceproviders/sp_login');
+                } else {
+
+                    $this->view('payment/failed', ['message' => 'Failed to save subscription']);
+                }
+            } else {
+
+                $this->view('payment/failed', ['message' => 'Invalid order ID']);
+            }
+        } else {
+
+            redirect('users/subscription');
+        }
+    }
     public function payment_subscription(){
 
         prinT_r($_POST);
@@ -162,6 +199,8 @@ class Payment extends Controller {
 
        
     }
+
+
 
     public function notify() {
         $paymentModel = new PaymentModel();
