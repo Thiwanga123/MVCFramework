@@ -831,8 +831,62 @@ public function showaccommodation(){
         
         }
     }
+
+
+    public function updateProfileImage(){
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            $errors = [];
+            if (isset($_FILES['profileImage']) && $_FILES['profileImage']['error'] === UPLOAD_ERR_OK) {
+                $fileTmpPath = $_FILES['profileImage']['tmp_name'];
+                $fileName = $_FILES['profileImage']['name'];
+                $fileSize = $_FILES['profileImage']['size'];
+                $fileType = $_FILES['profileImage']['type'];
+                $fileNameCmps = explode(".", $fileName);
+                $fileExtension = strtolower(end($fileNameCmps));
+
+                $userId = $_SESSION['user_id'];
+                $newFileName = uniqid('profile_', true) . '.' . $fileExtension;
+                $allowedExtensions = ['jpg', 'jpeg', 'png'];
+                $uploadBase = 'Uploads/ProfilePictures/Users/';
+                $uploadPath = $uploadBase . $userId . '/';
+
+                if (!file_exists($uploadPath)) {
+                    mkdir($uploadPath, 0755, true); 
+                }
+
+                $destPath = $uploadPath . $newFileName;
             
-            
+                if (in_array($fileExtension, $allowedExtensions)) {
+                    if (move_uploaded_file($fileTmpPath, $destPath)) {
+                        if ($this->userModel->updateProfileImage($_SESSION['user_id'], $newFileName)) {
+                            // flash('image_upload_success', 'Profile image updated successfully.');
+                            return redirect('users/profile'); // only redirect on success
+                        } else {
+                            $errors['db'] = 'Failed to update profile image in the database.';
+                        }
+                    } else {
+                        $errors['upload'] = 'There was an error moving the uploaded file.';
+                    }
+                } else {
+                    $errors['type'] = 'Invalid file type. Only JPG, JPEG, and PNG allowed.';
+                }
+            } else {
+                $errors['file'] = 'No file uploaded or an error occurred during upload.';
+            }
+
+            // If there are any errors, re-render the same view with the error messages
+            $userData = $this->userModel->getUserById($_SESSION['user_id']);
+
+            $data = [
+                'details' => $userData,
+                'errors' => $errors
+            ];
+
+            return $this->view('users/profile', $data); // show the form again with error data
+        } else {
+            redirect('users/profile');
+        }
+    }
 }
         
         

@@ -106,19 +106,20 @@ class ReviewModel {
     }
 
     public function getReviewsBySupplierId($supplierId){
-
-        $sql = "SELECT rer.*, ri.image_path, re.rental_name
+        $sql = 'SELECT r.*, e.rental_name AS equipment_name, c.name AS customer_name, c.email AS customer_email,
+                ( SELECT i.image_path FROM rental_images i 
+                  WHERE i.product_id = r.equipment_id 
+                  LIMIT 1) AS image_path
                 FROM rental_equipments_reviews r
-                LEFT JOIN rental_images ri ON r.equipment_id = ri.product_id
-                AND ri.image_id = (SELECT MIN(image_id) FROM rental_images WHERE product_id = r.equipment_id)
-                WHERE r.supplier_id = ?";
+                JOIN rental_equipments e ON r.equipment_id = e.id
+                JOIN traveler c ON r.traveler_id = c.traveler_id
+                WHERE e.supplier_id = ?';
 
         try{
             $this->db->query($sql);
             $this->db->bind(1, $supplierId);
+            
             $result = $this->db->resultSet();
-            print_r($result);
-            exit;
             return $result;
         }catch(Exception $e){
             $error_msg = $e->getMessage();
@@ -126,7 +127,5 @@ class ReviewModel {
             return false;
         }
     }
-
-
 }
 ?>

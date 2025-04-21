@@ -263,14 +263,13 @@ class ServiceProvider extends Controller {
         $_SESSION['email'] = $user->email;
         $_SESSION['name'] = $user->name;
         $_SESSION['type'] = $sptype;
-        
+        $_SESSION['profile_path'] = $user->profile_path;
     // redirect($sptype .'/dashboard');
     }
 
     public function logout(){
         session_destroy();  
         session_start();    
-
         redirect('ServiceProvider/login');
         exit();
     }
@@ -469,6 +468,73 @@ class ServiceProvider extends Controller {
             echo json_encode(['success' => false, 'errors' => ['common' => 'Invalid request method.']]);
             http_response_code(405); 
             return;
+    }
+}
+
+public function updateProfileImage(){
+    if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+
+        $errors = [];
+        if (isset($_FILES['profileImage']) && $_FILES['profileImage']['error'] === UPLOAD_ERR_OK) {
+            $fileTmpPath = $_FILES['profileImage']['tmp_name'];
+            $fileName = $_FILES['profileImage']['name'];
+            $fileSize = $_FILES['profileImage']['size'];
+            $fileType = $_FILES['profileImage']['type'];
+            $fileNameCmps = explode(".", $fileName);
+            $fileExtension = strtolower(end($fileNameCmps));
+
+            $userId = $_SESSION['id'];
+        
+            $sptype = $_SESSION['type'];
+            $newFileName = uniqid('profile_', true) . '.' . $fileExtension;
+            $allowedExtensions = ['jpg', 'jpeg', 'png'];
+            $uploadBase = 'Uploads/ProfilePictures/ServiceProviders/' . $sptype . '/';
+            $uploadPath = $uploadBase . $userId . '/';
+
+            if (file_exists($uploadPath)) {
+                $files = scandir($uploadPath);
+                foreach ($files as $file) {
+                    if ($file !== '.' && $file !== '..') {
+                        unlink($uploadPath . $file); 
+                    }
+                }
+                
+                rmdir($uploadPath);  // Remove the folder
+            }
+            
+            mkdir($uploadPath, 0755, true);  
+
+            $destPath = $uploadPath . $newFileName;
+            if (in_array($fileExtension, $allowedExtensions)) {
+                if (move_uploaded_file($fileTmpPath, $destPath)) {
+                    $imagePath = $uploadBase . $userId . '/' . $newFileName;
+
+                  
+                    $result = $this->serviceProviderModel->uploadProfileImage($userId,$imagePath,$sptype);
+                  
+                    if ($result) {
+                        $_SESSION['profile_path'] = $imagePath;
+                        redirect("{$sptype}/profile");
+                    } else {
+                        $errors['database'] = 'Error uploading to the database';
+                    }
+                    
+                } else {
+                    $errors['upload'] = 'There was an error moving the uploaded file.';
+                }
+            } else {
+                $errors['type'] = 'Invalid file type. Only JPG, JPEG, and PNG allowed.';
+            }
+        } else {
+            $errors['file'] = 'No file uploaded or an error occurred during upload.';
+        }
+
+        $data = [
+            'errors' => $errors
+        ];
+        return $this->view('users/profile', $data); // show the form again with error data
+    } else {
+        redirect('users/profile');
     }
 }
 }

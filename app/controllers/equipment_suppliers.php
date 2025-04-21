@@ -22,12 +22,14 @@ class Equipment_Suppliers extends Controller{
     }
 
     public function dashboard(){
-
         if (isset($_SESSION['id'])) {
-            
+            $supplierId = $_SESSION['id'];
+            $upcomingBookings = $this->bookingModel-> upcomingBookingsBySupplierId($supplierId);
             $currentPage = 'dashboard';
+
             $data = [
-                'currentPage' => $currentPage
+                'currentPage' => $currentPage,
+                'upcomingBookings' => $upcomingBookings,
             ];
             $this->view('equipment_supplier/Dashboard', $data);
 
@@ -97,10 +99,13 @@ class Equipment_Suppliers extends Controller{
     public function reviews(){
 
         if (isset($_SESSION['id'])) {
+        
             $currentPage = 'reviews';
             $reviews = $this->reviewModel->getReviewsBySupplierId($_SESSION['id']);
+
             $data = [
-                'currentPage' => $currentPage
+                'currentPage' => $currentPage,
+                'reviews' => $reviews
             ];
 
             $this->view('equipment_supplier/Reviews', $data);

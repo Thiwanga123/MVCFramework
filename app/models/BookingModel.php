@@ -175,6 +175,20 @@ public function updateProfile($data){
         }
     }
 
+    public function upcomingBookingsBySupplierId($supplierId){
+        $sql = 'SELECT * FROM rental_equipment_bookings WHERE supplier_id = ? AND start_date > CURRENT_DATE';
+        try{
+            $this->db->query($sql);
+            $this->db->bind(1, $supplierId);
+            $result = $this->db->resultSet();
+            return $result;
+        }catch(Exception $e){
+            $error_msg = $e->getMessage();
+            echo "<script>alert('An error occured: $error_msg');</script>";
+            return false;
+        }
+    }
+
     public function checkBooking($productId){
         $sql = "SELECT COUNT(*) AS booking_count FROM rental_equipment_bookings WHERE equipment_id = ? AND status IN ('booked', 'active')";
         try{

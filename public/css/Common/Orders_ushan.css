@@ -68,25 +68,23 @@
 .status {
     padding: 4px 8px;
     border-radius: 12px;
-    font-weight: bold;
-    font-size: 0.9rem;
     display: inline-block;
     text-transform: capitalize;
 }
 
 .status.booked {
-    background-color: #f0ad4e; /* orange-ish */
-    color: white;
+    background-color: #fff3cd; /* orange-ish */
+    color: rgb(208 182 7);
 }
 
-.status.complete {
-    background-color: #5cb85c; /* green */
-    color: white;
+.status.completed {
+    background-color: #bff5bf;
+    color: #009300;
 }
 
 .status.cancelled {
-    background-color: #d9534f; /* red */
-    color: white;
+    background-color: #f8d5d4; /* red */
+    color: rgb(178, 21, 21);
 }
 
 .cancel-button {

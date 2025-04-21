@@ -2,8 +2,8 @@ document.addEventListener('DOMContentLoaded', function() {
     const logoutConfirmModal = document.getElementById('logoutConfirmModal');
     const closeLogoutModal = document.getElementById('closeLogoutModal');
     const cancelLogoutBtn = document.getElementById('cancelLogout');
-    const confirmLogoutBtn = document.getElementById('confirmLogout');
     const logoutLink = document.getElementById('logout');
+    const confirmLogoutBtn = document.getElementById('confirmLogout');
     const submenu = document.getElementById('profileSubmenu');
     
     function openModal() {
@@ -18,16 +18,27 @@ document.addEventListener('DOMContentLoaded', function() {
     logoutLink.addEventListener('click', openModal);
     closeLogoutModal.addEventListener('click', closeModal);
     cancelLogoutBtn.addEventListener('click', closeModal);
-    
+
     confirmLogoutBtn.addEventListener('click', function() {
-        console.log('User confirmed logout');
-        closeModal();
+        delayedLogout();
     });
+
+    
+    function delayedLogout() {
+        document.getElementById("2").style.display = "block";  
+        document.getElementById("1").style.display = "none";   
+
+        setTimeout(() => {
+            document.getElementById('logoutForm').submit();
+        }, 1000); 
+    }
     
     window.addEventListener('click', function(event) {
         if (event.target === logoutConfirmModal) {
             closeModal();
         }
     });
+
+    
     
 });
