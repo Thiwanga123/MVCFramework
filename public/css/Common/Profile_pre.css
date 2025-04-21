@@ -200,6 +200,13 @@
     transform: scale(1.02);
 }
 
+#imageActionButtons{
+    margin-top: 10px;
+    display: none;
+    flex-direction: column;
+    gap: 10px
+}
+
 .delete {
     background-color: #dc3545;
     color: white;

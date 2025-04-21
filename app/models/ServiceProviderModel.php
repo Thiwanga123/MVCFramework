@@ -153,23 +153,24 @@ class ServiceProviderModel{
             return $this->db->single();
         }catch(Exception $e){
             $err_msg = $e->getMessage();
+            return false;
         }
     }
 
-    public function updateProfileImage($userType, $userId, $filename) {
-        $allowedTables = ['equipment_suppliers', 'tour_guides', 'vehicle_suppliers', 'accomadation']; 
+    public function uploadProfileImage($userId,$imagePath,$sptype) {
+      
     
-        if (!in_array($userType, $allowedTables)) {
-            return false;
+        $sql = "UPDATE $sptype SET profile_path = ? WHERE id = ?";
+       
+        try{
+            $this->db->query($sql);
+            $this->db->bind(1, $imagePath);
+            $this->db->bind(2, $userId);
+            $result = $this->db->execute();
+            return $result;
+        }catch(Exception $e){
+            return $e->getMessage();
         }
-    
-        $sql = "UPDATE $userType SET profile_pic = :filename WHERE id = :id";
-    
-        $this->db->query($sql);
-        $this->db->bind(':filename', $filename);
-        $this->db->bind(':id', $userId);
-    
-        return $this->db->execute();
     }
 
 }

@@ -6,6 +6,8 @@
     <link rel="stylesheet" href="<?php echo URLROOT;?>/css/Common/sidebarHeader.css">
     <link rel="stylesheet" href="<?php echo URLROOT;?>/css/adminpage/Dashboard.css">
     <link rel="stylesheet" href="<?php echo URLROOT;?>/css/Modals/logoutModal.css">
+    <link rel="stylesheet" href="<?php echo URLROOT;?>/css/Common/calendar.css">
+
 
     
     <title>Dashboard</title>
@@ -22,7 +24,6 @@
                     <div class="header">
                         <h1>Dashboard</h1>
                     </div>
-
                     <ul class="insights">
                         <li>
                             <div class="products">
@@ -120,30 +121,25 @@
                                 </tbody>
                             </table> 
                         </div>
-                
-                        <!--Recent updates-->
-                        <div class="reminders">
-                            <div class="header">
-                                <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#000000"><path d="M200-120q-33 0-56.5-23.5T120-200v-560q0-33 23.5-56.5T200-840h440l200 200v440q0 33-23.5 56.5T760-120H200Zm0-80h560v-400H600v-160H200v560Zm80-80h400v-80H280v80Zm0-320h200v-80H280v80Zm0 160h400v-80H280v80Zm-80-320v160-160 560-560Z"/></svg>
-                                <h3>Recent Updates</h3>
-                
+
+                        <div class="upcomingBookings">    
+                            <div class="top" style="display: flex; align-items: center;justify-content: center;"> 
+                            <h3>Upcoming Bookings</h3>
                             </div>
-                            <ul class="update-list">
-                                <li></li>
-                                <li></li>
-                                <li></li>
-                            </ul>
-                        </div>
+                            <?php include_once APPROOT . '/views/inc/components/calendar.php'; ?> 
+                        </div> 
+
                     </div>
                 </div>
             </main>
 
     </div>
 
+    <script>var bookings = <?= json_encode($data['upcomingBookings']) ?>;</script>
     <script src="<?php echo URLROOT;?>/js/Sidebar.js"></script>
     <script src="<?php echo URLROOT;?>/js/logout.js"></script>
     <script src="<?php echo URLROOT;?>/js/subMenu.js"></script>
-
+    <script src="<?php echo URLROOT;?>/js/Calendar.js"></script>
 </body>
 
 </html>

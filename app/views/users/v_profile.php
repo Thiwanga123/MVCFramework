@@ -27,8 +27,16 @@
                         <div class="profile-top">
                             <div class="imageDiv">
                                 <div class="div1">
-                                    <img src="<?php echo URLROOT;?>/Images/Profile pic.jpg">
-                                    <button class="change-btn" id="imageChangeBtn">Change Image</button>
+                                    <img id= "profilePreview" src="<?php echo URLROOT;?>/Images/Profile pic.jpg">
+                                    <form action="<?php echo URLROOT; ?>/users/updateProfileImage" method="POST" enctype="multipart/form-data" id="imageUploadForm">
+                                        <input type="file" name="profileImage" id="profileImage" accept="image/*" style="display: none;">
+                                        <button type="button" class="change-btn" id="imageChangeBtn">Change Image</button>
+
+                                        <div id="imageActionButtons">
+                                            <button type="submit" class="save-btn">Save Image</button>
+                                            <button type="button" class="cancel-btn" id="cancelImageBtn">Cancel</button>
+                                        </div>
+                                    </form>
                                 </div>
                                 <div class="div2">
                                     <h4><?php echo htmlspecialchars($data['details']->name); ?></h4>
@@ -38,7 +46,7 @@
                             </div>
 
                             <div class="editBtn">
-                            <button class="editProfile" id="editProfileBtn">Edit</button>
+                            <button class="editProfile" id="editProfileBtn">Edit Profile</button>
                             </div>
                         </div>
 
@@ -77,6 +85,7 @@
     <script src="<?php echo URLROOT;?>/js/Sidebar.js"></script>
     <script src="<?php echo URLROOT;?>/js/logout.js"></script>
     <script src="<?php echo URLROOT;?>/js/submenu.js"></script>
+    <script src="<?php echo URLROOT;?>/js/profilePicUpload.js"></script>
 
 </body>
 
