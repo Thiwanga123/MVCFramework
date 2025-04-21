@@ -22,12 +22,11 @@
                     <div class="header">
                         <h1>My Profile</h1>
                     </div>
-
                     <div class="profileContentMain">
                         <div class="profile-top">
                             <div class="imageDiv">
                                 <div class="div1">
-                                    <img id= "profilePreview" src="<?php echo URLROOT;?>/Images/Profile pic.jpg">
+                                    <img id= "profilePreview" src="<?php echo isset($details->profile_path) && !empty($details->profile_path) ? URLROOT . '/' . $details->profile_path : URLROOT . '/Images/Profile pic.jpg'; ?>">
                                     <form action="<?php echo URLROOT; ?>/users/updateProfileImage" method="POST" enctype="multipart/form-data" id="imageUploadForm">
                                         <input type="file" name="profileImage" id="profileImage" accept="image/*" style="display: none;">
                                         <button type="button" class="change-btn" id="imageChangeBtn">Change Image</button>

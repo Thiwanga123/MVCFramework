@@ -23,6 +23,7 @@
                     <div class="header">
                         <h1>My Profile</h1>
                     </div>
+
                     <div class="profileContentMain">
                         <div class="profile-top">
                             <div class="imageDiv">

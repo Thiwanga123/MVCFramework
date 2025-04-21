@@ -34,7 +34,8 @@
                                     <th>Produt Name</th>
                                     <th>Rating</th>
                                     <th>Comment</th>
-                                    <th>Date</th>                   
+                                    <th>Date</th> 
+                                    <th>Action</th>                   
                                 </tr>
                             </thead>
                             <tbody>
@@ -53,7 +54,10 @@
                                         <td><?php echo htmlspecialchars($review->equipment_name); ?></td>
                                         <td><?php echo htmlspecialchars($review->rating); ?></td>
                                         <td><?php echo htmlspecialchars($review->comment); ?></td>
-                                        <td><?php echo htmlspecialchars($review->created_at); ?></td>     
+                                        <td><?php echo htmlspecialchars($review->created_at); ?></td>
+                                        <td>
+                                            <a href="<?= URLROOT; ?>/reviews/reply/<?= $review->id; ?>" class="btn btn-secondary">Reply</a>
+                                        </td>     
                                     </tr>
                             <?php endforeach; ?>
                             </tbody>

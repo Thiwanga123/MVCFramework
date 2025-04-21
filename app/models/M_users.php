@@ -15,7 +15,7 @@ class M_users{
     }
 
     public function getUserDetailsById($userId){
-        $sql = "SELECT name, email, username, telephone_number, date_of_joined FROM traveler WHERE traveler_id = ?";
+        $sql = "SELECT * FROM traveler WHERE traveler_id = ?";
         try {
             $this->db->query($sql);
             $this->db->bind(1, $userId); 
@@ -381,6 +381,21 @@ class M_users{
             return [];
         }
     }
+
+    public function uploadProfileImage($userId,$imagePath) {
+        $sql = "UPDATE traveler SET profile_path = ? WHERE traveler_id = ?";
+        try{
+            $this->db->query($sql);
+            $this->db->bind(1, $imagePath);
+            $this->db->bind(2, $userId);
+            $result = $this->db->execute();
+            return $result;
+        }catch(Exception $e){
+            return $e->getMessage();
+        }
+    }
+
+
 }
 
 ?>

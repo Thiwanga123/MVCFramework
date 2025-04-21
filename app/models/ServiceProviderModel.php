@@ -158,8 +158,6 @@ class ServiceProviderModel{
     }
 
     public function uploadProfileImage($userId,$imagePath,$sptype) {
-      
-    
         $sql = "UPDATE $sptype SET profile_path = ? WHERE id = ?";
        
         try{
