@@ -457,56 +457,71 @@ class Users extends Controller {
         }
     }
 
+
+    public function createUserSession($user) {
+        
+        $_SESSION['user_id'] = $user->traveler_id;
+        $_SESSION['email'] = $user->email;
+        $_SESSION['name'] = $user->name;
+        $_SESSION['profile_path'] = $user->profile_path;
+    }
+
+    public function logout() {
+        if(isset($_SESSION['user_id'])) {;
+            session_unset();
+            session_destroy();
+            session_start();
+            redirect('users/login');
+        }else{
+            redirect('users/login');
+        }
+
+    }
+
+    public function notfound() {
+        $this->view('users/notfound');
+    }
+
+    //cancel the booking
+    public function cancelBooking() {
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            // Sanitize POST data
+            $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+
+            // Process form
+            $bookingId = trim($_POST['booking_id']);
+
+            // Cancel the booking
+            if ($this->userModel->cancelBooking($bookingId)) {
+                echo "<script>alert('Booking cancelled successfully'); window.location.href = '" . URLROOT . "/users/history';</script>";
+            } else {
+                echo "<script>alert('An error occurred. Please try again'); window.location.href = '" . URLROOT . "/users/history';</script>";
+            }
+        } else {
+            redirect('users/v_history');
+        }
+    }
+
+    //get all the accomodations from the database
+    // public function addAccommodationImage($accommodationId, $imagePath) {
+        //     $userId = $_SESSION['id'];
+
+        //     $isInserted = $this->accomadationModel->addAccommodationImage($userId, $accommodationId, $imagePath);
+
+        //     if ($isInserted) {
+        //         return true;
+        //     } else {
+        //         return false;
+        //     }
+        // }
+
     
 
 
-public function createUserSession($user) {
-    $_SESSION['user_id'] = $user->traveler_id;
-    $_SESSION['email'] = $user->email;
-    $_SESSION['name'] = $user->name;
-    redirect('pages/index');
-  
-}
 
-
-
-public function logout() {
-    if(isset($_SESSION['user_id'])) {
-        unset($_SESSION['user_id']);
-        unset($_SESSION['email']);
-        unset($_SESSION['name']);
-        session_destroy();
-        redirect('users/login');
-    }else{
-        redirect('users/login');
-    }
-
-}
-
-public function notfound() {
-    $this->view('users/notfound');
-}
 
 //cancel the booking
-public function cancelBooking() {
-    if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-        // Sanitize POST data
-        $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_FULL_SPECIAL_CHARS);
 
-        // Process form
-        $bookingId = trim($_POST['booking_id']);
-        $travelerId= $_SESSION['user_id'];
-
-        // Cancel the booking
-        if ($this->userModel->cancelBooking($bookingId, $travelerId)) {
-            echo "<script>alert('Booking cancelled successfully'); window.location.href = '" . URLROOT . "/users/history';</script>";
-        } else {
-            echo "<script>alert('An error occurred. Please try again'); window.location.href = '" . URLROOT . "/users/history';</script>";
-        }
-    } else {
-        redirect('users/v_history');
-    }
-}
 
 
 
@@ -833,9 +848,10 @@ public function showaccommodation(){
     }
 
 
-    public function updateProfileImage(){
+    public function updateProfileImage() {
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $errors = [];
+    
             if (isset($_FILES['profileImage']) && $_FILES['profileImage']['error'] === UPLOAD_ERR_OK) {
                 $fileTmpPath = $_FILES['profileImage']['tmp_name'];
                 $fileName = $_FILES['profileImage']['name'];
@@ -843,50 +859,64 @@ public function showaccommodation(){
                 $fileType = $_FILES['profileImage']['type'];
                 $fileNameCmps = explode(".", $fileName);
                 $fileExtension = strtolower(end($fileNameCmps));
-
+    
                 $userId = $_SESSION['user_id'];
                 $newFileName = uniqid('profile_', true) . '.' . $fileExtension;
+    
                 $allowedExtensions = ['jpg', 'jpeg', 'png'];
-                $uploadBase = 'Uploads/ProfilePictures/Users/';
-                $uploadPath = $uploadBase . $userId . '/';
-
-                if (!file_exists($uploadPath)) {
-                    mkdir($uploadPath, 0755, true); 
-                }
-
-                $destPath = $uploadPath . $newFileName;
-            
+                $uploadBase = 'Uploads/ProfilePictures/Travelers';
+                $uploadPath = $uploadBase . '/' . $userId;
+                
                 if (in_array($fileExtension, $allowedExtensions)) {
+    
+                    if (file_exists($uploadPath)) {
+                        $files = scandir($uploadPath);
+                        foreach ($files as $file) {
+                            if ($file !== '.' && $file !== '..') {
+                                unlink($uploadPath . '/' . $file);
+                            }
+                        }
+                        rmdir($uploadPath);
+                    }
+    
+                    // Create folder again
+                    mkdir($uploadPath, 0755, true);
+                    $destPath = $uploadPath . '/' . $newFileName;
+    
                     if (move_uploaded_file($fileTmpPath, $destPath)) {
-                        if ($this->userModel->updateProfileImage($_SESSION['user_id'], $newFileName)) {
-                            // flash('image_upload_success', 'Profile image updated successfully.');
-                            return redirect('users/profile'); // only redirect on success
+                        $imagePath = $uploadBase . '/' . $userId . '/' . $newFileName;
+                        $result = $this->userModel->uploadProfileImage($userId, $imagePath);
+    
+                        if ($result) {
+                            $_SESSION['profile_path'] = $imagePath;
+                            redirect("users/profile");
                         } else {
-                            $errors['db'] = 'Failed to update profile image in the database.';
+                            $errors['database'] = 'Error uploading to the database.';
                         }
                     } else {
                         $errors['upload'] = 'There was an error moving the uploaded file.';
                     }
+    
                 } else {
                     $errors['type'] = 'Invalid file type. Only JPG, JPEG, and PNG allowed.';
                 }
             } else {
                 $errors['file'] = 'No file uploaded or an error occurred during upload.';
             }
-
-            // If there are any errors, re-render the same view with the error messages
-            $userData = $this->userModel->getUserById($_SESSION['user_id']);
-
+    
+            $details = $this->userModel->getUserDetailsById($userId); 
+    
             $data = [
-                'details' => $userData,
-                'errors' => $errors
+                'errors' => $errors,
+                'details' => $details
             ];
-
-            return $this->view('users/profile', $data); // show the form again with error data
+            return $this->view('users/profile', $data);
         } else {
             redirect('users/profile');
         }
     }
+
+   
 }
         
         

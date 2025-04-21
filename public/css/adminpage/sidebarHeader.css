@@ -287,10 +287,11 @@ body{
 }
 
 .content nav .profile img{
-    width: 54px;
-    height: 54px;
+    width: 44x;
+    height: 44px;
     object-fit: cover;
     border-radius: 50%;
+    border: 2px solid teal;
 }
 
 .profile-submenu {

@@ -473,7 +473,6 @@ class ServiceProvider extends Controller {
 
 public function updateProfileImage(){
     if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-
         $errors = [];
         if (isset($_FILES['profileImage']) && $_FILES['profileImage']['error'] === UPLOAD_ERR_OK) {
             $fileTmpPath = $_FILES['profileImage']['tmp_name'];
@@ -491,34 +490,32 @@ public function updateProfileImage(){
             $uploadBase = 'Uploads/ProfilePictures/ServiceProviders/' . $sptype . '/';
             $uploadPath = $uploadBase . $userId . '/';
 
-            if (file_exists($uploadPath)) {
-                $files = scandir($uploadPath);
-                foreach ($files as $file) {
-                    if ($file !== '.' && $file !== '..') {
-                        unlink($uploadPath . $file); 
-                    }
-                }
-                
-                rmdir($uploadPath);  // Remove the folder
-            }
-            
-            mkdir($uploadPath, 0755, true);  
-
-            $destPath = $uploadPath . $newFileName;
+           
             if (in_array($fileExtension, $allowedExtensions)) {
+                if (file_exists($uploadPath)) {
+                    $files = scandir($uploadPath);
+                    foreach ($files as $file) {
+                        if ($file !== '.' && $file !== '..') {
+                            unlink($uploadPath . $file); 
+                        }
+                    }
+
+                    rmdir($uploadPath);  // Remove the folder
+                }
+            
+                mkdir($uploadPath, 0755, true);  
+                $destPath = $uploadPath . $newFileName;//
+
                 if (move_uploaded_file($fileTmpPath, $destPath)) {
                     $imagePath = $uploadBase . $userId . '/' . $newFileName;
-
-                  
                     $result = $this->serviceProviderModel->uploadProfileImage($userId,$imagePath,$sptype);
-                  
+    
                     if ($result) {
                         $_SESSION['profile_path'] = $imagePath;
                         redirect("{$sptype}/profile");
                     } else {
                         $errors['database'] = 'Error uploading to the database';
-                    }
-                    
+                    }    
                 } else {
                     $errors['upload'] = 'There was an error moving the uploaded file.';
                 }
@@ -529,13 +526,16 @@ public function updateProfileImage(){
             $errors['file'] = 'No file uploaded or an error occurred during upload.';
         }
 
+       
+    ///We need to laod the profile page for the service provider and errors with relevant details if there are any errors occured when uplodaing image
+    ///Like if the service provider is an equipment suppplier, get the sptype load his details and pass those with the error message to 
+     ///to the relvean controller method
         $data = [
             'errors' => $errors
         ];
-        return $this->view('users/profile', $data); // show the form again with error data
-    } else {
-        redirect('users/profile');
-    }
+
+        $this->view("{$sptype}/profile", $data);
+    } 
 }
 }
 

@@ -53,8 +53,7 @@
                 </a>
         
                 <a href="#" class="profile">
-                    <img src="<?php echo URLROOT;?>/Images/Profile pic.jpg">
-                </a>
+                <img src="<?php echo isset($_SESSION['profile_path']) && !empty($_SESSION['profile_path']) ? URLROOT . '/' . $_SESSION['profile_path'] : URLROOT . '/Images/Profile pic.jpg'; ?>">                </a>
 
                 <div class="profile-submenu" id="profileSubmenu" style="display: none;">
                     <ul>
@@ -76,5 +75,5 @@
         </nav>
 
 
-        <?php include_once APPROOT . '/views/users/includes/components/logoutModal.php'; ?>
+        <?php include_once APPROOT . '/views/users/includes/components/userLogoutModal.php'; ?>
 

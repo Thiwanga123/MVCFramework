@@ -29,7 +29,6 @@ class Reviews extends Controller{
                 return;
             }
 
-
             $result = $this->reviewModel->addEquipmentReview($data);
 
             if($result){
