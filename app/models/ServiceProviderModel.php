@@ -122,8 +122,8 @@ class ServiceProviderModel{
     public function registerSupplier($data){
         
         $sptype = $data['sptype'];
-        $sql = "INSERT INTO $sptype (name, nic, address, phone, email, password, reg_number, plan, document_path) 
-                VALUES (:name, :nic, :address, :phone, :email, :password, :reg_num, :plan, :document_path)";
+        $sql = "INSERT INTO $sptype (name, nic, address, phone, email, password, reg_number, plan, document_path, date_of_joined) 
+                VALUES (:name, :nic, :address, :phone, :email, :password, :reg_num, :plan, :document_path, CURRENT_DATE)";
     
     
         try {

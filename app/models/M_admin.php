@@ -199,6 +199,20 @@
             return $row->total_service_providers;
         }
 
+        //get the sevice providers to approve
+        public function getServiceProvidersToApprove(){
+            $this->db->query('SELECT * FROM  view_unapproved_service_providers');
+            $results = $this->db->resultSet();
+            return $results;
+        }
+
+        //approve service provider
+        public function approveServiceProvider($serviceProviderId, $tableName) {
+            $this->db->query("UPDATE $tableName SET approve = 'true' WHERE id = :id");
+            $this->db->bind(':id', $serviceProviderId);
+            return $this->db->execute();
+        }
+        
 
     }
 

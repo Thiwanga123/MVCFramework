@@ -17,9 +17,12 @@ class Admin extends Controller {
         if (isset($_SESSION['user_id'])) {
             $number_of_travelers = $this->adminModel->getNumberOfTravelers();
             $total_service_providers = $this->adminModel->getTotalServiceProviders();
+            
+
             $data=[
                 'number_of_travelers'=>$number_of_travelers,
-                'total_service_providers'=>$total_service_providers
+                'total_service_providers'=>$total_service_providers,
+               
             ];
             $this->view('admin/v_dashboard', $data);
         } else {
@@ -71,6 +74,8 @@ class Admin extends Controller {
             $tour_guides = $this->adminModel->getTourGuides();
         //get the last 3 joined serviceproviders
             $last_three_service_providers = $this->adminModel->getLastThreeServiceProviders();
+        //get the service providers who are not approved yet
+        $unapproved_service_providers = $this->adminModel->getServiceProvidersToApprove();
     
             
 
@@ -80,6 +85,7 @@ class Admin extends Controller {
                 'equipment_suppliers'=>$equipment_suppliers,
                 'tour_guides'=>$tour_guides,
                 'last_three_service_providers'=>$last_three_service_providers,
+                'unapproved_service_providers'=>$unapproved_service_providers
             ];
 
             $this->view('admin/serviceproviders', $data);
@@ -361,7 +367,33 @@ class Admin extends Controller {
     }
     }
 
-
+    public function approveServiceProvider() {
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $data = json_decode(file_get_contents('php://input'), true);
+    
+            if (isset($data['service_provider_id']) && isset($data['sptype'])) {
+                $serviceProviderId = $data['service_provider_id'];
+                $serviceType = $data['sptype'];
+    
+                // Map service type from view to table name
+                $tableMap = [
+                    'Accommodation' => 'accomadation',
+                    'Equipment Supplier' => 'equipment_suppliers',
+                    'Vehicle Supplier' => 'vehicle_suppliers',
+                    'Guide' => 'tour_guides'
+                ];
+    
+                if (array_key_exists($serviceType, $tableMap)) {
+                    $tableName = $tableMap[$serviceType];
+                    if ($this->adminModel->approveServiceProvider($serviceProviderId, $tableName)) {
+                        echo json_encode(['success' => true]);
+                        return;
+                    }
+                }
+            }
+            echo json_encode(['success' => false]);
+        }
+    }
     
 
 }

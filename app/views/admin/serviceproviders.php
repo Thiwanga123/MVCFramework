@@ -88,7 +88,7 @@
             <div class="bottom-data">
                 <div class="orders">
                     <div class="header">
-                        <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#000000"><path d="M120-80v-800l60 60 60-60 60 60 60-60 60 60 60-60 60 60 60-60 60 60 60-60 60 60 60-60v800l-60-60-60 60-60-60-60 60-60-60-60 60-60-60-60 60-60-60-60 60-60-60-60 60Zm120-200h480v-80H240v80Zm0-160h480v-80H240v80Zm0-160h480v-80H240v80Zm-40 404h560v-568H200v568Zm0-568v568-568Z"/></svg>
+                        <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#000000"><path d="M120-80v-800l60 60 60-60 60 60 60-60 60 60 60-60 60 60 60-60 60 60 60-60v800l-60-60-60 60-60-60-60 60-60-60-60 60-60-60-60 60-60-60-60 60-60-60-60 60-60-60-60 60-60-60-60 60-60-60-60 60Zm120-200h480v-80H240v80Zm0-160h480v-80H240v80Zm0-160h480v-80H240v80Zm-40 404h560v-568H200v568Zm0-568v568-568Z"/></svg>
                         <h3>Recently Joined</h3>
                         <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#000000"><path d="M440-160q-17 0-28.5-11.5T400-200v-240L168-736q-15-20-4.5-42t36.5-22h560q26 0 36.5 22t-4.5 42L560-440v240q0 17-11.5 28.5T520-160h-80Zm40-308 198-252H282l198 252Zm0 0Z"/></svg>
                     </div>
@@ -131,15 +131,26 @@
         
                     </div>
                     <ul class="update-list">
+                        <?php foreach ($data['unapproved_service_providers'] as $unapproved_service_providers) : ?>
                         <li>
-                            <div class="update">
-                            <img src="<?php echo URLROOT;?>/Images/Profile pic.jpg">
+                            <div class="update" 
+                                 data-sptype="<?php echo htmlspecialchars($unapproved_service_providers->sptype); ?>" 
+                                 data-email="<?php echo htmlspecialchars($unapproved_service_providers->email); ?>" 
+                                 data-phone="<?php echo htmlspecialchars($unapproved_service_providers->phone); ?>" 
+                                 data-nic="<?php echo htmlspecialchars($unapproved_service_providers->nic); ?>" 
+                                 data-reg-number="<?php echo htmlspecialchars($unapproved_service_providers->reg_number); ?>" 
+                                 data-address="<?php echo htmlspecialchars($unapproved_service_providers->address); ?>" 
+                                 data-plan="<?php echo htmlspecialchars($unapproved_service_providers->plan); ?>" 
+                                 data-sub="<?php echo htmlspecialchars($unapproved_service_providers->sub); ?>" 
+                                 data-document-path="<?php echo URLROOT . '/' . htmlspecialchars($unapproved_service_providers->document_path); ?>"
+                                 data-id="<?php echo htmlspecialchars($unapproved_service_providers->id); ?>">
+                                <img src="<?php echo URLROOT; ?>/Images/Profile pic.jpg">
                                 <div class="update-info">
                                     <div class="name-info">
-                                        <p>John Doe</p>
+                                        <p><?php echo htmlspecialchars($unapproved_service_providers->name); ?></p>
                                     </div>
                                     <div class="service-info">
-                                        <p>Transport</p>
+                                        <p><?php echo htmlspecialchars($unapproved_service_providers->service_type); ?></p>
                                     </div>
                                     <div class="action-buttons">
                                         <button class="approve-btn">Approve</button>
@@ -149,44 +160,7 @@
                                 </div>
                             </div>
                         </li>
-                        <li>
-                            <div class="update">
-                            <img src="<?php echo URLROOT;?>/Images/Profile pic.jpg">
-                                <div class="update-info">
-                                    <div class="name-info">
-                                        <p>John Doe</p>
-                                    </div>
-                                    <div class="service-info">
-                                        <p>Transport</p>
-                                    </div>
-                                    <div class="action-buttons">
-                                        <button class="approve-btn">Approve</button>
-                                        <button class="reject-btn">Reject</button>
-                                        <button class="view-btn">View</button>
-                                    </div>
-                                </div>
-                            </div>
-                        </li>
-                        <li>
-                            <div class="update">
-                            <img src="<?php echo URLROOT;?>/Images/Profile pic.jpg">
-                                <div class="update-info">
-                                    <div class="name-info">
-                                        <p>John Doe</p>
-                                    </div>
-                                    <div class="service-info">
-                                        <p>Guide Services</p>
-                                    </div>
-                                    <div class="action-buttons">
-                                        <button class="approve-btn">Approve</button>
-                                        <button class="reject-btn">Reject</button>
-                                        <button class="view-btn">View</button>
-                                    </div>
-                                </div>
-                            </div>
-                        </li>
-                        
-                        
+                        <?php endforeach; ?>
                     </ul>
                 </div>
             </div>
@@ -196,7 +170,212 @@
      </div>
     
      </div>   
+
+    <!-- Modal for viewing details -->
+    <div id="view-modal" class="modal" style="display: none;">
+        <div class="modal-content">
+            <span class="close-btn">&times;</span>
+            <h2>Service Provider Details</h2>
+            <div id="modal-details">
+                <!-- Details will be dynamically populated here -->
+            </div>
+            <div class="modal-actions">
+                <button class="approve-btn-modal">Approve</button>
+                <button class="reject-btn-modal">Reject</button>
+            </div>
+        </div>
+    </div>
+
     <script src="<?php echo URLROOT;?>/js/Sidebar.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const modal = document.getElementById('view-modal');
+            const closeModal = document.querySelector('.close-btn');
+            const viewButtons = document.querySelectorAll('.view-btn');
+            const approveButtons = document.querySelectorAll('.approve-btn');
+
+            viewButtons.forEach(button => {
+                button.addEventListener('click', (e) => {
+                    const parent = e.target.closest('.update');
+                    const name = parent.querySelector('.name-info p').textContent;
+                    const serviceType = parent.dataset.sptype;
+                    const email = parent.dataset.email;
+                    const phone = parent.dataset.phone;
+                    const nic = parent.dataset.nic;
+                    const regNumber = parent.dataset.regNumber;
+                    const address = parent.dataset.address;
+                    const documentPath = parent.dataset.documentPath;
+                    const plan = parent.dataset.plan;
+                    const sub = parent.dataset.sub === 'true' ? 'Yes' : 'No';
+
+                    // Populate modal with all details
+                    const modalDetails = document.getElementById('modal-details');
+                    modalDetails.innerHTML = `
+                        <p><strong>Name:</strong> ${name}</p>
+                        <p><strong>Service Type:</strong> ${serviceType}</p>
+                        <p><strong>Email:</strong> ${email}</p>
+                        <p><strong>Phone:</strong> ${phone}</p>
+                        <p><strong>NIC:</strong> ${nic}</p>
+                        <p><strong>Registration Number:</strong> ${regNumber}</p>
+                        <p><strong>Address:</strong> ${address}</p>
+                        <p><strong>Subscription Plan:</strong> ${plan}</p>
+                        <p><strong>Subscription Purchased:</strong> <span style="color: ${sub === 'Yes' ? 'green' : 'red'};">${sub}</span></p>
+                        ${
+                            documentPath
+                                ? `<p><strong>Document:</strong> <a href="${documentPath}" target="_blank" style="color: #007BFF; text-decoration: underline;">View Document</a></p>`
+                                : ''
+                        }
+                    `;
+
+                    // Show modal
+                    modal.style.display = 'flex';
+                });
+            });
+
+            approveButtons.forEach(button => {
+                button.addEventListener('click', (e) => {
+                    const parent = e.target.closest('.update');
+                    const serviceProviderId = parent.dataset.id;
+                    const sptype = parent.dataset.sptype;
+
+                    console.log("Service Provider ID: " + serviceProviderId);
+                    console.log("Service Provider Type: " + sptype);
+
+                    // Send an AJAX request to approve the service provider
+                    fetch('<?php echo URLROOT; ?>/admin/approveServiceProvider', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({ service_provider_id: serviceProviderId, sptype }),
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success) {
+                            alert('Service provider approved successfully!');
+                            window.location.href = '<?php echo URLROOT; ?>/admin/serviceProviders'; // Navigate to the service providers page
+                        } else {
+                            alert('Failed to approve service provider.');
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                        alert('An error occurred while approving the service provider.');
+                    });
+                });
+            });
+
+            closeModal.addEventListener('click', () => {
+                modal.style.display = 'none';
+            });
+
+            window.addEventListener('click', (e) => {
+                if (e.target === modal) {
+                    modal.style.display = 'none';
+                }
+            });
+        });
+    </script>
+
+    <style>
+        .modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(173, 216, 230, 0.8); /* Light blue overlay */
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        .modal-content {
+            background: #f0f8ff; /* Alice blue */
+            padding: 25px;
+            border-radius: 12px;
+            width: 45%;
+            max-width: 550px;
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+            text-align: left;
+            position: relative;
+            animation: fadeIn 0.3s ease-in-out;
+        }
+
+        .modal-content h2 {
+            margin-top: 0;
+            font-size: 24px;
+            color: #0056b3; /* Dark blue */
+            border-bottom: 2px solid #87ceeb; /* Sky blue */
+            padding-bottom: 10px;
+        }
+
+        .modal-content p {
+            font-size: 16px;
+            color: #333;
+            margin: 10px 0;
+        }
+
+        .modal-actions {
+            margin-top: 20px;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .approve-btn-modal, .reject-btn-modal {
+            padding: 10px 20px;
+            font-size: 16px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .approve-btn-modal {
+            background-color: #28a745; /* Green */
+            color: #fff;
+        }
+
+        .approve-btn-modal:hover {
+            background-color: #218838;
+        }
+
+        .reject-btn-modal {
+            background-color: #dc3545; /* Red */
+            color: #fff;
+        }
+
+        .reject-btn-modal:hover {
+            background-color: #c82333;
+        }
+
+        .close-btn {
+            position: absolute;
+            top: 10px;
+            right: 15px;
+            font-size: 22px;
+            font-weight: bold;
+            color: #0056b3; /* Dark blue */
+            cursor: pointer;
+            transition: color 0.3s ease;
+        }
+
+        .close-btn:hover {
+            color: #ff4500; /* Orange red */
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: scale(0.9);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+    </style>
 </body>
 
 </html>
