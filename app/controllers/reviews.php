@@ -16,12 +16,14 @@ class Reviews extends Controller{
             $productId = isset($_POST['productId']) ? trim($_POST['productId']) : null;
             $rating = isset($_POST['rating']) ? trim($_POST['rating']) : null;
             $comment = isset($_POST['comment']) ? trim($_POST['comment']) : null;
+            $type = isset($_POST['type']) ? trim($_POST['type']) : null;
 
             $data = [
                 'userId' => $_SESSION['user_id'],
                 'productId' => htmlspecialchars($productId),
                 'rating' => htmlspecialchars($rating),
-                'comment' => htmlspecialchars($comment),
+                'type' => htmlspecialchars($type),
+                'comment' => htmlspecialchars($comment)
             ];
 
             if(!$data['rating'] || $data['comment'] == ''){

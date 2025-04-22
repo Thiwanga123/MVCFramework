@@ -139,6 +139,8 @@
                     </div>
 
                     <input type="hidden" id="ratingValue" name="rating" value="0">
+                    <input type="hidden" id="reviewType" name="type" value="equipment">
+
 
                     <textarea id="reviewText" name="review" placeholder="Write your review here..." rows="4"></textarea>
                     <div id="validationErrorContainer" style="display: none;"><p></p></div>
@@ -181,13 +183,12 @@
 
         <div id="reviewEditModal" class="modal" style="display: none;" 
             <?php if (isset($userReview)) : ?> data-review-id="<?php echo htmlspecialchars($userReview->review_id); ?>"<?php endif; ?> 
-            <?php if (isset($userReview)) : ?> data-product-id="<?php echo htmlspecialchars($userReview->equipment_id); ?>"<?php endif; ?> 
-            >
+            <?php if (isset($userReview)) : ?> data-product-id="<?php echo htmlspecialchars($userReview->equipment_id); ?>"<?php endif; ?>
+            <?php if (isset($userReview)) : ?> data-review-type="<?php echo htmlspecialchars($userReview->type); ?>"<?php endif; ?> >
             <div class="review-modal-content">
                 <div class="editContent" id="editContent">
                     <span class="close-button" id="closeReviewEditModal">&times;</span>
                     <h3>Edit Your Review</h3>
-
                     <div id="reviewStarRating" style="margin: 10px 0;">
                         <span class="reviewStar" data-value="1">&#9733;</span>
                         <span class="reviewStar" data-value="2">&#9733;</span>
@@ -197,6 +198,7 @@
                     </div>
 
                     <input type="hidden" id="editRatingValue" name="rating" value="<?php echo isset($data['userReview']) ? htmlspecialchars($data['userReview']->rating) : 0; ?>">
+                    <input type="hidden" id="reviewType" name="type" value="<?php echo isset($data[$userReview->type]); ?>">
 
                     <textarea id="editReviewText" name="review" placeholder="Write your review here..." rows="4"><?php echo isset($data['userReview']) ? htmlspecialchars($data['userReview']->comment) : ''; ?></textarea>
 
