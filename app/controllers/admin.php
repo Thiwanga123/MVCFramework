@@ -414,6 +414,57 @@ class Admin extends Controller {
             echo json_encode(['success' => false]);
         }
     }
+
+    public function getServiceProvidersByType() {
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $data = json_decode(file_get_contents('php://input'), true);
+
+            if (isset($data['type'])) {
+                $type = $data['type'];
+
+                // Correct mapping of types to table names
+                $tableMap = [
+                    'Accommodation' => 'accomadation',
+                    'Equipment Supplier' => 'equipment_suppliers',
+                    'Vehicle Supplier' => 'vehicle_suppliers',
+                    'Tour Guide' => 'tour_guides'
+                ];
+
+                if (array_key_exists($type, $tableMap)) {
+                    $tableName = $tableMap[$type];
+                    $serviceProviders = $this->adminModel->getServiceProvidersByType($tableName);
+                    echo json_encode($serviceProviders);
+                    return;
+                }
+            }
+            echo json_encode([]); // Return empty array if type is invalid
+        }
+    }
+
+    public function deleteServiceProvider() {
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $data = json_decode(file_get_contents('php://input'), true);
+
+            if (isset($data['id']) && isset($data['type'])) {
+                $id = $data['id'];
+                $type = $data['type'];
+
+                $tableMap = [
+                    'Accommodation' => 'accomadation',
+                    'Equipment Supplier' => 'equipment_suppliers',
+                    'Vehicle Supplier' => 'vehicle_suppliers',
+                    'Tour Guide' => 'tour_guides'
+                ];
+
+                if (array_key_exists($type, $tableMap)) {
+                    $result = $this->adminModel->deleteServiceProviderById($id, $tableMap[$type]);
+                    echo json_encode(['success' => $result]);
+                    return;
+                }
+            }
+            echo json_encode(['success' => false]);
+        }
+    }
     
 
 }

@@ -47,7 +47,7 @@
             <!--Insights-->
             <ul class="insights">
                 <li>
-                    <div class="products">
+                    <div class="products" data-type="Accommodation">
                         <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#5f6368"><path d="M120-120v-560h160v-160h400v320h160v400H520v-160h-80v160H120Zm80-80h80v-80h-80v80Zm0-160h80v-80h-80v80Zm0-160h80v-80h-80v80Zm160 160h80v-80h-80v80Zm0-160h80v-80h-80v80Zm0-160h80v-80h-80v80Zm160 320h80v-80h-80v80Zm0-160h80v-80h-80v80Zm0-160h80v-80h-80v80Zm160 480h80v-80h-80v80Zm0-160h80v-80h-80v80Z"/></svg>
                     </div>
                     <span class = "info">
@@ -56,7 +56,7 @@
                     </span>
                 </li>
                 <li>
-                    <div class="view">
+                    <div class="view" data-type="Vehicle Supplier">
                         <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#5f6368"><path d="M240-200v40q0 17-11.5 28.5T200-120h-40q-17 0-28.5-11.5T120-160v-320l84-240q6-18 21.5-29t34.5-11h440q19 0 34.5 11t21.5 29l84 240v320q0 17-11.5 28.5T800-120h-40q-17 0-28.5-11.5T720-160v-40H240Zm-8-360h496l-42-120H274l-42 120Zm-32 80v200-200Zm100 160q25 0 42.5-17.5T360-380q0-25-17.5-42.5T300-440q-25 0-42.5 17.5T240-380q0 25 17.5 42.5T300-320Zm360 0q25 0 42.5-17.5T720-380q0-25-17.5-42.5T660-440q-25 0-42.5 17.5T600-380q0 25 17.5 42.5T660-320Zm-460 40h560v-200H200v200Z"/></svg>
                     </div>
                     <span class = "info">
@@ -65,7 +65,7 @@
                     </span>
                 </li>
                 <li>
-                    <div class="earnings">
+                    <div class="earnings" data-type="Tour Guide">
                         <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#5f6368"><path d="m600-120-240-84-186 72q-20 8-37-4.5T120-170v-560q0-13 7.5-23t20.5-15l212-72 240 84 186-72q20-8 37 4.5t17 33.5v560q0 13-7.5 23T812-192l-212 72Zm-40-98v-468l-160-56v468l160 56Zm80 0 120-40v-474l-120 46v468Zm-440-10 120-46v-468l-120 40v474Zm440-458v468-468Zm-320-56v468-468Z"/></svg>
                     </div>
                     <span class = "info">
@@ -74,7 +74,7 @@
                     </span>
                 </li>
                 <li>
-                    <div class="pendings">
+                    <div class="pendings" data-type="Equipment Supplier">
                         <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#5f6368"><path d="M754-81q-8 0-15-2.5T726-92L522-296q-6-6-8.5-13t-2.5-15q0-8 2.5-15t8.5-13l85-85q6-6 13-8.5t15-2.5q8 0 15 2.5t13 8.5l204 204q6 6 8.5 13t2.5 15q0 8-2.5 15t-8.5 13l-85 85q-6 6-13 8.5T754-81Zm0-95 29-29-147-147-29 29 147 147ZM205-80q-8 0-15.5-3T176-92l-84-84q-6-6-9-13.5T80-205q0-8 3-15t9-13l212-212h85l34-34-165-165h-57L80-765l113-113 121 121v57l165 165 116-116-43-43 56-56H495l-28-28 142-142 28 28v113l56-56 142 142q17 17 26 38.5t9 45.5q0 24-9 46t-26 39l-85-85-56 56-42-42-207 207v84L233-92q-6 6-13 9t-15 3Zm0-96 170-170v-29h-29L176-205l29 29Zm0 0-29-29 15 14 14 15Zm549 0 29-29-29 29Z"/></svg>
                     </div>
                     <span class = "info">
@@ -88,7 +88,7 @@
             <div class="bottom-data">
                 <div class="orders">
                     <div class="header">
-                        <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#000000"><path d="M120-80v-800l60 60 60-60 60 60 60-60 60 60 60-60 60 60 60-60 60 60 60-60v800l-60-60-60 60-60-60-60 60-60-60-60 60-60-60-60 60-60-60-60 60-60-60-60 60-60-60-60 60-60-60-60 60-60-60-60 60Zm120-200h480v-80H240v80Zm0-160h480v-80H240v80Zm0-160h480v-80H240v80Zm-40 404h560v-568H200v568Zm0-568v568-568Z"/></svg>
+                        <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#000000"><path d="M120-80v-800l60 60 60-60 60 60 60-60 60 60 60-60 60 60 60-60 60 60 60-60v800l-60-60-60 60-60-60-60 60-60-60-60 60-60-60-60 60-60-60-60 60-60-60-60 60-60-60-60 60-60-60-60 60-60-60-60 60-60-60-60 60Zm120-200h480v-80H240v80Zm0-160h480v-80H240v80Zm0-160h480v-80H240v80Zm-40 404h560v-568H200v568Zm0-568v568-568Z"/></svg>
                         <h3>Recently Joined</h3>
                         <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#000000"><path d="M440-160q-17 0-28.5-11.5T400-200v-240L168-736q-15-20-4.5-42t36.5-22h560q26 0 36.5 22t-4.5 42L560-440v240q0 17-11.5 28.5T520-160h-80Zm40-308 198-252H282l198 252Zm0 0Z"/></svg>
                     </div>
@@ -182,6 +182,34 @@
                 <button class="approve-btn-modal">Approve</button>
                 <button class="reject-btn-modal">Reject</button>
             </div>
+        </div>
+    </div>
+
+    <!-- Modal for service provider table -->
+    <div id="service-provider-modal" class="modal" style="display: none;">
+        <div class="modal-content">
+            <span class="close-btn">&times;</span>
+            <h2 id="modal-title">Service Providers</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Name</th>
+                        <th>Email</th>
+                        <th>Phone</th>
+                        <th>NIC</th>
+                        <th>Reg No</th>
+                        <th>Address</th>
+                        <th>Earnings</th>
+                        <th>Subscription</th>
+                        <th>Penalty</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody id="modal-table-body">
+                    <!-- Rows will be dynamically populated -->
+                </tbody>
+            </table>
         </div>
     </div>
 
@@ -314,6 +342,99 @@
                     modal.style.display = 'none';
                 }
             });
+
+            const serviceProviderModal = document.getElementById('service-provider-modal');
+            const serviceProviderCloseModal = serviceProviderModal.querySelector('.close-btn');
+            const cards = document.querySelectorAll('.insights div[data-type]');
+            const modalTitle = document.getElementById('modal-title');
+            const modalTableBody = document.getElementById('modal-table-body');
+
+            cards.forEach(card => {
+                card.addEventListener('click', () => {
+                    const type = card.dataset.type;
+
+                    // Set modal title
+                    modalTitle.textContent = `${type} Service Providers`;
+
+                    // Fetch service providers for the selected type
+                    fetch(`<?php echo URLROOT; ?>/admin/getServiceProvidersByType`, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ type })
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        modalTableBody.innerHTML = ''; // Clear previous rows
+                        if (data.length > 0) {
+                            data.forEach(provider => {
+                                const row = document.createElement('tr');
+                                row.innerHTML = `
+                                    <td>${provider.id}</td>
+                                    <td>${provider.name}</td>
+                                    <td>${provider.email}</td>
+                                    <td>${provider.phone}</td>
+                                    <td>${provider.nic}</td>
+                                    <td>${provider.reg_number}</td>
+                                    <td>${provider.address}</td>
+                                    <td>${provider.earnings}</td>
+                                    <td>${provider.plan}</td>
+                                    <td>${provider.penalty_amount}</td>
+                                    <td>
+                                        
+                                        <button class="delete-btn" data-id="${provider.id}" data-type="${type}">Delete</button>
+                                    </td>
+                                `;
+                                modalTableBody.appendChild(row);
+                            });
+                        } else {
+                            modalTableBody.innerHTML = '<tr><td colspan="4">No data available</td></tr>';
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error fetching service providers:', error);
+                        modalTableBody.innerHTML = '<tr><td colspan="4">Error loading data</td></tr>';
+                    });
+
+                    // Show modal
+                    serviceProviderModal.style.display = 'flex';
+                });
+            });
+
+            serviceProviderCloseModal.addEventListener('click', () => {
+                serviceProviderModal.style.display = 'none';
+            });
+
+            window.addEventListener('click', (e) => {
+                if (e.target === serviceProviderModal) {
+                    serviceProviderModal.style.display = 'none';
+                }
+            });
+
+            // Handle delete button click
+            modalTableBody.addEventListener('click', (e) => {
+                if (e.target.classList.contains('delete-btn')) {
+                    const id = e.target.dataset.id;
+                    const type = e.target.dataset.type;
+
+                    if (confirm('Are you sure you want to delete this service provider?')) {
+                        fetch(`<?php echo URLROOT; ?>/admin/deleteServiceProvider`, {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify({ id, type })
+                        })
+                            .then(response => response.json())
+                            .then(data => {
+                                if (data.success) {
+                                    alert('Service provider deleted successfully!');
+                                    e.target.closest('tr').remove();
+                                } else {
+                                    alert('Failed to delete service provider.');
+                                }
+                            })
+                            .catch(error => console.error('Error deleting service provider:', error));
+                    }
+                }
+            });
         });
     </script>
     <style>
@@ -330,16 +451,23 @@
             z-index: 1000;
         }
         .modal-content {
-            background: #f0f8ff; /* Alice blue */
-            padding: 25px;
-            border-radius: 12px;
-            width: 45%;
-            max-width: 550px;
-            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
-            text-align: left;
-            position: relative;
-            animation: fadeIn 0.3s ease-in-out;
-        }
+    background: #f0f8ff;
+    padding: 25px;
+    border-radius: 12px;
+    width: 90%;          /* Increase width for large tables */
+    max-width: 1100px;   /* Allow more columns to fit */
+    min-width: 800px;    /* Prevent too small modals */
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+    text-align: left;
+    position: relative;
+    animation: fadeIn 0.3s ease-in-out;
+}
+
+.modal-content {
+    overflow-x: auto; /* Enable horizontal scroll if needed */
+}
+
+
         .modal-content h2 {
             margin-top: 0;
             font-size: 24px;
@@ -401,6 +529,44 @@
                 opacity: 1;
                 transform: scale(1);
             }
+        }
+        .modal-content table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0 12px;
+    margin-top: 20px;
+}
+
+        .modal-content table th,
+.modal-content table td {
+    white-space: nowrap;    /* Prevent text wrapping in cells */
+    font-size: 15px;
+}
+
+        .modal-content table th {
+            background-color: #f4f4f4;
+            font-weight: bold;
+        }
+        .modal-content .view-btn, .modal-content .delete-btn {
+            padding: 5px 10px;
+            font-size: 14px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        .modal-content .view-btn {
+            background-color: #007bff;
+            color: #fff;
+        }
+        .modal-content .view-btn:hover {
+            background-color: #0056b3;
+        }
+        .modal-content .delete-btn {
+            background-color: #dc3545;
+            color: #fff;
+        }
+        .modal-content .delete-btn:hover {
+            background-color: #c82333;
         }
     </style>
 </body>

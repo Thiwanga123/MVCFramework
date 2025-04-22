@@ -224,8 +224,18 @@
             $this->db->bind(':id', $serviceProviderId);
             return $this->db->execute();
         }
-        
 
+        public function getServiceProvidersByType($tableName) {
+            // Ensure the query is consistent for all tables
+            $this->db->query("SELECT * FROM $tableName");
+            return $this->db->resultSet();
+        }
+
+        public function deleteServiceProviderById($id, $tableName) {
+            $this->db->query("DELETE FROM $tableName WHERE id = :id");
+            $this->db->bind(':id', $id);
+            return $this->db->execute();
+        }
     }
 
 
