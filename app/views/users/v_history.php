@@ -23,7 +23,6 @@
                 <div class="header">
                     <h1>Booking History</h1>
                 </div>
- <?php print_r($data['bookings'] )?>
                 <p>Showing All Bookings (<?php echo htmlspecialchars($data['booking_count']); ?>)</p>
 
                     <div class="table-container">

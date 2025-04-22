@@ -233,7 +233,7 @@ class Users extends Controller {
 
     public function reviews(){
         if(isset($_SESSION['user_id'])) {
-            $currentPage = 'revies';
+            $currentPage = 'reviews';
             $data = [
                 'currentPage' => $currentPage
             ];
