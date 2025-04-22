@@ -609,13 +609,16 @@ public function weather(){
 }
 
 
-public function planhome(){
-    if(isset($_SESSION['user_id'])) {
-        $this->view('users/planHome');
-    }else{
-        redirect('users/login');
+    public function planhome(){
+        if(isset($_SESSION['user_id'])) {
+            // $this->view('users/planHome');
+            $data['currentPage'] = 'places';
+            $this->view('users/p_places', $data);
+        }else{
+            redirect('users/login');
+        }
     }
-}
+
 
 public function showaccommodation(){
     if ($_SERVER['REQUEST_METHOD'] == 'POST') {
