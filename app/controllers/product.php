@@ -3,10 +3,14 @@
     class Product extends Controller{
         private $productModel;
         private $bookingModel;
+        private $equipmentModel;
+        private $reviewModel;
 
         public function __construct(){
             $this->productModel = $this->model('ProductModel');
             $this->bookingModel = $this->model('BookingModel');
+            $this->reviewModel = $this->model('ReviewModel');
+            $this->equipmentModel = $this->model('EquipmentModel');
         }
 
         public function addProduct(){
@@ -297,19 +301,28 @@
         }
 
         public function viewProduct($productId) {
-            $productModel = $this->model('ProductModel');
-            $rental = $productModel->getProductDetailsById($productId);
+            $details = $this->equipmentModel->getProductDetailsById($productId);
+            $bookings = $this->bookingModel->getBookingsByEquipmentId($productId);
+            $reviews = $this->reviewModel->getReviewsByEquipmentId($productId);
+            $ratings = $this->reviewModel->getRatingsByEquipmentId($productId);
+            
+            $reviewCount = count($reviews);
+            $totalRating = 0;
         
-            if ($rental) {
-                $data = [
-                    'rental' => $rental,
-                ];
+            $averageRating = $reviewCount > 0 ? $totalRating / $reviewCount : 0;
+        
+            // Pass all data to the view
+            $data = [
+                'id' => $_SESSION['id'],
+                'details' => $details,
+                'bookings' => json_encode($bookings),
+                'reviews' => $reviews,
+                'reviewCount' => $reviewCount,
+                'averageRating' => $averageRating,
+                'ratings' => $ratings
+            ];
 
-                $this->view('equipment_supplier/viewProduct', $data);
-            } else {
-                header('Location: ' . URLROOT . '/products');
-                exit();
-            }
+            $this->view('equipment_supplier/viewProduct',$data);
         }
 
         public function bookings($productId){

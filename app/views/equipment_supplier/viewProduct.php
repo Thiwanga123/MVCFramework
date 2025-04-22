@@ -5,9 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="<?php echo URLROOT;?>/css/equipmentRentals/supplierViewProduct.css">
     <link rel="stylesheet" href="<?php echo URLROOT;?>/css/equipmentRentals/editProduct.css">
-    <!-- <link rel="stylesheet" href="<?php echo URLROOT;?>/css/equipmentRentals/reviews.css">
-    <link rel="stylesheet" href="<?php echo URLROOT;?>/css/equipmentRentals/booking.css">
-    <link rel="stylesheet" href="<?php echo URLROOT;?>/css/Common/calendar.css"> -->
+    <link rel="stylesheet" href="<?php echo URLROOT;?>/css/equipmentRentals/reviews.css">
+    <!-- <link rel="stylesheet" href="<?php echo URLROOT;?>/css/equipmentRentals/booking.css"> -->
+    <!-- <link rel="stylesheet" href="<?php echo URLROOT;?>/css/Common/calendar.css">  -->
     <link rel="stylesheet" href="<?php echo URLROOT;?>/css/Modals/logoutModal.css">
 
     
@@ -19,6 +19,7 @@
             <?php include_once APPROOT . '/views/inc/components/supplierNavBar.php'; ?>
             <main>
                 <hr>
+
                 <div class="view-container">
                     <div class="container">
                         <div class="header">
@@ -38,11 +39,11 @@
                         </div>
 
                         <div class="tab-content" id="reviews" style="display: none;">
-                            <?php include_once APPROOT . '/views/users/includes/equipment_supplier/reviews.php'; ?> 
+                            <?php include_once APPROOT . '/views/equipment_supplier/includes/reviews.php'; ?> 
                         </div>
 
                         <div class="tab-content" id="book-now" style="display: none;">
-                            <?php include_once APPROOT . '/views/users/includes/equipment_supplier/bookings.php'; ?> 
+                            <?php include_once APPROOT . '/views/equipment_supplier/includes/bookings.php'; ?> 
                         </div>
                     </div>
                 </div>  

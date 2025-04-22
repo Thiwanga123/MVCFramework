@@ -10,11 +10,7 @@
             endDateInput.setAttribute('min', this.value);
         });
     
-        if(locationInput){
-            const autoComplete = new google.maps.places.AutoComplete(locationInput, {
-                componentRestrictions : {country : 'LK'}
-            });  
-        }
+        
         
         document.getElementById('submitButton').addEventListener('click', function() {
             const location = document.getElementById('location').value;

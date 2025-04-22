@@ -4,18 +4,35 @@ document.addEventListener('DOMContentLoaded', () => {
     const returnPolicySelect = document.getElementById('returnPolicy');
     const fullRefundSection = document.getElementById('fullRefundSection');
     const partialRefundSection = document.getElementById('partialRefundSection');
+    
 
     function toggleRefundSections() {
+        const fullRefundTime = document.getElementById("fullRefundTime");
+        const partialRefundTime = document.getElementById("partialRefundTime");
+        const partialRefundPercentage = document.getElementById("partialRefundPercentage");
+
+        fullRefundSection.style.display = 'none';
+        partialRefundSection.style.display = 'none';
+        fullRefundTime.required = false;
+        partialRefundTime.required = false;
+        partialRefundPercentage.required = false;
+
         const selectedValue = returnPolicySelect.value;
         if (selectedValue === 'fullRefund') {
             fullRefundSection.style.display = 'block';
+            fullRefundTime.required = true;
             partialRefundSection.style.display = 'none';
         } else if (selectedValue === 'partialRefund') {
             fullRefundSection.style.display = 'none';
             partialRefundSection.style.display = 'block';
+            partialRefundTime.required = true;
+            partialRefundPercentage.required = true;
         } else if (selectedValue === 'bothRefunds') {
             fullRefundSection.style.display = 'block';
             partialRefundSection.style.display = 'block';
+            fullRefundTime.required = true;
+            partialRefundTime.required = true;
+            partialRefundPercentage.required = true;
         } else {
             fullRefundSection.style.display = 'none';
             partialRefundSection.style.display = 'none';
@@ -205,14 +222,17 @@ document.addEventListener('DOMContentLoaded', () => {
                 console.log('Server response:', responseData);
 
                 if(responseData.status === 'success'){
-                    const successModal = document.getElementById("successModalContainer");
-                    const box = document.getElementById("box");
-                    successModal.classList.add("active");
-
-                    const okBtn = document.getElementById("okBtn");
-                    okBtn.onclick = () => {
-                        successModal.classList.remove("active"); 
-                        box.classList.remove("blur");
+                    const modal = document.getElementById("insertSuccessModal");
+                    modal.style.display = "flex";
+                
+                    document.getElementById("insertSuccessModalMessage").textContent = "Product added successfully!";
+                    document.getElementById("closeReviewinsertSuccessModal").onclick = () => {
+                        modal.style.display = "none";
+                    };
+                
+                    document.getElementById("modalOkBtn").onclick = () => {
+                        modal.style.display = "none";
+                        window.location.href = `${URLROOT}/equipment_suppliers/MyInventory`; 
                     };
                 }
 

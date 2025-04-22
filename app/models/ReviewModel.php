@@ -109,12 +109,12 @@ class ReviewModel {
     public function getReviewsBySupplierId($supplierId){
         $sql = 'SELECT r.*, e.rental_name AS equipment_name, c.name AS customer_name, c.email AS customer_email,
                 ( SELECT i.image_path FROM rental_images i 
-                  WHERE i.product_id = r.equipment_id 
+                  WHERE i.product_id = r.item_id 
                   LIMIT 1) AS image_path
-                FROM rental_equipments_reviews r
-                JOIN rental_equipments e ON r.equipment_id = e.id
+                FROM reviews r
+                JOIN rental_equipments e ON r.item_id = e.id
                 JOIN traveler c ON r.traveler_id = c.traveler_id
-                WHERE e.supplier_id = ?';
+                WHERE e.supplier_id = ? AND r.type = "equipment"';
 
         try{
             $this->db->query($sql);

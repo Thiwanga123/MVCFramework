@@ -126,7 +126,7 @@
                     LEFT JOIN (SELECT product_id, MIN(image_path) AS image_path FROM rental_images
                     GROUP BY product_id) i
                     ON r.id = i.product_id
-                    WHERE r.supplier_id = ?";
+                    WHERE r.supplier_id = ? AND r.deleted_at IS NULL";
 
             $this->db->query($sql);
             $this->db->bind(1,$supplierId);

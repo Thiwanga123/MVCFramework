@@ -1,5 +1,5 @@
 <?php
-$details = $data['rental'];
+$details = $data['details'];
 $imagePaths = explode(',', $details->image_paths);
 ?>
 
