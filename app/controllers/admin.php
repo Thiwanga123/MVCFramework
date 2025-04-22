@@ -370,27 +370,47 @@ class Admin extends Controller {
     public function approveServiceProvider() {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $data = json_decode(file_get_contents('php://input'), true);
-    
-            if (isset($data['service_provider_id']) && isset($data['sptype'])) {
-                $serviceProviderId = $data['service_provider_id'];
+
+            if (isset($data['serviceProviderId']) && isset($data['sptype']) && isset($data['action'])) {
+                $serviceProviderId = $data['serviceProviderId'];
                 $serviceType = $data['sptype'];
-    
+                $action = $data['action']; // "approve" or "reject"
+
                 // Map service type from view to table name
                 $tableMap = [
                     'Accommodation' => 'accomadation',
                     'Equipment Supplier' => 'equipment_suppliers',
                     'Vehicle Supplier' => 'vehicle_suppliers',
-                    'Guide' => 'tour_guides'
+                    'Tour Guide' => 'tour_guides'
                 ];
-    
+
                 if (array_key_exists($serviceType, $tableMap)) {
                     $tableName = $tableMap[$serviceType];
-                    if ($this->adminModel->approveServiceProvider($serviceProviderId, $tableName)) {
-                        echo json_encode(['success' => true]);
+
+                    if ($action === 'approve') {
+                        $result = $this->adminModel->approveServiceProvider($serviceProviderId, $tableName);
+                    } elseif ($action === 'reject') {
+                        $result = $this->adminModel->rejectServiceProvider($serviceProviderId, $tableName);
+                    } else {
+                        error_log("Invalid action: $action");
+                        echo json_encode(['success' => false]);
                         return;
                     }
+
+                    if ($result) {
+                        // Return success response
+                        echo json_encode(['success' => true]);
+                        return;
+                    } else {
+                        error_log("Failed to update database for service_provider_id: $serviceProviderId, table: $tableName, action: $action");
+                    }
+                } else {
+                    error_log("Invalid service type: $serviceType");
                 }
+            } else {
+                error_log("Missing service_provider_id, sptype, or action in request data");
             }
+            // Return failure response
             echo json_encode(['success' => false]);
         }
     }

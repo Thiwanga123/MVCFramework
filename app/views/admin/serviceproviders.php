@@ -143,18 +143,17 @@
                                  data-plan="<?php echo htmlspecialchars($unapproved_service_providers->plan); ?>" 
                                  data-sub="<?php echo htmlspecialchars($unapproved_service_providers->sub); ?>" 
                                  data-document-path="<?php echo URLROOT . '/' . htmlspecialchars($unapproved_service_providers->document_path); ?>"
-                                 data-id="<?php echo htmlspecialchars($unapproved_service_providers->id); ?>">
+                                 data-id="<?php echo htmlspecialchars($unapproved_service_providers->serviceProviderId); ?>">
                                 <img src="<?php echo URLROOT; ?>/Images/Profile pic.jpg">
                                 <div class="update-info">
                                     <div class="name-info">
                                         <p><?php echo htmlspecialchars($unapproved_service_providers->name); ?></p>
                                     </div>
                                     <div class="service-info">
-                                        <p><?php echo htmlspecialchars($unapproved_service_providers->service_type); ?></p>
+                                        <p><?php echo htmlspecialchars($unapproved_service_providers->sptype); ?></p>
                                     </div>
                                     <div class="action-buttons">
-                                        <button class="approve-btn">Approve</button>
-                                        <button class="reject-btn">Reject</button>
+                                    
                                         <button class="view-btn">View</button>
                                     </div>
                                 </div>
@@ -192,13 +191,15 @@
             const modal = document.getElementById('view-modal');
             const closeModal = document.querySelector('.close-btn');
             const viewButtons = document.querySelectorAll('.view-btn');
-            const approveButtons = document.querySelectorAll('.approve-btn');
+            const approveModalButton = document.querySelector('.approve-btn-modal');
+            const rejectModalButton = document.querySelector('.reject-btn-modal'); // Added reject button
 
             viewButtons.forEach(button => {
                 button.addEventListener('click', (e) => {
                     const parent = e.target.closest('.update');
                     const name = parent.querySelector('.name-info p').textContent;
                     const serviceType = parent.dataset.sptype;
+
                     const email = parent.dataset.email;
                     const phone = parent.dataset.phone;
                     const nic = parent.dataset.nic;
@@ -207,10 +208,14 @@
                     const documentPath = parent.dataset.documentPath;
                     const plan = parent.dataset.plan;
                     const sub = parent.dataset.sub === 'true' ? 'Yes' : 'No';
+                    const serviceProviderId = parent.dataset.id;
 
                     // Populate modal with all details
                     const modalDetails = document.getElementById('modal-details');
+                    modalDetails.dataset.serviceProviderId = serviceProviderId; // Set data-id
+                    modalDetails.dataset.sptype = serviceType; // Set data-sptype
                     modalDetails.innerHTML = `
+                        <p><strong>Service Provider ID:</strong> ${serviceProviderId}</p>
                         <p><strong>Name:</strong> ${name}</p>
                         <p><strong>Service Type:</strong> ${serviceType}</p>
                         <p><strong>Email:</strong> ${email}</p>
@@ -232,36 +237,71 @@
                 });
             });
 
-            approveButtons.forEach(button => {
-                button.addEventListener('click', (e) => {
-                    const parent = e.target.closest('.update');
-                    const serviceProviderId = parent.dataset.id;
-                    const sptype = parent.dataset.sptype;
+            approveModalButton.addEventListener('click', () => {
+                // Retrieve the service provider ID and type from the modal
+                const modalDetails = document.getElementById('modal-details');
+                const serviceProviderId = modalDetails.dataset.serviceProviderId;
+                const sptype = modalDetails.dataset.sptype;
 
-                    console.log("Service Provider ID: " + serviceProviderId);
-                    console.log("Service Provider Type: " + sptype);
+                if (!serviceProviderId || !sptype) {
+                    alert('Error: Missing service provider ID or type.');
+                    return;
+                }
 
-                    // Send an AJAX request to approve the service provider
-                    fetch('<?php echo URLROOT; ?>/admin/approveServiceProvider', {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json',
-                        },
-                        body: JSON.stringify({ service_provider_id: serviceProviderId, sptype }),
-                    })
-                    .then(response => response.json())
-                    .then(data => {
-                        if (data.success) {
-                            alert('Service provider approved successfully!');
-                            window.location.href = '<?php echo URLROOT; ?>/admin/serviceProviders'; // Navigate to the service providers page
-                        } else {
-                            alert('Failed to approve service provider.');
-                        }
-                    })
-                    .catch(error => {
-                        console.error('Error:', error);
-                        alert('An error occurred while approving the service provider.');
-                    });
+                // Send an AJAX request to approve the service provider
+                fetch('<?php echo URLROOT; ?>/admin/approveServiceProvider', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ serviceProviderId: serviceProviderId, sptype: sptype ,action: 'approve' }),
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        alert('Service provider approved successfully!');
+                        window.location.reload(); // Reload the page to reflect changes
+                    } else {
+                        alert('Failed to approve service provider. Check logs for details.');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('An error occurred while approving the service provider.');
+                });
+            });
+
+            rejectModalButton.addEventListener('click', () => {
+                // Retrieve the service provider ID and type from the modal
+                const modalDetails = document.getElementById('modal-details');
+                const serviceProviderId = modalDetails.dataset.serviceProviderId;
+                const sptype = modalDetails.dataset.sptype;
+
+                if (!serviceProviderId || !sptype) {
+                    alert('Error: Missing service provider ID or type.');
+                    return;
+                }
+
+                // Send an AJAX request to reject the service provider
+                fetch('<?php echo URLROOT; ?>/admin/approveServiceProvider', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ serviceProviderId: serviceProviderId, sptype: sptype, action: 'reject' }),
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        alert('Service provider rejected successfully!');
+                        window.location.reload(); // Reload the page to reflect changes
+                    } else {
+                        alert('Failed to reject service provider. Check logs for details.');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('An error occurred while rejecting the service provider.');
                 });
             });
 
@@ -276,7 +316,6 @@
             });
         });
     </script>
-
     <style>
         .modal {
             position: fixed;
@@ -290,7 +329,6 @@
             align-items: center;
             z-index: 1000;
         }
-
         .modal-content {
             background: #f0f8ff; /* Alice blue */
             padding: 25px;
@@ -302,7 +340,6 @@
             position: relative;
             animation: fadeIn 0.3s ease-in-out;
         }
-
         .modal-content h2 {
             margin-top: 0;
             font-size: 24px;
@@ -310,19 +347,16 @@
             border-bottom: 2px solid #87ceeb; /* Sky blue */
             padding-bottom: 10px;
         }
-
         .modal-content p {
             font-size: 16px;
             color: #333;
             margin: 10px 0;
         }
-
         .modal-actions {
             margin-top: 20px;
             display: flex;
             justify-content: space-between;
         }
-
         .approve-btn-modal, .reject-btn-modal {
             padding: 10px 20px;
             font-size: 16px;
@@ -331,25 +365,20 @@
             cursor: pointer;
             transition: background-color 0.3s ease;
         }
-
         .approve-btn-modal {
             background-color: #28a745; /* Green */
             color: #fff;
         }
-
         .approve-btn-modal:hover {
             background-color: #218838;
         }
-
         .reject-btn-modal {
             background-color: #dc3545; /* Red */
             color: #fff;
         }
-
         .reject-btn-modal:hover {
             background-color: #c82333;
         }
-
         .close-btn {
             position: absolute;
             top: 10px;
@@ -360,11 +389,9 @@
             cursor: pointer;
             transition: color 0.3s ease;
         }
-
         .close-btn:hover {
             color: #ff4500; /* Orange red */
         }
-
         @keyframes fadeIn {
             from {
                 opacity: 0;
@@ -377,5 +404,4 @@
         }
     </style>
 </body>
-
 </html>

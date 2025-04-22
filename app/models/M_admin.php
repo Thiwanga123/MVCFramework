@@ -208,7 +208,19 @@
 
         //approve service provider
         public function approveServiceProvider($serviceProviderId, $tableName) {
-            $this->db->query("UPDATE $tableName SET approve = 'true' WHERE id = :id");
+            try {
+                $this->db->query("UPDATE $tableName SET approve = 'true' WHERE id = :id");
+                $this->db->bind(':id', $serviceProviderId);
+                return $this->db->execute();
+            } catch (Exception $e) {
+                error_log("Error approving service provider: " . $e->getMessage());
+                return false;
+            }
+        }
+
+        //reject service provider
+        public function rejectServiceProvider($serviceProviderId, $tableName) {
+            $this->db->query("UPDATE $tableName SET approve = 'rejected' WHERE id = :id");
             $this->db->bind(':id', $serviceProviderId);
             return $this->db->execute();
         }
