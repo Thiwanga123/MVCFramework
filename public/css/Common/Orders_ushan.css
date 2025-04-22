@@ -65,6 +65,18 @@
     font-weight: 500;
 }
 
+.btn-reply{
+    padding: 5px 10px;
+    border-radius: 10px;
+    border: none;
+    background-color: darkcyan;
+    color: white
+}
+
+.btn-reply :hover{
+    background-color: rgb(110, 204, 204);
+}
+
 .status {
     padding: 4px 8px;
     border-radius: 12px;

@@ -558,7 +558,9 @@ class Users extends Controller {
 
     public function planhome(){
         if(isset($_SESSION['user_id'])) {
-            $this->view('users/planHome');
+            // $this->view('users/planHome');
+            $data['currentPage'] = 'places';
+            $this->view('users/p_places', $data);
         }else{
             redirect('users/login');
         }
