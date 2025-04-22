@@ -441,23 +441,27 @@ class Admin extends Controller {
         }
     }
 
-    public function deleteServiceProvider() {
+    public function toggleServiceProviderStatus() {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $data = json_decode(file_get_contents('php://input'), true);
-
-            if (isset($data['id']) && isset($data['type'])) {
+            if (isset($data['id'], $data['type'], $data['action'])) {
                 $id = $data['id'];
                 $type = $data['type'];
-
+                $action = $data['action'];
                 $tableMap = [
                     'Accommodation' => 'accomadation',
                     'Equipment Supplier' => 'equipment_suppliers',
                     'Vehicle Supplier' => 'vehicle_suppliers',
                     'Tour Guide' => 'tour_guides'
                 ];
-
                 if (array_key_exists($type, $tableMap)) {
-                    $result = $this->adminModel->deleteServiceProviderById($id, $tableMap[$type]);
+                    $tableName = $tableMap[$type];
+                    $result = false;
+                    if ($action === 'delete') {
+                        $result = $this->adminModel->softDeleteServiceProvider($id, $tableName);
+                    } elseif ($action === 'activate') {
+                        $result = $this->adminModel->activateServiceProvider($id, $tableName);
+                    }
                     echo json_encode(['success' => $result]);
                     return;
                 }
@@ -465,6 +469,89 @@ class Admin extends Controller {
             echo json_encode(['success' => false]);
         }
     }
+
+    // Get all travelers
+public function getAllTravelers() {
+    // Check if an admin is logged in
+    if (isset($_SESSION['user_id'])) {
+        $travelers = $this->adminModel->getAllTravelers();
+        
+        // Return as JSON
+        header('Content-Type: application/json');
+        echo json_encode($travelers);
+    } else {
+        // Return error
+        header('Content-Type: application/json');
+        echo json_encode(['error' => 'Unauthorized']);
+    }
+}
+
+// Get traveler details
+public function getTravelerDetails($id) {
+    // Check if an admin is logged in
+    if (isset($_SESSION['user_id'])) {
+        $traveler = $this->adminModel->getTravelerById($id);
+        
+        // Return as JSON
+        header('Content-Type: application/json');
+        echo json_encode($traveler);
+    } else {
+        // Return error
+        header('Content-Type: application/json');
+        echo json_encode(['error' => 'Unauthorized']);
+    }
+}
+
+// Update traveler status (delete or activate)
+public function updateTravelerStatus() {
+    // Check if an admin is logged in
+    if (isset($_SESSION['user_id'])) {
+        // Get POST data
+        $data = json_decode(file_get_contents('php://input'), true);
+        
+        if (isset($data['traveler_id']) && isset($data['action'])) {
+            $travelerId = $data['traveler_id'];
+            $action = $data['action'];
+            
+            $result = false;
+            
+            if ($action === 'delete') {
+                $result = $this->adminModel->softDeleteTraveler($travelerId);
+            } elseif ($action === 'activate') {
+                $result = $this->adminModel->activateTraveler($travelerId);
+            }
+            
+            // Return result
+            header('Content-Type: application/json');
+            echo json_encode(['success' => $result]);
+        } else {
+            // Return error
+            header('Content-Type: application/json');
+            echo json_encode(['success' => false, 'error' => 'Missing parameters']);
+        }
+    } else {
+        // Return error
+        header('Content-Type: application/json');
+        echo json_encode(['success' => false, 'error' => 'Unauthorized']);
+    }
+}
+
+// Get all service providers
+public function getAllServiceProviders() {
+    // Check if an admin is logged in
+    if (isset($_SESSION['user_id'])) {
+        $serviceProviders = $this->adminModel->getAllServiceProviders();
+        
+        // Return as JSON
+        header('Content-Type: application/json');
+        echo json_encode($serviceProviders);
+    } else {
+        // Return error
+        header('Content-Type: application/json');
+        echo json_encode(['error' => 'Unauthorized']);
+    }
+}
+    
     
 
 }

@@ -6,6 +6,390 @@
     <link rel="stylesheet" href="<?php echo URLROOT;?>/css/adminpage/Dashboard.css">
     <link rel="stylesheet" href="<?php echo URLROOT;?>/css/Common/MyInventory.css">
     <title>Service Providers-Admin</title>
+    <style>
+        /* Custom Alert Dialog Styles */
+        .tl-alert-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 2000;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s, visibility 0.3s;
+        }
+        
+        .tl-alert-overlay.tl-show {
+            opacity: 1;
+            visibility: visible;
+        }
+        
+        .tl-alert-box {
+            background-color: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+            width: 100%;
+            max-width: 400px;
+            padding: 0;
+            overflow: hidden;
+            transform: translateY(-20px);
+            transition: transform 0.3s;
+            animation: tl-bounce-in 0.5s forwards;
+        }
+        
+        @keyframes tl-bounce-in {
+            0% { transform: translateY(-50px); opacity: 0; }
+            70% { transform: translateY(10px); opacity: 1; }
+            100% { transform: translateY(0); opacity: 1; }
+        }
+        
+        .tl-alert-header {
+            padding: 15px 20px;
+            display: flex;
+            align-items: center;
+            border-bottom: 1px solid #eaeaea;
+        }
+        
+        .tl-alert-icon {
+            width: 32px;
+            height: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            margin-right: 12px;
+        }
+        
+        .tl-alert-icon svg {
+            width: 20px;
+            height: 20px;
+        }
+        
+        .tl-alert-title {
+            font-size: 18px;
+            font-weight: 600;
+            flex-grow: 1;
+        }
+        
+        .tl-alert-body {
+            padding: 20px;
+            font-size: 16px;
+            color: #4a4a4a;
+            line-height: 1.5;
+        }
+        
+        .tl-alert-footer {
+            padding: 15px 20px;
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+            border-top: 1px solid #eaeaea;
+        }
+        
+        .tl-alert-btn {
+            padding: 10px 16px;
+            border-radius: 4px;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            border: none;
+            transition: all 0.2s;
+        }
+        
+        .tl-alert-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+        
+        /* Success Alert */
+        .tl-alert-success .tl-alert-header {
+            background-color: #f0faf0;
+        }
+        
+        .tl-alert-success .tl-alert-icon {
+            background-color: #28a745;
+            color: white;
+        }
+        
+        .tl-alert-success .tl-alert-title {
+            color: #28a745;
+        }
+        
+        .tl-alert-success .tl-alert-btn-primary {
+            background-color: #28a745;
+            color: white;
+        }
+        
+        .tl-alert-success .tl-alert-btn-primary:hover {
+            background-color: #218838;
+        }
+        
+        /* Error Alert */
+        .tl-alert-error .tl-alert-header {
+            background-color: #fdf3f3;
+        }
+        
+        .tl-alert-error .tl-alert-icon {
+            background-color: #dc3545;
+            color: white;
+        }
+        
+        .tl-alert-error .tl-alert-title {
+            color: #dc3545;
+        }
+        
+        .tl-alert-error .tl-alert-btn-primary {
+            background-color: #dc3545;
+            color: white;
+        }
+        
+        .tl-alert-error .tl-alert-btn-primary:hover {
+            background-color: #c82333;
+        }
+        
+        /* Info Alert */
+        .tl-alert-info .tl-alert-header {
+            background-color: #f0f7fc;
+        }
+        
+        .tl-alert-info .tl-alert-icon {
+            background-color: #17a2b8;
+            color: white;
+        }
+        
+        .tl-alert-info .tl-alert-title {
+            color: #17a2b8;
+        }
+        
+        .tl-alert-info .tl-alert-btn-primary {
+            background-color: #17a2b8;
+            color: white;
+        }
+        
+        .tl-alert-info .tl-alert-btn-primary:hover {
+            background-color: #138496;
+        }
+        
+        /* Warning Alert */
+        .tl-alert-warning .tl-alert-header {
+            background-color: #fffbf0;
+        }
+        
+        .tl-alert-warning .tl-alert-icon {
+            background-color: #ffc107;
+            color: #212529;
+        }
+        
+        .tl-alert-warning .tl-alert-title {
+            color: #856404;
+        }
+        
+        .tl-alert-warning .tl-alert-btn-primary {
+            background-color: #ffc107;
+            color: #212529;
+        }
+        
+        .tl-alert-warning .tl-alert-btn-primary:hover {
+            background-color: #e0a800;
+        }
+        
+        /* Confirm Alert */
+        .tl-alert-confirm .tl-alert-header {
+            background-color: #f0f7fc;
+        }
+        
+        .tl-alert-confirm .tl-alert-icon {
+            background-color: #007bff;
+            color: white;
+        }
+        
+        .tl-alert-confirm .tl-alert-title {
+            color: #007bff;
+        }
+        
+        .tl-alert-confirm .tl-alert-btn-primary {
+            background-color: #007bff;
+            color: white;
+        }
+        
+        .tl-alert-confirm .tl-alert-btn-primary:hover {
+            background-color: #0069d9;
+        }
+        
+        .tl-alert-confirm .tl-alert-btn-secondary {
+            background-color: #6c757d;
+            color: white;
+        }
+        
+        .tl-alert-confirm .tl-alert-btn-secondary:hover {
+            background-color: #5a6268;
+        }
+        
+        /* Modal Styles Enhancement */
+        .modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(173, 216, 230, 0.8);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+        
+        .modal-content {
+            background: #f0f8ff;
+            padding: 25px;
+            border-radius: 12px;
+            width: 90%;
+            max-width: 1100px;
+            min-width: 800px;
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+            text-align: left;
+            position: relative;
+            animation: fadeIn 0.3s ease-in-out;
+            overflow-x: auto;
+        }
+        
+        .modal-content h2 {
+            margin-top: 0;
+            font-size: 24px;
+            color: #0056b3;
+            border-bottom: 2px solid #87ceeb;
+            padding-bottom: 10px;
+        }
+        
+        .modal-content p {
+            font-size: 16px;
+            color: #333;
+            margin: 10px 0;
+        }
+        
+        .modal-actions {
+            margin-top: 20px;
+            display: flex;
+            justify-content: space-between;
+        }
+        
+        .approve-btn-modal, .reject-btn-modal {
+            padding: 12px 20px;
+            font-size: 16px;
+            border: none;
+            border-radius: 3px;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+        }
+        
+        .approve-btn-modal {
+            background-color: #28a745;
+            color: #fff;
+        }
+        
+        .approve-btn-modal:hover {
+            background-color: #218838;
+            transform: scale(1.05);
+        }
+        
+        .reject-btn-modal {
+            background-color: #dc3545;
+            color: #fff;
+        }
+        
+        .reject-btn-modal:hover {
+            background-color: #c82333;
+            transform: scale(1.05);
+        }
+        
+        .close-btn {
+            position: absolute;
+            top: 10px;
+            right: 15px;
+            font-size: 22px;
+            font-weight: bold;
+            color: #0056b3;
+            cursor: pointer;
+            transition: color 0.3s ease;
+        }
+        
+        .close-btn:hover {
+            color: #ff4500;
+        }
+        
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: scale(0.9);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+        
+        .modal-content table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0 12px;
+            margin-top: 20px;
+        }
+        
+        .modal-content table th,
+        .modal-content table td {
+            white-space: nowrap;
+            font-size: 15px;
+        }
+        
+        .modal-content table th {
+            background-color: #f4f4f4;
+            font-weight: bold;
+        }
+        
+        .modal-content .view-btn, .modal-content .delete-btn, .modal-content .activate-btn {
+            padding: 10px 15px;
+            font-size: 14px;
+            border: none;
+            border-radius: 3px;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+        }
+        
+        .modal-content .view-btn {
+            background-color: #007bff;
+            color: #fff;
+        }
+        
+        .modal-content .view-btn:hover {
+            background-color: #0056b3;
+            transform: scale(1.05);
+        }
+        
+        .modal-content .delete-btn {
+            background-color: #dc3545;
+            color: #fff;
+        }
+        
+        .modal-content .delete-btn:hover {
+            background-color: #c82333;
+            transform: scale(1.05);
+        }
+        
+        .modal-content .activate-btn {
+            background-color: #28a745;
+            color: #fff;
+        }
+        
+        .modal-content .activate-btn:hover {
+            background-color: #218838;
+            transform: scale(1.05);
+        }
+    </style>
 </head>
 <body>
 
@@ -88,7 +472,7 @@
             <div class="bottom-data">
                 <div class="orders">
                     <div class="header">
-                        <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#000000"><path d="M120-80v-800l60 60 60-60 60 60 60-60 60 60 60-60 60 60 60-60 60 60 60-60v800l-60-60-60 60-60-60-60 60-60-60-60 60-60-60-60 60-60-60-60 60-60-60-60 60-60-60-60 60-60-60-60 60-60-60-60 60-60-60-60 60Zm120-200h480v-80H240v80Zm0-160h480v-80H240v80Zm0-160h480v-80H240v80Zm-40 404h560v-568H200v568Zm0-568v568-568Z"/></svg>
+                        <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#000000"><path d="M120-80v-800l60 60 60-60 60 60 60-60 60 60 60-60 60 60 60-60 60 60 60-60v800l-60-60-60 60-60-60-60 60-60-60-60 60-60-60-60 60-60-60-60 60-60-60-60 60-60-60-60 60-60-60-60 60-60-60-60 60Zm120-200h480v-80H240v80Zm0-160h480v-80H240v80Zm0-160h480v-80H240v80Zm-40 404h560v-568H200v568Zm0-568v568-568Z"/></svg>
                         <h3>Recently Joined</h3>
                         <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#000000"><path d="M440-160q-17 0-28.5-11.5T400-200v-240L168-736q-15-20-4.5-42t36.5-22h560q26 0 36.5 22t-4.5 42L560-440v240q0 17-11.5 28.5T520-160h-80Zm40-308 198-252H282l198 252Zm0 0Z"/></svg>
                     </div>
@@ -99,7 +483,7 @@
                                 <th>Date of Joined</th>
                                 <th>Status</th>
                                 <th>Service Type</th>
-                                <th>Action</th>
+                                
                             </tr>
                         </thead>
                         <tbody>
@@ -112,10 +496,10 @@
                                 <td><?php echo htmlspecialchars(date("Y/m/d", strtotime($last_three_service_providers->date_of_joined))); ?></td>
                                 <td><?php echo htmlspecialchars($last_three_service_providers->action); ?></td>
                                 <td><?php echo htmlspecialchars($last_three_service_providers->sptype); ?></td>
-                                <td class="action-buttons">
-                                <!--when click on view-btn open the pop up and show details-->
+                                <!-- <td class="action-buttons">
+                                
                                 <button class="view-btn">View</button>
-                                <button class="delete-btn" id="delete-btn">Delete</button>
+                                <button class="delete-btn" id="delete-btn">Delete</button> -->
                                 </td>
                             </tr>
                 <?php endforeach; ?>
@@ -213,6 +597,9 @@
         </div>
     </div>
 
+    <!-- Custom Alert Dialog Container -->
+    <div id="tl-alert-container"></div>
+
     <script src="<?php echo URLROOT;?>/js/Sidebar.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', () => {
@@ -220,7 +607,176 @@
             const closeModal = document.querySelector('.close-btn');
             const viewButtons = document.querySelectorAll('.view-btn');
             const approveModalButton = document.querySelector('.approve-btn-modal');
-            const rejectModalButton = document.querySelector('.reject-btn-modal'); // Added reject button
+            const rejectModalButton = document.querySelector('.reject-btn-modal');
+
+            // Alert Dialog System
+            const alertSystem = {
+                container: document.getElementById('tl-alert-container'),
+                
+                // Create alert dialog HTML
+                createAlertHTML: function(type, title, message, buttons) {
+                    // Define icons based on alert type
+                    const icons = {
+                        success: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M0 0h24v24H0V0z" fill="none"/><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z"/></svg>',
+                        error: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M0 0h24v24H0V0z" fill="none"/><path d="M11 15h2v2h-2zm0-8h2v6h-2zm.99-5C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8z"/></svg>',
+                        info: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M0 0h24v24H0V0z" fill="none"/><path d="M11 7h2v2h-2zm0 4h2v6h-2zm1-9C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"/></svg>',
+                        warning: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M0 0h24v24H0V0z" fill="none"/><path d="M1 21h22L12 2 1 21zm12-3h-2v-2h2v2zm0-4h-2v-4h2v4z"/></svg>',
+                        confirm: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M0 0h24v24H0V0z" fill="none"/><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z"/></svg>'
+                    };
+                    
+                    // Create buttons HTML
+                    let buttonsHTML = '';
+                    buttons.forEach(button => {
+                        const btnClass = button.primary ? 'tl-alert-btn-primary' : 'tl-alert-btn-secondary';
+                        buttonsHTML += `<button class="tl-alert-btn ${btnClass}" data-action="${button.action}">${button.text}</button>`;
+                    });
+                    
+                    // Return complete alert HTML
+                    return `
+                        <div class="tl-alert-overlay">
+                            <div class="tl-alert-box tl-alert-${type}">
+                                <div class="tl-alert-header">
+                                    <div class="tl-alert-icon">
+                                        ${icons[type]}
+                                    </div>
+                                    <div class="tl-alert-title">${title}</div>
+                                </div>
+                                <div class="tl-alert-body">
+                                    ${message}
+                                </div>
+                                <div class="tl-alert-footer">
+                                    ${buttonsHTML}
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                },
+                
+                // Show alert dialog
+                show: function(options) {
+                    const defaults = {
+                        type: 'info',
+                        title: 'Information',
+                        message: '',
+                        buttons: [
+                            { text: 'OK', action: 'close', primary: true }
+                        ],
+                        onAction: null
+                    };
+                    
+                    const settings = { ...defaults, ...options };
+                    
+                    // Create alert element
+                    const alertElement = document.createElement('div');
+                    alertElement.innerHTML = this.createAlertHTML(
+                        settings.type, 
+                        settings.title, 
+                        settings.message, 
+                        settings.buttons
+                    );
+                    
+                    // Add to container
+                    this.container.appendChild(alertElement);
+                    
+                    // Show alert with animation
+                    setTimeout(() => {
+                        const overlay = alertElement.querySelector('.tl-alert-overlay');
+                        overlay.classList.add('tl-show');
+                    }, 10);
+                    
+                    // Add event listeners to buttons
+                    const buttons = alertElement.querySelectorAll('.tl-alert-btn');
+                    buttons.forEach(button => {
+                        button.addEventListener('click', () => {
+                            const action = button.dataset.action;
+                            
+                            // Close the alert
+                            const overlay = alertElement.querySelector('.tl-alert-overlay');
+                            overlay.classList.remove('tl-show');
+                            
+                            setTimeout(() => {
+                                alertElement.remove();
+                            }, 300);
+                            
+                            // Call the callback if provided
+                            if (settings.onAction) {
+                                settings.onAction(action);
+                            }
+                        });
+                    });
+                    
+                    // Close on overlay click if it's not a confirmation
+                    if (settings.type !== 'confirm') {
+                        const overlay = alertElement.querySelector('.tl-alert-overlay');
+                        overlay.addEventListener('click', (e) => {
+                            if (e.target === overlay) {
+                                overlay.classList.remove('tl-show');
+                                setTimeout(() => {
+                                    alertElement.remove();
+                                }, 300);
+                                
+                                if (settings.onAction) {
+                                    settings.onAction('close');
+                                }
+                            }
+                        });
+                    }
+                },
+                
+                // Shorthand methods for different alert types
+                success: function(message, callback) {
+                    this.show({
+                        type: 'success',
+                        title: 'Success',
+                        message: message,
+                        onAction: callback
+                    });
+                },
+                
+                error: function(message, callback) {
+                    this.show({
+                        type: 'error',
+                        title: 'Error',
+                        message: message,
+                        onAction: callback
+                    });
+                },
+                
+                info: function(message, callback) {
+                    this.show({
+                        type: 'info',
+                        title: 'Information',
+                        message: message,
+                        onAction: callback
+                    });
+                },
+                
+                warning: function(message, callback) {
+                    this.show({
+                        type: 'warning',
+                        title: 'Warning',
+                        message: message,
+                        onAction: callback
+                    });
+                },
+                
+                confirm: function(message, callback) {
+                    this.show({
+                        type: 'confirm',
+                        title: 'Confirmation',
+                        message: message,
+                        buttons: [
+                            { text: 'Yes', action: 'yes', primary: true },
+                            { text: 'No', action: 'no', primary: false }
+                        ],
+                        onAction: (action) => {
+                            if (callback) {
+                                callback(action === 'yes');
+                            }
+                        }
+                    });
+                }
+            };
 
             viewButtons.forEach(button => {
                 button.addEventListener('click', (e) => {
@@ -272,30 +828,36 @@
                 const sptype = modalDetails.dataset.sptype;
 
                 if (!serviceProviderId || !sptype) {
-                    alert('Error: Missing service provider ID or type.');
+                    alertSystem.error('Missing service provider ID or type.');
                     return;
                 }
 
-                // Send an AJAX request to approve the service provider
-                fetch('<?php echo URLROOT; ?>/admin/approveServiceProvider', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({ serviceProviderId: serviceProviderId, sptype: sptype ,action: 'approve' }),
-                })
-                .then(response => response.json())
-                .then(data => {
-                    if (data.success) {
-                        alert('Service provider approved successfully!');
-                        window.location.reload(); // Reload the page to reflect changes
-                    } else {
-                        alert('Failed to approve service provider. Check logs for details.');
+                alertSystem.confirm('Are you sure you want to approve this service provider?', (confirmed) => {
+                    if (confirmed) {
+                        // Send an AJAX request to approve the service provider
+                        fetch('<?php echo URLROOT; ?>/admin/approveServiceProvider', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                            },
+                            body: JSON.stringify({ serviceProviderId: serviceProviderId, sptype: sptype, action: 'approve' }),
+                        })
+                        .then(response => response.json())
+                        .then(data => {
+                            if (data.success) {
+                                modal.style.display = 'none';
+                                alertSystem.success('Service provider approved successfully!', () => {
+                                    window.location.reload(); // Reload the page to reflect changes
+                                });
+                            } else {
+                                alertSystem.error('Failed to approve service provider. Check logs for details.');
+                            }
+                        })
+                        .catch(error => {
+                            console.error('Error:', error);
+                            alertSystem.error('An error occurred while approving the service provider.');
+                        });
                     }
-                })
-                .catch(error => {
-                    console.error('Error:', error);
-                    alert('An error occurred while approving the service provider.');
                 });
             });
 
@@ -306,30 +868,36 @@
                 const sptype = modalDetails.dataset.sptype;
 
                 if (!serviceProviderId || !sptype) {
-                    alert('Error: Missing service provider ID or type.');
+                    alertSystem.error('Missing service provider ID or type.');
                     return;
                 }
 
-                // Send an AJAX request to reject the service provider
-                fetch('<?php echo URLROOT; ?>/admin/approveServiceProvider', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({ serviceProviderId: serviceProviderId, sptype: sptype, action: 'reject' }),
-                })
-                .then(response => response.json())
-                .then(data => {
-                    if (data.success) {
-                        alert('Service provider rejected successfully!');
-                        window.location.reload(); // Reload the page to reflect changes
-                    } else {
-                        alert('Failed to reject service provider. Check logs for details.');
+                alertSystem.confirm('Are you sure you want to reject this service provider?', (confirmed) => {
+                    if (confirmed) {
+                        // Send an AJAX request to reject the service provider
+                        fetch('<?php echo URLROOT; ?>/admin/approveServiceProvider', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                            },
+                            body: JSON.stringify({ serviceProviderId: serviceProviderId, sptype: sptype, action: 'reject' }),
+                        })
+                        .then(response => response.json())
+                        .then(data => {
+                            if (data.success) {
+                                modal.style.display = 'none';
+                                alertSystem.success('Service provider rejected successfully!', () => {
+                                    window.location.reload(); // Reload the page to reflect changes
+                                });
+                            } else {
+                                alertSystem.error('Failed to reject service provider. Check logs for details.');
+                            }
+                        })
+                        .catch(error => {
+                            console.error('Error:', error);
+                            alertSystem.error('An error occurred while rejecting the service provider.');
+                        });
                     }
-                })
-                .catch(error => {
-                    console.error('Error:', error);
-                    alert('An error occurred while rejecting the service provider.');
                 });
             });
 
@@ -365,38 +933,39 @@
                     .then(response => response.json())
                     .then(data => {
                         modalTableBody.innerHTML = ''; // Clear previous rows
-                        if (data.length > 0) {
-                            data.forEach(provider => {
-                                const row = document.createElement('tr');
-                                row.innerHTML = `
-                                    <td>${provider.id}</td>
-                                    <td>${provider.name}</td>
-                                    <td>${provider.email}</td>
-                                    <td>${provider.phone}</td>
-                                    <td>${provider.nic}</td>
-                                    <td>${provider.reg_number}</td>
-                                    <td>${provider.address}</td>
-                                    <td>${provider.earnings}</td>
-                                    <td>${provider.plan}</td>
-                                    <td>${provider.penalty_amount}</td>
-                                    <td>
-                                        
-                                        <button class="delete-btn" data-id="${provider.id}" data-type="${type}">Delete</button>
-                                    </td>
-                                `;
-                                modalTableBody.appendChild(row);
-                            });
-                        } else {
-                            modalTableBody.innerHTML = '<tr><td colspan="4">No data available</td></tr>';
+                        
+                        if (data.length === 0) {
+                            alertSystem.info(`No ${type} service providers found.`);
+                            serviceProviderModal.style.display = 'none';
+                            return;
                         }
+                        
+                        data.forEach(provider => {
+                            const action = provider.action === 'deleted' ? 'Activate' : 'Delete';
+                            const row = document.createElement('tr');
+                            row.innerHTML = `
+                                <td>${provider.id}</td>
+                                <td>${provider.name}</td>
+                                <td>${provider.email}</td>
+                                <td>${provider.phone}</td>
+                                <td>${provider.nic}</td>
+                                <td>${provider.reg_number}</td>
+                                <td>${provider.address}</td>
+                                <td>${provider.earnings}</td>
+                                <td>${provider.plan}</td>
+                                <td>${provider.penalty_amount}</td>
+                                <td>${renderActionButton(action, provider.id, type, provider.action)}</td>
+                            `;
+                            modalTableBody.appendChild(row);
+                        });
+                        
+                        // Show modal
+                        serviceProviderModal.style.display = 'flex';
                     })
                     .catch(error => {
                         console.error('Error fetching service providers:', error);
-                        modalTableBody.innerHTML = '<tr><td colspan="4">Error loading data</td></tr>';
+                        alertSystem.error('Error loading service provider data. Please try again.');
                     });
-
-                    // Show modal
-                    serviceProviderModal.style.display = 'flex';
                 });
             });
 
@@ -410,164 +979,87 @@
                 }
             });
 
-            // Handle delete button click
             modalTableBody.addEventListener('click', (e) => {
                 if (e.target.classList.contains('delete-btn')) {
                     const id = e.target.dataset.id;
                     const type = e.target.dataset.type;
+                    const currentStatus = e.target.dataset.status;
+                    const action = currentStatus === 'deleted' ? 'activate' : 'delete';
 
-                    if (confirm('Are you sure you want to delete this service provider?')) {
-                        fetch(`<?php echo URLROOT; ?>/admin/deleteServiceProvider`, {
-                            method: 'POST',
-                            headers: { 'Content-Type': 'application/json' },
-                            body: JSON.stringify({ id, type })
-                        })
+                    alertSystem.confirm(`Are you sure you want to ${action} this service provider?`, (confirmed) => {
+                        if (confirmed) {
+                            fetch(`<?php echo URLROOT; ?>/admin/toggleServiceProviderStatus`, {
+                                method: 'POST',
+                                headers: { 'Content-Type': 'application/json' },
+                                body: JSON.stringify({ id, type, action })
+                            })
                             .then(response => response.json())
                             .then(data => {
                                 if (data.success) {
-                                    alert('Service provider deleted successfully!');
-                                    e.target.closest('tr').remove();
+                                    alertSystem.success(`Service provider ${action}d successfully!`);
+                                    e.target.textContent = action === 'delete' ? 'Activate' : 'Delete';
+                                    e.target.dataset.status = action === 'delete' ? 'deleted' : 'active';
+                                    e.target.style.backgroundColor = action === 'delete' ? '#28a745' : '#dc3545'; // Green for Activate, Red for Delete
+                                    e.target.style.color = '#fff';
                                 } else {
-                                    alert('Failed to delete service provider.');
+                                    alertSystem.error(`Failed to ${action} service provider.`);
                                 }
                             })
-                            .catch(error => console.error('Error deleting service provider:', error));
-                    }
+                            .catch(error => {
+                                console.error(`Error ${action}ing service provider:`, error);
+                                alertSystem.error(`An error occurred while ${action}ing the service provider.`);
+                            });
+                        }
+                    });
                 }
+            });
+
+            function renderActionButton(action, id, type, status) {
+                const color = action === 'Activate' ? '#28a745' : '#dc3545'; // Green for Activate, Red for Delete
+                return `<button 
+                            class="delete-btn" 
+                            data-id="${id}" 
+                            data-type="${type}" 
+                            data-status="${status}" 
+                            style="background-color: ${color}; color: #fff; border: none; padding: 10px 15px; border-radius: 3px; cursor: pointer;">
+                            ${action}
+                        </button>`;
+            }
+
+            document.querySelectorAll('.action-btn').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const id = this.getAttribute('data-id');
+                    const type = this.getAttribute('data-type');
+                    const currentStatus = this.getAttribute('data-status');
+                    const newAction = currentStatus === 'deleted' ? 'activate' : 'delete';
+
+                    alertSystem.confirm(`Are you sure you want to ${newAction} this service provider?`, (confirmed) => {
+                        if (confirmed) {
+                            // Call your backend API to update the status
+                            fetch('/admin/toggleServiceProviderStatus', {
+                                method: 'POST',
+                                headers: {'Content-Type': 'application/json'},
+                                body: JSON.stringify({id: id, type: type, action: newAction})
+                            })
+                            .then(response => response.json())
+                            .then(data => {
+                                if (data.success) {
+                                    alertSystem.success(`Service provider ${newAction}d successfully!`, () => {
+                                        location.reload();
+                                    });
+                                } else {
+                                    alertSystem.error(`Failed to ${newAction} service provider.`);
+                                }
+                            })
+                            .catch(error => {
+                                console.error(`Error ${newAction}ing service provider:`, error);
+                                alertSystem.error(`An error occurred while ${newAction}ing the service provider.`);
+                            });
+                        }
+                    });
+                });
             });
         });
     </script>
-    <style>
-        .modal {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(173, 216, 230, 0.8); /* Light blue overlay */
-            display: none;
-            justify-content: center;
-            align-items: center;
-            z-index: 1000;
-        }
-        .modal-content {
-    background: #f0f8ff;
-    padding: 25px;
-    border-radius: 12px;
-    width: 90%;          /* Increase width for large tables */
-    max-width: 1100px;   /* Allow more columns to fit */
-    min-width: 800px;    /* Prevent too small modals */
-    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
-    text-align: left;
-    position: relative;
-    animation: fadeIn 0.3s ease-in-out;
-}
-
-.modal-content {
-    overflow-x: auto; /* Enable horizontal scroll if needed */
-}
-
-
-        .modal-content h2 {
-            margin-top: 0;
-            font-size: 24px;
-            color: #0056b3; /* Dark blue */
-            border-bottom: 2px solid #87ceeb; /* Sky blue */
-            padding-bottom: 10px;
-        }
-        .modal-content p {
-            font-size: 16px;
-            color: #333;
-            margin: 10px 0;
-        }
-        .modal-actions {
-            margin-top: 20px;
-            display: flex;
-            justify-content: space-between;
-        }
-        .approve-btn-modal, .reject-btn-modal {
-            padding: 10px 20px;
-            font-size: 16px;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            transition: background-color 0.3s ease;
-        }
-        .approve-btn-modal {
-            background-color: #28a745; /* Green */
-            color: #fff;
-        }
-        .approve-btn-modal:hover {
-            background-color: #218838;
-        }
-        .reject-btn-modal {
-            background-color: #dc3545; /* Red */
-            color: #fff;
-        }
-        .reject-btn-modal:hover {
-            background-color: #c82333;
-        }
-        .close-btn {
-            position: absolute;
-            top: 10px;
-            right: 15px;
-            font-size: 22px;
-            font-weight: bold;
-            color: #0056b3; /* Dark blue */
-            cursor: pointer;
-            transition: color 0.3s ease;
-        }
-        .close-btn:hover {
-            color: #ff4500; /* Orange red */
-        }
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-                transform: scale(0.9);
-            }
-            to {
-                opacity: 1;
-                transform: scale(1);
-            }
-        }
-        .modal-content table {
-    width: 100%;
-    border-collapse: separate;
-    border-spacing: 0 12px;
-    margin-top: 20px;
-}
-
-        .modal-content table th,
-.modal-content table td {
-    white-space: nowrap;    /* Prevent text wrapping in cells */
-    font-size: 15px;
-}
-
-        .modal-content table th {
-            background-color: #f4f4f4;
-            font-weight: bold;
-        }
-        .modal-content .view-btn, .modal-content .delete-btn {
-            padding: 5px 10px;
-            font-size: 14px;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-        }
-        .modal-content .view-btn {
-            background-color: #007bff;
-            color: #fff;
-        }
-        .modal-content .view-btn:hover {
-            background-color: #0056b3;
-        }
-        .modal-content .delete-btn {
-            background-color: #dc3545;
-            color: #fff;
-        }
-        .modal-content .delete-btn:hover {
-            background-color: #c82333;
-        }
-    </style>
 </body>
 </html>

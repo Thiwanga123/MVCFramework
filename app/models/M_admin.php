@@ -236,6 +236,70 @@
             $this->db->bind(':id', $id);
             return $this->db->execute();
         }
+
+        public function softDeleteServiceProvider($id, $tableName) {
+            $this->db->query("UPDATE $tableName SET action = 'deleted' WHERE id = :id");
+            $this->db->bind(':id', $id);
+            return $this->db->execute();
+        }
+
+        public function activateServiceProvider($id, $tableName) {
+            $this->db->query("UPDATE $tableName SET action = 'active' WHERE id = :id");
+            $this->db->bind(':id', $id);
+            return $this->db->execute();
+        }
+
+        // Get all travelers
+public function getAllTravelers() {
+    $this->db->query('SELECT * FROM traveler ORDER BY date_of_joined DESC');
+    return $this->db->resultSet();
+}
+
+// Get traveler by ID
+public function getTravelerById($id) {
+    $this->db->query('SELECT * FROM traveler WHERE traveler_id = :id');
+    $this->db->bind(':id', $id);
+    return $this->db->single();
+}
+
+// Soft delete traveler (update action to 'deleted')
+public function softDeleteTraveler($id) {
+    $this->db->query('UPDATE traveler SET action = "deleted" WHERE traveler_id = :id');
+    $this->db->bind(':id', $id);
+    return $this->db->execute();
+}
+
+// Activate traveler (update action to 'active')
+public function activateTraveler($id) {
+    $this->db->query('UPDATE traveler SET action = "active" WHERE traveler_id = :id');
+    $this->db->bind(':id', $id);
+    return $this->db->execute();
+}
+
+
+// Get all service providers
+public function getAllServiceProviders() {
+    // Using a UNION to combine results from all service provider tables
+    $this->db->query('
+        SELECT id, name, "Accommodation" as sptype, email, phone, date_of_joined, action 
+        FROM accomadation
+        UNION ALL
+        SELECT id, name, "Vehicle Supplier" as sptype, email, phone, date_of_joined, action 
+        FROM vehicle_suppliers
+        UNION ALL
+        SELECT id, name, "Equipment Supplier" as sptype, email, phone, date_of_joined, action 
+        FROM equipment_suppliers
+        UNION ALL
+        SELECT id, name, "Tour Guide" as sptype, email, phone, date_of_joined, action 
+        FROM tour_guides
+        ORDER BY date_of_joined DESC
+    ');
+    
+    return $this->db->resultSet();
+}
+
+        
+        
     }
 
 
