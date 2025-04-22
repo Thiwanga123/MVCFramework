@@ -389,6 +389,39 @@
             background-color: #218838;
             transform: scale(1.05);
         }
+        
+        /* Search input styles */
+        .search-container {
+            margin-bottom: 15px;
+            position: relative;
+        }
+        
+        .search-container input {
+            padding: 10px 30px 10px 10px;
+            width: 100%;
+            border-radius: 4px;
+            border: 1px solid #ddd;
+            font-size: 14px;
+        }
+        
+        .search-container input:focus {
+            outline: none;
+            border-color: #007bff;
+            box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.25);
+        }
+        
+        #clear-search {
+            position: absolute;
+            right: 10px;
+            top: 10px;
+            cursor: pointer;
+            color: #999;
+            display: none;
+        }
+        
+        #clear-search:hover {
+            color: #555;
+        }
     </style>
 </head>
 <body>
@@ -472,7 +505,7 @@
             <div class="bottom-data">
                 <div class="orders">
                     <div class="header">
-                        <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#000000"><path d="M120-80v-800l60 60 60-60 60 60 60-60 60 60 60-60 60 60 60-60 60 60 60-60v800l-60-60-60 60-60-60-60 60-60-60-60 60-60-60-60 60-60-60-60 60-60-60-60 60-60-60-60 60-60-60-60 60-60-60-60 60Zm120-200h480v-80H240v80Zm0-160h480v-80H240v80Zm0-160h480v-80H240v80Zm-40 404h560v-568H200v568Zm0-568v568-568Z"/></svg>
+                        <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#000000"><path d="M120-80v-800l60 60 60-60 60 60 60-60 60 60 60-60 60 60 60-60 60 60 60-60v800l-60-60-60 60-60-60-60 60-60-60-60 60-60-60-60 60-60-60-60 60-60-60-60 60-60-60-60 60-60-60-60 60Zm120-200h480v-80H240v80Zm0-160h480v-80H240v80Zm0-160h480v-80H240v80Zm-40 404h560v-568H200v568Zm0-568v568-568Z"/></svg>
                         <h3>Recently Joined</h3>
                         <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#000000"><path d="M440-160q-17 0-28.5-11.5T400-200v-240L168-736q-15-20-4.5-42t36.5-22h560q26 0 36.5 22t-4.5 42L560-440v240q0 17-11.5 28.5T520-160h-80Zm40-308 198-252H282l198 252Zm0 0Z"/></svg>
                     </div>
@@ -551,7 +584,6 @@
           </main>
 
      </div>
-    
      </div>   
 
     <!-- Modal for viewing details -->
@@ -574,6 +606,13 @@
         <div class="modal-content">
             <span class="close-btn">&times;</span>
             <h2 id="modal-title">Service Providers</h2>
+            
+            <!-- Add search input -->
+            <div class="search-container">
+                <input type="text" id="provider-search" placeholder="Search providers...">
+                <span id="clear-search" style="display: none;">✕</span>
+            </div>
+            
             <table>
                 <thead>
                     <tr>
@@ -916,10 +955,76 @@
             const cards = document.querySelectorAll('.insights div[data-type]');
             const modalTitle = document.getElementById('modal-title');
             const modalTableBody = document.getElementById('modal-table-body');
+            
+            // Add search functionality
+            const providerSearch = document.getElementById('provider-search');
+            const clearSearch = document.getElementById('clear-search');
+            
+            if (providerSearch) {
+                providerSearch.addEventListener('input', function() {
+                    const searchTerm = this.value.toLowerCase();
+                    const tableRows = document.querySelectorAll('#modal-table-body tr');
+                    let matchCount = 0;
+                    
+                    tableRows.forEach(row => {
+                        let found = false;
+                        // Search through all cells in the row
+                        row.querySelectorAll('td').forEach(cell => {
+                            if (cell.textContent.toLowerCase().includes(searchTerm)) {
+                                found = true;
+                            }
+                        });
+                        
+                        // Show or hide row based on search match
+                        row.style.display = found ? '' : 'none';
+                        if (found) matchCount++;
+                    });
+                    
+                    // Check if we need to show "no results" message
+                    let noResultsRow = document.getElementById('no-results-row');
+                    
+                    if (matchCount === 0) {
+                        if (!noResultsRow) {
+                            noResultsRow = document.createElement('tr');
+                            noResultsRow.id = 'no-results-row';
+                            const cell = document.createElement('td');
+                            cell.colSpan = 11; // Match the number of columns in your table
+                            cell.textContent = 'No matching service providers found';
+                            cell.style.textAlign = 'center';
+                            cell.style.padding = '20px';
+                            noResultsRow.appendChild(cell);
+                            document.getElementById('modal-table-body').appendChild(noResultsRow);
+                        }
+                        noResultsRow.style.display = '';
+                    } else if (noResultsRow) {
+                        noResultsRow.style.display = 'none';
+                    }
+                    
+                    // Show/hide clear button
+                    if (clearSearch) {
+                        clearSearch.style.display = this.value ? 'block' : 'none';
+                    }
+                });
+            }
+            
+            if (clearSearch && providerSearch) {
+                // Clear search when the X is clicked
+                clearSearch.addEventListener('click', function() {
+                    providerSearch.value = '';
+                    providerSearch.dispatchEvent(new Event('input'));
+                    this.style.display = 'none';
+                });
+            }
 
             cards.forEach(card => {
                 card.addEventListener('click', () => {
                     const type = card.dataset.type;
+                    
+                    // Clear previous search
+                    if (providerSearch) {
+                        providerSearch.value = '';
+                        if (clearSearch) clearSearch.style.display = 'none';
+                    }
 
                     // Set modal title
                     modalTitle.textContent = `${type} Service Providers`;
