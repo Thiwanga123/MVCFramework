@@ -381,7 +381,19 @@ class M_users{
         print($this->db->resultSet());
         return $this->db->resultSet();
     }
-
+    public function getVehicleById($id){
+        $sql = 'SELECT * FROM vehicles WHERE vehicle_id = ?';
+        try{
+            $this->db->query($sql);
+            $this->db->bind(1, $id);
+            $result = $this->db->single();
+            return $result;
+        }catch(Exception $e){
+            $error_msg = $e->getMessage();
+            echo "<script>alert('An error occurred: $error_msg');</script>";
+            return false;
+        }
+    }
 }
 
 ?>

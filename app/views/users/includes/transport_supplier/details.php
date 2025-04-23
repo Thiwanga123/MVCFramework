@@ -1,27 +1,16 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="<?php echo URLROOT;?>/css/equipmentRentals/view_product.css">
-    <link rel="stylesheet" href="<?php echo URLROOT;?>/css/equipmentRentals/productDetailsDiv.css">
-    <link rel="stylesheet" href="<?php echo URLROOT;?>/css/equipmentRentals/reviews.css">
-    <link rel="stylesheet" href="<?php echo URLROOT;?>/css/equipmentRentals/booking.css">
-    <link rel="stylesheet" href="<?php echo URLROOT;?>/css/Modals/logoutModal.css">
-
-    <link rel="stylesheet" href="<?php echo URLROOT;?>/css/Common/calendar.css">
-    
-    <title>Equipment</title>
-</head>
-<h2>Equipment Details</h2>
-
-<?php var_dump($data['vehicles']); ?>
+<h2>Vehicle Details</h2>
     <div class="details-container">
         <div class="details-top">
             <div class="left">
-                <?php
-                    $imagePaths = explode(',', $vehicles->image_paths);
-                ?>
+            <?php
+                                $imagePaths = explode(',', $vehicles->images);
+                                $firstImage = isset($imagePaths[0]) ? $imagePaths[0] : null;
+                                ?>
+                                <?php if ($firstImage): ?>
+                                    <img src="<?php echo URLROOT . '/' . $firstImage; ?>" alt="Vehicle Image" style="width: 100%; border-radius: 10px;">
+                                <?php else: ?>
+                                    <p>No image available</p>
+                                <?php endif; ?>
                 <div class="image-top">
                     <button type="button" class="change-image" id="prevImage" onclick="previousImage()">
                         <svg xmlns="http://www.w3.org/2000/svg" height="28px" viewBox="0 -960 960 960" width="28px" fill="#e8eaed">
@@ -51,24 +40,26 @@
                 <h2>Basic Details</h2>
 
                 <div class="product-details">
-                    <p><strong>Rental Name: </strong> <?php echo($vehicles->model); ?></p>
+                    <p><strong>Model: </strong> <?php echo($vehicles->model); ?></p>
 
-                    <p><strong>Price (Per day): </strong> <?php echo htmlspecialchars($vehicles->make); ?> USD</p>
+                    <p><strong>Make:</strong> <?php echo htmlspecialchars($vehicles->make); ?></p>
 
-                    <p><strong>Category: </strong> <?php echo htmlspecialchars($vehicles->seating_capacity); ?></p>
+                    <p><strong>Seats:</strong> <?php echo htmlspecialchars($vehicles->seating_capacity); ?></p>
 
-                    <p><strong>Maximum Rental Period (Days): </strong> <?php echo htmlspecialchars($vehicles->license_plate_number); ?></p>
+                    <p><strong>License Number</strong> <?php echo htmlspecialchars($vehicles->license_plate_number); ?></p>
+                    <p><strong>Self Drive Rates per day</strong> <?php echo htmlspecialchars($vehicles->rate); ?></p>
+                    <p><strong>Driver Availability</strong> <?php echo htmlspecialchars($vehicles->driver); ?></p>
 
-                    <p><strong>Delivery Available: </strong> 
-                        <?php echo ($details->delivery_available == 'yes') ? 'Yes' : 'No'; ?>
-                    </p>
+                    <p><strong>With Driver Rates Per Day</strong> <?php echo htmlspecialchars($vehicles->cost); ?></p>
+
+                    <p><strong>Location</strong> <?php echo htmlspecialchars($vehicles->location); ?></p>
                 </div>
             </div>    
         </div>
 
         <div class="bottom">
             <h2>Description</h2>
-            <p><?php echo nl2br(htmlspecialchars(trim($details->rental_description))); ?></p>
+            <p><?php echo nl2br(htmlspecialchars(trim($vehicles->description))); ?></p>
 
             <h2>Policies</h2>
             <p><strong>Return Policy:</strong> 

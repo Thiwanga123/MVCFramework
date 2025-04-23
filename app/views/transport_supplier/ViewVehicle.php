@@ -44,10 +44,11 @@
         <main>
             <div class="header">
                 <div class="left">
-                    <h1>My Vehicles</h1>
+                    <h1>Details</h1>
                 </div>
             </div>
 
+            <!-- <?php print_r($data['vehicle']); ?> -->
 
             <div class="Inventory">
                 <div>
@@ -58,6 +59,7 @@
                             <th>Type</th>
                             <th>Model</th>
                             <th>Make</th>
+                            <th>Seats</th>
                              <th>Vehicle<br> Number</th>
                             <th>Self Drive Rates<br> per day</th>
                             <th>Driver<br> Availability</th>
@@ -68,23 +70,16 @@
                         </tr>
                     </thead>
                     <tbody>
-                    <?php if (empty($vehicles)): ?>
-                        <tr>
-                            <td colspan="7" style="text-align: center; font-size: 24px; font-weight: bold;">Currently no cars available</td>
-                        </tr>
-                    <?php else: ?>
-                        <?php foreach ($vehicles as $vehicle): ?>
-                        <tr>
-                            <td>
-                                <?php if (!empty($vehicle->image_path)): ?>
-                                    <img src="<?php echo URLROOT . '/' . $vehicle->image_path; ?>" alt="Vehicle Image" class="vehicle-img">
-                                    <?php else: ?>
-                                        <img src="<?php echo URLROOT; ?>/Images/default_profile.png" alt="Default Image" class="vehicle-img">
-                                        <?php endif; ?>
-                            </td>
+                        <td>
+                        
+                        <?php if (!empty($vehicle->image_path)): ?>
+                                <img src="<?php echo URLROOT . '/' . $firstImage; ?>" alt="Vehicle Image" class="vehicle-image"width="100" height="100">    <?php else: ?>
+        No Image
+    <?php endif; ?>       </td>                 
                             <td><?php echo $vehicle->type; ?></td>
                             <td><?php echo $vehicle->model; ?></td>
                             <td><?php echo $vehicle->make; ?></td>
+                            <td><?php echo $vehicle->seating_capacity; ?></td>
                             <td><?php echo $vehicle->license_plate_number; ?></td>
                             <td><?php echo $vehicle->rate; ?></td>
                             <td><?php echo $vehicle->driver; ?></td>
@@ -92,9 +87,8 @@
                             <td><?php echo $vehicle->description; ?></td>
                             <td><?php echo $vehicle->availability; ?></td>
                             <td><?php echo $vehicle->location; ?></td>
+</td>
                         </tr>
-                        <?php endforeach; ?>
-                        <?php endif; ?>
                     </tbody>
                 </table> 
             </div> 

@@ -1,0 +1,113 @@
+/* addDriverModal.css */
+
+.vehicle-modal-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.6);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 999;
+}
+
+.vehicleModal {
+    background-color: #ffffff;
+    width: 500px;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+    animation: slideDown 0.3s ease-out;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+@keyframes slideDown {
+    from {
+        transform: translateY(-50px);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+.vehicleModal-top {
+    background-color: #007BFF;
+    color: white;
+    padding: 20px;
+    text-align: center;
+    font-size: 22px;
+    font-weight: bold;
+}
+
+.vehicle-modal-form {
+    padding: 20px;
+}
+
+.vehicle-modal-form form {
+    display: flex;
+    flex-direction: column;
+}
+
+.vehicle-modal-form label {
+    margin: 10px 0 5px;
+    font-weight: 600;
+    color: #333;
+}
+
+.vehicle-modal-form input,
+.vehicle-modal-form textarea {
+    padding: 10px;
+    font-size: 15px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    margin-bottom: 10px;
+    transition: border-color 0.3s;
+}
+
+.vehicle-modal-form input:focus,
+.vehicle-modal-form textarea:focus {
+    border-color: #007BFF;
+    outline: none;
+}
+
+.vehicle-modal-form textarea {
+    resize: vertical;
+    min-height: 80px;
+}
+
+.vehicle-modal-form p {
+    margin-top: 10px;
+    font-weight: 600;
+}
+
+.vehicle-modal-form input[type="radio"] {
+    margin-right: 6px;
+}
+
+.vehicle-modal-form label[for="yes"],
+.vehicle-modal-form label[for="no"] {
+    display: inline-block;
+    margin-right: 15px;
+    font-weight: normal;
+}
+
+.vehicle-modal-form button[type="submit"] {
+    background-color: #007BFF;
+    color: white;
+    padding: 12px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: 600;
+    margin-top: 15px;
+    transition: background-color 0.3s;
+}
+
+.vehicle-modal-form button[type="submit"]:hover {
+    background-color: #0056b3;
+}

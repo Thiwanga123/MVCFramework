@@ -24,7 +24,7 @@ main .header h1 {
     padding: 16px 20px;
     font-size: 14px;
     text-align: left;
-    background: linear-gradient(135deg, rgb(0, 143, 143) 0%, rgb(0, 123, 123) 100%);
+    background: linear-gradient(rgb(0, 143, 143) 0%, rgb(0, 123, 123) 100%);
     color: white;
     font-weight: 700; /* Bold header text */
     text-transform: uppercase;
@@ -87,3 +87,63 @@ main .header h1 {
         width: 70px;
     }
 }
+.vehicle-cards {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    padding: 20px;
+}
+
+.vehicle-card {
+    display: flex;
+    background: #fff;
+    border-radius: 15px;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    transition: transform 0.3s ease;
+}
+
+.vehicle-card:hover {
+    transform: scale(1.01);
+}
+
+.vehicle-image img {
+    width: 250px;
+    height: 100%;
+    object-fit: cover;
+    border-right: 1px solid #eee;
+}
+
+.vehicle-info {
+    display: flex;
+    flex: 1;
+    padding: 20px;
+    gap: 40px;
+    flex-wrap: wrap;
+}
+
+.info-left, .info-right {
+    flex: 1;
+    min-width: 200px;
+}
+
+.vehicle-info h2 {
+    font-size: 24px;
+    color: #333;
+    margin-top: 0;
+}
+
+.vehicle-info p {
+    margin: 8px 0;
+    font-size: 16px;
+    color: #555;
+}
+
+.no-vehicles {
+    text-align: center;
+    font-size: 24px;
+    font-weight: bold;
+    color: #888;
+    padding: 20px;
+}
+

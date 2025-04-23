@@ -40,9 +40,8 @@
 
 
 .content main .initial-container table td img {
-    width: 80px;
-    height: 80px;
-    border-radius: 50%;
+    width: 100px;
+    height: 100px;
     object-fit: cover;
     margin-left: 20px;
 }
@@ -83,6 +82,82 @@
     color: #2d3748;
 }
 
+.driver-form-container {
+    justify-content: center;
+    align-items: center;
+    padding: 40px;
+    background-color: #f9fafb;
+    border-radius: 12px;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+    max-width: 700px; 
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.form-header h1 {
+    text-align: center;
+    margin-bottom: 30px;
+    color: #333;
+}
+
+.driver-form {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.form-section {
+    display: flex;
+    justify-content: center;
+}
+
+.form-left {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.driver-form label {
+    font-weight: 600;
+    color: #555;
+    margin-bottom: 5px;
+}
+
+.driver-form input {
+    padding: 12px 15px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-size: 14px;
+    transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+.driver-form input:focus {
+    border-color: #007bff;
+    box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.15);
+    outline: none;
+}
+
+.form-actions {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 30px;
+}
+
+.submit-button {
+    padding: 12px 25px;
+    background-color: #007bff;
+    color: white;
+    font-weight: 600;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s, box-shadow 0.3s;
+}
+
+.submit-button:hover {
+    background-color: #0056b3;
+    box-shadow: 0 4px 12px rgba(0, 91, 187, 0.3);
+}
 
 @media screen {
     
@@ -149,4 +224,4 @@
     height: auto;
     object-fit: cover;
     border-radius: 5px;
-  }
+  } 

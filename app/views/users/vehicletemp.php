@@ -3,30 +3,20 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="<?php echo URLROOT;?>/css/Common/MyInventorys.css">
-    <link rel="stylesheet" href="<?php echo URLROOT;?>/css/Common/sidebarHeader.css">
-    <link rel="stylesheet" href="<?php echo URLROOT;?>/css/Modals/addVehicleModal.css">
-    <link rel="stylesheet" href="<?php echo URLROOT;?>/css/Modals/UpdateVehicleModal.css">
     <link rel="stylesheet" href="<?php echo URLROOT;?>/css/adminpage/sidebarHeader.css">
     <link rel="stylesheet" href="<?php echo URLROOT;?>/css/userspage/supplierSection.css">
     <link rel="stylesheet" href="<?php echo URLROOT;?>/css/Modals/logoutModal.css">
     <title>Vehicles</title>
 </head>
 <body>
-    <div class="box" id ="box">
-
-   <!-- SideBar -->
-   <?php require APPROOT . '/views/inc/components/usersidebar.php'; ?>
+    <div class="box" id="box">
+        <!-- SideBar -->
+        <?php require APPROOT . '/views/inc/components/usersidebar.php'; ?>
         <!-- End Of Sidebar -->
-    
-     <!-- End Of Sidebar -->
 
+        <!-- Main Content -->
         <main>
-        <div class="rental-container">
-                            <div class="left">
-                </div>
-
-                <div class="right">
+            <div class="rental-container">
                 <div class="filter">
                     <h1>Available Vehicles</h1>
                     <!-- Location Filter -->
@@ -103,13 +93,5 @@
         });
     });
     </script>
-
-
-    <script src="<?php echo URLROOT;?>/js/Sidebar.js"></script> 
-    <script src="<?php echo URLROOT;?>/js/addVehicle.js"></script>
-    <script src="<?php echo URLROOT;?>/js/editVehicle.js"></script>
-    <script src="<?php echo URLROOT;?>/js/ImagePreview.js"></script>
-     
 </body>
-
 </html>

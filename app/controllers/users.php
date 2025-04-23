@@ -139,13 +139,69 @@ class Users extends Controller {
                 'vehicles' => $vehicles
             ];
 
-            $this->view('users/v_vehicles',$data, $data);
+            $this->view('users/v_vehicles',$data,$data);
         }else{
             redirect('users/login');
         }
         
     }
-
+ 
+    public function viewVehicle($id){
+        if(isset($_SESSION['user_id'])) {
+            if(isset($_SESSION['user_id'])){
+                $vehicles = $this->userModel->getVehicleById($id); 
+                $currentPage = 'vehicles';
+                $bookings = $this->bookingModel->getBookingsByVehicleId($id);
+                $details='details';
+                // $reviews = $this->reviewModel->getReviewsByEquipmentId($id);
+                // $ratings = $this->reviewModel->getRatingsByEquipmentId($id);
+                // $reviewCount = count($reviews);
+                
+                // $totalRating = 0;
+                // $userReview = null;
+                // foreach ($reviews as $review) {
+                //     $totalRating += $review->rating;
+                //     if ($review->traveler_id == $_SESSION['user_id']) {
+                //         $userReview = $review;
+                //     }
+                // }
+                // $averageRating = $reviewCount > 0 ? round($totalRating / $reviewCount, 1) : 0;
+    
+                $data = [
+                    'currentPage' => $currentPage,
+                    'vehicles' => $vehicles,
+                    'user_id' => $_SESSION['user_id'],
+                    'details' => $details,
+                    'bookings' => json_encode($bookings),
+                    // 'reviews' => $reviews,
+                    // 'userReview' => $userReview,
+                    // 'reviewCount' => $reviewCount,
+                    // 'averageRating' => $averageRating,
+                    // 'ratings' => $ratings
+                ];
+          
+            $this->view('users/rentVehicle',$data);
+        }else{
+            redirect('users/login');
+        }
+        
+    }}
+    public function bookings($id){
+        if(isset($_SESSION['user_id'])) {
+            $vehicles = $this->userModel->getVehicleById($id); 
+            $currentPage = 'vehicles';
+    
+            $data = [
+                'currentPage' => $currentPage,
+                'vehicles' => $vehicles
+            ];
+    
+            $this->view('users/booking',$data);
+        }else{
+            redirect('users/login');
+        }
+        
+    }
     public function viewdetails($property_id){
         if(isset($_SESSION['user_id'])) {
             $availableRooms = $this->userModel->getAvailableRooms($property_id);
@@ -282,43 +338,7 @@ class Users extends Controller {
         }
     }
 
-   public function viewVehicle($vehicleId) {
-    if (isset($_SESSION['user_id'])) {
-        // Get detailed info for one vehicle
-        $vehicle = $this->transportModel->getVehicleWithImages($vehicleId);
-        $bookings = $this->bookingModel->getBookingsByVehicleId($vehicleId);
-        $reviews = $this->reviewModel->getReviewsByVehicleId($vehicleId);
-        $ratings = $this->reviewModel->getRatingsByVehicleId($vehicleId);
-        $reviewCount = count($reviews);
-
-        $totalRating = 0;
-        $userReview = null;
-
-        foreach ($reviews as $review) {
-            $totalRating += $review->rating;
-            if ($review->user_id == $_SESSION['user_id']) {
-                $userReview = $review;
-            }
-        }
-
-        $averageRating = $reviewCount > 0 ? round($totalRating / $reviewCount, 1) : 0;
-
-        $data = [
-            'user_id' => $_SESSION['user_id'],
-            'details' => $details,
-            'bookings' => json_encode($bookings),
-            'reviews' => $reviews,
-            'userReview' => $userReview,
-            'reviewCount' => $reviewCount,
-            'averageRating' => $averageRating,
-            'ratings' => $ratings
-        ];
-
-        $this->view('users/rentVehicle', $data);
-    } else {
-        redirect('users/login');
-    }
-}
+   
 
 
     public function register() {
@@ -623,13 +643,7 @@ public function showuser()
         redirect('ServiceProvider');
     }
 }
-public function bookings(){
-    if(isset($_SESSION['user_id'])) {
-        $this->view('users/booking');
-    }else{
-        redirect('users/login');
-    }
-}
+
 
 
 
@@ -645,6 +659,7 @@ public function myInventory()
         redirect('ServiceProvider');
     }
 }
+
   public function showaccommodation(){
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             // Sanitize POST data

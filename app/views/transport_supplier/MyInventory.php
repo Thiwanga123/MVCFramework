@@ -41,6 +41,8 @@
                                 <th>Model</th>
                                 <th>Make</th>
                                 <th>Availability</th>  
+                                <th>Action</th>  
+
                             </tr>
                         </thead>
                         <tbody>
@@ -76,16 +78,13 @@
                                         onclick="window.location.href='<?php echo URLROOT; ?>transport_suppliers/editVehicle<?php echo $vehicle->id; ?>';">
                                         Edit
                                     </button>
-                                    <a href="<?php echo URLROOT; ?>/transport_suppliers/delete_availability/<?php echo $vehicle->id; ?>">
-                                        <button class="delete-btn" onclick="return confirm('Are you sure?');" name="delete-btn" id="delete-btn">
-                                            Delete
-                                        </button>
-                                    </a>
-                                    <form action="/MVCFramework/transport_suppliers/details" method="get">
-  <button type="submit" name="vehicle-info-btn" class="vehicle-info-btn">View Details</button>
+                                    <form action="<?php echo URLROOT; ?>/transport_suppliers/delete_availability/<?php echo $vehicle->id; ?>" method="POST" onsubmit="return confirm('Are you sure?');">
+    <button type="submit" class="delete-btn">Delete</button>
 </form>
 
-
+                                    <a href="<?php echo URLROOT; ?>/transport_suppliers/details/<?php echo $vehicle->vehicle_id; ?>">
+                                        <button class="vehicle-info-btn" name= "vehicle-info-btn">View</button>
+                                    </a>
                                 </td>
                             </tr>
                             <?php endforeach; ?>

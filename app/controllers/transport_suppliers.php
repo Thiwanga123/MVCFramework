@@ -19,18 +19,16 @@ class Transport_suppliers extends Controller
         $this->view('transport_supplier/Dashboard');
     }
 
-    public function details()
+    public function details($id)
     {
         if (isset($_SESSION['id'])) {
-            $supplierId = $_SESSION['id'];
-            $vehicles = $this->transportModel->getAllVehicles($supplierId);
+            $vehicle = $this->transportModel->getVehicleById($id);
             $currentPage = 'vehicles';
-
             $data = [
-                'vehicles' => $vehicles,
+                'vehicle' => $vehicle,
                 'currentPage' => $currentPage
             ];
-            $this->view('transport_supplier/AddVehicle', $data);
+            $this->view('transport_supplier/ViewVehicle', $data);
         } else {
             redirect('ServiceProvider');
         }
@@ -95,6 +93,24 @@ class Transport_suppliers extends Controller
             }
         
     }
+    public function drive()
+    {       
+        if(isset($_SESSION['id'])){
+            $supplierId = $_SESSION['id'];
+            $this->transportModel = $this->model('TransportModel');
+            $drivers = $this->transportModel->getAllDrivers($supplierId);
+
+            $data = [
+                'drivers' => $drivers
+            ];
+
+            $this->view('transport_supplier/Addriver', $data);
+            
+            }else{
+                redirect('users/login');
+            }
+        
+    }
 
     public function Myprofile()
     {
@@ -123,6 +139,8 @@ class Transport_suppliers extends Controller
                 'driver' => trim($_POST['driver']),
                 'cost' => trim($_POST['vehicleCost']),
                 'location' => trim($_POST['vehicleLocation']),
+                'seating_capacity' => trim($_POST['seating_capacity']),
+
             ];
 
             if(empty($data['vehicleType'])){
@@ -170,6 +188,10 @@ class Transport_suppliers extends Controller
             if(empty($data['location'])){
                 $errors[] = 'Location is required';
             }
+            if(empty($data['seating_capacity'])){
+                $errors[] = 'seating_capcity is required';
+            }
+
             $imageExtensions = ['jpeg','jpg','png']; //Extension array to check whether the uploaded files are eligible to upload
             $imagePaths = [];   //Array to store the paths of the uploaded images
             $images =  $_FILES['vehicleImages'];
@@ -185,7 +207,7 @@ class Transport_suppliers extends Controller
             }
 
              //Creating the model instance to interact with the database
-            $isInserted = $this->transportModel->addVehicle($data['id'], $data['vehicleType'], $data['vehicleModel'], $data['vehicleMake'], $data['plateNumber'], $data['rate'], $data['fuelType'], $data['description'], $data['availability'], $data['driver'], $data['cost'],$data['location']);
+            $isInserted = $this->transportModel->addVehicle($data['id'], $data['vehicleType'], $data['vehicleModel'], $data['vehicleMake'], $data['plateNumber'], $data['rate'], $data['fuelType'], $data['description'], $data['availability'], $data['driver'], $data['cost'],$data['location'],$data['seating_capacity']);
             if($isInserted){
                 $vehicleId = $isInserted;
                 $vehicleFolder = "$supplierFolder/$vehicleId";
@@ -240,15 +262,19 @@ class Transport_suppliers extends Controller
         }
     }
 
-
     public function delete_availability($id) {
-        if ($this->vehicleModel->deleteVehicleById($id)) {
-            flash('vehicle_message', 'Vehicle deleted successfully');
-            redirect('transport_suppliers/myinventory');
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            if ($this->transportModel->deleteVehicleById($id)) {
+                flash('vehicle_message', 'Vehicle deleted successfully');
+                redirect('transport_suppliers/myinventory');
+            } else {
+                die('Something went wrong');
+            }
         } else {
-            die('Something went wrong');
+            redirect('transport_suppliers/myinventory');
         }
     }
+    
     
     
     
@@ -302,7 +328,8 @@ public function editVehicle() {
             'availability' => trim($_POST['availability']),
             'driver' => trim($_POST['driver']),
             'cost' => trim($_POST['vehicleCost']),        // added
-            'location' => trim($_POST['vehicleLocation']) // added
+            'location' => trim($_POST['vehicleLocation']), // added
+            'seating_capacity' => trim($_POST['seating_capcity']) // added
         ];
 
         $errors = [];
@@ -351,6 +378,10 @@ public function editVehicle() {
             $errors[] = 'Location is required';
         }
 
+        if (empty($data['seating_capacity'])) {
+            $errors[] = 'seating_capacity is required';
+        }
+
         // Show errors if any
         if (!empty($errors)) {
             foreach ($errors as $error) {
@@ -376,11 +407,10 @@ public function addriver() {
         $data = [
             'id' => $_SESSION['id'] ?? null,
             'name' => isset($_POST['name']) ? trim($_POST['name']) : '',
-            'gender' => isset($_POST['gender']) ? trim($_POST['gender']) : '',
             'phone' => isset($_POST['phone']) ? trim($_POST['phone']) : '',
+            'driverLicense' => isset($_POST['driverLicense']) ? trim($_POST['driverLicense']) : '',
             'email' => isset($_POST['email']) ? trim($_POST['email']) : '',
             'description' => isset($_POST['description']) ? trim($_POST['description']) : '',
-            'drive' => isset($_POST['drive']) ? trim($_POST['drive']) : '',
         ];
 
         $errors = [];
@@ -390,9 +420,6 @@ public function addriver() {
             $errors[] = 'Name is required';
         }
 
-        if (empty($data['gender'])) {
-            $errors[] = 'Gender is required';
-        }
 
         if (empty($data['phone'])) {
             $errors[] = 'Phone number is required';
@@ -410,18 +437,17 @@ public function addriver() {
             $errors[] = 'Description is required';
         }
 
-        if (empty($data['drive'])) {
-            $errors[] = 'Driver is required';
+        if (empty($data['driverLicense'])) {
+            $errors[] = 'driverLicense is required';
         }
-
-
+        
         if (!empty($errors)) {
             $_SESSION['errors'] = $errors; // Store errors in session
             redirect('transport_suppliers/driver'); // Redirect back to form page
         }
     
         // Insert driver details into the database
-        $isInserted = $this->transportModel->addriver($data['name'], $data['gender'], $data['phone'], $data['email'], $data['description'], $data['drive'], $data['id']);
+        $isInserted = $this->transportModel->addriver($data['name'], $data['phone'], $data['email'], $data['description'], $data['id'], $data['driverLicense']);
       
 
         if ($isInserted) {
@@ -430,6 +456,17 @@ public function addriver() {
         } else {
             $_SESSION['message'] = "Failed to add driver.";
             redirect('transport_suppliers/driver');
+        }
+    }
+   
+   
+    public function delete($id) {
+        if ($_SERVER['REQUEST_METHOD'] == 'GET') {
+            if ($this->driverModel->deleteDriverById($id)) {
+                redirect('transport_suppliers/driver'); // or wherever your driver list is
+            } else {
+                die("Something went wrong.");
+            }
         }
     }
     

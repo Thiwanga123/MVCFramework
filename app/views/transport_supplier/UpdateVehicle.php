@@ -53,6 +53,10 @@
                             <label for="vehicleModel">Model</label>
                             <input type="text" id="vehicleModel" name="vehicleModel" value="" required>
 
+                            <label for="seating_capacity">Seats</label>
+                            <input type="text" id="seating_capacity" name="seating_capacity" value="" required>
+
+
                             <label for="licensePlateNumber">License Plate Number</label>
                             <input type="text" id="licensePlateNumber" name="licensePlateNumber" value="" readonly>
                 
