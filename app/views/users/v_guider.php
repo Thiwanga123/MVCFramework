@@ -15,7 +15,6 @@
     <!-- SideBar -->
      <?php require APPROOT . '/views/inc/components/usersidebar.php'; ?>
      <!-- End Of Sidebar -->
-<<<<<<< HEAD
      <?php
 $destinations = [
     'Kandy, Sri Lanka',
@@ -293,7 +292,7 @@ $destinations = [
                 <div class="checkbox-group">
                     <button type="button" class="am-pm" name="gender" value="Male">Male</button>
                     <button type="button" class="am-pm" name="gender" value="Female">Female</button>
-                    <button type="button" class="am-pm" name="gender" value="Female">Any</button>
+                    <button type="button" class="am-pm" name="gender" value="Any">Any</button>
 
                 </div>
             </div>
@@ -301,275 +300,152 @@ $destinations = [
             <button type="submit" class="submit-btn" style="margin-top: 10px;">Next</button>
         </form>
     </div>
-   
-    <div class="container" style="display: none;" id="step2-container">
-        <div class="header">
-            <h1>Step 2: Available Local Guides</h1>
-        </div>
 
-        <?php
-        $maleGuides = [
-            [
-                'name' => 'Mohan Silva',
-                'rating' => 4.9,
-                'reviews' => 156,
-                'languages' => ['English', 'Sinhala'],
-                'location' => 'Galle, Sri Lanka',
-                'specialties' => ['Heritage Sites', 'Local Cuisine'],
-                'contact' => [
-                    'email' => 'mohan.silva@email.com',
-                    'phone' => '+94 77 123 4567'
-                ],
-                'price' => 1000,
-                'experience' => 5,
-                'tours' => 234
-            ],
-            // Add more guides here if needed
-        ];
+</div>
 
-        foreach ($maleGuides as $guide): ?>
-            <div class="guide-card" style="border: 1px solid #ddd; padding: 15px; margin-bottom: 15px; border-radius: 5px;">
-                <h3><?= htmlspecialchars($guide['name']) ?></h3>
-                <p><strong>Rating:</strong> <?= htmlspecialchars($guide['rating']) ?> (<?= htmlspecialchars($guide['reviews']) ?> reviews)</p>
-                <p><strong>Languages:</strong> <?= htmlspecialchars(implode(', ', $guide['languages'])) ?></p>
-                <p><strong>Location:</strong> <?= htmlspecialchars($guide['location']) ?></p>
-                <p><strong>Specialties:</strong> <?= htmlspecialchars(implode(', ', $guide['specialties'])) ?></p>
-                <p><strong>Contact:</strong> Email: <?= htmlspecialchars($guide['contact']['email']) ?>, Phone: <?= htmlspecialchars($guide['contact']['phone']) ?></p>
-                <p><strong>Price:</strong> Rs.<?= htmlspecialchars($guide['price']) ?>/hour</p>
-                <p><strong>Experience:</strong> <?= htmlspecialchars($guide['experience']) ?> years</p>
-                <p><strong>Tours Conducted:</strong> <?= htmlspecialchars($guide['tours']) ?></p>
-            </div>
-        <?php endforeach; ?>
-        <?php
-        $femaleGuides = [
-            [
-                'name' => 'Saduni Ranathunga',
-                'rating' => 4.5,
-                'reviews' => 156,
-                'languages' => ['French', 'English'],
-                'location' => 'Galle, Sri Lanka',
-                'specialties' => ['Cultural Tours', 'Photography'],
-                'contact' => [
-                    'email' => 'saduni.ranathunga@email.com',
-                    'phone' => '+94 77 987 6543'
-                ],
-                'price' => 1500,
-                'experience' => 3,
-                'tours' => 156
-            ],
-            // Add more female guides here if needed
-        ];
-        ?>
-
-        <?php foreach ($femaleGuides as $guide): ?>
-            <div class="guide-card" style="border: 1px solid #ddd; padding: 15px; margin-bottom: 15px; border-radius: 5px;">
-                <h3><?= htmlspecialchars($guide['name']) ?></h3>
-                <p><strong>Rating:</strong> <?= htmlspecialchars($guide['rating']) ?> (<?= htmlspecialchars($guide['reviews']) ?> reviews)</p>
-                <p><strong>Languages:</strong> <?= htmlspecialchars(implode(', ', $guide['languages'])) ?></p>
-                <p><strong>Location:</strong> <?= htmlspecialchars($guide['location']) ?></p>
-                <p><strong>Specialties:</strong> <?= htmlspecialchars(implode(', ', $guide['specialties'])) ?></p>
-                <p><strong>Contact:</strong> Email: <?= htmlspecialchars($guide['contact']['email']) ?>, Phone: <?= htmlspecialchars($guide['contact']['phone']) ?></p>
-                <p><strong>Price:</strong> Rs.<?= htmlspecialchars($guide['price']) ?>/hour</p>
-                <p><strong>Experience:</strong> <?= htmlspecialchars($guide['experience']) ?> years</p>
-                <p><strong>Tours Conducted:</strong> <?= htmlspecialchars($guide['tours']) ?></p>
-            </div>
-        <?php endforeach; ?>
-
-
-        <button type="button" class="submit-btn" id="back-to-step1">Back</button>
-        <button type="button" class="submit-btn" id="next-to-step3">Next</button>
-        </form>
-
+<div class="container" id="step2-container" style="display: none; margin: 0 auto; max-width: 800px; text-align: center;">
+    <div class="header">
+        <h1>Step 2: Available Local Guides</h1>
     </div>
 
+    <?php
+    $maleGuides = [
+        [
+            'name' => 'Mohan Silva',
+            'rating' => 4.9,
+            'reviews' => 156,
+            'languages' => ['English', 'Sinhala'],
+            'location' => 'Galle, Sri Lanka',
+            'specialties' => ['Heritage Sites', 'Local Cuisine'],
+            'contact' => [
+                'email' => 'mohan.silva@email.com',
+                'phone' => '+94 77 123 4567'
+            ],
+            'price' => 1000,
+            'experience' => 5,
+            'tours' => 234
+        ],
+    ];
+
+    foreach ($maleGuides as $guide): ?>
+        <div class="guide-card" style="border: 1px solid #ddd; padding: 15px; margin-bottom: 15px; border-radius: 5px; text-align: left;">
+            <h3><?= htmlspecialchars($guide['name']) ?></h3>
+            <p><strong>Rating:</strong> <?= htmlspecialchars($guide['rating']) ?> (<?= htmlspecialchars($guide['reviews']) ?> reviews)</p>
+            <p><strong>Languages:</strong> <?= htmlspecialchars(implode(', ', $guide['languages'])) ?></p>
+            <p><strong>Location:</strong> <?= htmlspecialchars($guide['location']) ?></p>
+            <p><strong>Specialties:</strong> <?= htmlspecialchars(implode(', ', $guide['specialties'])) ?></p>
+            <p><strong>Contact:</strong> Email: <?= htmlspecialchars($guide['contact']['email']) ?>, Phone: <?= htmlspecialchars($guide['contact']['phone']) ?></p>
+            <p><strong>Price:</strong> Rs.<?= htmlspecialchars($guide['price']) ?>/hour</p>
+            <p><strong>Experience:</strong> <?= htmlspecialchars($guide['experience']) ?> years</p>
+            <p><strong>Tours Conducted:</strong> <?= htmlspecialchars($guide['tours']) ?></p>
+        </div>
+    <?php endforeach; ?>
+
+    <?php
+    $femaleGuides = [
+        [
+            'name' => 'Saduni Ranathunga',
+            'rating' => 4.5,
+            'reviews' => 156,
+            'languages' => ['French', 'English'],
+            'location' => 'Galle, Sri Lanka',
+            'specialties' => ['Cultural Tours', 'Photography'],
+            'contact' => [
+                'email' => 'saduni.ranathunga@email.com',
+                'phone' => '+94 77 987 6543'
+            ],
+            'price' => 1500,
+            'experience' => 3,
+            'tours' => 156
+        ],
+    ];
+    ?>
+
+    <?php foreach ($femaleGuides as $guide): ?>
+        <div class="guide-card" style="border: 1px solid #ddd; padding: 15px; margin-bottom: 15px; border-radius: 5px; text-align: left;">
+            <h3><?= htmlspecialchars($guide['name']) ?></h3>
+            <p><strong>Rating:</strong> <?= htmlspecialchars($guide['rating']) ?> (<?= htmlspecialchars($guide['reviews']) ?> reviews)</p>
+            <p><strong>Languages:</strong> <?= htmlspecialchars(implode(', ', $guide['languages'])) ?></p>
+            <p><strong>Location:</strong> <?= htmlspecialchars($guide['location']) ?></p>
+            <p><strong>Specialties:</strong> <?= htmlspecialchars(implode(', ', $guide['specialties'])) ?></p>
+            <p><strong>Contact:</strong> Email: <?= htmlspecialchars($guide['contact']['email']) ?>, Phone: <?= htmlspecialchars($guide['contact']['phone']) ?></p>
+            <p><strong>Price:</strong> Rs.<?= htmlspecialchars($guide['price']) ?>/hour</p>
+            <p><strong>Experience:</strong> <?= htmlspecialchars($guide['experience']) ?> years</p>
+            <p><strong>Tours Conducted:</strong> <?= htmlspecialchars($guide['tours']) ?></p>
+        </div>
+    <?php endforeach; ?>
+
+    <button type="button" class="submit-btn" id="back-to-step1" style="margin-top: 20px;">Back</button>
+    <button type="button" class="submit-btn" id="next-to-step3" style="margin-top: 20px;">Next</button>
+</div>
+
 
 
    
-<div class="container" style="display: none;" id="step3-container">
-        <div class="header">
-            <h1>Step 3: Select a Guide</h1>
-        </div>
-        <p>Please select a guide from the list below:</p>
+<div class="container" id="step3-container" style="display: none; margin: 0 auto; max-width: 800px; text-align: center;">
+    <div class="header">
+        <h1>Step 3: Select a Guide</h1>
+    </div>
+    <p>Please select a guide from the list below:</p>
 
-        <div class="form-group">
-            <label for="guide">Select a Guide:</label>
-            <select name="guide" id="guide" required>
-                <option value="" selected>Select a guide</option>
-                <?php 
-                $allGuides = array_merge($maleGuides, $femaleGuides);
-                foreach ($allGuides as $guide): ?>
-                    <option value="<?= htmlspecialchars($guide['name']) ?>"><?= htmlspecialchars($guide['name']) ?></option>
-                <?php endforeach; ?>
-            </select>
-            
-            <div class="button-group">
-                
-                <button class="btn btn-primary" style="background-color: #3aafa9; color: #fff; padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer;" onclick="showBookingForm('<?= $guide['name'] ?>')">
-                    Book Now
-                </button>
-            </div>
-       
-    <script>
-        function showBookingForm(guideName) {
-            if (confirm(`Book ${guideName}? We'll contact you to confirm details.`)) {
-                // Add actual booking logic here
-                alert('Booking request sent! We will contact you shortly.');
-            }
+    <div class="form-group">
+        <label for="guide">Select a Guide:</label>
+        <select name="guide" id="guide" required>
+            <option value="" selected>Select a guide</option>
+            <?php 
+            $allGuides = array_merge($maleGuides, $femaleGuides);
+            foreach ($allGuides as $guide): ?>
+                <option value="<?= htmlspecialchars($guide['name']) ?>"><?= htmlspecialchars($guide['name']) ?></option>
+            <?php endforeach; ?>
+        </select>
+        
+        <div class="button-group">
+            <button class="btn btn-primary" style="background-color: #3aafa9; color: #fff; padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer;" onclick="showBookingForm('<?= $guide['name'] ?>')">
+                Book Now
+            </button>
+        </div>
+    </div>
+
+    <button type="button" class="submit-btn" id="back-to-step2" style="margin-top: 10px;">Back</button>
+    <button type="submit" class="submit-btn" style="margin-top: 10px;">Submit</button>
+</div>
+
+<script>
+    function showBookingForm(guideName) {
+        if (confirm(`Book ${guideName}? We'll contact you to confirm details.`)) {
+            alert('Booking request sent! We will contact you shortly.');
         }
-    </script>
+    }
 
-        </div>
+    const step1Container = document.querySelector('.container');
+    const step2Container = document.getElementById('step2-container');
+    const step3Container = document.getElementById('step3-container');
+    const nextButton = document.querySelector('.submit-btn');
+    const backButton = document.getElementById('back-to-step1');
+    const nextToStep3Button = document.getElementById('next-to-step3');
+    const backToStep2Button = document.getElementById('back-to-step2');
 
-        <button type="button" class="submit-btn" id="back-to-step2" style="margin-top: 10px;">Back</button>
-        <button type="submit" class="submit-btn" style="margin-top: 10px;">Submit</button>
-    </div>
+    nextButton.addEventListener('click', (e) => {
+        e.preventDefault();
+        step1Container.style.display = 'none';
+        step2Container.style.display = 'block';
+    });
 
-    <script>
-        const step1Container = document.querySelector('.container');
-        const step2Container = document.getElementById('step2-container');
-        const nextButton = document.querySelector('.submit-btn');
-        const backButton = document.getElementById('back-to-step1');
-        const nextToStep3Button = document.getElementById('next-to-step3');
-        const step3Container = document.getElementById('step3-container');
+    backButton.addEventListener('click', () => {
+        step2Container.style.display = 'none';
+        step1Container.style.display = 'block';
+    });
 
-        nextButton.addEventListener('click', (e) => {
-            e.preventDefault();
-            step1Container.style.display = 'none';
-            step2Container.style.display = 'block';
-        });
+    nextToStep3Button.addEventListener('click', () => {
+        step2Container.style.display = 'none';
+        step3Container.style.display = 'block';
+    });
 
-        backButton.addEventListener('click', () => {
-            step2Container.style.display = 'none';
-            step1Container.style.display = 'block';
-        });
-
-        nextToStep3Button.addEventListener('click', () => {
-            step2Container.style.display = 'none';
-            step3Container.style.display = 'block';
-        });
-
-        const backToStep2Button = document.getElementById('back-to-step2');
-        backToStep2Button.addEventListener('click', () => {
-            step3Container.style.display = 'none';
-            step2Container.style.display = 'block';
-        });
-    </script>
-
-    <script>
-        // Add JavaScript for interactive elements
-        document.querySelectorAll('.am-pm').forEach(btn => {
-            btn.addEventListener('click', () => {
-                btn.parentNode.querySelectorAll('.am-pm').forEach(b => b.classList.remove('active'));
-                btn.classList.add('active');
-            });
-        });
-
-        document.querySelectorAll('.counter button').forEach(btn => {
-            btn.addEventListener('click', () => {
-                const span = btn.parentNode.querySelector('span');
-                let count = parseInt(span.textContent);
-                if (btn.textContent === '+') {
-                    count++;
-                } else {
-                    count = Math.max(0, count - 1);
-                }
-                span.textContent = count;
-            });
-        });
-    </script>
-=======
-     <main>
-            <div class="guider-container">
-                <div class="filter">
-                    <h1>Tour Guides</h1>
-                </div>
-
-                <div class="guider-details">
-                    <div class="bar">
-                        <div class="inside">
-                            <div class="search-item">
-                                <p>Starting Date</p>
-                                <div class="group">
-                                    <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#1d5a62">
-                                        <path d="M202.87-71.87q-37.78 0-64.39-26.61t-26.61-64.39v-554.26q0-37.78 26.61-64.39t64.39-26.61H240v-80h85.5v80h309v-80H720v80h37.13q37.78 0 64.39 26.61t26.61 64.39v554.26q0 37.78-26.61 64.39t-64.39 26.61H202.87Zm0-91h554.26V-560H202.87v397.13Zm0-477.13h554.26v-77.13H202.87V-640Zm0 0v-77.13V-640ZM480-398.09q-17.81 0-29.86-12.05T438.09-440q0-17.81 12.05-29.86T480-481.91q17.81 0 29.86 12.05T521.91-440q0 17.81-12.05 29.86T480-398.09Zm-160 0q-17.81 0-29.86-12.05T278.09-440q0-17.81 12.05-29.86T320-481.91q17.81 0 29.86 12.05T361.91-440q0 17.81-12.05 29.86T320-398.09Zm320 0q-17.48 0-29.7-12.05-12.21-12.05-12.21-29.86t12.21-29.86q12.22-12.05 29.82-12.05t29.7 12.05q12.09 12.05 12.09 29.86t-12.05 29.86q-12.05 12.05-29.86 12.05Zm-160 160q-17.81 0-29.86-12.21-12.05-12.22-12.05-29.82t12.05-29.7q12.05-12.09 29.86-12.09t29.86 12.05q12.05 12.05 12.05 29.86 0 17.48-12.05 29.7-12.05 12.21-29.86 12.21Zm-160 0q-17.81 0-29.86-12.21-12.05-12.22-12.05-29.82t12.05-29.7q12.05-12.09 29.86-12.09t29.86 12.05q12.05 12.05 12.05 29.86 0 17.48-12.05 29.7-12.05 12.21-29.86 12.21Zm320 0q-17.48 0-29.7-12.21-12.21-12.22-12.21-29.82t12.21-29.7q12.22-12.09 29.82-12.09t29.7 12.05q12.09 12.05 12.09 29.86 0 17.48-12.05 29.7-12.05 12.21-29.86 12.21Z"/>
-                                    </svg>                            
-
-                                    <input type="date" id="sDate" placeholder="Starting Date">
-                                </div>
-                                <span class="form-invalid" id="sDate-error"> </span>
-
-                            </div>
-
-                            <div class="search-item">
-                                <p>End Date</p>
-                                <div class="group">
-                                        <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#1d5a62">
-                                        <path d="M202.87-71.87q-37.78 0-64.39-26.61t-26.61-64.39v-554.26q0-37.78 26.61-64.39t64.39-26.61H240v-80h85.5v80h309v-80H720v80h37.13q37.78 0 64.39 26.61t26.61 64.39v554.26q0 37.78-26.61 64.39t-64.39 26.61H202.87Zm0-91h554.26V-560H202.87v397.13Zm0-477.13h554.26v-77.13H202.87V-640Zm0 0v-77.13V-640ZM480-398.09q-17.81 0-29.86-12.05T438.09-440q0-17.81 12.05-29.86T480-481.91q17.81 0 29.86 12.05T521.91-440q0 17.81-12.05 29.86T480-398.09Zm-160 0q-17.81 0-29.86-12.05T278.09-440q0-17.81 12.05-29.86T320-481.91q17.81 0 29.86 12.05T361.91-440q0 17.81-12.05 29.86T320-398.09Zm320 0q-17.48 0-29.7-12.05-12.21-12.05-12.21-29.86t12.21-29.86q12.22-12.05 29.82-12.05t29.7 12.05q12.09 12.05 12.09 29.86t-12.05 29.86q-12.05 12.05-29.86 12.05Zm-160 160q-17.81 0-29.86-12.21-12.05-12.22-12.05-29.82t12.05-29.7q12.05-12.09 29.86-12.09t29.86 12.05q12.05 12.05 12.05 29.86 0 17.48-12.05 29.7-12.05 12.21-29.86 12.21Zm-160 0q-17.81 0-29.86-12.21-12.05-12.22-12.05-29.82t12.05-29.7q12.05-12.09 29.86-12.09t29.86 12.05q12.05 12.05 12.05 29.86 0 17.48-12.05 29.7-12.05 12.21-29.86 12.21Zm320 0q-17.48 0-29.7-12.21-12.21-12.22-12.21-29.82t12.21-29.7q12.22-12.09 29.82-12.09t29.7 12.05q12.09 12.05 12.09 29.86 0 17.48-12.05 29.7-12.05 12.21-29.86 12.21Z"/>
-                                    </svg>
-                                    <input type="date" id="eDate" placeholder="End Date">
-                                </div>
-                                <span class="form-invalid" id="eDate-error"> </span>
-
-                            </div>
-
-                            <div class="search-item">
-                                <p>Category</p>    
-                                <div class="group">
-                                    <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#1d5a62">
-                                        <path d="M80-140v-320h320v320H80Zm80-80h160v-160H160v160Zm60-340 220-360 220 360H220Zm142-80h156l-78-126-78 126ZM863-42 757-148q-21 14-45.5 21t-51.5 7q-75 0-127.5-52.5T480-300q0-75 52.5-127.5T660-480q75 0 127.5 52.5T840-300q0 26-7 50.5T813-204L919-98l-56 56ZM660-200q42 0 71-29t29-71q0-42-29-71t-71-29q-42 0-71 29t-29 71q0 42 29 71t71 29ZM320-380Zm120-260Z"/>
-                                    </svg>
-                                                
-                                    <select id="category">
-                                        <option value="all" selected>All Categories</option>
-                                            <?php foreach ($data['categories'] as $category) : ?>
-                                        <option value="<?php echo htmlspecialchars($category->category_id); ?>">
-                                            <?php echo htmlspecialchars($category->category_name); ?>
-                                        </option>
-                                            <?php endforeach; ?>
-                                    </select>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <p>Showing All Tour Guides()</p>
-
-                <div class="container1">
-                    <?php if (!empty($data['equipments']) && is_array($data['equipments'])) : ?>
-                    <?php foreach ($data['equipments'] as $equipment) : ?>
-
-                    <div class="equipment-card">
-                        <div class="image-container">
-                            <?php
-                                $images = !empty($equipment->images) ? explode(',', $equipment->images) : [];
-                                $firstImage = !empty($images) ? trim($images[0]) : 'default.jpg';
-                            ?>
-                            <img src="<?php echo URLROOT . '/' . htmlspecialchars($firstImage); ?>" alt="equipment" class="equipment-image">
-                        </div>
-                        <div class="card-content">
-                            <h3 class="product-name"><?php echo htmlspecialchars($equipment->rental_name); ?></h3>
-                            <p class="rate">Rs. <?php echo htmlspecialchars($equipment->price_per_day); ?></p>
-                            <div class="rating-container">
-                                <div class="stars">★★★★☆</div> <!-- 4 out of 5 stars -->
-                                <p class="rating-text">4.0</p>
-                            </div>
-                            <div class="bottom">
-                            <a href="<?php echo URLROOT; ?>/users/viewProduct/<?php echo $equipment->id; ?>">                 
-                                <button class="pay-button">View & Rent</button>
-                            </a></div>
-                        </div>
-                    </div>
-                <?php endforeach; ?>
-                    <?php else : ?>
-                        <p>No Guiders found.</p>
-                
-                    <?php endif; ?>
-                </div>
-
-            </div>
-            </main>
-        </div>      
+    backToStep2Button.addEventListener('click', () => {
+        step3Container.style.display = 'none';
+        step2Container.style.display = 'block';
+    });
+</script>
 </div>
 
      
@@ -579,3 +455,6 @@ $destinations = [
 >>>>>>> main
 </body>
 </html>
+
+
+    
