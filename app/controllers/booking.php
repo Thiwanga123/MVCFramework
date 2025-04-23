@@ -130,6 +130,48 @@
         
         }
 
+        /**
+         * Generate PayHere hash for secure payment
+         */
+        public function generateHash()
+        {
+            // Make sure this is a POST request with JSON content
+            if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+                http_response_code(405);
+                echo json_encode(['success' => false, 'message' => 'Method not allowed']);
+                return;
+            }
+            
+            // Get the JSON data
+            $json = file_get_contents('php://input');
+            $data = json_decode($json, true);
+            
+            // Validate the data
+            if (!isset($data['order_id']) || !isset($data['amount']) || !isset($data['currency'])) {
+                http_response_code(400);
+                echo json_encode(['success' => false, 'message' => 'Missing required fields']);
+                return;
+            }
+            
+            // Set merchant details
+            $merchant_id = '1229635';
+            $merchant_secret = 'MzgwMDgyNjc2ODIwOTcyNzYwNjExODUyODIzOTYyNzY3NTk4ODY5';
+            
+            // Calculate the hash
+            $hash = strtoupper(md5(
+                $merchant_id . 
+                $data['order_id'] . 
+                number_format($data['amount'], 2, '.', '') . 
+                $data['currency'] .  
+                strtoupper(md5($merchant_secret)) 
+            ));
+            
+            // Return the hash
+            echo json_encode([
+                'success' => true,
+                'hash' => $hash
+            ]);
+        }
 
     }
 ?>
