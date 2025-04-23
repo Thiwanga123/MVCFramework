@@ -9,6 +9,8 @@ class Users extends Controller {
     private $userModel;
     private $equipmentModel;
 
+    private $guiderModel;
+
     private $accomadationModel;
     private $reviewModel;
     private $bookingModel;
@@ -19,6 +21,7 @@ class Users extends Controller {
         $this->equipmentModel = $this->model('equipmentModel');
         $this->reviewModel = $this->model('ReviewModel');
         $this->bookingModel = $this->model('BookingModel');
+        $this->guiderModel = $this->model('M_guider');
     }
 
     public function index() {
@@ -178,19 +181,7 @@ class Users extends Controller {
                 $currentPage = 'vehicles';
                 $bookings = $this->bookingModel->getBookingsByVehicleId($id);
                 $details='details';
-                // $reviews = $this->reviewModel->getReviewsByEquipmentId($id);
-                // $ratings = $this->reviewModel->getRatingsByEquipmentId($id);
-                // $reviewCount = count($reviews);
-                
-                // $totalRating = 0;
-                // $userReview = null;
-                // foreach ($reviews as $review) {
-                //     $totalRating += $review->rating;
-                //     if ($review->traveler_id == $_SESSION['user_id']) {
-                //         $userReview = $review;
-                //     }
-                // }
-                // $averageRating = $reviewCount > 0 ? round($totalRating / $reviewCount, 1) : 0;
+
     
                 $data = [
                     'currentPage' => $currentPage,
@@ -198,11 +189,7 @@ class Users extends Controller {
                     'user_id' => $_SESSION['user_id'],
                     'details' => $details,
                     'bookings' => json_encode($bookings),
-                    // 'reviews' => $reviews,
-                    // 'userReview' => $userReview,
-                    // 'reviewCount' => $reviewCount,
-                    // 'averageRating' => $averageRating,
-                    // 'ratings' => $ratings
+
                 ];
           
             $this->view('users/rentVehicle',$data);
@@ -211,6 +198,31 @@ class Users extends Controller {
         }
         
     }}
+
+    public function viewGuiders($id){
+        if(isset($_SESSION['user_id'])) {
+            $guiders = $this->userModel->getGuiderById($id); 
+            $currentPage = 'guider';
+            $bookings = $this->guiderModel->getBookingsByGuiderId($id);
+            
+            $details='details';
+            $unavailable=$this->guiderModel->getUnavailable($id);
+
+    
+            $data = [
+                'currentPage' => $currentPage,
+                'guiders' => $guiders,
+                'bookings' => json_encode($bookings),
+                'details' => $details,
+                'unavailabale'=>$unavailable
+            ];
+    
+            $this->view('users/viewGuider',$data);
+        }else{
+            redirect('users/login');
+        }
+        
+    }
     public function bookings($id){
         if(isset($_SESSION['user_id'])) {
             $vehicles = $this->userModel->getVehicleById($id); 
@@ -280,9 +292,12 @@ class Users extends Controller {
    
     public function guider(){
         if(isset($_SESSION['user_id'])) {
+
+            $guiders=$this->guiderModel->getAllGuiders();
             $currentPage = 'guider';
             $data = [
-                'currentPage' => $currentPage
+                'currentPage' => $currentPage,
+                'guiders' => $guiders
             ];            
             $this->view('users/v_guider', $data);
         }else{

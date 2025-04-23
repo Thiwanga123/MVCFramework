@@ -142,20 +142,40 @@
         }
 
         /* Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0, 0, 0, 0.4);
+        }
+
         .modal-content {
+            background-color: #fff;
+            margin: 15% auto;
+            padding: 20px;
+            border: 1px solid #888;
             border-radius: 8px;
+            width: 30%;
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
         }
 
-        .modal-header {
-            background-color: #3498db;
-            color: white;
-            border-radius: 8px 8px 0 0;
+        .modal-header h4 {
+            margin: 0;
+        }
+
+        .modal-body {
+            margin: 15px 0;
         }
 
         .modal-footer {
-            border-top: 1px solid #e0e0e0;
-            padding: 15px;
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
         }
 
         /* Responsive Adjustments */
@@ -201,18 +221,22 @@
                         <span class="booking-count"><?php echo count($data); ?></span>
                     </div>
 
+                    <!-- Search Bar -->
+                    <div class="search-bar">
+                        <input type="text" id="searchInput" placeholder="Search bookings..." onkeyup="filterTable()" style="width: 100%; padding: 10px; margin-bottom: 20px; border: 1px solid #ccc; border-radius: 4px;">
+                    </div>
+                    <!-- End of Search Bar -->
+
                     <?php if (!empty($data)): ?>
                         <div class="table-responsive">
-                            <table class="booking-table">
+                            <table class="booking-table" id="bookingTable">
                                 <thead>
                                     <tr>
                                         <th>Booking ID</th>
                                         <th>Traveler Name</th>
-                                       
                                         <th>Traveler Phone</th>
                                         <th>From Date</th>
                                         <th>To Date</th>
-                                       
                                         <th>Guests</th>
                                         <th>Paid</th>
                                         <th>Status</th>
@@ -224,11 +248,9 @@
                                         <tr>
                                             <td>#<?php echo $booking->booking_id; ?></td>
                                             <td><?php echo $booking->traveler_name; ?></td>
-                                            
                                             <td><?php echo $booking->traveler_phone; ?></td>
                                             <td><?php echo date('M d, Y', strtotime($booking->check_in)); ?></td>
                                             <td><?php echo date('M d, Y', strtotime($booking->check_out)); ?></td>
-                                            
                                             <td><?php echo $booking->guests; ?></td>
                                             <td>Rs.<?php echo number_format($booking->paid, 2); ?></td>
                                             <td>
@@ -243,7 +265,7 @@
                                             <td>
                                                 <button class="btn-view">View</button>
                                                 <?php if ($booking->status != 'cancelled'): ?>
-                                                    <button class="btn-cancel">Cancel</button>
+                                                    <button class="btn-cancel" onclick="openDeleteModal(<?php echo $booking->booking_id; ?>, '<?php echo $booking->check_in; ?>')">Delete</button>
                                                 <?php endif; ?>
                                             </td>
                                         </tr>
@@ -262,6 +284,78 @@
         </main>
     </div>
 
+    <!-- Delete Confirmation Modal -->
+    <div id="deleteModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4>Confirm Deletion</h4>
+            </div>
+            <div class="modal-body">
+                <p id="deleteMessage">Are you sure you want to delete this booking?</p>
+            </div>
+            <div class="modal-footer">
+                <button class="btn-cancel" onclick="closeDeleteModal()">Cancel</button>
+                <button class="btn-view" id="confirmDeleteButton">Delete</button>
+            </div>
+        </div>
+    </div>
+    <!-- End of Delete Confirmation Modal -->
+
     <script src="<?php echo URLROOT;?>/js/Sidebar.js"></script>
+    <script>
+        let deleteBookingId = null;
+
+        // Function to open the delete confirmation modal
+        function openDeleteModal(bookingId, checkInDate) {
+            deleteBookingId = bookingId;
+
+            const checkIn = new Date(checkInDate);
+            const today = new Date();
+            const timeDiff = Math.abs(today - checkIn);
+            const daysDiff = Math.ceil(timeDiff / (1000 * 60 * 60 * 24));
+
+            const message = daysDiff <= 3
+                ? "If you delete within the last 3 days, a 20% penalty will be deducted from your income."
+                : "Are you sure you want to delete this booking?";
+
+            document.getElementById('deleteMessage').innerText = message;
+            document.getElementById('deleteModal').style.display = 'block';
+        }
+
+        // Function to close the delete confirmation modal
+        function closeDeleteModal() {
+            document.getElementById('deleteModal').style.display = 'none';
+            deleteBookingId = null;
+        }
+
+        // Function to confirm deletion
+        document.getElementById('confirmDeleteButton').onclick = function () {
+            if (deleteBookingId) {
+                window.location.href = "<?php echo URLROOT; ?>/tour_guides/deleteBooking/" + deleteBookingId;
+            }
+        };
+
+        // Function to filter table rows based on search input
+        function filterTable() {
+            const input = document.getElementById('searchInput');
+            const filter = input.value.toLowerCase();
+            const table = document.getElementById('bookingTable');
+            const rows = table.getElementsByTagName('tr');
+
+            for (let i = 1; i < rows.length; i++) {
+                const cells = rows[i].getElementsByTagName('td');
+                let match = false;
+
+                for (let j = 0; j < cells.length; j++) {
+                    if (cells[j].innerText.toLowerCase().includes(filter)) {
+                        match = true;
+                        break;
+                    }
+                }
+
+                rows[i].style.display = match ? '' : 'none';
+            }
+        }
+    </script>
 </body>
 </html>

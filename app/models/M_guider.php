@@ -128,5 +128,26 @@ class M_guider {
         $this->db->query("SELECT * FROM tour_guides");
         return $this->db->resultSet();
     }
+
+    //get all guiders
+    public function getAllGuiders() {
+        $this->db->query("SELECT * FROM tour_guides");
+        return $this->db->resultSet();
+    }
+
+
+    //get bookings by guider id
+    public function getBookingsByGuiderId($guider_id) {
+        $this->db->query("SELECT * FROM guider_booking WHERE guider_id = :guider_id");
+        $this->db->bind(':guider_id', $guider_id);
+        return $this->db->resultSet();
+    }
+
+
+    public function getUnavailable($guider_id){
+        $this->db->query("SELECT available_date from guiders_availability WHERE guider_id= :guider_id");
+        $this->db->bind('guider_id',$guider_id);
+        return $this->db->resultSet();
+    }
 }
 ?>

@@ -525,6 +525,21 @@ class M_users{
             return false;
         }
     }
+
+    //get guiders by id
+    public function getGuiderById($id){
+        $sql = 'SELECT * FROM tour_guides WHERE id = ?';
+        try{
+            $this->db->query($sql);
+            $this->db->bind(1, $id);
+            $result = $this->db->single();
+            return $result;
+        }catch(Exception $e){
+            $error_msg = $e->getMessage();
+            echo "<script>alert('An error occurred: $error_msg');</script>";
+            return false;
+        }
+    }
 }
 
 ?>
