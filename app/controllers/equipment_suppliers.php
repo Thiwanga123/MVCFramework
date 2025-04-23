@@ -193,6 +193,38 @@ class Equipment_Suppliers extends Controller{
         return $breadcrumbs;
     }
 
+    public function updateProfile() {
+        if (isset($_SESSION['id'])) {
+            $id = $_SESSION['id'];
+            $type = $_SESSION['type'];
+    
+            // Check if the form has been submitted
+            if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+                $data =  [
+                    'name' => trim($_POST['name']),
+                    'email' => trim($_POST['email']),
+                    'address' => trim($_POST['address']),
+                    'username' => trim($_POST['username']),
+                    'telephone_number' => trim($_POST['contactnumber']),
+                    'gvtNo' => trim($_POST['regno']),
+                    'latitude'=> trim($_POST['latitude']),
+                    'longitude' => trim($_POST['longitude'])
+                ];
+    
+                $result = $this->userModel->updateSupplierProfile($data);
+                if ($result) {
+                    redirect('equipment_suppliers/profile');
+                } else {
+                    die("Failed to update profile.");
+                }
+            }
+    
+        } else {
+            // Redirect if user is not logged in
+            redirect('ServiceProvider');
+        }
+    }
+
     public function getProfileDetails($id, $type){
         $data = $this->userModel->getUserData($id,$type);
         return $data;

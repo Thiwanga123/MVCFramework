@@ -136,7 +136,7 @@ document.addEventListener("DOMContentLoaded", function () {
       formData.append("comment", comment);
       
       try{
-        const response = await fetch(`${URLROOT}/reviews/addEquipmentReview`,{
+        const response = await fetch(`${URLROOT}/reviews/addReview`,{
           method: "POST",
           body: formData,
         });
@@ -209,7 +209,7 @@ document.addEventListener("DOMContentLoaded", function () {
         formData.append("reviewId", reviewId);
 
         try{
-          const response = await fetch(`${URLROOT}/reviews/deleteEquipmentReview`, {
+          const response = await fetch(`${URLROOT}/reviews/deleteReview`, {
             method : "POST",
             body : formData,
           });
@@ -300,7 +300,7 @@ document.addEventListener("DOMContentLoaded", function () {
         formData.append("comment", comment);
 
         try {
-          const response = await fetch(`${URLROOT}/reviews/editEquipmentReview`, {
+          const response = await fetch(`${URLROOT}/reviews/editReview`, {
             method: "POST",
             body: formData,
           });

@@ -241,7 +241,6 @@ class M_accomadation{
             return [];
         }
     }
-
 }
 
 ?>

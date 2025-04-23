@@ -171,7 +171,33 @@ class ServiceProviderModel{
         }
     }
 
+    public function updateSupplierProfile($data){
+        $sql = "UPDATE equipment_suppliers SET name = :name, email = :email, address = :address, username = :username, phone = :telephone_number, reg_number = :gvtNo, 
+                latitude = :latitude, 
+                longitude = :longitude WHERE id = :id";
+
+        try{
+            $this->db->query($sql);
+            $this->db->bind(':name', $data['name']);
+            $this->db->bind(':email', $data['email']);
+            $this->db->bind(':address', $data['address']);
+            $this->db->bind(':username', $data['username']);
+            $this->db->bind(':telephone_number', $data['telephone_number']);
+            $this->db->bind(':gvtNo', $data['gvtNo']);
+            $this->db->bind(':latitude', $data['latitude']);
+            $this->db->bind(':longitude', $data['longitude']);
+            $this->db->bind(':id', $_SESSION['id']); 
+    
+            $result = $this->db->execute();
+            return $result;
+        }catch(Exception $e){
+            error_log("Error updating supplier profile: " . $e->getMessage());
+            return $e->getMessage(); 
+        }
+    }
 }
+
+  
 
     
 

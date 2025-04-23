@@ -245,10 +245,11 @@ class Users extends Controller {
 
     public function viewProduct($equipmentId){
         if(isset($_SESSION['user_id'])){
+            $type = 'equipment';
             $details = $this->equipmentModel->getProductDetailsById($equipmentId);
             $bookings = $this->bookingModel->getBookingsByEquipmentId($equipmentId);
-            $reviews = $this->reviewModel->getReviewsByEquipmentId($equipmentId);
-            $ratings = $this->reviewModel->getRatingsByEquipmentId($equipmentId);
+            $reviews = $this->reviewModel->getReviewsByItemId($equipmentId, $type);
+            $ratings = $this->reviewModel->getRatingsByItemId($equipmentId, $type);
             $reviewCount = count($reviews);
             
             $totalRating = 0;

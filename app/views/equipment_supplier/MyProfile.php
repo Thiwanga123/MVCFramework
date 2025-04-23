@@ -23,7 +23,6 @@
                     <div class="header">
                         <h1>My Profile</h1>
                     </div>
-
                     <div class="profileContentMain">
                         <div class="profile-top">
                             <div class="imageDiv">
@@ -52,22 +51,48 @@
                         </div>
 
                         <div class="profileContent">
-                            <form action="" method="POST">
+                    
+                            <form action="<?php echo URLROOT; ?>/equipment_suppliers/updateProfile" method="POST">
+                            <h2>Basic Details</h2>
+                            <hr>
                                 <div class="profile-center">
                                     <div class="left">
                                         <h4>Name</h4>
                                         <input type="name" id="name" name="name" value="<?php echo $data['details']->name; ?>">
                                         <h4>Email</h4>
                                         <input type="email" id="email" name="email" value="<?php echo $data['details']->email; ?>">
+                                        <h4>Address</h4>
+                                        <input type="address" id="address" name="address" value="<?php echo $data['details']->address; ?>">
                                     </div>
 
                                     <div class="right">
                                         <h4>Username</h4>
-                                        <input type="businessName" id="businessName" name="businessName" value="<?php echo $data['details']->username; ?>">
+                                        <input type="text" id="username" name="username" value="<?php echo isset($data['details']->username) ? htmlspecialchars($data['details']->username) : ''; ?>">
                                         <h4>Contact Number</h4>
-                                        <input type="presentAddress" id="presentAddress" name="presentAddress" value="<?php echo $data['details']->telephone_number; ?>">
+                                        <input type="text" id="contactnumber" name="contactnumber" value="<?php echo $data['details']->phone; ?>">
+                                        <h4>Governement Registration Number</h4>
+                                        <input type="text" id="regno" name="regno" value="<?php echo $data['details']->reg_number; ?>" readonly>
                                     </div>
                                 </div>
+
+                                <h2>Location Information</h2>
+                                <hr>
+                                <?php if (empty($data['latitude']) || empty($data['longitude'])): ?>
+                                    <div class="errorMessageContainer location-error" id="errorMessageContainer">
+                                        You haven't given a location yet. Please provide one to include your products on the packages.
+                                    </div>
+                                    <button type="button" id="openMapBtn" class="openMapBtn">Set Location on Map</button>
+                                <?php else: ?>
+                                    <div class="successMessageContainer location-success" id="successMessageContainer">
+                                        Location has been added successfully.
+                                    </div>
+                                    <button type="button" id="openMapBtn">Update Location</button>
+                                <?php endif; ?>
+
+
+                                <!-- Hidden inputs to hold selected coordinates -->
+                                <input name="latitude" id="latitude" value="<?php echo isset($data['latitude']) ? $data['latitude'] : ''; ?>">
+                                <input name="longitude" id="longitude" value="<?php echo isset($data['longitude']) ? $data['longitude'] : ''; ?>">
 
                                 <div class="profile-actions">
                                     <div class="group">
@@ -76,7 +101,9 @@
 
                                     <button type="submit" class="delete">Delete My Account</button>
                                 </div>
+                                
                             </form>
+                            <h3></h3>
                         </div>
                     </div>
                 </div>
@@ -84,10 +111,21 @@
         </div>
     </div>
 
+
+    <div id="mapModal">
+        <div id="map"></div>
+        <div class="modal-footer">
+            <button onclick="closeMap()">Close</button>
+        </div>
+    </div>
+
     <script src="<?php echo URLROOT;?>/js/Sidebar.js"></script>
     <script src="<?php echo URLROOT;?>/js/logout.js"></script>
     <script src="<?php echo URLROOT;?>/js/subMenu.js"></script>
     <script src="<?php echo URLROOT;?>/js/profilePicUpload.js"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=<?php echo API_KEY; ?>&libraries=places&callback=initMap" async defer></script>
+    <script src="<?php echo URLROOT;?>/js/EquipmentSupplierJS/profileLocation.js"></script>
+
 
 </body>
 

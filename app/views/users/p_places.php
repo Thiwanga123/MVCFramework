@@ -8,7 +8,6 @@
     <link rel="stylesheet" href="<?php echo URLROOT;?>/css/userspage/content.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
 
-
     <title>Start Journey</title>
 
 </head>
@@ -118,4 +117,5 @@
 
 </body>
 
-</html>
+</html>\
+

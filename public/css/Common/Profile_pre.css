@@ -217,7 +217,7 @@
     transform: scale(1.02);
 }
 
-.changePasswordBtn {
+.changePasswordBtn, .openMapBtn {
     display: block;
     background-color: #f8f9fa;
     color: #333;
@@ -305,7 +305,54 @@
     background-color: #27ae60;
   }
 
+  
+#mapModal {
+    display: none;
+    position: fixed;
+    top: 10%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80%;
+    height: 70%;
+    background: white;
+    z-index: 2000;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    animation: fadeIn 0.4s ease-in-out;
+}
 
+#mapModal #map {
+    width: 100%;
+    height: 90%;
+}
+
+#mapModal .modal-footer {
+    text-align: right;
+    padding: 10px;
+}
+
+#errorMessageContainer{
+    display: flex;
+    background-color: #fff5f5; 
+    border-left: 4px solid #f56565; 
+    padding: 1rem; 
+    border-radius: 8px; 
+    margin: 1rem 0; 
+    color: #c53030; 
+    font-size: 0.9rem
+}
+
+#successMessageContainer {
+    display: flex;
+    background-color: #f0fff4; 
+    border-left: 4px solid #38a169;
+    padding: 1rem;
+    border-radius: 8px;
+    margin: 1rem 0;
+    color: #2f855a;
+    font-size: 0.9rem;
+    align-items: center;  
+}
 
 @keyframes fadeIn {
     from {opacity: 0;}

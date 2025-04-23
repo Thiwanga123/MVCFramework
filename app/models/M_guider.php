@@ -7,11 +7,6 @@ class M_guider{
         $this->db = new Database();
     }
 
-
-
-
-
-
     //retrive the bookings from the bookingTable
     public function getBookings(){
         $this->db->query("SELECT COUNT(*) FROM booking");
