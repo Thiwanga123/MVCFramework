@@ -39,37 +39,31 @@ class M_guider {
     // Update an existing availability
     public function editAvailability($data) {
         $this->db->query('UPDATE guiders_availability 
-                          SET available_date = :date, 
-                              available_time_from = :time_from, 
+                          SET available_time_from = :time_from, 
                               available_time_to = :time_to, 
                               charges_per_hour = :charges_per_hour, 
                               location = :location,
                               reason = :reason
-                          WHERE id = :id AND guider_id = :guider_id');
+                          WHERE guider_id = :guider_id AND available_date = :available_date');
         
         // Bind values
-        $this->db->bind(':id', $data['id']);
         $this->db->bind(':guider_id', $data['guider_id']);
-        $this->db->bind(':date', $data['date']);
-        $this->db->bind(':time_from', $data['time_from']);
-        $this->db->bind(':time_to', $data['time_to']);
+        $this->db->bind(':available_date', $data['available_date']);
+        $this->db->bind(':time_from', $data['available_time_from']);
+        $this->db->bind(':time_to', $data['available_time_to']);
         $this->db->bind(':charges_per_hour', $data['charges_per_hour']);
         $this->db->bind(':location', $data['location']);
         $this->db->bind(':reason', $data['reason'] ?? null);
         
         // Execute
-        $this->db->execute();
-        if($this->db->rowCount() > 0){
-            return true;
-        } else {
-            return false;
-        }
+        return $this->db->execute();
     }
     
     // Delete an availability
-    public function deleteGuiderAvailability($id) {
-        $this->db->query('DELETE FROM guiders_availability WHERE id = :id');
-        $this->db->bind(':id', $id);
+    public function deleteGuiderAvailability($data) {
+        $this->db->query('DELETE FROM guiders_availability WHERE guider_id = :guider_id AND available_date = :available_date');
+        $this->db->bind(':guider_id', $data['guider_id']);
+        $this->db->bind(':available_date', $data['available_date']);
         
         // Execute
         return $this->db->execute();
@@ -98,8 +92,31 @@ class M_guider {
         return $this->db->execute();
     }
     
-    // Get the bookings of the guider
+    // Get all bookings for a guider with traveler details
     public function getGuiderBookings($guider_id) {
+        $this->db->query('
+            SELECT 
+                gb.booking_id, 
+                gb.check_in, 
+                gb.check_out, 
+                gb.amount, 
+                gb.guests, 
+                gb.paid, 
+                gb.status, 
+                t.name AS traveler_name, 
+                t.email AS traveler_email, 
+                t.telephone_number AS traveler_phone
+            FROM guider_booking gb
+            JOIN traveler t ON gb.traveler_id = t.traveler_id
+            WHERE gb.guider_id = :guider_id
+            ORDER BY gb.check_in ASC
+        ');
+        $this->db->bind(':guider_id', $guider_id);
+        return $this->db->resultSet();
+    }
+    
+    // Get the bookings of the guider
+    public function getGuiderBookingsCount($guider_id) {
         $this->db->query('SELECT COUNT(*) as number_of_bookings FROM bookings WHERE id = :guider_id');
         $this->db->bind(':guider_id', $guider_id);
         $row = $this->db->single();

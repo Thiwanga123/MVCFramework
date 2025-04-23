@@ -67,6 +67,9 @@
             flex: 1;
             min-width: 300px;
             max-width: 100%;
+            height: 100%; /* Ensure the calendar takes the full height */
+            display: flex;
+            flex-direction: column;
         }
 
         /* Table container - right column */
@@ -132,7 +135,9 @@
         /* Calendar styling */
         #availability-calendar {
             width: 100%;
+            height: 100%; /* Make the calendar fill the container */
             margin: 0 auto;
+            flex-grow: 1; /* Allow the calendar to expand within the container */
         }
 
         .flatpickr-calendar {
@@ -485,7 +490,9 @@
                                                 data-reason="<?php echo $available->reason; ?>">
                                                 <i class="fas fa-edit"></i> Edit
                                             </button>
-                                            <button class="delete-btn" data-id="<?php echo $available->id; ?>">
+                                            <button class="delete-btn" 
+                                                data-id="<?php echo $available->id; ?>" 
+                                                data-date="<?php echo $available->available_date; ?>">
                                                 <i class="fas fa-trash-alt"></i> Delete
                                             </button>
                                         </td>
@@ -586,7 +593,6 @@
             <div class="modal-body">
                 <p>Are you sure you want to delete this unavailable date record?</p>
                 <form id="deleteUnavailableDateForm" action="<?php echo URLROOT; ?>/Tour_Guides/deleteAvailability" method="post">
-                    <input type="hidden" id="delete_id" name="id">
                 </form>
             </div>
             <div class="modal-footer">
@@ -673,12 +679,7 @@
             mode: "single",
             dateFormat: "Y-m-d",
             minDate: "today",
-            enable: [
-                function(date) {
-                    // Enable all future dates
-                    return date >= new Date();
-                }
-            ],
+            disable: unavailableDates.map(date => date.date), // Disable unavailable dates
             onDayCreate: function(dObj, dStr, fp, dayElem) {
                 // Mark unavailable dates in red
                 const formattedDate = dayElem.dateObj.toISOString().split('T')[0];
@@ -691,13 +692,8 @@
             onChange: function(selectedDates, dateStr, instance) {
                 // Handle date selection
                 const selectedDate = selectedDates[0];
-                const formattedDate = selectedDate.toISOString().split('T')[0];
-                const displayDate = selectedDate.toLocaleDateString('en-US', { 
-                    weekday: 'long', 
-                    year: 'numeric', 
-                    month: 'long', 
-                    day: 'numeric' 
-                });
+                const formattedDate = flatpickr.formatDate(selectedDate, "Y-m-d"); // Ensure correct date format
+                const displayDate = flatpickr.formatDate(selectedDate, "l, F j, Y"); // User-friendly format
                 
                 // Check if the date is already unavailable
                 const unavailableDate = unavailableDates.find(date => date.date === formattedDate);
@@ -746,8 +742,15 @@
         // Show Delete Confirmation Modal
         deleteBtns.forEach(btn => {
             btn.addEventListener('click', function() {
-                const id = this.getAttribute('data-id');
-                document.getElementById('delete_id').value = id;
+                const guiderId = "<?php echo $_SESSION['id']; ?>"; // Get guider_id from session
+                const date = this.getAttribute('data-date');
+
+                // Set the form values
+                document.getElementById('deleteUnavailableDateForm').innerHTML = `
+                    <input type="hidden" name="guider_id" value="${guiderId}">
+                    <input type="hidden" name="available_date" value="${date}">
+                `;
+
                 deleteConfirmModal.showModal();
             });
         });
