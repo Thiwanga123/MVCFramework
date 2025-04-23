@@ -156,13 +156,72 @@ class Users extends Controller {
 
     public function vehicles(){
         if(isset($_SESSION['user_id'])) {
+            $vehicles = $this->userModel->getAllvehicles($_SESSION['user_id']); 
             $currentPage = 'vehicles';
 
             $data = [
-                'currentPage' => $currentPage
+                'currentPage' => $currentPage,
+                'vehicles' => $vehicles
             ];
 
-            $this->view('users/v_vehicles', $data);
+            $this->view('users/v_vehicles',$data);
+        }else{
+            redirect('users/login');
+        }
+        
+    }
+ 
+    public function viewVehicle($id){
+        if(isset($_SESSION['user_id'])) {
+            if(isset($_SESSION['user_id'])){
+                $vehicles = $this->userModel->getVehicleById($id); 
+                $currentPage = 'vehicles';
+                $bookings = $this->bookingModel->getBookingsByVehicleId($id);
+                $details='details';
+                // $reviews = $this->reviewModel->getReviewsByEquipmentId($id);
+                // $ratings = $this->reviewModel->getRatingsByEquipmentId($id);
+                // $reviewCount = count($reviews);
+                
+                // $totalRating = 0;
+                // $userReview = null;
+                // foreach ($reviews as $review) {
+                //     $totalRating += $review->rating;
+                //     if ($review->traveler_id == $_SESSION['user_id']) {
+                //         $userReview = $review;
+                //     }
+                // }
+                // $averageRating = $reviewCount > 0 ? round($totalRating / $reviewCount, 1) : 0;
+    
+                $data = [
+                    'currentPage' => $currentPage,
+                    'vehicles' => $vehicles,
+                    'user_id' => $_SESSION['user_id'],
+                    'details' => $details,
+                    'bookings' => json_encode($bookings),
+                    // 'reviews' => $reviews,
+                    // 'userReview' => $userReview,
+                    // 'reviewCount' => $reviewCount,
+                    // 'averageRating' => $averageRating,
+                    // 'ratings' => $ratings
+                ];
+          
+            $this->view('users/rentVehicle',$data);
+        }else{
+            redirect('users/login');
+        }
+        
+    }}
+    public function bookings($id){
+        if(isset($_SESSION['user_id'])) {
+            $vehicles = $this->userModel->getVehicleById($id); 
+            $currentPage = 'vehicles';
+    
+            $data = [
+                'currentPage' => $currentPage,
+                'vehicles' => $vehicles
+            ];
+    
+            $this->view('users/booking',$data);
         }else{
             redirect('users/login');
         }

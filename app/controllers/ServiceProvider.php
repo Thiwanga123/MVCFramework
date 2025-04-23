@@ -85,7 +85,11 @@ class ServiceProvider extends Controller {
                     // Create session for the logged-in user and redirect
                     $this->createUserSession($loggedInUser, $data['sptype']);
                     //redirect to the relevant dashboard
-                    redirect($data['sptype'] . '/dashboard');
+                    if ($data['sptype'] === 'vehicle_suppliers') {
+                        redirect('transport_suppliers/dashboard');
+                    } else {
+                        redirect($data['sptype'] . '/dashboard');
+                    }
                    
                 } else {
                     // If login fails (wrong password), set error messagee

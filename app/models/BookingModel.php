@@ -123,7 +123,7 @@ public function updateProfile($data){
 
 
 
-//////////////////////////////////////////////////////////// EQUIPMENT BOOKINGS////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////// EQUIPMENT BOOKINGS   ////////////////////////////////////////////////////////////////////////////
 
     public function addEquipmentBooking($data){   
         $sql = "INSERT INTO rental_equipment_bookings (user_id, equipment_id, supplier_id, start_date, end_date, total_price) VALUES (?, ?, ?, ?, ?, ?)";
@@ -188,6 +188,22 @@ public function updateProfile($data){
             return false;
         }
     }
+
+    public function getBookingsByVehicleId($id){
+        $sql = "SELECT user_id, start_date, end_date, status FROM vehicle_bookings WHERE vehicle_id = ?";
+        try{
+            $this->db->query($sql);
+            $this->db->bind(1,$id);
+            $result = $this->db->resultSet();
+            return $result;
+        }catch(Exception $e){
+            $error_msg = $e->getMessage();
+            echo "<script>alert('An error occured: $error_msg');</script>";
+            return false;
+}
+}
+
+
 
     public function checkBooking($productId){
         $sql = "SELECT COUNT(*) AS booking_count FROM rental_equipment_bookings WHERE equipment_id = ? AND status IN ('booked', 'active')";
