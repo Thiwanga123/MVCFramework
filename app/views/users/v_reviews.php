@@ -92,11 +92,11 @@
     
 
     <?php
-        include('Warning_Modal.php');;
+        include(APPROOT . '/views/inc/components/WarningModal.php');
     ?>
 
      <?php
-        include('AddProduct.php');;
+        include(APPROOT . '/views/inc/components/AddProduct.php');
     ?>
 
 

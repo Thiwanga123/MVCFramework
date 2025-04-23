@@ -8,11 +8,7 @@
     <link rel="stylesheet" href="<?php echo URLROOT;?>/css/Common/sidebarHeader.css">
     <link rel="stylesheet" href="<?php echo URLROOT;?>/css/Modals/logoutModal.css">
 
-<<<<<<< HEAD
-    <title>My Inventory</title>
-=======
     <title>My Rentals</title>
->>>>>>> main
 </head>
 <body>
 <div class="box">
@@ -20,12 +16,6 @@
         <?php require APPROOT . '/views/inc/components/equipmentSupplierSidebar.php'; ?>
         <!-- End Of Sidebar -->
             <main>
-<<<<<<< HEAD
-                <div class="initial-container">
-                    <div class="header">
-                        <div class="left">
-                            <h1>Available Rentals</h1>
-=======
                 <div class="initial-container" id="inventoryContainer" style="display: flex;">
                     <div class="header">
                         <div class="left">
@@ -33,7 +23,6 @@
                         </div>
                         <div class="addBtn">
                             <button id="addRentalBtn">Add New</button>
->>>>>>> main
                         </div>
                     </div>
            
@@ -52,11 +41,7 @@
                                             <div class="img">
                                                 <img src="<?php echo URLROOT . '/' . $rental->image_path; ?>" alt="<?php echo $rental->product_name; ?>">
                                             </div>
-<<<<<<< HEAD
-                                            <div class="details">
-=======
                                             <div class="detailsCard">
->>>>>>> main
                                                 <h4><?php echo $rental->rental_name ?></h4>
                                                 <h4><?php echo $rental->price_per_day ?></h4>
                                             </div>
@@ -80,13 +65,6 @@
                         </div>
                     </div>
                 </div>
-<<<<<<< HEAD
-            </main>
-
-    </div>
-
-    
-=======
 
                 <?php include_once('AddForm.php'); ?>
 
@@ -103,7 +81,6 @@
 
     <script src="<?php echo URLROOT;?>/js/EquipmentSupplierJS/AddRentalBtn.js"></script>
     <script src="<?php echo URLROOT;?>/js/EquipmentSupplierJS/AddProduct.js"></script>
->>>>>>> main
     <script src="<?php echo URLROOT;?>/js/Sidebar.js"></script>
     <script src="<?php echo URLROOT;?>/js/logout.js"></script>
     <script src="<?php echo URLROOT;?>/js/subMenu.js"></script> 

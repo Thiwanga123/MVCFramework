@@ -137,17 +137,17 @@
                     <th>Destination</th>
                     <th>Customer</th>
                     <th>Date</th>
-                    <th>Total</th>
+                    <th>Total Price</th>
                     <th>Status</th>
                 </tr>
             </thead>
             <tbody>
    <tr>             
-    <td>0</td>
-    <td>0</td>
-    <td>0</td>
-    <td>0</td>
-        <td>0</td>
+    <td>Katharagama</td>
+    <td>Sanula</td>
+    <td>2025.05.10</td>
+    <td>Rs.2000</td>
+        <td>Confirm</td>
                         </tr>
 
 

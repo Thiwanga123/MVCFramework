@@ -27,6 +27,30 @@ class M_guider{
         }
     }
 
+    //add the bookings to the bookingTable from the user guider table
+    public function addbooking($data){
+        $this->db->query('INSERT INTO booking (guider_id, customer, booking_date, total_price, status) VALUES (:guider_id, :customer, :booking_date, :total_price, :status)');
+
+        $this->db->bind(':guider_id', $data['guider_id']);
+        $this->db->bind(':destination', $data['destination']);
+        $this->db->bind(':customer', $data['customer']);
+        $this->db->bind(':booking_date', $data['booking_date']);
+        $this->db->bind(':total_price', $data['total_price']);
+        $this->db->bind(':status', $data['status']);
+
+        if($this->db->execute()){
+            return true;
+        }else{
+            return false;
+        }
+    }
+
+
+
+
+
+
+
     //update the profile of the guide
     public function updateProfile($data){
         $this->db->query('UPDATE tour_guide SET first_name = :first_name, last_name = :last_name, email = :email, phone_number = :phone_number WHERE id = :id');

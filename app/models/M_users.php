@@ -112,72 +112,6 @@ class M_users{
 
     //get the booking history of the user
     public function getBookingHistory($id){
-<<<<<<< HEAD
-        $sql = "
-        (SELECT 
-            pb.booking_id AS booking_id, 
-            'Accommodation' AS type, 
-            p.property_name AS name, 
-            pb.check_in AS start_date, 
-            pb.check_out AS end_date, 
-            pb.status, 
-            pb.paid AS price
-         FROM property_booking pb
-         JOIN properties p ON pb.property_id = p.property_id
-         WHERE pb.traveler_id = :traveler_id)
-
-        UNION ALL
-
-        (SELECT 
-            vb.booking_id AS booking_id, 
-            'Vehicle' AS type, 
-            v.model AS name, 
-            vb.check_in AS start_date, 
-            vb.check_out AS end_date, 
-            vb.status, 
-            vb.paid AS price
-         FROM vehicle_booking vb
-         JOIN vehicles v ON vb.vehicle_id = v.id
-         WHERE vb.traveler_id = :traveler_id)
-
-        UNION ALL
-
-        (SELECT 
-            eb.booking_id AS booking_id, 
-            'Equipment' AS type, 
-            e.rental_name AS name,
-            eb.start_date, 
-            eb.end_date, 
-            eb.status, 
-            eb.total_price
-         FROM rental_equipment_bookings eb
-         JOIN rental_equipments e ON eb.equipment_id = e.id
-         WHERE eb.user_id = :traveler_id)
-
-        UNION ALL
-
-        (SELECT 
-            gb.booking_id AS booking_id, 
-            'Guide' AS type, 
-            g.name AS name, 
-            gb.check_in AS start_date,
-            gb.check_out AS end_date, 
-            gb.status, 
-            gb.paid AS price
-         FROM guider_booking gb
-         JOIN tour_guides g ON gb.guider_id = g.id
-         WHERE gb.traveler_id = :traveler_id)
-
-        ORDER BY start_date DESC
-    ";
-
-        $this->db->query($sql);
-        $this->db->bind(':traveler_id', $id);
-
-        $row = $this->db->resultSet();
-
-        return $row;
-=======
         // Get booking history for the user
        
         $sql = "
@@ -260,7 +194,6 @@ class M_users{
             error_log("Error executing query for booking history: " . $e->getMessage());
             return [];
         }
->>>>>>> main
     }
 
     //register user
@@ -322,14 +255,10 @@ class M_users{
     //get all the accomodations from the database
     public function searchAccommodations($data){
 
-<<<<<<< HEAD
-        $this->db->query('SELECT * FROM properties WHERE city = :city AND (singleprice <= :price OR doubleprice <= :price OR familyprice <= :price OR livingprice <= :price) AND max_occupants >= :people');
-=======
         
 
         
         $this->db->query('SELECT * FROM properties WHERE city = :city AND (singleprice <= :price OR doubleprice <= :price OR familyprice <= :price OR livingprice <= :price) ');
->>>>>>> main
         //bind parameters indexes
 
 

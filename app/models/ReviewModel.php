@@ -105,8 +105,6 @@ class ReviewModel {
         }
     }
 
-<<<<<<< HEAD
-=======
     public function getReviewsBySupplierId($supplierId){
 
         $sql = "SELECT rer.*, ri.image_path, re.rental_name
@@ -130,6 +128,5 @@ class ReviewModel {
     }
 
 
->>>>>>> main
 }
 ?>

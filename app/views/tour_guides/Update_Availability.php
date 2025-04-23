@@ -153,19 +153,10 @@
      <main>
             <div class="header">
                 <div class="left">
-<<<<<<< HEAD
-            <h1>Guider Availability</h1>
-=======
                     <h1>Update Availability</h1>
                 </div>
 
-                <div class="right">
-                        <button class="add-btn" name ="add-btn" id="add-btn">
-                        
-                            <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#ffffff"><path d="M440-440H200v-80h240v-240h80v240h240v80H520v240h-80v-240Z"/></svg>
-                            <h3>Add Availability</h3>
-                        </button>
-                </div>
+                
             </div>
 
             <div class="Inventory ">
@@ -191,6 +182,7 @@
                     </thead>
                     <tbody>
 
+                    <?php if (isset($availability) && is_iterable($availability)): ?>
                     <?php foreach($availability as $available): ?>
                         <tr>
                            
@@ -207,8 +199,12 @@
                                 <a href="<?php echo URLROOT; ?>/tour_guides/delete_availability/<?php echo $available->id; ?>"><button class="delete-btn" onclick="return confirm('Are u Sure?');" name ="delete-btn" id="delete-btn">
                                    Delete
                                 </button></a>
-                    </tr>
                     <?php endforeach; ?>
+                    <?php else: ?>
+                        <tr>
+                            <td colspan="6">No availability data found.</td>
+                        </tr>
+                    <?php endif; ?>
                   
                   
                   
@@ -219,7 +215,6 @@
                 <div id="map" style="height: 500px; width: 100%;"></div>
             </div>
             </div>
->>>>>>> main
             
         </div>
         <div class="right">

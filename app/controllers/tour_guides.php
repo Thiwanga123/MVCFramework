@@ -117,6 +117,13 @@ public function getNumberOfBookings(){
 
     }
 
+//add bookings by customer new
+public function addBooking(){
+    if($this->guiderModel->addBookingsBycustomer()){
+        redirect('Tour_Guides/Bookings');
+    }else{
+        die('Something went wrong');
+    }
 }
-
+      }
 ?>

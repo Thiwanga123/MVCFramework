@@ -1,9 +1,5 @@
 
-<<<<<<< HEAD
-<div id="successModalContainer" class="successModal">
-=======
 <div id="successModalContainer" class="successModal" style="display: none;">
->>>>>>> main
     <div class="wrapper">
         <div class="modalContent">
             <img src="<?php echo URLROOT;?>/Images/1930264_check_complete_done_green_success_icon.png">

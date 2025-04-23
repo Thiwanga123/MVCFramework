@@ -42,13 +42,8 @@
 
 
 .content main .initial-container table td img {
-<<<<<<< HEAD
-    width: 40px;
-    height: 40px;
-=======
     width: 50px;
     height: 50px;
->>>>>>> main
     border-radius: 50%;
     object-fit: cover;
     margin-left: 20px;
@@ -63,33 +58,6 @@
 .content main .initial-container table tbody tr:hover {
     background: #f8fafc;
     transform:  scale(1.01);
-<<<<<<< HEAD
-}
-
-/* Status Styling */
-.content main .initial-container table td:last-child {
-    font-weight: 500;
-}
-
-.status {
-    text-transform: capitalize;
-    font-weight: 500;
-    padding: 4px 10px;
-    border-radius: 20px;
-    font-size: 0.9rem;
-    width: auto;
-    height: 15px;
-}
-
-.status .complete{
-    background-color: #4caf50;
-    color: white;
-}
-
-.content main .initial-container table td:nth-child(8) {
-    font-weight: 500;
-    color: #2d3748;
-=======
 }
 
 /* Status Styling */
@@ -133,7 +101,6 @@
     padding: 0 10px;
     user-select: none;
     z-index: 400;
->>>>>>> main
 }
 
 .action-menu {

@@ -4,13 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="<?php echo URLROOT;?>/css/adminpage/sidebarHeader.css">
-<<<<<<< HEAD
-    <link rel="stylesheet" href="<?php echo URLROOT;?>/css/Modals/logoutModal.css">
-
-    <title>Accomadation</title>
-</head>
-<body>
-=======
     <link rel="stylesheet" href="<?php echo URLROOT;?>/css/userspage/AccomodationsSection.css">
     <link rel="stylesheet" href="<?php echo URLROOT;?>/css/Modals/logoutModal.css">
     <link rel="stylesheet" href="<?php echo URLROOT;?>/css/mainpages/features.css">
@@ -19,24 +12,13 @@
 </head>
 <body>
 <div class="box" id="box">
->>>>>>> main
 <?php $currentPage = $data['currentPage']; ?>
     <!-- SideBar -->
      <?php require APPROOT . '/views/inc/components/usersidebar.php'; ?>
      <!-- End Of Sidebar -->
-<<<<<<< HEAD
-
-     <!--Main Content-->
-     
-
-        <main>
-
-        <?php include 'topbar.php';
-=======
      <main>
           
         <?php include 'topbar_acc.php';
->>>>>>> main
           ?>
            
         

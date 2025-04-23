@@ -8,8 +8,6 @@
             $this->equipmentModel = $this->model('equipmentModel');
         }
 
-<<<<<<< HEAD
-=======
         public function policyCheck(){
             if ($_SERVER['REQUEST_METHOD'] == 'POST'){
                 $data = json_decode(file_get_contents("php://input"), true);
@@ -47,7 +45,6 @@
         }
 
      //////////////////////////////////////////Equipment Booking Section//////////////////////////////////////////////////////////////////////////
->>>>>>> main
 
         public function addEquipmentBooking(){    
             header('Content-Type: application/json');        

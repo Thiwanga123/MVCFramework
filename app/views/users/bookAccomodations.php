@@ -167,23 +167,27 @@
             </div>
 
             <div class="bottom">
-            <?php foreach($data['showaccomadation'] as $showaccomodation): ?>
+            <?php if (isset($data['showaccomadation']) && is_array($data['showaccomadation']) && !empty($data['showaccomadation'])): ?>
+                <?php foreach($data['showaccomadation'] as $showaccomodation): ?>
 
-                <div class="card">
-                    <img src="<?php echo URLROOT;?>/Images/Accomadation.jpg" alt="Accommodation ">
-                    <h3><?php echo $showaccomodation->property_name?></h3>
-                    <p>Location:<?php echo $showaccomodation->city?></p>
-                    <br>
-                    <p>Price:Rs.<?php echo $showaccomodation->singleprice?>,00 per person</p>
-                    <a href="<?php echo URLROOT;?>/users/viewdetails/<?php echo $showaccomodation->property_id;?>"><button class="book-btn" style=" background-color: rgb(21, 126, 126);color: white;font-size: medium;height: 30px;
-                    border-radius: 30px;
-                    border: none;
-                    margin-top: 1rem;
-                    cursor: pointer;
-                    padding: 0 10px;
-                    transition: all 0.3s ease;">View & Book</button></a>
-                </div>
+                    <div class="card">
+                        <img src="<?php echo URLROOT;?>/Images/Accomadation.jpg" alt="Accommodation ">
+                        <h3><?php echo $showaccomodation->property_name?></h3>
+                        <p>Location:<?php echo $showaccomodation->city?></p>
+                        <br>
+                        <p>Price:Rs.<?php echo $showaccomodation->singleprice?>,00 per person</p>
+                        <a href="<?php echo URLROOT;?>/users/viewdetails/<?php echo $showaccomodation->property_id;?>"><button class="book-btn" style=" background-color: rgb(21, 126, 126);color: white;font-size: medium;height: 30px;
+                        border-radius: 30px;
+                        border: none;
+                        margin-top: 1rem;
+                        cursor: pointer;
+                        padding: 0 10px;
+                        transition: all 0.3s ease;">View & Book</button></a>
+                    </div>
                 <?php endforeach; ?>
+            <?php else: ?>
+                <p>No accommodations available at the moment.</p>
+            <?php endif; ?>
                
             </div>
         </div>

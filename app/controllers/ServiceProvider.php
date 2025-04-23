@@ -235,11 +235,7 @@ class ServiceProvider extends Controller {
         $_SESSION['name'] = $user->name;
         $_SESSION['type'] = $sptype;
         
-<<<<<<< HEAD
-        // redirect($sptype .'/dashboard');
-=======
     // redirect($sptype .'/dashboard');
->>>>>>> main
     }
 
     public function logout(){

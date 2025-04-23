@@ -11,11 +11,7 @@
 </head>
 <body>
     <div class="box" id="box">
-<<<<<<< HEAD
-    <?php $currentPage = $data['currentPage']; ?>
-=======
     
->>>>>>> main
 
     <!-- SideBar -->
         <?php require APPROOT . '/views/inc/components/usersidebar.php'; ?>
@@ -27,10 +23,6 @@
                 <div class="header">
                     <h1>Booking History</h1>
                 </div>
-<<<<<<< HEAD
-
-=======
->>>>>>> main
                 <p>Showing All Bookings (<?php echo htmlspecialchars($data['booking_count']); ?>)</p>
 
                     <div class="table-container">
@@ -43,12 +35,8 @@
                                     <th>Start Date</th>
                                     <th>End Date</th>
                                     <th>Status</th>
-<<<<<<< HEAD
-                                    <th>Price</th>                            
-=======
                                     <th>Price</th>   
                                     <th>Actions</th>                         
->>>>>>> main
                                 </tr>
                             </thead>
                             <tbody>
@@ -62,9 +50,6 @@
                                     <td class="status <?php echo strtolower($booking->status); ?>">
                                         <?php echo htmlspecialchars($booking->status); ?>
                                     </td>                                    
-<<<<<<< HEAD
-                                    <td><?php echo htmlspecialchars($booking->price); ?> </td>                           
-=======
                                     <td><?php echo htmlspecialchars($booking->price); ?> </td>  
                                     <td>
                                     <?php if (strtolower($booking->status) === 'booked' || strtolower($booking->status) === 'pending'): ?>
@@ -75,7 +60,6 @@
                                         </button>
                                     <?php endif; ?>
                                     </td>
->>>>>>> main
                                 </tr> 
                                 <?php endforeach; ?>
                             </tbody>
@@ -88,13 +72,10 @@
     <script src="<?php echo URLROOT;?>/js/Sidebar.js"></script> 
     <script src="<?php echo URLROOT;?>/js/logout.js"></script>
     <script src="<?php echo URLROOT;?>/js/submenu.js"></script>
-<<<<<<< HEAD
-=======
     <script src="<?php echo URLROOT;?>/js/cancellationPolicy.js"></script>
     <script>const URLROOT = "<?php echo URLROOT; ?>";</script>
 
 
->>>>>>> main
 
 </body>
 </html>
