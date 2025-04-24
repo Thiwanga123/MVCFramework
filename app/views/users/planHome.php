@@ -126,15 +126,6 @@ document.addEventListener('DOMContentLoaded', function() {
 <body>
 
 
-
-
-
-
-
-
-
-
-
     <header>
         <div class="logo">
             <a href="<?php echo URLROOT;?>/pages/home">

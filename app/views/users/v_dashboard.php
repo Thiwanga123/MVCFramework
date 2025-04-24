@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="<?php echo URLROOT;?>/css/Common/userdashboard.css">
     <link rel="stylesheet" href="<?php echo URLROOT;?>/css/Modals/logoutModal.css">
 
+    <script src="https://maps.googleapis.com/maps/api/js?key=<?php echo API_KEY; ?>&libraries=places&callback=initMap" async defer></script>
     <title>Start Journey</title>
 
 </head>
@@ -45,6 +46,8 @@
                                     </div>
                                 </div>
                                 <input type="text" id="location" placeholder="Where Are You Going?">
+                                <input type="hidden" id="lat" name="lat">
+                                <input type="hidden" id="lng" name="lng">
                                 
                             </li>
         
@@ -82,7 +85,6 @@
     <script src="<?php echo URLROOT;?>/js/logout.js"></script>
     <script src="<?php echo URLROOT;?>/js/subMenu.js"></script>
     <script src="<?php echo URLROOT;?>/js/planTripSlider.js"></script>
-
     <script>const redirectUrl = "<?php echo URLROOT; ?>/users/planhome";</script>
     <script src="<?php echo URLROOT;?>/js/TripPlanner/tripPlanner.js"></script>
 

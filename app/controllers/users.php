@@ -10,6 +10,7 @@ class Users extends Controller {
     private $equipmentModel;
     private $reviewModel;
     private $bookingModel;
+    private $accomadationModel;
     
 
     public function __construct() {
@@ -17,6 +18,7 @@ class Users extends Controller {
         $this->equipmentModel = $this->model('equipmentModel');
         $this->reviewModel = $this->model('ReviewModel');
         $this->bookingModel = $this->model('BookingModel');
+        $this->accomadationModel = $this->model('M_accomadation');
     }
 
     public function index() {
@@ -567,11 +569,38 @@ class Users extends Controller {
         }
     }
 
-    public function planaccomodation(){
+    public function planaccomodation() {
         if(isset($_SESSION['user_id'])) {
             $data['currentPage'] = 'accommodation';
+            $data['latitude'] = isset($_GET['lat']) ? $_GET['lat'] : null;
+            $data['longitude'] = isset($_GET['lon']) ? $_GET['lon'] : null;
+
+            $_SESSION['Triplatitude'] = $data['latitude'];
+            $_SESSION['Triplongitude'] = $data['longitude'];
+            
+            if ($data['latitude'] && $data['longitude']) {
+                $accommodations = $this->accomadationModel->getAllAccommodations(); 
+                $accommodationsWithDistances = [];
+    
+                foreach ($accommodations as $accommodation) {
+                    $distance = $this->haversine_distance($data['latitude'], $data['longitude'], $accommodation->latitude, $accommodation->longitude);
+                    if ($distance <= 20) {
+                        $accommodation->distance = $distance; 
+                        $accommodationsWithDistances[] = $accommodation;    
+                    }
+                }
+
+                usort($accommodationsWithDistances, function($a, $b) {
+                    return $a->distance <=> $b->distance; // Compare based on the 'distance' key
+                });
+    
+                $data['accommodations'] = $accommodationsWithDistances;
+            } else {
+                $data['error'] = "Location data is missing.";
+            }
+    
             $this->view('users/p_accomodation', $data);
-        }else{
+        } else {
             redirect('users/login');
         }
     }
@@ -908,6 +937,31 @@ class Users extends Controller {
         }
     }
 
+        public function haversine_distance($lat1, $lon1, $lat2, $lon2) {
+            $earth_radius = 6371; // Radius of the Earth in km
+        
+            // Convert degrees to radians
+            $lat1 = deg2rad($lat1);
+            $lon1 = deg2rad($lon1);
+            $lat2 = deg2rad($lat2);
+            $lon2 = deg2rad($lon2);
+        
+            // Calculate the differences between latitudes and longitudes
+            $dlat = $lat2 - $lat1;
+            $dlon = $lon2 - $lon1;
+        
+            // Apply Haversine formula
+            $a = sin($dlat / 2) * sin($dlat / 2) +
+                cos($lat1) * cos($lat2) *
+                sin($dlon / 2) * sin($dlon / 2);
+        
+            $c = 2 * atan2(sqrt($a), sqrt(1 - $a));
+        
+            // Calculate the distance
+            $distance = $earth_radius * $c;
+        
+            return $distance; // Distance in km
+        }
    
 }
 ?>

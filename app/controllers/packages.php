@@ -9,6 +9,8 @@
         }
        
         public function getPackages(){
+            print_r($_POST);
+            exit;
             if(isset($_SESSION['user_id']) && $_SERVER['REQUEST_METHOD'] == 'POST'){
                 $latitude = $_POST['latitude'];
                 $longitude = $_POST['longitude'];

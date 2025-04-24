@@ -241,6 +241,18 @@ class M_accomadation{
             return [];
         }
     }
+
+    public function getAllAccommodations(){
+        $sql = "SELECT * FROM properties";
+        try {
+            $this->db->query($sql);
+            $accommodations = $this->db->resultSet();
+            return $accommodations;
+        } catch (Exception $e) {
+            echo "<script>alert('An error occurred: {$e->getMessage()}');</script>";
+            return [];
+        }
+    }
 }
 
 ?>

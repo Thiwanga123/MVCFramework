@@ -25,6 +25,22 @@
                     <h1>Rent Equipments</h1>
                 </div>
 
+                
+                    <div class="navigation-footer" style="display: flex; justify-content: space-between">
+                            <div class="group" style="    display: flex; align-items: center; justify-content: center;">
+                                <a href="<?php echo URLROOT;?>/users/planguides">
+                                    <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#1d5a62"><path d="m326.15-434.5 218.74 218.74L480-151.87 151.87-480 480-808.13l64.89 63.89L326.15-525.5h481.98v91H326.15Z"/></svg>
+                                    <p>Previous</p>
+                                </a>
+                            </div>
+                            <div class="group">
+                                <a href="<?php echo URLROOT;?>/users/planaccommodation">
+                                    <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#1d5a62"><path d="M633.85-434.5H151.87v-91h481.98L415.11-744.24 480-808.13 808.13-480 480-151.87l-64.89-63.89 218.74-218.74Z"/></svg>
+                                    <p>Next</p>
+                                </a>
+                            </div>
+                    </div>
+
                 <div class="rental-details">
                     <div class="bar">
                         <div class="inside">
