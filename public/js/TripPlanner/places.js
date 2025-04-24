@@ -1,6 +1,6 @@
 let isMapView = true;
 let mapMarkers = [];    
-
+let savedPlaces = JSON.parse(localStorage.getItem('savedPlaces')) || [];
 document.addEventListener('DOMContentLoaded', function () {
 
     const script = document.createElement('script');
@@ -193,8 +193,35 @@ document.addEventListener('DOMContentLoaded', function () {
                     mapMarkers.push(marker);
 
                     placeItem.addEventListener('click', function () {
-                        map.setCenter(place.geometry.location);
-                        map.setZoom(14);
+                        savedPlaces = JSON.parse(localStorage.getItem('savedPlaces')) || [];
+                    
+                        const isAlreadySaved = savedPlaces.some(saved =>
+                            saved.name === place.name &&
+                            saved.lat === place.geometry.location.lat() &&
+                            saved.lng === place.geometry.location.lng()
+                        );
+                    
+                        if (isAlreadySaved) {
+                            savedPlaces = savedPlaces.filter(saved =>
+                                !(saved.name === place.name &&
+                                  saved.lat === place.geometry.location.lat() &&
+                                  saved.lng === place.geometry.location.lng())
+                            );
+                            localStorage.setItem('savedPlaces', JSON.stringify(savedPlaces));
+                            // alert(`Removed ${place.name} from your saved places.`);
+                            placeItem.classList.remove('saved');
+                        } else {
+                            savedPlaces.push({
+                                name: place.name,
+                                location: place.vicinity || 'Unknown',
+                                lat: place.geometry.location.lat(),
+                                lng: place.geometry.location.lng(),
+                            });
+                            localStorage.setItem('savedPlaces', JSON.stringify(savedPlaces));
+                            // alert(`Saved ${place.name} to your places!`);
+                            placeItem.classList.add('saved');
+                        }
+                    
                     });
 
                     marker.addListener('mouseover', function () {

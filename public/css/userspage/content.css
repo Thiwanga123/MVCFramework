@@ -185,6 +185,11 @@
     transition: transform 0.2s ease;
 }
 
+.card.saved {
+    background-color: #d4edda; /* soft green */
+    border: 2px solid #28a745;
+}
+
 .card:hover {
     transform: translateY(-3px);
 }
