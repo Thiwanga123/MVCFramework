@@ -76,4 +76,6 @@
 
 
         <?php include_once APPROOT . '/views/users/includes/components/userLogoutModal.php'; ?>
+        <?php include_once APPROOT . '/views/users/includes/components/planModal.php'; ?>
+
 

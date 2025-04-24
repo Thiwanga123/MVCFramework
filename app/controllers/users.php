@@ -693,6 +693,42 @@ public function weather(){
         }
     }
 
+    public function planaccomodation(){
+        if(isset($_SESSION['user_id'])) {
+            $data['currentPage'] = 'accommodation';
+            $this->view('users/p_accomodation', $data);
+        }else{
+            redirect('users/login');
+        }
+    }
+
+    public function planvehicle(){
+        if(isset($_SESSION['user_id'])) {
+            $data['currentPage'] = 'vehicles';
+            $this->view('users/p_vehicles', $data);
+        }else{
+            redirect('users/login');
+        }
+    }
+
+    public function planequipments(){
+        if(isset($_SESSION['user_id'])) {
+            $data['currentPage'] = 'equipments';
+            $this->view('users/p_equipments', $data);
+        }else{
+            redirect('users/login');
+        }
+    }
+
+    public function planguides(){
+        if(isset($_SESSION['user_id'])) {
+            $data['currentPage'] = 'guides';
+            $this->view('users/p_guides', $data);
+        }else{
+            redirect('users/login');
+        }
+    }
+
 
 public function showaccommodation(){
     if ($_SERVER['REQUEST_METHOD'] == 'POST') {
