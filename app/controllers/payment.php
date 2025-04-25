@@ -8,11 +8,16 @@ class Payment extends Controller {
     private $userModel;
     private $serviceProviderModel;
 
+    private $bookingModel;
+    private $equipmentModel;
+
 
     public function __construct(){
         $this->PaymentModel = $this->model('PaymentModel');
         $this->userModel = $this->model('M_users');
         $this->serviceProviderModel = $this->model('ServiceProviderModel');
+        $this->bookingModel = $this->model('BookingModel');
+        $this->equipmentModel = $this->model('EquipmentModel');
     }
     
     public function index(){
@@ -147,6 +152,55 @@ class Payment extends Controller {
             redirect('users/subscription');
         }
     }
+
+
+    public function success_guider(){
+        if(isset($_GET['order_id']) && isset($_SESSION['booking_data'])) {
+            $order_id = $_GET['order_id'];
+            $booking_data = $_SESSION['booking_data'];
+
+            print_r($booking_data);
+            
+            exit;// Debugging line to check the booking data
+    
+             // Debugging line to check the booking data         
+            
+            // Verify the order_id matches to prevent tampering
+            if($booking_data['order_id'] == $order_id) {
+                // Add user ID
+                $booking_data['user_id'] = $_SESSION['user_id'];
+    
+            
+                // Save the booking to database
+                $booking_id = $this->userModel->book_accomodation($booking_data);
+    
+               // Debugging line to check the booking ID
+                
+                if($booking_id) {
+                    // Add booking_id to data for display
+                    $booking_data['booking_id'] = $booking_id;
+                    
+                    // Show success page with all booking details
+                    $this->view('payment/success', $booking_data);
+                    
+                    // Clear the session data after successful processing
+                    unset($_SESSION['booking_data']);
+                } else {
+                    // If database insert fails
+                    $this->view('payment/failed', ['message' => 'Failed to save booking']);
+                }
+            } else {
+                // If order_id doesn't match (possible tampering)
+                $this->view('payment/failed', ['message' => 'Invalid order ID']);
+            }
+        } else {
+            // If required data is missing
+            redirect('users/accomadation');
+        }
+
+
+
+    }
     public function payment_subscription(){
 
         prinT_r($_POST);
@@ -188,9 +242,43 @@ class Payment extends Controller {
         }
     }
 
+
+    public function success_booking(){
+        if (isset($_SESSION['booking_data']) && isset($_GET['order_id'])) {
+            $order_id = $_GET['order_id'];
+            $booking_data = $_SESSION['booking_data'];
+
+            // Debugging line to check the booking data
+
+            if ($booking_data) {
+                if ($booking_data['sp_type'] == 'equipment_supplier') {
+                    $booking_id = $this->bookingModel->book_equipment($booking_data);
+                } elseif ($booking_data['sp_type'] == 'guider') {
+                    $booking_id = $this->bookingModel->book_guider($booking_data);
+                } elseif ($booking_data['sp_type'] == 'transport_supplier') {
+                    $booking_id = $this->bookingModel->book_vehicle($booking_data);
+                } else {
+                    $this->view('payment/failed', ['message' => 'Invalid service type']);
+                    return;
+                }
+
+                if ($booking_id) {
+                    $booking_data['booking_id'] = $booking_id;
+                    $this->view('payment/success.common', $booking_data);
+                } else {
+                    $this->view('payment/failed', ['message' => 'Failed to save booking']);
+                }
+            }
+        }
+    }
+
     public function failed() {
         echo "Payment Failed!";
     }
+
+  
+
+   
 
     public function getHash() {
 

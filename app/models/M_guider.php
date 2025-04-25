@@ -100,8 +100,9 @@ class M_guider {
                 gb.check_in, 
                 gb.check_out, 
                 gb.amount, 
-                gb.guests, 
-                gb.paid, 
+                gb.pickup,
+                gb.destination,
+
                 gb.status, 
                 t.name AS traveler_name, 
                 t.email AS traveler_email, 

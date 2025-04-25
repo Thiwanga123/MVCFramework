@@ -237,8 +237,9 @@
                                         <th>Traveler Phone</th>
                                         <th>From Date</th>
                                         <th>To Date</th>
-                                        <th>Guests</th>
-                                        <th>Paid</th>
+                                        <th>Pickup</th>
+                                        <th>Destination</th>
+                                        <th>Amount</th>
                                         <th>Status</th>
                                         <th>Actions</th>
                                     </tr>
@@ -251,8 +252,9 @@
                                             <td><?php echo $booking->traveler_phone; ?></td>
                                             <td><?php echo date('M d, Y', strtotime($booking->check_in)); ?></td>
                                             <td><?php echo date('M d, Y', strtotime($booking->check_out)); ?></td>
-                                            <td><?php echo $booking->guests; ?></td>
-                                            <td>Rs.<?php echo number_format($booking->paid, 2); ?></td>
+                                            <td><?php echo $booking->pickup; ?></td>
+                                            <td><?php echo $booking->destination; ?></td>
+                                            <td>Rs.<?php echo number_format($booking->amount, 2); ?></td>
                                             <td>
                                                 <?php if ($booking->status == 'booked'): ?>
                                                     <span class="status-badge status-confirmed">Booked</span>

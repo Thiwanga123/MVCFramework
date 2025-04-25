@@ -741,6 +741,83 @@ public function showaccommodation(){
         }
     }
 
+    public function summary(){
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            // Sanitize POST data
+            $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+            
+            // Get the service provider type
+            $spType = $_POST['sp_type'] ?? 'guider';
+            
+            // Common data for all service types
+            $data = [
+                'booking_start_date' => $_POST['booking_start_date'] ?? '',
+                'booking_end_date' => $_POST['booking_end_date'] ?? '',
+                'days' => $_POST['days'] ?? '',
+                'totalPrice' => $_POST['totalPrice'] ?? '',
+                'supplier_id' => $_POST['supplier_id'] ?? '',
+                'order_id' => $_POST['order_id'] ?? 'ORDER'.time(),
+                'sp_type' => $spType,
+                'currentPage' => $spType
+            ];
+            
+            // Add type-specific data
+            switch($spType) {
+                case 'guider':
+                    $data['guider_id'] = $_POST['guider_id'] ?? '';
+                    $data['guider_name'] = $_POST['guider_name'] ?? '';
+                    $data['pickupLocation'] = $_POST['pickupLocation'] ?? '';
+                    $data['tripDestination'] = $_POST['tripDestination'] ?? '';
+                    break;
+                    
+                case 'equipment_supplier':
+                    $data['product_id'] = $_POST['product_id'] ?? '';
+                    $data['product_name'] = $_POST['product_name'] ?? '';
+                    $data['pickupLocation'] = $_POST['pickupLocation'] ?? '';
+                    break;
+                    
+                case 'transport_supplier':
+                    $data['product_id'] = $_POST['product_id'] ?? '';
+                    $data['vehicle_name'] = $_POST['vehicle_name'] ?? '';
+                    $data['pickupLocation'] = $_POST['pickupLocation'] ?? '';
+                    $data['tripDestination'] = $_POST['tripDestination'] ?? '';
+                    $data['driver_option'] = $_POST['driver_option'] ?? 'with_driver';
+                    $data['with_driver_rate'] = $_POST['with_driver_rate'] ?? '';
+                    $data['self_drive_rate'] = $_POST['self_drive_rate'] ?? '';
+                    break;
+            }
+            
+            // Load the summary view with the form data
+            $this->view('users/includes/guider/summary', $data);
+        } else {
+            // If accessed directly without form submission, redirect to dashboard
+            redirect('users/dashboard');
+        }
+    }
+    
+    // Helper function to get address from coordinates using reverse geocoding
+    private function getAddressFromCoordinates($lat, $lng) {
+        if (empty($lat) || empty($lng)) {
+            return 'Unknown location';
+        }
+        
+        // You can implement reverse geocoding here if needed
+        // For now return a placeholder or implement a simple version
+        return "Latitude: $lat, Longitude: $lng";
+    }
+
+
+    public function success(){
+        if(isset($_SESSION['user_id'])) {
+            $currentPage = 'success';
+            $data = [
+                'currentPage' => $currentPage
+            ];
+            $this->view('users/v_success', $data);
+        }else{
+            redirect('users/login');
+        }
+    }
 
     public function forgotPassword(){
         if($_SERVER['REQUEST_METHOD'] == 'POST'){
