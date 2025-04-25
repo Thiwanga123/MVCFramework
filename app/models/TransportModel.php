@@ -207,6 +207,47 @@ public function updateprofile($data){
         }
     }
 
+    public function getAvailableVehicles($startDate, $endDate){
+        $sql = '
+            SELECT v.* FROM vehicles v
+            WHERE v.vehicle_id NOT IN (
+                SELECT vb.vehicle_id 
+                FROM vehicle_booking vb
+                WHERE 
+                    (vb.check_in <= :endDate AND vb.check_out >= :startDate)
+                    AND vb.status != "cancelled"  
+                    AND vb.deleted_at IS NULL
+            )';
+    
+        try{// Bind the parameters
+            $this->db->query($sql);
+            $this->db->bind(':startDate', $startDate);
+            $this->db->bind(':endDate', $endDate);
+    
+        return $this->db->resultSet();
+        } catch (Exception $e) {
+            $error_msg = $e->getMessage();
+            echo "<script>alert('An error occurred: $error_msg');</script>";
+            return false;
+        }
+    }
+
+    public function getVehicleById($vehicleId) {
+        $sql = "SELECT v.*, vi.image_path
+                    FROM vehicles v
+                    LEFT JOIN vehicle_images vi ON v.vehicle_id = vi.vehicle_id
+                    WHERE v.vehicle_id = ?";
+        try{
+            $this->db->query($sql);
+            $this->db->bind(1, $vehicleId);
+            return $this->db->single();
+        }catch(Exception $e){
+            $error_msg = $e->getMessage();
+            echo "<script>alert('An error occurred: $error_msg');</script>";
+            return false;
+        }
+      
+    }
     
 
 }

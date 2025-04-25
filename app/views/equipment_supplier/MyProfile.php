@@ -50,6 +50,7 @@
                             </div>
                         </div>
 
+                        <?php var_dump($details); ?>
                         <div class="profileContent">
                     
                             <form action="<?php echo URLROOT; ?>/equipment_suppliers/updateProfile" method="POST">
@@ -77,7 +78,7 @@
 
                                 <h2>Location Information</h2>
                                 <hr>
-                                <?php if (empty($data['latitude']) || empty($data['longitude'])): ?>
+                                <?php if (empty($details->latitude) || empty($details->longitude)): ?>
                                     <div class="errorMessageContainer location-error" id="errorMessageContainer">
                                         You haven't given a location yet. Please provide one to include your products on the packages.
                                     </div>
@@ -91,8 +92,8 @@
 
 
                                 <!-- Hidden inputs to hold selected coordinates -->
-                                <input name="latitude" id="latitude" value="<?php echo isset($data['latitude']) ? $data['latitude'] : ''; ?>">
-                                <input name="longitude" id="longitude" value="<?php echo isset($data['longitude']) ? $data['longitude'] : ''; ?>">
+                                <input name="latitude" id="latitude" value="<?php echo isset($data['latitude']) ? $data['latitude'] : ''; ?>" style="display:none;">
+                                <input name="longitude" id="longitude" value="<?php echo isset($data['longitude']) ? $data['longitude'] : ''; ?>" style="display:none;">
 
                                 <div class="profile-actions">
                                     <div class="group">

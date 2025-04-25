@@ -1,5 +1,6 @@
 document.addEventListener('DOMContentLoaded', () => {
     const viewButtons = document.querySelectorAll('.view-btn');
+    const bookButtons = document.querySelectorAll('.pay-button');
 
     viewButtons.forEach(button => {
         button.addEventListener('click', async function () {
@@ -58,5 +59,84 @@ document.addEventListener('DOMContentLoaded', () => {
                 alert('Failed to load property details.');
             }
         });
+    });
+
+
+    
+    bookButtons.forEach(button => {
+        button.addEventListener('click', function () {
+            // Retrieve propertyId and serviceProviderId from button's data attributes
+            const propertyId = this.getAttribute('data-id');
+            const serviceProviderId = this.getAttribute('data-spid');
+            const singleMax = parseInt(this.getAttribute('data-single')) || 0;
+            const doubleMax = parseInt(this.getAttribute('data-double')) || 0;
+            const familyMax = parseInt(this.getAttribute('data-family')) || 0;
+
+            // Open the booking modal
+            openBookingModal(propertyId, serviceProviderId, singleMax, doubleMax, familyMax)
+        });
+    });
+
+    function populateSelectOptions(selectId, max) {
+        const select = document.getElementById(selectId);
+        if (!select) return;
+    
+        // Clear previous options
+        select.innerHTML = '';
+    
+        for (let i = 0; i <= max; i++) {
+            const option = document.createElement('option');
+            option.value = i;
+            option.textContent = i;
+            select.appendChild(option);
+        }
+    
+        // Update Max text
+        const group = select.closest('.input-group');
+        const span = group.querySelector('span');
+        if (span) {
+            span.textContent = `Max: ${max}`;
+        }
+    }
+
+    // Function to open the booking modal and populate data
+    function openBookingModal(propertyId, serviceProviderId, singleMax, doubleMax, familyMax) {
+        // Populate the hidden fields with property and service provider data
+        document.getElementById('propertyId').value = propertyId;
+        document.getElementById('serviceProviderId').value = serviceProviderId;
+
+        populateSelectOptions('singleRooms', singleMax);
+        populateSelectOptions('doubleRooms', doubleMax);
+        populateSelectOptions('familyRooms', familyMax);    
+        // Display the booking modal
+        document.getElementById('bookingModalOverlay').style.display = 'flex';
+    }
+
+
+    // Handle form submission for booking
+    document.getElementById('bookingForm').addEventListener('submit', async function (event) {
+        event.preventDefault();
+
+        // Gather form data
+        const formData = new FormData(this);
+        
+        // Send the booking data to the server
+        const response = await fetch(`${URLROOT}/accomadation/bookRoom`, {
+            method: 'POST',
+            body: formData
+        });
+
+        if (!response.ok) {
+            alert('Failed to book accommodation.');
+            return;
+        }
+
+        const bookingData = await response.json();
+        if (bookingData.success) {
+            alert('Booking successful!');
+            document.getElementById('bookingModalOverlay').style.display = 'none'; // Close the modal
+        } else {
+            alert(bookingData.error || 'An error occurred during booking.');
+        }
     });
 });

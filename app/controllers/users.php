@@ -12,13 +12,16 @@ class Users extends Controller {
     private $bookingModel;
     private $accomadationModel;
     private $transportModel;
+    private $guiderModel;
     
     public function __construct() {
         $this->userModel = $this->model('M_users');
         $this->equipmentModel = $this->model('equipmentModel');
         $this->reviewModel = $this->model('ReviewModel');
         $this->bookingModel = $this->model('BookingModel');
-        $this->accomadationModel = $this->model('M_accomadation');
+        $this->accomadationModel = $this->model('M_accomadation');  
+        $this->transportModel = $this->model('TransportModel');
+        $this->guiderModel = $this->model('M_guider');
     }
 
     public function index() {
@@ -618,8 +621,8 @@ class Users extends Controller {
             $startDate = $_SESSION['trip']['startDate'];
             $endDate = $_SESSION['trip']['endDate'];
           
-            $allVehicles = $this->transportModel->getAllVehicles();
-            
+            $availableVehicles = $this->transportModel->getAvailableVehicles($startDate, $endDate); 
+            $data['availableVehicles'] = $availableVehicles;
             $this->view('users/p_vehicles', $data);
         }else{
             redirect('users/login');
@@ -638,6 +641,8 @@ class Users extends Controller {
 
             if ($data['latitude'] && $data['longitude']) {
                 $allSuppliers = $this->userModel->getAllEquipmentSuppliers(); 
+                var_dump($allSuppliers);
+                exit;
                 $nearbySupplierIds = [];
     
                 foreach ($allSuppliers as $supplier) {
@@ -647,6 +652,9 @@ class Users extends Controller {
                         $nearbySupplierIds[] = $supplier->id;    
                     }
                 }
+
+                var_dump($nearbySupplierIds);
+                exit;
 
                 if (empty($nearbySupplierIds)) {
                     $data['equipments'] = [];
@@ -666,14 +674,19 @@ class Users extends Controller {
     }
 }
 
-    // public function planguides(){
-    //     if(isset($_SESSION['user_id'])) {
-    //         $data['currentPage'] = 'guides';
-    //         $this->view('users/p_guides', $data);
-    //     }else{
-    //         redirect('users/login');
-    //     }
-    // }
+    public function planguides(){
+        if(isset($_SESSION['user_id'])) {
+            $data['currentPage'] = 'guides';
+            $startDate = $_SESSION['trip']['startDate'];
+            $endDate = $_SESSION['trip']['endDate'];
+          
+            $availableGuides = $this->guiderModel->getAvailableGuiders($startDate, $endDate); 
+            $data['availableGuiders'] = $availableGuides;
+            $this->view('users/p_guides', $data);
+        }else{
+            redirect('users/login');
+        }
+    }
 
 
     public function showaccommodation(){

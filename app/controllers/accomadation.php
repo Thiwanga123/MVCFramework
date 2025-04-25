@@ -421,6 +421,7 @@
                         'livingprice' => $property->livingprice,      // Object syntax for livingprice
                         'familyprice' => $property->familyprice,      // Object syntax for familyprice
                         'other_details' => $property->other_details,  // Object syntax for other_details
+                        'service_provider_id' => $property->service_provider_id, // Object syntax for service_provider_id
                         'image_path' => $property->image_path   
                     ]);
                 } else {
@@ -436,6 +437,31 @@
                 ]);
             }
         }
+
+        public function bookRoom(){
+            if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+                $propertyId = $_POST['propertyId'];
+                $serviceProviderId = $_POST['serviceProviderId'];
+                $singleRooms = $_POST['singleRooms'];
+                $doubleRooms = $_POST['doubleRooms'];
+                $familyRooms = $_POST['familyRooms'];
+
+                $_SESSION['trip']['propertyId'] = $_POST['propertyId'] ?? null;
+                $_SESSION['trip']['accomodationProviderId'] = $_POST['serviceProviderId'] ?? null;
+                $_SESSION['trip']['singleRooms'] = $_POST['singleRooms'] ?? 0;
+                $_SESSION['trip']['doubleRooms'] = $_POST['doubleRooms'] ?? 0;
+                $_SESSION['trip']['familyRooms'] = $_POST['familyRooms'] ?? 0;
+
+                // Validate and process the data...
+                // Return JSON response
+                echo json_encode(['success' => true]);
+                exit;
+            }
+        
+            echo json_encode(['success' => false, 'error' => 'Invalid request']);
+            exit;
+        }
+        
     }
 
     

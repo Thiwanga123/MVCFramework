@@ -130,6 +130,29 @@ class M_guider{
             print_r($this->db->resultSet());
             return $this->db->resultSet();
         }
+
+
+        public function getAvailableGuiders($startDate, $endDate){
+            $sql = "SELECT * FROM guiders WHERE id NOT IN (
+                        SELECT guider_id FROM guider_booking WHERE 
+                        (check_in <= :endDate AND check_out >= :startDate)
+                        AND deleted_at IS NULL)
+                        AND action = 'approved' ";
+
+            try{
+                $this->db->query($sql);
+                $this->db->bind(':startDate', $startDate);
+                $this->db->bind(':endDate', $endDate);
+                            
+                $results = $this->db->resultSet();
+                            
+                return $results;
+            }catch(Exception $e){
+                $error_msg = $e->getMessage();
+                echo "<script>alert('An error occurred: $error_msg');</script>";
+                return false;
+            }
+        }
         
        
         

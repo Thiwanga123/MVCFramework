@@ -267,7 +267,7 @@ public function editVehicle(){
             'vid' => trim($_POST['vehicleId']),
             'vehicleType' => trim($_POST['vehicleType']),
             'vehicleModel' =>trim($_POST['vehicleModel']) ,
-            'vehicleMake' => trim($_POST['vehicleMake']),    //These variables are used to store the values which are sent via the form data
+            'vehicleMake' => trim($_POST['vehicleMake']),    
             'plateNumber' => trim($_POST['licensePlateNumber']),
             'rate' => trim($_POST['vehicleRate']),
             'fuelType' => trim($_POST['fuelType']),
@@ -386,7 +386,69 @@ public function addriver() {
             redirect('transport_suppliers/driver');
         }
     }
-    
+
+        public function getVehicleDetails() {
+            header('Content-Type: application/json');
+        
+            if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+                // Get the raw POST body and decode JSON
+                $input = json_decode(file_get_contents('php://input'), true);
+        
+                // Validate input
+                if (!isset($input['vehicleId']) || empty($input['vehicleId'])) {
+                    // Return error response
+                    http_response_code(400);
+                    echo json_encode([
+                        'success' => false,
+                        'message' => 'Vehicle ID is required'
+                    ]);
+
+                    return;
+                }
+        
+                $vehicleId = $input['vehicleId'];
+        
+                // Assuming your model is named TransportModel and it has a method to get vehicle details
+                $vehicle = $this->transportModel->getVehicleById($vehicleId);
+                if ($vehicle) {
+                    // Return success response with vehicle data
+                    echo json_encode([
+                        'success' => true,
+                        'message' => 'Vehicle details fetched successfully',
+                        'data' => [
+                            'vehicle_id' => $vehicle->vehicle_id,
+                            'make' => $vehicle->make,
+                            'model' => $vehicle->model,
+                            'type' => $vehicle->type,
+                            'fuel_type' => $vehicle->fuel_type,
+                            'location' => $vehicle->location,
+                            'cost' => $vehicle->cost,
+                            'rate' => $vehicle->rate,
+                            'availability' => $vehicle->availability,
+                            'license_plate_number' => $vehicle->license_plate_number,
+                            'seating_capacity' => $vehicle->seating_capacity,
+                            'description' => $vehicle->description,
+                            'driver' => $vehicle->driver,
+                            'image_paths' => $vehicle->image_path 
+                        ]
+                    ]);
+                
+                } else {
+                    http_response_code(404);
+                    echo json_encode([
+                        'success' => false,
+                        'message' => 'Vehicle not found'
+                    ]);
+                }
+            } else {
+                http_response_code(405);
+                echo json_encode([
+                    'success' => false,
+                    'message' => 'Method not allowed'
+                ]);
+            }
+        }
+        
 }
 
 

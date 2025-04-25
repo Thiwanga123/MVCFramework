@@ -370,14 +370,6 @@
     background-color: #164249;
 }
 
-/* Base styles with minimal but stylish design */
-@import url('https://fonts.googleapis.com/css2?family=Raleway:wght@300;400;500;600&display=swap');
-
-body {
-  font-family: 'Raleway', sans-serif;
-  margin: 0;
-  padding: 0;
-}
 
 /* Modal Overlay */
 .modal-overlay {
@@ -396,7 +388,7 @@ body {
 }
 
 /* Modal Content */
-#detailsContent {
+#detailsContent ,#bookingModalContent {
   background-color: #fff;
   width: 90%;
   max-width: 700px;
@@ -523,7 +515,76 @@ p:last-child {
 p:last-child strong {
   color: #009688;
 }
+h2 {
+  color: #008080;
+  margin-top: 0;
+  margin-bottom: 20px;
+  font-weight: 600;
+}
 
+/* Form Styling */
+#bookingForm {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.input-group {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 0;
+}
+
+.input-group label {
+  flex: 1;
+  font-weight: 500;
+}
+
+.input-group select {
+  width: 70px;
+  padding: 8px 12px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  background-color: white;
+  font-size: 14px;
+  margin: 0 15px;
+}
+
+.input-group span {
+  color: #00a3a3;
+  font-size: 14px;
+}
+
+/* Submit Button */
+.submit-button {
+  background-color: #009e9e;
+  color: white;
+  border: none;
+  padding: 12px 20px;
+  border-radius: 4px;
+  font-size: 16px;
+  font-weight: 500;
+  cursor: pointer;
+  margin-top: 10px;
+  transition: background-color 0.3s;
+}
+
+.submit-button:hover {
+  background-color: #007e7e;
+}
+
+/* Animation for modal appearing */
+@keyframes modalFadeIn {
+  from {
+      opacity: 0;
+      transform: translateY(-20px);
+  }
+  to {
+      opacity: 1;
+      transform: translateY(0);
+  }
+}
 /* Responsive adjustments */
 @media (max-width: 640px) {
   .modal-content {

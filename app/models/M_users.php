@@ -395,7 +395,7 @@ class M_users{
         }
     }
         public function getAllEquipmentSuppliers(){
-            $sql = 'SELECT * FROM equipment_supplier';
+            $sql = 'SELECT name, nic, address, phone, email, latitude, longitude, profile_path FROM equipment_suppliers';
             try{
                 $this->db->query($sql);
                 return $this->db->resultSet();

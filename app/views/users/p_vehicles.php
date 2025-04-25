@@ -90,43 +90,99 @@
                 </div>
 
                 <p>Showing Vehicles()</p>
-                
-                <!-- <div class="container1">
-                    <?php if (!empty($data['accommodations']) && is_array($data['accommodations'])) : ?>
-                        <?php foreach ($data['accommodations'] as $property) : ?>
-                            <div class="equipment-card">
-                                <div class="image-container">
-                                    <?php
-                                        $imagePath = !empty($property->image_path) ? htmlspecialchars($property->image_path) : 'default.jpg';
-                                    ?>
-                                    <img src="<?php echo URLROOT . '/' . $imagePath; ?>" alt="accommodation" class="equipment-image">
-                                </div>
-                                <div class="card-content">
-                                    <h3 class="product-name"><?php echo htmlspecialchars($property->property_name); ?></h3>
-                                    <p class="rate">City: <?php echo htmlspecialchars($property->city); ?></p>
-                                    <p class="rate">Starting from Rs. <?php echo htmlspecialchars(min($property->singleprice, $property->doubleprice, $property->livingprice, $property->familyprice)); ?></p>
-                                    <div class="rating-container">
-                                        <div class="stars">★★★★☆</div> <!-- Placeholder rating -->
-                                        <p class="rating-text">4.0</p>
+
+
+                    <div class="container1">
+                        <?php if (!empty($data['availableVehicles']) && is_array($data['availableVehicles'])) : ?>
+                            <?php foreach ($data['availableVehicles'] as $vehicle) : ?>
+                                <div class="equipment-card">
+                                    <div class="image-container">
+                                        <?php
+                                            // Placeholder for vehicle image path (you can replace this with a relevant image field if available)
+                                            $imagePath = 'default-vehicle.jpg'; // You can change this to an actual field if the vehicle has images
+                                        ?>
+                                        <img src="<?php echo URLROOT . '/' . $imagePath; ?>" alt="vehicle" class="equipment-image">
                                     </div>
-                                    <div class="bottom">
-                                        <a href="<?php echo URLROOT; ?>/users/viewAccommodation/<?php echo $property->property_id; ?>">                 
-                                            <button class="pay-button">View Details</button>
-                                        </a>
+                                    <div class="card-content">
+                                        <h3 class="product-name"><?php echo htmlspecialchars($vehicle->make . ' ' . $vehicle->model); ?></h3>
+                                        <p class="rate">Type: <?php echo htmlspecialchars($vehicle->type); ?></p>
+                                        <p class="rate">Fuel Type: <?php echo htmlspecialchars($vehicle->fuel_type); ?></p>
+                                        <p class="rate">Location: <?php echo htmlspecialchars($vehicle->location); ?></p>
+                                        <p class="rate">Cost: Rs. <?php echo htmlspecialchars($vehicle->cost); ?></p>
+
+                                        <div class="bottom">
+                                            <button class="view-btn" data-id="<?php echo $vehicle->vehicle_id; ?>">View Details</button>
+                                            <button class="pay-button" 
+                                                    data-id="<?php echo $vehicle->vehicle_id; ?>" 
+                                                    data-supplier-id="<?php echo $vehicle->supplierId; ?>" 
+                                                    data-rate="<?php echo $vehicle->rate; ?>" 
+                                                    data-availability="<?php echo $vehicle->availability; ?>">Book</button>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                        <?php endforeach; ?>
-                    <?php else : ?>
-                        <p>No Accommodations found.</p>
-                    <?php endif; ?>
-                </div> -->
+                            <?php endforeach; ?>
+                        <?php else : ?>
+                            <p>No Vehicles found.</p>
+                        <?php endif; ?>
+                    </div>
 
             </div>
             </main>
         </div>      
 </div>
 
+<div id="vehicleModal" class="modal" style="display:none;">
+    <div class="modal-content">
+        <span class="close-btn">&times;</span>
+        <h2 id="vehicleTitle">Vehicle Details</h2>
+        <div class="vehicle-info">
+            <!-- Add an image element with a default "none" display style that will be updated dynamically -->
+            <img id="vehicleImage" style="width: 100%; max-height: 300px; object-fit: cover; display: none;" alt="Vehicle Image">
+            
+            <p><strong>Make & Model:</strong> <span id="vehicleMakeModel">Honda Civic</span></p>
+            <p><strong>Type:</strong> <span id="vehicleType">Sedan</span></p>
+            <p><strong>Fuel Type:</strong> <span id="vehicleFuelType">Petrol</span></p>
+            <p><strong>Location:</strong> <span id="vehicleLocation">Mumbai Central</span></p>
+            <p><strong>Cost:</strong> <span id="vehicleCost">Rs. 2500</span></p>
+            <p><strong>Rate:</strong> <span id="vehicleRate">Per Day</span></p>
+            <p><strong>Availability:</strong> <span id="vehicleAvailability" class="available">Available</span></p>
+        </div>
+    </div>
+</div>
+
+    <div id="bookingModal" class="modal" style="display:none;">
+        <div class="modal-content">
+            <span class="close-btn" id="closeBookingModal">&times;</span>
+            <h2>Book Vehicle</h2>
+            
+            <!-- Booking Form -->
+            <form id="bookingForm">
+                <div class="form-group">
+                    <label for="bookingLocation">Location</label>
+                    <input type="text" id="bookingLocation" placeholder="Enter Pickup Location" required>
+                </div>
+                <div class="form-group">
+                    <label for="bookingDestination">Destination</label>
+                    <input type="text" id="bookingDestination" placeholder="Enter Destination" required>
+                </div>
+                <div class="form-group">
+                    <label>Driver Option</label>
+                    <div>
+                        <input type="radio" id="driverOption" name="driver" value="driver" required>
+                        <label for="driverOption">With Driver</label>
+                    </div>
+                    <div>
+                        <input type="radio" id="selfDriveOption" name="driver" value="selfDrive" required>
+                        <label for="selfDriveOption">Self Drive</label>
+                    </div>
+                </div>
+                <div class="form-actions">
+                    <button type="submit" id="submitBooking">Submit</button>
+                    <button type="button" id="cancelBooking">Cancel</button>
+                </div>
+            </form>
+        </div>
+    </div>
            
         
     
@@ -134,6 +190,10 @@
      <script src="<?php echo URLROOT;?>/js/Sidebar.js"></script>
      <script src="<?php echo URLROOT;?>/js/logout.js"></script>
     <script src="<?php echo URLROOT;?>/js/submenu.js"></script>
+    <script src="<?php echo URLROOT;?>/js/viewVehicle.js"></script>
+    <script>const URLROOT = "<?php echo URLROOT; ?>"; </script>
+
+
 </body>
 
 </html>

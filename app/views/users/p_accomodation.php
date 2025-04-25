@@ -88,9 +88,9 @@
                 </div>
 
                 <p>Showing Nearby Accomodations()</p>
-                <?php print_r($data['accommodations']); ?>
-
-                
+                <!-- <?php print_r($data['accommodations']); ?>
+<?php var_dump($_SESSION); ?>
+                 -->
                 <div class="container1">
                     <?php if (!empty($data['accommodations']) && is_array($data['accommodations'])) : ?>
                         <?php foreach ($data['accommodations'] as $property) : ?>
@@ -111,9 +111,12 @@
                                     </div>
                                     <div class="bottom">
                                             <button class="view-btn" data-id="<?php echo $property->property_id; ?>">View Details</button>
-                                        
-                                            <button class="pay-button">Book</button>
-                                        
+                                            <button class="pay-button" 
+                                            data-id="<?php echo $property->property_id; ?>" 
+                                            data-spid="<?php echo $property->service_provider_id; ?>" 
+                                            data-single = "<?php echo $property->single_bedrooms; ?>"
+                                            data-double = "<?php echo $property->double_bedrooms; ?>"
+                                            data-family = "<?php echo $property->family_rooms; ?>">Book</button>
                                     </div>
                                 </div>
                             </div>
@@ -183,6 +186,66 @@
         <p><strong>Other Details:</strong> <span id="modalOtherDetails"></span></p>
     </div>
 </div>
+
+
+    <div id="bookingModalOverlay" class="modal-overlay" style="display:none;">
+            <div class="modal-content" id="bookingModalContent">
+                <span class="close-btn" onclick="document.getElementById('bookingModalOverlay').style.display='none'">&times;</span>
+                
+                <!-- Modal Title -->
+                <h2>Book Your Rooms</h2>
+                
+                <!-- Form for booking rooms -->
+                <form id="bookingForm">
+                    <input type="hidden" id="propertyId" name="propertyId">
+                    <input type="hidden" id="serviceProviderId" name="serviceProviderId">
+                    
+                    <div class="input-group">
+                        <label for="singleRooms">Single Rooms (1 Person):</label>
+                        <select id="singleRooms" name="singleRooms" required>
+                            <option value="0">0</option>
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="4">4</option>
+                            <option value="5">5</option>
+                            <option value="6">6</option>
+                            <option value="7">7</option>
+                            <option value="8">8</option>
+                            <option value="9">9</option>
+                            <option value="10">10</option>
+                        </select>
+                        <span>Max: </span>
+                    </div>
+                    
+                    <div class="input-group">
+                        <label for="doubleRooms">Double Rooms (2 Persons):</label>
+                        <select id="doubleRooms" name="doubleRooms" required>
+                            <option value="0">0</option>
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="4">4</option>
+                            <option value="5">5</option>
+                        </select>
+                        <span>Max: </span>
+                    </div>
+                    
+                    <div class="input-group">
+                        <label for="familyRooms">Family Rooms (4 Persons):</label>
+                        <select id="familyRooms" name="familyRooms" required>
+                            <option value="0">0</option>
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                        </select>
+                        <span>Max: </span>
+                    </div>
+                    
+                    <button type="submit" class="submit-button">Book Rooms</button>
+                </form>
+            </div>
+    </div>
 
     <script>const URLROOT = "<?php echo URLROOT; ?>"; </script>
      <script src="<?php echo URLROOT;?>/js/Sidebar.js"></script>
