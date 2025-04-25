@@ -526,358 +526,282 @@
   .next-button:hover svg {
     transform: translateX(4px);
   }
-  .modal {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.5);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 1000;
-    transition: opacity 0.3s ease;
-  }
-  
-  /* Modal content container */
-  .modal-content {
-    background-color: #ffffff;
-    width: 90%;
-    max-width: 450px;
-    border-radius: 8px;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
-    position: relative;
-    animation: modalFadeIn 0.4s ease;
-  }
-  
-  @keyframes modalFadeIn {
-    from {
-      opacity: 0;
-      transform: translateY(-20px);
-    }
-    to {
-      opacity: 1;
-      transform: translateY(0);
-    }
-  }
-  
-  /* Close button styling */
-  .close-btn {
-    position: absolute;
-    top: 15px;
-    right: 20px;
-    font-size: 24px;
-    color: #666;
-    cursor: pointer;
-    transition: color 0.2s ease;
-  }
-  
-  .close-btn:hover {
-    color: #333;
-  }
-  
-  /* Modal title */
-  #vehicleTitle {
-    background-color: teal;
-    color: white;
-    margin: 0;
-    padding: 20px;
-    border-radius: 8px 8px 0 0;
-    font-size: 20px;
-    font-weight: 600;
-    text-align: center;
-  }
-  
-  /* Vehicle information container */
-  .vehicle-info {
-    padding: 20px;
-  }
-  
-  /* Information rows */
-  .vehicle-info p {
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: 12px;
-    padding-bottom: 12px;
-    border-bottom: 1px solid #eee;
-    font-size: 15px;
-    line-height: 1.5;
-  }
-  
-  .vehicle-info p:last-child {
-    margin-bottom: 0;
-    padding-bottom: 0;
-    border-bottom: none;
-  }
-  
-  /* Styling for labels */
-  .vehicle-info strong {
-    color: #555;
-    font-weight: 600;
-  }
-  
-  /* Styling for values */
-  .vehicle-info span {
-    color: #333;
-    font-weight: 400;
-    max-width: 60%;
-    text-align: right;
-  }
-  
-  /* Availability status */
-  #vehicleAvailability {
-    display: inline-block;
-    padding: 4px 10px;
-    border-radius: 30px;
-    font-size: 14px;
-    font-weight: 500;
-  }
-  
-  .available {
-    background-color: #e8f5e9;
-    color: #2e7d32;
-  }
-  
-  .unavailable {
-    background-color: #ffebee;
-    color: #c62828;
-  }
-  
-  /* Make the modal visible when needed */
-  .modal.show {
-    display: flex !important;
-  }
 
-  /* Modal Base */
+/* Modal base styling with elegant backdrop */
 .modal {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.5);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 1000;
-    opacity: 0;
-    transition: opacity 0.3s ease;
-    pointer-events: none;
-  }
-  
-  .modal.active {
-    opacity: 1;
-    pointer-events: all;
-  }
-  
-  /* Modal Content */
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(5px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  animation: fadeIn 0.3s ease-out;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+/* Content card with modern design */
+#vehicleDetails {
+  background: linear-gradient(to bottom right, #ffffff, #f8f9fa);
+  padding: 30px;
+  border-radius: 16px;
+  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2), 0 5px 15px rgba(0, 0, 0, 0.1);
+  max-width: 600px;
+  width: 90%;
+  position: relative;
+  overflow: hidden;
+  animation: slideUp 0.4s ease-out;
+}
+
+@keyframes slideUp {
+  from { transform: translateY(30px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
+/* Stylish close button */
+.close-btn {
+  position: absolute;
+  top: 15px;
+  right: 20px;
+  font-size: 28px;
+  font-weight: 300;
+  cursor: pointer;
+  color: #555;
+  transition: all 0.2s ease;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+}
+
+.close-btn:hover {
+  background-color: rgba(0, 0, 0, 0.05);
+  color: #000;
+  transform: rotate(90deg);
+}
+
+/* Modal header with accent */
+#vehicleTitle {
+  margin-top: 0;
+  margin-bottom: 25px;
+  color: #1a73e8;
+  font-size: 26px;
+  font-weight: 600;
+  position: relative;
+  padding-bottom: 12px;
+}
+
+#vehicleTitle:after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 60px;
+  height: 3px;
+  background: linear-gradient(to right, #1a73e8, #34a853);
+  border-radius: 3px;
+}
+
+/* Vehicle image enhancement */
+#vehicleImage {
+  margin-bottom: 20px;
+  border-radius: 12px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease;
+}
+
+#vehicleImage:hover {
+  transform: scale(1.02);
+}
+
+/* Vehicle information section */
+.vehicle-info {
+  font-size: 16px;
+  color: #444;
+}
+
+.vehicle-info p {
+  margin: 12px 0;
+  line-height: 1.6;
+  display: flex;
+  align-items: center;
+  padding: 8px 0;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+}
+
+.vehicle-info p:last-child {
+  border-bottom: none;
+}
+
+.vehicle-info strong {
+  display: inline-block;
+  width: 130px;
+  color: #666;
+  font-weight: 600;
+}
+
+/* Availability status with enhanced styling */
+.available {
+  color: #34a853;
+  font-weight: 600;
+  background-color: rgba(52, 168, 83, 0.1);
+  padding: 4px 10px;
+  border-radius: 20px;
+  display: inline-block;
+}
+
+.unavailable {
+  color: #ea4335;
+  font-weight: 600;
+  background-color: rgba(234, 67, 53, 0.1);
+  padding: 4px 10px;
+  border-radius: 20px;
+  display: inline-block;
+}
+
+/* Cost highlighting */
+#vehicleCost {
+  font-weight: 600;
+  color: #1a73e8;
+}
+
+/* Heading styles */
+h2 {
+  margin-top: 0;
+  margin-bottom: 25px;
+  color: #333;
+  font-size: 24px;
+  font-weight: 600;
+  border-bottom: 2px solid #f0f0f0;
+  padding-bottom: 12px;
+}
+
+/* Form styling */
+.form-group {
+  margin-bottom: 20px;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: 500;
+  color: #555;
+}
+
+.form-group input[type="text"] {
+  width: 100%;
+  padding: 12px 15px;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  font-size: 16px;
+  transition: border-color 0.2s ease;
+}
+
+.form-group input[type="text"]:focus {
+  border-color: #4a90e2;
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(74, 144, 226, 0.1);
+}
+
+/* Radio button styling */
+.form-group input[type="radio"] {
+  margin-right: 8px;
+  vertical-align: middle;
+}
+
+.form-group input[type="radio"] + label {
+  display: inline;
+  margin-right: 20px;
+  font-weight: normal;
+}
+
+/* Form action buttons */
+.form-actions {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 30px;
+}
+
+.submit-btn, .cancel-btn {
+  padding: 12px 24px;
+  border-radius: 6px;
+  font-size: 16px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.submit-btn {
+  background-color: #4a90e2;
+  color: white;
+  border: none;
+}
+
+.submit-btn:hover {
+  background-color: #3a80d2;
+  transform: translateY(-2px);
+  box-shadow: 0 3px 10px rgba(74, 144, 226, 0.3);
+}
+
+.cancel-btn {
+  background-color: #f8f8f8;
+  color: #555;
+  border: 1px solid #ddd;
+  margin-left: 10px;
+}
+
+.cancel-btn:hover {
+  background-color: #f0f0f0;
+  color: #333;
+}
+
+/* Responsive styles */
+@media (max-width: 600px) {
   .modal-content {
-    background: linear-gradient(to bottom right, #ffffff, #f9f9f9);
-    width: 90%;
-    max-width: 480px;
-    border-radius: 16px;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.18);
-    padding: 0;
-    position: relative;
-    transform: translateY(20px);
-    transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-    overflow: hidden;
+    padding: 20px;
+    width: 95%;
   }
   
-  .modal.active .modal-content {
-    transform: translateY(0);
-  }
-  
-  /* Modal Header */
-  .modal-content h2 {
-    margin: 0;
-    padding: 24px 30px;
-    color: #fff;
-    font-size: 22px;
-    font-weight: 600;
-    background: linear-gradient(135deg, #4a6fdc 0%, #3559c7 100%);
-    border-radius: 16px 16px 0 0;
-    text-align: center;
-    letter-spacing: 0.5px;
-  }
-  
-  /* Close Button */
-  .close-btn {
-    position: absolute;
-    top: 20px;
-    right: 20px;
-    font-size: 28px;
-    color: rgba(255, 255, 255, 0.8);
-    cursor: pointer;
-    transition: all 0.2s ease;
-    z-index: 10;
-    line-height: 1;
-  }
-  
-  .close-btn:hover {
-    color: #ffffff;
-    transform: rotate(90deg);
-  }
-  
-  /* Form Styling */
-  #bookingForm {
-    padding: 25px 30px 30px;
-  }
-  
-  .form-group {
-    margin-bottom: 22px;
-  }
-  
-  .form-group label {
-    display: block;
-    margin-bottom: 10px;
-    color: #444;
-    font-weight: 600;
-    font-size: 15px;
-  }
-  
-  .form-group input[type="text"] {
-    width: 100%;
-    padding: 12px 16px;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    font-size: 15px;
-    transition: all 0.3s ease;
-    background-color: #f8f8f8;
-    color: #333;
-  }
-  
-  .form-group input[type="text"]:focus {
-    border-color: #4a6fdc;
-    box-shadow: 0 0 0 3px rgba(74, 111, 220, 0.2);
-    background-color: #fff;
-    outline: none;
-  }
-  
-  .form-group input[type="text"]::placeholder {
-    color: #aaa;
-  }
-  
-  /* Radio Button Styling */
-  .form-group div {
-    display: flex;
-    align-items: center;
-    margin-bottom: 10px;
-  }
-  
-  .form-group input[type="radio"] {
-    -webkit-appearance: none;
-    -moz-appearance: none;
-    appearance: none;
-    width: 20px;
-    height: 20px;
-    border: 2px solid #ccc;
-    border-radius: 50%;
-    margin-right: 10px;
-    position: relative;
-    cursor: pointer;
-  }
-  
-  .form-group input[type="radio"]:checked {
-    border-color: #4a6fdc;
-  }
-  
-  .form-group input[type="radio"]:checked::before {
-    content: '';
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 10px;
-    height: 10px;
-    background-color: #4a6fdc;
-    border-radius: 50%;
-  }
-  
-  .form-group input[type="radio"] + label {
-    margin-bottom: 0;
-    cursor: pointer;
-  }
-  
-  /* Button Styling */
   .form-actions {
-    display: flex;
-    justify-content: space-between;
-    gap: 15px;
-    margin-top: 30px;
+    flex-direction: column;
   }
   
-  .form-actions button {
-    flex: 1;
-    padding: 12px;
-    border-radius: 8px;
-    font-size: 16px;
-    font-weight: 600;
-    cursor: pointer;
-    transition: all 0.3s ease;
+  .submit-btn, .cancel-btn {
+    width: 100%;
   }
   
-  #submitBooking {
-    background-color: #4a6fdc;
-    color: white;
-    border: none;
+  .cancel-btn {
+    margin-left: 0;
+    margin-top: 10px;
+  }
+}
+
+/* Responsive adjustments */
+@media (max-width: 600px) {
+  .modal-content {
+    width: 95%;
+    padding: 20px;
+    border-radius: 12px;
   }
   
-  #submitBooking:hover {
-    background-color: #3559c7;
-    transform: translateY(-2px);
-    box-shadow: 0 5px 15px rgba(74, 111, 220, 0.3);
+  .vehicle-info strong {
+    width: 110px;
   }
   
-  #cancelBooking {
-    background-color: #f5f5f5;
-    color: #666;
-    border: 1px solid #ddd;
+  #vehicleTitle {
+    font-size: 22px;
   }
-  
-  #cancelBooking:hover {
-    background-color: #eee;
-    color: #333;
-  }
-  
-  /* Responsive Adjustments */
-  @media (max-width: 576px) {
-    .modal-content {
-      width: 95%;
-      max-width: 100%;
-    }
-    
-    #bookingForm {
-      padding: 20px;
-    }
-    
-    .form-actions {
-      flex-direction: column;
-    }
-    
-    .form-actions button {
-      width: 100%;
-    }
-  
-  /* Responsive adjustments */
-  @media (max-width: 480px) {
-    .modal-content {
-      width: 95%;
-      max-width: 100%;
-    }
-    
-    .vehicle-info p {
-      flex-direction: column;
-      align-items: flex-start;
-    }
-    
-    .vehicle-info span {
-      max-width: 100%;
-      text-align: left;
-      margin-top: 5px;
-    }
-  }
+}
 
 @keyframes fadeIn {
     from {opacity: 0;}
@@ -910,4 +834,4 @@
         width: 100%;  /* Make the button fill available space */
     }
 }
-  }
+  

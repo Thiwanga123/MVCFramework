@@ -108,7 +108,9 @@
                                         <p class="rate">Type: <?php echo htmlspecialchars($vehicle->type); ?></p>
                                         <p class="rate">Fuel Type: <?php echo htmlspecialchars($vehicle->fuel_type); ?></p>
                                         <p class="rate">Location: <?php echo htmlspecialchars($vehicle->location); ?></p>
-                                        <p class="rate">Cost: Rs. <?php echo htmlspecialchars($vehicle->cost); ?></p>
+                                        <p class="rate">Cost: Rs. <?php echo htmlspecialchars($vehicle->cost); ?> (With Driver)</p>
+                                        <p class="rate">Cost: Rs. <?php echo htmlspecialchars($vehicle->rate); ?> (Self Drive)</p>
+
 
                                         <div class="bottom">
                                             <button class="view-btn" data-id="<?php echo $vehicle->vehicle_id; ?>">View Details</button>
@@ -116,6 +118,7 @@
                                                     data-id="<?php echo $vehicle->vehicle_id; ?>" 
                                                     data-supplier-id="<?php echo $vehicle->supplierId; ?>" 
                                                     data-rate="<?php echo $vehicle->rate; ?>" 
+                                                    data-cost="<?php echo $vehicle->cost; ?>"
                                                     data-availability="<?php echo $vehicle->availability; ?>">Book</button>
                                         </div>
                                     </div>
@@ -131,59 +134,65 @@
         </div>      
 </div>
 
-<div id="vehicleModal" class="modal" style="display:none;">
-    <div class="modal-content">
-        <span class="close-btn">&times;</span>
-        <h2 id="vehicleTitle">Vehicle Details</h2>
-        <div class="vehicle-info">
-            <!-- Add an image element with a default "none" display style that will be updated dynamically -->
-            <img id="vehicleImage" style="width: 100%; max-height: 300px; object-fit: cover; display: none;" alt="Vehicle Image">
-            
-            <p><strong>Make & Model:</strong> <span id="vehicleMakeModel">Honda Civic</span></p>
-            <p><strong>Type:</strong> <span id="vehicleType">Sedan</span></p>
-            <p><strong>Fuel Type:</strong> <span id="vehicleFuelType">Petrol</span></p>
-            <p><strong>Location:</strong> <span id="vehicleLocation">Mumbai Central</span></p>
-            <p><strong>Cost:</strong> <span id="vehicleCost">Rs. 2500</span></p>
-            <p><strong>Rate:</strong> <span id="vehicleRate">Per Day</span></p>
-            <p><strong>Availability:</strong> <span id="vehicleAvailability" class="available">Available</span></p>
+    <div id="vehicleModal" class="modal" style="display:none;">
+        <div class="modal-content" id="vehicleDetails">
+            <span class="close-btn">&times;</span>
+            <h2 id="vehicleTitle">Vehicle Details</h2>
+            <div class="vehicle-info">
+                <!-- Add an image element with a default "none" display style that will be updated dynamically -->
+                <img id="vehicleImage" style="width: 100%; max-height: 300px; object-fit: cover; display: none;" alt="Vehicle Image">
+                
+                <p><strong>Make & Model:</strong> <span id="vehicleMakeModel"></span></p>
+                <p><strong>Type:</strong> <span id="vehicleType"></span></p>
+                <p><strong>Fuel Type:</strong> <span id="vehicleFuelType"></span></p>
+                <p><strong>Location:</strong> <span id="vehicleLocation"></span></p>
+                <p><strong>Cost:</strong> <span id="vehicleCost"></span></p>
+                <p><strong>Rate:</strong> <span id="vehicleRate"></span></p>
+                <p><strong>Availability:</strong> <span id="vehicleAvailability" class="available"></span></p>
+            </div>
         </div>
     </div>
-</div>
 
     <div id="bookingModal" class="modal" style="display:none;">
-        <div class="modal-content">
-            <span class="close-btn" id="closeBookingModal">&times;</span>
-            <h2>Book Vehicle</h2>
+    <div class="modal-content">
+        <span class="close-btnn">&times;</span>
+        <h2>Book Vehicle</h2>
+        
+        <!-- Booking Form -->
+        <form id="bookingForm">
+            <!-- Pickup Location -->
+            <div class="form-group">
+                <label for="pickupLocation">Pickup Location</label>
+                <input type="text" id="pickupLocation" name="pickupLocation" placeholder="Enter pickup location" required>
+            </div>
             
-            <!-- Booking Form -->
-            <form id="bookingForm">
-                <div class="form-group">
-                    <label for="bookingLocation">Location</label>
-                    <input type="text" id="bookingLocation" placeholder="Enter Pickup Location" required>
+            <!-- Destination -->
+            <div class="form-group">
+                <label for="destination">Destination</label>
+                <input type="text" id="destination" name="destination" placeholder="Enter destination" required>
+            </div>
+            
+            <!-- Driver Options -->
+            <div class="form-group">
+                <label>Driver Option</label>
+                <div>
+                    <input type="radio" id="withDriver" name="driverOption" value="withDriver" required>
+                    <label for="withDriver">With Driver</label>
                 </div>
-                <div class="form-group">
-                    <label for="bookingDestination">Destination</label>
-                    <input type="text" id="bookingDestination" placeholder="Enter Destination" required>
+                <div>
+                    <input type="radio" id="selfDrive" name="driverOption" value="selfDrive" required>
+                    <label for="selfDrive">Self Drive</label>
                 </div>
-                <div class="form-group">
-                    <label>Driver Option</label>
-                    <div>
-                        <input type="radio" id="driverOption" name="driver" value="driver" required>
-                        <label for="driverOption">With Driver</label>
-                    </div>
-                    <div>
-                        <input type="radio" id="selfDriveOption" name="driver" value="selfDrive" required>
-                        <label for="selfDriveOption">Self Drive</label>
-                    </div>
-                </div>
-                <div class="form-actions">
-                    <button type="submit" id="submitBooking">Submit</button>
-                    <button type="button" id="cancelBooking">Cancel</button>
-                </div>
-            </form>
-        </div>
+            </div>
+            
+            <!-- Form Actions -->
+            <div class="form-actions">
+                <button type="submit" class="submit-btn">Book Now</button>
+                <button type="button" class="cancel-btn">Cancel</button>
+            </div>
+        </form>
     </div>
-           
+</div>
         
     
      
@@ -191,6 +200,8 @@
      <script src="<?php echo URLROOT;?>/js/logout.js"></script>
     <script src="<?php echo URLROOT;?>/js/submenu.js"></script>
     <script src="<?php echo URLROOT;?>/js/viewVehicle.js"></script>
+    <script src="<?php echo URLROOT;?>/js/bookVehicle.js"></script>
+
     <script>const URLROOT = "<?php echo URLROOT; ?>"; </script>
 
 

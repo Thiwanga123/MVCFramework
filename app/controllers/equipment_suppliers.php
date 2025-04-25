@@ -78,8 +78,6 @@ class Equipment_Suppliers extends Controller{
         }
     }
 
-
-
     public function orders(){
         if (isset($_SESSION['id'])) {
             $currentPage = 'bookings';

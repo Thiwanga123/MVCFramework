@@ -620,7 +620,7 @@ class Users extends Controller {
             $data['currentPage'] = 'vehicles';
             $startDate = $_SESSION['trip']['startDate'];
             $endDate = $_SESSION['trip']['endDate'];
-          
+        
             $availableVehicles = $this->transportModel->getAvailableVehicles($startDate, $endDate); 
             $data['availableVehicles'] = $availableVehicles;
             $this->view('users/p_vehicles', $data);
@@ -629,50 +629,63 @@ class Users extends Controller {
         }
     }
 
-    public function planequipments(){
-        if(isset($_SESSION['user_id'])) {
+    public function planequipments() {
+        if (isset($_SESSION['user_id'])) {
             $data['currentPage'] = 'equipments';
-            $lat = $_SESSION['trip']['lat'];
-            $lng = $_SESSION['trip']['lng'];
-           
-            $data['latitude'] = $lat ?? null;
-            $data['longitude'] = $lng ?? null;
+            $lat = $_SESSION['trip']['lat'] ?? null;
+            $lng = $_SESSION['trip']['lng'] ?? null;
             
-
+            $data['latitude'] = $lat;
+            $data['longitude'] = $lng;
+    
             if ($data['latitude'] && $data['longitude']) {
-                $allSuppliers = $this->userModel->getAllEquipmentSuppliers(); 
-                var_dump($allSuppliers);
-                exit;
+                $allSuppliers = $this->userModel->getAllEquipmentSuppliers();
+                $nearbySuppliers = [];
                 $nearbySupplierIds = [];
     
+                // Find nearby suppliers within 20 km
                 foreach ($allSuppliers as $supplier) {
                     $distance = $this->haversine_distance($data['latitude'], $data['longitude'], $supplier->latitude, $supplier->longitude);
                     if ($distance <= 20) {
-                        $supplier->distance = round($distance, 2); 
-                        $nearbySupplierIds[] = $supplier->id;    
+                        $supplier->distance = round($distance, 2);
+                        $nearbySuppliers[] = $supplier; // Store full supplier object
+                        $nearbySupplierIds[] = $supplier->id; // Store supplier ID
                     }
                 }
-
-                var_dump($nearbySupplierIds);
-                exit;
-
+    
                 if (empty($nearbySupplierIds)) {
                     $data['equipments'] = [];
                     $data['message'] = "No nearby suppliers found.";
-                    $this->view('users/p_equipments', $data);
-                    return;
+                } else {
+                    // Get all equipment from nearby suppliers
+                    $allEquipment = $this->userModel->getEquipmentBySupplierIds($nearbySupplierIds);
+                    $startDate = $_SESSION['trip']['startDate'];
+                    $endDate = $_SESSION['trip']['endDate'];
+    
+                    // Get unavailable equipment IDs for the selected dates
+                    $unavailableEquipmentIds = $this->userModel->getBookedEquipmentIds($startDate, $endDate);
+    
+                    // Filter to get only available equipment
+                    $availableEquipment = array_filter($allEquipment, function($equipment) use ($unavailableEquipmentIds) {
+                        return !in_array($equipment->id, $unavailableEquipmentIds);
+                    });
+    
+                    $data['equipments'] = array_values($availableEquipment); // Reset array keys
+                    $data['suppliers'] = $nearbySuppliers; // Assign nearby suppliers
+                    $data['start_date'] = $startDate;
+                    $data['end_date'] = $endDate;
                 }
-
-           
-            $data['latitude'] = $lat ?? null;
-            $data['longitude'] = $lng ?? null;
-            
-            $this->view('users/p_equipments', $data);
-        }else{
+    
+                $this->view('users/p_equipments', $data);
+            } else {
+                $data['equipments'] = [];
+                $data['message'] = "Please set a location first.";
+                $this->view('users/p_equipments', $data);
+            }
+        } else {
             redirect('users/login');
         }
     }
-}
 
     public function planguides(){
         if(isset($_SESSION['user_id'])) {

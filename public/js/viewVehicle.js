@@ -3,13 +3,11 @@ document.addEventListener('DOMContentLoaded', () => {
     const modal = document.getElementById('vehicleModal'); // Get the modal element
     const closeBtn = modal.querySelector('.close-btn'); // Get the close button inside the modal
 
-    // Event listener for each view button
     viewButtons.forEach(button => {
         button.addEventListener('click', async function () {
             const vehicleId = this.dataset.id; // Get vehicle ID from data attribute
 
             try {
-                // Fetch vehicle details from the server
                 const response = await fetch(`${URLROOT}/transport_suppliers/getVehicleDetails`, {
                     method: 'POST',
                     headers: {
@@ -18,7 +16,6 @@ document.addEventListener('DOMContentLoaded', () => {
                     body: JSON.stringify({ vehicleId }) // Send vehicle ID in request body
                 });
 
-                // If response is not OK, throw an error
                 if (!response.ok) throw new Error('Failed to fetch vehicle data');
 
                 // Parse JSON response
@@ -56,7 +53,6 @@ document.addEventListener('DOMContentLoaded', () => {
                     // Show the modal
                     modal.style.display = 'flex';
                 } else {
-                    // If success is false, show an alert with the message
                     alert(data.message || 'An error occurred while fetching vehicle details.');
                 }
 

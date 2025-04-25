@@ -145,6 +145,8 @@ class M_guider{
                 $this->db->bind(':endDate', $endDate);
                             
                 $results = $this->db->resultSet();
+                var_dump($results);
+                exit;
                             
                 return $results;
             }catch(Exception $e){

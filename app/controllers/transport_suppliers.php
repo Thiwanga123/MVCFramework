@@ -416,6 +416,7 @@ public function addriver() {
                         'success' => true,
                         'message' => 'Vehicle details fetched successfully',
                         'data' => [
+                            'supplier_id' => $vehicle->supplierId,
                             'vehicle_id' => $vehicle->vehicle_id,
                             'make' => $vehicle->make,
                             'model' => $vehicle->model,
@@ -449,6 +450,44 @@ public function addriver() {
             }
         }
         
+        public function saveVehicleDetails()
+        {
+            // Make sure the request is POST and JSON
+            if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+                // Read the raw POST data
+               
+                $input = file_get_contents('php://input');
+                $bookingData = json_decode($input, true);
+        
+                // Optional: Validate required fields
+                $requiredFields = ['vehicleId', 'supplierId', 'rate', 'pickupLocation', 'destination', 'driverOption', 'startDate', 'endDate'];
+                foreach ($requiredFields as $field) {
+                    if (empty($bookingData[$field])) {
+                        http_response_code(400);
+                        echo json_encode(['error' => "Missing field: $field"]);
+                        return;
+                    }
+                }
+        
+                // Start session if not already started
+                if (session_status() === PHP_SESSION_NONE) {
+                    session_start();
+                }
+        
+                // Save booking data to session
+                $_SESSION['booking_data'] = $bookingData;
+        
+                // Respond back to AJAX call
+                echo json_encode([
+                    'status' => 'success',
+                    'message' => 'Booking data saved to session.',
+                    'data' => $bookingData
+                ]);
+            } else {
+                http_response_code(405); // Method Not Allowed
+                echo json_encode(['error' => 'Invalid request method.']);
+            }
+        }
 }
 
 
