@@ -206,7 +206,7 @@ public function updateprofile($data){
                 return false;
         }
     }
-  
+
     
 
 }

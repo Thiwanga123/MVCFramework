@@ -253,6 +253,21 @@ class M_accomadation{
             return [];
         }
     }
+
+    public function getPropertyDetailsById($propertyId) {
+        // SQL query to fetch property details by ID
+        $sql = "SELECT * FROM properties WHERE property_id = ? LIMIT 1";
+       
+        try {
+            $this->db->query($sql);
+            $this->db->bind(1, $propertyId);
+            $property = $this->db->single();
+            return $property;
+        } catch (Exception $e) {
+            echo "<script>alert('An error occurred: {$e->getMessage()}');</script>";    
+            return null;
+        }
+    }
 }
 
 ?>

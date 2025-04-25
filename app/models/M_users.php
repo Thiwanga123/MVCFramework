@@ -394,7 +394,16 @@ class M_users{
             return $e->getMessage();
         }
     }
-
+        public function getAllEquipmentSuppliers(){
+            $sql = 'SELECT * FROM equipment_supplier';
+            try{
+                $this->db->query($sql);
+                return $this->db->resultSet();
+            }catch(Exception $e){
+                return $e->getMessage();
+            }
+        } 
+    
 
 }
 

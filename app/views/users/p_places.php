@@ -22,19 +22,20 @@
                     <div class="dashboard-container">
                         <div class="header">
                             <h1>Places</h1>
-                        </div>
+                            <?php var_dump($_SESSION); ?>
 
-                        <div class="navigation-footer">
-                            <div class="group">
-                                <a href="<?php echo URLROOT;?>/users/planhome">
-                                    <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#1d5a62"><path d="m326.15-434.5 218.74 218.74L480-151.87 151.87-480 480-808.13l64.89 63.89L326.15-525.5h481.98v91H326.15Z"/></svg>
-                                    <p>Previous</p>
+                            <div class="navigation-footer">
+                                <a href="<?php echo URLROOT;?>/users/planhome" class="nav-button prev-button">
+                                    <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="currentColor">
+                                    <path d="m326.15-434.5 218.74 218.74L480-151.87 151.87-480 480-808.13l64.89 63.89L326.15-525.5h481.98v91H326.15Z"/>
+                                    </svg>
+                                    <span>Previous</span>
                                 </a>
-                            </div>
-                            <div class="group">
-                                <a href="#" id="nextButton">
-                                    <p>Next</p>
-                                    <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#1d5a62"><path d="M633.85-434.5H151.87v-91h481.98L415.11-744.24 480-808.13 808.13-480 480-151.87l-64.89-63.89 218.74-218.74Z"/></svg>
+                                <a href="<?php echo URLROOT; ?>/users/planaccomodation" id="nextButton" class="nav-button prev-button">
+                                    <span>Next</span>
+                                    <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="currentColor">
+                                    <path d="M633.85-434.5H151.87v-91h481.98L415.11-744.24 480-808.13 808.13-480 480-151.87l-64.89-63.89 218.74-218.74Z"/>
+                                    </svg>
                                 </a>
                             </div>
                         </div>
@@ -111,7 +112,6 @@
         <script src="<?php echo URLROOT;?>/js/Sidebar.js"></script>
         <script src="<?php echo URLROOT;?>/js/logout.js"></script>
         <script src="<?php echo URLROOT;?>/js/subMenu.js"></script>
-        <script src="<?php echo URLROOT;?>/js/TripPlanner/nextBtn.js"></script>
 
         
         <script>const apiKey = "<?php echo API_KEY; ?>";</script>

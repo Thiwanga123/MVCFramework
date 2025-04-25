@@ -16,7 +16,7 @@
         $this->db->query($sql);
 
         $this->db->bind(1, $supplierId);
-        $this->db->bind(2, $productName);
+        $this->db->bind(2, $vehicleName);
         $this->db->bind(3, $rate);
         $this->db->bind(4, $category);
         $this->db->bind(5, $quantity);
