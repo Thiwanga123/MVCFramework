@@ -20,19 +20,18 @@ public function dashboard(){
 
 public function mypayments(){
     if (isset($_SESSION['id'])) {
-        $this->view('tour_guides/MyPayments');
+        $userId = $_SESSION['id'];
+        $bankDetails = $this->guiderModel->getBankDetails($userId);
+        $data = [
+            'bankDetails' => $bankDetails
+        ];
+
+        $this->view('tour_guides/bankdetails', $data);
     } else {
         redirect('ServiceProvider');
     }
 }
 
-public function bankDetails(){
-    if (isset($_SESSION['id'])) {
-        $this->view('tour_guides/bankdetails');
-    } else {
-        redirect('ServiceProvider');
-    }
-}
 
 public function Bookings() {
     if (isset($_SESSION['id'])) {
@@ -245,6 +244,87 @@ public function getNumberOfBookings(){
     $guider_id = $_SESSION['id'];
     $bookings = $this->guiderModel->getBookings($guider_id);
     $this->view('tour_guides/Dashboard', $bookings);
+}
+
+
+public function processWithdrawal() {
+    if (!isset($_SESSION['id'])) {
+        echo json_encode([
+            'success' => false, 
+            'message' => 'Not authorized'
+        ]);
+        return;
+    }
+    
+    if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+        echo json_encode([
+            'success' => false, 
+            'message' => 'Invalid request method'
+        ]);
+        return;
+    }
+    
+    // Validate input
+    $amount = isset($_POST['amount']) ? floatval($_POST['amount']) : 0;
+    
+    // Check minimum withdrawal amount
+    if ($amount < 1000) {
+        echo json_encode([
+            'success' => false, 
+            'message' => 'Minimum withdrawal amount is Rs. 1,000'
+        ]);
+        return;
+    }
+    
+    if ($amount <= 0) {
+        echo json_encode([
+            'success' => false, 
+            'message' => 'Please enter a valid withdrawal amount'
+        ]);
+        return;
+    }
+    
+    // Gather bank details
+    $bankDetails = [
+        'method' => $_POST['withdrawal_method'] ?? 'Bank Transfer',
+        'bank_name' => $_POST['bank_name'] ?? '',
+        'account_number' => $_POST['account_number'] ?? '',
+        'account_name' => $_POST['account_name'] ?? '',
+        'branch' => $_POST['branch'] ?? '',
+        'withdrawal_date' => date('Y-m-d H:i:s')
+    ];
+    
+    // Process the withdrawal
+    $result = $this->guiderModel->processWithdrawal($_SESSION['id'], $amount, $bankDetails);
+    
+    // Return JSON response
+    echo json_encode($result);
+}
+
+public function downloadTransactionReport() {
+    if (!isset($_SESSION['id'])) {
+        redirect('ServiceProvider/login');
+        return;
+    }
+    
+    $userId = $_SESSION['id'];
+    
+    // Get transaction history from model
+    $transactions = $this->guiderModel->getTransactionHistory($userId);
+    $bankDetails = $this->guiderModel->getBankDetails($userId);
+    $walletTransactions = $bankDetails['transactions'];
+    
+    $data = [
+        'transactions' => $transactions,
+        'wallet_transactions' => $walletTransactions,
+        'wallet_balance' => $bankDetails['wallet_balance'],
+        'holding_amount' => $bankDetails['total_holding_amount'],
+        'earnings' => $bankDetails['earnings'],
+        'report_date' => date('F d, Y')
+    ];
+    
+    // Load the transaction report view
+    $this->view('tour_guides/transaction_report', $data);
 }
 }
 ?>

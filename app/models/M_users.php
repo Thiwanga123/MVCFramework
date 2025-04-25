@@ -138,7 +138,7 @@ class M_users{
             vb.check_in AS start_date, 
             vb.check_out AS end_date, 
             vb.status, 
-            vb.paid AS price
+            vb.amount AS price
          FROM vehicle_booking vb
          JOIN vehicles v ON vb.vehicle_id = v.vehicle_id
          WHERE vb.traveler_id = :traveler_id AND vb.status IS NOT NULL
@@ -168,7 +168,7 @@ class M_users{
             gb.check_in AS start_date,
             gb.check_out AS end_date, 
             gb.status, 
-            gb.paid AS price
+            gb.amount AS price
          FROM guider_booking gb
          JOIN tour_guides g ON gb.guider_id = g.id
          WHERE gb.traveler_id = :traveler_id AND gb.status IS NOT NULL
