@@ -1,0 +1,187 @@
+
+.AddProduct {
+  padding: 1.5rem;
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Section Headers */
+h2 {
+  color: #2c3e50;
+  margin-bottom: 1rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 2px solid #eaeaea;
+  font-size: 1.5rem;
+}
+
+/* Form Sections */
+.basic-details, .image-upload, .policies {
+  margin-bottom: 2rem;
+  padding: 1rem;
+  background-color: #f9f9f9;
+  border-radius: 6px;
+}
+
+.details {
+  padding: 1rem;
+}
+
+/* Form Layout */
+.div {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2rem;
+}
+
+.left, .right {
+  flex: 1;
+  min-width: 280px;
+}
+
+.bottom {
+  width: 100%;
+  margin-top: 1.5rem;
+}
+
+/* Form Controls */
+label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: 500;
+  color: #444;
+}
+
+input[type="text"],
+input[type="number"],
+select,
+textarea {
+  width: 100%;
+  padding: 0.8rem;
+  margin-bottom: 1.2rem;
+  border: 1px solid #ddd;
+  border-radius: 20px;
+  font-size: 1rem;
+}
+
+input[type="file"] {
+  margin: 1rem 0;
+  padding: 0.5rem 0;
+}
+
+textarea {
+  resize: vertical;
+  min-height: 100px;
+}
+
+/* Radio Button Group */
+.group {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1.2rem;
+}
+
+.group input[type="radio"] {
+  margin-right: 0.3rem;
+}
+
+.group label {
+  display: inline;
+  margin-bottom: 0;
+}
+
+/* Error Messages */
+.error-message {
+  color: #e74c3c;
+  font-size: 0.85rem;
+  display: block;
+  margin-top: -0.8rem;
+  margin-bottom: 1rem;
+}
+
+/* Image Preview */
+.image-container {
+  margin-top: 1rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+#image-preview {
+  border-radius: 4px;
+  border: 1px solid #ddd;
+  padding: 0.25rem;
+}
+
+/* Refund Sections */
+#fullRefundSection, #partialRefundSection {
+  background-color: #f0f8ff;
+  padding: 1rem;
+  margin: 1rem 0;
+  border-radius: 4px;
+  border-left: 3px solid #3498db;
+}
+
+.partialContent {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+}
+
+.partialContent > div {
+  flex: 1;
+  min-width: 250px;
+}
+
+.damage {
+  margin-top: 1.5rem;
+}
+
+/* Button */
+.btn {
+  margin-top: 2rem;
+  text-align: center;
+}
+
+.addRentalBtn {
+  background-color: teal;
+  color: white;
+  border: none;
+  padding: 0.8rem 2rem;
+  font-size: 1.1rem;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.addRentalBtn:hover {
+  background-color: rgb(5, 71, 71);
+  transform: scale(1.01);
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+  .div {
+    flex-direction: column;
+    gap: 0;
+  }
+  
+  .left, .right {
+    width: 100%;
+  }
+  
+  .AddProduct {
+    margin: 1rem;
+    padding: 1rem;
+  }
+  
+  h2 {
+    font-size: 1.3rem;
+  }
+  
+  .partialContent {
+    flex-direction: column;
+    gap: 0;
+  }
+}
