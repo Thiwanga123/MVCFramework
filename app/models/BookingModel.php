@@ -196,14 +196,15 @@ public function updateProfile($data){
             $this->db->bind(1,$id);
             $result = $this->db->resultSet();
             return $result;
-        }catch(Exception $e){
+
+            }catch(Exception $e){
             $error_msg = $e->getMessage();
             echo "<script>alert('An error occured: $error_msg');</script>";
             return false;
-}
-}
 
+        }
 
+    }
 
     public function checkBooking($productId){
         $sql = "SELECT COUNT(*) AS booking_count FROM rental_equipment_bookings WHERE equipment_id = ? AND status IN ('booked', 'active')";
@@ -212,12 +213,15 @@ public function updateProfile($data){
             $this->db->bind(1, $productId);
             $result = $this->db->single();
             return $result -> booking_count;
-        }catch(Exception $e){
+
+        
+        } catch(Exception $e){
             $error_msg = $e->getMessage();
-            echo "<script>alert('An error occured: $error_msg');</script>";
+            echo "<script>alert('An error occurred: $error_msg');</script>";
             return false;
         }
     }
+
 
     public function softDeleteProduct($productId) {
         $sql = "UPDATE rental_equipments SET deleted_at = NOW() WHERE id = ?";
@@ -248,6 +252,9 @@ public function updateProfile($data){
             return false;
         }
     }
+
+
+
 
     public function book_guider($data){
         $sql = "INSERT INTO guider_booking (traveler_id, guider_id, check_in, check_out, amount, pickup, destination) VALUES (:traveler_id, :guider_id, :check_in, :check_out, :amount, :pickup, :destination)";

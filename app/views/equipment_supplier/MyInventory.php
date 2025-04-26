@@ -3,10 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="<?php echo URLROOT;?>/css/Common/MyInventory_e.css">
-    <link rel="stylesheet" href="<?php echo URLROOT;?>/css/Common/AddProduct.css">
-    <link rel="stylesheet" href="<?php echo URLROOT;?>/css/Common/sidebarHeader.css">
-    <link rel="stylesheet" href="<?php echo URLROOT;?>/css/Modals/logoutModal.css">
+    <link rel="stylesheet" href="<?php echo URLROOT;?>/css/ushan/Common/MyInventory.css">
+    <link rel="stylesheet" href="<?php echo URLROOT;?>/css/ushan/Common/AddProduct.css">
+    <link rel="stylesheet" href="<?php echo URLROOT;?>/css/ushan/Common/sidebarHeader.css">
+    <link rel="stylesheet" href="<?php echo URLROOT;?>/css/ushan/Modals/logoutModal.css">
 
     <title>My Rentals</title>
 </head>
@@ -33,7 +33,7 @@
                                     <a href="<?php echo URLROOT; ?>/product/viewProduct/<?php echo $rental->id; ?>" class="product-card-link">                        
                                         <div class="product-card">
                                             <div class="img">
-                                                <img src="<?php echo URLROOT . '/' . $rental->image_path; ?>" alt="<?php echo $rental->product_name; ?>">
+                                                <img src="<?php echo URLROOT . '/' . $rental->image_path; ?>">
                                             </div>
                                             <div class="detailsCard">
                                                 <h4><?php echo $rental->rental_name ?></h4>
@@ -55,8 +55,7 @@
                                         </div>
                                     </a>
                                 <?php endforeach; ?>
-                            </div>
-                        
+                            </div>   
                     </div>
                 </div>
 

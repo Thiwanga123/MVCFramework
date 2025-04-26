@@ -3,10 +3,14 @@
     class Product extends Controller{
         private $productModel;
         private $bookingModel;
+        private $equipmentModel;
+        private $reviewModel;
 
         public function __construct(){
             $this->productModel = $this->model('ProductModel');
             $this->bookingModel = $this->model('BookingModel');
+            $this->reviewModel = $this->model('ReviewModel');
+            $this->equipmentModel = $this->model('EquipmentModel');
         }
 
         public function addProduct(){
@@ -238,78 +242,89 @@
             }
         }
 
-        public function updateProduct()
+        public function updateProduct($id)
         {
             if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-                // Sanitize and validate inputs
-                $productId = trim($_POST['productId']);
-                $productName = trim($_POST['productName']);
-                $category = trim($_POST['productCategory']);
-                $rate = trim($_POST['productRate']);
-                $quantity = trim($_POST['stockQuantity']);
-                $description = trim($_POST['productDescription']);
+                // Sanitize inputs
+                $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
         
-                $errors = [];
+                $data = [
+                    'id' => $id,
+                    'rental_name' => trim($_POST['rental_name']),
+                    'price_per_day' => trim($_POST['price_per_day']),
+                    'category_name' => trim($_POST['category_name']),
+                    'maximum_rental_period' => trim($_POST['maximum_rental_period']),
+                    'delivery_available' => trim($_POST['delivery_available']),
+                    'rental_description' => trim($_POST['rental_description']),
+                    'return_policy' => trim($_POST['return_policy']),
+                    'full_refund_time' => $_POST['full_refund_time'] ?? '',
+                    'partial_refund_time' => $_POST['partial_refund_time'] ?? '',
+                    'partial_refund_percentage' => $_POST['partial_refund_percentage'] ?? '',
+                    'damage_policy' => trim($_POST['damage_policy']),
+                    'errors' => []
+                ];
         
-                // Validate Product Name
-                if (empty($productName)) {
-                    $errors['nameError'] = "Product name is required.";
+                // Validate fields
+                if (empty($data['rental_name'])) {
+                    $data['errors']['rental_name'] = "Rental name is required.";
+                }
+                if (empty($data['price_per_day'])) {
+                    $data['errors']['price_per_day'] = "Price per day is required.";
+                }
+                if (empty($data['category_name'])) {
+                    $data['errors']['category_name'] = "Category is required.";
+                }
+                if (empty($data['maximum_rental_period'])) {
+                    $data['errors']['maximum_rental_period'] = "Maximum rental period is required.";
+                }
+                if (empty($data['rental_description'])) {
+                    $data['errors']['rental_description'] = "Description is required.";
                 }
         
-                // Validate Category
-                if (empty($category)) {
-                    $errors['categoryError'] = "Category is required.";
+                // If there are errors
+                if (!empty($data['errors'])) {
+                    // Re-load the edit form with errors and old input
+                    $this->view('product/viewProduct', $data);
+                    return;
                 }
         
-                // Validate Quantity
-                if (!is_numeric($quantity)) {
-                    $errors['quantityError'] = "Quantity must be a number.";
-                } elseif ($quantity < 1 || $quantity > 15) {
-                    $errors['quantityError'] = "Stock quantity must be between 1 and 15.";
-                }
-        
-                // Validate Description
-                if (empty($description)) {
-                    $errors['descriptionError'] = "Description is required.";
-                }
-        
-                if (empty($rate)) {
-                    $errors['rateError'] = "Rate is required.";
-                }
-        
-                if (!empty($errors)) {
-                    $_SESSION['errors'] = $errors;
-                    $_SESSION['old_input'] = $_POST; 
-                    header("Location: " . URLROOT . "/product/edit/$productId");
-                    exit();
-                }
-        
-                if ($this->productModel->updateProduct($productId, $productName, $category, $rate, $quantity, $description)) {
-                    $_SESSION['success'] = "Product updated successfully!";
-                    header("Location: " . URLROOT . "/product/edit/$productId");
-                    exit();
+                // No errors, update
+                if ($this->productModel->updateProduct($id, $data)) {
+                    // Redirect after success (NO flash message)
+                    header('Location: ' . URLROOT . '/product/edit/' . $id);
+                    exit;
                 } else {
-                    $_SESSION['error'] = "Failed to update the product.";
-                    header("Location: " . URLROOT . "/product/edit/$productId");
-                    exit();
+                    die('Something went wrong while updating.');
                 }
+            } else {
+                header('Location: ' . URLROOT . '/product/edit/' . $id);
+                exit;
             }
         }
-
         public function viewProduct($productId) {
-            $productModel = $this->model('ProductModel');
-            $rental = $productModel->getProductDetailsById($productId);
+            $sptype = 'equipment';
+            $details = $this->equipmentModel->getProductDetailsById($productId);
+            $bookings = $this->bookingModel->getBookingsByEquipmentId($productId);
+            $reviews = $this->reviewModel->getReviewsByItemId($productId,$sptype);
+            $ratings = $this->reviewModel->getRatingsByItemId($productId, $sptype);
+            
+            $reviewCount = count($reviews);
+            $totalRating = 0;
         
-            if ($rental) {
-                $data = [
-                    'rental' => $rental,
-                ];
+            $averageRating = $reviewCount > 0 ? $totalRating / $reviewCount : 0;
+        
+            // Pass all data to the view
+            $data = [
+                'id' => $_SESSION['id'],
+                'details' => $details,
+                'bookings' => json_encode($bookings),
+                'reviews' => $reviews,
+                'reviewCount' => $reviewCount,
+                'averageRating' => $averageRating,
+                'ratings' => $ratings
+            ];
 
-                $this->view('equipment_supplier/viewProduct', $data);
-            } else {
-                header('Location: ' . URLROOT . '/products');
-                exit();
-            }
+            $this->view('equipment_supplier/viewProduct',$data);
         }
 
         public function bookings($productId){

@@ -7,17 +7,16 @@ class ReviewModel {
         $this->db = new Database();
     }
 
-    /////////////////////////////////////////      EQUIPMENT REVIEWS SECTION      /////////////////////////////////////////
-
-    public function getReviewsByEquipmentId($equipmentId){
+    public function getReviewsByItemId($itemId,$type){
         $sql = "SELECT r.* , t.name , t.profile_path
                 FROM reviews r 
                 JOIN traveler t ON r.traveler_id = t.traveler_id  
-                WHERE r.item_id = ? AND r.type = 'equipment'";
+                WHERE r.item_id = ? AND r.type = ? ";    
                 
         try{
             $this->db->query($sql);
-            $this->db->bind(1,$equipmentId);
+            $this->db->bind(1,$itemId);
+            $this->db->bind(2,$type);
             $result = $this->db->resultSet();
             return $result;
         }catch(Exception $e){
@@ -27,16 +26,17 @@ class ReviewModel {
         }
     }
 
-    public function getRatingsByEquipmentId($equipmentId){
+    public function getRatingsByitemId($itemId, $type){
         $sql = "SELECT rating, COUNT(*) as total
                 FROM reviews
-                WHERE item_id = ?
+                WHERE item_id = ? AND type = ?
                 GROUP BY rating
                 ORDER BY rating DESC";
 
         try{
             $this->db->query($sql);
-            $this->db->bind(1,$equipmentId);
+            $this->db->bind(1,$itemId);
+            $this->db->bind(2,$type);
             $result = $this->db->resultSet();
             return $result; 
         }catch(Exception $e){
@@ -47,15 +47,16 @@ class ReviewModel {
     }
 
 
-    public function addEquipmentReview($data){
+    public function addItemReview($data){
         try{
-            $sql = 'INSERT INTO reviews (type, item_id, traveler_id, rating, comment) VALUES (?, ?, ?, ?, ?)';
+            $sql = 'INSERT INTO reviews (type, supplier_id, item_id, traveler_id, rating, comment) VALUES (?, ?, ?, ?, ?)';
             $this->db->query($sql);
             $this->db->bind(1, $data['type']);
-            $this->db->bind(2, $data['productId']);
-            $this->db->bind(3, $data['userId']);
-            $this->db->bind(4, $data['rating']);
-            $this->db->bind(5, $data['comment']);
+            $this->db->bind(2, $data['supplierId']);
+            $this->db->bind(3, $data['productId']);
+            $this->db->bind(4, $data['userId']);
+            $this->db->bind(5, $data['rating']);
+            $this->db->bind(6, $data['comment']);
 
             $result = $this->db->execute();
             if($result){
@@ -69,8 +70,8 @@ class ReviewModel {
         }
     }
 
-    public function deleteEquipmentReview($data){
-        $sql = "DELETE FROM rental_equipments_reviews WHERE review_id = ?";
+    public function deleteItemReview($data){
+        $sql = "DELETE FROM reviews WHERE review_id = ?";
         try{
             $this->db->query($sql);
             $this->db->bind(1, $data['reviewId']);
@@ -86,8 +87,8 @@ class ReviewModel {
         }
     }
 
-    public function updateEquipmentReview($data){
-        $sql = "UPDATE rental_equipments_reviews SET rating = ?, comment = ?, created_at = NOW() WHERE review_id = ?;";
+    public function updateitemReview($data){
+        $sql = "UPDATE reviews SET rating = ?, comment = ?, created_at = NOW() WHERE review_id = ?;";
         try{
             $this->db->query($sql);
             $this->db->bind(1, $data['rating']);
@@ -106,21 +107,22 @@ class ReviewModel {
         }
     }
 
-    public function getReviewsBySupplierId($supplierId){
-        $sql = 'SELECT r.*, e.rental_name AS equipment_name, c.name AS customer_name, c.email AS customer_email,
+    public function getEquipmentReviewsBySupplierId($supplierId, $item){
+        $sql = 'SELECT r.*, e.rental_name AS item_name, c.name AS customer_name, c.email AS customer_email,
                 ( SELECT i.image_path FROM rental_images i 
-                  WHERE i.product_id = r.equipment_id 
+                  WHERE i.product_id = r.item_id 
                   LIMIT 1) AS image_path
-                FROM rental_equipments_reviews r
-                JOIN rental_equipments e ON r.equipment_id = e.id
+                FROM reviews r
+                JOIN rental_items e ON r.item_id = e.id
                 JOIN traveler c ON r.traveler_id = c.traveler_id
-                WHERE e.supplier_id = ?';
+                WHERE e.supplier_id = ? AND r.type = "item"';
 
         try{
             $this->db->query($sql);
             $this->db->bind(1, $supplierId);
             
             $result = $this->db->resultSet();
+            var_dump($result);
             return $result;
         }catch(Exception $e){
             $error_msg = $e->getMessage();

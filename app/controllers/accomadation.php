@@ -583,6 +583,8 @@ public function myPayments(){
         echo json_encode($propertyDetails);
     }
 
+
+
     // Update property details
     public function updateProperty() {
         if (!isset($_SESSION['id'])) {
@@ -758,6 +760,52 @@ public function myPayments(){
         
         // Load the transaction report view
         $this->view('accomadation/transaction_report', $data);
+    }
+
+
+    public function getPropertyDetailsDiv() {
+        $data = json_decode(file_get_contents("php://input"));
+        // Check if the propertyId is provided in the request
+      
+        if (isset($data->propertyId)) {
+            $propertyId = $data->propertyId;
+            $property = $this->accomadationModel->getPropertyDetailsById($propertyId);
+            if ($property) {
+                echo json_encode([
+                   'success' => true,
+                    'property_name' => $property->property_name,  // Object syntax for property_name
+                    'address' => $property->address,              // Object syntax for address
+                    'city' => $property->city,                    // Object syntax for city
+                    'postal_code' => $property->postal_code,      // Object syntax for postal_code
+                    'max_occupants' => $property->max_occupants,  // Object syntax for max_occupants
+                    'single_bedrooms' => $property->single_bedrooms, // Object syntax for single_bedrooms
+                    'double_bedrooms' => $property->double_bedrooms, // Object syntax for double_bedrooms
+                    'family_rooms' => $property->family_rooms,    // Object syntax for family_rooms
+                    'bathrooms' => $property->bathrooms,          // Object syntax for bathrooms
+                    'swimming_pool' => $property->swimming_pool,  // Object syntax for swimming_pool
+                    'smoking_allowed' => $property->smoking_allowed, // Object syntax for smoking_allowed
+                    'check_in_from' => $property->check_in_from,  // Object syntax for check_in_from
+                    'check_out_from' => $property->check_out_from, // Object syntax for check_out_from
+                    'singleprice' => $property->singleprice,      // Object syntax for singleprice
+                    'doubleprice' => $property->doubleprice,      // Object syntax for doubleprice
+                    'livingprice' => $property->livingprice,      // Object syntax for livingprice
+                    'familyprice' => $property->familyprice,      // Object syntax for familyprice
+                    'other_details' => $property->other_details,  // Object syntax for other_details
+                    'service_provider_id' => $property->service_provider_id, // Object syntax for service_provider_id
+                    'image_path' => $property->image_path   
+                ]);
+            } else {
+                echo json_encode([
+                    'success' => false,  // Indicating failure
+                    'error' => 'Property not found.'
+                ]);
+            }
+        } else {
+            echo json_encode([
+                'success' => false,  // Indicating failure
+                'error' => 'Property ID is required.'
+            ]);
+        }
     }
 
 }

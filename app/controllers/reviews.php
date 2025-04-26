@@ -8,9 +8,8 @@ class Reviews extends Controller{
     }
 
     //////////////////////////////////////////////     EQUIPMENT REVIEWS SECTION     ///////////
-    //////////////////////////////////////////
 
-    public function addEquipmentReview(){
+    public function addReview(){
         header('Content-Type: application/json');
         if($_SERVER['REQUEST_METHOD'] == 'POST'){
             $productId = isset($_POST['productId']) ? trim($_POST['productId']) : null;
@@ -18,7 +17,10 @@ class Reviews extends Controller{
             $comment = isset($_POST['comment']) ? trim($_POST['comment']) : null;
             $type = isset($_POST['type']) ? trim($_POST['type']) : null;
 
+            $id = $_SESSION['id'];
+
             $data = [
+                'supplierId' => $id,
                 'userId' => $_SESSION['user_id'],
                 'productId' => htmlspecialchars($productId),
                 'rating' => htmlspecialchars($rating),
@@ -31,7 +33,7 @@ class Reviews extends Controller{
                 return;
             }
 
-            $result = $this->reviewModel->addEquipmentReview($data);
+            $result = $this->reviewModel->addItemReview($data);
 
             if($result){
                 echo json_encode(['success' => true, 'message' => 'Review added successfully.']);
@@ -43,7 +45,7 @@ class Reviews extends Controller{
         }
     }
 
-    public function deleteEquipmentReview(){
+    public function deleteReview(){
         header('Content-Type: application/json');
         if($_SERVER['REQUEST_METHOD'] == 'POST'){
             $reviewId = isset($_POST['reviewId']) ? trim($_POST['reviewId']) : null;
@@ -52,7 +54,7 @@ class Reviews extends Controller{
                 'reviewId' => htmlspecialchars($reviewId),
             ];
 
-            $result = $this->reviewModel->deleteEquipmentReview($data);
+            $result = $this->reviewModel->deleteItemReview($data);
 
             if($result){
                 echo json_encode(['success' => true, 'message' => 'Review deleted successfully.']);
@@ -64,7 +66,7 @@ class Reviews extends Controller{
         }
     }
 
-    public function editEquipmentReview(){
+    public function editReview(){
         header('Content-Type: application/json');
 
         if($_SERVER['REQUEST_METHOD'] == 'POST'){
@@ -86,7 +88,7 @@ class Reviews extends Controller{
                 return;
             }
 
-            $result = $this->reviewModel->updateEquipmentReview($data);
+            $result = $this->reviewModel->updateReview($data);
 
             if($result){
                 echo json_encode(['success' => true, 'message' => 'Review updated successfully.']);

@@ -163,6 +163,8 @@
                 <div class="deleteContent" id="deleteContent">
                     <span class="close-button" id="closeReviewDeleteModal">&times;</span>
                     <img src="<?php echo URLROOT;?>/Images/warning.png" class="reviewDeleteIcon">
+                    <input type="hidden" id="reviewType" name="type" value="equipment">
+
                     <h3>Are you sure you want to delete this review?</h3>
 
                     <div style="display: flex; justify-content: center; gap: 20px; margin-top: 20px;">
@@ -183,8 +185,7 @@
 
         <div id="reviewEditModal" class="modal" style="display: none;" 
             <?php if (isset($userReview)) : ?> data-review-id="<?php echo htmlspecialchars($userReview->review_id); ?>"<?php endif; ?> 
-            <?php if (isset($userReview)) : ?> data-product-id="<?php echo htmlspecialchars($userReview->equipment_id); ?>"<?php endif; ?>
-            <?php if (isset($userReview)) : ?> data-review-type="<?php echo htmlspecialchars($userReview->type); ?>"<?php endif; ?> >
+            <?php if (isset($userReview)) : ?> data-product-id="<?php echo htmlspecialchars($userReview->equipment_id); ?>"<?php endif; ?>>
             <div class="review-modal-content">
                 <div class="editContent" id="editContent">
                     <span class="close-button" id="closeReviewEditModal">&times;</span>

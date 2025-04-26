@@ -358,8 +358,9 @@ class M_accomadation {
             return $dates;
         } catch (Exception $e) {
             error_log($e->getMessage());
-            return [];
+
         }
+
     }
 
     public function updateProperty($data) {
@@ -658,6 +659,33 @@ class M_accomadation {
         }
     }
 
+    public function getPropertyDetailsById($propertyId) {
+        // SQL query to fetch property details by ID
+        $sql = "SELECT * FROM properties WHERE property_id = ? LIMIT 1";
+       
+        try {
+            $this->db->query($sql);
+            $this->db->bind(1, $propertyId);
+            $property = $this->db->single();
+            return $property;
+        } catch (Exception $e) {
+            echo "<script>alert('An error occurred: {$e->getMessage()}');</script>";    
+            return null;
+        }
+    }
+
+    
+    public function getAllAccommodations(){
+        $sql = "SELECT * FROM properties";
+        try {
+            $this->db->query($sql);
+            $accommodations = $this->db->resultSet();
+            return $accommodations;
+        } catch (Exception $e) {
+            echo "<script>alert('An error occurred: {$e->getMessage()}');</script>";
+            return [];
+        }
+    }
 }
 
 ?>

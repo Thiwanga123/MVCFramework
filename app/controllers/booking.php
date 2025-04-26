@@ -175,7 +175,33 @@
 
 
         
+    
+
+
+        public function saveEquipmentBooking(){
+            $data = json_decode(file_get_contents('php://input'), true);
+
+        if (isset($data['equipmentId'], $data['startDate'], $data['endDate'], $data['totalPrice'])) {
+            $equipmentId = $data['equipmentId'];
+            $startDate = $data['startDate'];
+            $endDate = $data['endDate'];
+            $totalPrice = $data['totalPrice'];
+          
+            $_SESSION['equipmentBooking'] = [
+                'equipmentId' => $equipmentId,
+                'startDate' => $startDate,
+                'endDate' => $endDate,
+                'totalPrice' => $totalPrice
+            ];
+
+            // Send a success response back to the client
+            echo json_encode(['success' => true, 'message' => 'Booking saved successfully in session']);
+        } else {
+            // Return an error response if the data is missing or invalid
+            echo json_encode(['success' => false, 'message' => 'Invalid data received']);
+        }
+        }
+
+
     }
-
-
 ?>

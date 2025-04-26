@@ -17,6 +17,7 @@ class EquipmentModel {
         $this->db->query($sql);
         $result = $this->db->resultSet();
         return $result;
+        
     }
 
     // Fetch all categories from the database

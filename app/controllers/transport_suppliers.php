@@ -340,8 +340,8 @@ public function editVehicle() {
             'vehicleId' => trim($_POST['vehicleId']), // <-- add this
             'supplierId' => $_SESSION['id'],          // <-- correct key for binding
             'vehicleType' => trim($_POST['vehicleType']),
-            'vehicleModel' => trim($_POST['vehicleModel']),
-            'vehicleMake' => trim($_POST['vehicleMake']),
+            'vehicleModel' =>trim($_POST['vehicleModel']) ,
+            'vehicleMake' => trim($_POST['vehicleMake']),    
             'plateNumber' => trim($_POST['licensePlateNumber']),
             'rate' => trim($_POST['vehicleRate']),
             'fuelType' => trim($_POST['fuelType']),
@@ -434,6 +434,104 @@ public function addriver() {
         }
     }
     
+
+        public function getVehicleDetails() {
+            header('Content-Type: application/json');
+        
+            if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+                // Get the raw POST body and decode JSON
+                $input = json_decode(file_get_contents('php://input'), true);
+        
+                // Validate input
+                if (!isset($input['vehicleId']) || empty($input['vehicleId'])) {
+                    // Return error response
+                    http_response_code(400);
+                    echo json_encode([
+                        'success' => false,
+                        'message' => 'Vehicle ID is required'
+                    ]);
+
+                    return;
+                }
+        
+                $vehicleId = $input['vehicleId'];
+        
+                // Assuming your model is named TransportModel and it has a method to get vehicle details
+                $vehicle = $this->transportModel->getVehicleById($vehicleId);
+                if ($vehicle) {
+                    // Return success response with vehicle data
+                    echo json_encode([
+                        'success' => true,
+                        'message' => 'Vehicle details fetched successfully',
+                        'data' => [
+                            'supplier_id' => $vehicle->supplierId,
+                            'vehicle_id' => $vehicle->vehicle_id,
+                            'make' => $vehicle->make,
+                            'model' => $vehicle->model,
+                            'type' => $vehicle->type,
+                            'fuel_type' => $vehicle->fuel_type,
+                            'location' => $vehicle->location,
+                            'cost' => $vehicle->cost,
+                            'rate' => $vehicle->rate,
+                            'availability' => $vehicle->availability,
+                            'license_plate_number' => $vehicle->license_plate_number,
+                            'seating_capacity' => $vehicle->seating_capacity,
+                            'description' => $vehicle->description,
+                            'driver' => $vehicle->driver,
+                            'image_paths' => $vehicle->image_path 
+                        ]
+                    ]);
+                
+                } else {
+                    http_response_code(404);
+                    echo json_encode([
+                        'success' => false,
+                        'message' => 'Vehicle not found'
+                    ]);
+                }
+            } else {
+                http_response_code(405);
+                echo json_encode([
+                    'success' => false,
+                    'message' => 'Method not allowed'
+                ]);
+            }
+        }
+        
+        public function saveVehicleDetails()
+        {
+            // Make sure the request is POST and JSON
+            if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+                // Read the raw POST data       
+                $input = file_get_contents('php://input');
+                $bookingData = json_decode($input, true);
+
+               
+                // Optional: Validate required fields
+                $requiredFields = ['vehicleId', 'supplierId', 'rate', 'pickupLocation', 'driverOption'];
+                foreach ($requiredFields as $field) {
+                    if (empty($bookingData[$field])) {
+                        http_response_code(400);
+                        echo json_encode(['error' => "Missing field: $field"]);
+                        return;
+                    }
+                }
+        
+        
+                // Save booking data to session
+                $_SESSION['booking_vehicle_data'] = $bookingData;
+        
+                // Respond back to AJAX call
+                echo json_encode([
+                    'status' => 'success',
+                    'message' => 'Booking data saved to session.',
+                    'data' => $bookingData
+                ]);
+            } else {
+                http_response_code(405); // Method Not Allowed
+                echo json_encode(['error' => 'Invalid request method.']);
+            }
+        }
 }
 
 

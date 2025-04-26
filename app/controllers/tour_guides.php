@@ -326,5 +326,57 @@ public function downloadTransactionReport() {
     // Load the transaction report view
     $this->view('tour_guides/transaction_report', $data);
 }
+
+public function getGuiderDetails(){
+    $json = file_get_contents('php://input');
+    $data = json_decode($json, true);
+    
+
+    if (!$data || !isset($data['guiderId'])) {
+        http_response_code(400);
+        echo json_encode(['message' => 'Missing required data.']);
+        return;
+    }
+
+  
+    $guiderDetails = $this->guiderModel->getGuiderDetails($data['guiderId']);
+    if ($guiderDetails) {
+        echo json_encode(['success' => true, 'guider' => $guiderDetails]);
+    } else {
+        echo json_encode(['success' => false, 'message' => 'Guider not found.']);
+    }
 }
+
+        public function saveGuiderBooking()
+        {
+            // Read the raw POST body
+            $json = file_get_contents('php://input');
+            $data = json_decode($json, true);
+
+            if (!$data || !isset($data['guiderId']) || !isset($data['pickupLocation']) || !isset($data['destination'])) {
+                http_response_code(400);
+                echo json_encode(['message' => 'Missing required data.']);
+                return;
+            }
+            // Sanitize input
+            $guiderId = htmlspecialchars($data['guiderId']);
+            $pickupLocation = htmlspecialchars($data['pickupLocation']);
+            $destination = htmlspecialchars($data['destination']);
+
+            // Save to session
+            $_SESSION['guider_booking'] = [
+                'guiderId' => $guiderId,
+                'pickupLocation' => $pickupLocation,
+                'destination' => $destination,
+            ];
+
+            // Response
+            echo json_encode([
+                'message' => 'Guider booking saved to session successfully!',
+                'savedData' => $_SESSION['guider_booking']
+            ]);
+        }
+    }
+
+
 ?>

@@ -3,12 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="<?php echo URLROOT;?>/css/equipmentRentals/supplierViewProduct.css">
-    <link rel="stylesheet" href="<?php echo URLROOT;?>/css/equipmentRentals/editProduct.css">
-    <!-- <link rel="stylesheet" href="<?php echo URLROOT;?>/css/equipmentRentals/reviews.css">
-    <link rel="stylesheet" href="<?php echo URLROOT;?>/css/equipmentRentals/booking.css">
-    <link rel="stylesheet" href="<?php echo URLROOT;?>/css/Common/calendar.css"> -->
-    <link rel="stylesheet" href="<?php echo URLROOT;?>/css/Modals/logoutModal.css">
+    <link rel="stylesheet" href="<?php echo URLROOT;?>/css/ushan/equipmentRentals/supplierViewProduct.css">
+    <link rel="stylesheet" href="<?php echo URLROOT;?>/css/ushan/equipmentRentals/editProduct.css">
+    <link rel="stylesheet" href="<?php echo URLROOT;?>/css/ushan/equipmentRentals/reviews.css">
+    <!-- <link rel="stylesheet" href="<?php echo URLROOT;?>/css/equipmentRentals/booking.css"> -->
+    <!-- <link rel="stylesheet" href="<?php echo URLROOT;?>/css/Common/calendar.css">  -->
+    <link rel="stylesheet" href="<?php echo URLROOT;?>/css/ushan/Modals/logoutModal.css">
 
     
     <title>Equipment</title>
@@ -19,6 +19,7 @@
             <?php include_once APPROOT . '/views/inc/components/supplierNavBar.php'; ?>
             <main>
                 <hr>
+
                 <div class="view-container">
                     <div class="container">
                         <div class="header">
@@ -38,11 +39,11 @@
                         </div>
 
                         <div class="tab-content" id="reviews" style="display: none;">
-                            <?php include_once APPROOT . '/views/users/includes/equipment_supplier/reviews.php'; ?> 
+                            <?php include_once APPROOT . '/views/equipment_supplier/includes/reviews.php'; ?> 
                         </div>
 
                         <div class="tab-content" id="book-now" style="display: none;">
-                            <?php include_once APPROOT . '/views/users/includes/equipment_supplier/bookings.php'; ?> 
+                            <?php include_once APPROOT . '/views/equipment_supplier/includes/bookings.php'; ?> 
                         </div>
                     </div>
                 </div>  
@@ -75,13 +76,13 @@
     <script>const URLROOT = "<?php echo URLROOT; ?>"; </script>
     <!-- <script>var bookings = <?php echo $data['bookings']; ?></script>
     <script>const userId = <?php echo json_encode($data['user_id']); ?>;</script> -->
-    <script src="<?php echo URLROOT;?>/js/changeContent.js" defer></script>
+    <script src="<?php echo URLROOT;?>/js/ushan/changeContent.js" defer></script>
     <!-- <script src="<?php echo URLROOT;?>/js/Calendar.js"></script>
     <script src="<?php echo URLROOT;?>/js/equipmentBooking.js"></script>
     <script src="<?php echo URLROOT;?>/js/equipmentReview.js"></script> -->
-    <script src="<?php echo URLROOT;?>/js/logout.js"></script>
-    <script src="<?php echo URLROOT;?>/js/subMenu.js"></script>
-    <script src="<?php echo URLROOT;?>/js/EquipmentSupplierJS/deleteProduct.js"></script>
+    <script src="<?php echo URLROOT;?>/js/ushan/logout.js"></script>
+    <script src="<?php echo URLROOT;?>/js/ushan/subMenu.js"></script>
+    <script src="<?php echo URLROOT;?>/js/ushan/EquipmentSupplierJS/deleteProduct.js"></script>
 
 
 </body>

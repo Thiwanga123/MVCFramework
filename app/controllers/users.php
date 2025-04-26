@@ -8,19 +8,19 @@ use PHPMailer\PHPMailer\Exception;
 class Users extends Controller {
     private $userModel;
     private $equipmentModel;
-
-    private $guiderModel;
-
-    private $accomadationModel;
     private $reviewModel;
     private $bookingModel;
+    private $accomadationModel;
+    private $transportModel;
+    private $guiderModel;
     
-
     public function __construct() {
         $this->userModel = $this->model('M_users');
         $this->equipmentModel = $this->model('equipmentModel');
         $this->reviewModel = $this->model('ReviewModel');
         $this->bookingModel = $this->model('BookingModel');
+        $this->accomadationModel = $this->model('M_accomadation');  
+        $this->transportModel = $this->model('TransportModel');
         $this->guiderModel = $this->model('M_guider');
     }
 
@@ -37,10 +37,9 @@ class Users extends Controller {
             
         }else{
             redirect('users/login');
+            }
         }
-        
-        
-    }
+    
 
 
     public function history() {
@@ -48,7 +47,6 @@ class Users extends Controller {
         if(isset($_SESSION['user_id'])) {
              // Get booking history
         $userId = $_SESSION['user_id'];
-     
         $bookings = $this->userModel->getBookingHistory($userId);
         $totalBookings = count($bookings);
         $currentPage = 'history';
@@ -58,10 +56,6 @@ class Users extends Controller {
             'booking_count' => $totalBookings,
             'currentPage' => $currentPage
         ];
-
-        
-
-        
 
         $this->view('users/v_history', $data);
         }else{
@@ -269,14 +263,14 @@ class Users extends Controller {
 
             
 
-            // $equipment = $this->equipmentModel->getAllEquipment();
+            $equipment = $this->equipmentModel->getAllEquipment();
          
 
             $categories = $this->equipmentModel->getAllCategories();
             $currentPage = 'equipment_suppliers';
 
             $data = [
-                // 'equipments' => $equipment,
+                'equipments' => $equipment,
                 'categories' => $categories,
                 'currentPage' => $currentPage
             ];
@@ -305,7 +299,6 @@ class Users extends Controller {
         }
         
     }
-
     public function package(){
         if(isset($_SESSION['user_id'])) {
             $currentPage = 'package';
@@ -361,10 +354,11 @@ class Users extends Controller {
 
     public function viewProduct($equipmentId){
         if(isset($_SESSION['user_id'])){
+            $type = 'equipment';
             $details = $this->equipmentModel->getProductDetailsById($equipmentId);
             $bookings = $this->bookingModel->getBookingsByEquipmentId($equipmentId);
-            $reviews = $this->reviewModel->getReviewsByEquipmentId($equipmentId);
-            $ratings = $this->reviewModel->getRatingsByEquipmentId($equipmentId);
+            $reviews = $this->reviewModel->getReviewsByItemId($equipmentId, $type);
+            $ratings = $this->reviewModel->getRatingsByItemId($equipmentId, $type);
             $reviewCount = count($reviews);
             
             $totalRating = 0;
@@ -683,52 +677,6 @@ public function weather(){
 }
 
 
-    public function planhome(){
-        if(isset($_SESSION['user_id'])) {
-            // $this->view('users/planHome');
-            $data['currentPage'] = 'places';
-            $this->view('users/p_places', $data);
-        }else{
-            redirect('users/login');
-        }
-    }
-
-    public function planaccomodation(){
-        if(isset($_SESSION['user_id'])) {
-            $data['currentPage'] = 'accommodation';
-            $this->view('users/p_accomodation', $data);
-        }else{
-            redirect('users/login');
-        }
-    }
-
-    public function planvehicle(){
-        if(isset($_SESSION['user_id'])) {
-            $data['currentPage'] = 'vehicles';
-            $this->view('users/p_vehicles', $data);
-        }else{
-            redirect('users/login');
-        }
-    }
-
-    public function planequipments(){
-        if(isset($_SESSION['user_id'])) {
-            $data['currentPage'] = 'equipments';
-            $this->view('users/p_equipments', $data);
-        }else{
-            redirect('users/login');
-        }
-    }
-
-    public function planguides(){
-        if(isset($_SESSION['user_id'])) {
-            $data['currentPage'] = 'guides';
-            $this->view('users/p_guides', $data);
-        }else{
-            redirect('users/login');
-        }
-    }
-
 
 public function showaccommodation(){
     if ($_SERVER['REQUEST_METHOD'] == 'POST') {
@@ -1037,6 +985,187 @@ public function showaccommodation(){
         }
     }
 
+   
+
+        
+        
+
+        public function planhome(){
+            if(isset($_SESSION['user_id'])) {
+                if (!empty($_POST)) {
+                    $_SESSION['trip'] = [
+                        'lat' => $_POST['lat'],
+                        'lng' => $_POST['lng'],
+                        'startDate' => $_POST['startDate'],
+                        'endDate' => $_POST['endDate']
+                    ];
+                }
+                // $this->view('users/planHome');
+                $data['currentPage'] = 'places';
+                $this->view('users/p_places', $data);
+            }else{
+                redirect('users/login');
+            }
+        }
+
+    public function planaccomodation() {
+        if(isset($_SESSION['user_id'])) {
+            $data['currentPage'] = 'accommodation';
+            $lat = $_SESSION['trip']['lat'];
+            $lng = $_SESSION['trip']['lng'];
+           
+            $data['latitude'] = $lat ?? null;
+            $data['longitude'] = $lng ?? null;
+            
+            if ($data['latitude'] && $data['longitude']) {
+                $accommodations = $this->accomadationModel->getAllAccommodations(); 
+                $accommodationsWithDistances = [];
+    
+                foreach ($accommodations as $accommodation) {
+                    $distance = $this->haversine_distance($data['latitude'], $data['longitude'], $accommodation->latitude, $accommodation->longitude);
+                    if ($distance <= 20) {
+                        $accommodation->distance = round($distance, 2); 
+                        $accommodationsWithDistances[] = $accommodation;    
+                    }
+                }
+
+                usort($accommodationsWithDistances, function($a, $b) {
+                    return $a->distance <=> $b->distance; // Compare based on the 'distance' key
+                });
+    
+                $data['accommodations'] = $accommodationsWithDistances;
+            } else {
+                $data['error'] = "Location data is missing.";
+            }
+    
+            $this->view('users/p_accomodation', $data);
+        } else {
+            redirect('users/login');
+        }
+    }
+
+    public function planvehicle(){
+        if(isset($_SESSION['user_id'])) {
+            $data['currentPage'] = 'vehicles';
+            $startDate = $_SESSION['trip']['startDate'];
+            $endDate = $_SESSION['trip']['endDate'];
+        
+            $availableVehicles = $this->transportModel->getAvailableVehicles($startDate, $endDate); 
+            $data['availableVehicles'] = $availableVehicles;
+            $this->view('users/p_vehicles', $data);
+        }else{
+            redirect('users/login');
+        }
+    }
+
+    public function planequipments() {
+        if (isset($_SESSION['user_id'])) {
+            $data['currentPage'] = 'equipments';
+            $lat = $_SESSION['trip']['lat'] ?? null;
+            $lng = $_SESSION['trip']['lng'] ?? null;
+            
+            $data['latitude'] = $lat;
+            $data['longitude'] = $lng;
+
+            if ($data['latitude'] && $data['longitude']) {
+                $allSuppliers = $this->userModel->getAllEquipmentSuppliers();
+                $nearbySuppliers = [];
+                $nearbySupplierIds = [];
+
+                // Find nearby suppliers within 20 km
+                foreach ($allSuppliers as $supplier) {
+                    $distance = $this->haversine_distance($data['latitude'], $data['longitude'], $supplier->latitude, $supplier->longitude);
+                    if ($distance <= 20) {
+                        $supplier->distance = round($distance, 2);
+                        $nearbySuppliers[] = $supplier; // Store full supplier object
+                        $nearbySupplierIds[] = $supplier->id; // Store supplier ID
+                    }
+                }
+
+       
+                if (empty($nearbySupplierIds)) {
+                    $data['equipments'] = [];
+                    $data['message'] = "No nearby suppliers found.";
+                } else {
+                    // Get all equipment from nearby suppliers
+                    $allNearByEquipment = $this->userModel->getEquipmentBySupplierIds($nearbySupplierIds);
+                  
+                    $startDate = $_SESSION['trip']['startDate'];
+                    $endDate = $_SESSION['trip']['endDate'];
+                    // Get unavailable equipment IDs for the selected dates
+                    $unavailableEquipmentIds = $this->userModel->getBookedEquipmentIds($startDate, $endDate);
+                    // Filter to get only available equipment
+                    $availableEquipment = array_filter($allNearByEquipment, function($equipment) use ($unavailableEquipmentIds) {
+                        return !in_array($equipment->id, $unavailableEquipmentIds);
+                    });
+    
+                    $data = [
+                        'equipments' => array_values($availableEquipment),
+                        'suppliers'  => $nearbySuppliers,
+                        'currentPage' => $data['currentPage'],
+                    ];
+                }
+
+             
+                $allEquipments = $this->equipmentModel->getAllEquipment();
+                $this->view('users/p_equipments', $data);
+            } else {
+                $data['equipments'] = [];
+                $data['currentPage'] = 'equipments';
+                $data['message'] = "Please set a location first.";
+                $this->view('users/p_equipments', $data);
+            }
+        } else {
+            redirect('users/login');
+        }
+    }
+
+    public function planguides(){
+        if(isset($_SESSION['user_id'])) {
+            $data['currentPage'] = 'guides';
+            $startDate = $_SESSION['trip']['startDate'];
+            $endDate = $_SESSION['trip']['endDate'];
+          
+            $availableGuides = $this->guiderModel->getGuider(); 
+            
+            $data['availableGuiders'] = $availableGuides;
+            $this->view('users/p_guides', $data);
+        }else{
+            redirect('users/login');
+        }
+    }
+
+    public function summaryplan(){
+        if(isset($_SESSION['user_id'])) {
+            $data['currentPage'] = 'summary';
+            $data = [
+                'name' => $_SESSION['name'] ?? null,
+                'trip' => $_SESSION['trip'] ?? [], //includes accomodations data too
+                'accommodation_data' => $_SESSION['acomodation_booking'] ?? [],
+                'booking_vehicle_data' => $_SESSION['booking_vehicle_data'] ?? [],
+                'guider_booking' => $_SESSION['guider_booking'] ?? [],
+                'equipmentBooking' => $_SESSION['equipmentBooking'] ?? [],
+                'currentPage' => 'summary',
+            ];
+            $this->view('users/summary', $data);
+        }else{
+            redirect('users/login');
+        }
+    }
+
+
+
+
+
+
+
+  
+   
+
+   
+
+   
+
 
     public function updateProfileImage() {
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
@@ -1106,10 +1235,32 @@ public function showaccommodation(){
         }
     }
 
+        public function haversine_distance($lat1, $lon1, $lat2, $lon2) {
+            $earth_radius = 6371; // Radius of the Earth in km
+        
+            // Convert degrees to radians
+            $lat1 = deg2rad($lat1);
+            $lon1 = deg2rad($lon1);
+            $lat2 = deg2rad($lat2);
+            $lon2 = deg2rad($lon2);
+        
+            // Calculate the differences between latitudes and longitudes
+            $dlat = $lat2 - $lat1;
+            $dlon = $lon2 - $lon1;
+        
+            // Apply Haversine formula
+            $a = sin($dlat / 2) * sin($dlat / 2) +
+                cos($lat1) * cos($lat2) *
+                sin($dlon / 2) * sin($dlon / 2);
+        
+            $c = 2 * atan2(sqrt($a), sqrt(1 - $a));
+        
+            // Calculate the distance
+            $distance = $earth_radius * $c;
+        
+            return $distance; // Distance in km
+        }
    
 }
-        
-        
-
 ?>
 

@@ -3,10 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="<?php echo URLROOT;?>/css/Common/sidebarHeader.css">
-    <link rel="stylesheet" href="<?php echo URLROOT;?>/css/adminpage/Dashboard_e.css">
-    <link rel="stylesheet" href="<?php echo URLROOT;?>/css/Modals/logoutModal.css">
-    <link rel="stylesheet" href="<?php echo URLROOT;?>/css/Common/calendar.css">
+    <link rel="stylesheet" href="<?php echo URLROOT;?>/css/ushan/Common/sidebarHeader.css">
+    <link rel="stylesheet" href="<?php echo URLROOT;?>/css/ushan/adminpage/Dashboard.css">
+    <link rel="stylesheet" href="<?php echo URLROOT;?>/css/ushan/Modals/logoutModal.css">
+    <link rel="stylesheet" href="<?php echo URLROOT;?>/css/ushan/Common/calendar.css">
 
 
     
@@ -136,10 +136,10 @@
     </div>
 
     <script>var bookings = <?= json_encode($data['upcomingBookings']) ?>;</script>
-    <script src="<?php echo URLROOT;?>/js/Sidebar.js"></script>
-    <script src="<?php echo URLROOT;?>/js/logout.js"></script>
-    <script src="<?php echo URLROOT;?>/js/subMenu.js"></script>
-    <script src="<?php echo URLROOT;?>/js/Calendar.js"></script>
+    <script src="<?php echo URLROOT;?>/js/ushan/Sidebar.js"></script>
+    <script src="<?php echo URLROOT;?>/js/ushan/logout.js"></script>
+    <script src="<?php echo URLROOT;?>/js/ushan/subMenu.js"></script>
+    <script src="<?php echo URLROOT;?>/js/ushan/Calendar.js"></script>
 </body>
 
 </html>
