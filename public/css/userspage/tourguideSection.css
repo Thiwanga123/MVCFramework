@@ -539,7 +539,7 @@
   .modal {
     display: none; /* Hidden by default */
     position: fixed; /* Stay in place */
-    z-index: 1; /* Sit on top */
+    z-index: 2000; /* Sit on top */
     left: 0;
     top: 0;
     width: 100%; /* Full width */
@@ -655,6 +655,161 @@ h2 {
     transform: translateY(-2px);
 }
 
+.guider-modal-content {
+    background-color: #fff;
+    margin: auto;
+    padding: 25px;
+    border-radius: 12px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    max-width: 500px;
+    width: 90%;
+    position: relative;
+    animation: modalFadeIn 0.3s ease-in-out;
+  }
+  
+  /* Animation for modal appearance */
+  @keyframes modalFadeIn {
+    from {opacity: 0; transform: translateY(-20px);}
+    to {opacity: 1; transform: translateY(0);}
+  }
+  
+  /* Close Button */
+  .close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+    position: absolute;
+    right: 20px;
+    top: 15px;
+    transition: color 0.2s;
+  }
+  
+  .close:hover,
+  .close:focus {
+    color: #555;
+    text-decoration: none;
+  }
+  
+  /* Profile Image Container */
+  #profileImageContainer {
+    text-align: center;
+    margin-bottom: 15px;
+  }
+  
+  #profileImage {
+    border: 3px solid #f0f0f0;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease;
+  }
+  
+  #profileImage:hover {
+    transform: scale(1.05);
+  }
+  
+  /* Profile Name */
+  #profileName {
+    text-align: center;
+    margin-top: 10px;
+    margin-bottom: 20px;
+    color: #333;
+    font-size: 24px;
+  }
+  
+  /* Profile Details */
+  .guider-modal-content p {
+    margin: 12px 0;
+    line-height: 1.5;
+    color: #555;
+  }
+  
+  .guider-modal-content strong {
+    color: #333;
+    font-weight: 600;
+    margin-right: 5px;
+    display: inline-block;
+    min-width: 110px;
+  }
+
+  .book-form-actions {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin-top: 25px;
+  }
+  
+  .book-form-actions button {
+    padding: 12px 24px;
+    border-radius: 6px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border: none;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  }
+  
+  .submit-btn {
+    background-color: #4CAF50;
+    color: white;
+  }
+  
+  .submit-btn:hover {
+    background-color: #45a049;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+  }
+  
+  .submit-btn:active {
+    transform: translateY(0);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  
+  .cancel-btn {
+    background-color: #f5f5f5;
+    color: #333;
+    border: 1px solid #ddd;
+  }
+  
+  .cancel-btn:hover {
+    background-color: #e8e8e8;
+    color: #222;
+  }
+  
+  .cancel-btn:active {
+    background-color: #ddd;
+  }
+  
+  /* Responsive adjustments */
+  @media (max-width: 600px) {
+    .book-form-actions {
+      flex-direction: column;
+      gap: 10px;
+    }
+    
+    .book-form-actions button {
+      width: 100%;
+    }
+  }
+  
+  /* Responsive adjustments */
+  @media (max-width: 600px) {
+    .guider-modal-content {
+      padding: 15px;
+      width: 95%;
+    }
+    
+    #profileImage {
+      width: 80px;
+      height: 80px;
+    }
+    
+    .guider-modal-content strong {
+      min-width: auto;
+      margin-right: 5px;
+    }
+  }
 /* Adjusting the button styles for mobile */
 @media (max-width: 768px) {
     .modal-content {

@@ -393,7 +393,7 @@
         }
 
 
-        public function getPropertyDetails() {
+        public function getPropertyDetailsDiv() {
             $data = json_decode(file_get_contents("php://input"));
             // Check if the propertyId is provided in the request
           

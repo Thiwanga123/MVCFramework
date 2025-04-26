@@ -9,7 +9,6 @@ public function __construct() {
 }
 
 
-
 public function dashboard(){
     if (isset($_SESSION['id'])) {
 
@@ -98,6 +97,27 @@ public function deleteBooking($id){
         die('Something went wrong');
     }
 
+}
+
+
+public function getGuiderDetails(){
+    $json = file_get_contents('php://input');
+    $data = json_decode($json, true);
+    
+
+    if (!$data || !isset($data['guiderId'])) {
+        http_response_code(400);
+        echo json_encode(['message' => 'Missing required data.']);
+        return;
+    }
+
+  
+    $guiderDetails = $this->guiderModel->getGuiderDetails($data['guiderId']);
+    if ($guiderDetails) {
+        echo json_encode(['success' => true, 'guider' => $guiderDetails]);
+    } else {
+        echo json_encode(['success' => false, 'message' => 'Guider not found.']);
+    }
 }
 
         public function saveGuiderBooking()

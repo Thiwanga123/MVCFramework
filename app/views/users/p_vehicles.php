@@ -113,8 +113,8 @@
                                         <p class="rate">Cost: Rs. <?php echo htmlspecialchars($vehicle->rate); ?> (Self Drive)</p>
 
 
-                                        <div class="bottom">
-                                            <button class="view-btn" data-id="<?php echo $vehicle->vehicle_id; ?>">View Details</button>
+                                        <div class="vehiclecardbottom">
+                                            <button class="vehicle-view-btn" data-id="<?php echo $vehicle->vehicle_id; ?>">View</button>
                                             <button class="pay-button" 
                                                     data-id="<?php echo $vehicle->vehicle_id; ?>" 
                                                     data-supplier-id="<?php echo $vehicle->supplierId; ?>" 

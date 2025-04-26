@@ -89,7 +89,7 @@
                 </div>
 
                 <p>Showing All Tour Guides()</p>
-
+               
 
                 <div class="container1">
                         <?php if (!empty($data['availableGuiders']) && is_array($data['availableGuiders'])) : ?>
@@ -105,14 +105,14 @@
                                     <div class="card-content">
                                         <h3 class="product-name"><?php echo htmlspecialchars($guider->name); ?></h3>
                                         <p class="rate">Rs. <?php echo htmlspecialchars($guider->base_rate); ?> / day</p>
-                                        <p class="rating-text"><strong>Language:</strong> <?php echo htmlspecialchars($guider->language ?? 'N/A'); ?></p>
-                                        <p class="rating-text"><strong>Experience:</strong> <?php echo htmlspecialchars($guider->years_experience); ?> years</p>
+                                        <p class="address"><strong>Address:</strong> <?php echo htmlspecialchars($guider->address ?? 'N/A'); ?></p>
+                                        <!-- <p class="rating-text"><strong>Experience:</strong> <?php echo htmlspecialchars($guider->years_experience); ?> years</p> -->
                                         <!-- <div class="rating-container">
                                             <div class="stars">★★★★☆</div>
                                             <p class="rating-text">4.0</p>
                                         </div> -->
                                         <div class="bottom">
-                                            <button class="view-guider-btn">View</button>
+                                            <button class="view-guider-btn" data-guider-id="<?php echo $guider->id; ?>">View</button>
                                             <button class="book-guider-button"         
                                              data-guider-id="<?php echo $guider->id; ?>" >Book</button>
                                         </div>
@@ -128,6 +128,24 @@
             </main>
         </div>      
 </div>
+
+<div id="profileModal" class="modal" style="display:none;">
+  <div class="guider-modal-content">
+    <span id="closeModal" class="close">&times;</span>
+    <div id="profileImageContainer">
+      <img id="profileImage" src="" alt="Profile Picture" style="width: 100px; height: 100px; border-radius: 50%;">
+    </div>
+    <h2 id="profileName"></h2>
+    <p><strong>Phone:</strong> <span id="profilePhone"></span></p>
+    <p><strong>Email:</strong> <span id="profileEmail"></span></p>
+    <p><strong>Address:</strong> <span id="profileAddress"></span></p>
+    <p><strong>Language:</strong> <span id="profileLanguage"></span></p>
+    <p><strong>Experience:</strong> <span id="profileExperience"></span> years</p>
+    <p><strong>Specializations:</strong> <span id="profileSpecializations"></span></p>
+    <p><strong>Services:</strong> <span id="profileServices"></span></p>
+  </div>
+</div>
+
 
 <div id="bookingGuiderModal" class="modal" style="display:none;">
     <div class="modal-content">
@@ -145,11 +163,11 @@
             <!-- Destination -->
             <div class="form-group">
                 <label for="destination">Destination</label>
-                <input type="text" id="destination" name="destination" placeholder="Enter destination" required>
+                <input type="text" id="destination" name="destination" value="<?php echo htmlspecialchars(isset($_SESSION['trip']['location']) ? $_SESSION['trip']['location'] : ''); ?>" readonly>
             </div>
 
             <!-- Form Actions -->
-            <div class="form-actions">
+            <div class="book-form-actions">
                 <button type="submit" class="submit-btn">Book Now</button>
                 <button type="button" class="cancel-btn">Cancel</button>
             </div>
@@ -162,6 +180,9 @@
      <script src="<?php echo URLROOT;?>/js/logout.js"></script>
     <script src="<?php echo URLROOT;?>/js/submenu.js"></script>
     <script src="<?php echo URLROOT;?>/js/bookGuider.js"></script>
+    <script src="<?php echo URLROOT;?>/js/viewGuiderDetails.js"></script>
+
+
     <script>const URLROOT = "<?php echo URLROOT; ?>"; </script>
 
 

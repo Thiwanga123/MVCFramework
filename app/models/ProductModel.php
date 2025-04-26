@@ -195,42 +195,50 @@
         }
     }
 
-    public function updateProduct($supplierId, $productId, $productname, $rate, $category, $quantity, $description){
-        try{
-            $row = $this->getCategoryIdByName($category);
-            $categoryId = $row->category_id;
-            
-            if(!$categoryId){
-                throw new Exception("Category not found.");
+    public function updateProduct($id, $data)
+    {
+                try {
+                    $sql = "UPDATE rentals 
+                            SET rental_name = :rental_name,
+                                price_per_day = :price_per_day,
+                                category_name = :category_name,
+                                maximum_rental_period = :maximum_rental_period,
+                                delivery_available = :delivery_available,
+                                rental_description = :rental_description,
+                                return_policy = :return_policy,
+                                full_refund_time = :full_refund_time,
+                                partial_refund_time = :partial_refund_time,
+                                partial_refund_percentage = :partial_refund_percentage,
+                                damage_policy = :damage_policy
+                            WHERE id = :id";
+
+                    $this->db->query($sql);
+
+                    // Bind parameters
+                    $this->db->bind(':rental_name', $data['rental_name']);
+                    $this->db->bind(':price_per_day', $data['price_per_day']);
+                    $this->db->bind(':category_name', $data['category_name']);
+                    $this->db->bind(':maximum_rental_period', $data['maximum_rental_period']);
+                    $this->db->bind(':delivery_available', $data['delivery_available']);
+                    $this->db->bind(':rental_description', $data['rental_description']);
+                    $this->db->bind(':return_policy', $data['return_policy']);
+                    $this->db->bind(':full_refund_time', $data['full_refund_time']);
+                    $this->db->bind(':partial_refund_time', $data['partial_refund_time']);
+                    $this->db->bind(':partial_refund_percentage', $data['partial_refund_percentage']);
+                    $this->db->bind(':damage_policy', $data['damage_policy']);
+                    $this->db->bind(':id', $id);
+
+                    if ($this->db->execute()) {
+                        return true;
+                    } else {
+                        throw new Exception("Failed to update rental product.");
+                    }
+                } catch (Exception $e) {
+                    $error_msg = $e->getMessage();
+                    echo "<script>alert('An error occurred: $error_msg');</script>";
+                    return false;
+                }
             }
-
-
-            $sql = "UPDATE products 
-                SET product_name = ?, rate = ?, category_id = ?, quantity = ?, description = ?
-                WHERE supplier_id = ? AND product_id = ? ";
-
-            $this->db->query($sql);
-
-            $this->db->bind(1, $productname);
-            $this->db->bind(2, $rate);
-            $this->db->bind(3, $categoryId);
-            $this->db->bind(4, $quantity);
-            $this->db->bind(5, $description);
-            $this->db->bind(6, $supplierId);
-            $this->db->bind(7, $productId);
-
-            if ($this->db->execute()) {
-                return true;
-            } else {
-               throw new Exception("Error in updating product details");
-            }
-
-        }catch(Exception $e){
-            $error_msg = $e->getMessage();
-            echo "<script>alert('An error occured: $error_msg');</script>";
-            return false;
-        }
-    }
 
     public function getDetailsForCancellations($productId){
     $sql = 'SELECT id, return_policy, full_refund_time, partial_refund_time, partial_refund_percentage 

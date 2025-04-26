@@ -1,12 +1,11 @@
 document.addEventListener('DOMContentLoaded', () => {
-    const viewButtons = document.querySelectorAll('.view-btn'); // Get all view buttons
+    const viewButtons = document.querySelectorAll('.vehicle-view-btn'); // Get all view buttons
     const modal = document.getElementById('vehicleModal'); // Get the modal element
     const closeBtn = modal.querySelector('.close-btn'); // Get the close button inside the modal
 
     viewButtons.forEach(button => {
         button.addEventListener('click', async function () {
             const vehicleId = this.dataset.id; // Get vehicle ID from data attribute
-
             try {
                 const response = await fetch(`${URLROOT}/transport_suppliers/getVehicleDetails`, {
                     method: 'POST',
@@ -20,7 +19,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
                 // Parse JSON response
                 const data = await response.json();
-                console.log(data); // Log the data for debugging
+                console.log(data); 
                 
                 if (data.success) {
                     // Fill in modal content

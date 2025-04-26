@@ -46,7 +46,7 @@
 
         tripForm.addEventListener('submit', function(e) {
             clearErrorMessage();
-
+            e.preventDefault(); // Prevent form submission for validation
             const location = document.getElementById('location').value;
             const startDate = startDateInput.value;
             const endDate = endDateInput.value;
@@ -76,6 +76,7 @@
                 if (lat !== null && lng !== null) {
                     // If both lat and lng are available, save the data in localStorage
                     localStorage.setItem('data', JSON.stringify(data));
+                    tripForm.submit(); // Submit the form
                 } else {
                     // If lat and lng are null, handle the error (maybe show a message to the user)
                     alert("Unable to get geographical coordinates for the location. Please select a valid place.");

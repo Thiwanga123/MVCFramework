@@ -565,6 +565,7 @@ class Users extends Controller {
             if(isset($_SESSION['user_id'])) {
                 if (!empty($_POST)) {
                     $_SESSION['trip'] = [
+                        'location' => $_POST['location'],
                         'lat' => $_POST['lat'],
                         'lng' => $_POST['lng'],
                         'startDate' => $_POST['startDate'],

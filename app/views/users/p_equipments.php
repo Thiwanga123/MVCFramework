@@ -6,7 +6,6 @@
     <link rel="stylesheet" href="<?php echo URLROOT;?>/css/adminpage/planningSideBarHeader.css">
     <link rel="stylesheet" href="<?php echo URLROOT;?>/css/userspage/supplierSection.css">
     <link rel="stylesheet" href="<?php echo URLROOT;?>/css/Modals/logoutModal.css">
-
     <title>Equipment Rentals</title>
 </head>
 <body>

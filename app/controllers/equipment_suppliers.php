@@ -96,9 +96,7 @@ class Equipment_Suppliers extends Controller{
     }
 
     public function reviews(){
-
         if (isset($_SESSION['id'])) {
-        
             $currentPage = 'reviews';
             $sptype = 'equipment';
             $reviews = $this->reviewModel->getEquipmentReviewsBySupplierId($_SESSION['id'], $sptype);
@@ -220,7 +218,6 @@ class Equipment_Suppliers extends Controller{
             }
     
         } else {
-            // Redirect if user is not logged in
             redirect('ServiceProvider');
         }
     }

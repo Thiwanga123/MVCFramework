@@ -1,4 +1,4 @@
-
+<!-- <?php var_dump($_SESSION); ?> -->
        <div class="reviews">
              <div class="top">
                 <div class="total">
@@ -124,7 +124,9 @@
                 </div>
        </div>
         
-       <div id="reviewInsertModal" class="modal" style="display: none;" data-product-id="<?php echo htmlspecialchars($details->id); ?>" >
+       <div id="reviewInsertModal" class="modal" style="display: none;" 
+       data-product-id="<?php echo htmlspecialchars($details->id); ?>"
+       data-supplier-id="<?php echo htmlspecialchars($details->supplier_id); ?>">
             <div class="review-modal-content">
                 <div class="insertContent" id="insertContent">
                     <span class="close-button" id="closeReviewInsertModal">&times;</span>
@@ -183,7 +185,7 @@
         </div>
 
 
-        <div id="reviewEditModal" class="modal" style="display: none;" 
+        <div id="reviewEditModal" class="modal" style="display: none;"
             <?php if (isset($userReview)) : ?> data-review-id="<?php echo htmlspecialchars($userReview->review_id); ?>"<?php endif; ?> 
             <?php if (isset($userReview)) : ?> data-product-id="<?php echo htmlspecialchars($userReview->equipment_id); ?>"<?php endif; ?>>
             <div class="review-modal-content">

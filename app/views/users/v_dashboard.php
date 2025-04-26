@@ -47,7 +47,7 @@
                                         <p>Location</p>
                                     </div>
                                 </div>
-                                <input type="text" id="location" placeholder="Where Are You Going?">
+                                <input type="text" id="location" name="location" placeholder="Where Are You Going?">
                                 <input type="hidden" id="lat" name="lat">
                                 <input type="hidden" id="lng" name="lng">
                                 

@@ -144,7 +144,7 @@ public function updateProfile($data){
     }
 
     public function getBookingsByEquipmentId($productId){
-        $sql = "SELECT user_id, start_date, end_date, status FROM rental_equipment_bookings WHERE equipment_id = ?";
+        $sql = "SELECT user_id, start_date, end_date, total_price, status FROM rental_equipment_bookings WHERE equipment_id = ?";
         try{
             $this->db->query($sql);
             $this->db->bind(1,$productId);

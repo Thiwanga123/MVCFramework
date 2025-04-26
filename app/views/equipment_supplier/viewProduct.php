@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="<?php echo URLROOT;?>/css/equipmentRentals/editProduct.css">
     <link rel="stylesheet" href="<?php echo URLROOT;?>/css/equipmentRentals/reviews.css">
     <!-- <link rel="stylesheet" href="<?php echo URLROOT;?>/css/equipmentRentals/booking.css"> -->
-    <!-- <link rel="stylesheet" href="<?php echo URLROOT;?>/css/Common/calendar.css">  -->
+    <link rel="stylesheet" href="<?php echo URLROOT;?>/css/Common/calendar.css"> 
     <link rel="stylesheet" href="<?php echo URLROOT;?>/css/Modals/logoutModal.css">
 
     
@@ -24,7 +24,7 @@
                     <div class="container">
                         <div class="header">
                             <h1>Product Details</h1>
-                            <div class="back-button"><a href="<?php echo URLROOT;?>/users/equipment_suppliers"> Back to My Rentals</a></div>
+                            <div class="back-button"><a href="<?php echo URLROOT;?>/equipment_suppliers/myInventory"> Back to My Rentals</a></div>
                         </div>
                     <!-- Navigation Tabs -->
                         <div class="menu-bar">
@@ -74,12 +74,10 @@
     </div>
 
     <script>const URLROOT = "<?php echo URLROOT; ?>"; </script>
-    <!-- <script>var bookings = <?php echo $data['bookings']; ?></script>
-    <script>const userId = <?php echo json_encode($data['user_id']); ?>;</script> -->
+    <script>var bookings = <?php echo json_encode($data['bookings']); ?></script>
+    <script>const userId = <?php echo json_encode($data['user_id']); ?>;</script>
     <script src="<?php echo URLROOT;?>/js/changeContent.js" defer></script>
-    <!-- <script src="<?php echo URLROOT;?>/js/Calendar.js"></script>
-    <script src="<?php echo URLROOT;?>/js/equipmentBooking.js"></script>
-    <script src="<?php echo URLROOT;?>/js/equipmentReview.js"></script> -->
+    <script src="<?php echo URLROOT;?>/js/Calendar.js"></script>
     <script src="<?php echo URLROOT;?>/js/logout.js"></script>
     <script src="<?php echo URLROOT;?>/js/subMenu.js"></script>
     <script src="<?php echo URLROOT;?>/js/EquipmentSupplierJS/deleteProduct.js"></script>
