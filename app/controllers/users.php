@@ -710,9 +710,9 @@ class Users extends Controller {
         if(isset($_SESSION['user_id'])) {
             $data['currentPage'] = 'summary';
             $data = [
-                'user_id' => $_SESSION['user_id'] ?? null,
                 'name' => $_SESSION['name'] ?? null,
                 'trip' => $_SESSION['trip'] ?? [], //includes accomodations data too
+                'accommodation_data' => $_SESSION['acomodation_booking'] ?? [],
                 'booking_vehicle_data' => $_SESSION['booking_vehicle_data'] ?? [],
                 'guider_booking' => $_SESSION['guider_booking'] ?? [],
                 'equipmentBooking' => $_SESSION['equipmentBooking'] ?? [],

@@ -446,11 +446,14 @@
                 $doubleRooms = $_POST['doubleRooms'];
                 $familyRooms = $_POST['familyRooms'];
 
-                $_SESSION['trip']['propertyId'] = $_POST['propertyId'] ?? null;
-                $_SESSION['trip']['accomodationProviderId'] = $_POST['serviceProviderId'] ?? null;
-                $_SESSION['trip']['singleRooms'] = $_POST['singleRooms'] ?? 0;
-                $_SESSION['trip']['doubleRooms'] = $_POST['doubleRooms'] ?? 0;
-                $_SESSION['trip']['familyRooms'] = $_POST['familyRooms'] ?? 0;
+                $_SESSION['acomodation_booking'] = [
+                    'propertyId' => $propertyId,
+                    'serviceProviderId' => $serviceProviderId,
+                    'singleRooms' => $singleRooms,
+                    'doubleRooms' => $doubleRooms,
+                    'familyRooms' => $familyRooms
+                ];
+
 
                 // Validate and process the data...
                 // Return JSON response

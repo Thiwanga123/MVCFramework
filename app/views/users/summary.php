@@ -19,52 +19,60 @@
 
      <!--Main Content-->
     
+
         <main>
             <div class="rental-container">  
                 <div class="filter">
                     <h1>My Plan</h1>
                 </div>
-
                 <div class="trip-summary-container">
-    <h2>Trip Summary for <?= htmlspecialchars($data['name']) ?></h2>
+                        <h2>Trip Summary for <?= htmlspecialchars($data['name']) ?></h2>
 
-    <div class="summary-cards">
+                        <div class="summary-cards">
 
-        <div class="summary-card">
-            <h3>Accommodation</h3>
-            <div class="summary-item"><span>Start Date:</span> <?= htmlspecialchars($data['trip']['startDate']) ?></div>
-            <div class="summary-item"><span>End Date:</span> <?= htmlspecialchars($data['trip']['endDate']) ?></div>
-            <div class="summary-item"><span>Property ID:</span> <?= htmlspecialchars($data['trip']['propertyId']) ?></div>
-            <div class="summary-item"><span>Single Rooms:</span> <?= htmlspecialchars($data['trip']['singleRooms']) ?></div>
-            <div class="summary-item"><span>Double Rooms:</span> <?= htmlspecialchars($data['trip']['doubleRooms']) ?></div>
-            <div class="summary-item"><span>Family Rooms:</span> <?= htmlspecialchars($data['trip']['familyRooms']) ?></div>
-        </div>
+                            <?php if (!empty($data['trip']) && !empty($data['accommodation_data'])): ?>
+                                <div class="summary-card">
+                                    <h3>Accommodation</h3>
+                                    <div class="summary-item"><span>Start Date:</span> <?= htmlspecialchars($data['trip']['startDate']) ?></div>
+                                    <div class="summary-item"><span>End Date:</span> <?= htmlspecialchars($data['trip']['endDate']) ?></div>
+                                    <div class="summary-item"><span>Property ID:</span> <?= htmlspecialchars($data['accommodation_data']['propertyId']) ?></div>
+                                    <div class="summary-item"><span>Single Rooms:</span> <?= htmlspecialchars($data['accommodation_data']['singleRooms']) ?></div>
+                                    <div class="summary-item"><span>Double Rooms:</span> <?= htmlspecialchars($data['accommodation_data']['doubleRooms']) ?></div>
+                                    <div class="summary-item"><span>Family Rooms:</span> <?= htmlspecialchars($data['accommodation_data']['familyRooms']) ?></div>
+                                </div>
+                            <?php endif; ?>
 
-        <div class="summary-card">
-            <h3>Vehicle Booking</h3>
-            <div class="summary-item"><span>Vehicle ID:</span> <?= htmlspecialchars($data['booking_vehicle_data']['vehicleId']) ?></div>
-            <div class="summary-item"><span>Rate:</span> Rs. <?= htmlspecialchars($data['booking_vehicle_data']['rate']) ?></div>
-            <div class="summary-item"><span>Pickup Location:</span> <?= htmlspecialchars($data['booking_vehicle_data']['pickupLocation']) ?></div>
-            <div class="summary-item"><span>Driver Option:</span> <?= htmlspecialchars($data['booking_vehicle_data']['driverOption']) ?></div>
-        </div>
+                            <?php if (!empty($data['booking_vehicle_data'])): ?>
+                                <div class="summary-card">
+                                    <h3>Vehicle Booking</h3>
+                                    <div class="summary-item"><span>Vehicle ID:</span> <?= htmlspecialchars($data['booking_vehicle_data']['vehicleId']) ?></div>
+                                    <div class="summary-item"><span>Rate:</span> Rs. <?= htmlspecialchars($data['booking_vehicle_data']['rate']) ?></div>
+                                    <div class="summary-item"><span>Pickup Location:</span> <?= htmlspecialchars($data['booking_vehicle_data']['pickupLocation']) ?></div>
+                                    <div class="summary-item"><span>Driver Option:</span> <?= htmlspecialchars($data['booking_vehicle_data']['driverOption']) ?></div>
+                                </div>
+                            <?php endif; ?>
 
-        <div class="summary-card">
-            <h3>Guider Booking</h3>
-            <div class="summary-item"><span>Guider ID:</span> <?= htmlspecialchars($data['guider_booking']['guiderId']) ?></div>
-            <div class="summary-item"><span>Pickup:</span> <?= htmlspecialchars($data['guider_booking']['pickupLocation']) ?></div>
-            <div class="summary-item"><span>Destination:</span> <?= htmlspecialchars($data['guider_booking']['destination']) ?></div>
-        </div>
+                            <?php if (!empty($data['guider_booking'])): ?>
+                                <div class="summary-card">
+                                    <h3>Guider Booking</h3>
+                                    <div class="summary-item"><span>Guider ID:</span> <?= htmlspecialchars($data['guider_booking']['guiderId']) ?></div>
+                                    <div class="summary-item"><span>Pickup:</span> <?= htmlspecialchars($data['guider_booking']['pickupLocation']) ?></div>
+                                    <div class="summary-item"><span>Destination:</span> <?= htmlspecialchars($data['guider_booking']['destination']) ?></div>
+                                </div>
+                            <?php endif; ?>
 
-        <div class="summary-card">
-            <h3>Equipment Booking</h3>
-            <div class="summary-item"><span>Equipment ID:</span> <?= htmlspecialchars($data['equipmentBooking']['equipmentId']) ?></div>
-            <div class="summary-item"><span>Start Date:</span> <?= htmlspecialchars($data['equipmentBooking']['startDate']) ?></div>
-            <div class="summary-item"><span>End Date:</span> <?= htmlspecialchars($data['equipmentBooking']['endDate']) ?></div>
-            <div class="summary-item"><span>Total Price:</span> Rs. <?= htmlspecialchars($data['equipmentBooking']['totalPrice']) ?></div>
-        </div>
+                            <?php if (!empty($data['equipmentBooking'])): ?>
+                                <div class="summary-card">
+                                    <h3>Equipment Booking</h3>
+                                    <div class="summary-item"><span>Equipment ID:</span> <?= htmlspecialchars($data['equipmentBooking']['equipmentId']) ?></div>
+                                    <div class="summary-item"><span>Start Date:</span> <?= htmlspecialchars($data['equipmentBooking']['startDate']) ?></div>
+                                    <div class="summary-item"><span>End Date:</span> <?= htmlspecialchars($data['equipmentBooking']['endDate']) ?></div>
+                                    <div class="summary-item"><span>Total Price:</span> Rs. <?= htmlspecialchars($data['equipmentBooking']['totalPrice']) ?></div>
+                                </div>
+                            <?php endif; ?>
 
-    </div>
-</div>
+                        </div>
+                </div>
             </div>
         </main>
 

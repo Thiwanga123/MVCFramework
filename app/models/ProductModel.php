@@ -118,6 +118,22 @@
         }
     }
 
+    
+    public function getEquipmentCountBySupplierId($supplierId){
+        $sql = "SELECT COUNT(*) as equipment_count FROM rental_equipments WHERE supplier_id = :supplierId";
+        try{
+            $this->db->query($sql);
+            $this->db->bind(':supplierId', $supplierId);
+            $result = $this->db->single();
+            exit;
+        }catch(Exception $e){
+            echo "Error: " . $e->getMessage();
+            return false;
+        }
+
+    }
+
+
     public function getAllProducts($supplierId){
         try{
             $sql = "SELECT r.*, c.category_name, i.image_path 

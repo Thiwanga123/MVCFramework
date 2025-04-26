@@ -26,7 +26,8 @@ class Equipment_Suppliers extends Controller{
             $supplierId = $_SESSION['id'];
             $upcomingBookings = $this->bookingModel-> upcomingBookingsBySupplierId($supplierId);
             $currentPage = 'dashboard';
-
+            // $equipmentCount = $this->productModel->getEquipmentCountBySupplierId($supplierId);
+            
             $data = [
                 'currentPage' => $currentPage,
                 'upcomingBookings' => $upcomingBookings,
