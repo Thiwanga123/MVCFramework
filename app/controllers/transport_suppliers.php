@@ -14,9 +14,35 @@ class Transport_suppliers extends Controller
         echo "hi";
     }
 
-    public function dashboard()
-    {
-        $this->view('transport_supplier/Dashboard');
+   
+    public function dashboard() {
+        if (isset($_SESSION['id'])) {
+            $supplierId = $_SESSION['id'];
+    
+            // Load your TransportModel
+            $this->transportModel = $this->model('TransportModel');
+    
+            // Get total vehicles
+            $vehicleData = $this->transportModel->getTotalVehicle($supplierId);
+    
+            // Get total bookings for this supplier
+            $bookingData = $this->transportModel->countBookingsBySupplier($supplierId);
+     
+            // Get detailed booking data to display in the table
+            $detailedBookingData = $this->transportModel->getAllBookingsBySupplier($supplierId);
+    
+            // Prepare data to pass to view
+            $data = [
+                'vehicles' => $vehicleData->total_vehicles ?? 0,
+                'bookings' => $bookingData->total ?? 0,
+                'bookings_details' => $detailedBookingData // new data for displaying booking details
+            ];
+    
+            // Load the dashboard view with data
+            $this->view('transport_supplier/Dashboard', $data);
+        } else {
+            redirect('ServiceProvider');
+        }
     }
 
     public function details($id)
@@ -37,16 +63,21 @@ class Transport_suppliers extends Controller
 
     public function myInventory()
     {
-        $data['activePage'] = 'My Inventory';
         if (isset($_SESSION['id'])) {
             $supplierId = $_SESSION['id'];
-            $this->transportModel = $this->model('TransportModel');
-            $vehicles = $this->transportModel->getAllVehicles($supplierId);//Debugging
-            $this->view('transport_supplier/MyInventory', ['vehicles' => $vehicles]);
+            $vehicles = $this->transportModel->getAllVehicles($supplierId);
+            $currentPage = 'vehicles';
+
+            $data = [
+                'vehicles' => $vehicles,
+                'currentPage' => $currentPage
+            ];
+            $this->view('transport_supplier/MyInventory', $data);
         } else {
             redirect('ServiceProvider');
         }
     }
+
 
     public function orders()
     {
@@ -112,8 +143,8 @@ class Transport_suppliers extends Controller
     }
     public function addVehicle(){
         
-        if(isset($_POST['submit'])){
-
+        if ($_SERVER['REQUEST_METHOD'] == 'POST'){
+           
             $data = [
                 'id'=> $_SESSION['id'],
                 'vehicleType' => trim($_POST['vehicleType']),
@@ -121,7 +152,6 @@ class Transport_suppliers extends Controller
                 'vehicleMake' => trim($_POST['vehicleMake']),    //These variables are used to store the values which are sent via the form data
                 'plateNumber' => trim($_POST['licensePlateNumber']),
                 'rate' => trim($_POST['vehicleRate']),
-                'litre' => trim($_POST['vehicleLitre']),
                 'fuelType' => trim($_POST['fuelType']),
                 'description' => trim($_POST['description']),
                 'availability' => trim($_POST['availability']),
@@ -152,9 +182,6 @@ class Transport_suppliers extends Controller
                 $errors[] = 'Rate is required';
             }
           
-            if(empty($data['litre'])){
-                $errors[] = 'Litre is required';
-            }
           
             
             if(empty($data['fuelType'])){
@@ -253,19 +280,18 @@ class Transport_suppliers extends Controller
             }
         }
     }
-
-    // public function delete_availability($id) {
-    //     if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    //         if ($this->transportModel->deleteVehicleById($id)) {
-    //             flash('vehicle_message', 'Vehicle deleted successfully');
-    //             redirect('transport_suppliers/myinventory');
-    //         } else {
-    //             die('Something went wrong');
-    //         }
-    //     } else {
-    //         redirect('transport_suppliers/myinventory');
-    //     }
-    // }
+    public function delete_availability($id) {
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            if ($this->transportModel->deleteVehicleById($id)) {
+                redirect('transport_suppliers/myinventory');
+            } else {
+                die('Something went wrong');
+            }
+        } else {
+            redirect('transport_suppliers/myinventory');
+        }
+    }
+    
     
     
     
@@ -305,93 +331,36 @@ public function logout() {
     redirect('ServiceProvider/login');
 }
 
-public function editVehicle(){
 
-    if (isset($_SESSION['id'])) {
+public function editVehicle() {
+    if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+        $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
+
         $data = [
-            'id'=> $_SESSION['id'],
-            'vid' => trim($_POST['vehicleId']),
+            'vehicleId' => trim($_POST['vehicleId']), // <-- add this
+            'supplierId' => $_SESSION['id'],          // <-- correct key for binding
             'vehicleType' => trim($_POST['vehicleType']),
-            'vehicleModel' =>trim($_POST['vehicleModel']) ,
-            'vehicleMake' => trim($_POST['vehicleMake']),    //These variables are used to store the values which are sent via the form data
+            'vehicleModel' => trim($_POST['vehicleModel']),
+            'vehicleMake' => trim($_POST['vehicleMake']),
             'plateNumber' => trim($_POST['licensePlateNumber']),
             'rate' => trim($_POST['vehicleRate']),
             'fuelType' => trim($_POST['fuelType']),
             'description' => trim($_POST['description']),
             'availability' => trim($_POST['availability']),
             'driver' => trim($_POST['driver']),
-            'cost' => trim($_POST['vehicleCost']),        // added
-            'location' => trim($_POST['vehicleLocation']), // added
-            'seating_capacity' => trim($_POST['seating_capcity']) // added
+            'cost' => trim($_POST['vehicleCost']),
+            'location' => trim($_POST['vehicleLocation']),
+            'seating_capacity' => trim($_POST['seating_capacity']),
         ];
-
-        if(empty($data['vehicleType'])){
-            $errors[] = 'Vehicle Type is required';
-        }
-
-        if(empty($data['vehicleModel'])){
-            $errors[] = 'Vehicle Model is required';
-        }
-
-        if(empty($data['vehicleMake'])){
-            $errors[] = 'Vehicle Make is required';
-        }
-
-        if(empty($data['plateNumber'])){
-            $errors[] = 'Vehicle License Plate Number is required';
-        }
-
-        if(empty($data['rate'])){
-            $errors[] = 'Rate is required';
-        }
         
-        
-        if(empty($data['fuelType'])){
-            $errors[] = 'Fuel Type is required';
-        }
-
-        if(empty($data['description'])){
-            $errors[] = 'Description is required';
-        }
-
-        if(empty($data['availability'])){
-            $errors[] = 'Availability is required';
-        }
-        if(empty($data['driver'])){
-            $errors[] = 'driver is required';
-        }
-
-        if (empty($data['cost'])) {
-            $errors[] = 'Cost is required';
-        }
-
-        if (empty($data['location'])) {
-            $errors[] = 'Location is required';
-        }
-
-        if (empty($data['seating_capacity'])) {
-            $errors[] = 'seating_capacity is required';
-        }
-
-        // Show errors if any
-        if (!empty($errors)) {
-            foreach ($errors as $error) {
-                echo "<script>alert('$error');</script>";
-            }
-            return;
-        }
-
-        // Proceed with update if no errors
-        $update = $this->transportModel->updateVehicle($data);
-        if($update){
-            echo "<script>
-                alert('Vehicle Details updated successfully!');
-             </script>";
-             
+        if ($this->transportModel->updateVehicle($data)) {
             redirect('transport_suppliers/myInventory');
+        } else {
+            die("Something went wrong updating the vehicle.");
         }
-}
-
+    } else {
+        redirect('transport_suppliers/myInventory');
+    }
 }
 public function addriver() {
     if ($_SERVER['REQUEST_METHOD'] == 'POST')
@@ -452,15 +421,18 @@ public function addriver() {
     }
    
    
-    // public function delete($id) {
-    //     if ($_SERVER['REQUEST_METHOD'] == 'GET') {
-    //         if ($this->driverModel->deleteDriverById($id)) {
-    //             redirect('transport_suppliers/driver'); // or wherever your driver list is
-    //         } else {
-    //             die("Something went wrong.");
-    //         }
-    //     }
-    // }
+   
+    public function delete($id) {
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            if ($this->transportModel->deleteDriverById($id)) {
+                redirect('transport_suppliers/driver');
+            } else {
+                die("Something went wrong.");
+            }
+        } else {
+            redirect('transport_suppliers/driver'); // prevent delete via GET
+        }
+    }
     
 }
 

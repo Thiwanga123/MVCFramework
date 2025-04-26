@@ -3,8 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="<?php echo URLROOT;?>/css/Common/MyInventorys.css">
-    <link rel="stylesheet" href="<?php echo URLROOT;?>/css/Common/sidebarHeader.css">
+    <link rel="stylesheet" href="<?php echo URLROOT;?>/css/Modals/addVehicleModal.css">
+    <link rel="stylesheet" href="<?php echo URLROOT;?>/css/Commoon/MyInventorys.css">
+    <link rel="stylesheet" href="<?php echo URLROOT;?>/css/Commoon/sidebarHeader.css">
     <link rel="stylesheet" href="<?php echo URLROOT;?>/css/Modals/logoutModal.css">
     <!-- <link rel="stylesheet" href="<?php echo URLROOT;?>/css/Modals/addVehicleModal.css"> -->
     <!-- <link rel="stylesheet" href="<?php echo URLROOT;?>/css/Modals/UpdateVehicleModal.css"> -->
@@ -19,7 +20,7 @@
             <div class="initial-container" id = "driverContainer">
                 <div class="header">
                     <div class="left">
-                        <h1>My Drivers</h1>
+                        <h1>Drivers</h1>
                     </div>
                     <div class="right">
                     <button class="add-btn" id="driver-add-btn">
@@ -54,7 +55,9 @@
                                 <td><?php echo htmlspecialchars($driver->email); ?></td>
                                 <td><?php echo htmlspecialchars($driver->description); ?></td>
                                 <td>
-                                <button class="delete-btn" onclick="confirmDelete(<?php echo $driver->driverID; ?>)">Delete</button>
+                                <form action="<?php echo URLROOT; ?>/transport_suppliers/delete/<?php echo $driver->id; ?>" method="POST" onsubmit="return confirm('Are you sure you want to delete this driver?');">
+    <button type="submit" class="delete-btn">Delete</button>
+</form>
                                 </td>
                                 </td>
                             </tr>

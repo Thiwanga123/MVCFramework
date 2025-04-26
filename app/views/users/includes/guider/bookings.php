@@ -50,6 +50,7 @@
                                         return;
                                     }
 
+                                    // Check unavailable dates
                                     for (const date of unavailableDates) {
                                         const unavailableDate = new Date(date);
                                         if (startDate <= unavailableDate && unavailableDate <= endDate) {
@@ -58,7 +59,13 @@
                                         }
                                     }
 
+                                    // Check bookings, excluding cancelled and completed ones
                                     for (const booking of bookings) {
+                                        // Skip cancelled and completed bookings
+                                        if (booking.status === 'cancelled' || booking.status === 'completed') {
+                                            continue;
+                                        }
+
                                         const checkIn = new Date(booking.check_in);
                                         const checkOut = new Date(booking.check_out);
                                         if (

@@ -1,15 +1,16 @@
-<div class="initial-container" id="driverAddContainer" style="display: none;">
+<div class="initial-container" id="vehicleAddContainer" style="display: none;">
     <div class="header">
         <div class="left">
-            <h1>Add Driver</h1>
+            <h1>Drivers</h1>
         </div>
     </div>
 
-    <div class="driver-form-container">
+    <div class="vehicle-form-container">
         <div class="form-header">
-            <h1>Add Driver</h1>
-
-            <form id="addDriverForm" action="<?php echo URLROOT; ?>/transport_suppliers/addriver" method="post" class="driver-form">
+        <h1>Add Drivers</h1>
+        
+        </div>
+            <form id="addVehicleForm" action="<?php echo URLROOT; ?>/transport_suppliers/addriver" method="post" class="driver-form">
                 <div class="form-section">
                     <div class="form-left">
                         <label for="name">Driver Name</label>
@@ -33,6 +34,7 @@
                 <div class="form-actions">
                     <button type="submit" class="submit-button">Add Driver</button>
                 </div>
+                
             </form>
         </div>
     </div>

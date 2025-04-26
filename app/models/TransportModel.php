@@ -48,10 +48,11 @@ class TransportModel
          return false;
          }
      }     
-     public function updateVehicle($data){
+     public function updateVehicle($data) {
         try {
             $sql = "UPDATE vehicles
-                    SET type = ?, 
+                    SET 
+                        type = ?, 
                         model = ?, 
                         make = ?, 
                         license_plate_number = ?, 
@@ -61,10 +62,11 @@ class TransportModel
                         availability = ?, 
                         driver = ?, 
                         cost = ?, 
-                        location = ?,
-                        seating_capacity=?
-                    WHERE supplierId = ? AND vehicle_id = ?";
-    
+                        location = ?, 
+                        seating_capacity = ?, 
+                        supplierId = ?
+                    WHERE vehicle_id = ?";
+            
             $this->db->query($sql);
     
             $this->db->bind(1, $data['vehicleType']);
@@ -78,43 +80,42 @@ class TransportModel
             $this->db->bind(9, $data['driver']);
             $this->db->bind(10, $data['cost']);
             $this->db->bind(11, $data['location']);
-            $this->db->bind(12, $data['id']);      // supplierId
-            $this->db->bind(13, $data['vid']);     // vehicle_id
-            $this->db->bind(14, $data['seating_capacity']);
+            $this->db->bind(12, $data['seating_capacity']);
+            $this->db->bind(13, $data['supplierId']);
+            $this->db->bind(14, $data['vehicleId']); // This was missing
+    
+            return $this->db->execute();
+        } catch(Exception $e) {
+            echo "<script>alert('An error occurred: " . $e->getMessage() . "');</script>";
+            return false;
+        }
+    }
+    
+    
+    
+    
+    
+    public function addVehicleImage($supplierId, $vehicleId, $imagePath) {
+        try {
+            $sql = "INSERT INTO vehicle_images (supplier_id, vehicle_id, image_path) VALUES (?, ?, ?)";
+            $this->db->query($sql);
+
+            $this->db->bind(1, $supplierId);
+            $this->db->bind(2, $vehicleId);
+            $this->db->bind(3, $imagePath);
+    
             if ($this->db->execute()) {
                 return true;
             } else {
-                throw new Exception("Error in updating Vehicle details");
+               throw new Exception("Error inserting image path into the database.");
             }
     
-        } catch(Exception $e) {
+        } catch (Exception $e) {
             $error_msg = $e->getMessage();
             echo "<script>alert('An error occurred: $error_msg');</script>";
             return false;
         }
     }
-    
-     public function addVehicleImage($supplierId, $vehicleId, $imagePath) {
-         try {
-             $sql = "INSERT INTO vehicle_images (supplier_id, vehicle_id, image_path) VALUES (?, ?, ?)";
-             $this->db->query($sql);
- 
-             $this->db->bind(1, $supplierId);
-             $this->db->bind(2, $vehicleId);
-             $this->db->bind(3, $imagePath);
-     
-             if ($this->db->execute()) {
-                 return true;
-             } else {
-                throw new Exception("Error inserting image path into the database.");
-             }
-     
-         } catch (Exception $e) {
-             $error_msg = $e->getMessage();
-             echo "<script>alert('An error occurred: $error_msg');</script>";
-             return false;
-         }
-     }
 
      public function getAllVehicles($supplierId){
         try{
@@ -124,7 +125,7 @@ class TransportModel
                     FROM vehicle_images 
                     GROUP BY vehicle_id) i 
                     ON 
-                    v.id = i.vehicle_id
+                    v.vehicle_id = i.vehicle_id
                      WHERE 
                     v.supplierId = ?";
 
@@ -144,17 +145,13 @@ class TransportModel
 
     //delete a specific the availability of the tour guider with the relavannt of the guider by id
 
-    public function deleteVehicleById($id){
+    public function deleteVehicleById($id) {
         try {
-            $sql = "DELETE FROM vehicles WHERE id = ?";
+            $sql = "DELETE FROM vehicles WHERE vehicle_id = :vehicle_id";
             $this->db->query($sql);
-            $this->db->bind(1, $id);
+            $this->db->bind(':vehicle_id', $id);
     
-            if ($this->db->execute()) {
-                return true;
-            } else {
-                throw new Exception("Error deleting vehicle.");
-            }
+            return $this->db->execute();
         } catch (Exception $e) {
             return false;
         }
@@ -263,6 +260,7 @@ public function updateprofile($data){
         }
     }
 
+
     public function getVehicleById($id){
         $sql = 'SELECT * FROM vehicles WHERE vehicle_id = ?';
         try{
@@ -277,5 +275,33 @@ public function updateprofile($data){
         }
     }
     
+    public function getTotalVehicle($supplierId) {
+        try {
+            $sql = "SELECT COUNT(*) as total_vehicles FROM vehicles WHERE supplierId = :supplierId";
+            $this->db->query($sql);
+            $this->db->bind(':supplierId', $supplierId);
+    
+            $result = $this->db->single();
+    
+            return $result; // returns an object with property total_vehicles
+        } catch (Exception $e) {
+            echo "<script>alert('An error occurred: {$e->getMessage()}');</script>";
+            return (object)['total_vehicles' => 0];
+        }
+    }
+    
+    public function getAllBookingsBySupplier($supplierId) {
+        $this->db->query("SELECT * FROM vehicle_booking WHERE supplier_id = :supplier_id AND status != 'Cancelled'");
+        $this->db->bind(':supplier_id', $supplierId);
+        return $this->db->resultSet();
+    }
+    
+
+public function countBookingsBySupplier($supplierId) {
+    $this->db->query("SELECT COUNT(*) as total FROM vehicle_booking WHERE supplier_id = :supplier_id");
+    $this->db->bind(':supplier_id', $supplierId);
+    return $this->db->single();
+}
+
 
 }

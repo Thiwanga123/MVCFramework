@@ -567,12 +567,12 @@ class Users extends Controller {
 
             // Cancel the booking
             if ($this->userModel->cancelBooking($bookingId)) {
-                echo "<script>alert('Booking cancelled successfully'); window.location.href = '" . URLROOT . "/users/history';</script>";
+                echo "<script>alert('Booking cancelled successfully. Full refund will be processed.'); window.location.href = '" . URLROOT . "/users/history';</script>";
             } else {
-                echo "<script>alert('An error occurred. Please try again'); window.location.href = '" . URLROOT . "/users/history';</script>";
+                echo "<script>alert('Failed to cancel booking. Please try again.'); window.location.href = '" . URLROOT . "/users/history';</script>";
             }
         } else {
-            redirect('users/v_history');
+            redirect('users/history');
         }
     }
 

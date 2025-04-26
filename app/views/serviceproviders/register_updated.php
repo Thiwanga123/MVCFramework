@@ -160,20 +160,20 @@
                         <div class="plans-container">
                             <div class="plan-card" id="3month-plan">
                                 <h3>3 Months</h3>
-                                <span class="price">$0</span>
-                                <p>Basic access to services.</p>
+                                <span class="price">Rs.10,000</span>
+                                <p>Full 03 Months access to services.</p>
                                 <button type="button" class="choose-btn">Choose</button>
                             </div>
                             <div class="plan-card" id="6month-plan">
                                 <h3>6 Months</h3>
-                                <span class="price">$19.99/month</span>
-                                <p>Access to essential services and features.</p>
+                                <span class="price">Rs.20,000</span>
+                                <p>Full 06 Months services and features.</p>
                                 <button type="button" class="choose-btn">Choose</button>
                             </div>
                             <div class="plan-card" id="12month-plan">
                                 <h3>12 Months</h3>
-                                <span class="price">$49.99/month</span>
-                                <p>All premium features and priority support.</p>
+                                <span class="price">Rs.40,000</span>
+                                <p>Entire One Year full Service.</p>
                                 <button type="button" class="choose-btn">Choose</button>
                             </div>
                         </div>

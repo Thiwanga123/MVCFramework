@@ -1,7 +1,7 @@
 
 document.addEventListener('DOMContentLoaded', () => {
     const driverContainer = document.getElementById('driverContainer');
-    const driverAddContainer = document.getElementById('driverAddContainer');
+    const driverAddContainer = document.getElementById('vehicleAddContainer');
     const addDriverBtn = document.getElementById('driver-add-btn');
 
     addDriverBtn.addEventListener('click', function () {
@@ -9,7 +9,7 @@ document.addEventListener('DOMContentLoaded', () => {
         driverAddContainer.style.display = "flex"; // Or block, depending on your CSS
     });
 
-    document.getElementById("addDriverForm").onsubmit = function (e) {
+    document.getElementById("addVehicleForm").onsubmit = function (e) {
         // Add success logic here if needed
         driverAddContainer.style.display = "none";
         driverContainer.style.display = "flex";

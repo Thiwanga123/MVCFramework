@@ -40,8 +40,8 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <?php foreach ($data['bookings'] as $booking):?>
-                                <tr> 
+                                <?php foreach ($data['bookings'] as $booking): ?>
+                                <tr>
                                     <td><?php echo htmlspecialchars($booking->booking_id); ?></td>
                                     <td><?php echo htmlspecialchars($booking->type); ?></td>
                                     <td><?php echo htmlspecialchars($booking->name); ?></td>
@@ -49,18 +49,19 @@
                                     <td><?php echo htmlspecialchars($booking->end_date); ?></td>
                                     <td class="status <?php echo strtolower($booking->status); ?>">
                                         <?php echo htmlspecialchars($booking->status); ?>
-                                    </td>                                    
-                                    <td><?php echo htmlspecialchars($booking->price); ?> </td>  
-                                    <td>
-                                    <?php if (strtolower($booking->status) === 'booked' || strtolower($booking->status) === 'pending'): ?>
-                                        <button class="cancellationBtn" 
-                                        data-id = "<?php echo htmlspecialchars($booking->id); ?>"
-                                        data-type = "<?php echo htmlspecialchars($booking->type); ?>"> 
-                                            <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#EA3323"><path d="m336-280 144-144 144 144 56-56-144-144 144-144-56-56-144 144-144-144-56 56 144 144-144 144 56 56ZM480-80q-83 0-156-31.5T197-197q-54-54-85.5-127T80-480q0-83 31.5-156T197-763q54-54 127-85.5T480-880q83 0 156 31.5T763-763q54 54 85.5 127T880-480q0 83-31.5 156T763-197q-54 54-127 85.5T480-80Zm0-80q134 0 227-93t93-227q0-134-93-227t-227-93q-134 0-227 93t-93 227q0 134 93 227t227 93Zm0-320Z"/></svg>
-                                        </button>
-                                    <?php endif; ?>
                                     </td>
-                                </tr> 
+                                    <td><?php echo htmlspecialchars($booking->price); ?></td>
+                                    <td>
+                                        <?php if (strtolower($booking->status) === 'booked' || strtolower($booking->status) === 'pending'): ?>
+                                        <button class="cancel-btn" 
+                                                data-id="<?php echo htmlspecialchars($booking->booking_id); ?>" 
+                                                data-checkin="<?php echo htmlspecialchars($booking->start_date); ?>"
+                                                style="background-color: #ff4d4d; color: white; border: none; padding: 8px 12px; border-radius: 4px; cursor: pointer;">
+                                            Cancel
+                                        </button>
+                                        <?php endif; ?>
+                                    </td>
+                                </tr>
                                 <?php endforeach; ?>
                             </tbody>
                         </table> 
@@ -69,13 +70,75 @@
         </main>
     </div>
    
+    <div id="cancelDialog" style="display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background: white; padding: 20px; border-radius: 8px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); z-index: 1000;">
+        <p id="cancelMessage"></p>
+        <div style="text-align: right; margin-top: 20px;">
+            <button id="confirmCancel" style="background-color: #4CAF50; color: white; border: none; padding: 8px 12px; border-radius: 4px; cursor: pointer;">Confirm</button>
+            <button id="closeDialog" style="background-color: #f44336; color: white; border: none; padding: 8px 12px; border-radius: 4px; cursor: pointer;">Close</button>
+        </div>
+    </div>
+    <div id="overlay" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.5); z-index: 999;"></div>
+
     <script src="<?php echo URLROOT;?>/js/Sidebar.js"></script> 
     <script src="<?php echo URLROOT;?>/js/logout.js"></script>
     <script src="<?php echo URLROOT;?>/js/submenu.js"></script>
     <script src="<?php echo URLROOT;?>/js/cancellationPolicy.js"></script>
     <script>const URLROOT = "<?php echo URLROOT; ?>";</script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const cancelButtons = document.querySelectorAll('.cancel-btn');
+            const cancelDialog = document.getElementById('cancelDialog');
+            const overlay = document.getElementById('overlay');
+            const cancelMessage = document.getElementById('cancelMessage');
+            const confirmCancel = document.getElementById('confirmCancel');
+            const closeDialog = document.getElementById('closeDialog');
+            let selectedBookingId = null;
 
+            cancelButtons.forEach(button => {
+                button.addEventListener('click', function () {
+                    selectedBookingId = this.getAttribute('data-id');
+                    const checkInDate = new Date(this.getAttribute('data-checkin'));
+                    const currentDate = new Date();
+                    const daysDiff = Math.ceil((checkInDate - currentDate) / (1000 * 60 * 60 * 24));
 
+                    if (daysDiff <= 3) {
+                        cancelMessage.textContent = "If you cancel within the last three days, you have to pay a 15% penalty amount to your service provider. Only 85% will be refunded to you.";
+                    } else {
+                        cancelMessage.textContent = "If you cancel now, you will be refunded the full amount.";
+                    }
 
+                    cancelDialog.style.display = 'block';
+                    overlay.style.display = 'block';
+                });
+            });
+
+            confirmCancel.addEventListener('click', function () {
+                fetch('<?php echo URLROOT; ?>/users/cancelBooking', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                    },
+                    body: `booking_id=${selectedBookingId}`
+                })
+                .then(response => response.text())
+                .then(data => {
+                    cancelDialog.style.display = 'none';
+                    overlay.style.display = 'none';
+                    location.reload();
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    cancelDialog.style.display = 'none';
+                    overlay.style.display = 'none';
+                    alert('An error occurred. Please try again.');
+                });
+            });
+
+            closeDialog.addEventListener('click', function () {
+                cancelDialog.style.display = 'none';
+                overlay.style.display = 'none';
+            });
+        });
+    </script>
 </body>
 </html>

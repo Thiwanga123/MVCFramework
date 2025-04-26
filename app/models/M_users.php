@@ -424,46 +424,327 @@ class M_users{
 
     //cancel the booking
    
-        public function cancelBooking($bookingId, $travelerId) {
+        public function cancelBooking($bookingId) {
             try {
-                // Fetch booking details
-                $this->db->query("SELECT check_in, amount, supplier_id, status FROM property_booking WHERE booking_id = :booking_id AND traveler_id = :traveler_id");
+                // First check guider booking
+                $this->db->query("SELECT * FROM guider_booking WHERE booking_id = :booking_id");
                 $this->db->bind(':booking_id', $bookingId);
-                $this->db->bind(':traveler_id', $travelerId);
+                $booking = $this->db->single();
+
+                if ($booking) {
+                    return $this->processGuideCancellation($booking);
+                }
+
+                // Check property booking
+                $this->db->query("SELECT * FROM property_booking WHERE booking_id = :booking_id");
+                $this->db->bind(':booking_id', $bookingId);
                 $booking = $this->db->single();
     
-                if (!$booking || $booking['status'] !== 'pending') {
-                    return ['success' => false, 'message' => 'Booking not found or already processed.'];
+                if ($booking) {
+                    return $this->processPropertyCancellation($booking);
                 }
-    
-                $daysDiff = (strtotime($booking['check_in']) - time()) / (60 * 60 * 24);
-                $refund = ($daysDiff > 3) ? $booking['amount'] : $booking['amount'] * 0.9;
-    
-                // Update booking with cancellation details
-                $this->db->query("UPDATE property_booking 
-                                  SET status = 'cancelled', 
-                                      refund_amount = :refund, 
-                                      cancellation_date = NOW(), 
-                                      cancellation_by = 'user' 
-                                  WHERE booking_id = :booking_id");
-                $this->db->bind(':refund', $refund);
+
+                // Check vehicle booking
+                $this->db->query("SELECT * FROM vehicle_booking WHERE booking_id = :booking_id");
                 $this->db->bind(':booking_id', $bookingId);
-                $this->db->execute();
-    
-                // If within 3 days, retain 10% in provider's wallet (already in holding_amount, will release via event)
-                return [
-                    'success' => true,
-                    'message' => 'Booking cancelled successfully.',
-                    'refund' => $refund
-                ];
+                $booking = $this->db->single();
+
+                if ($booking) {
+                    return $this->processVehicleCancellation($booking);
+                }
+
+                // Check equipment booking
+                $this->db->query("SELECT * FROM rental_equipment_bookings WHERE booking_id = :booking_id");
+                $this->db->bind(':booking_id', $bookingId);
+                $booking = $this->db->single();
+
+                if ($booking) {
+                    return $this->processEquipmentCancellation($booking);
+                }
+
+                // If not found in any table
+                return false;
+
             } catch (Exception $e) {
-                error_log("Error cancelling booking: " . $e->getMessage());
-                return ['success' => false, 'message' => 'Error cancelling booking: ' . $e->getMessage()];
+                error_log("Error in cancelBooking: " . $e->getMessage());
+                return false;
             }
         }
     
+    private function createSystemEarningsTable() {
+        try {
+            $sql = "CREATE TABLE IF NOT EXISTS system_earnings (
+                id INT AUTO_INCREMENT PRIMARY KEY,
+                amount DECIMAL(10,2) NOT NULL,
+                type VARCHAR(50) NOT NULL,
+                booking_id INT NOT NULL,
+                created_at DATETIME NOT NULL,
+                status VARCHAR(20) DEFAULT 'pending'
+            )";
+            
+            $this->db->query($sql);
+            return $this->db->execute();
+        } catch (Exception $e) {
+            error_log("Failed to create system_earnings table: " . $e->getMessage());
+            return false;
+        }
+    }
 
+    private function processGuideCancellation($booking) {
+        try {
+            // Calculate days until check-in
+            $daysDiff = (strtotime($booking->check_in) - time()) / (60 * 60 * 24);
+            
+            // Get the current holding amount from wallet
+            $this->db->query("SELECT * FROM guider_wallet WHERE related_booking_id = :booking_id AND transaction_type = 'deposit'");
+            $this->db->bind(':booking_id', $booking->booking_id);
+            $currentWallet = $this->db->single();
+            
+            if (!$currentWallet) {
+                error_log("No wallet record found for booking_id: " . $booking->booking_id);
+                return false;
+            }
 
+            $holdingAmount = $currentWallet->holding_amount;
+
+            if ($daysDiff <= 3) {
+                // Within 3 days: Apply penalty
+                $refundAmount = $holdingAmount * 0.85;
+                $guiderPenalty = $holdingAmount * 0.10;
+                $systemPenalty = $holdingAmount * 0.05;
+            } else {
+                // More than 3 days: Full refund
+                $refundAmount = $holdingAmount;
+                $guiderPenalty = 0;
+                $systemPenalty = 0;
+            }
+
+            // 1. Update booking status
+            $this->db->query("UPDATE guider_booking SET status = 'cancelled' WHERE booking_id = :booking_id");
+            $this->db->bind(':booking_id', $booking->booking_id);
+            
+            if (!$this->db->execute()) {
+                error_log("Failed to update booking status for booking_id: " . $booking->booking_id);
+                return false;
+            }
+
+            // 2. Update the original wallet record (set holding_amount to 0)
+            $this->db->query("UPDATE guider_wallet 
+                             SET holding_amount = 0 
+                             WHERE related_booking_id = :booking_id 
+                             AND transaction_type = 'deposit'");
+            $this->db->bind(':booking_id', $booking->booking_id);
+            
+            if (!$this->db->execute()) {
+                error_log("Failed to update original wallet record for booking_id: " . $booking->booking_id);
+                return false;
+            }
+
+            // 3. Create refund record in wallet
+            $this->db->query("INSERT INTO guider_wallet 
+                             (provider_id, traveler_id, holding_amount, refund_amount, transaction_type, related_booking_id, transaction_date) 
+                             VALUES 
+                             (:provider_id, :traveler_id, 0, :refund_amount, 'refund', :booking_id, NOW())");
+            $this->db->bind(':provider_id', $booking->guider_id);
+            $this->db->bind(':traveler_id', $booking->traveler_id);
+            $this->db->bind(':refund_amount', $refundAmount);
+            $this->db->bind(':booking_id', $booking->booking_id);
+            
+            if (!$this->db->execute()) {
+                error_log("Failed to create refund record for booking_id: " . $booking->booking_id);
+                return false;
+            }
+
+            if ($daysDiff <= 3) {
+                // 4. Update guide's earnings
+                $this->db->query("UPDATE tour_guides 
+                                 SET earnings = COALESCE(earnings, 0) + :penalty_amount 
+                                 WHERE id = :guider_id");
+                $this->db->bind(':penalty_amount', $guiderPenalty);
+                $this->db->bind(':guider_id', $booking->guider_id);
+                
+                if (!$this->db->execute()) {
+                    error_log("Failed to update guide earnings for guide_id: " . $booking->guider_id);
+                    return false;
+                }
+
+                // 5. Ensure system_earnings table exists
+                if (!$this->createSystemEarningsTable()) {
+                    error_log("Failed to create system_earnings table");
+                    return false;
+                }
+
+                // 6. Record system penalty
+                $this->db->query("INSERT INTO system_earnings 
+                                 (amount, type, booking_id, created_at, status) 
+                                 VALUES 
+                                 (:amount, 'penalty', :booking_id, NOW(), 'pending')");
+                $this->db->bind(':amount', $systemPenalty);
+                $this->db->bind(':booking_id', $booking->booking_id);
+                
+                if (!$this->db->execute()) {
+                    error_log("Failed to record system earnings for booking_id: " . $booking->booking_id);
+                    return false;
+                }
+            }
+
+            return true;
+
+        } catch (Exception $e) {
+            error_log("Error in processGuideCancellation: " . $e->getMessage());
+            return false;
+        }
+    }
+
+    private function processPropertyCancellation($booking) {
+        try {
+            // 1. Update booking status
+            $this->db->query("UPDATE property_booking SET status = 'cancelled' WHERE booking_id = :booking_id");
+            $this->db->bind(':booking_id', $booking->booking_id);
+            
+            if (!$this->db->execute()) {
+                error_log("Failed to update property_booking status for booking_id: " . $booking->booking_id);
+                return false;
+            }
+
+            // 2. Insert new refund record
+            $this->db->query("INSERT INTO accomadation_wallet 
+                             (provider_id, traveler_id, holding_amount, refund_amount, transaction_type, related_booking_id, transaction_date) 
+                             SELECT 
+                                supplier_id,
+                                traveler_id,
+                                0,
+                                amount,
+                                'refund',
+                                booking_id,
+                                NOW()
+                             FROM property_booking 
+                             WHERE booking_id = :booking_id");
+            $this->db->bind(':booking_id', $booking->booking_id);
+            
+            if (!$this->db->execute()) {
+                error_log("Failed to insert refund record in accomadation_wallet for booking_id: " . $booking->booking_id);
+                return false;
+            }
+
+            // 3. Update original deposit record
+            $this->db->query("UPDATE accomadation_wallet 
+                             SET holding_amount = 0
+                             WHERE related_booking_id = :booking_id 
+                             AND transaction_type = 'deposit'");
+            $this->db->bind(':booking_id', $booking->booking_id);
+            
+            if (!$this->db->execute()) {
+                error_log("Failed to update original deposit record in accomadation_wallet for booking_id: " . $booking->booking_id);
+                return false;
+            }
+
+            return true;
+        } catch (Exception $e) {
+            error_log("Error in processPropertyCancellation: " . $e->getMessage());
+            return false;
+        }
+    }
+
+    private function processVehicleCancellation($booking) {
+        try {
+            // 1. Update booking status
+            $this->db->query("UPDATE vehicle_booking SET status = 'cancelled' WHERE booking_id = :booking_id");
+            $this->db->bind(':booking_id', $booking->booking_id);
+            
+            if (!$this->db->execute()) {
+                error_log("Failed to update vehicle_booking status for booking_id: " . $booking->booking_id);
+                return false;
+            }
+
+            // 2. Insert new refund record
+            $this->db->query("INSERT INTO vehicle_wallet 
+                             (provider_id, traveler_id, holding_amount, refund_amount, transaction_type, related_booking_id, transaction_date) 
+                             SELECT 
+                                supplier_id,
+                                traveler_id,
+                                0,
+                                amount,
+                                'refund',
+                                booking_id,
+                                NOW()
+                             FROM vehicle_booking 
+                             WHERE booking_id = :booking_id");
+            $this->db->bind(':booking_id', $booking->booking_id);
+            
+            if (!$this->db->execute()) {
+                error_log("Failed to insert refund record in vehicle_wallet for booking_id: " . $booking->booking_id);
+                return false;
+            }
+
+            // 3. Update original deposit record
+            $this->db->query("UPDATE vehicle_wallet 
+                             SET holding_amount = 0
+                             WHERE related_booking_id = :booking_id 
+                             AND transaction_type = 'deposit'");
+            $this->db->bind(':booking_id', $booking->booking_id);
+            
+            if (!$this->db->execute()) {
+                error_log("Failed to update original deposit record in vehicle_wallet for booking_id: " . $booking->booking_id);
+                return false;
+            }
+
+            return true;
+        } catch (Exception $e) {
+            error_log("Error in processVehicleCancellation: " . $e->getMessage());
+            return false;
+        }
+    }
+
+    private function processEquipmentCancellation($booking) {
+        try {
+            // 1. Update booking status
+            $this->db->query("UPDATE rental_equipment_bookings SET status = 'cancelled' WHERE booking_id = :booking_id");
+            $this->db->bind(':booking_id', $booking->booking_id);
+            
+            if (!$this->db->execute()) {
+                error_log("Failed to update rental_equipment_bookings status for booking_id: " . $booking->booking_id);
+                return false;
+            }
+
+            // 2. Insert new refund record
+            $this->db->query("INSERT INTO equipment_wallet 
+                             (provider_id, traveler_id, holding_amount, refund_amount, transaction_type, related_booking_id, transaction_date) 
+                             SELECT 
+                                supplier_id,
+                                user_id,
+                                0,
+                                total_price,
+                                'refund',
+                                booking_id,
+                                NOW()
+                             FROM rental_equipment_bookings 
+                             WHERE booking_id = :booking_id");
+            $this->db->bind(':booking_id', $booking->booking_id);
+            
+            if (!$this->db->execute()) {
+                error_log("Failed to insert refund record in equipment_wallet for booking_id: " . $booking->booking_id);
+                return false;
+            }
+
+            // 3. Update original deposit record
+            $this->db->query("UPDATE equipment_wallet 
+                             SET holding_amount = 0
+                             WHERE related_booking_id = :booking_id 
+                             AND transaction_type = 'deposit'");
+            $this->db->bind(':booking_id', $booking->booking_id);
+            
+            if (!$this->db->execute()) {
+                error_log("Failed to update original deposit record in equipment_wallet for booking_id: " . $booking->booking_id);
+                return false;
+            }
+
+            return true;
+        } catch (Exception $e) {
+            error_log("Error in processEquipmentCancellation: " . $e->getMessage());
+            return false;
+        }
+    }
 
     //show the accomodation details
     public function showAccommodation($data){

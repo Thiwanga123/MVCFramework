@@ -70,7 +70,6 @@ document.addEventListener("DOMContentLoaded", () => {
         generateCalendar(currentDate.getMonth(), currentDate.getFullYear());
     }
 
-    
     function isBooked(date) {
         for (let booking of bookings) {
             const startDate = booking.start_date;
