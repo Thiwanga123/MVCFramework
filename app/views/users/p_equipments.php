@@ -11,8 +11,6 @@
 </head>
 <body>
     <div class="box" id="box">
-    <?php $currentPage = $data['currentPage']; ?>
-
     <!-- SideBar -->
         <?php require APPROOT . '/views/inc/components/planningSideBar.php'; ?>
      <!-- End Of Sidebar -->
@@ -29,7 +27,7 @@
                             </svg>
                             <span>Previous</span>
                         </a>
-                        <a href="<?php echo URLROOT;?>/users/planvehicle" class="nav-button next-button">
+                        <a href="<?php echo URLROOT;?>/users/summary" class="nav-button next-button">
                             <span>Next</span>
                             <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="currentColor">
                             <path d="M633.85-434.5H151.87v-91h481.98L415.11-744.24 480-808.13 808.13-480 480-151.87l-64.89-63.89 218.74-218.74Z"/>
@@ -43,7 +41,6 @@
                     $endDate = $_SESSION['trip']['endDate'] ?? ''; 
                     $today = date('Y-m-d');
                 ?>      
-
                     <div class="filter-bar">
                     <div class="filter-item">
                         <label for="sDate">Start Date</label>
@@ -89,8 +86,10 @@
                         <button type="button" class="reset-filter">Reset</button>
                     </div>
                 </div>
+
+               <?php var_dump($_SESSION); ?>
                 <div class="container1">
-                        <h2>Nearby Suppliers' Equipment</h2>
+                        <h2>Nearby Suppliers' Equipments</h2>
                         <div class="container2">
                             <?php if (!empty($data['equipments'])) : ?>
                                 <?php foreach ($data['equipments'] as $equipment) : ?>
@@ -107,8 +106,10 @@
                                             <h3 class="product-name"><?php echo htmlspecialchars($equipment->rental_name); ?></h3>
                                             <p class="rate">Rs. <?php echo htmlspecialchars($equipment->price_per_day); ?></p>
                                             <div class="bottom">
-                                                <button class="view-guider-btn">View Details</button>
-                                                <button class="book-guider-button">Book</button>
+                                                <button class="view-equipment-btn">View Details</button>
+                                                <button class="book-equipment-button" data-id="<?= htmlspecialchars($equipment->id) ?>"
+                                                data-price-per-day="<?= htmlspecialchars($equipment->price_per_day) ?>"
+                                                data-supplier-id = "<?= htmlspecialchars($equipment->supplier_id) ?>">Book</button>
                                             </div>
                                         </div>
                                     </div>
@@ -140,8 +141,9 @@
                                         <h3 class="product-name"><?php echo htmlspecialchars($equipment->rental_name); ?></h3>
                                         <p class="rate">Rs. <?php echo htmlspecialchars($equipment->price_per_day); ?></p>
                                         <div class="bottom">
-                                            <button class="view-guider-btn">View Details</button>
-                                            <button class="book-guider-button">Book</button>
+                                            <button class="view-equipment-btn">View Details</button>
+                                            <button class="book-equipment-button" data-id="<?= $equipment->id ?>"
+                                            data-price-per-day="<?= htmlspecialchars($equipment->price_per_day) ?>">Book</button>
                                         </div>
                                     </div>
                                 </div>
@@ -157,51 +159,31 @@
 
      </div>
 
+        <div id="confirmationModal" class="modal" style="display: none;">
+            <div class="modal-content">
+                <h3>Confirm Booking</h3>
+                <p>Are you sure you want to book this equipment?</p>
+                <p><strong>Booking Start Date:</strong> <?= $startDate ?></p>
+                <p><strong>Booking End Date:</strong><?= $endDate ?></p>
+                <p><strong>Price:</strong> Rs. <span id="calculatedPrice">0</span></p>
+                <div class="modal-actions">
+                    <button id="cancelBooking" class="cancel-btn">Cancel</button>
+                    <button id="confirmBooking" class="confirm-btn">Confirm</button>
+                </div>
+            </div>
+        </div>
 
-     
-    <div id="bookingModal" class="modal" style="display:none;">
-    <div class="modal-content">
-        <span class="close-btnn">&times;</span>
-        <h2>Book Vehicle</h2>
-        
-        <!-- Booking Form -->
-        <form id="bookingForm">
-            <!-- Pickup Location -->
-            <div class="form-group">
-                <label for="pickupLocation">Pickup Location</label>
-                <input type="text" id="pickupLocation" name="pickupLocation" placeholder="Enter pickup location" required>
-            </div>
-            
-        
-            <!-- Driver Options -->
-            <div class="form-group">    
-                <label>Driver Option</label>
-                <div>
-                    <input type="radio" id="withDriver" name="driverOption" value="withDriver" required>
-                    <label for="withDriver">With Driver</label>
-                </div>
-                <div>
-                    <input type="radio" id="selfDrive" name="driverOption" value="selfDrive" required>
-                    <label for="selfDrive">Self Drive</label>
-                </div>
-            </div>
-            
-            <!-- Form Actions -->
-            <div class="form-actions">
-                <button type="submit" class="submit-btn">Book Now</button>
-                <button type="button" class="cancel-btn">Cancel</button>
-            </div>
-        </form>
-    </div>
-</div>
+    
 
      
      <script src="<?php echo URLROOT;?>/js/Sidebar.js"></script>
      <script src="<?php echo URLROOT;?>/js/supplierLocations.js"></script>
      <script src="<?php echo URLROOT;?>/js/logout.js"></script>
     <script src="<?php echo URLROOT;?>/js/submenu.js"></script>
+    <script src="<?php echo URLROOT;?>/js/addEquipmentBooking.js"></script>
+    <script>const URLROOT = "<?php echo URLROOT; ?>"; </script>
+
      <script src="https://maps.googleapis.com/maps/api/js?key=<?php echo API_KEY; ?>&libraries=places"></script>
-     <script>const URLROOT = "<?php echo URLROOT; ?>";</script>
 
 
      <script>

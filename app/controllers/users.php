@@ -640,7 +640,6 @@ class Users extends Controller {
 
             if ($data['latitude'] && $data['longitude']) {
                 $allSuppliers = $this->userModel->getAllEquipmentSuppliers();
-                $allEquipments = $this->equipmentModel->getAllEquipment();
                 $nearbySuppliers = [];
                 $nearbySupplierIds = [];
 
@@ -660,28 +659,30 @@ class Users extends Controller {
                     $data['message'] = "No nearby suppliers found.";
                 } else {
                     // Get all equipment from nearby suppliers
-                    $allEquipment = $this->userModel->getEquipmentBySupplierIds($nearbySupplierIds);
+                    $allNearByEquipment = $this->userModel->getEquipmentBySupplierIds($nearbySupplierIds);
                   
                     $startDate = $_SESSION['trip']['startDate'];
                     $endDate = $_SESSION['trip']['endDate'];
                     // Get unavailable equipment IDs for the selected dates
                     $unavailableEquipmentIds = $this->userModel->getBookedEquipmentIds($startDate, $endDate);
                     // Filter to get only available equipment
-                    $availableEquipment = array_filter($allEquipment, function($equipment) use ($unavailableEquipmentIds) {
+                    $availableEquipment = array_filter($allNearByEquipment, function($equipment) use ($unavailableEquipmentIds) {
                         return !in_array($equipment->id, $unavailableEquipmentIds);
                     });
     
                     $data = [
-                        'allequipments' => $allEquipment,
                         'equipments' => array_values($availableEquipment),
                         'suppliers'  => $nearbySuppliers,
-                        'start_date' => $startDate,
+                        'currentPage' => $data['currentPage'],
                     ];
                 }
-    
+
+             
+                $allEquipments = $this->equipmentModel->getAllEquipment();
                 $this->view('users/p_equipments', $data);
             } else {
                 $data['equipments'] = [];
+                $data['currentPage'] = 'equipments';
                 $data['message'] = "Please set a location first.";
                 $this->view('users/p_equipments', $data);
             }
@@ -700,6 +701,24 @@ class Users extends Controller {
             
             $data['availableGuiders'] = $availableGuides;
             $this->view('users/p_guides', $data);
+        }else{
+            redirect('users/login');
+        }
+    }
+
+    public function summary(){
+        if(isset($_SESSION['user_id'])) {
+            $data['currentPage'] = 'summary';
+            $data = [
+                'user_id' => $_SESSION['user_id'] ?? null,
+                'name' => $_SESSION['name'] ?? null,
+                'trip' => $_SESSION['trip'] ?? [], //includes accomodations data too
+                'booking_vehicle_data' => $_SESSION['booking_vehicle_data'] ?? [],
+                'guider_booking' => $_SESSION['guider_booking'] ?? [],
+                'equipmentBooking' => $_SESSION['equipmentBooking'] ?? [],
+                'currentPage' => 'summary',
+            ];
+            $this->view('users/summary', $data);
         }else{
             redirect('users/login');
         }
