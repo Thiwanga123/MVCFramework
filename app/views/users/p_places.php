@@ -22,7 +22,7 @@
                     <div class="dashboard-container">
                         <div class="header">
                             <h1>Places</h1>
-                            <!-- <?php var_dump($_SESSION); ?> -->
+                            <?php var_dump($_SESSION); ?>
 
                             <div class="navigation-footer">
                                 <a href="<?php echo URLROOT;?>/users/planhome" class="nav-button prev-button">

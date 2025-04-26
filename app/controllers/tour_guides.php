@@ -12,7 +12,6 @@ public function __construct() {
 
 public function dashboard(){
     if (isset($_SESSION['id'])) {
-       
 
         $this->view('tour_guides/Dashboard',);
     } else {
@@ -101,6 +100,35 @@ public function deleteBooking($id){
 
 }
 
-      }
+        public function saveGuiderBooking()
+        {
+            // Read the raw POST body
+            $json = file_get_contents('php://input');
+            $data = json_decode($json, true);
+
+            if (!$data || !isset($data['guiderId']) || !isset($data['pickupLocation']) || !isset($data['destination'])) {
+                http_response_code(400);
+                echo json_encode(['message' => 'Missing required data.']);
+                return;
+            }
+            // Sanitize input
+            $guiderId = htmlspecialchars($data['guiderId']);
+            $pickupLocation = htmlspecialchars($data['pickupLocation']);
+            $destination = htmlspecialchars($data['destination']);
+
+            // Save to session
+            $_SESSION['guider_booking'] = [
+                'guiderId' => $guiderId,
+                'pickupLocation' => $pickupLocation,
+                'destination' => $destination,
+            ];
+
+            // Response
+            echo json_encode([
+                'message' => 'Guider booking saved to session successfully!',
+                'savedData' => $_SESSION['guider_booking']
+            ]);
+        }
+    }
 
 ?>

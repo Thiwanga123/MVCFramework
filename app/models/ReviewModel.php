@@ -11,7 +11,7 @@ class ReviewModel {
         $sql = "SELECT r.* , t.name , t.profile_path
                 FROM reviews r 
                 JOIN traveler t ON r.traveler_id = t.traveler_id  
-                WHERE r.item_id = ? AND r.type = ? ";
+                WHERE r.item_id = ? AND r.type = ? ";    
                 
         try{
             $this->db->query($sql);
@@ -49,13 +49,14 @@ class ReviewModel {
 
     public function addItemReview($data){
         try{
-            $sql = 'INSERT INTO reviews (type, item_id, traveler_id, rating, comment) VALUES (?, ?, ?, ?, ?)';
+            $sql = 'INSERT INTO reviews (type, supplier_id, item_id, traveler_id, rating, comment) VALUES (?, ?, ?, ?, ?)';
             $this->db->query($sql);
             $this->db->bind(1, $data['type']);
-            $this->db->bind(2, $data['productId']);
-            $this->db->bind(3, $data['userId']);
-            $this->db->bind(4, $data['rating']);
-            $this->db->bind(5, $data['comment']);
+            $this->db->bind(2, $data['supplierId']);
+            $this->db->bind(3, $data['productId']);
+            $this->db->bind(4, $data['userId']);
+            $this->db->bind(5, $data['rating']);
+            $this->db->bind(6, $data['comment']);
 
             $result = $this->db->execute();
             if($result){
@@ -106,7 +107,7 @@ class ReviewModel {
         }
     }
 
-    public function getReviewsBySupplierId($supplierId){
+    public function getEquipmentReviewsBySupplierId($supplierId, $item){
         $sql = 'SELECT r.*, e.rental_name AS item_name, c.name AS customer_name, c.email AS customer_email,
                 ( SELECT i.image_path FROM rental_images i 
                   WHERE i.product_id = r.item_id 
@@ -121,6 +122,7 @@ class ReviewModel {
             $this->db->bind(1, $supplierId);
             
             $result = $this->db->resultSet();
+            var_dump($result);
             return $result;
         }catch(Exception $e){
             $error_msg = $e->getMessage();

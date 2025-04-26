@@ -89,42 +89,111 @@
                         <button type="button" class="reset-filter">Reset</button>
                     </div>
                 </div>
-                <p>Showing All Products()</p>
                 <div class="container1">
-                    <?php if (!empty($data['equipments']) && is_array($data['equipments'])) : ?>
-                    <?php foreach ($data['equipments'] as $equipment) : ?>
+                        <h2>Nearby Suppliers' Equipment</h2>
+                        <div class="container2">
+                            <?php if (!empty($data['equipments'])) : ?>
+                                <?php foreach ($data['equipments'] as $equipment) : ?>
+                                    <!-- Nearby equipment cards (same HTML you already use) -->
+                                    <div class="equipment-card">
+                                        <div class="image-container">
+                                            <?php
+                                                $images = !empty($equipment->images) ? explode(',', $equipment->images) : [];
+                                                $firstImage = !empty($images) ? trim($images[0]) : 'default.jpg';
+                                            ?>
+                                            <img src="<?php echo URLROOT . '/' . htmlspecialchars($firstImage); ?>" alt="equipment" class="equipment-image">
+                                        </div>
+                                        <div class="card-content">
+                                            <h3 class="product-name"><?php echo htmlspecialchars($equipment->rental_name); ?></h3>
+                                            <p class="rate">Rs. <?php echo htmlspecialchars($equipment->price_per_day); ?></p>
+                                            <div class="bottom">
+                                                <button class="view-guider-btn">View Details</button>
+                                                <button class="book-guider-button">Book</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                <?php endforeach; ?>
+                            <?php else : ?>
+                                <p>No nearby equipment found.</p>
+                            <?php endif; ?>
+                        </div>
 
-                    <div class="equipment-card">
-                        <div class="image-container">
-                            <?php
-                                $images = !empty($equipment->images) ? explode(',', $equipment->images) : [];
-                                $firstImage = !empty($images) ? trim($images[0]) : 'default.jpg';
-                            ?>
-                            <img src="<?php echo URLROOT . '/' . htmlspecialchars($firstImage); ?>" alt="equipment" class="equipment-image">
-                        </div>
-                        <div class="card-content">
-                            <h3 class="product-name"><?php echo htmlspecialchars($equipment->rental_name); ?></h3>
-                            <p class="rate">Rs. <?php echo htmlspecialchars($equipment->price_per_day); ?></p>
-                            <div class="rating-container">
-                                <div class="stars">★★★★☆</div> <!-- 4 out of 5 stars -->
-                                <p class="rating-text">4.0</p>
-                            </div>
-                            <div class="bottom">
-                            <a href="<?php echo URLROOT; ?>/users/viewProduct/<?php echo $equipment->id; ?>">                 
-                                <button class="pay-button">View & Rent</button>
-                            </a></div>
-                        </div>
+
+                    <div class="view-all-container">
+                        <button id="toggleAllEquipmentBtn">View All Rentals</button>
                     </div>
-                <?php endforeach; ?>
-                    <?php else : ?>
-                        <p>No equipment found.</p>
-                
-                    <?php endif; ?>
+
+                    <div id="allEquipmentsContainer" class="container1" style="display: none;">
+                        <h2>All Rental Equipments</h2>
+                        <?php if (!empty($data['allequipments'])) : ?>
+                            <?php foreach ($data['allequipments'] as $equipment) : ?>
+                                <!-- Same equipment card HTML -->
+                                <div class="equipment-card">
+                                    <div class="image-container">
+                                        <?php
+                                            $images = !empty($equipment->images) ? explode(',', $equipment->images) : [];
+                                            $firstImage = !empty($images) ? trim($images[0]) : 'default.jpg';
+                                        ?>
+                                        <img src="<?php echo URLROOT . '/' . htmlspecialchars($firstImage); ?>" alt="equipment" class="equipment-image">
+                                    </div>
+                                    <div class="card-content">
+                                        <h3 class="product-name"><?php echo htmlspecialchars($equipment->rental_name); ?></h3>
+                                        <p class="rate">Rs. <?php echo htmlspecialchars($equipment->price_per_day); ?></p>
+                                        <div class="bottom">
+                                            <button class="view-guider-btn">View Details</button>
+                                            <button class="book-guider-button">Book</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            <?php endforeach; ?>
+                        <?php else : ?>
+                            <p>No rental equipment found.</p>
+                        <?php endif; ?>
+                    </div>
+
                 </div>
             </div>
         </main>
 
      </div>
+
+
+     
+    <div id="bookingModal" class="modal" style="display:none;">
+    <div class="modal-content">
+        <span class="close-btnn">&times;</span>
+        <h2>Book Vehicle</h2>
+        
+        <!-- Booking Form -->
+        <form id="bookingForm">
+            <!-- Pickup Location -->
+            <div class="form-group">
+                <label for="pickupLocation">Pickup Location</label>
+                <input type="text" id="pickupLocation" name="pickupLocation" placeholder="Enter pickup location" required>
+            </div>
+            
+        
+            <!-- Driver Options -->
+            <div class="form-group">    
+                <label>Driver Option</label>
+                <div>
+                    <input type="radio" id="withDriver" name="driverOption" value="withDriver" required>
+                    <label for="withDriver">With Driver</label>
+                </div>
+                <div>
+                    <input type="radio" id="selfDrive" name="driverOption" value="selfDrive" required>
+                    <label for="selfDrive">Self Drive</label>
+                </div>
+            </div>
+            
+            <!-- Form Actions -->
+            <div class="form-actions">
+                <button type="submit" class="submit-btn">Book Now</button>
+                <button type="button" class="cancel-btn">Cancel</button>
+            </div>
+        </form>
+    </div>
+</div>
 
      
      <script src="<?php echo URLROOT;?>/js/Sidebar.js"></script>
@@ -134,6 +203,15 @@
      <script src="https://maps.googleapis.com/maps/api/js?key=<?php echo API_KEY; ?>&libraries=places"></script>
      <script>const URLROOT = "<?php echo URLROOT; ?>";</script>
 
+
+     <script>
+    document.getElementById('toggleAllEquipmentBtn').addEventListener('click', function () {
+        const allContainer = document.getElementById('allEquipmentsContainer');
+        const isVisible = allContainer.style.display === 'block';
+        allContainer.style.display = isVisible ? 'none' : 'block';
+        this.textContent = isVisible ? 'View All Rentals' : 'Hide All Rentals';
+    });
+</script>
 
 
 </body>

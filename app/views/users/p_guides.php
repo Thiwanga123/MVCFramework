@@ -90,47 +90,81 @@
 
                 <p>Showing All Tour Guides()</p>
 
-                <div class="container1">
-                    <?php if (!empty($data['equipments']) && is_array($data['equipments'])) : ?>
-                    <?php foreach ($data['equipments'] as $equipment) : ?>
 
-                    <div class="equipment-card">
-                        <div class="image-container">
-                            <?php
-                                $images = !empty($equipment->images) ? explode(',', $equipment->images) : [];
-                                $firstImage = !empty($images) ? trim($images[0]) : 'default.jpg';
-                            ?>
-                            <img src="<?php echo URLROOT . '/' . htmlspecialchars($firstImage); ?>" alt="equipment" class="equipment-image">
-                        </div>
-                        <div class="card-content">
-                            <h3 class="product-name"><?php echo htmlspecialchars($equipment->rental_name); ?></h3>
-                            <p class="rate">Rs. <?php echo htmlspecialchars($equipment->price_per_day); ?></p>
-                            <div class="rating-container">
-                                <div class="stars">★★★★☆</div> <!-- 4 out of 5 stars -->
-                                <p class="rating-text">4.0</p>
-                            </div>
-                            <div class="bottom">
-                            <a href="<?php echo URLROOT; ?>/users/viewProduct/<?php echo $equipment->id; ?>">                 
-                                <button class="pay-button">View & Rent</button>
-                            </a></div>
-                        </div>
+                <div class="container1">
+                        <?php if (!empty($data['availableGuiders']) && is_array($data['availableGuiders'])) : ?>
+                            <?php foreach ($data['availableGuiders'] as $guider) : ?>
+                                <div class="equipment-card">
+                                    <div class="image-container">
+                                        <?php
+                                            $images = !empty($guider->profile_picture) ? [$guider->profile_picture] : ['default.jpg'];
+                                            $firstImage = trim($images[0]);
+                                        ?>
+                                        <img src="<?php echo URLROOT . '/' . htmlspecialchars($firstImage); ?>" alt="Guider" class="equipment-image">
+                                    </div>
+                                    <div class="card-content">
+                                        <h3 class="product-name"><?php echo htmlspecialchars($guider->name); ?></h3>
+                                        <p class="rate">Rs. <?php echo htmlspecialchars($guider->base_rate); ?> / day</p>
+                                        <p class="rating-text"><strong>Language:</strong> <?php echo htmlspecialchars($guider->language ?? 'N/A'); ?></p>
+                                        <p class="rating-text"><strong>Experience:</strong> <?php echo htmlspecialchars($guider->years_experience); ?> years</p>
+                                        <!-- <div class="rating-container">
+                                            <div class="stars">★★★★☆</div>
+                                            <p class="rating-text">4.0</p>
+                                        </div> -->
+                                        <div class="bottom">
+                                            <button class="view-guider-btn">View</button>
+                                            <button class="book-guider-button"         
+                                             data-guider-id="<?php echo $guider->id; ?>" >Book</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            <?php endforeach; ?>
+                        <?php else : ?>
+                            <p>No Guiders found.</p>
+                        <?php endif; ?>
                     </div>
-                <?php endforeach; ?>
-                    <?php else : ?>
-                        <p>No Guiders found.</p>
-                
-                    <?php endif; ?>
-                </div>
 
             </div>
             </main>
         </div>      
 </div>
 
+<div id="bookingGuiderModal" class="modal" style="display:none;">
+    <div class="modal-content">
+        <span class="close-btnn">&times;</span>
+        <h2>Book Guider</h2>
+
+        <!-- Booking Form -->
+        <form id="bookingForm">
+            <!-- Pickup Location -->
+            <div class="form-group">
+                <label for="pickupLocation">Pickup Location</label>
+                <input type="text" id="pickupLocation" name="pickupLocation" placeholder="Enter pickup location" required>
+            </div>
+            
+            <!-- Destination -->
+            <div class="form-group">
+                <label for="destination">Destination</label>
+                <input type="text" id="destination" name="destination" placeholder="Enter destination" required>
+            </div>
+
+            <!-- Form Actions -->
+            <div class="form-actions">
+                <button type="submit" class="submit-btn">Book Now</button>
+                <button type="button" class="cancel-btn">Cancel</button>
+            </div>
+        </form>
+    </div>
+</div>
+
      
      <script src="<?php echo URLROOT;?>/js/Sidebar.js"></script>
      <script src="<?php echo URLROOT;?>/js/logout.js"></script>
     <script src="<?php echo URLROOT;?>/js/submenu.js"></script>
+    <script src="<?php echo URLROOT;?>/js/bookGuider.js"></script>
+    <script>const URLROOT = "<?php echo URLROOT; ?>"; </script>
+
+
 </body>
 
 </html>

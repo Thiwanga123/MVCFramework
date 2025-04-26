@@ -121,7 +121,7 @@
 }
 
 
-.container1 {
+.container2 {
     background-color: mintcream;
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
@@ -130,6 +130,14 @@
     width: 100%;
 }
 
+.container1{
+    background-color: mintcream;
+    display: grid;
+    flex-direction: column;
+    gap: 1.5rem;
+    padding: 1.5rem;
+    width: 100%;
+}
 .equipment-card {
     background: white;
     border-radius: 8px;
@@ -482,6 +490,32 @@
     transform: translateX(4px);
   }
 
+  .bottom {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    margin-top: 10px;
+}
+
+.view-guider-btn,
+.book-guider-button {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+/* Style for View Details button */
+.view-guider-btn {
+    background-color: #3498db;
+    color: white;
+}
+
+.view-guider-btn:hover {
+    background-color: #2980b9;
+}
 
 
 /* Input Fields */

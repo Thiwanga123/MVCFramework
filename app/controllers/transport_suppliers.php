@@ -454,13 +454,13 @@ public function addriver() {
         {
             // Make sure the request is POST and JSON
             if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-                // Read the raw POST data
-               
+                // Read the raw POST data       
                 $input = file_get_contents('php://input');
                 $bookingData = json_decode($input, true);
-        
+
+               
                 // Optional: Validate required fields
-                $requiredFields = ['vehicleId', 'supplierId', 'rate', 'pickupLocation', 'destination', 'driverOption', 'startDate', 'endDate'];
+                $requiredFields = ['vehicleId', 'supplierId', 'rate', 'pickupLocation', 'driverOption'];
                 foreach ($requiredFields as $field) {
                     if (empty($bookingData[$field])) {
                         http_response_code(400);
@@ -469,13 +469,9 @@ public function addriver() {
                     }
                 }
         
-                // Start session if not already started
-                if (session_status() === PHP_SESSION_NONE) {
-                    session_start();
-                }
         
                 // Save booking data to session
-                $_SESSION['booking_data'] = $bookingData;
+                $_SESSION['booking_vehicle_data'] = $bookingData;
         
                 // Respond back to AJAX call
                 echo json_encode([

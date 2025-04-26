@@ -90,8 +90,9 @@
                 </div>
 
                 <p>Showing Vehicles()</p>
+                <?php var_dump($_SESSION); ?>
 
-
+                <!-- <?php print_r($_SESSION['trip']); ?> -->
                     <div class="container1">
                         <?php if (!empty($data['availableVehicles']) && is_array($data['availableVehicles'])) : ?>
                             <?php foreach ($data['availableVehicles'] as $vehicle) : ?>
@@ -166,14 +167,9 @@
                 <input type="text" id="pickupLocation" name="pickupLocation" placeholder="Enter pickup location" required>
             </div>
             
-            <!-- Destination -->
-            <div class="form-group">
-                <label for="destination">Destination</label>
-                <input type="text" id="destination" name="destination" placeholder="Enter destination" required>
-            </div>
-            
+        
             <!-- Driver Options -->
-            <div class="form-group">
+            <div class="form-group">    
                 <label>Driver Option</label>
                 <div>
                     <input type="radio" id="withDriver" name="driverOption" value="withDriver" required>

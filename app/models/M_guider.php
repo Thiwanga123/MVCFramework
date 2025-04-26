@@ -127,34 +127,30 @@ class M_guider{
 
         public function getGuider(){
             $this->db->query("SELECT * FROM tour_guides");
-            print_r($this->db->resultSet());
+            ($this->db->resultSet());
             return $this->db->resultSet();
         }
 
 
-        public function getAvailableGuiders($startDate, $endDate){
-            $sql = "SELECT * FROM guiders WHERE id NOT IN (
-                        SELECT guider_id FROM guider_booking WHERE 
-                        (check_in <= :endDate AND check_out >= :startDate)
-                        AND deleted_at IS NULL)
-                        AND action = 'approved' ";
+        // public function getAvailableGuiders(){
+        //     $sql = "SELECT * FROM guiders";
 
-            try{
-                $this->db->query($sql);
-                $this->db->bind(':startDate', $startDate);
-                $this->db->bind(':endDate', $endDate);
+        //     try{
+        //         $this->db->query($sql);
+        //         $this->db->bind(':startDate', $startDate);
+        //         $this->db->bind(':endDate', $endDate);
                             
-                $results = $this->db->resultSet();
-                var_dump($results);
-                exit;
+        //         $results = $this->db->resultSet();
+        //         var_dump($results);
+        //         exit;
                             
-                return $results;
-            }catch(Exception $e){
-                $error_msg = $e->getMessage();
-                echo "<script>alert('An error occurred: $error_msg');</script>";
-                return false;
-            }
-        }
+        //         return $results;
+        //     }catch(Exception $e){
+        //         $error_msg = $e->getMessage();
+        //         echo "<script>alert('An error occurred: $error_msg');</script>";
+        //         return false;
+        //     }
+        // }
         
        
         

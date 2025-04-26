@@ -301,10 +301,11 @@
         }
 
         public function viewProduct($productId) {
+            $sptype = 'equipment';
             $details = $this->equipmentModel->getProductDetailsById($productId);
             $bookings = $this->bookingModel->getBookingsByEquipmentId($productId);
-            $reviews = $this->reviewModel->getReviewsByEquipmentId($productId);
-            $ratings = $this->reviewModel->getRatingsByEquipmentId($productId);
+            $reviews = $this->reviewModel->getReviewsByItemId($productId,$sptype);
+            $ratings = $this->reviewModel->getRatingsByItemId($productId, $sptype);
             
             $reviewCount = count($reviews);
             $totalRating = 0;

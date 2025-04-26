@@ -44,13 +44,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Close the modal when the cancel button is clicked
     cancelButton.addEventListener('click', closeBookingModal);
-
     // Handle form submission
     document.getElementById('bookingForm').addEventListener('submit', async (e) => {
         e.preventDefault(); // Prevent default form submission
     
         const pickupLocation = document.getElementById('pickupLocation').value;
-        const destination = document.getElementById('destination').value;
         const driverOption = document.querySelector('input[name="driverOption"]:checked')?.value;
         const vehicleId = e.target.dataset.vehicleId;
         const supplierId = e.target.dataset.supplierId;
@@ -58,12 +56,10 @@ document.addEventListener('DOMContentLoaded', () => {
         const cost = e.target.dataset.cost;
         const availability = e.target.dataset.availability;
      
-    
-        if (!pickupLocation || !destination || !driverOption) {
+        if (!pickupLocation || !driverOption) {
             alert('Please fill in all required fields.');
             return;
         }
-    
         const bookingData = {
             vehicleId,
             supplierId,
@@ -71,12 +67,13 @@ document.addEventListener('DOMContentLoaded', () => {
             cost,
             availability,
             pickupLocation,
-            destination,
             driverOption
         };
+
+       
   
         try {
-            const response = await fetch('/transport_suppliers/saveVehicleDetails', {
+            const response = await fetch(`${URLROOT}/transport_suppliers/saveVehicleDetails`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -85,8 +82,6 @@ document.addEventListener('DOMContentLoaded', () => {
             });
     
             const data = await response.json();
-            console.log(data); // Log the response for debugging
-            return;
     
             if (response.ok) {
                 alert('Booking information saved successfully!');

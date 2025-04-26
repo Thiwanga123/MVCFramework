@@ -99,8 +99,9 @@ class Equipment_Suppliers extends Controller{
         if (isset($_SESSION['id'])) {
         
             $currentPage = 'reviews';
-            $reviews = $this->reviewModel->getReviewsBySupplierId($_SESSION['id']);
-
+            $sptype = 'equipment';
+            $reviews = $this->reviewModel->getEquipmentReviewsBySupplierId($_SESSION['id'], $sptype);
+        
             $data = [
                 'currentPage' => $currentPage,
                 'reviews' => $reviews

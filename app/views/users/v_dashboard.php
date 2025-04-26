@@ -17,7 +17,8 @@
         <?php $currentPage = $data['currentPage']; ?>
     <!-- SideBar -->
         <?php require APPROOT . '/views/inc/components/usersidebar.php'; ?>
-        <!-- End Of Sidebar -->
+        <!-- End Of Sidebar -->\\
+        <?php var_dump($_SESSION); ?>   
 
             <main>
                 <div class="dashboard-container">

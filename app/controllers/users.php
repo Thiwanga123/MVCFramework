@@ -637,12 +637,13 @@ class Users extends Controller {
             
             $data['latitude'] = $lat;
             $data['longitude'] = $lng;
-    
+
             if ($data['latitude'] && $data['longitude']) {
                 $allSuppliers = $this->userModel->getAllEquipmentSuppliers();
+                $allEquipments = $this->equipmentModel->getAllEquipment();
                 $nearbySuppliers = [];
                 $nearbySupplierIds = [];
-    
+
                 // Find nearby suppliers within 20 km
                 foreach ($allSuppliers as $supplier) {
                     $distance = $this->haversine_distance($data['latitude'], $data['longitude'], $supplier->latitude, $supplier->longitude);
@@ -652,28 +653,30 @@ class Users extends Controller {
                         $nearbySupplierIds[] = $supplier->id; // Store supplier ID
                     }
                 }
-    
+
+       
                 if (empty($nearbySupplierIds)) {
                     $data['equipments'] = [];
                     $data['message'] = "No nearby suppliers found.";
                 } else {
                     // Get all equipment from nearby suppliers
                     $allEquipment = $this->userModel->getEquipmentBySupplierIds($nearbySupplierIds);
+                  
                     $startDate = $_SESSION['trip']['startDate'];
                     $endDate = $_SESSION['trip']['endDate'];
-    
                     // Get unavailable equipment IDs for the selected dates
                     $unavailableEquipmentIds = $this->userModel->getBookedEquipmentIds($startDate, $endDate);
-    
                     // Filter to get only available equipment
                     $availableEquipment = array_filter($allEquipment, function($equipment) use ($unavailableEquipmentIds) {
                         return !in_array($equipment->id, $unavailableEquipmentIds);
                     });
     
-                    $data['equipments'] = array_values($availableEquipment); // Reset array keys
-                    $data['suppliers'] = $nearbySuppliers; // Assign nearby suppliers
-                    $data['start_date'] = $startDate;
-                    $data['end_date'] = $endDate;
+                    $data = [
+                        'allequipments' => $allEquipment,
+                        'equipments' => array_values($availableEquipment),
+                        'suppliers'  => $nearbySuppliers,
+                        'start_date' => $startDate,
+                    ];
                 }
     
                 $this->view('users/p_equipments', $data);
@@ -693,7 +696,8 @@ class Users extends Controller {
             $startDate = $_SESSION['trip']['startDate'];
             $endDate = $_SESSION['trip']['endDate'];
           
-            $availableGuides = $this->guiderModel->getAvailableGuiders($startDate, $endDate); 
+            $availableGuides = $this->guiderModel->getGuider(); 
+            
             $data['availableGuiders'] = $availableGuides;
             $this->view('users/p_guides', $data);
         }else{

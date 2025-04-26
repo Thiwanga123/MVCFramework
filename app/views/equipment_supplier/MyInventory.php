@@ -33,7 +33,7 @@
                                     <a href="<?php echo URLROOT; ?>/product/viewProduct/<?php echo $rental->id; ?>" class="product-card-link">                        
                                         <div class="product-card">
                                             <div class="img">
-                                                <img src="<?php echo URLROOT . '/' . $rental->image_path; ?>" alt="<?php echo $rental->product_name; ?>">
+                                                <img src="<?php echo URLROOT . '/' . $rental->image_path; ?>">
                                             </div>
                                             <div class="detailsCard">
                                                 <h4><?php echo $rental->rental_name ?></h4>
@@ -55,8 +55,7 @@
                                         </div>
                                     </a>
                                 <?php endforeach; ?>
-                            </div>
-                        
+                            </div>   
                     </div>
                 </div>
 

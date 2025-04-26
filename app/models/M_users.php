@@ -394,15 +394,64 @@ class M_users{
             return $e->getMessage();
         }
     }
-        public function getAllEquipmentSuppliers(){
-            $sql = 'SELECT name, nic, address, phone, email, latitude, longitude, profile_path FROM equipment_suppliers';
-            try{
-                $this->db->query($sql);
-                return $this->db->resultSet();
-            }catch(Exception $e){
-                return $e->getMessage();
+            
+    public function getAllEquipmentSuppliers(){
+            
+        $sql = 'SELECT id, name, nic, address, phone, email, latitude, longitude, profile_path FROM equipment_suppliers';
+            
+        try{
+            $this->db->query($sql);
+            return $this->db->resultSet();
+        }catch(Exception $e){
+            return $e->getMessage();
+        }
+    } 
+
+    public function getEquipmentBySupplierIds($supplierIds) {
+
+        try {
+            if (empty($supplierIds)) {
+                return []; // Return empty if no IDs provided
             }
-        } 
+    
+            $placeholders = implode(',', array_fill(0, count($supplierIds), '?'));
+            $this->db->query("SELECT * FROM rental_equipments WHERE supplier_id IN ($placeholders)");
+    
+            foreach ($supplierIds as $i => $id) {
+                $this->db->bind($i + 1, $id);
+            }
+    
+            return $this->db->resultSet();
+        } catch (PDOException $e) {
+            error_log('Database Error in getEquipmentBySupplierIds: ' . $e->getMessage());
+            return false;
+        }
+    }
+
+
+    public function getBookedEquipmentIds($startDate, $endDate) {
+        try {
+            $this->db->query("SELECT DISTINCT equipment_id 
+                                FROM rental_equipment_bookings
+                                WHERE status != 'booked' 
+                                AND NOT (
+                                    end_date < :startDate OR 
+                                    start_date > :endDate
+                                )");
+            $this->db->bind(':startDate', $startDate);
+            $this->db->bind(':endDate', $endDate);
+    
+            $results = $this->db->resultSet();
+          
+            return array_map(function($row) {
+                return $row->equipment_id;
+            }, $results);
+    
+        } catch (PDOException $e) {
+            error_log("Error in getBookedEquipmentIds: " . $e->getMessage());
+            return [];
+        }
+    }
     
 
 }
