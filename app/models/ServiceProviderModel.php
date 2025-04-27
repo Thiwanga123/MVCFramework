@@ -61,17 +61,34 @@ class ServiceProviderModel{
         }
     }
     public function checkSubscriptionStatus($email, $sptype) {
-        $this->db->query("SELECT sub FROM $sptype WHERE email = :email");
+        $this->db->query("SELECT sub, approve, action FROM $sptype WHERE email = :email");
         $this->db->bind(':email', $email);
         $row = $this->db->single();
 
-       
-        
-        if ($row && $row->sub === 'true') {
-            return true;
-        } else {
-            return false;
+        if (!$row) {
+            return ['status' => 'not_found'];
         }
+
+        // First check if account is deleted
+        if ($row->action === 'deleted') {
+            return ['status' => 'deleted'];
+        }
+
+        // Then check approval status
+        if ($row->approve === 'rejected') {
+            return ['status' => 'rejected'];
+        }
+
+        if ($row->approve !== 'true') {
+            return ['status' => 'not_approved'];
+        }
+
+        // Finally check subscription status
+        if ($row->sub !== 'true') {
+            return ['status' => 'not_subscribed'];
+        }
+
+        return ['status' => 'active'];
     }
 
 

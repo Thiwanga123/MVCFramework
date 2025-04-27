@@ -189,6 +189,7 @@ class Admin extends Controller {
         $_SESSION['name'] = $user->name;
         $_SESSION['phone_number'] = $user->phone_number;
         $_SESSION['nic'] = $user->nic;
+        $_SESSION['user_role'] = 'admin';
         redirect('admin/dashboard');
          
     }
@@ -551,8 +552,81 @@ public function getAllServiceProviders() {
         echo json_encode(['error' => 'Unauthorized']);
     }
 }
+
+public function getRefundRequests() {
+    // Check if user is logged in and is admin
+    if(!isLoggedIn() || !isAdmin()) {
+        redirect('users/login');
+    }
+
+    $refundRequests = $this->adminModel->getRefundRequests();
+    $data = [
+        'refundRequests' => $refundRequests
+    ];
     
+    $this->view('admin/v_earnings', $data);
+}
+
+public function getRefundDetails($requestId) {
+    // Check if user is logged in and is admin
+    if(!isLoggedIn() || !isAdmin()) {
+        redirect('users/login');
+    }
+
+    $refundDetails = $this->adminModel->getRefundDetails($requestId);
+    $data = [
+        'refundDetails' => $refundDetails
+    ];
     
+    $this->view('admin/v_refund_details', $data);
+}
+
+public function processRefund() {
+    // Check if user is logged in and is admin
+    if(!isLoggedIn() || !isAdmin()) {
+        redirect('users/login');
+    }
+
+    if($_SERVER['REQUEST_METHOD'] == 'POST') {
+        $data = [
+            'request_id' => $_POST['request_id'],
+            'bank_name' => $_POST['bank_name'],
+            'account_number' => $_POST['account_number'],
+            'account_holder' => $_POST['account_holder'],
+            'admin_notes' => $_POST['admin_notes']
+        ];
+
+        if($this->adminModel->processRefund($data)) {
+            $_SESSION['success'] = 'Refund processed successfully';
+        } else {
+            $_SESSION['error'] = 'Failed to process refund';
+        }
+        
+        redirect('admin/getRefundRequests');
+    }
+}
+
+public function rejectRefund() {
+    // Check if user is logged in and is admin
+    if(!isLoggedIn() || !isAdmin()) {
+        redirect('users/login');
+    }
+
+    if($_SERVER['REQUEST_METHOD'] == 'POST') {
+        $data = [
+            'request_id' => $_POST['request_id'],
+            'admin_notes' => $_POST['admin_notes']
+        ];
+
+        if($this->adminModel->rejectRefund($data)) {
+            $_SESSION['success'] = 'Refund request rejected';
+        } else {
+            $_SESSION['error'] = 'Failed to reject refund';
+        }
+        
+        redirect('admin/getRefundRequests');
+    }
+}
 
 }
 

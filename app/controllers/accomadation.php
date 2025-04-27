@@ -94,6 +94,8 @@ public function bankdetails(){
 }
 
 
+
+
 public function myPayments(){
     if (isset($_SESSION['id'])) {
 
@@ -806,6 +808,33 @@ public function myPayments(){
                 'error' => 'Property ID is required.'
             ]);
         }
+    }
+
+    public function bookRoom(){
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $propertyId = $_POST['propertyId'];
+            $serviceProviderId = $_POST['serviceProviderId'];
+            $singleRooms = $_POST['singleRooms'];
+            $doubleRooms = $_POST['doubleRooms'];
+            $familyRooms = $_POST['familyRooms'];
+
+            $_SESSION['acomodation_booking'] = [
+                'propertyId' => $propertyId,
+                'serviceProviderId' => $serviceProviderId,
+                'singleRooms' => $singleRooms,
+                'doubleRooms' => $doubleRooms,
+                'familyRooms' => $familyRooms
+            ];
+
+
+            // Validate and process the data...
+            // Return JSON response
+            echo json_encode(['success' => true]);
+            exit;
+        }
+    
+        echo json_encode(['success' => false, 'error' => 'Invalid request']);
+        exit;
     }
 
 }

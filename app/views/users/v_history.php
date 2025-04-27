@@ -77,6 +77,21 @@
             <button id="closeDialog" style="background-color: #f44336; color: white; border: none; padding: 8px 12px; border-radius: 4px; cursor: pointer;">Close</button>
         </div>
     </div>
+
+    <div id="refundRequestDialog" style="display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background: white; padding: 20px; border-radius: 8px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); z-index: 1000;">
+        <div style="text-align: center; margin-bottom: 20px;">
+            <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#4CAF50" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+                <polyline points="22 4 12 14.01 9 11.01"></polyline>
+            </svg>
+            <h3 style="color: #4CAF50; margin: 10px 0;">Refund Request Sent</h3>
+            <p>Your refund request has been sent to the admin. The admin will contact you shortly.</p>
+        </div>
+        <div style="text-align: center;">
+            <button id="closeRefundDialog" style="background-color: #4CAF50; color: white; border: none; padding: 8px 20px; border-radius: 4px; cursor: pointer;">OK</button>
+        </div>
+    </div>
+
     <div id="overlay" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.5); z-index: 999;"></div>
 
     <script src="<?php echo URLROOT;?>/js/Sidebar.js"></script> 
@@ -88,10 +103,12 @@
         document.addEventListener('DOMContentLoaded', function () {
             const cancelButtons = document.querySelectorAll('.cancel-btn');
             const cancelDialog = document.getElementById('cancelDialog');
+            const refundRequestDialog = document.getElementById('refundRequestDialog');
             const overlay = document.getElementById('overlay');
             const cancelMessage = document.getElementById('cancelMessage');
             const confirmCancel = document.getElementById('confirmCancel');
             const closeDialog = document.getElementById('closeDialog');
+            const closeRefundDialog = document.getElementById('closeRefundDialog');
             let selectedBookingId = null;
 
             cancelButtons.forEach(button => {
@@ -123,20 +140,24 @@
                 .then(response => response.text())
                 .then(data => {
                     cancelDialog.style.display = 'none';
-                    overlay.style.display = 'none';
-                    location.reload();
+                    refundRequestDialog.style.display = 'block';
                 })
                 .catch(error => {
                     console.error('Error:', error);
                     cancelDialog.style.display = 'none';
                     overlay.style.display = 'none';
-                    alert('An error occurred. Please try again.');
                 });
             });
 
             closeDialog.addEventListener('click', function () {
                 cancelDialog.style.display = 'none';
                 overlay.style.display = 'none';
+            });
+
+            closeRefundDialog.addEventListener('click', function () {
+                refundRequestDialog.style.display = 'none';
+                overlay.style.display = 'none';
+                location.reload();
             });
         });
     </script>

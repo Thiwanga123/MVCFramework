@@ -19,12 +19,9 @@ class ServiceProvider extends Controller {
 
 
     public function login() {
-        // Check if the form was submitted (POST request)
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-           
             $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_FULL_SPECIAL_CHARS);
 
-            // Init data array with POST values
             $data = [
                 'email' => trim($_POST['email']),
                 'password' => trim($_POST['password']),
@@ -34,76 +31,71 @@ class ServiceProvider extends Controller {
                 'sptype_err' => '',
             ];
            
-        
-            // Check if the email, password, and service type fields are not empty
             if (empty($data['email']) || empty($data['password']) || empty($data['sptype'])) {
-                // Set error message for empty fields
                 if (empty($data['email'])) $data['email_err'] = 'Please enter your email.';
                 if (empty($data['password'])) $data['password_err'] = 'Please enter your password.';
                 if (empty($data['sptype'])) $data['sptype_err'] = 'Please select a service type.';
             }  
             
-    
             if (empty($data['email_err']) && empty($data['sptype_err'])) {
                 $existingUser = $this->serviceProviderModel->findUserByEmail($data['email'], $data['sptype']);
-                //check if the sub is paid
                 
-                $isPaid = $this->serviceProviderModel->checkSubscriptionStatus($data['email'], $data['sptype']);
-              
-                if (!$isPaid) {
-                    $data['subscription_err'] = 'Your subscription is not active.';
-
-                    //get the details from the database
-                    $subscriptionDetails = $this->serviceProviderModel->getSubscriptionDetails($data['email'], $data['sptype']);
-                  
-                   $data = [
-                    'sptype' => $data['sptype'],
-                    'email' => $data['email'],
-                    'plan' => $subscriptionDetails->plan,
-                    'name' => $subscriptionDetails->name,
-                    'id' => $subscriptionDetails->id
+                if ($existingUser) {
+                    $status = $this->serviceProviderModel->checkSubscriptionStatus($data['email'], $data['sptype']);
                     
-                   ];
-                    // Load the subscription view with the details
-                 
-
-                    $this->view('serviceproviders/subscription', $data);
-                    exit;
-                   
-                }
-                if (!$existingUser) {
+                    switch ($status['status']) {
+                        case 'deleted':
+                            $data['status_message'] = 'Your Account has Deactivated';
+                            $data['status_class'] = 'status-error';
+                            $data['status_icon'] = 'fas fa-ban';
+                            $data['admin_contact'] = 'Please Contact the Admin Hotline to Activate your Account';
+                            break;
+                            
+                        case 'rejected':
+                            $data['status_message'] = 'Your Application has Rejected';
+                            $data['status_class'] = 'status-rejected';
+                            $data['status_icon'] = 'fas fa-times-circle';
+                            $data['admin_contact'] = 'Please Contact the Admin Hotline';
+                            break;
+                            
+                        case 'not_approved':
+                            $data['status_message'] = 'Wait Until Administrator approve your Account';
+                            $data['status_class'] = 'status-info';
+                            $data['status_icon'] = 'fas fa-clock';
+                            break;
+                            
+                        case 'not_subscribed':
+                            $data['status_message'] = 'Your subscription is not active';
+                            $data['status_class'] = 'status-warning';
+                            $data['status_icon'] = 'fas fa-exclamation-triangle';
+                            break;
+                            
+                        case 'active':
+                            $loggedInUser = $this->serviceProviderModel->login($data['email'], $data['password'], $data['sptype']);
+                           
+                            if ($loggedInUser) {
+                                $this->createUserSession($loggedInUser, $data['sptype']);
+                                if ($data['sptype'] === 'vehicle_suppliers') {
+                                    redirect('transport_suppliers/dashboard');
+                                } else {
+                                    redirect($data['sptype'] . '/dashboard');
+                                }
+                            } else {
+                                $data['password_err'] = 'Incorrect password. Please try again.';
+                            }
+                            break;
+                            
+                        default:
+                            $data['email_err'] = 'No user found with that email for the selected service type.';
+                    }
+                } else {
                     $data['email_err'] = 'No user found with that email for the selected service type.';
                 }
             }
 
-            // Proceed with login if there are no errors
-            if (empty($data['email_err']) && empty($data['password_err']) && empty($data['sptype_err']) && empty($data['subscription_err'])) {
-                // Attempt to log in the user
-                $loggedInUser = $this->serviceProviderModel->login($data['email'], $data['password'], $data['sptype']);
-               
-                if ($loggedInUser) {
-                    // Create session for the logged-in user and redirect
-                    $this->createUserSession($loggedInUser, $data['sptype']);
-                    //redirect to the relevant dashboard
-                    if ($data['sptype'] === 'vehicle_suppliers') {
-                        redirect('transport_suppliers/dashboard');
-                    } else {
-                        redirect($data['sptype'] . '/dashboard');
-                    }
-                   
-                } else {
-                    // If login fails (wrong password), set error messagee
-                    $data['password_err'] = 'Incorrect password. Please try again.';
-                    $this->view('serviceproviders/sp_login', $data);
-                    return;
-                }
-            }else{
-                $this->view('serviceproviders/sp_login', $data);
-                return;
-            }
-
+            $this->view('serviceproviders/sp_login', $data);
+            return;
         } else {
-            // If it's a GET request, initialize empty data for the form
             $data = [
                 'email' => '',
                 'password' => '',
@@ -113,7 +105,6 @@ class ServiceProvider extends Controller {
                 'sptype_err' => ''
             ];
     
-            // Load the login view
             $this->view('serviceproviders/sp_login', $data);
         }
     }

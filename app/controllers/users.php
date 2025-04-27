@@ -471,7 +471,6 @@ class Users extends Controller {
                 'password_err' => ''
             ];
 
-            
             // Validate email
             if (empty($data['email'])) {
                 $data['email_err'] = 'Please enter email';
@@ -490,22 +489,32 @@ class Users extends Controller {
             // Check for errors
             if (empty($data['email_err']) && empty($data['password_err'])) {
                 // Attempt to log in
-
+                $loginResult = $this->userModel->login($data['email'], $data['password']);
                 
-                $loggedInUser = $this->userModel->login($data['email'], $data['password']);
-                if ($loggedInUser) {
-                    // Create session
-                    $this->createUserSession($loggedInUser);
-                    //redirect('pages/index');
-                    redirect('users/dashboard');         
-
-                } 
-                
-                
-                else {
-                    $data['password_err'] = 'Password Incorrect';
-                    // Load view with errors
-                    $this->view('users/v_login', $data);
+                switch ($loginResult['status']) {
+                    case 'deleted':
+                        $data['status_message'] = 'Your Account has Deactivated';
+                        $data['status_class'] = 'status-error';
+                        $data['status_icon'] = 'fas fa-ban';
+                        $data['admin_contact'] = 'Please Contact the Admin Hotline to Activate your Account';
+                        $this->view('users/v_login', $data);
+                        break;
+                        
+                    case 'active':
+                        // Create session
+                        $this->createUserSession($loginResult['user']);
+                        redirect('users/dashboard');
+                        break;
+                        
+                    case 'invalid_password':
+                        $data['password_err'] = 'Password Incorrect';
+                        $this->view('users/v_login', $data);
+                        break;
+                        
+                    case 'not_found':
+                        $data['email_err'] = 'No user found';
+                        $this->view('users/v_login', $data);
+                        break;
                 }
             } else {
                 // Load view with errors
@@ -999,6 +1008,7 @@ public function showaccommodation(){
                         'startDate' => $_POST['startDate'],
                         'endDate' => $_POST['endDate']
                     ];
+
                 }
                 // $this->view('users/planHome');
                 $data['currentPage'] = 'places';

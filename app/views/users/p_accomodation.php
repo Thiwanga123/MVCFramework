@@ -115,6 +115,9 @@
                                             data-spid="<?php echo $property->service_provider_id; ?>" 
                                             data-single = "<?php echo $property->single_bedrooms; ?>"
                                             data-double = "<?php echo $property->double_bedrooms; ?>"
+                                            data-singleprice="<?php echo $property->singleprice; ?>"
+                                            data-doubleprice="<?php echo $property->doubleprice; ?>"
+                                            data-familyprice="<?php echo $property->familyprice; ?>"
                                             data-family = "<?php echo $property->family_rooms; ?>">Book</button>
                                     </div>
                                 </div>

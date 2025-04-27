@@ -241,16 +241,21 @@ class M_users{
         $row = $this->db->single();
        
         if ($row) {
+            // Check if account is deactivated
+            if ($row->action === 'deleted') {
+                return ['status' => 'deleted'];
+            }
+
             $hashedPassword = $row->password;
             if (password_verify($password, $hashedPassword)) {
-                return $row;
+                return ['status' => 'active', 'user' => $row];
             } else {
-                return false;
+                return ['status' => 'invalid_password'];
             }
         } else {
-            return false;
+            return ['status' => 'not_found'];
         }
-        }
+    }
         
     //get all the accomodations from the database
     public function searchAccommodations($data){
@@ -490,6 +495,27 @@ class M_users{
         }
     }
 
+    private function createRefundRequest($booking, $amount, $bookingType) {
+        try {
+            $this->db->query('
+                INSERT INTO refund 
+                (booking_id, booking_type, user_id, amount, status, request_date, created_at) 
+                VALUES 
+                (:booking_id, :booking_type, :user_id, :amount, "pending", NOW(), NOW())
+            ');
+            
+            $this->db->bind(':booking_id', $booking->booking_id);
+            $this->db->bind(':booking_type', $bookingType);
+            $this->db->bind(':user_id', $booking->traveler_id);
+            $this->db->bind(':amount', $amount);
+            
+            return $this->db->execute();
+        } catch (Exception $e) {
+            error_log("Error creating refund request: " . $e->getMessage());
+            return false;
+        }
+    }
+
     private function processGuideCancellation($booking) {
         try {
             // Calculate days until check-in
@@ -506,17 +532,13 @@ class M_users{
             }
 
             $holdingAmount = $currentWallet->holding_amount;
+            $refundAmount = $holdingAmount;
 
             if ($daysDiff <= 3) {
                 // Within 3 days: Apply penalty
                 $refundAmount = $holdingAmount * 0.85;
                 $guiderPenalty = $holdingAmount * 0.10;
                 $systemPenalty = $holdingAmount * 0.05;
-            } else {
-                // More than 3 days: Full refund
-                $refundAmount = $holdingAmount;
-                $guiderPenalty = 0;
-                $systemPenalty = 0;
             }
 
             // 1. Update booking status
@@ -528,7 +550,13 @@ class M_users{
                 return false;
             }
 
-            // 2. Update the original wallet record (set holding_amount to 0)
+            // 2. Create refund request
+            if (!$this->createRefundRequest($booking, $refundAmount, 'Guide')) {
+                error_log("Failed to create refund request for booking_id: " . $booking->booking_id);
+                return false;
+            }
+
+            // 3. Update the original wallet record
             $this->db->query("UPDATE guider_wallet 
                              SET holding_amount = 0 
                              WHERE related_booking_id = :booking_id 
@@ -540,56 +568,7 @@ class M_users{
                 return false;
             }
 
-            // 3. Create refund record in wallet
-            $this->db->query("INSERT INTO guider_wallet 
-                             (provider_id, traveler_id, holding_amount, refund_amount, transaction_type, related_booking_id, transaction_date) 
-                             VALUES 
-                             (:provider_id, :traveler_id, 0, :refund_amount, 'refund', :booking_id, NOW())");
-            $this->db->bind(':provider_id', $booking->guider_id);
-            $this->db->bind(':traveler_id', $booking->traveler_id);
-            $this->db->bind(':refund_amount', $refundAmount);
-            $this->db->bind(':booking_id', $booking->booking_id);
-            
-            if (!$this->db->execute()) {
-                error_log("Failed to create refund record for booking_id: " . $booking->booking_id);
-                return false;
-            }
-
-            if ($daysDiff <= 3) {
-                // 4. Update guide's earnings
-                $this->db->query("UPDATE tour_guides 
-                                 SET earnings = COALESCE(earnings, 0) + :penalty_amount 
-                                 WHERE id = :guider_id");
-                $this->db->bind(':penalty_amount', $guiderPenalty);
-                $this->db->bind(':guider_id', $booking->guider_id);
-                
-                if (!$this->db->execute()) {
-                    error_log("Failed to update guide earnings for guide_id: " . $booking->guider_id);
-                    return false;
-                }
-
-                // 5. Ensure system_earnings table exists
-                if (!$this->createSystemEarningsTable()) {
-                    error_log("Failed to create system_earnings table");
-                    return false;
-                }
-
-                // 6. Record system penalty
-                $this->db->query("INSERT INTO system_earnings 
-                                 (amount, type, booking_id, created_at, status) 
-                                 VALUES 
-                                 (:amount, 'penalty', :booking_id, NOW(), 'pending')");
-                $this->db->bind(':amount', $systemPenalty);
-                $this->db->bind(':booking_id', $booking->booking_id);
-                
-                if (!$this->db->execute()) {
-                    error_log("Failed to record system earnings for booking_id: " . $booking->booking_id);
-                    return false;
-                }
-            }
-
             return true;
-
         } catch (Exception $e) {
             error_log("Error in processGuideCancellation: " . $e->getMessage());
             return false;
@@ -607,23 +586,9 @@ class M_users{
                 return false;
             }
 
-            // 2. Insert new refund record
-            $this->db->query("INSERT INTO accomadation_wallet 
-                             (provider_id, traveler_id, holding_amount, refund_amount, transaction_type, related_booking_id, transaction_date) 
-                             SELECT 
-                                supplier_id,
-                                traveler_id,
-                                0,
-                                amount,
-                                'refund',
-                                booking_id,
-                                NOW()
-                             FROM property_booking 
-                             WHERE booking_id = :booking_id");
-            $this->db->bind(':booking_id', $booking->booking_id);
-            
-            if (!$this->db->execute()) {
-                error_log("Failed to insert refund record in accomadation_wallet for booking_id: " . $booking->booking_id);
+            // 2. Create refund request
+            if (!$this->createRefundRequest($booking, $booking->amount, 'Accommodation')) {
+                error_log("Failed to create refund request for booking_id: " . $booking->booking_id);
                 return false;
             }
 
@@ -657,23 +622,9 @@ class M_users{
                 return false;
             }
 
-            // 2. Insert new refund record
-            $this->db->query("INSERT INTO vehicle_wallet 
-                             (provider_id, traveler_id, holding_amount, refund_amount, transaction_type, related_booking_id, transaction_date) 
-                             SELECT 
-                                supplier_id,
-                                traveler_id,
-                                0,
-                                amount,
-                                'refund',
-                                booking_id,
-                                NOW()
-                             FROM vehicle_booking 
-                             WHERE booking_id = :booking_id");
-            $this->db->bind(':booking_id', $booking->booking_id);
-            
-            if (!$this->db->execute()) {
-                error_log("Failed to insert refund record in vehicle_wallet for booking_id: " . $booking->booking_id);
+            // 2. Create refund request
+            if (!$this->createRefundRequest($booking, $booking->amount, 'Vehicle')) {
+                error_log("Failed to create refund request for booking_id: " . $booking->booking_id);
                 return false;
             }
 
@@ -707,23 +658,9 @@ class M_users{
                 return false;
             }
 
-            // 2. Insert new refund record
-            $this->db->query("INSERT INTO equipment_wallet 
-                             (provider_id, traveler_id, holding_amount, refund_amount, transaction_type, related_booking_id, transaction_date) 
-                             SELECT 
-                                supplier_id,
-                                user_id,
-                                0,
-                                total_price,
-                                'refund',
-                                booking_id,
-                                NOW()
-                             FROM rental_equipment_bookings 
-                             WHERE booking_id = :booking_id");
-            $this->db->bind(':booking_id', $booking->booking_id);
-            
-            if (!$this->db->execute()) {
-                error_log("Failed to insert refund record in equipment_wallet for booking_id: " . $booking->booking_id);
+            // 2. Create refund request
+            if (!$this->createRefundRequest($booking, $booking->total_price, 'Equipment')) {
+                error_log("Failed to create refund request for booking_id: " . $booking->booking_id);
                 return false;
             }
 

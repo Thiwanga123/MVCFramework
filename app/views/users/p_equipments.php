@@ -26,7 +26,7 @@
                             </svg>
                             <span>Previous</span>
                         </a>
-                        <a href="<?php echo URLROOT;?>/users/summary" class="nav-button next-button">
+                        <a href="<?php echo URLROOT;?>/users/summaryplan" class="nav-button next-button">
                             <span>Next</span>
                             <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="currentColor">
                             <path d="M633.85-434.5H151.87v-91h481.98L415.11-744.24 480-808.13 808.13-480 480-151.87l-64.89-63.89 218.74-218.74Z"/>

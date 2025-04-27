@@ -39,6 +39,18 @@
                                     <div class="summary-item"><span>Single Rooms:</span> <?= htmlspecialchars($data['accommodation_data']['singleRooms']) ?></div>
                                     <div class="summary-item"><span>Double Rooms:</span> <?= htmlspecialchars($data['accommodation_data']['doubleRooms']) ?></div>
                                     <div class="summary-item"><span>Family Rooms:</span> <?= htmlspecialchars($data['accommodation_data']['familyRooms']) ?></div>
+                                    <?php
+                                        $startDate = new DateTime($data['trip']['startDate']);
+                                        $endDate = new DateTime($data['trip']['endDate']);
+                                        $interval = $startDate->diff($endDate)->days;
+
+                                        $singleRoomPrice = $data['accommodation_data']['singleRooms'] * $data['accommodation_data']['singleprice'];
+                                        $doubleRoomPrice = $data['accommodation_data']['doubleRooms'] * $data['accommodation_data']['doubleprice'];
+                                        $familyRoomPrice = $data['accommodation_data']['familyRooms'] * $data['accommodation_data']['familyprice'];
+
+                                        $totalPrice = $interval * ($singleRoomPrice + $doubleRoomPrice + $familyRoomPrice);
+                                    ?>
+                                    <div class="summary-item"><span>Price:</span> Rs. <?= htmlspecialchars($totalPrice) ?></div>
                                 </div>
                             <?php endif; ?>
 

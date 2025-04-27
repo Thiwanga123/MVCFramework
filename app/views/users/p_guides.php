@@ -163,7 +163,7 @@
             <!-- Destination -->
             <div class="form-group">
                 <label for="destination">Destination</label>
-                <input type="text" id="destination" name="destination" value="<?php echo htmlspecialchars(isset($_SESSION['trip']['location']) ? $_SESSION['trip']['location'] : ''); ?>" readonly>
+                <input type="text" id="destination" name="destination" value="<?php echo htmlspecialchars(isset($_SESSION['trip']['location']) ? $_SESSION['trip']['location'] : ''); ?>">
             </div>
 
             <!-- Form Actions -->
