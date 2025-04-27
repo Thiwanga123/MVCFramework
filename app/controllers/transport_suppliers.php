@@ -532,6 +532,63 @@ public function addriver() {
                 echo json_encode(['error' => 'Invalid request method.']);
             }
         }
+
+    // Cancel booking with possible penalty
+    public function cancelBooking($id){
+        if (!isset($_SESSION['id'])) {
+            redirect('ServiceProvider');
+            return;
+        }
+        
+        $supplier_id = $_SESSION['id'];
+        
+        // Get booking details
+        $booking = $this->transportModel->getBookingById($id);
+        
+        if (!$booking) {
+            // Booking not found
+            $_SESSION['booking_error'] = 'Booking not found';
+            redirect('transport_suppliers/dashboard'); // Redirecting to dashboard as it shows bookings
+            return;
+        }
+        
+        if ($booking->supplier_id != $supplier_id) {
+            // Not authorized to cancel this booking
+            $_SESSION['booking_error'] = 'You are not authorized to cancel this booking';
+            redirect('transport_suppliers/dashboard');
+            return;
+        }
+        
+        // Check if booking is already cancelled
+        if (strtolower($booking->status) == 'cancelled' || strtolower($booking->status) == 'canceled') {
+            $_SESSION['booking_error'] = 'This booking has already been cancelled';
+            redirect('transport_suppliers/dashboard');
+            return;
+        }
+        
+        // Calculate if penalty applies (within 3 days of check-in)
+        $checkIn = new DateTime($booking->check_in);
+        $today = new DateTime();
+        $isPenaltyApplicable = ($checkIn->diff($today)->days <= 3);
+        
+        // Calculate penalty amount (20% of booking amount if applicable)
+        $penaltyAmount = $isPenaltyApplicable ? ($booking->amount * 0.2) : 0;
+        
+        // Process cancellation with appropriate penalty
+        if ($this->transportModel->cancelBooking($id, $supplier_id, $penaltyAmount)) {
+            // Success
+            if ($isPenaltyApplicable) {
+                $_SESSION['booking_success'] = 'Booking cancelled successfully. A 20% penalty (Rs. ' . number_format($penaltyAmount, 2) . ') has been applied to your account. We have fully refunded the amount of Rs. ' . number_format($booking->amount, 2) . ' to the traveler.';
+            } else {
+                $_SESSION['booking_success'] = 'Booking cancelled successfully. We have fully refunded the amount of Rs. ' . number_format($booking->amount, 2) . ' to the traveler.';
+            }
+            redirect('transport_suppliers/dashboard');
+        } else {
+            // Error
+            $_SESSION['booking_error'] = 'Something went wrong while cancelling the booking';
+            redirect('transport_suppliers/dashboard');
+        }
+    }
 }
 
 
