@@ -228,30 +228,7 @@
                     <!-- End of Search Bar -->
 
                     <!-- Debug Information -->
-                    <div style="background-color: #f8f9fa; padding: 10px; margin-bottom: 20px; border-radius: 4px;">
-                        <h4>Debug Information</h4>
-                        <p>Booking statuses in database:</p>
-                        <ul>
-                            <?php
-                            $statuses = [];
-                            if (!empty($data)) {
-                                foreach ($data as $booking) {
-                                    if (!in_array($booking->status, $statuses)) {
-                                        $statuses[] = $booking->status;
-                                        echo "<li>Status found: '" . $booking->status . "'</li>";
-                                    }
-                                }
-                                if (empty($statuses)) {
-                                    echo "<li>No statuses found</li>";
-                                }
-                            } else {
-                                echo "<li>No bookings data available</li>";
-                            }
-                            ?>
-                        </ul>
-                        <p>Total bookings count: <?php echo count($data); ?></p>
-                    </div>
-                    <!-- End Debug Information -->
+                   
 
                     <?php if (!empty($data)): ?>
                         <div class="table-responsive">
