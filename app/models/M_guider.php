@@ -503,6 +503,26 @@ class M_guider {
         $row = $this->db->single();
         return $row->canceled_count;
     }
+
+
+    public function getGuiderPrice($guiderId){
+        $sql = "SELECT name, base_rate FROM tour_guides WHERE id = ?";
+       
+        try {
+            $this->db->query($sql);
+            $this->db->bind(1, $guiderId);
+            $result = $this->db->single();
+            if ($result) {
+                return $result;
+            } else {
+                return null;
+            }
+            
+        } catch (Exception $e) {
+            error_log($e->getMessage());
+            return null; 
+        }
+    }
 }
 
 

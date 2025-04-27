@@ -54,6 +54,28 @@ class EquipmentModel {
         }
     }
 
+
+    public function getProductPriceById($productId){
+        $sql = "SELECT rental_name, price_per_day FROM rental_equipments WHERE id = :product_id LIMIT 1";
+
+        try {
+            $this->db->query($sql);
+            $this->db->bind(':product_id', $productId);
+            $result = $this->db->single();
+            
+            if ($result) {
+                return $result;
+            } else {
+                return null;
+            }
+            
+        } catch (Exception $e) {
+            error_log($e->getMessage());
+    
+            return null; 
+        }
+    }
+
 }
 
 ?>

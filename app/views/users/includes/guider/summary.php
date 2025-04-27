@@ -399,8 +399,7 @@ $formattedEndDate = date('F d, Y', strtotime($endDate));
 
                 // Payment completed handler
                 payhere.onCompleted = function onCompleted(orderId) {
-                    window.location.href = "<?php echo URLROOT; ?>/payment/success_booking+?order_id=" + orderId;
-                    
+                    window.location.href = "<?php echo URLROOT; ?>/payment/success_booking?order_id=" + orderId;
                 };
 
                 // Payment dismissed handler

@@ -67,6 +67,26 @@
             color: rgb(18, 138, 138);
             margin-top: 15px;
         }
+        .subscription-error {
+            color: #e74c3c;
+            font-weight: bold;
+            margin: 10px 0;
+            padding: 10px;
+            background-color: #fadbd8;
+            border-radius: 5px;
+        }
+        .admin-contact {
+            margin-top: 15px;
+            padding: 10px;
+            background-color: #f8f9fa;
+            border-radius: 5px;
+            color: #555;
+            font-size: 14px;
+        }
+        .admin-contact .phone {
+            color: #005cbe;
+            font-weight: bold;
+        }
     </style>
 </head>
 <body>
@@ -75,6 +95,13 @@
             <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm-1-13h2v6h-2zm0 8h2v2h-2z"/>
         </svg>
         <h1>Complete Your Subscription</h1>
+        
+        <?php if(isset($data['subscription_err'])): ?>
+            <div class="subscription-error">
+                <?php echo $data['subscription_err']; ?>
+            </div>
+        <?php endif; ?>
+        
         <p>To start your journey with <span class="highlight">JourneyBeyond</span>, please complete your subscription payment.</p>
         <h2>
             <?php 
@@ -134,6 +161,13 @@
            
         </p>
         <button class="pay-btn" id="payhere-payment" disabled>Loading Payment Gateway...</button>
+
+        <?php if(isset($data['admin_contact'])): ?>
+            <div class="admin-contact">
+                <?php echo $data['admin_contact']; ?>
+                <div class="phone">Hotline: 011-4392831</div>
+            </div>
+        <?php endif; ?>
 
         <script>
         // Load PayHere script with error handling

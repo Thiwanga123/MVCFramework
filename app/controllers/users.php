@@ -1145,18 +1145,100 @@ public function showaccommodation(){
         }
     }
 
+    
+
     public function summaryplan(){
         if(isset($_SESSION['user_id'])) {
             $data['currentPage'] = 'summary';
+    
+            $name = $_SESSION['name'] ?? null;
+            $trip = $_SESSION['trip'] ?? [];
+            $accommodationData = $_SESSION['acomodation_booking'] ?? []; 
+            $vehicleData = $_SESSION['booking_vehicle_data'] ?? [];
+            $guiderData = $_SESSION['guider_booking'] ?? [];
+            $equipmentData = $_SESSION['equipmentBooking'] ?? [];
+           
+                $accommodationTotal = 0;
+                if (!empty($accommodationData)) {
+                    $propertyId = $accommodationData['propertyId'];
+                    $accommodation = $this->accomadationModel->getPropertyDetailsById($propertyId);
+                    $accomodationName = $accommodation->property_name;
+                   
+                    if ($accommodation) {
+                        $singleRoomTotal = (int)($accommodationData['singleRooms'] ?? 0) * ($accommodation->singleprice ?? 0);
+                        $doubleRoomTotal = (int)($accommodationData['doubleRooms'] ?? 0) * ($accommodation->doubleprice ?? 0);
+                        $familyRoomTotal = (int)($accommodationData['familyRooms'] ?? 0) * ($accommodation->familyprice ?? 0);
+                        $accommodationTotal = $singleRoomTotal + $doubleRoomTotal + $familyRoomTotal;
+                    }
+
+                    $accommodationData['accommodationName'] = $accomodationName;
+                    $accommodationData['accommodationTotal'] = $accommodationTotal;
+                }
+             
+                // 2. Vehicle total
+                $vehicleTotal = 0;
+                if (!empty($vehicleData)) {
+                    $vehicleId = $vehicleData['vehicleId'];
+                    // Fetch the REAL vehicle details from the database
+                    $vehicle = $this->transportModel->getVehiclePrice($vehicleId);
+                    $vehicleModel = $vehicle->model;
+                    $vehicleMake = $vehicle->make;
+
+                    if ($vehicle) {
+                        $vehicleTotal = ($vehicleData['driverOption'] == 'withDriver')
+                            ? (float)($vehicle->cost ?? 0)
+                            : (float)($vehicle->rate ?? 0);
+                    }
+
+                    $vehicleData['vehicleModel'] = $vehicleModel;
+                    $vehicleData['vehicleMake'] = $vehicleMake;
+                    $vehicleData['vehicleTotal'] = $vehicleTotal;
+                }
+
+                // 3. Guider total
+                $guiderTotal = 0;
+                if (!empty($guiderData)) {
+                    $guiderId = $guiderData['guiderId'];
+                    $guider = $this->guiderModel->getGuiderPrice($guiderId);
+                    $guiderName = $guider->name;
+                    if ($guider) {
+                        $guiderTotal = (float)($guider->base_rate ?? 0);
+                    }
+
+                    $guiderData['guiderName'] = $guiderName;
+                    $guiderData['guiderTotal'] = $guiderTotal;
+                }
+
+                // 4. Equipment total
+                $equipmentTotal = 0;
+                if (!empty($equipmentData)) {
+                    $equipmentId = $equipmentData['equipmentId'];
+                    $equipment = $this->equipmentModel->getProductPriceById($equipmentId);
+                    $equipmentName = $equipment->rental_name;
+                    $equipmentPrice = $equipment->price_per_day;
+                
+                    if ($equipment){
+                        $startDate = new DateTime($equipmentData['startDate']);
+                        $endDate = new DateTime($equipmentData['endDate']);
+                        $duration = $startDate->diff($endDate)->days;
+                        $equipmentTotal = (float)($equipmentPrice->price_per_day ?? 0) * $duration;
+                    }
+
+                    $equipmentData['equipmentName'] = $equipmentName;
+                    $equipmentData['equipmentTotal'] = $equipmentTotal;
+                }
+
             $data = [
                 'name' => $_SESSION['name'] ?? null,
                 'trip' => $_SESSION['trip'] ?? [], //includes accomodations data too
-                'accommodation_data' => $_SESSION['acomodation_booking'] ?? [],
-                'booking_vehicle_data' => $_SESSION['booking_vehicle_data'] ?? [],
-                'guider_booking' => $_SESSION['guider_booking'] ?? [],
-                'equipmentBooking' => $_SESSION['equipmentBooking'] ?? [],
+                'accommodation_data' => $accommodationData ?? [],
+                'booking_vehicle_data' => $vehicleData ?? [],
+                'guider_booking' => $guiderData ?? [],
+                'equipmentBooking' =>  $equipmentData ?? [],
                 'currentPage' => 'summary',
             ];
+
+            
             $this->view('users/summary', $data);
         }else{
             redirect('users/login');

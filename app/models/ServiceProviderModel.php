@@ -75,10 +75,6 @@ class ServiceProviderModel{
         }
 
         // Then check approval status
-        if ($row->approve === 'rejected') {
-            return ['status' => 'rejected'];
-        }
-
         if ($row->approve !== 'true') {
             return ['status' => 'not_approved'];
         }

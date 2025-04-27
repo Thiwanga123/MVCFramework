@@ -45,29 +45,45 @@ class ServiceProvider extends Controller {
                     
                     switch ($status['status']) {
                         case 'deleted':
-                            $data['status_message'] = 'Your Account has Deactivated';
+                            $data['status_message'] = 'Your Account has been Deactivated';
                             $data['status_class'] = 'status-error';
                             $data['status_icon'] = 'fas fa-ban';
-                            $data['admin_contact'] = 'Please Contact the Admin Hotline to Activate your Account';
-                            break;
-                            
-                        case 'rejected':
-                            $data['status_message'] = 'Your Application has Rejected';
-                            $data['status_class'] = 'status-rejected';
-                            $data['status_icon'] = 'fas fa-times-circle';
-                            $data['admin_contact'] = 'Please Contact the Admin Hotline';
+                            $data['admin_contact'] = 'Please Contact the Admin Hotline: 011-4392831';
                             break;
                             
                         case 'not_approved':
-                            $data['status_message'] = 'Wait Until Administrator approve your Account';
+                            $data['status_message'] = 'Your Account is Under Approval';
                             $data['status_class'] = 'status-info';
                             $data['status_icon'] = 'fas fa-clock';
+                            $data['admin_contact'] = 'Please Contact the Admin Hotline: 011-4392831';
                             break;
                             
                         case 'not_subscribed':
-                            $data['status_message'] = 'Your subscription is not active';
-                            $data['status_class'] = 'status-warning';
-                            $data['status_icon'] = 'fas fa-exclamation-triangle';
+                            // First verify password
+                            $loggedInUser = $this->serviceProviderModel->login($data['email'], $data['password'], $data['sptype']);
+                            
+                            if ($loggedInUser) {
+                                // Create session but redirect to subscription page
+                                $this->createUserSession($loggedInUser, $data['sptype']);
+                                
+                                // Get subscription details
+                                $subscriptionDetails = $this->serviceProviderModel->getSubscriptionDetails($data['email'], $data['sptype']);
+                                
+                                $subscriptionData = [
+                                    'sptype' => $data['sptype'],
+                                    'email' => $data['email'],
+                                    'plan' => $subscriptionDetails->plan,
+                                    'name' => $subscriptionDetails->name,
+                                    'id' => $subscriptionDetails->id,
+                                    'subscription_err' => 'Your subscription is not active.'
+                                ];
+                                
+                                // Load the subscription view with the details
+                                $this->view('serviceproviders/subscription', $subscriptionData);
+                                exit;
+                            } else {
+                                $data['password_err'] = 'Incorrect password. Please try again.';
+                            }
                             break;
                             
                         case 'active':
@@ -535,4 +551,4 @@ public function updateProfileImage(){
 }
 
 ?>
-                   
+

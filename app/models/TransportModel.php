@@ -440,4 +440,18 @@ public function cancelBooking($booking_id, $supplier_id, $penaltyAmount) {
     }
 }
 
+
+public function getVehiclePrice($vehicleId){
+    $sql = "SELECT model, make, rate, cost FROM vehicles WHERE vehicle_id = :vehicle_id LIMIT 1";
+    try{
+    $this->db->query($sql);
+    $this->db->bind(':vehicle_id', $vehicleId);
+    return $this->db->single();
+    }catch(Exception $e){
+        $error_msg = $e->getMessage();
+        echo "<script>alert('An error occurred: $error_msg');</script>";
+        return false;
+    }
+}
+
 }
