@@ -316,7 +316,7 @@ public function updateprofile($data){
     }
     
     public function getAllBookingsBySupplier($supplierId) {
-        $this->db->query("SELECT * FROM vehicle_booking WHERE supplier_id = :supplier_id AND status != 'Cancelled'");
+        $this->db->query("SELECT * FROM vehicle_booking WHERE supplier_id = :supplier_id");
         $this->db->bind(':supplier_id', $supplierId);
         return $this->db->resultSet();
     }
@@ -345,5 +345,99 @@ public function countBookingsBySupplier($supplierId) {
   
 // }
 
+public function getBookingById($booking_id) {
+    $this->db->query('
+        SELECT 
+            vb.booking_id, 
+            vb.vehicle_id,
+            vb.supplier_id,
+            vb.traveler_id,
+            vb.check_in, 
+            vb.check_out, 
+            vb.amount, 
+            vb.pickup,
+            vb.destination,
+            vb.status, 
+            t.name, 
+            t.email, 
+            t.telephone_number as phone_number
+        FROM vehicle_booking vb
+        JOIN traveler t ON vb.traveler_id = t.traveler_id
+        WHERE vb.booking_id = :booking_id
+    ');
+    $this->db->bind(':booking_id', $booking_id);
+    return $this->db->single();
+}
+
+public function cancelBooking($booking_id, $supplier_id, $penaltyAmount) {
+    try {
+        // Start transaction
+        $this->db->beginTransaction();
+        
+        // 1. Update booking status to 'cancelled'
+        $this->db->query('UPDATE vehicle_booking SET status = :status WHERE booking_id = :booking_id');
+        $this->db->bind(':status', 'cancelled');
+        $this->db->bind(':booking_id', $booking_id);
+        
+        if (!$this->db->execute()) {
+            $this->db->rollBack();
+            return false;
+        }
+        
+        // 2. If penalty amount is applicable, update the supplier's penalty_amount
+        if ($penaltyAmount > 0) {
+            // Check if the vehicles table has a penalty_amount column
+            // If it doesn't, you might need to add it or store penalties differently
+            $this->db->query('UPDATE vehicles SET penalty_amount = COALESCE(penalty_amount, 0) + :penalty_amount WHERE supplierId = :supplier_id');
+            $this->db->bind(':penalty_amount', $penaltyAmount);
+            $this->db->bind(':supplier_id', $supplier_id);
+            
+            if (!$this->db->execute()) {
+                $this->db->rollBack();
+                return false;
+            }
+        }
+        
+        // 3. Get the booking's wallet entry (if any)
+        $this->db->query('SELECT id, holding_amount FROM vehicle_wallet WHERE related_booking_id = :booking_id AND provider_id = :supplier_id');
+        $this->db->bind(':booking_id', $booking_id);
+        $this->db->bind(':supplier_id', $supplier_id);
+        $walletEntry = $this->db->single();
+        
+        // 4. If wallet entry exists, update refund_amount (always full amount)
+        if ($walletEntry) {
+            $holdingAmount = $walletEntry->holding_amount;
+            
+            if ($holdingAmount > 0) {
+                // Always set the full amount as refund_amount
+                $this->db->query('
+                    UPDATE vehicle_wallet 
+                    SET holding_amount = 0, 
+                        refund_amount = :refund_amount, 
+                        transaction_type = :transaction_type
+                    WHERE id = :id
+                ');
+                $this->db->bind(':refund_amount', $holdingAmount); // Full refund to traveler
+                $this->db->bind(':transaction_type', 'refund');
+                $this->db->bind(':id', $walletEntry->id);
+                
+                if (!$this->db->execute()) {
+                    $this->db->rollBack();
+                    return false;
+                }
+            }
+        }
+        
+        // Commit transaction
+        $this->db->commit();
+        return true;
+        
+    } catch (Exception $e) {
+        // Roll back transaction on error
+        $this->db->rollBack();
+        error_log("Error cancelling vehicle booking: " . $e->getMessage());
+        return false;
+    }
+}
 
 }

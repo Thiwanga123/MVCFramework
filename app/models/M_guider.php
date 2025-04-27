@@ -80,6 +80,100 @@ class M_guider {
         }
     }
     
+    // Get a single booking by ID
+    public function getBookingById($booking_id) {
+        $this->db->query('
+            SELECT 
+                gb.booking_id, 
+                gb.guider_id,
+                gb.traveler_id,
+                gb.check_in, 
+                gb.check_out, 
+                gb.amount, 
+                gb.pickup,
+                gb.destination,
+                gb.status, 
+                t.name AS traveler_name, 
+                t.email AS traveler_email, 
+                t.telephone_number AS traveler_phone
+            FROM guider_booking gb
+            JOIN traveler t ON gb.traveler_id = t.traveler_id
+            WHERE gb.booking_id = :booking_id
+        ');
+        $this->db->bind(':booking_id', $booking_id);
+        return $this->db->single();
+    }
+    
+    // Cancel a booking with penalty handling
+    public function cancelBooking($booking_id, $guider_id, $penaltyAmount) {
+        try {
+            // Start transaction
+            $this->db->beginTransaction();
+            
+            // 1. Update booking status to 'cancelled'
+            $this->db->query('UPDATE guider_booking SET status = :status WHERE booking_id = :booking_id');
+            $this->db->bind(':status', 'cancelled');
+            $this->db->bind(':booking_id', $booking_id);
+            
+            if (!$this->db->execute()) {
+                $this->db->rollBack();
+                return false;
+            }
+            
+            // 2. If penalty amount is applicable, update the guider's penalty_amount
+            if ($penaltyAmount > 0) {
+                $this->db->query('UPDATE tour_guides SET penalty_amount = penalty_amount + :penalty_amount WHERE id = :guider_id');
+                $this->db->bind(':penalty_amount', $penaltyAmount);
+                $this->db->bind(':guider_id', $guider_id);
+                
+                if (!$this->db->execute()) {
+                    $this->db->rollBack();
+                    return false;
+                }
+            }
+            
+            // 3. Get the booking's wallet entry (if any)
+            $this->db->query('SELECT id, holding_amount FROM guider_wallet WHERE related_booking_id = :booking_id AND provider_id = :guider_id');
+            $this->db->bind(':booking_id', $booking_id);
+            $this->db->bind(':guider_id', $guider_id);
+            $walletEntry = $this->db->single();
+            
+            // 4. If wallet entry exists, update refund_amount (always full amount)
+            if ($walletEntry) {
+                $holdingAmount = $walletEntry->holding_amount;
+                
+                if ($holdingAmount > 0) {
+                    // Always set the full amount as refund_amount
+                    $this->db->query('
+                        UPDATE guider_wallet 
+                        SET holding_amount = 0, 
+                            refund_amount = :refund_amount, 
+                            transaction_type = :transaction_type
+                        WHERE id = :id
+                    ');
+                    $this->db->bind(':refund_amount', $holdingAmount); // Full refund to traveler
+                    $this->db->bind(':transaction_type', 'refund');
+                    $this->db->bind(':id', $walletEntry->id);
+                    
+                    if (!$this->db->execute()) {
+                        $this->db->rollBack();
+                        return false;
+                    }
+                }
+            }
+            
+            // Commit transaction
+            $this->db->commit();
+            return true;
+            
+        } catch (Exception $e) {
+            // Roll back transaction on error
+            $this->db->rollBack();
+            error_log("Error cancelling booking: " . $e->getMessage());
+            return false;
+        }
+    }
+    
     // Update the profile of the guide
     public function updateProfile($data) {
         $this->db->query('UPDATE tour_guide SET first_name = :first_name, last_name = :last_name, email = :email, phone_number = :phone_number WHERE id = :id');

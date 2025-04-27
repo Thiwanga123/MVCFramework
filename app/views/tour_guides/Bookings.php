@@ -215,6 +215,20 @@
             </div>
 
             <div class="container mt-4">
+                <?php if(isset($_SESSION['booking_success'])): ?>
+                    <div class="alert alert-success" style="background-color: #d4edda; color: #155724; padding: 15px; border-radius: 4px; margin-bottom: 20px; border: 1px solid #c3e6cb;">
+                        <?php echo $_SESSION['booking_success']; ?>
+                        <?php unset($_SESSION['booking_success']); ?>
+                    </div>
+                <?php endif; ?>
+
+                <?php if(isset($_SESSION['booking_error'])): ?>
+                    <div class="alert alert-danger" style="background-color: #f8d7da; color: #721c24; padding: 15px; border-radius: 4px; margin-bottom: 20px; border: 1px solid #f5c6cb;">
+                        <?php echo $_SESSION['booking_error']; ?>
+                        <?php unset($_SESSION['booking_error']); ?>
+                    </div>
+                <?php endif; ?>
+
                 <div class="booking-container">
                     <div class="booking-header">
                         <h2 class="booking-title">My Bookings</h2>
@@ -291,7 +305,7 @@
                                                     $status = strtolower($booking->status);
                                                     if ($status != 'cancelled' && $status != 'canceled'): 
                                                 ?>
-                                                    <button class="btn-cancel" onclick="openDeleteModal(<?php echo $booking->booking_id; ?>, '<?php echo $booking->check_in; ?>')">Delete</button>
+                                                    <button class="btn-cancel" onclick="openDeleteModal(<?php echo $booking->booking_id; ?>, '<?php echo $booking->check_in; ?>', <?php echo $booking->amount; ?>, '<?php echo $booking->traveler_name; ?>', '<?php echo $booking->traveler_phone; ?>')">Cancel</button>
                                                 <?php endif; ?>
                                             </td>
                                         </tr>
@@ -312,16 +326,24 @@
 
     <!-- Delete Confirmation Modal -->
     <div id="deleteModal" class="modal">
-        <div class="modal-content">
+        <div class="modal-content" style="width: 40%;">
             <div class="modal-header">
-                <h4>Confirm Deletion</h4>
+                <h4>Booking Cancellation</h4>
             </div>
             <div class="modal-body">
-                <p id="deleteMessage">Are you sure you want to delete this booking?</p>
+                <p id="deleteMessage">Are you sure you want to cancel this booking?</p>
+                <div id="penaltyInfo" style="background-color: #f8f9fa; padding: 15px; border-radius: 5px; margin-top: 15px;">
+                    <h5 style="color: #e74c3c; margin-top: 0;">Important Notice:</h5>
+                    <p id="penaltyMessage"></p>
+                </div>
+                <div id="travelerContactInfo" style="margin-top: 15px;">
+                    <h5 style="color: #3498db;">Traveler Contact:</h5>
+                    <p>Please contact <strong><span id="travelerName"></span></strong> at <strong><span id="travelerPhone"></span></strong> to explain your cancellation reason and any inconvenience caused.</p>
+                </div>
             </div>
             <div class="modal-footer">
-                <button class="btn-cancel" onclick="closeDeleteModal()">Cancel</button>
-                <button class="btn-view" id="confirmDeleteButton">Delete</button>
+                <button class="btn-view" onclick="closeDeleteModal()">Back</button>
+                <button class="btn-cancel" id="confirmDeleteButton">Confirm Cancellation</button>
             </div>
         </div>
     </div>
@@ -367,21 +389,36 @@
     <script src="<?php echo URLROOT;?>/js/Sidebar.js"></script>
     <script>
         let deleteBookingId = null;
+        let bookingAmount = 0;
 
         // Function to open the delete confirmation modal
-        function openDeleteModal(bookingId, checkInDate) {
+        function openDeleteModal(bookingId, checkInDate, amount, travelerName, travelerPhone) {
             deleteBookingId = bookingId;
+            bookingAmount = amount;
 
             const checkIn = new Date(checkInDate);
             const today = new Date();
-            const timeDiff = Math.abs(today - checkIn);
+            const timeDiff = Math.abs(checkIn - today);
             const daysDiff = Math.ceil(timeDiff / (1000 * 60 * 60 * 24));
+            const isPenaltyApplicable = checkIn - today <= 3 * 24 * 60 * 60 * 1000; // Within 3 days
+            
+            // Set traveler information
+            document.getElementById('travelerName').textContent = travelerName;
+            document.getElementById('travelerPhone').textContent = travelerPhone;
 
-            const message = daysDiff <= 3
-                ? "If you delete within the last 3 days, a 20% penalty will be deducted from your income."
-                : "Are you sure you want to delete this booking?";
-
-            document.getElementById('deleteMessage').innerText = message;
+            // Calculate penalty if applicable
+            const penaltyAmount = isPenaltyApplicable ? (amount * 0.2) : 0;
+            const refundAmount = amount - penaltyAmount;
+            
+            // Set appropriate message based on penalty
+            let penaltyMessage;
+            if (isPenaltyApplicable) {
+                penaltyMessage = `Since the booking date is within 3 days, a 20% penalty (Rs.${penaltyAmount.toLocaleString()}) will be charged to your account. <strong>The traveler will receive a full refund of Rs.${amount.toLocaleString()}.</strong>`;
+            } else {
+                penaltyMessage = `The traveler will receive a full refund of Rs.${amount.toLocaleString()}. No penalty will be applied to your account.`;
+            }
+            
+            document.getElementById('penaltyMessage').innerHTML = penaltyMessage;
             document.getElementById('deleteModal').style.display = 'block';
         }
 
@@ -394,7 +431,7 @@
         // Function to confirm deletion
         document.getElementById('confirmDeleteButton').onclick = function () {
             if (deleteBookingId) {
-                window.location.href = "<?php echo URLROOT; ?>/tour_guides/deleteBooking/" + deleteBookingId;
+                window.location.href = "<?php echo URLROOT; ?>/tour_guides/cancelBooking/" + deleteBookingId;
             }
         };
 

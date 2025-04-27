@@ -135,6 +135,7 @@
             <th>Start Date</th>
             <th>End Date</th>
             <th>Status</th>
+            <th>Actions</th>
         </tr>
     </thead>
     <tbody>
@@ -147,6 +148,18 @@
                 <td><?php echo htmlspecialchars($booking->check_in); ?></td>
                 <td><?php echo htmlspecialchars($booking->check_out); ?></td>
                 <td><?php echo htmlspecialchars($booking->status); ?></td>
+                <td>
+                    <?php 
+                        $status = strtolower($booking->status);
+                        if ($status != 'cancelled' && $status != 'canceled'): 
+                    ?>
+                        <a href="<?php echo URLROOT; ?>/transport_suppliers/cancelBooking/<?php echo $booking->booking_id; ?>" 
+                           class="btn-cancel" 
+                           onclick="return confirm('Are you sure you want to cancel this booking? Penalties may apply if cancellation is within 3 days of check-in.');">
+                            Cancel
+                        </a>
+                    <?php endif; ?>
+                </td>
             </tr>
         <?php endforeach; ?>
     </tbody>

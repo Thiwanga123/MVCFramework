@@ -61,11 +61,17 @@
                                         </td>
                                         <td><?php echo htmlspecialchars($booking->total_price); ?></td>
                                         <td class="actions">
-                                            <?php if (strtolower($booking->status) === 'booked'): ?>
-                                                <a href="<?= URLROOT ?>/booking/cancelEquipmentBooking/<?= $booking->booking_id ?>" class="cancel-link">
-                                                <svg xmlns="http://www.w3.org/2000/svg" height="16" width="16" fill="red" viewBox="0 0 24 24" style="vertical-align: middle;">
-                                                    <path d="M18.3 5.71a1 1 0 0 0-1.41 0L12 10.59 7.11 5.7a1 1 0 0 0-1.41 1.41L10.59 12l-4.89 4.89a1 1 0 1 0 1.41 1.41L12 13.41l4.89 4.89a1 1 0 0 0 1.41-1.41L13.41 12l4.89-4.89a1 1 0 0 0 0-1.4z"/>
-                                                </svg>
+                                            <?php 
+                                                $status = strtolower($booking->status);
+                                                if ($status != 'cancelled' && $status != 'canceled' && $status != 'completed'): 
+                                            ?>
+                                                <a href="<?= URLROOT ?>/booking/cancelEquipmentBooking/<?= $booking->booking_id ?>" 
+                                                   class="cancel-link" 
+                                                   onclick="return confirm('Are you sure you want to cancel this booking? Penalties may apply if cancellation is within 3 days of the start date.');">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" height="16" width="16" fill="red" viewBox="0 0 24 24" style="vertical-align: middle;">
+                                                        <path d="M18.3 5.71a1 1 0 0 0-1.41 0L12 10.59 7.11 5.7a1 1 0 0 0-1.41 1.41L10.59 12l-4.89 4.89a1 1 0 1 0 1.41 1.41L12 13.41l4.89 4.89a1 1 0 0 0 1.41-1.41L13.41 12l4.89-4.89a1 1 0 0 0 0-1.4z"/>
+                                                    </svg>
+                                                    Cancel
                                                 </a>
                                             <?php endif; ?>
                                         </td>   

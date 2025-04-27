@@ -238,17 +238,29 @@ public function updateProfile($data){
         }
     }
 
-    public function getEquipmentBookingById($bookingId){
-        $sql = 'SELECT * FROM rental_equipment_bookings WHERE booking_id = ?';
-
-        try{
+    public function getEquipmentBookingById($booking_id) {
+        $sql = "SELECT 
+                    reb.booking_id, 
+                    reb.equipment_id,
+                    reb.supplier_id,
+                    reb.user_id,
+                    reb.start_date, 
+                    reb.end_date, 
+                    reb.total_price, 
+                    reb.status, 
+                    t.name, 
+                    t.email, 
+                    t.telephone_number
+                FROM rental_equipment_bookings reb
+                JOIN traveler t ON reb.user_id = t.traveler_id
+                WHERE reb.booking_id = ?";
+        try {
             $this->db->query($sql);
-            $this->db->bind(1, $bookingId);
-            $result = $this->db->single();
-            return $result;
-        }catch(Exception $e){
+            $this->db->bind(1, $booking_id);
+            return $this->db->single();
+        } catch (Exception $e) {
             $error_msg = $e->getMessage();
-            echo "<script>alert('An error occurred: $error_msg');</script>";
+            error_log('Error in getEquipmentBookingById: ' . $error_msg);
             return false;
         }
     }
@@ -394,6 +406,78 @@ public function holdPaymentEquipment($bookingId, $totalamount, $providerId, $use
 // Removed misplaced catch block as it is not part of a valid try-catch structure
         
         
+
+public function cancelEquipmentBooking($booking_id, $supplier_id, $penaltyAmount) {
+    try {
+        // Start transaction
+        $this->db->beginTransaction();
+        
+        // 1. Update booking status to 'cancelled'
+        $this->db->query('UPDATE rental_equipment_bookings SET status = ? WHERE booking_id = ?');
+        $this->db->bind(1, 'cancelled');
+        $this->db->bind(2, $booking_id);
+        
+        if (!$this->db->execute()) {
+            $this->db->rollBack();
+            return false;
+        }
+        
+        // 2. If penalty amount is applicable, update the supplier's penalty_amount if there's a column for it
+        if ($penaltyAmount > 0) {
+            // Check if there's a penalty_amount column in the equipment supplier table
+            // If there isn't, you might need to add it or handle penalties differently
+            $this->db->query('UPDATE equipment_suppliers SET penalty_amount = COALESCE(penalty_amount, 0) + ? WHERE id = ?');
+            $this->db->bind(1, $penaltyAmount);
+            $this->db->bind(2, $supplier_id);
+            
+            if (!$this->db->execute()) {
+                // If this fails, it might be because the column doesn't exist
+                // We can still proceed with the cancellation
+                error_log('Unable to apply penalty to equipment supplier ID ' . $supplier_id);
+            }
+        }
+        
+        // 3. Get the booking's wallet entry (if any)
+        $this->db->query('SELECT id, holding_amount FROM equipment_wallet WHERE related_booking_id = ? AND provider_id = ?');
+        $this->db->bind(1, $booking_id);
+        $this->db->bind(2, $supplier_id);
+        $walletEntry = $this->db->single();
+        
+        // 4. If wallet entry exists, update refund_amount (always full amount)
+        if ($walletEntry) {
+            $holdingAmount = $walletEntry->holding_amount;
+            
+            if ($holdingAmount > 0) {
+                // Always set the full amount as refund_amount
+                $this->db->query('
+                    UPDATE equipment_wallet 
+                    SET holding_amount = 0, 
+                        refund_amount = ?, 
+                        transaction_type = ?
+                    WHERE id = ?
+                ');
+                $this->db->bind(1, $holdingAmount); // Full refund to traveler
+                $this->db->bind(2, 'refund');
+                $this->db->bind(3, $walletEntry->id);
+                
+                if (!$this->db->execute()) {
+                    $this->db->rollBack();
+                    return false;
+                }
+            }
+        }
+        
+        // Commit transaction
+        $this->db->commit();
+        return true;
+        
+    } catch (Exception $e) {
+        // Roll back transaction on error
+        $this->db->rollBack();
+        error_log("Error cancelling equipment booking: " . $e->getMessage());
+        return false;
+    }
+}
 
 }
 

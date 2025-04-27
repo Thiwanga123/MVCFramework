@@ -294,6 +294,63 @@ public function deleteBooking($id){
     }
 }
 
+// Cancel booking with possible penalty
+public function cancelBooking($id){
+    if (!isset($_SESSION['id'])) {
+        redirect('ServiceProvider');
+        return;
+    }
+    
+    $guider_id = $_SESSION['id'];
+    
+    // Get booking details
+    $booking = $this->guiderModel->getBookingById($id);
+    
+    if (!$booking) {
+        // Booking not found
+        $_SESSION['booking_error'] = 'Booking not found';
+        redirect('Tour_Guides/Bookings');
+        return;
+    }
+    
+    if ($booking->guider_id != $guider_id) {
+        // Not authorized to cancel this booking
+        $_SESSION['booking_error'] = 'You are not authorized to cancel this booking';
+        redirect('Tour_Guides/Bookings');
+        return;
+    }
+    
+    // Check if booking is already cancelled
+    if (strtolower($booking->status) == 'cancelled' || strtolower($booking->status) == 'canceled') {
+        $_SESSION['booking_error'] = 'This booking has already been cancelled';
+        redirect('Tour_Guides/Bookings');
+        return;
+    }
+    
+    // Calculate if penalty applies (within 3 days of check-in)
+    $checkIn = new DateTime($booking->check_in);
+    $today = new DateTime();
+    $isPenaltyApplicable = ($checkIn->diff($today)->days <= 3);
+    
+    // Calculate penalty amount (20% of booking amount if applicable)
+    $penaltyAmount = $isPenaltyApplicable ? ($booking->amount * 0.2) : 0;
+    
+    // Process cancellation with appropriate penalty
+    if ($this->guiderModel->cancelBooking($id, $guider_id, $penaltyAmount)) {
+        // Success
+        if ($isPenaltyApplicable) {
+            $_SESSION['booking_success'] = 'Booking cancelled successfully. A 20% penalty (Rs. ' . number_format($penaltyAmount, 2) . ') has been applied to your account. We have fully refunded the amount of Rs. ' . number_format($booking->amount, 2) . ' to the traveler.';
+        } else {
+            $_SESSION['booking_success'] = 'Booking cancelled successfully. We have fully refunded the amount of Rs. ' . number_format($booking->amount, 2) . ' to the traveler.';
+        }
+        redirect('Tour_Guides/Bookings');
+    } else {
+        // Error
+        $_SESSION['booking_error'] = 'Something went wrong while cancelling the booking';
+        redirect('Tour_Guides/Bookings');
+    }
+}
+
 //get the total number of bookings
 public function getNumberOfBookings(){
     $guider_id = $_SESSION['id'];
