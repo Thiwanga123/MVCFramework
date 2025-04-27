@@ -5,82 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="<?php echo URLROOT;?>/css/Common/Order.css">
     <link rel="stylesheet" href="<?php echo URLROOT;?>/css/Common/sidebarHeader.css">
+    <link rel="stylesheet" href="<?php echo URLROOT;?>/css/Common/MyInventory_acc.css">
     <title>Home</title>
     <style>
-        /* Modal styles */
-        .modal {
-            display: none;
-            position: fixed;
-            z-index: 1;
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            overflow: auto;
-            background-color: rgb(0,0,0);
-            background-color: rgba(0,0,0,0.4);
-            padding-top: 60px;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .modal-content {
-            background-color: #fefefe;
-            margin: auto;
-            padding: 20px;
-            border: 1px solid #888;
-            width: 40%;
-            height: auto;
-            border-radius: 10px;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
-        }
-
-        .close {
-            color: #aaa;
-            float: right;
-            font-size: 28px;
-            font-weight: bold;
-            transition: color 0.3s;
-        }
-
-        .close:hover,
-        .close:focus {
-            color: black;
-            text-decoration: none;
-            cursor: pointer;
-        }
-
-        .modal-content p {
-            line-height: 2;
-        }
-
-        .modal-buttons {
-            display: flex;
-            justify-content: center;
-            margin-top: 20px;
-        }
-
-        .modal-button {
-            padding: 10px 20px;
-            border-radius: 8px;
-            border: none;
-            cursor: pointer;
-            transition: background 0.3s, transform 0.2s;
-        }
-
-        .modal-button:hover {
-            transform: translateY(-2px);
-        }
-
-        .delete-button {
-            background: var(--danger);
-            color: var(--light);
-        }
-
-        .delete-button:hover {
-            background: #d32f2f;
-        }
-
         /* Search and Filter Styles */
         .search-filter-container {
             display: flex;
@@ -211,6 +138,16 @@
         .row-number {
             color: #666;
             font-weight: 600;
+        }
+
+        /* Message display styles */
+        .message {
+            padding: 10px 15px;
+            margin: 10px 0;
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
         }
     </style>
 </head>
@@ -362,25 +299,37 @@
 
      </div>
 
-     <!-- Modal -->
-     <div id="bookingModal" class="modal">
-        <div class="modal-content">
-            <span class="close" onclick="closeModal()">&times;</span>
-            <h2>Booking Details</h2>
-            <p id="bookingDetails"></p>
-            <div class="modal-buttons">
-                <button class="modal-button delete-button" onclick="deleteBooking()">Cancel Booking</button>
+     <!-- Modal using property-modal classes -->
+     <div id="bookingModal" class="property-modal">
+        <div class="property-modal-content">
+            <div class="modal-header">
+                <h2>Booking Details</h2>
+                <span class="close-modal" onclick="closeModal()">&times;</span>
+            </div>
+            <div class="modal-body">
+                <p id="bookingDetails"></p>
+            </div>
+            <div class="modal-footer">
+                <button class="modal-button btn-danger" id="cancelBookingBtn" onclick="deleteBooking()">Cancel Booking</button>
+                <button class="modal-button btn-secondary" onclick="closeModal()">Close</button>
             </div>
         </div>
      </div>
 
      <script src="<?php echo URLROOT;?>/js/Sidebar.js"></script> 
      <script>
+        let allTableRows = [];
+        let filteredRows = [];
+
         document.addEventListener('DOMContentLoaded', function() {
             closeModal();
-            setupPagination();
+            // Store all rows for reference
+            allTableRows = Array.from(document.getElementById('bookingTableBody').querySelectorAll('tr'));
+            filteredRows = [...allTableRows]; // Start with all rows
+            
             setupSearch();
             setupFilter();
+            setupPagination(filteredRows); // Initial pagination setup
         });
 
         // Modal functions
@@ -398,7 +347,7 @@
             `;
             
             // Hide cancel button for completed bookings
-            const deleteButton = document.querySelector('.delete-button');
+            const deleteButton = document.getElementById('cancelBookingBtn');
             if (status === 'Completed' || status === 'Canceled') {
                 deleteButton.style.display = 'none';
             } else {
@@ -428,21 +377,19 @@
         }
 
         // Pagination functions
-        function setupPagination() {
+        function setupPagination(rowsToDisplay) {
             const rowsPerPage = 10;
             let currentPage = 1;
-            const table = document.getElementById('bookingTableBody');
-            const rows = table.querySelectorAll('tr');
-            const pageCount = Math.ceil(rows.length / rowsPerPage);
+            const pageCount = Math.ceil(rowsToDisplay.length / rowsPerPage);
             
             const paginationControls = document.getElementById('paginationControls');
             
+            // Clear existing page buttons
+            const existingButtons = paginationControls.querySelectorAll('button:not(#prevPage):not(#nextPage)');
+            existingButtons.forEach(button => button.remove());
+            
             // Create page buttons if there's more than one page
             if (pageCount > 1) {
-                // Clear existing buttons except prev/next
-                const buttons = paginationControls.querySelectorAll('button:not(#prevPage):not(#nextPage)');
-                buttons.forEach(button => button.remove());
-                
                 // Add page buttons
                 for (let i = 1; i <= pageCount; i++) {
                     const pageButton = document.createElement('button');
@@ -451,8 +398,8 @@
                     
                     pageButton.addEventListener('click', function() {
                         currentPage = i;
-                        showPage(currentPage);
-                        updateActiveButton();
+                        showPage(currentPage, rowsToDisplay);
+                        updateActiveButton(i);
                     });
                     
                     // Insert before the next button
@@ -461,92 +408,93 @@
             }
             
             // Show first page initially
-            showPage(currentPage);
+            showPage(1, rowsToDisplay);
+            
+            // Update total items count
+            document.getElementById('totalItems').textContent = rowsToDisplay.length;
             
             // Setup prev/next buttons
             document.getElementById('prevPage').addEventListener('click', function() {
                 if (currentPage > 1) {
                     currentPage--;
-                    showPage(currentPage);
-                    updateActiveButton();
+                    showPage(currentPage, rowsToDisplay);
+                    updateActiveButton(currentPage);
                 }
             });
             
             document.getElementById('nextPage').addEventListener('click', function() {
                 if (currentPage < pageCount) {
                     currentPage++;
-                    showPage(currentPage);
-                    updateActiveButton();
+                    showPage(currentPage, rowsToDisplay);
+                    updateActiveButton(currentPage);
                 }
             });
             
-            function showPage(page) {
-                // Hide all rows
-                rows.forEach(row => {
-                    row.style.display = 'none';
+            // Update prev/next button states
+            document.getElementById('prevPage').disabled = true;
+            document.getElementById('nextPage').disabled = pageCount <= 1;
+            
+            function updateActiveButton(page) {
+                const buttons = paginationControls.querySelectorAll('button:not(#prevPage):not(#nextPage)');
+                buttons.forEach(button => {
+                    button.classList.remove('active');
+                    if (parseInt(button.textContent) === page) {
+                        button.classList.add('active');
+                    }
                 });
-                
-                // Show rows for current page
-                const start = (page - 1) * rowsPerPage;
-                const end = start + rowsPerPage;
-                
-                for (let i = start; i < end && i < rows.length; i++) {
-                    rows[i].style.display = '';
-                }
-                
-                // Update pagination info
-                document.getElementById('startRange').textContent = start + 1;
-                document.getElementById('endRange').textContent = Math.min(end, rows.length);
                 
                 // Enable/disable prev/next buttons
                 document.getElementById('prevPage').disabled = page === 1;
                 document.getElementById('nextPage').disabled = page === pageCount;
-                
-                // Update row numbers
-                updateRowNumbers();
+            }
+        }
+        
+        function showPage(page, rowsToDisplay) {
+            const rowsPerPage = 10;
+            
+            // Hide all rows first
+            allTableRows.forEach(row => {
+                row.style.display = 'none';
+            });
+            
+            // Show only the rows for the current page
+            const start = (page - 1) * rowsPerPage;
+            const end = Math.min(start + rowsPerPage, rowsToDisplay.length);
+            
+            for (let i = start; i < end; i++) {
+                rowsToDisplay[i].style.display = '';
             }
             
-            function updateActiveButton() {
-                const buttons = paginationControls.querySelectorAll('button:not(#prevPage):not(#nextPage)');
-                buttons.forEach((button, index) => {
-                    if (index + 1 === currentPage) {
-                        button.classList.add('active');
-                    } else {
-                        button.classList.remove('active');
-                    }
-                });
-            }
+            // Update pagination info
+            document.getElementById('startRange').textContent = rowsToDisplay.length > 0 ? start + 1 : 0;
+            document.getElementById('endRange').textContent = end;
+            
+            // Update row numbers
+            updateRowNumbers();
         }
         
         // Search function
         function setupSearch() {
             const searchInput = document.getElementById('searchInput');
-            searchInput.addEventListener('keyup', function() {
-                const searchValue = this.value.toLowerCase();
-                const table = document.getElementById('bookingTableBody');
-                const rows = table.querySelectorAll('tr');
+            searchInput.addEventListener('input', function() {
+                const searchValue = this.value.toLowerCase().trim();
+                const filterCriteria = document.getElementById('filterSelect').value;
                 
-                rows.forEach(row => {
-                    const travelerName = row.getAttribute('data-traveler');
-                    const bookingId = row.getAttribute('data-booking');
-                    const propertyType = row.getAttribute('data-type');
-                    const propertyName = row.getAttribute('data-name');
-                    const status = row.getAttribute('data-status');
-                    
-                    // Check if any of the fields match the search value
-                    if (travelerName.includes(searchValue) || 
-                        bookingId.includes(searchValue) || 
-                        propertyType.includes(searchValue) || 
-                        propertyName.includes(searchValue) ||
-                        status.includes(searchValue)) {
-                        row.style.display = '';
+                if (searchValue === '') {
+                    // If search is empty, show all rows or respect current filter
+                    if (filterCriteria === 'all') {
+                        filteredRows = [...allTableRows];
                     } else {
-                        row.style.display = 'none';
+                        // Keep current filter only
+                        filteredRows = filterRows(filterCriteria, '');
                     }
-                });
+                } else {
+                    // Apply search with filter
+                    filteredRows = filterRows(filterCriteria, searchValue);
+                }
                 
-                // Refresh pagination after search
-                setupPagination();
+                // Refresh pagination with filtered rows
+                setupPagination(filteredRows);
             });
         }
         
@@ -556,51 +504,72 @@
             filterSelect.addEventListener('change', function() {
                 const filterValue = this.value;
                 const searchInput = document.getElementById('searchInput');
+                const searchValue = searchInput.value.toLowerCase().trim();
                 
-                // If "All" is selected, show all rows
-                if (filterValue === 'all') {
-                    const table = document.getElementById('bookingTableBody');
-                    const rows = table.querySelectorAll('tr');
-                    rows.forEach(row => {
-                        row.style.display = '';
-                    });
-                    searchInput.placeholder = "Search bookings...";
+                // Update placeholder based on filter
+                updateSearchPlaceholder(filterValue);
+                
+                // Apply filter
+                if (searchValue === '' && filterValue === 'all') {
+                    filteredRows = [...allTableRows];
                 } else {
-                    // Update placeholder based on filter
-                    switch(filterValue) {
-                        case 'traveler_name':
-                            searchInput.placeholder = "Search by traveler name...";
-                            break;
-                        case 'booking_id':
-                            searchInput.placeholder = "Search by booking ID...";
-                            break;
-                        case 'property_type':
-                            searchInput.placeholder = "Search by accommodation type...";
-                            break;
-                        case 'property_name':
-                            searchInput.placeholder = "Search by accommodation name...";
-                            break;
-                        case 'status':
-                            searchInput.placeholder = "Search by status...";
-                            break;
-                    }
-                    
-                    // Clear the search input
-                    searchInput.value = '';
-                    
-                    // Trigger search to reset view
-                    searchInput.dispatchEvent(new Event('keyup'));
+                    filteredRows = filterRows(filterValue, searchValue);
                 }
                 
-                // Refresh pagination after filter
-                setupPagination();
+                // Refresh pagination with filtered rows
+                setupPagination(filteredRows);
+            });
+        }
+        
+        function updateSearchPlaceholder(filterValue) {
+            const searchInput = document.getElementById('searchInput');
+            switch(filterValue) {
+                case 'all':
+                    searchInput.placeholder = "Search bookings...";
+                    break;
+                case 'traveler_name':
+                    searchInput.placeholder = "Search by traveler name...";
+                    break;
+                case 'booking_id':
+                    searchInput.placeholder = "Search by booking ID...";
+                    break;
+                case 'property_type':
+                    searchInput.placeholder = "Search by accommodation type...";
+                    break;
+                case 'property_name':
+                    searchInput.placeholder = "Search by accommodation name...";
+                    break;
+                case 'status':
+                    searchInput.placeholder = "Search by status...";
+                    break;
+            }
+        }
+        
+        function filterRows(criteria, searchValue) {
+            return allTableRows.filter(row => {
+                if (criteria === 'all') {
+                    // Search in all fields
+                    return ['traveler', 'booking', 'type', 'name', 'status'].some(attr => {
+                        const value = row.getAttribute('data-' + attr);
+                        return value && value.includes(searchValue);
+                    });
+                } else {
+                    // Search in specific field based on criteria
+                    const mappedCriteria = criteria.replace('traveler_name', 'traveler')
+                                                  .replace('property_type', 'type')
+                                                  .replace('property_name', 'name')
+                                                  .replace('booking_id', 'booking');
+                    
+                    const value = row.getAttribute('data-' + mappedCriteria);
+                    return searchValue === '' || (value && value.includes(searchValue));
+                }
             });
         }
         
         // Update row numbers function
         function updateRowNumbers() {
-            const table = document.getElementById('bookingTableBody');
-            const visibleRows = Array.from(table.querySelectorAll('tr')).filter(row => row.style.display !== 'none');
+            const visibleRows = Array.from(document.getElementById('bookingTableBody').querySelectorAll('tr'))
+                                    .filter(row => row.style.display !== 'none');
             
             visibleRows.forEach((row, index) => {
                 const rowNumberCell = row.querySelector('td.row-number');

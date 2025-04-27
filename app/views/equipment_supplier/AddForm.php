@@ -102,6 +102,7 @@
                                     <h4>Full refund:</h4>
                                     <label for="fullRefundTime">Cancel Time (hours before pickup for full refund):</label>
                                     <select id="fullRefundTime" name="fullRefundTime" required>
+                                    <option value="" disabled selected>Select refund time</option>
                                         <option value="12">12 hours</option>
                                         <option value="24">24 hours</option>
                                         <option value="36">36 hours</option>
@@ -118,7 +119,7 @@
                                         <div>
                                             <label for="partialRefundTime">Cancel Time (hours before pickup for partial refund):</label>
                                             <select id="partialRefundTime" name="partialRefundTime" required>
-                                                <option value="12">12 hours</option>
+                                            <option value="" disabled selected>Select refund time</option>
                                                 <option value="24">24 hours</option>
                                                 <option value="36">36 hours</option>
                                                 <option value="48">48 hours</option>
@@ -128,7 +129,7 @@
                                         </div>
                                         <div>
                                             <label for="partialRefundPercentage">Partial Refund Percentage:</label>
-                                            <input type="number" id="partialRefundPercentage" name="partialRefundPercentage" min="0" max="100" step="10">
+                                            <input type="number" id="partialRefundPercentage" name="partialRefundPercentage" min="0" max="30" step="5">
                                             <span id="partialRefundPercentage-error" class="error-message"></span>
                                         </div>
                                     </div>

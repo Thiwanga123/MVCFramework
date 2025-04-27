@@ -9,6 +9,8 @@ class Users extends Controller {
     private $userModel;
     private $equipmentModel;
 
+    private $guiderModel;
+
     private $accomadationModel;
     private $reviewModel;
     private $bookingModel;
@@ -19,6 +21,7 @@ class Users extends Controller {
         $this->equipmentModel = $this->model('equipmentModel');
         $this->reviewModel = $this->model('ReviewModel');
         $this->bookingModel = $this->model('BookingModel');
+        $this->guiderModel = $this->model('M_guider');
     }
 
     public function index() {
@@ -156,13 +159,81 @@ class Users extends Controller {
 
     public function vehicles(){
         if(isset($_SESSION['user_id'])) {
+            $vehicles = $this->userModel->getAllvehicles($_SESSION['user_id']); 
             $currentPage = 'vehicles';
 
             $data = [
-                'currentPage' => $currentPage
+                'currentPage' => $currentPage,
+                'vehicles' => $vehicles
             ];
 
-            $this->view('users/v_vehicles', $data);
+            $this->view('users/v_vehicles',$data);
+        }else{
+            redirect('users/login');
+        }
+        
+    }
+ 
+    public function viewVehicle($id){
+        if(isset($_SESSION['user_id'])) {
+            if(isset($_SESSION['user_id'])){
+                $vehicles = $this->userModel->getVehicleById($id); 
+                $currentPage = 'vehicles';
+                $bookings = $this->bookingModel->getBookingsByVehicleId($id);
+                $details='details';
+
+    
+                $data = [
+                    'currentPage' => $currentPage,
+                    'vehicles' => $vehicles,
+                    'user_id' => $_SESSION['user_id'],
+                    'details' => $details,
+                    'bookings' => json_encode($bookings),
+
+                ];
+          
+            $this->view('users/rentVehicle',$data);
+        }else{
+            redirect('users/login');
+        }
+        
+    }}
+
+    public function viewGuiders($id){
+        if(isset($_SESSION['user_id'])) {
+            $guiders = $this->userModel->getGuiderById($id); 
+            $currentPage = 'guider';
+            $bookings = $this->guiderModel->getBookingsByGuiderId($id);
+            
+            $details='details';
+            $unavailable=$this->guiderModel->getUnavailable($id);
+
+    
+            $data = [
+                'currentPage' => $currentPage,
+                'guiders' => $guiders,
+                'bookings' => json_encode($bookings),
+                'details' => $details,
+                'unavailabale'=>$unavailable
+            ];
+    
+            $this->view('users/viewGuider',$data);
+        }else{
+            redirect('users/login');
+        }
+        
+    }
+    public function bookings($id){
+        if(isset($_SESSION['user_id'])) {
+            $vehicles = $this->userModel->getVehicleById($id); 
+            $currentPage = 'vehicles';
+    
+            $data = [
+                'currentPage' => $currentPage,
+                'vehicles' => $vehicles
+            ];
+    
+            $this->view('users/booking',$data);
         }else{
             redirect('users/login');
         }
@@ -221,9 +292,12 @@ class Users extends Controller {
    
     public function guider(){
         if(isset($_SESSION['user_id'])) {
+
+            $guiders=$this->guiderModel->getAllGuiders();
             $currentPage = 'guider';
             $data = [
-                'currentPage' => $currentPage
+                'currentPage' => $currentPage,
+                'guiders' => $guiders
             ];            
             $this->view('users/v_guider', $data);
         }else{
@@ -275,7 +349,7 @@ class Users extends Controller {
 
     public function reviews(){
         if(isset($_SESSION['user_id'])) {
-            $currentPage = 'revies';
+            $currentPage = 'reviews';
             $data = [
                 'currentPage' => $currentPage
             ];
@@ -457,56 +531,71 @@ class Users extends Controller {
         }
     }
 
+
+    public function createUserSession($user) {
+        
+        $_SESSION['user_id'] = $user->traveler_id;
+        $_SESSION['email'] = $user->email;
+        $_SESSION['name'] = $user->name;
+        $_SESSION['profile_path'] = $user->profile_path;
+    }
+
+    public function logout() {
+        if(isset($_SESSION['user_id'])) {;
+            session_unset();
+            session_destroy();
+            session_start();
+            redirect('users/login');
+        }else{
+            redirect('users/login');
+        }
+
+    }
+
+    public function notfound() {
+        $this->view('users/notfound');
+    }
+
+    //cancel the booking
+    public function cancelBooking() {
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            // Sanitize POST data
+            $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+
+            // Process form
+            $bookingId = trim($_POST['booking_id']);
+
+            // Cancel the booking
+            if ($this->userModel->cancelBooking($bookingId)) {
+                echo "<script>alert('Booking cancelled successfully'); window.location.href = '" . URLROOT . "/users/history';</script>";
+            } else {
+                echo "<script>alert('An error occurred. Please try again'); window.location.href = '" . URLROOT . "/users/history';</script>";
+            }
+        } else {
+            redirect('users/v_history');
+        }
+    }
+
+    //get all the accomodations from the database
+    // public function addAccommodationImage($accommodationId, $imagePath) {
+        //     $userId = $_SESSION['id'];
+
+        //     $isInserted = $this->accomadationModel->addAccommodationImage($userId, $accommodationId, $imagePath);
+
+        //     if ($isInserted) {
+        //         return true;
+        //     } else {
+        //         return false;
+        //     }
+        // }
+
     
 
 
-public function createUserSession($user) {
-    $_SESSION['user_id'] = $user->traveler_id;
-    $_SESSION['email'] = $user->email;
-    $_SESSION['name'] = $user->name;
-    redirect('pages/index');
-  
-}
 
-
-
-public function logout() {
-    if(isset($_SESSION['user_id'])) {
-        unset($_SESSION['user_id']);
-        unset($_SESSION['email']);
-        unset($_SESSION['name']);
-        session_destroy();
-        redirect('users/login');
-    }else{
-        redirect('users/login');
-    }
-
-}
-
-public function notfound() {
-    $this->view('users/notfound');
-}
 
 //cancel the booking
-public function cancelBooking() {
-    if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-        // Sanitize POST data
-        $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_FULL_SPECIAL_CHARS);
 
-        // Process form
-        $bookingId = trim($_POST['booking_id']);
-        $travelerId= $_SESSION['user_id'];
-
-        // Cancel the booking
-        if ($this->userModel->cancelBooking($bookingId, $travelerId)) {
-            echo "<script>alert('Booking cancelled successfully'); window.location.href = '" . URLROOT . "/users/history';</script>";
-        } else {
-            echo "<script>alert('An error occurred. Please try again'); window.location.href = '" . URLROOT . "/users/history';</script>";
-        }
-    } else {
-        redirect('users/v_history');
-    }
-}
 
 
 
@@ -594,13 +683,16 @@ public function weather(){
 }
 
 
-public function planhome(){
-    if(isset($_SESSION['user_id'])) {
-        $this->view('users/planHome');
-    }else{
-        redirect('users/login');
+    public function planhome(){
+        if(isset($_SESSION['user_id'])) {
+            // $this->view('users/planHome');
+            $data['currentPage'] = 'places';
+            $this->view('users/p_places', $data);
+        }else{
+            redirect('users/login');
+        }
     }
-}
+
 
 public function showaccommodation(){
     if ($_SERVER['REQUEST_METHOD'] == 'POST') {
@@ -649,6 +741,83 @@ public function showaccommodation(){
         }
     }
 
+    public function summary(){
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            // Sanitize POST data
+            $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+            
+            // Get the service provider type
+            $spType = $_POST['sp_type'] ?? 'guider';
+            
+            // Common data for all service types
+            $data = [
+                'booking_start_date' => $_POST['booking_start_date'] ?? '',
+                'booking_end_date' => $_POST['booking_end_date'] ?? '',
+                'days' => $_POST['days'] ?? '',
+                'totalPrice' => $_POST['totalPrice'] ?? '',
+                'supplier_id' => $_POST['supplier_id'] ?? '',
+                'order_id' => $_POST['order_id'] ?? 'ORDER'.time(),
+                'sp_type' => $spType,
+                'currentPage' => $spType
+            ];
+            
+            // Add type-specific data
+            switch($spType) {
+                case 'guider':
+                    $data['guider_id'] = $_POST['guider_id'] ?? '';
+                    $data['guider_name'] = $_POST['guider_name'] ?? '';
+                    $data['pickupLocation'] = $_POST['pickupLocation'] ?? '';
+                    $data['tripDestination'] = $_POST['tripDestination'] ?? '';
+                    break;
+                    
+                case 'equipment_supplier':
+                    $data['product_id'] = $_POST['product_id'] ?? '';
+                    $data['product_name'] = $_POST['product_name'] ?? '';
+                    $data['pickupLocation'] = $_POST['pickupLocation'] ?? '';
+                    break;
+                    
+                case 'transport_supplier':
+                    $data['product_id'] = $_POST['product_id'] ?? '';
+                    $data['vehicle_name'] = $_POST['vehicle_name'] ?? '';
+                    $data['pickupLocation'] = $_POST['pickupLocation'] ?? '';
+                    $data['tripDestination'] = $_POST['tripDestination'] ?? '';
+                    $data['driver_option'] = $_POST['driver_option'] ?? 'with_driver';
+                    $data['with_driver_rate'] = $_POST['with_driver_rate'] ?? '';
+                    $data['self_drive_rate'] = $_POST['self_drive_rate'] ?? '';
+                    break;
+            }
+            
+            // Load the summary view with the form data
+            $this->view('users/includes/guider/summary', $data);
+        } else {
+            // If accessed directly without form submission, redirect to dashboard
+            redirect('users/dashboard');
+        }
+    }
+    
+    // Helper function to get address from coordinates using reverse geocoding
+    private function getAddressFromCoordinates($lat, $lng) {
+        if (empty($lat) || empty($lng)) {
+            return 'Unknown location';
+        }
+        
+        // You can implement reverse geocoding here if needed
+        // For now return a placeholder or implement a simple version
+        return "Latitude: $lat, Longitude: $lng";
+    }
+
+
+    public function success(){
+        if(isset($_SESSION['user_id'])) {
+            $currentPage = 'success';
+            $data = [
+                'currentPage' => $currentPage
+            ];
+            $this->view('users/v_success', $data);
+        }else{
+            redirect('users/login');
+        }
+    }
 
     public function forgotPassword(){
         if($_SERVER['REQUEST_METHOD'] == 'POST'){
@@ -831,8 +1000,77 @@ public function showaccommodation(){
         
         }
     }
-            
-            
+
+
+    public function updateProfileImage() {
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            $errors = [];
+    
+            if (isset($_FILES['profileImage']) && $_FILES['profileImage']['error'] === UPLOAD_ERR_OK) {
+                $fileTmpPath = $_FILES['profileImage']['tmp_name'];
+                $fileName = $_FILES['profileImage']['name'];
+                $fileSize = $_FILES['profileImage']['size'];
+                $fileType = $_FILES['profileImage']['type'];
+                $fileNameCmps = explode(".", $fileName);
+                $fileExtension = strtolower(end($fileNameCmps));
+    
+                $userId = $_SESSION['user_id'];
+                $newFileName = uniqid('profile_', true) . '.' . $fileExtension;
+    
+                $allowedExtensions = ['jpg', 'jpeg', 'png'];
+                $uploadBase = 'Uploads/ProfilePictures/Travelers';
+                $uploadPath = $uploadBase . '/' . $userId;
+                
+                if (in_array($fileExtension, $allowedExtensions)) {
+    
+                    if (file_exists($uploadPath)) {
+                        $files = scandir($uploadPath);
+                        foreach ($files as $file) {
+                            if ($file !== '.' && $file !== '..') {
+                                unlink($uploadPath . '/' . $file);
+                            }
+                        }
+                        rmdir($uploadPath);
+                    }
+    
+                    // Create folder again
+                    mkdir($uploadPath, 0755, true);
+                    $destPath = $uploadPath . '/' . $newFileName;
+    
+                    if (move_uploaded_file($fileTmpPath, $destPath)) {
+                        $imagePath = $uploadBase . '/' . $userId . '/' . $newFileName;
+                        $result = $this->userModel->uploadProfileImage($userId, $imagePath);
+    
+                        if ($result) {
+                            $_SESSION['profile_path'] = $imagePath;
+                            redirect("users/profile");
+                        } else {
+                            $errors['database'] = 'Error uploading to the database.';
+                        }
+                    } else {
+                        $errors['upload'] = 'There was an error moving the uploaded file.';
+                    }
+    
+                } else {
+                    $errors['type'] = 'Invalid file type. Only JPG, JPEG, and PNG allowed.';
+                }
+            } else {
+                $errors['file'] = 'No file uploaded or an error occurred during upload.';
+            }
+    
+            $details = $this->userModel->getUserDetailsById($userId); 
+    
+            $data = [
+                'errors' => $errors,
+                'details' => $details
+            ];
+            return $this->view('users/profile', $data);
+        } else {
+            redirect('users/profile');
+        }
+    }
+
+   
 }
         
         

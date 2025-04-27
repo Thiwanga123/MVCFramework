@@ -9,45 +9,6 @@
 
     <title>Start Journey</title>
 
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-    const startDateInput = document.getElementById('startDate');
-    const endDateInput = document.getElementById('endDate');
-
-    // Set the minimum start date to today
-    const today = new Date().toISOString().split('T')[0];
-    startDateInput.setAttribute('min', today);
-
-    // Update the minimum end date when the start date changes
-    startDateInput.addEventListener('change', function() {
-        endDateInput.setAttribute('min', this.value);
-    });
-
-    // Validate the dates before submitting the form
-    document.getElementById('submitButton').addEventListener('click', function() {
-        const location = document.getElementById('location').value;
-        const startDate = startDateInput.value;
-        const endDate = endDateInput.value;
-
-        if (location === '' || startDate === '' || endDate === '') {
-            alert('Please fill all fields');
-        } else if (new Date(startDate) < new Date(today)) {
-            alert('Start date cannot be in the past');
-        } else if (new Date(endDate) < new Date(startDate)) {
-            alert('End date cannot be before the start date');
-        } else {
-            const data = {
-                location: location,
-                startDate: startDate,
-                endDate: endDate
-            };
-
-            localStorage.setItem('data', JSON.stringify(data));
-            window.location.href = "<?php echo URLROOT;?>/users/planhome";
-        }
-    });
-});
-    </script>
 </head>
 
 <body>
@@ -121,6 +82,10 @@
     <script src="<?php echo URLROOT;?>/js/logout.js"></script>
     <script src="<?php echo URLROOT;?>/js/subMenu.js"></script>
     <script src="<?php echo URLROOT;?>/js/planTripSlider.js"></script>
+
+    <script>const redirectUrl = "<?php echo URLROOT; ?>/users/planhome";</script>
+    <script src="<?php echo URLROOT;?>/js/TripPlanner/tripPlanner.js"></script>
+
 
 </body>
 

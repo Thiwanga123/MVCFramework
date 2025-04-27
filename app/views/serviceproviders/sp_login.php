@@ -48,7 +48,7 @@
                                 <option value="accomadation">Accomodation</option>
                                 <option value="equipment_suppliers">Equipment Supplier</option>
                                 <option value="tour_guides">Tour Guide</option>
-                                <option value="transport_suppliers">Transport Supplier</option>
+                                <option value="vehicle_suppliers">Transport Supplier</option>
                             </select>
                     <div class="forgot-password">
                         <a href="#">Forgot password?</a>

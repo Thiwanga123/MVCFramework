@@ -7,7 +7,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function toggleRefundSections() {
         const selectedValue = returnPolicySelect.value;
-
         if (selectedValue === 'fullRefund') {
             fullRefundSection.style.display = 'block';
             partialRefundSection.style.display = 'none';
@@ -28,7 +27,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Change event listener
     returnPolicySelect.addEventListener('change', toggleRefundSections);
-    
+
     addRentalForm.addEventListener("submit", function (event) {
         event.preventDefault(); // Prevent default form submission
     
@@ -98,22 +97,27 @@ document.addEventListener('DOMContentLoaded', () => {
 
             if(returnPolicy === "fullRefund"){
                 const fullRefundDays = document.getElementById("fullRefundTime").value;  
-
                 if (!fullRefundDays) {
                     showError("fullRefundTime", "Full refund cancel time is required.");
                     valid = false;
                 }  
-            }else if(returnPolicy === "partialRefund"){
-                const partialRefundDays = document.getElementById("partialRefundTime").value;
-                const partialRefundPercentage = document.getElementById("partialRefundPercentage").value;
+            }
+            else if(returnPolicy === "partialRefund"){
+                    const partialRefundDays = document.getElementById("partialRefundTime").value;
+                    const partialRefundPercentage = document.getElementById("partialRefundPercentage").value;
 
                 if (!partialRefundDays) {
                     showError("partialRefundTime", "Partial refund cancel time is required.");
                     valid = false;
                 }
+
+                if (!partialRefundPercentage || partialRefundPercentage < 0) {
+                    showError("partialRefundPercentage", "Enter a valid percentage");
+                    valid = false;
+                }
     
-                if (!partialRefundPercentage || partialRefundPercentage <= 0 || partialRefundPercentage > 100) {
-                    showError("partialRefundPercentage", "Partial refund percentage must be between 1 and 100.");
+                if (partialRefundPercentage > 30) {
+                    showError("partialRefundPercentage", "Partial refund percentage must be less than 30%.");
                     valid = false;
                 }
             }else if(returnPolicy === "bothRefunds"){
@@ -141,8 +145,8 @@ document.addEventListener('DOMContentLoaded', () => {
                     }
                 }
     
-                if (!partialRefundPercentage || partialRefundPercentage <= 0 || partialRefundPercentage > 100) {
-                    showError("partialRefundPercentage", "Partial refund percentage must be between 1% and 100%");
+                if (!partialRefundPercentage || partialRefundPercentage < 0 || partialRefundPercentage > 30) {
+                    showError("partialRefundPercentage", "Partial refund percentage must be less than 30%");
                     valid = false;
                 }
 
@@ -160,7 +164,7 @@ document.addEventListener('DOMContentLoaded', () => {
             }
 
         return valid
-        }
+    }
 
         function showError(fieldId, message) {
             const errorSpan = document.getElementById(fieldId + "-error");
@@ -183,7 +187,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         async function sendDataToServer(formData){
-
             const submitButton = document.querySelector("#addRentalForm button[type='submit']");
 
             try{
@@ -205,7 +208,6 @@ document.addEventListener('DOMContentLoaded', () => {
                     const successModal = document.getElementById("successModalContainer");
                     const box = document.getElementById("box");
                     successModal.classList.add("active");
-                    box.classList.add("blur");
 
                     const okBtn = document.getElementById("okBtn");
                     okBtn.onclick = () => {
@@ -219,6 +221,18 @@ document.addEventListener('DOMContentLoaded', () => {
                 console.error("Error sending data to server: ", error);
             }
         }
+
+
+        const input = document.getElementById('partialRefundPercentage');
+        const errorSpan = document.getElementById('partialRefundPercentage-error');
+        input.addEventListener('blur', () => {
+            const value = parseFloat(input.value);
+            if (value < 0) {
+                errorSpan.textContent = 'Percentage cannot be less than 0.';
+            } else {
+                errorSpan.textContent = '';
+            }
+        });
         
 
 });

@@ -232,28 +232,37 @@
 }
 .action-buttons button {
     padding: 5px 10px;
-    border-radius: 20px;
+    border-radius: 3px;
     cursor: pointer;
     font-size: 12px;
     transition: all 0.3s ease;
 }
 
+.view-btn, .delete-btn {
+    padding: 10px 20px;
+    font-size: 16px;
+    border: none;
+    border-radius: 3px; /* Reduced from 5px */
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
 .view-btn {
-    background-color: #4CAF50;
-    color: white;
+    background-color: #28a745; /* Green */
+    color: #fff;
 }
 
 .view-btn:hover {
-    background-color: #45a049;
+    background-color: #218838;
 }
 
 .delete-btn {
-    background-color: #f44336;
-    color: white;
+    background-color: #dc3545; /* Red */
+    color: #fff;
 }
 
 .delete-btn:hover {
-    background-color: #d32f2f;
+    background-color: #c82333;
 }
 
 .reminders{
@@ -309,7 +318,7 @@
 
 .reminders .update-list .update .update-info .action-buttons button {
     padding: 5px 10px;
-    border-radius: 20px;
+    border-radius: 3px;
     cursor: pointer;
     font-size: 12px;
     transition: all 0.3s ease;
@@ -427,4 +436,46 @@
 .calendar iframe {
     border-radius: 10px;
     background-color: white; /* White background for the iframe */
+}
+
+.approve-btn-modal, .reject-btn-modal {
+    padding: 10px 20px;
+    font-size: 16px;
+    border: none;
+    border-radius: 5px; /* Reduced from 5px */
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.approve-btn-modal {
+    background-color: #28a745; /* Green */
+    color: #fff;
+}
+
+.approve-btn-modal:hover {
+    background-color: #218838;
+}
+
+.reject-btn-modal {
+    background-color: #dc3545; /* Red */
+    color: #fff;
+}
+
+.reject-btn-modal:hover {
+    background-color: #c82333;
+}
+
+.close-btn {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    font-size: 22px;
+    font-weight: bold;
+    color: #0056b3; /* Dark blue */
+    cursor: pointer;
+    transition: color 0.3s ease;
+}
+
+.close-btn:hover {
+    color: #ff4500; /* Orange red */
 }

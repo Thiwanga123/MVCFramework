@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -21,7 +20,7 @@
                     <p class="login-link">Already have an account? <a href="<?php echo URLROOT;?>/Serviceprovider/login">Login</a></p>   
             </div>
 
-            <h1>Create your account</h1>
+            <h1>Create Your Account</h1>
 
             <div class="box">
                 <form action="<?php echo URLROOT;?>/ServiceProvider/registerUpdated" method="POST" id="registration-form">
@@ -55,53 +54,28 @@
                     </div>
 
                     <div class="bottom">
-                    <label for="sptype" id="type">Service Type <span class="req">*</span></label>
-                                <select id="sptype" name="sptype" required style="width: 100%; max-width: 300px; height: 40px;">
+                        <div class="div">
+                                <label for="sptype" id="type">Service Type <span class="req">*</span></label>
+                                <select id="sptype" name="sptype" required style="width: 100%; height: 40px;">
                                     <option value="" disabled selected>Select a type</option>
                                     <option value="accomadation">Accomodation</option>
                                     <option value="equipment_suppliers">Equipment Supplier</option>
                                     <option value="tour_guides">Tour Guide</option>
-                                    <option value="transport_suppliers">Transport Supplier</option>
+                                    <option value="vehicle_suppliers">Transport Supplier</option>
                                 </select>
                                 <span class="form-invalid" id="sptype-error"><?php echo isset($data['sp_err']) ? $data['sp_err'] : ''; ?></span>
-                    </div>
-
-                    <div class="nxt-btn">
-                        <button type="button" onclick="nextStep(1)">Next</button>
-                    </div>
-                </div>
-
-                <div class="step" id="step-2" style="display:none;">
-                <h2>Choose Your Subscription Plan</h2>
-                <span class="form-invalid" id="subscription-error"></span>
-
-                    <div class="content">
-                        <div class="plans-container">
-                            <div class="plan-card" id="free-plan">
-                                <h3>Free Plan</h3>
-                                <span class="price">$0</span>
-                                <p>Basic access to services.</p>
-                                <button type="button" class="choose-btn">Choose</button>
-                            </div>
-                            <div class="plan-card" id="basic-plan">
-                                <h3>Basic Plan</h3>
-                                <span class="price">$19.99/month</span>
-                                <p>Access to essential services and features.</p>
-                                <button type="button" class="choose-btn">Choose</button>
-                            </div>
-                            <div class="plan-card" id="pro-plan">
-                                <h3>Pro Plan</h3>
-                                <span class="price">$49.99/month</span>
-                                <p>All premium features and priority support.</p>
-                                <button type="button" class="choose-btn">Choose</button>
-                            </div>
+                        </div>
+                        <div class="div">
+                                <label>Address <span class="req">*</span></label>
+                                <input type="text" id="address" name="address" placeholder="Address" required value="<?php echo isset($data['address']) ? $data['address'] : ''; ?>">
+                                <span class="form-invalid" id="address-error"><?php echo isset($data['address_err']) ? $data['address_err'] : ''; ?></span>
                         </div>
                     </div>
-                    <input type="hidden" id="selected-plan" name="selected_plan" value="">
 
-                    <div class="buttons">
-                        <button type="button" onclick="prevStep(2)">Previous</button>
-                        <button type="button" onclick="nextStep(2)">Next</button>
+                    <div id="step1-common-error" class="form-invalid" style="color: red; margin-top: 10px;"></div>
+
+                    <div class="nxt-btn">
+                        <button type="button" id="step1-next-btn">Next</button>
                     </div>
                 </div>
 
@@ -136,7 +110,8 @@
                 </div>
 
 -->
-                <div class="step" id="step-3" style="display:none;">
+                <div class="step" id="step-2" style="display:none;">
+
                     <h2>Verification Details</h2>
                     <div class="content">
                         <div class="side">
@@ -166,12 +141,53 @@
                         </div>
                     </div>
 
+                    <div id="step2-common-error" class="form-invalid" style="color: red; margin-top: 10px;"></div>
+
+                    <div class="buttons">
+                        <button type="button" onclick="prevStep(2)">Previous</button>
+                        <button type="button" id="step2-next-btn">Next</button> 
+                    </div>
+                </div>
+
+                <div class="step" id="step-3" style="display:none;">
+                <h2>Choose Your Subscription Plan</h2>
+                <div style="background-color: #e3f2fd; padding: 12px; border-radius: 5px; border-left: 4px solid #2196F3; margin-bottom: 20px; color: #0d47a1; font-size: 14px;">
+                    <strong>Notice:</strong> When you first log in to the system, you will need to pay for your subscription to access the JourneyBeyond system.
+                </div>
+                <span class="form-invalid" id="subscription-error"></span>
+
+                    <div class="content">
+                        <div class="plans-container">
+                            <div class="plan-card" id="3month-plan">
+                                <h3>3 Months</h3>
+                                <span class="price">$0</span>
+                                <p>Basic access to services.</p>
+                                <button type="button" class="choose-btn">Choose</button>
+                            </div>
+                            <div class="plan-card" id="6month-plan">
+                                <h3>6 Months</h3>
+                                <span class="price">$19.99/month</span>
+                                <p>Access to essential services and features.</p>
+                                <button type="button" class="choose-btn">Choose</button>
+                            </div>
+                            <div class="plan-card" id="12month-plan">
+                                <h3>12 Months</h3>
+                                <span class="price">$49.99/month</span>
+                                <p>All premium features and priority support.</p>
+                                <button type="button" class="choose-btn">Choose</button>
+                            </div>
+                        </div>
+                    </div>
+                    <input type="hidden" id="selected-plan" name="selected_plan" value="">
+                    <div id="subscription-error"></div>
+
 
                     <div class="buttons">
                         <button type="button" onclick="prevStep(3)">Previous</button>
-                        <button type="submit" onclick="nextStep(3)">Register</button> 
+                        <button type="button" id="step3-next-btn">Register</button>
                     </div>
                 </div>
+
                     </form>
 
             </div>
@@ -183,9 +199,9 @@
 
     </div>
 
-        <script src="<?php echo URLROOT;?>/js/Sign In.js" defer></script>
+        <!-- <script src="<?php echo URLROOT;?>/js/Sign In.js" defer></script> -->
         <!--<script src="https://maps.googleapis.com/maps/api/js?key=<?php echo API_KEY; ?>&libraries=places"></script> !-->
-        <script src="<?php echo URLROOT;?>/js/registration.js" defer> </script>
+        <script src="<?php echo URLROOT;?>/js/registrationNew.js" defer> </script>
         <script src="<?php echo URLROOT;?>/js/plansSelect.js" defer> </script>
         <script>const URLROOT = "<?php echo URLROOT; ?>";</script>
         

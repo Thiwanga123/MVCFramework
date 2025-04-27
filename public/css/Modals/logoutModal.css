@@ -114,6 +114,25 @@ p {
     box-shadow: 0 2px 8px rgba(244, 67, 54, 0.3);
 }
 
+#2 {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh; /* Full screen height */
+    background-color: #f8f9fa;
+    font-family: Arial, sans-serif;
+  }
+  
+  #2 p {
+    background-color: #ffffff;
+    color: #333333;
+    padding: 20px 30px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    font-size: 1.2rem;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  }
+
 /* Add animation */
 @keyframes fadeIn {
     from { opacity: 0; }

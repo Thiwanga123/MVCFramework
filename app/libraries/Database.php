@@ -49,10 +49,7 @@
             }
             $this->statement->bindValue($param, $value, $type);
         }
-            //execute the prepared statement
-            public function execute(){
-                return $this->statement->execute();
-            }
+          
 
             //get multiple records as the result set
             public function resultSet(){

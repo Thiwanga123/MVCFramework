@@ -1,0 +1,153 @@
+
+.content main .Inventory{
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    margin-top: 24px;
+}
+
+.content main .Inventory>div{
+    border-radius: 20px;
+    background: var(--light);
+    padding: 18px;
+    overflow-x: auto;
+    width: 100%;
+}
+
+.addBtn button, .backBtn button {
+    background: teal;
+    color: white;
+    border: none;
+    padding: 12px 24px;
+    border-radius: 12px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.addBtn button:hover, .backBtn button :hover {
+    background: rgb(45, 167, 167);
+    transform: translateY(-2px);
+}
+
+.addBtn button:active, .backBtn button:active {
+    transform: scale(0.97);
+    box-shadow: 0 2px 6px rgba(46, 125, 50, 0.2);
+}
+
+.product-container {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 25px;
+    padding: 20px;
+}
+
+.product-card {
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+}
+
+.product-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+}
+
+.product-card .img {
+    width: 100%;
+    height: 200px;
+    overflow: hidden;
+    padding: 25px;
+}
+
+.product-card .img img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 10px;
+}
+
+.details {
+    padding: 15px;
+    text-align: center;
+}
+
+.details h4 {
+    margin: 0;
+    font-size: 16px;
+    color: #333;
+}
+
+.details h4:first-child {
+    margin-bottom: 8px;
+}
+
+/* For the price */
+.details h4:last-child {
+    color: #333;
+    font-weight: bold;
+}
+
+.ratings {
+    padding: 15px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: auto; /* Pushes ratings to bottom */
+}
+
+.star-rating {
+    display: flex;
+    gap: 2px;
+}
+
+.star {
+    color: #ffd700;
+    font-size: 22px;
+}
+
+.rating-count {
+    margin-left: 10px;
+}
+
+.rating-count h4 {
+    margin: 0;
+    font-size: 14px;
+    color: #666;
+}
+
+.rating-count h4 span{
+    font-size: 20px;
+    color: rgb(74, 70, 70);
+    font-weight: 200;
+}
+
+/* Responsive grid layouts */
+@media (max-width: 1400px) {
+    .product-container {
+        grid-template-columns: repeat(4, 1fr);
+    }
+}
+
+@media (max-width: 1200px) {
+    .product-container {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+@media (max-width: 900px) {
+    .product-container {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 600px) {
+    .product-container {
+        grid-template-columns: 1fr;
+    }
+}

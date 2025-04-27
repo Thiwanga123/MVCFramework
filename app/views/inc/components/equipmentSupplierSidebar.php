@@ -69,7 +69,7 @@
                 </a>
         
                 <a href="#" class="profile">
-                    <img src="<?php echo URLROOT;?>/Images/Profile pic.jpg">
+                    <img src="<?php echo isset($_SESSION['profile_path']) && !empty($_SESSION['profile_path']) ? URLROOT . '/' . $_SESSION['profile_path'] : URLROOT . '/Images/Profile pic.jpg'; ?>">
                 </a>
 
                 <div class="profile-submenu" id="profileSubmenu" style="display: hiddden;">
@@ -93,22 +93,3 @@
 
 
         <?php include_once APPROOT . '/views/users/includes/components/logoutModal.php'; ?>
-
-
-     <script>
-     document.addEventListener('DOMContentLoaded', function() {
-        
-        const rentalsLink = document.getElementById("rentalsLink");
-        const submenu = document.querySelector(".submenu");
-        const arrow = rentalsLink.querySelector(".arrow");
-
-        rentalsLink.addEventListener("click", function(event) {
-        event.preventDefault(); 
-        
-        submenu.classList.toggle("show");  
-        arrow.style.transform = submenu.classList.contains("show") ? "rotate(180deg)" : "rotate(0deg)"; 
-        
-    });
-});
-
-</script>

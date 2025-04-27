@@ -18,7 +18,7 @@ class M_users{
     }
 
     public function getUserDetailsById($userId){
-        $sql = "SELECT name, email, username, telephone_number, date_of_joined FROM traveler WHERE traveler_id = ?";
+        $sql = "SELECT * FROM traveler WHERE traveler_id = ?";
         try {
             $this->db->query($sql);
             $this->db->bind(1, $userId); 
@@ -479,19 +479,65 @@ class M_users{
     }
 
     public function getAllVehicles($supplierId){
-        try {
-            $sql = "SELECT v.*, i.image_path 
-                    FROM vehicles v 
-                    LEFT JOIN vehicle_images i ON v.id = i.vehicle_id 
-                    WHERE v.supplierId = ? 
-                    GROUP BY v.id"; // Ensure unique vehicles
+        try{
+            $this->db->query("SELECT v.*, 
+            GROUP_CONCAT(vi.image_path) AS images 
+            FROM vehicles v 
+            LEFT JOIN vehicle_images vi 
+            ON v.vehicle_id = vi.vehicle_id
+            GROUP BY v.vehicle_id");
 
+            $result = $this->db->resultSet();
+            return $result;            
+
+
+        }catch(Exception $e){
+            $error_msg = $e->getMessage();
+                echo "<script>alert('An error occurred: $error_msg');</script>";
+                return false;
+        }
+    }
+
+    public function uploadProfileImage($userId,$imagePath) {
+        $sql = "UPDATE traveler SET profile_path = ? WHERE traveler_id = ?";
+        try{
             $this->db->query($sql);
-            $this->db->bind(1, $supplierId);
-            return $this->db->resultSet();
-        } catch (Exception $e) {
-            error_log("Error fetching vehicles: " . $e->getMessage());
-            return [];
+            $this->db->bind(1, $imagePath);
+            $this->db->bind(2, $userId);
+            $result = $this->db->execute();
+            return $result;
+        }catch(Exception $e){
+            return $e->getMessage();
+        }
+    }
+
+
+    public function getVehicleById($id){
+        $sql = 'SELECT * FROM vehicles WHERE vehicle_id = ?';
+        try{
+            $this->db->query($sql);
+            $this->db->bind(1, $id);
+            $result = $this->db->single();
+            return $result;
+        }catch(Exception $e){
+            $error_msg = $e->getMessage();
+            echo "<script>alert('An error occurred: $error_msg');</script>";
+            return false;
+        }
+    }
+
+    //get guiders by id
+    public function getGuiderById($id){
+        $sql = 'SELECT * FROM tour_guides WHERE id = ?';
+        try{
+            $this->db->query($sql);
+            $this->db->bind(1, $id);
+            $result = $this->db->single();
+            return $result;
+        }catch(Exception $e){
+            $error_msg = $e->getMessage();
+            echo "<script>alert('An error occurred: $error_msg');</script>";
+            return false;
         }
     }
 }

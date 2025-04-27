@@ -194,21 +194,30 @@
             }
     }
 
-        public function delete(){
+        public function deleteProduct(){
+            header('Content-Type: application/json');
             if($_SERVER['REQUEST_METHOD'] === 'POST'){
-                $productId = $_POST['productId'];
+                $data = json_decode(file_get_contents('php://input'),true);
+                $productId = $data['id'];
                 $supplierId = $_SESSION['id'];
 
-                $productFolder = "Uploads/EquipmentSuppliers/{$supplierId}/{$productId}";
+                if($productId == null){
+                    echo json_encode(['success' => false, 'message' => 'Invalid product ID']);
+                    return;
+                }
 
-                $success = $this->productModel->deleteProductById($productId);
+                $hasBookings = $this->bookingModel->checkBooking($productId);
 
-                if($success){
-                    if(is_dir($productFolder)){
-                        $this->deleteDirectory($productFolder);
-                    }
-                    echo "<script type='text/javascript'>alert('Product deleted successfully!');</script>";
-                    redirect('equipment_suppliers/MyInventory');
+                if($hasBookings > 0){
+                    echo json_encode(['success' => false, 'message' => 'Cannot delete product. It has active or booked reservations.']);
+                    return;
+                }
+
+                $delete = $this->bookingModel->softDeleteProduct($productId);
+                if ($delete) {
+                    echo json_encode(['success' => true, 'message' => 'Product deleted successfully']);
+                } else {
+                    echo json_encode(['success' => false, 'message' => 'Failed to delete product']);
                 }
             }
         }
@@ -295,7 +304,7 @@
                 $data = [
                     'rental' => $rental,
                 ];
-                
+
                 $this->view('equipment_supplier/viewProduct', $data);
             } else {
                 header('Location: ' . URLROOT . '/products');
@@ -317,11 +326,7 @@
             //     header('Location: ' . URLROOT . '/viewProduct');
             //    exit();
             // }
-        }
-
-
-
-       
+        }       
 }
 
 ?>

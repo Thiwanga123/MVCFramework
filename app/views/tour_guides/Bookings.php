@@ -6,91 +6,18 @@
 
     <link rel="stylesheet" href="<?php echo URLROOT;?>/css/Common/newbooking.css.css">
     <link rel="stylesheet" href="<?php echo URLROOT;?>/css/Common/sidebarHeader.css">
-    <title>Profile</title>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" rel="stylesheet" />
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 20px;
-            background-color: #f5f5f5;
-        }
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            background-color: white;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-        }
-        .header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 20px;
-        }
-        .booking-table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 20px;
-        }
-        .booking-table th, .booking-table td {
-            padding: 12px;
-            text-align: left;
-            border-bottom: 1px solid #ddd;
-        }
-        .booking-table th {
-            background-color: #f8f9fa;
-            font-weight: bold;
-        }
-        .status-badge {
-            padding: 6px 12px;
-            border-radius: 4px;
-            font-size: 14px;
-        }
-        .status-pending {
-            background-color: #fff3cd;
-            color: #856404;
-        }
-        .status-confirmed {
-            background-color: #d4edda;
-            color: #155724;
-        }
-        .status-cancelled {
-            background-color: #f8d7da;
-            color: #721c24;
-        }
-        .search-box {
-            padding: 8px;
-            width: 200px;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-        }
-        .add-booking-btn {
-            background-color: #007bff;
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 4px;
-            cursor: pointer;
-        }
-        .add-booking-btn:hover {
-            background-color: #0056b3;
-        }
-    </style>
+    <title>Home</title>
 </head>
 <body>
-     <!-- SideBar -->
-     <?php
+    <!-- SideBar -->
+    <?php
         include('Sidebar.php');;
     ?>
-          <!-- End Of Sidebar -->
+         <!-- End Of Sidebar -->
 
-     <!--Main Content-->
-     <div class="content">
-        <!--navbar-->
+    <!-- Main Content -->
+    <div class="content">
+        <!-- Navbar -->
         <nav>
             <svg class="menu" xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#000000"><path d="M160-269.23v-40h640v40H160ZM160-460v-40h640v40H160Zm0-190.77v-40h640v40H160Z"/></svg>
             <form action="#">
@@ -106,48 +33,47 @@
                 <span class="count">12</span>
             </a>
             <a href="#" class="profile">
-            <img src="<?php echo URLROOT;?>/Images/Profile pic.jpg">
+                <img src="<?php echo URLROOT;?>/Images/Profile pic.jpg">
             </a>
         </nav>
-     <main>
+
+        <main>
             <div class="header">
                 <div class="left">
-            <h1>Guider Bookings</h1>
-            
-        </div>
-        <div class="right">
-                       
-                        
-                            
+                    <h1>All Bookings</h1>
+                
                 </div>
             </div>
-        <br>
-        <div class="Inventory ">
+
+            <div class="Bookings">
                 <div>
                 <div class="header">
                     <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#000000"><path d="M620-163 450-333l56-56 114 114 226-226 56 56-282 282Zm220-397h-80v-200h-80v120H280v-120h-80v560h240v80H200q-33 0-56.5-23.5T120-200v-560q0-33 23.5-56.5T200-840h167q11-35 43-57.5t70-22.5q40 0 71.5 22.5T594-840h166q33 0 56.5 23.5T840-760v200ZM480-760q17 0 28.5-11.5T520-800q0-17-11.5-28.5T480-840q-17 0-28.5 11.5T440-800q0 17 11.5 28.5T480-760Z"/></svg>
-                    <h3>Guider Bookings</h3>
+                    <h3>Bookings</h3>
                     <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#000000"><path d="M440-160q-17 0-28.5-11.5T400-200v-240L168-736q-15-20-4.5-42t36.5-22h560q26 0 36.5 22t-4.5 42L560-440v240q0 17-11.5 28.5T520-160h-80Zm40-308 198-252H282l198 252Zm0 0Z"/></svg>
                 </div>
-        
-        <table class="booking-table">
-            <thead>
-                <tr>
-                   
-                    <th>Destination</th>
-                    <th>Customer</th>
-                    <th>Date</th>
-                    <th>Total Price</th>
-                    <th>Status</th>
-                </tr>
-            </thead>
-            <tbody>
-   <tr>             
-    <td>Katharagama</td>
-    <td>Sanula</td>
-    <td>2025.05.10</td>
-    <td>Rs.2000</td>
-        <td>Confirm</td>
+                <table>
+                    <thead>
+                        <tr>
+                            
+                        
+                            <th>Booking ID</th>
+                            <th>Destination</th>
+                            <th>Customer</th>
+                            <th>Date</th>
+                            <th>Total</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                  
+<tr>                      
+    <td>0</td>
+    <td>0</td>
+    <td>0</td>
+    <td>0</td>
+    <td>0</td>
+    <td>0</td>
                         </tr>
 
 
@@ -156,17 +82,81 @@
                 </table> 
                 </div>
             </div>
-            
-          </main>
+        </main>
+    </div>
 
-     </div>
+    <!-- Delete Confirmation Modal -->
+    <div id="deleteModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4>Confirm Deletion</h4>
+            </div>
+            <div class="modal-body">
+                <p id="deleteMessage">Are you sure you want to delete this booking?</p>
+            </div>
+            <div class="modal-footer">
+                <button class="btn-cancel" onclick="closeDeleteModal()">Cancel</button>
+                <button class="btn-view" id="confirmDeleteButton">Delete</button>
+            </div>
+        </div>
+    </div>
+    <!-- End of Delete Confirmation Modal -->
 
+    <script src="<?php echo URLROOT;?>/js/Sidebar.js"></script>
+    <script>
+        let deleteBookingId = null;
 
-     <script src="<?php echo URLROOT;?>/js/Sidebar.js"></script> 
+        // Function to open the delete confirmation modal
+        function openDeleteModal(bookingId, checkInDate) {
+            deleteBookingId = bookingId;
 
-    
-     
+            const checkIn = new Date(checkInDate);
+            const today = new Date();
+            const timeDiff = Math.abs(today - checkIn);
+            const daysDiff = Math.ceil(timeDiff / (1000 * 60 * 60 * 24));
+
+            const message = daysDiff <= 3
+                ? "If you delete within the last 3 days, a 20% penalty will be deducted from your income."
+                : "Are you sure you want to delete this booking?";
+
+            document.getElementById('deleteMessage').innerText = message;
+            document.getElementById('deleteModal').style.display = 'block';
+        }
+
+        // Function to close the delete confirmation modal
+        function closeDeleteModal() {
+            document.getElementById('deleteModal').style.display = 'none';
+            deleteBookingId = null;
+        }
+
+        // Function to confirm deletion
+        document.getElementById('confirmDeleteButton').onclick = function () {
+            if (deleteBookingId) {
+                window.location.href = "<?php echo URLROOT; ?>/tour_guides/deleteBooking/" + deleteBookingId;
+            }
+        };
+
+        // Function to filter table rows based on search input
+        function filterTable() {
+            const input = document.getElementById('searchInput');
+            const filter = input.value.toLowerCase();
+            const table = document.getElementById('bookingTable');
+            const rows = table.getElementsByTagName('tr');
+
+            for (let i = 1; i < rows.length; i++) {
+                const cells = rows[i].getElementsByTagName('td');
+                let match = false;
+
+                for (let j = 0; j < cells.length; j++) {
+                    if (cells[j].innerText.toLowerCase().includes(filter)) {
+                        match = true;
+                        break;
+                    }
+                }
+
+                rows[i].style.display = match ? '' : 'none';
+            }
+        }
+    </script>
 </body>
-
 </html>
-

@@ -49,21 +49,39 @@
             </main>
         </div>
 
+        <div id="responseSuccessModal" class="modal" style="display: none;">
+            <div class="modal-content">
+                <span class="close-button" id="closeSuccessModal">&times;</span>
+                <img src="<?php echo URLROOT;?>/Images/1930264_check_complete_done_green_success_icon.png" alt="">
+                <p id="successModalMessage"></p>
+            </div>
+        </div>
+
+        <div id="responseErrorModal" class="modal" style="display: none;">
+            <div class="modal-content">
+                <span class="close-button" id="closeErrorModal">&times;</span>
+                <img src="<?php echo URLROOT;?>/Images/warning.png" alt="">
+
+                <p id="errorModalMessage"></p>
+            </div>
+        </div>
+
         <?php include_once APPROOT . '/views/users/includes/components/logoutModal.php'; ?>
+        
 
         
     </div>
 
     <script>const URLROOT = "<?php echo URLROOT; ?>"; </script>
-    <script>var bookings = <?php echo $data['bookings']; ?></script>
-    <script>const userId = <?php echo json_encode($data['user_id']); ?>;</script>
+    <!-- <script>var bookings = <?php echo $data['bookings']; ?></script>
+    <script>const userId = <?php echo json_encode($data['user_id']); ?>;</script> -->
     <script src="<?php echo URLROOT;?>/js/changeContent.js" defer></script>
-    <script src="<?php echo URLROOT;?>/js/Calendar.js"></script>
+    <!-- <script src="<?php echo URLROOT;?>/js/Calendar.js"></script>
     <script src="<?php echo URLROOT;?>/js/equipmentBooking.js"></script>
-    <script src="<?php echo URLROOT;?>/js/equipmentReview.js"></script>
+    <script src="<?php echo URLROOT;?>/js/equipmentReview.js"></script> -->
     <script src="<?php echo URLROOT;?>/js/logout.js"></script>
     <script src="<?php echo URLROOT;?>/js/subMenu.js"></script>
-
+    <script src="<?php echo URLROOT;?>/js/EquipmentSupplierJS/deleteProduct.js"></script>
 
     <script>
          let currentIndex = 0;

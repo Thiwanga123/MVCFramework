@@ -42,15 +42,22 @@ function closeEditModal() {
 
 // Fetch property details from server
 function fetchPropertyDetails(propertyId, mode) {
-    // Replace with actual AJAX call to your server
-    fetch(`${URLROOT}/accomadation/getPropertyDetails/${propertyId}?mode=${mode}`)
+    const url = `${URLROOT}/accomadation/getPropertyDetails/${propertyId}?mode=${mode}`;
+    console.log('Fetching from URL:', url);
+    
+    fetch(url)
         .then(response => {
             if (!response.ok) {
-                throw new Error('Network response was not ok');
+                throw new Error(`Network response was not ok: ${response.status} ${response.statusText}`);
             }
             return response.json();
         })
         .then(data => {
+            console.log('Received data:', data);
+            if (data.success === false) {
+                throw new Error(data.message || 'Error fetching property details');
+            }
+            
             if (mode === 'view') {
                 displayPropertyDetails(data);
             } else {
@@ -59,10 +66,12 @@ function fetchPropertyDetails(propertyId, mode) {
         })
         .catch(error => {
             console.error('Error fetching property details:', error);
+            const errorMsg = `<p class="error">Error loading property details: ${error.message}</p>`;
+            
             if (mode === 'view') {
-                viewModalContent.innerHTML = '<p class="error">Error loading property details. Please try again.</p>';
+                viewModalContent.innerHTML = errorMsg;
             } else {
-                editModalContent.innerHTML = '<p class="error">Error loading edit form. Please try again.</p>';
+                editModalContent.innerHTML = errorMsg;
             }
         });
 }
@@ -469,7 +478,10 @@ function updateProperty(formData) {
     });
 }
 
-// Define URLROOT for use in AJAX calls
-const URLROOT = document.querySelector('link[href*="/css/Common/MyInventory.css"]')
+// Define URLROOT for use in AJAX calls - Fixed to use the correct CSS file
+const URLROOT = document.querySelector('link[href*="/css/Common/MyInventory_acc.css"]')
     .getAttribute('href')
-    .split('/css/Common/MyInventory.css')[0];
+    .split('/css/Common/MyInventory_acc.css')[0];
+
+// Add console log to debug URLROOT
+console.log('URLROOT for API calls:', URLROOT);

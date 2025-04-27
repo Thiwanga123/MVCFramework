@@ -3,25 +3,21 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="<?php echo URLROOT;?>/css/Common/Profile_pre.css">
+    <link rel="stylesheet" href="<?php echo URLROOT;?>/css/Common/sidebarHeader.css">
     <title>Profile</title>
-
-    <!-- Stylesheets -->
-    <link rel="stylesheet" href="<?php echo URLROOT; ?>/css/Common/Profile_pre.css">
-    <link rel="stylesheet" href="<?php echo URLROOT; ?>/css/Common/sidebarHeader.css">
-    <link rel="stylesheet" href="<?php echo URLROOT; ?>/css/Modals/logoutModal.css">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" rel="stylesheet" />
-
-    <!-- Scripts -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
-
     <style>
         .select2-container--default .select2-selection--multiple {
-            border: 1px solid rgb(232, 62, 62); 
+            border: 1px solid #e83e8c; /* Pink border */
+            border-radius: 5px;
             padding: 5px;
         }
         .select2-container--default .select2-selection--multiple .select2-selection__choice {
-            background-color: rgb(232, 62, 62);
+            background-color: #e83e8c; /* Pink background */
             border: none;
             color: white;
         }
