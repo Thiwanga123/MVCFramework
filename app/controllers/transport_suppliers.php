@@ -3,12 +3,10 @@
 class Transport_suppliers extends Controller
 {
     private $transportModel;
-    private $reviewModel;
 
     public function __construct()
     {
         $this->transportModel = $this->model('TransportModel');
-        $this->reviewModel = $this->model('ReviewModel');
     }
 
     public function index()
@@ -16,6 +14,7 @@ class Transport_suppliers extends Controller
         echo "hi";
     }
 
+   
     public function dashboard() {
         if (isset($_SESSION['id'])) {
             $supplierId = $_SESSION['id'];
@@ -45,8 +44,7 @@ class Transport_suppliers extends Controller
             redirect('ServiceProvider');
         }
     }
-    
-    
+
     public function details($id)
     {
         if (isset($_SESSION['id'])) {
@@ -80,28 +78,21 @@ class Transport_suppliers extends Controller
         }
     }
 
+
     public function orders()
-{
-    $data['activePage'] = 'Orders';
-
-    if (isset($_SESSION['id'])) {
-        $supplierId = $_SESSION['id'];
-        $this->transportModel = $this->model('TransportModel');
-
-        if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['cancel_booking_id'])) {
-            $bookingId = $_POST['cancel_booking_id'];
-            $this->transportModel->cancelBookingById($bookingId);
-            redirect('transport_suppliers/orders');
-        }
-
-        $bookings = $this->transportModel->getAllBookingsBySupplier($supplierId);
-        $this->view('transport_supplier/Orders', ['bookings' => $bookings]);
-    } else {
-        redirect('ServiceProvider');
+    {
+           
+            $this->view('transport_supplier/Orders');
+        
     }
-}
 
-
+    public function reviews()
+    {   
+        
+   
+            $this->view('transport_supplier/Reviews');
+        
+    }
 
     public function driver()
     {       
@@ -140,21 +131,10 @@ class Transport_suppliers extends Controller
         
     }
 
-    public function profile(){
-
-        if (isset($_SESSION['id'])) {
-            $id = $_SESSION['id'];
-            $type = $_SESSION['type'];
-           
-            $currentPage = 'profile';
-            $data = [
-               
-                'currentPage' => $currentPage
-            ];
-            $this->view('transport_supplier/Myprofile',$data);
-        } else {
-            redirect('ServiceProvider');
-        }
+    public function Myprofile()
+    {
+        
+            $this->view('transport_supplier/Myprofile');
     }
     public function Mypayments()
     {
@@ -300,7 +280,6 @@ class Transport_suppliers extends Controller
             }
         }
     }
-
     public function delete_availability($id) {
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             if ($this->transportModel->deleteVehicleById($id)) {
@@ -317,9 +296,31 @@ class Transport_suppliers extends Controller
     
     
     
-    
    
-    
+    public function updateprofile()
+{
+    if (isset($_SESSION['id'])) {
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            //get the data from the form
+            $data = [
+                'id' => $_SESSION['id'],
+                'name' => $_POST['name'],
+                'email' => $_POST['email'],
+                'address' => $_POST['address'],
+                'password' => $_POST['password'],
+                'nic' => $_POST['nic'],
+                'phone' => $_POST['phone'],
+            ];
+            //update the profile
+            $this->transportModel->updateprofile($data);
+            redirect('transport_suppliers/logout');
+        } else {
+            redirect('transport_suppliers/profile');
+        }
+    } else {
+        redirect('ServiceProvider');
+    }
+}
 
 public function logout() {
     //if an admin is logged in
@@ -331,8 +332,36 @@ public function logout() {
 }
 
 
+public function editVehicle() {
+    if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+        $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
 
-
+        $data = [
+            'vehicleId' => trim($_POST['vehicleId']), // <-- add this
+            'supplierId' => $_SESSION['id'],          // <-- correct key for binding
+            'vehicleType' => trim($_POST['vehicleType']),
+            'vehicleModel' =>trim($_POST['vehicleModel']) ,
+            'vehicleMake' => trim($_POST['vehicleMake']),    
+            'plateNumber' => trim($_POST['licensePlateNumber']),
+            'rate' => trim($_POST['vehicleRate']),
+            'fuelType' => trim($_POST['fuelType']),
+            'description' => trim($_POST['description']),
+            'availability' => trim($_POST['availability']),
+            'driver' => trim($_POST['driver']),
+            'cost' => trim($_POST['vehicleCost']),
+            'location' => trim($_POST['vehicleLocation']),
+            'seating_capacity' => trim($_POST['seating_capacity']),
+        ];
+        
+        if ($this->transportModel->updateVehicle($data)) {
+            redirect('transport_suppliers/myInventory');
+        } else {
+            die("Something went wrong updating the vehicle.");
+        }
+    } else {
+        redirect('transport_suppliers/myInventory');
+    }
+}
 public function addriver() {
     if ($_SERVER['REQUEST_METHOD'] == 'POST')
         // Ensure the form fields are set before accessing them
@@ -379,7 +408,7 @@ public function addriver() {
         }
     
         // Insert driver details into the database
-        $isInserted = $this->transportModel->addriver($data['name'], $data['phone'], $data['email'], $data['description'], $data['id'], $data['driverLicense'],);
+        $isInserted = $this->transportModel->addriver($data['name'], $data['phone'], $data['email'], $data['description'], $data['id'], $data['driverLicense']);
       
 
         if ($isInserted) {
@@ -390,6 +419,7 @@ public function addriver() {
             redirect('transport_suppliers/driver');
         }
     }
+   
    
    
     public function delete($id) {
@@ -403,211 +433,166 @@ public function addriver() {
             redirect('transport_suppliers/driver'); // prevent delete via GET
         }
     }
-
-    public function editVehicle() {
-        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-            $_POST = filter_input_array(INPUT_POST, FILTER_DEFAULT);
     
-            $data = [
-                'vehicle_id' => trim($_POST['vehicleId']),
-                'supplierId' => $_SESSION['id'],
-                'type' => trim($_POST['vehicleType']),
-                'model' => trim($_POST['vehicleModel']),
-                'make' => trim($_POST['vehicleMake']),
-                'license_plate_number' => trim($_POST['licensePlateNumber']),
-                'rate' => trim($_POST['vehicleRate']),
-                'fuel_type' => trim($_POST['fuelType']),
-                'description' => trim($_POST['description']),
-                'availability' => trim($_POST['availability']),
-                'driver' => trim($_POST['driver']),
-                'cost' => trim($_POST['vehicleCost']),
-                'location' => trim($_POST['vehicleLocation']),
-                'seating_capacity' => trim($_POST['seating_capacity'])
-            ];
 
-            // var_dump($data);
-            // exit;
-
-            if ($this->transportModel->updateVehicle($data)) {
-                redirect('transport_suppliers/MyInventory');
-            } else {
-                die("Something went wrong updating the vehicle.");
-            }
-        } else {
-            redirect('transport_suppliers/MyInventory');
-        }
-    }
-    
-    public function reviews(){
-
-        if (isset($_SESSION['id'])) {
+        public function getVehicleDetails() {
+            header('Content-Type: application/json');
         
-            $currentPage = 'reviews';
-            $reviews = $this->reviewModel->getReviewsBySupplierId($_SESSION['id']);
-
-            $data = [
-                'currentPage' => $currentPage,
-                'reviews' => $reviews
-            ];
-
-            $this->view('transport_supplier/Reviews', $data);
-        } else {
-            redirect('ServiceProvider');
-        }
-    }
-
-    public function getVehicleDetails() {
-        header('Content-Type: application/json');
-    
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            // Get the raw POST body and decode JSON
-            $input = json_decode(file_get_contents('php://input'), true);
-    
-            // Validate input
-            if (!isset($input['vehicleId']) || empty($input['vehicleId'])) {
-                // Return error response
-                http_response_code(400);
-                echo json_encode([
-                    'success' => false,
-                    'message' => 'Vehicle ID is required'
-                ]);
-
-                return;
-            }
-    
-            $vehicleId = $input['vehicleId'];
-    
-            // Assuming your model is named TransportModel and it has a method to get vehicle details
-            $vehicle = $this->transportModel->getVehicleById($vehicleId);
-            if ($vehicle) {
-                // Return success response with vehicle data
-                echo json_encode([
-                    'success' => true,
-                    'message' => 'Vehicle details fetched successfully',
-                    'data' => [
-                        'supplier_id' => $vehicle->supplierId,
-                        'vehicle_id' => $vehicle->vehicle_id,
-                        'make' => $vehicle->make,
-                        'model' => $vehicle->model,
-                        'type' => $vehicle->type,
-                        'fuel_type' => $vehicle->fuel_type,
-                        'location' => $vehicle->location,
-                        'cost' => $vehicle->cost,
-                        'rate' => $vehicle->rate,
-                        'availability' => $vehicle->availability,
-                        'license_plate_number' => $vehicle->license_plate_number,
-                        'seating_capacity' => $vehicle->seating_capacity,
-                        'description' => $vehicle->description,
-                        'driver' => $vehicle->driver,
-                        'image_paths' => $vehicle->image_path 
-                    ]
-                ]);
-            
-            } else {
-                http_response_code(404);
-                echo json_encode([
-                    'success' => false,
-                    'message' => 'Vehicle not found'
-                ]);
-            }
-        } else {
-            http_response_code(405);
-            echo json_encode([
-                'success' => false,
-                'message' => 'Method not allowed'
-            ]);
-        }
-    }
-    
-    public function saveVehicleDetails()
-    {
-        // Make sure the request is POST and JSON
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            // Read the raw POST data       
-            $input = file_get_contents('php://input');
-            $bookingData = json_decode($input, true);
-
-           
-            // Optional: Validate required fields
-            $requiredFields = ['vehicleId', 'supplierId', 'rate', 'pickupLocation', 'driverOption'];
-            foreach ($requiredFields as $field) {
-                if (empty($bookingData[$field])) {
+            if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+                // Get the raw POST body and decode JSON
+                $input = json_decode(file_get_contents('php://input'), true);
+        
+                // Validate input
+                if (!isset($input['vehicleId']) || empty($input['vehicleId'])) {
+                    // Return error response
                     http_response_code(400);
-                    echo json_encode(['error' => "Missing field: $field"]);
+                    echo json_encode([
+                        'success' => false,
+                        'message' => 'Vehicle ID is required'
+                    ]);
+
                     return;
                 }
+        
+                $vehicleId = $input['vehicleId'];
+        
+                // Assuming your model is named TransportModel and it has a method to get vehicle details
+                $vehicle = $this->transportModel->getVehicleById($vehicleId);
+                if ($vehicle) {
+                    // Return success response with vehicle data
+                    echo json_encode([
+                        'success' => true,
+                        'message' => 'Vehicle details fetched successfully',
+                        'data' => [
+                            'supplier_id' => $vehicle->supplierId,
+                            'vehicle_id' => $vehicle->vehicle_id,
+                            'make' => $vehicle->make,
+                            'model' => $vehicle->model,
+                            'type' => $vehicle->type,
+                            'fuel_type' => $vehicle->fuel_type,
+                            'location' => $vehicle->location,
+                            'cost' => $vehicle->cost,
+                            'rate' => $vehicle->rate,
+                            'availability' => $vehicle->availability,
+                            'license_plate_number' => $vehicle->license_plate_number,
+                            'seating_capacity' => $vehicle->seating_capacity,
+                            'description' => $vehicle->description,
+                            'driver' => $vehicle->driver,
+                            'image_paths' => $vehicle->image_path 
+                        ]
+                    ]);
+                
+                } else {
+                    http_response_code(404);
+                    echo json_encode([
+                        'success' => false,
+                        'message' => 'Vehicle not found'
+                    ]);
+                }
+            } else {
+                http_response_code(405);
+                echo json_encode([
+                    'success' => false,
+                    'message' => 'Method not allowed'
+                ]);
             }
-    
-    
-            // Save booking data to session
-            $_SESSION['booking_vehicle_data'] = $bookingData;
-    
-            // Respond back to AJAX call
-            echo json_encode([
-                'status' => 'success',
-                'message' => 'Booking data saved to session.',
-                'data' => $bookingData
-            ]);
-        } else {
-            http_response_code(405); // Method Not Allowed
-            echo json_encode(['error' => 'Invalid request method.']);
         }
-    }
+        
+        public function saveVehicleDetails()
+        {
+            // Make sure the request is POST and JSON
+            if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+                // Read the raw POST data       
+                $input = file_get_contents('php://input');
+                $bookingData = json_decode($input, true);
 
-// Cancel booking with possible penalty
-public function cancelBooking($id){
-    if (!isset($_SESSION['id'])) {
-        redirect('ServiceProvider');
-        return;
-    }
-    
-    $supplier_id = $_SESSION['id'];
-    
-    // Get booking details
-    $booking = $this->transportModel->getBookingById($id);
-    
-    if (!$booking) {
-        // Booking not found
-        $_SESSION['booking_error'] = 'Booking not found';
-        redirect('transport_suppliers/dashboard'); // Redirecting to dashboard as it shows bookings
-        return;
-    }
-    
-    if ($booking->supplier_id != $supplier_id) {
-        // Not authorized to cancel this booking
-        $_SESSION['booking_error'] = 'You are not authorized to cancel this booking';
-        redirect('transport_suppliers/dashboard');
-        return;
-    }
-    
-    // Check if booking is already cancelled
-    if (strtolower($booking->status) == 'cancelled' || strtolower($booking->status) == 'canceled') {
-        $_SESSION['booking_error'] = 'This booking has already been cancelled';
-        redirect('transport_suppliers/dashboard');
-        return;
-    }
-    
-    // Calculate if penalty applies (within 3 days of check-in)
-    $checkIn = new DateTime($booking->check_in);
-    $today = new DateTime();
-    $isPenaltyApplicable = ($checkIn->diff($today)->days <= 3);
-    
-    // Calculate penalty amount (20% of booking amount if applicable)
-    $penaltyAmount = $isPenaltyApplicable ? ($booking->amount * 0.2) : 0;
-    
-    // Process cancellation with appropriate penalty
-    if ($this->transportModel->cancelBooking($id, $supplier_id, $penaltyAmount)) {
-        // Success
-        if ($isPenaltyApplicable) {
-            $_SESSION['booking_success'] = 'Booking cancelled successfully. A 20% penalty (Rs. ' . number_format($penaltyAmount, 2) . ') has been applied to your account. We have fully refunded the amount of Rs. ' . number_format($booking->amount, 2) . ' to the traveler.';
-        } else {
-            $_SESSION['booking_success'] = 'Booking cancelled successfully. We have fully refunded the amount of Rs. ' . number_format($booking->amount, 2) . ' to the traveler.';
+               
+                // Optional: Validate required fields
+                $requiredFields = ['vehicleId', 'supplierId', 'rate', 'pickupLocation', 'driverOption'];
+                foreach ($requiredFields as $field) {
+                    if (empty($bookingData[$field])) {
+                        http_response_code(400);
+                        echo json_encode(['error' => "Missing field: $field"]);
+                        return;
+                    }
+                }
+        
+        
+                // Save booking data to session
+                $_SESSION['booking_vehicle_data'] = $bookingData;
+        
+                // Respond back to AJAX call
+                echo json_encode([
+                    'status' => 'success',
+                    'message' => 'Booking data saved to session.',
+                    'data' => $bookingData
+                ]);
+            } else {
+                http_response_code(405); // Method Not Allowed
+                echo json_encode(['error' => 'Invalid request method.']);
+            }
         }
-        redirect('transport_suppliers/dashboard');
-    } else {
-        // Error
-        $_SESSION['booking_error'] = 'Something went wrong while cancelling the booking';
-        redirect('transport_suppliers/dashboard');
+
+    // Cancel booking with possible penalty
+    public function cancelBooking($id){
+        if (!isset($_SESSION['id'])) {
+            redirect('ServiceProvider');
+            return;
+        }
+        
+        $supplier_id = $_SESSION['id'];
+        
+        // Get booking details
+        $booking = $this->transportModel->getBookingById($id);
+        
+        if (!$booking) {
+            // Booking not found
+            $_SESSION['booking_error'] = 'Booking not found';
+            redirect('transport_suppliers/dashboard'); // Redirecting to dashboard as it shows bookings
+            return;
+        }
+        
+        if ($booking->supplier_id != $supplier_id) {
+            // Not authorized to cancel this booking
+            $_SESSION['booking_error'] = 'You are not authorized to cancel this booking';
+            redirect('transport_suppliers/dashboard');
+            return;
+        }
+        
+        // Check if booking is already cancelled
+        if (strtolower($booking->status) == 'cancelled' || strtolower($booking->status) == 'canceled') {
+            $_SESSION['booking_error'] = 'This booking has already been cancelled';
+            redirect('transport_suppliers/dashboard');
+            return;
+        }
+        
+        // Calculate if penalty applies (within 3 days of check-in)
+        $checkIn = new DateTime($booking->check_in);
+        $today = new DateTime();
+        $isPenaltyApplicable = ($checkIn->diff($today)->days <= 3);
+        
+        // Calculate penalty amount (20% of booking amount if applicable)
+        $penaltyAmount = $isPenaltyApplicable ? ($booking->amount * 0.2) : 0;
+        
+        // Process cancellation with appropriate penalty
+        if ($this->transportModel->cancelBooking($id, $supplier_id, $penaltyAmount)) {
+            // Success
+            if ($isPenaltyApplicable) {
+                $_SESSION['booking_success'] = 'Booking cancelled successfully. A 20% penalty (Rs. ' . number_format($penaltyAmount, 2) . ') has been applied to your account. We have fully refunded the amount of Rs. ' . number_format($booking->amount, 2) . ' to the traveler.';
+            } else {
+                $_SESSION['booking_success'] = 'Booking cancelled successfully. We have fully refunded the amount of Rs. ' . number_format($booking->amount, 2) . ' to the traveler.';
+            }
+            redirect('transport_suppliers/dashboard');
+        } else {
+            // Error
+            $_SESSION['booking_error'] = 'Something went wrong while cancelling the booking';
+            redirect('transport_suppliers/dashboard');
+        }
     }
 }
-}
+
+
+
+
+    
+    

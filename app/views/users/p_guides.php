@@ -97,7 +97,7 @@
                                 <div class="equipment-card">
                                     <div class="image-container">
                                         <?php
-                                            $images = !empty($guider->profile_picture) ? [$guider->profile_picture] : ['default.jpg'];
+                                            $images = !empty($guider->profile_path) ? [$guider->profile_path] : ['default.jpg'];
                                             $firstImage = trim($images[0]);
                                         ?>
                                         <img src="<?php echo URLROOT . '/' . htmlspecialchars($firstImage); ?>" alt="Guider" class="equipment-image">

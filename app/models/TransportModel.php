@@ -50,18 +50,31 @@ class TransportModel
      }     
      public function updateVehicle($data) {
         try {
-            $sql = "UPDATE vehicles SET type = ?, model = ?, make = ?, license_plate_number = ?, rate = ?, fuel_type = ?, description = ?, availability = ?, 
-                    driver = ?, cost = ?, location = ?, seating_capacity = ?, supplierId = ?
+            $sql = "UPDATE vehicles
+                    SET 
+                        type = ?, 
+                        model = ?, 
+                        make = ?, 
+                        license_plate_number = ?, 
+                        rate = ?, 
+                        fuel_type = ?, 
+                        description = ?, 
+                        availability = ?, 
+                        driver = ?, 
+                        cost = ?, 
+                        location = ?, 
+                        seating_capacity = ?, 
+                        supplierId = ?
                     WHERE vehicle_id = ?";
             
             $this->db->query($sql);
     
-            $this->db->bind(1, $data['type']);
-            $this->db->bind(2, $data['model']);
-            $this->db->bind(3, $data['make']);
-            $this->db->bind(4, $data['license_plate_number']);
+            $this->db->bind(1, $data['vehicleType']);
+            $this->db->bind(2, $data['vehicleModel']);
+            $this->db->bind(3, $data['vehicleMake']);
+            $this->db->bind(4, $data['plateNumber']);
             $this->db->bind(5, $data['rate']);
-            $this->db->bind(6, $data['fuel_type']);
+            $this->db->bind(6, $data['fuelType']);
             $this->db->bind(7, $data['description']);
             $this->db->bind(8, $data['availability']);
             $this->db->bind(9, $data['driver']);
@@ -69,10 +82,9 @@ class TransportModel
             $this->db->bind(11, $data['location']);
             $this->db->bind(12, $data['seating_capacity']);
             $this->db->bind(13, $data['supplierId']);
-            $this->db->bind(14, $data['vehicle_id']); // This was missing
+            $this->db->bind(14, $data['vehicleId']); // This was missing
     
-            return 
-            $this->db->execute();
+            return $this->db->execute();
         } catch(Exception $e) {
             echo "<script>alert('An error occurred: " . $e->getMessage() . "');</script>";
             return false;
@@ -82,43 +94,28 @@ class TransportModel
     
     
     
-     public function addVehicleImage($supplierId, $vehicleId, $imagePath) {
-         try {
-             $sql = "INSERT INTO vehicle_images (supplier_id, vehicle_id, image_path) VALUES (?, ?, ?)";
-             $this->db->query($sql);
- 
-             $this->db->bind(1, $supplierId);
-             $this->db->bind(2, $vehicleId);
-             $this->db->bind(3, $imagePath);
-     
-             if ($this->db->execute()) {
-                 return true;
-             } else {
-                throw new Exception("Error inserting image path into the database.");
-             }
-     
-         } catch (Exception $e) {
-             $error_msg = $e->getMessage();
-             echo "<script>alert('An error occurred: $error_msg');</script>";
-             return false;
-         }
-     }
-
-     public function getTotalVehicle($supplierId) {
+    
+    public function addVehicleImage($supplierId, $vehicleId, $imagePath) {
         try {
-            $sql = "SELECT COUNT(*) as total_vehicles FROM vehicles WHERE supplierId = :supplierId";
+            $sql = "INSERT INTO vehicle_images (supplier_id, vehicle_id, image_path) VALUES (?, ?, ?)";
             $this->db->query($sql);
-            $this->db->bind(':supplierId', $supplierId);
+
+            $this->db->bind(1, $supplierId);
+            $this->db->bind(2, $vehicleId);
+            $this->db->bind(3, $imagePath);
     
-            $result = $this->db->single();
+            if ($this->db->execute()) {
+                return true;
+            } else {
+               throw new Exception("Error inserting image path into the database.");
+            }
     
-            return $result; // returns an object with property total_vehicles
         } catch (Exception $e) {
-            echo "<script>alert('An error occurred: {$e->getMessage()}');</script>";
-            return (object)['total_vehicles' => 0];
+            $error_msg = $e->getMessage();
+            echo "<script>alert('An error occurred: $error_msg');</script>";
+            return false;
         }
     }
-    
 
      public function getAllVehicles($supplierId){
         try{
@@ -160,19 +157,13 @@ class TransportModel
         }
     }
     
-    public function cancelBookingById($bookingId) {
-        $this->db->query("UPDATE vehicle_booking SET status = 'Cancelled' WHERE booking_id = :booking_id");
-        $this->db->bind(':booking_id', $bookingId);
-        return $this->db->execute();
-    }
-    
-    
     public function deleteDriverById($id) {
         $this->db->query('DELETE FROM drivers WHERE id = :id');
         $this->db->bind(':id', $id);
+    
+        // Execute and return true if the query was successful
         return $this->db->execute();
     }
-    
     
 public function updateprofile($data){
 
@@ -192,9 +183,9 @@ public function updateprofile($data){
             return false;
             }
     }
-    
+  
 
-    public function addriver($name, $phone, $email, $description,$supplierId,$driverLicense, ) {
+    public function addriver($name, $phone, $email, $description,$supplierId,$driverLicense ) {
 
 
         try {
@@ -269,6 +260,7 @@ public function updateprofile($data){
         }
     }
 
+
     public function getVehicleById($id){
         $sql = 'SELECT * FROM vehicles WHERE vehicle_id = ?';
         try{
@@ -282,9 +274,49 @@ public function updateprofile($data){
             return false;
         }
     }
+
+    public function getAvailableVehicles($startDate, $endDate){
+        $sql = '
+            SELECT v.* FROM vehicles v
+            WHERE v.vehicle_id NOT IN (
+                SELECT vb.vehicle_id 
+                FROM vehicle_booking vb
+                WHERE 
+                    (vb.check_in <= :endDate AND vb.check_out >= :startDate)
+                    AND vb.status != "cancelled"  
+                    AND vb.deleted_at IS NULL
+            )';
+    
+        try{// Bind the parameters
+            $this->db->query($sql);
+            $this->db->bind(':startDate', $startDate);
+            $this->db->bind(':endDate', $endDate);
+    
+        return $this->db->resultSet();
+        } catch (Exception $e) {
+            $error_msg = $e->getMessage();
+            echo "<script>alert('An error occurred: $error_msg');</script>";
+            return false;
+        }
+    }
+    
+    public function getTotalVehicle($supplierId) {
+        try {
+            $sql = "SELECT COUNT(*) as total_vehicles FROM vehicles WHERE supplierId = :supplierId";
+            $this->db->query($sql);
+            $this->db->bind(':supplierId', $supplierId);
+    
+            $result = $this->db->single();
+    
+            return $result; // returns an object with property total_vehicles
+        } catch (Exception $e) {
+            echo "<script>alert('An error occurred: {$e->getMessage()}');</script>";
+            return (object)['total_vehicles' => 0];
+        }
+    }
     
     public function getAllBookingsBySupplier($supplierId) {
-        $this->db->query("SELECT * FROM vehicle_booking WHERE supplier_id = :supplier_id AND status != 'Cancelled'");
+        $this->db->query("SELECT * FROM vehicle_booking WHERE supplier_id = :supplier_id");
         $this->db->bind(':supplier_id', $supplierId);
         return $this->db->resultSet();
     }
@@ -295,6 +327,24 @@ public function countBookingsBySupplier($supplierId) {
     $this->db->bind(':supplier_id', $supplierId);
     return $this->db->single();
 }
+
+// public function getVehicleById($vehicleId) {
+//     $sql = "SELECT v.*, vi.image_path
+//                 FROM vehicles v
+//                 LEFT JOIN vehicle_images vi ON v.vehicle_id = vi.vehicle_id
+//                 WHERE v.vehicle_id = ?";
+//     try{
+//         $this->db->query($sql);
+//         $this->db->bind(1, $vehicleId);
+//         return $this->db->single();
+//     }catch(Exception $e){
+//         $error_msg = $e->getMessage();
+//         echo "<script>alert('An error occurred: $error_msg');</script>";
+//         return false;
+//     }
+  
+// }
+
 public function getBookingById($booking_id) {
     $this->db->query('
         SELECT 
@@ -403,6 +453,5 @@ public function getVehiclePrice($vehicleId){
         return false;
     }
 }
-
 
 }

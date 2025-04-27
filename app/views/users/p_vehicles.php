@@ -97,12 +97,12 @@
                         <?php if (!empty($data['availableVehicles']) && is_array($data['availableVehicles'])) : ?>
                             <?php foreach ($data['availableVehicles'] as $vehicle) : ?>
                                 <div class="equipment-card">
-                                    <div class="image-container">
+                                <div class="image-container">
                                         <?php
-                                            // Placeholder for vehicle image path (you can replace this with a relevant image field if available)
-                                            $imagePath = 'default-vehicle.jpg'; // You can change this to an actual field if the vehicle has images
+                                            $images = !empty($vehicle->image_path) ? [$vehicle->image_path] : ['default.jpg'];
+                                            $firstImage = trim($images[0]);
                                         ?>
-                                        <img src="<?php echo URLROOT . '/' . $imagePath; ?>" alt="vehicle" class="equipment-image">
+                                        <img src="<?php echo URLROOT . '/' . htmlspecialchars($firstImage); ?>" alt="Vehicle" class="equipment-image">
                                     </div>
                                     <div class="card-content">
                                         <h3 class="product-name"><?php echo htmlspecialchars($vehicle->make . ' ' . $vehicle->model); ?></h3>
