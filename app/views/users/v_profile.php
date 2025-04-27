@@ -52,7 +52,7 @@
                         <div class="profileContent">
                         <h2>Basic Information</h2>
 
-                            <form action="" method="POST">
+                            <form action="<?php echo URLROOT; ?>/users/updateProfile" method="POST">
                                 <div class="profile-center">
                                     <div class="left">
                                         <h4>Name</h4>
@@ -63,7 +63,7 @@
 
                                     <div class="right">
                                         <h4>Username</h4>
-                                        <input type="businessName" id="businessName" name="businessName" value="<?php echo $data['details']->username; ?>">
+                                        <input type="text" id="username" name="username" value="<?php echo property_exists($data['details'], 'username') ? htmlspecialchars($data['details']->username) : ''; ?>">
                                         <h4>Contact Number</h4>
                                         <input type="presentAddress" id="presentAddress" name="presentAddress" value="<?php echo $data['details']->telephone_number; ?>">
                                     </div>

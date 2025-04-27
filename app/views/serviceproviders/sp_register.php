@@ -119,6 +119,8 @@
                             <input type="tel" id="phone" name="phone" placeholder="Contact Number" required value="<?php echo isset($data['phone']) ? $data['phone'] : ''; ?>">
                             <span class="form-invalid" id="phone-error"><?php echo isset($data['phone_err']) ? $data['phone_err'] : ''; ?></span>
                            
+                            
+                            
                         </div>
 
                     </div>
