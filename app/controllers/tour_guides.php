@@ -12,7 +12,62 @@ public function __construct() {
 
 public function dashboard(){
     if (isset($_SESSION['id'])) {
-        $this->view('tour_guides/Dashboard');
+        $guider_id = $_SESSION['id'];
+        
+        // Get guider bookings for the table
+        $bookings = $this->guiderModel->getGuiderBookings($guider_id);
+        
+        // Get total bookings count
+        $totalBookings = $this->guiderModel->getGuiderBookingsCount($guider_id);
+        
+        // Get count of canceled bookings
+        $canceledBookings = $this->guiderModel->getCanceledBookingsCount($guider_id);
+        
+        // Get unavailable dates for the calendar
+        $unavailableDates = $this->guiderModel->getUnavailable($guider_id);
+        $calendarUnavailableDates = [];
+        
+        if (!empty($unavailableDates)) {
+            foreach ($unavailableDates as $date) {
+                $calendarUnavailableDates[] = $date->available_date;
+            }
+        }
+        
+        // Get active booking dates (not completed or canceled)
+        $activeBookings = $this->guiderModel->getActiveBookingDates($guider_id);
+        $calendarBookingDates = [];
+        
+        if (!empty($activeBookings)) {
+            foreach ($activeBookings as $booking) {
+                // Get dates between check-in and check-out
+                $checkIn = new DateTime($booking->check_in);
+                $checkOut = new DateTime($booking->check_out);
+                $interval = new DateInterval('P1D');
+                $dateRange = new DatePeriod($checkIn, $interval, $checkOut);
+                
+                foreach ($dateRange as $date) {
+                    $calendarBookingDates[] = $date->format('Y-m-d');
+                }
+                // Include checkout date
+                $calendarBookingDates[] = $checkOut->format('Y-m-d');
+            }
+        }
+        
+        // Get wallet details for earnings
+        $walletDetails = $this->guiderModel->getBankDetails($guider_id);
+        
+        // Prepare data for the view
+        $data = [
+            'totalBookings' => $totalBookings,
+            'canceledBookings' => $canceledBookings,
+            'recentBookings' => $bookings,
+            'unavailableDates' => $calendarUnavailableDates,
+            'bookingDates' => $calendarBookingDates,
+            'earnings' => isset($walletDetails['earnings']) ? $walletDetails['earnings'] : 0,
+            'walletBalance' => isset($walletDetails['wallet_balance']) ? $walletDetails['wallet_balance'] : 0
+        ];
+        
+        $this->view('tour_guides/Dashboard', $data);
     } else {
         redirect('ServiceProvider');
     }
