@@ -120,19 +120,20 @@
 
     
     public function getEquipmentCountBySupplierId($supplierId){
-        $sql = "SELECT COUNT(*) as equipment_count FROM rental_equipments WHERE supplier_id = :supplierId";
+        $sql = "SELECT COUNT(*) AS equipment_count 
+                FROM rental_equipments 
+                WHERE supplier_id = :supplierId AND deleted_at IS NULL;";
         try{
             $this->db->query($sql);
             $this->db->bind(':supplierId', $supplierId);
             $result = $this->db->single();
-            exit;
+            return $result->equipment_count;
         }catch(Exception $e){
             echo "Error: " . $e->getMessage();
             return false;
         }
 
     }
-
 
     public function getAllProducts($supplierId){
         try{
@@ -261,6 +262,7 @@
         return $this->errorMessage;
     }
         
+    
     
     }
 

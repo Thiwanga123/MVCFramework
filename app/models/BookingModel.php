@@ -479,6 +479,24 @@ public function cancelEquipmentBooking($booking_id, $supplier_id, $penaltyAmount
     }
 }
 
+public function upcomingBookingsCountBySupplierId($supplierId) {
+    $sql = "SELECT COUNT(*) AS upcoming_booking_count 
+            FROM rental_equipment_bookings 
+            WHERE supplier_id = :supplierId 
+            AND start_date > CURDATE()  
+            AND status IN ('booked', 'active')"; 
+    
+    try {
+        $this->db->query($sql);
+        $this->db->bind(':supplierId', $supplierId);
+        $result = $this->db->single(); // Get single row result (count)
+        return $result->upcoming_booking_count; // Return the count of upcoming bookings
+    } catch (Exception $e) {
+        echo "Error: " . $e->getMessage();
+        return false; // Return false in case of error
+    }
+}
+
 }
 
 ?>

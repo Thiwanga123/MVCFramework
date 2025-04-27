@@ -72,8 +72,8 @@
             include('successModal.php')
         ?>
 
-    <script src="<?php echo URLROOT;?>/js/EquipmentSupplierJS/AddRentalBtn.js"></script>
-    <script src="<?php echo URLROOT;?>/js/EquipmentSupplierJS/AddProduct.js"></script>
+    <script src="<?php echo URLROOT;?>/js/ushan/js/EquipmentSupplierJS/AddRentalBtn.js"></script>
+    <script src="<?php echo URLROOT;?>/js/ushan/js/EquipmentSupplierJS/AddProduct.js"></script>
     <script src="<?php echo URLROOT;?>/js/Sidebar.js"></script>
     <script src="<?php echo URLROOT;?>/js/logout.js"></script>
     <script src="<?php echo URLROOT;?>/js/subMenu.js"></script> 

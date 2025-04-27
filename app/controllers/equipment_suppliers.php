@@ -25,20 +25,25 @@ class Equipment_Suppliers extends Controller{
         if (isset($_SESSION['id'])) {
             $supplierId = $_SESSION['id'];
             $upcomingBookings = $this->bookingModel-> upcomingBookingsBySupplierId($supplierId);
+            $upcomingBookingCount = $this->bookingModel-> upcomingBookingsCountBySupplierId($supplierId);
+        
             $currentPage = 'dashboard';
-            // $equipmentCount = $this->productModel->getEquipmentCountBySupplierId($supplierId);
+            $equipmentCount = $this->productModel->getEquipmentCountBySupplierId($supplierId);
             
             $data = [
                 'currentPage' => $currentPage,
                 'upcomingBookings' => $upcomingBookings,
+                'equipmentCount' => $equipmentCount,
+                'upcomingBookingCount' => $upcomingBookingCount
             ];
+
+
             $this->view('equipment_supplier/Dashboard', $data);
 
         } else {
             redirect('ServiceProvider');
         } 
     }
-
 
 
     // public function myInventory(){

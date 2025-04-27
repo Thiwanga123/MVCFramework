@@ -42,7 +42,7 @@
     
     <a href="<?php echo URLROOT;?>/users/viewdetails/<?php echo $accomadation->property_id;?>" 
        onclick="this.href += '?budget=' + localStorage.getItem('budget') + '&check_in=' + localStorage.getItem('check_in') + '&check_out=' + localStorage.getItem('check_out');">
-        <button class="pay-btn" style="background-color: rgb(21, 126, 126); color: white; font-size: medium; height: 30px; border-radius: 30px; border: none; margin-top: 1rem; cursor: pointer; padding: 0 10px; transition: all 0.3s ease;">
+     </a>   <button class="pay-btn" style="background-color: rgb(21, 126, 126); color: white; font-size: medium; height: 30px; border-radius: 30px; border: none; margin-top: 1rem; cursor: pointer; padding: 0 10px; transition: all 0.3s ease;">
             View & Book
         </button>
     </a>

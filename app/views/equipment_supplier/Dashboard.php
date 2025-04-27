@@ -23,6 +23,7 @@
                 <div class="initial-container">
                     <div class="header">
                         <h1>Dashboard</h1>
+
                     </div>
                     <ul class="insights">
                         <li>
@@ -30,19 +31,11 @@
                             <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#000000"><path d="M202.87-71.87q-37.78 0-64.39-26.61t-26.61-64.39V-612.2q-18.24-12.43-29.12-31.48-10.88-19.06-10.88-43.02v-110.43q0-37.78 26.61-64.39t64.39-26.61h634.26q37.78 0 64.39 26.61t26.61 64.39v110.43q0 23.96-10.88 43.02-10.88 19.05-29.12 31.48v449.33q0 37.78-26.61 64.39t-64.39 26.61H202.87Zm0-523.83v433.07h554.5V-595.7h-554.5Zm-40-91h634.5v-110.43h-634.5v110.43Zm193.06 292.44H604.3v-86.22H355.93v86.22Zm124.31 14.98Z"/></svg>
                             </div>
                             <span class = "info">
-                                <h3>9</h3>
-                                <p>Total Products</p>
+                            <h3><?= $data['equipmentCount'] ?></h3>
+                            <p>Total Products</p>
                             </span>
                         </li>
-                        <li>
-                            <div class="view">
-                            <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#000000"><path d="M480-320q75 0 127.5-52.5T660-500q0-75-52.5-127.5T480-680q-75 0-127.5 52.5T300-500q0 75 52.5 127.5T480-320Zm.04-77.02q-42.89 0-72.95-30.02-30.07-30.03-30.07-72.92t30.02-72.95q30.03-30.07 72.92-30.07t72.95 30.02q30.07 30.03 30.07 72.92t-30.02 72.95q-30.03 30.07-72.92 30.07ZM480-192.59q-148.87 0-270.66-83.89Q87.54-360.37 32.59-500q54.95-139.63 176.75-223.52Q331.13-807.41 480-807.41t270.66 83.89Q872.46-639.63 927.41-500q-54.95 139.63-176.75 223.52Q628.87-192.59 480-192.59ZM480-500Zm.02 220q112.74 0 207-59.62T831.28-500q-50-100.76-144.28-160.38Q592.72-720 479.98-720q-112.74 0-207 59.62T128.72-500q50 100.76 144.28 160.38Q367.28-280 480.02-280Z"/></svg>
-                            </div>
-                            <span class = "info">
-                                <h3>21</h3>
-                                <p>Total Views</p>
-                            </span>
-                        </li>
+                    
                         <li>
                             <div class="earnings">
                             <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#000000"><path d="m140-220-60-60 300-300 160 160 284-320 56 56-340 384-160-160-240 240Z"/></svg>
@@ -57,8 +50,8 @@
                             <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#000000"><path d="M684.3-80q-83 0-141.5-58.5T484.3-280q0-83 58.5-141.5T684.3-480q83 0 141.5 58.5T884.3-280q0 83-58.5 141.5T684.3-80Zm67-102.61 30.4-30.63-75.48-75.48v-113.19h-43.59v130.56l88.67 88.74Zm-548.43 70.74q-37.54 0-64.27-26.73-26.73-26.73-26.73-64.27v-554.26q0-37.54 26.73-64.27 26.73-26.73 64.27-26.73h157.91q12.44-35.72 45.94-58.46 33.5-22.74 73.28-22.74 41.2 0 74.37 22.74t45.85 58.46h156.91q37.54 0 64.27 26.73 26.73 26.73 26.73 64.27v250q-19.91-14.91-42.9-25.47-22.99-10.55-48.1-17.07v-207.46H678.8v123.83H281.2v-123.83h-78.33v554.26h212.72q7.48 25.11 18.75 48.46 11.27 23.34 27.14 42.54H202.87ZM480-761.43q17 0 28.5-11.5t11.5-28.5q0-17-11.5-28.5t-28.5-11.5q-17 0-28.5 11.5t-11.5 28.5q0 17 11.5 28.5t28.5 11.5Z"/></svg>
                             </div>
                             <span class = "info">
-                                <h3>2</h3>
-                                <p>Rented Products</p>
+                                <h3><?= $data['upcomingBookingCount'] ?></h3>
+                                <p>Booked Equipments</p>
                             </span>
                         </li>
                     </ul>
@@ -136,10 +129,10 @@
     </div>
 
     <script>var bookings = <?= json_encode($data['upcomingBookings']) ?>;</script>
-    <script src="<?php echo URLROOT;?>/js/ushan/Sidebar.js"></script>
-    <script src="<?php echo URLROOT;?>/js/ushan/logout.js"></script>
-    <script src="<?php echo URLROOT;?>/js/ushan/subMenu.js"></script>
-    <script src="<?php echo URLROOT;?>/js/ushan/Calendar.js"></script>
+    <script src="<?php echo URLROOT;?>/js/ushan/js/Sidebar.js"></script>
+    <script src="<?php echo URLROOT;?>/js/ushan/js/logout.js"></script>
+    <script src="<?php echo URLROOT;?>/js/ushan/js/subMenu.js"></script>
+    <script src="<?php echo URLROOT;?>/js/ushan/js/Calendar.js"></script>
 </body>
 
 </html>

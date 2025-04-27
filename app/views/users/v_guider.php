@@ -10,7 +10,7 @@
     <link rel="stylesheet" href="<?php echo URLROOT;?>/css/adminpage/sidebarHeader.css">
     <link rel="stylesheet" href="<?php echo URLROOT;?>/css/userspage/supplierSection.css">
     <link rel="stylesheet" href="<?php echo URLROOT;?>/css/Modals/logoutModal.css">
-    <title>Vehicles</title>
+    <title>Guiders</title>
 </head>
 <body>
     <div class="box" id ="box">
@@ -55,12 +55,8 @@
                     <?php foreach ($guiders as $guider): ?>
                         <div class="equipment-card" data-location="<?php echo strtolower($guider->address); ?>" style="border: 1px solid #ddd; margin: 20px; padding: 15px; border-radius: 10px; width: 250px; display: inline-block; vertical-align: top;">
                             <div class="image-container">
-                                <?php
-                                $imagePaths = explode(',', $guider->images);
-                                $firstImage = isset($imagePaths[0]) ? $imagePaths[0] : null;
-                                ?>
-                                <?php if ($firstImage): ?>
-                                    <img src="<?php echo URLROOT . '/' . $firstImage; ?>" alt="Guider Image" style="width: 100%; border-radius: 10px;">
+                                <?php if (!empty($guider->profile_path) && pathinfo($guider->profile_path, PATHINFO_EXTENSION) === 'jpeg'): ?>
+                                    <img src="<?php echo URLROOT . '/' . $guider->profile_path; ?>" alt="Guider Profile Image" style="width: 100%; border-radius: 10px;">
                                 <?php else: ?>
                                     <p>No image available</p>
                                 <?php endif; ?>

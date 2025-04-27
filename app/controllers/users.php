@@ -264,7 +264,7 @@ class Users extends Controller {
             
 
             $equipment = $this->equipmentModel->getAllEquipment();
-         
+            
 
             $categories = $this->equipmentModel->getAllCategories();
             $currentPage = 'equipment_suppliers';

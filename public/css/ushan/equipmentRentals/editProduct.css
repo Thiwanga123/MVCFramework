@@ -39,7 +39,7 @@ h2 {
     margin-bottom: 30px;
 }
 
-.left, .right {
+.form-section .left-details, .form-section .right-details{
     flex: 1;
     min-width: 300px;
 }

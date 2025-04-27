@@ -1,21 +1,13 @@
 <?php
-$details = $data['rental'];
+$details = $data['details'];
 $imagePaths = explode(',', $details->image_paths);
 ?>
 
-<!-- <?php print_r($details); ?> -->
 <div class="details-container">
-
-    <!-- Image Upload Form -->
-     <div class="title">
-        <h2>Update Equipment Images</h2>
-        <button class="delete-item-btn" id="delete-item-btn"  data-product-id = "<?php echo htmlspecialchars($details->id); ?>">Delete Item</button>
-    </div>
-    
-        <form method="POST" action="submit-product-images.php" enctype="multipart/form-data" class="form1">
+    <button class="delete-item-btn" id="delete-item-btn"  data-product-id = "<?php echo htmlspecialchars($details->id); ?>">Delete Item</button>
         <div class="image-section">
             <div class="form-section">
-                <div class="left">
+                <div class="image-container">
                     <div class="image-top">
                         <button type="button" class="change-image" onclick="previousImage()">&#9664;</button>
                         <img src="<?php echo URLROOT . '/' . $imagePaths[0]; ?>" id="mainImage" alt="Main Image">
@@ -29,40 +21,61 @@ $imagePaths = explode(',', $details->image_paths);
                         <?php endforeach; ?>
                     </div>
                 </div>
-                <div class="right">
-                    <label for="newImages">Upload New Images</label>
-                    <input type="file" name="new_images[]" id="newImages" multiple accept="image/*">
-                    <button type="submit">Update Images</button>
-                </div>
             </div>
         </div>
-    </form>
 
     <!-- Equipment Details Form -->
-    <form method="POST" action="submit-product-details.php">
         <h2>Update Equipment Details</h2>
+        <form method="POST" action="<?php echo URLROOT; ?>/product/updateProduct">
         <div class="form-section">
-            <div class="left">
+            <div class="left-details">
+                <input type="hidden" name="rental_id" value="<?php echo htmlspecialchars($details->id); ?>">
+                
                 <label>Rental Name</label>
                 <input type="text" name="rental_name" value="<?php echo htmlspecialchars($details->rental_name); ?>">
+                <?php if (isset($data['errors']['rental_name'])): ?>
+                    <span class="error"><?php echo $data['errors']['rental_name']; ?></span>
+                <?php endif; ?>
 
                 <label>Price (Per day)</label>
                 <input type="number" name="price_per_day" value="<?php echo htmlspecialchars($details->price_per_day); ?>">
+                <?php if (isset($data['errors']['price_per_day'])): ?>
+                    <span class="error"><?php echo $data['errors']['price_per_day']; ?></span>
+                <?php endif; ?>
 
                 <label>Category</label>
-                <input type="text" name="category_name" value="<?php echo htmlspecialchars($details->category_name); ?>">
+                <select name="category_name">
+                    <?php foreach ($categories as $category): ?>
+                        <option value="<?php echo htmlspecialchars($category->category_name); ?>"
+                            <?php echo ($details->category_name == $category->category_name) ? 'selected' : ''; ?>>
+                            <?php echo htmlspecialchars($category->category_name); ?>
+                        </option>
+                    <?php endforeach; ?>
+                </select>
+                <?php if (isset($data['errors']['category_name'])): ?>
+                    <span class="error"><?php echo $data['errors']['category_name']; ?></span>
+                <?php endif; ?>
 
                 <label>Maximum Rental Period</label>
                 <input type="number" name="maximum_rental_period" value="<?php echo htmlspecialchars($details->maximum_rental_period); ?>">
+                <?php if (isset($data['errors']['maximum_rental_period'])): ?>
+                    <span class="error"><?php echo $data['errors']['maximum_rental_period']; ?></span>
+                <?php endif; ?>
 
                 <label>Delivery Available</label>
                 <label><input type="radio" name="delivery_available" value="yes" <?php echo ($details->delivery_available === 'yes') ? 'checked' : ''; ?>> Yes</label>
                 <label><input type="radio" name="delivery_available" value="no" <?php echo ($details->delivery_available === 'no') ? 'checked' : ''; ?>> No</label>
+                <?php if (isset($data['errors']['delivery_available'])): ?>
+                    <span class="error"><?php echo $data['errors']['delivery_available']; ?></span>
+                <?php endif; ?>
             </div>
 
-            <div class="right">
+            <div class="right-details">
                 <label>Description</label>
                 <textarea name="rental_description" rows="4"><?php echo htmlspecialchars($details->rental_description); ?></textarea>
+                <?php if (isset($data['errors']['rental_description'])): ?>
+                    <span class="error"><?php echo $data['errors']['rental_description']; ?></span>
+                <?php endif; ?>
 
                 <label>Return Policy</label>
                 <select name="return_policy" id="return_policy">
@@ -71,6 +84,9 @@ $imagePaths = explode(',', $details->image_paths);
                     <option value="partialRefund" <?php echo ($details->return_policy == 'partialRefund') ? 'selected' : ''; ?>>Partial refund</option>
                     <option value="bothRefunds" <?php echo ($details->return_policy == 'bothRefunds') ? 'selected' : ''; ?>>Both full and partial refund</option>
                 </select>
+                <?php if (isset($data['errors']['return_policy'])): ?>
+                    <span class="error"><?php echo $data['errors']['return_policy']; ?></span>
+                <?php endif; ?>
 
                 <div id="fullRefundSection" style="display: none;">
                     <label>Full Refund Time</label>
@@ -91,13 +107,18 @@ $imagePaths = explode(',', $details->image_paths);
 
                     <label>Partial Refund Percentage</label>
                     <input type="number" name="partial_refund_percentage" min="0" max="100" step="5" value="<?php echo htmlspecialchars($details->partial_refund_percentage); ?>">
+                    <?php if (isset($data['errors']['partial_refund_percentage'])): ?>
+                        <span class="error"><?php echo $data['errors']['partial_refund_percentage']; ?></span>
+                    <?php endif; ?>
                 </div>
 
                 <label>Damage Policy</label>
                 <textarea name="damage_policy" rows="4"><?php echo htmlspecialchars($details->damage_policy); ?></textarea>
-
-                <button type="submit">Update Details</button>
+                <?php if (isset($data['errors']['damage_policy'])): ?>
+                    <span class="error"><?php echo $data['errors']['damage_policy']; ?></span>
+                <?php endif; ?>
             </div>
         </div>
+        <button type="submit">Update Details</button>
     </form>
 </div>
