@@ -26,7 +26,7 @@
                     <div class="input">
                         <div class="start">
                             <label for="start_date">Start Date:</label>
-                            <input type="date" id="booking_start_date" name="booking_start_date" required onchange="validateDates()">
+                            <input type="date" id="booking_start_date" name="booking_start_date" required onchange="updateEndDateMin(); validateDates()">
                         </div>
                         <div class="end">
                             <label for="end_date">End Date:</label>
@@ -35,6 +35,21 @@
                         <script>
                             const unavailableDates = <?php echo json_encode($data['unavailabale']); ?>;
                             const bookings = <?php echo $data['bookings']; ?>;
+                            
+                            // Set minimum date to today for date inputs
+                            document.addEventListener('DOMContentLoaded', function() {
+                                const today = new Date().toISOString().split('T')[0];
+                                document.getElementById('booking_start_date').min = today;
+                                document.getElementById('booking_end_date').min = today;
+                            });
+                            
+                            // Update end date minimum value when start date changes
+                            function updateEndDateMin() {
+                                const startDate = document.getElementById('booking_start_date').value;
+                                if (startDate) {
+                                    document.getElementById('booking_end_date').min = startDate;
+                                }
+                            }
 
                             function validateDates() {
                                 const startDate = new Date(document.getElementById('booking_start_date').value);
@@ -228,9 +243,9 @@
         
         // Check if both dates are valid
         if (startDate && endDate && startDate <= endDate) {
-            // Calculate the difference in days
+            // Calculate the difference in days - including both start and end dates
             const diffTime = Math.abs(endDate - startDate);
-            const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+            const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)) + 1; // Adding 1 to include the end date
             
             // Calculate total price
             const totalPrice = diffDays * baseRate;
