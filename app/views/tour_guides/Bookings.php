@@ -227,6 +227,32 @@
                     </div>
                     <!-- End of Search Bar -->
 
+                    <!-- Debug Information -->
+                    <div style="background-color: #f8f9fa; padding: 10px; margin-bottom: 20px; border-radius: 4px;">
+                        <h4>Debug Information</h4>
+                        <p>Booking statuses in database:</p>
+                        <ul>
+                            <?php
+                            $statuses = [];
+                            if (!empty($data)) {
+                                foreach ($data as $booking) {
+                                    if (!in_array($booking->status, $statuses)) {
+                                        $statuses[] = $booking->status;
+                                        echo "<li>Status found: '" . $booking->status . "'</li>";
+                                    }
+                                }
+                                if (empty($statuses)) {
+                                    echo "<li>No statuses found</li>";
+                                }
+                            } else {
+                                echo "<li>No bookings data available</li>";
+                            }
+                            ?>
+                        </ul>
+                        <p>Total bookings count: <?php echo count($data); ?></p>
+                    </div>
+                    <!-- End Debug Information -->
+
                     <?php if (!empty($data)): ?>
                         <div class="table-responsive">
                             <table class="booking-table" id="bookingTable">
@@ -256,17 +282,25 @@
                                             <td><?php echo $booking->destination; ?></td>
                                             <td>Rs.<?php echo number_format($booking->amount, 2); ?></td>
                                             <td>
-                                                <?php if ($booking->status == 'booked'): ?>
+                                                <?php 
+                                                    $status = strtolower($booking->status); 
+                                                    if ($status == 'booked' || $status == 'confirmed' || $status == 'active'): 
+                                                ?>
                                                     <span class="status-badge status-confirmed">Booked</span>
-                                                <?php elseif ($booking->status == 'pending'): ?>
+                                                <?php elseif ($status == 'pending' || $status == 'waiting'): ?>
                                                     <span class="status-badge status-pending">Pending</span>
-                                                <?php else: ?>
+                                                <?php elseif ($status == 'cancelled' || $status == 'canceled'): ?>
                                                     <span class="status-badge status-cancelled">Cancelled</span>
+                                                <?php else: ?>
+                                                    <span class="status-badge status-cancelled"><?php echo ucfirst($status); ?></span>
                                                 <?php endif; ?>
                                             </td>
                                             <td>
                                                 <button class="btn-view">View</button>
-                                                <?php if ($booking->status != 'cancelled'): ?>
+                                                <?php 
+                                                    $status = strtolower($booking->status);
+                                                    if ($status != 'cancelled' && $status != 'canceled'): 
+                                                ?>
                                                     <button class="btn-cancel" onclick="openDeleteModal(<?php echo $booking->booking_id; ?>, '<?php echo $booking->check_in; ?>')">Delete</button>
                                                 <?php endif; ?>
                                             </td>

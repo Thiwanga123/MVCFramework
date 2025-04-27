@@ -71,7 +71,7 @@ class M_guider {
     
     // Delete a booking
     public function deleteBookingById($id) {
-        $this->db->query("DELETE FROM booking WHERE booking_id = :booking_id");
+        $this->db->query("DELETE FROM guider_booking WHERE booking_id = :booking_id");
         $this->db->bind(':booking_id', $id);
         if($this->db->execute()){
             return true;
@@ -102,7 +102,6 @@ class M_guider {
                 gb.amount, 
                 gb.pickup,
                 gb.destination,
-
                 gb.status, 
                 t.name AS traveler_name, 
                 t.email AS traveler_email, 
@@ -110,15 +109,15 @@ class M_guider {
             FROM guider_booking gb
             JOIN traveler t ON gb.traveler_id = t.traveler_id
             WHERE gb.guider_id = :guider_id
-            ORDER BY gb.check_in ASC
+            ORDER BY gb.check_in DESC
         ');
         $this->db->bind(':guider_id', $guider_id);
         return $this->db->resultSet();
     }
     
-    // Get the bookings of the guider
+    // Get the bookings count of the guider
     public function getGuiderBookingsCount($guider_id) {
-        $this->db->query('SELECT COUNT(*) as number_of_bookings FROM bookings WHERE id = :guider_id');
+        $this->db->query('SELECT COUNT(*) as number_of_bookings FROM guider_booking WHERE guider_id = :guider_id');
         $this->db->bind(':guider_id', $guider_id);
         $row = $this->db->single();
         return $row->number_of_bookings;
@@ -385,6 +384,30 @@ class M_guider {
             return false;
         }
         
+    }
+
+    // Get active booking dates (not completed or canceled)
+    public function getActiveBookingDates($guider_id) {
+        $this->db->query('
+            SELECT 
+                booking_id, check_in, check_out, status
+            FROM guider_booking 
+            WHERE guider_id = :guider_id 
+            AND status NOT IN ("completed", "cancelled", "canceled")
+        ');
+        $this->db->bind(':guider_id', $guider_id);
+        return $this->db->resultSet();
+    }
+
+    // Get count of canceled bookings
+    public function getCanceledBookingsCount($guider_id) {
+        $this->db->query('SELECT COUNT(*) as canceled_count 
+                          FROM guider_booking 
+                          WHERE guider_id = :guider_id 
+                          AND status IN ("cancelled", "canceled")');
+        $this->db->bind(':guider_id', $guider_id);
+        $row = $this->db->single();
+        return $row->canceled_count;
     }
 }
 
