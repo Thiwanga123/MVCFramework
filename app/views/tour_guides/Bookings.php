@@ -296,7 +296,20 @@
                                                 <?php endif; ?>
                                             </td>
                                             <td>
-                                                <button class="btn-view">View</button>
+                                                <button class="btn-view" onclick="openViewModal(<?php 
+                                                    echo htmlspecialchars(json_encode([
+                                                        'booking_id' => $booking->booking_id,
+                                                        'traveler_name' => $booking->traveler_name,
+                                                        'traveler_phone' => $booking->traveler_phone,
+                                                        'traveler_email' => $booking->traveler_email ?? '',
+                                                        'check_in' => $booking->check_in,
+                                                        'check_out' => $booking->check_out,
+                                                        'pickup' => $booking->pickup,
+                                                        'destination' => $booking->destination,
+                                                        'amount' => $booking->amount,
+                                                        'status' => $booking->status
+                                                    ]), ENT_QUOTES); 
+                                                ?>)">View</button>
                                                 <?php 
                                                     $status = strtolower($booking->status);
                                                     if ($status != 'cancelled' && $status != 'canceled'): 
@@ -337,6 +350,43 @@
     </div>
     <!-- End of Delete Confirmation Modal -->
 
+    <!-- View Booking Modal -->
+    <div id="viewModal" class="modal">
+        <div class="modal-content" style="width: 50%;">
+            <div class="modal-header">
+                <h4>Booking Details</h4>
+                <span style="cursor: pointer; font-size: 20px; font-weight: bold;" onclick="closeViewModal()">&times;</span>
+            </div>
+            <div class="modal-body">
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+                    <div>
+                        <h4 style="color: #3498db; margin-bottom: 15px;">Booking Information</h4>
+                        <p><strong>Booking ID:</strong> #<span id="view-booking-id"></span></p>
+                        <p><strong>Status:</strong> <span id="view-status"></span></p>
+                        <p><strong>Check-in Date:</strong> <span id="view-check-in"></span></p>
+                        <p><strong>Check-out Date:</strong> <span id="view-check-out"></span></p>
+                        <p><strong>Amount:</strong> Rs.<span id="view-amount"></span></p>
+                    </div>
+                    <div>
+                        <h4 style="color: #3498db; margin-bottom: 15px;">Traveler Information</h4>
+                        <p><strong>Name:</strong> <span id="view-traveler-name"></span></p>
+                        <p><strong>Phone:</strong> <span id="view-traveler-phone"></span></p>
+                        <p><strong>Email:</strong> <span id="view-traveler-email"></span></p>
+                    </div>
+                </div>
+                <div style="margin-top: 20px;">
+                    <h4 style="color: #3498db; margin-bottom: 15px;">Travel Details</h4>
+                    <p><strong>Pickup Location:</strong> <span id="view-pickup"></span></p>
+                    <p><strong>Destination:</strong> <span id="view-destination"></span></p>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn-view" onclick="closeViewModal()">Close</button>
+            </div>
+        </div>
+    </div>
+    <!-- End of View Booking Modal -->
+
     <script src="<?php echo URLROOT;?>/js/Sidebar.js"></script>
     <script>
         let deleteBookingId = null;
@@ -371,6 +421,63 @@
             }
         };
 
+        // Function to open the view booking modal
+        function openViewModal(bookingData) {
+            // Set the booking details in the modal
+            document.getElementById('view-booking-id').textContent = bookingData.booking_id;
+            
+            // Format the status with proper styling
+            const statusElement = document.getElementById('view-status');
+            const status = bookingData.status.toLowerCase();
+            let statusHTML = '';
+            
+            if (status === 'booked' || status === 'confirmed' || status === 'active') {
+                statusHTML = '<span class="status-badge status-confirmed">Booked</span>';
+            } else if (status === 'pending' || status === 'waiting') {
+                statusHTML = '<span class="status-badge status-pending">Pending</span>';
+            } else if (status === 'cancelled' || status === 'canceled') {
+                statusHTML = '<span class="status-badge status-cancelled">Cancelled</span>';
+            } else {
+                statusHTML = '<span class="status-badge status-cancelled">' + status.charAt(0).toUpperCase() + status.slice(1) + '</span>';
+            }
+            
+            statusElement.innerHTML = statusHTML;
+            
+            // Format dates nicely
+            const checkInDate = new Date(bookingData.check_in);
+            const checkOutDate = new Date(bookingData.check_out);
+            
+            document.getElementById('view-check-in').textContent = checkInDate.toLocaleDateString('en-US', {
+                weekday: 'long',
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric'
+            });
+            
+            document.getElementById('view-check-out').textContent = checkOutDate.toLocaleDateString('en-US', {
+                weekday: 'long',
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric'
+            });
+            
+            // Fill in the rest of the details
+            document.getElementById('view-amount').textContent = parseFloat(bookingData.amount).toLocaleString();
+            document.getElementById('view-traveler-name').textContent = bookingData.traveler_name;
+            document.getElementById('view-traveler-phone').textContent = bookingData.traveler_phone;
+            document.getElementById('view-traveler-email').textContent = bookingData.traveler_email;
+            document.getElementById('view-pickup').textContent = bookingData.pickup;
+            document.getElementById('view-destination').textContent = bookingData.destination;
+            
+            // Display the modal
+            document.getElementById('viewModal').style.display = 'block';
+        }
+        
+        // Function to close the view booking modal
+        function closeViewModal() {
+            document.getElementById('viewModal').style.display = 'none';
+        }
+
         // Function to filter table rows based on search input
         function filterTable() {
             const input = document.getElementById('searchInput');
@@ -392,6 +499,20 @@
                 rows[i].style.display = match ? '' : 'none';
             }
         }
+        
+        // Close the modals when clicking outside of them
+        window.onclick = function(event) {
+            const deleteModal = document.getElementById('deleteModal');
+            const viewModal = document.getElementById('viewModal');
+            
+            if (event.target === deleteModal) {
+                closeDeleteModal();
+            }
+            
+            if (event.target === viewModal) {
+                closeViewModal();
+            }
+        };
     </script>
 </body>
 </html>
