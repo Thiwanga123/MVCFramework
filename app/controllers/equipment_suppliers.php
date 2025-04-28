@@ -24,17 +24,19 @@ class Equipment_Suppliers extends Controller{
     public function dashboard(){
         if (isset($_SESSION['id'])) {
             $supplierId = $_SESSION['id'];
-            $upcomingBookings = $this->bookingModel-> upcomingBookingsBySupplierId($supplierId);
-            $upcomingBookingCount = $this->bookingModel-> upcomingBookingsCountBySupplierId($supplierId);
-        
+            // $upcomingBookings = $this->bookingModel-> upcomingBookingsBySupplierId($supplierId);
+            // $upcomingBookingCount = $this->bookingModel-> upcomingBookingsCountBySupplierId($supplierId);
+            // $recentBooking = $this->bookingModel->getRecentBookings($supplierId);
+
             $currentPage = 'dashboard';
             $equipmentCount = $this->productModel->getEquipmentCountBySupplierId($supplierId);
-            
+        
             $data = [
                 'currentPage' => $currentPage,
-                'upcomingBookings' => $upcomingBookings,
+                // 'upcomingBookings' => $upcomingBookings,
                 'equipmentCount' => $equipmentCount,
-                'upcomingBookingCount' => $upcomingBookingCount
+                // 'upcomingBookingCount' => $upcomingBookingCount,
+                // 'recentBookings' => $recentBooking
             ];
 
 

@@ -119,21 +119,8 @@
     }
 
     
-    public function getEquipmentCountBySupplierId($supplierId){
-        $sql = "SELECT COUNT(*) AS equipment_count 
-                FROM rental_equipments 
-                WHERE supplier_id = :supplierId AND deleted_at IS NULL;";
-        try{
-            $this->db->query($sql);
-            $this->db->bind(':supplierId', $supplierId);
-            $result = $this->db->single();
-            return $result->equipment_count;
-        }catch(Exception $e){
-            echo "Error: " . $e->getMessage();
-            return false;
-        }
-
-    }
+    
+    
 
     public function getAllProducts($supplierId){
         try{
@@ -160,7 +147,7 @@
 
     public function deleteProductById($productId){
         try{
-            $sql = "DELETE FROM products WHERE product_id = ?";
+            $sql = "DELETE FROM rental_equipments WHERE product_id = ?";
             $this->db->query($sql);
             $this->db->bind(1,$productId);
             $result = $this->db->execute();
@@ -198,48 +185,42 @@
 
     public function updateProduct($id, $data)
     {
+        
+         $category_object  = $this->getCategoryIdByName($data['category_name']);
+         $category_id = $category_object->category_id; 
+
+        $sql = "UPDATE rental_equipments SET rental_name = :rental_name, price_per_day = :price_per_day,category_id = :category_id,
+                maximum_rental_period = :maximum_rental_period, delivery_available = :delivery_available,rental_description = :rental_description,
+                return_policy = :return_policy,full_refund_time = :full_refund_time,partial_refund_time = :partial_refund_time,
+                partial_refund_percentage = :partial_refund_percentage,damage_policy = :damage_policy
+                WHERE id = :id";
+
+
                 try {
-                    $sql = "UPDATE rentals 
-                            SET rental_name = :rental_name,
-                                price_per_day = :price_per_day,
-                                category_name = :category_name,
-                                maximum_rental_period = :maximum_rental_period,
-                                delivery_available = :delivery_available,
-                                rental_description = :rental_description,
-                                return_policy = :return_policy,
-                                full_refund_time = :full_refund_time,
-                                partial_refund_time = :partial_refund_time,
-                                partial_refund_percentage = :partial_refund_percentage,
-                                damage_policy = :damage_policy
-                            WHERE id = :id";
-
+                    
                     $this->db->query($sql);
-
                     // Bind parameters
                     $this->db->bind(':rental_name', $data['rental_name']);
                     $this->db->bind(':price_per_day', $data['price_per_day']);
-                    $this->db->bind(':category_name', $data['category_name']);
+                    $this->db->bind(':category_id',  $category_id);
                     $this->db->bind(':maximum_rental_period', $data['maximum_rental_period']);
                     $this->db->bind(':delivery_available', $data['delivery_available']);
                     $this->db->bind(':rental_description', $data['rental_description']);
                     $this->db->bind(':return_policy', $data['return_policy']);
-                    $this->db->bind(':full_refund_time', $data['full_refund_time']);
-                    $this->db->bind(':partial_refund_time', $data['partial_refund_time']);
-                    $this->db->bind(':partial_refund_percentage', $data['partial_refund_percentage']);
+                    $this->db->bind(':full_refund_time', $data['fullRefundTime']);
+                    $this->db->bind(':partial_refund_time', $data['partialRefundTime']);
+                    $this->db->bind(':partial_refund_percentage', $data['partialRefundPercentage']);
                     $this->db->bind(':damage_policy', $data['damage_policy']);
                     $this->db->bind(':id', $id);
 
                     if ($this->db->execute()) {
                         return true;
-                    } else {
-                        throw new Exception("Failed to update rental product.");
-                    }
+                    } 
                 } catch (Exception $e) {
-                    $error_msg = $e->getMessage();
-                    echo "<script>alert('An error occurred: $error_msg');</script>";
-                    return false;
+                    return $e->getMessage();
                 }
             }
+
 
     public function getDetailsForCancellations($productId){
     $sql = 'SELECT id, return_policy, full_refund_time, partial_refund_time, partial_refund_percentage 
@@ -260,6 +241,23 @@
 
     public function getErrorMessage() {
         return $this->errorMessage;
+    }
+
+
+    public function getEquipmentCountBySupplierId($supplierId){
+        $sql = "SELECT COUNT(*) AS equipment_count 
+                FROM rental_equipments 
+                WHERE supplier_id = :supplierId AND deleted_at IS NULL;";
+        try{
+            $this->db->query($sql);
+            $this->db->bind(':supplierId', $supplierId);
+            $result = $this->db->single();
+            return $result->equipment_count;
+        }catch(Exception $e){
+            echo "Error: " . $e->getMessage();
+            return false;
+        }
+
     }
         
     

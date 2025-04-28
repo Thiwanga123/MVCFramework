@@ -125,70 +125,7 @@ public function updateProfile($data){
 
 //////////////////////////////////////////////////////////// EQUIPMENT BOOKINGS   ////////////////////////////////////////////////////////////////////////////
 
-    public function addEquipmentBooking($data){   
-        $sql = "INSERT INTO rental_equipment_bookings (user_id, equipment_id, supplier_id, start_date, end_date, total_price) VALUES (?, ?, ?, ?, ?, ?)";
-        try{
-            $this->db->query($sql);
-            $this->db->bind(1,$data['user_id']);
-            $this->db->bind(2,$data['product_id']);
-            $this->db->bind(3,$data['supplier_id']);
-            $this->db->bind(4,$data['booking_start_date']);
-            $this->db->bind(5,$data['booking_end_date']);
-            $this->db->bind(6,$data['totalPrice']);
-            return $this->db->execute();
-        }catch(Exception $e){
-            $error_msg = $e->getMessage();
-            echo "<script>alert('An error occured: $error_msg');</script>";
-            return false;
-        }
-    }
-
-    public function getBookingsByEquipmentId($productId){
-        $sql = "SELECT user_id, start_date, end_date, status FROM rental_equipment_bookings WHERE equipment_id = ?";
-        try{
-            $this->db->query($sql);
-            $this->db->bind(1,$productId);
-            $result = $this->db->resultSet();
-            return $result;
-        }catch(Exception $e){
-            $error_msg = $e->getMessage();
-            echo "<script>alert('An error occured: $error_msg');</script>";
-            return false;
-        }
-    }
-
-    public function getBookingsBySupplierId($supplierId){
-        $sql = "SELECT b.*, ri.image_path
-                FROM rental_equipment_bookings b 
-                LEFT JOIN rental_images ri ON b.equipment_id = ri.product_id
-                AND ri.image_id = (SELECT MIN(image_id) FROM rental_images WHERE product_id = b.equipment_id)
-                WHERE b.supplier_id = ?";
-        try{
-            $this->db->query($sql);
-            $this->db->bind(1, $supplierId);
-            $result = $this->db->resultSet();
-            return $result;
-        }catch(Exception $e){
-            $error_msg = $e->getMessage();
-            echo "<script>alert('An error occured: $error_msg');</script>";
-            return false;
-        }
-    }
-
-    public function upcomingBookingsBySupplierId($supplierId){
-        $sql = 'SELECT * FROM rental_equipment_bookings WHERE supplier_id = ? AND start_date > CURRENT_DATE';
-        try{
-            $this->db->query($sql);
-            $this->db->bind(1, $supplierId);
-            $result = $this->db->resultSet();
-            return $result;
-        }catch(Exception $e){
-            $error_msg = $e->getMessage();
-            echo "<script>alert('An error occured: $error_msg');</script>";
-            return false;
-        }
-    }
-
+   
     public function getBookingsByVehicleId($id){
         $sql = "SELECT user_id, start_date, end_date, status FROM vehicle_bookings WHERE vehicle_id = ?";
         try{
@@ -478,6 +415,70 @@ public function cancelEquipmentBooking($booking_id, $supplier_id, $penaltyAmount
         return false;
     }
 }
+
+public function addEquipmentBooking($data){   
+        $sql = "INSERT INTO rental_equipment_bookings (user_id, equipment_id, supplier_id, start_date, end_date, total_price) VALUES (?, ?, ?, ?, ?, ?)";
+        try{
+            $this->db->query($sql);
+            $this->db->bind(1,$data['user_id']);
+            $this->db->bind(2,$data['product_id']);
+            $this->db->bind(3,$data['supplier_id']);
+            $this->db->bind(4,$data['booking_start_date']);
+            $this->db->bind(5,$data['booking_end_date']);
+            $this->db->bind(6,$data['totalPrice']);
+            return $this->db->execute();
+        }catch(Exception $e){
+            $error_msg = $e->getMessage();
+            echo "<script>alert('An error occured: $error_msg');</script>";
+            return false;
+        }
+    }
+
+    public function getBookingsByEquipmentId($productId){
+        $sql = "SELECT user_id, start_date, end_date, status FROM rental_equipment_bookings WHERE equipment_id = ?";
+        try{
+            $this->db->query($sql);
+            $this->db->bind(1,$productId);
+            $result = $this->db->resultSet();
+            return $result;
+        }catch(Exception $e){
+            $error_msg = $e->getMessage();
+            echo "<script>alert('An error occured: $error_msg');</script>";
+            return false;
+        }
+    }
+
+    public function getBookingsBySupplierId($supplierId){
+        $sql = "SELECT b.*, ri.image_path
+                FROM rental_equipment_bookings b 
+                LEFT JOIN rental_images ri ON b.equipment_id = ri.product_id
+                AND ri.image_id = (SELECT MIN(image_id) FROM rental_images WHERE product_id = b.equipment_id)
+                WHERE b.supplier_id = ?";
+        try{
+            $this->db->query($sql);
+            $this->db->bind(1, $supplierId);
+            $result = $this->db->resultSet();
+            return $result;
+        }catch(Exception $e){
+            $error_msg = $e->getMessage();
+            echo "<script>alert('An error occured: $error_msg');</script>";
+            return false;
+        }
+    }
+
+    public function upcomingBookingsBySupplierId($supplierId){
+        $sql = 'SELECT * FROM rental_equipment_bookings WHERE supplier_id = ? AND start_date > CURRENT_DATE';
+        try{
+            $this->db->query($sql);
+            $this->db->bind(1, $supplierId);
+            $result = $this->db->resultSet();
+            return $result;
+        }catch(Exception $e){
+            $error_msg = $e->getMessage();
+            echo "<script>alert('An error occured: $error_msg');</script>";
+            return false;
+        }
+    }
 
 }
 

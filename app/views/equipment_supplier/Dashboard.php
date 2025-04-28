@@ -64,55 +64,35 @@
                                 <h3>Recent Orders</h3>
                                 <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#000000"><path d="M440-160q-17 0-28.5-11.5T400-200v-240L168-736q-15-20-4.5-42t36.5-22h560q26 0 36.5 22t-4.5 42L560-440v240q0 17-11.5 28.5T520-160h-80Zm40-308 198-252H282l198 252Zm0 0Z"/></svg>
                             </div>
-                            <table>
+                            <?php if (!empty($data['recentBookings'])): ?>
+                                <table>
                                 <thead>
                                     <tr>
                                         <th>Customer</th>
-                                        <th>Order Date</th>
-                                        <th>Product</th>
-                                        <th>Quantity</th>
-                                        <th>Status</th>
+                                        <th>Equipment</th>
+                                        <th>Start Date</th>
+                                        <th>End Date</th>
+                                        <th>Price</th>
                                     </tr>
                                 </thead>
-                                <tbody>
-                                    <tr>
-                                        <td>
-                                            <img src="Images/default profile.png">
-                                            <p>John Doe</p>
-                                        </td>
-                                        <td>21-08-2024</td>
-                                        <td>Product A</td>
-                                        <td>4</td>
-                                        <td>
-                                            <span class="status completed">Completed</span>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <img src="Images/default profile.png">
-                                            <p>John Doe</p>
-                                        </td>
-                                        <td>14-07-2024</td>
-                                        <td>Product B</td>
-                                        <td>10</td>
-                                        <td>
-                                            <span class="status pending">Pending</span>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <img src="Images/default profile.png">
-                                            <p>John Doe</p>
-                                        </td>
-                                        <td>01-01-2024</td>
-                                        <td>Product A</td>
-                                        <td>4</td>
-                                        <td>
-                                            <span class="status cancelled">Cancelled</span>
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table> 
+                                        <?php foreach ($data['recentBookings'] as $booking): ?>
+                                            <tr>
+                                                <td>
+                                                   <?php echo htmlspecialchars($booking->customer_name); ?>
+                                                </td>
+                                                <td><?php echo htmlspecialchars($booking->equipment_name); ?></td>
+                                                <td><?php echo date('d-m-Y', strtotime($booking->start_date)); ?></td>
+                                                <td><?php echo date('d-m-Y', strtotime($booking->end_date)); ?></td>
+                                                <td><?php echo 'Rs. ' . htmlspecialchars($booking->total_price); ?></td>
+                                            </tr>
+                                        <?php endforeach; ?>
+                                    <?php else: ?>
+                                        <tr>
+                                            <td colspan="5">No recent bookings found.</td>
+                                        </tr>
+                                    </tbody>
+                                    <?php endif; ?>
+                                </table> 
                         </div>
 
                         <div class="upcomingBookings">    

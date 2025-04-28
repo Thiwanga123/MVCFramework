@@ -1,632 +1,306 @@
 <?php
 
-class Transport_suppliers extends Controller
-{
-    private $transportModel;
+class Equipment_Suppliers extends Controller{
 
-    public function __construct()
-    {
-        $this->transportModel = $this->model('TransportModel');
+    private $productModel;
+    private $userModel;
+    private $supplierModel;
+    private $bookingModel;
+    private $reviewModel;
+
+    public function __construct(){
+        $this->productModel = $this->model('ProductModel');
+        $this->supplierModel = $this->model('SupplierModel');
+        $this->userModel = $this->model('ServiceProviderModel');
+        $this->bookingModel = $this->model('BookingModel');
+        $this->reviewModel = $this->model('ReviewModel');
+
     }
 
-    public function index()
-    {
+    public function index(){
         echo "hi";
     }
 
-   
-    public function dashboard() {
+    public function dashboard(){
         if (isset($_SESSION['id'])) {
             $supplierId = $_SESSION['id'];
-    
-            // Load your TransportModel
-            $this->transportModel = $this->model('TransportModel');
-    
-            // Get total vehicles
-            $vehicleData = $this->transportModel->getTotalVehicle($supplierId);
-    
-            // Get total bookings for this supplier
-            $bookingData = $this->transportModel->countBookingsBySupplier($supplierId);
-     
-            // Get detailed booking data to display in the table
-            $detailedBookingData = $this->transportModel->getAllBookingsBySupplier($supplierId);
-    
-            // Prepare data to pass to view
+            $upcomingBookings = $this->bookingModel-> upcomingBookingsBySupplierId($supplierId);
+            $upcomingBookingCount = $this->bookingModel-> upcomingBookingsCountBySupplierId($supplierId);
+            $recentBooking = $this->bookingModel->getRecentBookings($supplierId);
+
+            $currentPage = 'dashboard';
+            $equipmentCount = $this->productModel->getEquipmentCountBySupplierId($supplierId);
+        
             $data = [
-                'vehicles' => $vehicleData->total_vehicles ?? 0,
-                'bookings' => $bookingData->total ?? 0,
-                'bookings_details' => $detailedBookingData // new data for displaying booking details
+                'currentPage' => $currentPage,
+                'upcomingBookings' => $upcomingBookings,
+                'equipmentCount' => $equipmentCount,
+                'upcomingBookingCount' => $upcomingBookingCount,
+                'recentBookings' => $recentBooking
             ];
-    
-            // Load the dashboard view with data
-            $this->view('transport_supplier/Dashboard', $data);
+
+
+            $this->view('equipment_supplier/Dashboard', $data);
+
         } else {
             redirect('ServiceProvider');
-        }
+        } 
     }
 
-    public function details($id)
-    {
-        if (isset($_SESSION['id'])) {
-            $vehicle = $this->transportModel->getVehicleById($id);
-            $currentPage = 'vehicles';
+
+    // public function myInventory(){
+
+    //     if (isset($_SESSION['id'])) {
+
+    //         $supplierId = $_SESSION['id'];
+    //         $this->productModel = $this->model('ProductModel');
+    //         $products = $this->productModel->getAllProducts($supplierId);
+    //         $data = [
+    //             'products' => $products,
+    //             'breadcrumbs' => $this->generateBreadcrumbs()
+    //         ];
+            
+    //         $this->view('equipment_supplier/MyInventory',$data);
+
+    //     } else {
+    //         redirect('ServiceProvider');
+    //     }
+
+    // }
+
+    
+    public function myInventory(){
+        if(isset($_SESSION['id'])){
+            $rentals = $this->productModel->getAllProducts($_SESSION['id']);
+            $categories = $this->productModel->getAllCategories();
+            $currentPage = 'myInventory';
             $data = [
-                'vehicle' => $vehicle,
+                'rentals' =>  $rentals,
+                'categories' => $categories, 
                 'currentPage' => $currentPage
             ];
-            $this->view('transport_supplier/ViewVehicle', $data);
-        } else {
-            redirect('ServiceProvider');
-        }
-    }
-    
-
-    public function myInventory()
-    {
-        if (isset($_SESSION['id'])) {
-            $supplierId = $_SESSION['id'];
-            $vehicles = $this->transportModel->getAllVehicles($supplierId);
-            $currentPage = 'vehicles';
-
-            $data = [
-                'vehicles' => $vehicles,
-                'currentPage' => $currentPage
-            ];
-            $this->view('transport_supplier/MyInventory', $data);
-        } else {
-            redirect('ServiceProvider');
+            
+            $this->view('equipment_supplier/MyInventory', $data);
+        }else{
+            redirect("ServiceProvider");
         }
     }
 
-
-    public function orders()
-    {
+    public function orders(){
         if (isset($_SESSION['id'])) {
-            $supplierId = $_SESSION['id'];
+            $currentPage = 'bookings';
+            $bookings = $this->bookingModel->getBookingsBySupplierId($_SESSION['id']);
             
-            // Get detailed booking data to display in the table
-            $bookings = $this->transportModel->getAllBookingsBySupplier($supplierId);
-            
-            // Prepare data to pass to view
-            $data = [
+            $data =[
+                'currentPage' => $currentPage,
                 'bookings' => $bookings
             ];
-            
-            $this->view('transport_supplier/Orders', $data);
+            $this->view('equipment_supplier/Orders', $data);
+        } else {
+            redirect('ServiceProvider/login');
+        }
+        
+    }
+
+    public function reviews(){
+
+        if (isset($_SESSION['id'])) {
+        
+            $currentPage = 'reviews';
+            $sptype = 'equipment';
+            $reviews = $this->reviewModel->getEquipmentReviewsBySupplierId($_SESSION['id'], $sptype);
+        
+            $data = [
+                'currentPage' => $currentPage,
+                'reviews' => $reviews
+            ];
+
+            $this->view('equipment_supplier/Reviews', $data);
         } else {
             redirect('ServiceProvider');
         }
     }
 
-    public function reviews()
-    {   
-        
-   
-            $this->view('transport_supplier/Reviews');
+    public function bankdetails(){
+
+        if (isset($_SESSION['id'])) {
+            $this->view('equipment_supplier/bankdetails');
+        } else {
+            redirect('ServiceProvider');
+        }
+    }
+
+    public function Mypayments(){
+
+        if (isset($_SESSION['id'])) {
+            $this->view('equipment_supplier/Mypayments');
+        } else {
+            redirect('ServiceProvider');
+        }
+    }
+
+    public function notifications(){
+
+        if (isset($_SESSION['id'])) {
+            $this->view('equipment_supplier/Earnings');
+        } else {
+            redirect('ServiceProvider');
+        }
         
     }
 
-    public function driver()
-    {       
-        if(isset($_SESSION['id'])){
+    public function profile(){
+
+        if (isset($_SESSION['id'])) {
+            $id = $_SESSION['id'];
+            $type = $_SESSION['type'];
+            $details = $this->getProfileDetails($id,$type);
+            $currentPage = 'profile';
+            $data = [
+                'details' => $details,
+                'currentPage' => $currentPage
+            ];
+            $this->view('equipment_supplier/Myprofile',$data);
+        } else {
+            redirect('ServiceProvider');
+        }
+    }
+
+    public function addProduct(){
+
+        if (isset($_SESSION['id'])) {
             $supplierId = $_SESSION['id'];
-            $this->transportModel = $this->model('TransportModel');
-            $drivers = $this->transportModel->getAllDrivers($supplierId);
-
+            $this->productModel = $this->model('ProductModel');
+            $categories = $this->productModel->getAllCategories();
             $data = [
-                'drivers' => $drivers
-            ];
-
-            $this->view('transport_supplier/driver', $data);
-            
-            }else{
-                redirect('users/login');
-            }
-        
-    }
-    public function drive()
-    {       
-        if(isset($_SESSION['id'])){
-            $supplierId = $_SESSION['id'];
-            $this->transportModel = $this->model('TransportModel');
-            $drivers = $this->transportModel->getAllDrivers($supplierId);
-
-            $data = [
-                'drivers' => $drivers
-            ];
-
-            $this->view('transport_supplier/Addriver', $data);
-            
-            }else{
-                redirect('users/login');
-            }
-        
-    }
-
-    public function Myprofile()
-    {
-        
-            $this->view('transport_supplier/Myprofile');
-    }
-    public function Mypayments()
-    {
-        
-            $this->view('transport_supplier/Mypayments');
-    }
-    public function addVehicle() {
-        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-            // Debug to see if we're getting the form data
-            error_log('AddVehicle form submission received: ' . print_r($_POST, true));
-            error_log('Image data: ' . print_r($_FILES, true));
-            
-            $data = [
-                'id'=> $_SESSION['id'],
-                'vehicleType' => trim($_POST['vehicleType']),
-                'vehicleModel' =>trim($_POST['vehicleModel']) ,
-                'vehicleMake' => trim($_POST['vehicleMake']),    
-                'plateNumber' => trim($_POST['licensePlateNumber']),
-                'rate' => trim($_POST['vehicleRate']),
-                'fuelType' => trim($_POST['fuelType']),
-                'description' => trim($_POST['description']),
-                'availability' => trim($_POST['availability']),
-                'driver' => trim($_POST['driver']),
-                'cost' => trim($_POST['vehicleCost']),
-                'location' => trim($_POST['vehicleLocation']),
-                'seating_capacity' => trim($_POST['seating_capacity']),
-            ];
-
-            $errors = [];
-
-            // Validate required fields
-            if(empty($data['vehicleType'])){
-                $errors[] = 'Vehicle Type is required';
-            }
-
-            if(empty($data['vehicleModel'])){
-                $errors[] = 'Vehicle Model is required';
-            }
-
-            if(empty($data['vehicleMake'])){
-                $errors[] = 'Vehicle Make is required';
-            }
-
-            if(empty($data['plateNumber'])){
-                $errors[] = 'Vehicle License Plate Number is required';
-            }
-
-            if(empty($data['rate'])){
-                $errors[] = 'Rate is required';
-            }
-          
-            if(empty($data['fuelType'])){
-                $errors[] = 'Fuel Type is required';
-            }
-
-            if(empty($data['description'])){
-                $errors[] = 'Description is required';
-            }
-
-            if(empty($data['availability'])){
-                $errors[] = 'Availability is required';
-            }
-
-            if(empty($data['driver'])){
-                $errors[] = 'driver is required';
-            }
-
-            if(empty($data['cost'])){
-                $errors[] = 'Driver Rates are required';
-            }
-
-            if(empty($data['location'])){
-                $errors[] = 'Location is required';
-            }
-            if(empty($data['seating_capacity'])){
-                $errors[] = 'seating_capacity is required';
-            }
-
-            // Handle image uploads
-            $imageExtensions = ['jpeg','jpg','png'];
-            $images = $_FILES['vehicleImages'];
-            $imagePath = '';
-
-            if(count($images['name']) > 5){
-                $errors[] = 'Select only up to 5 images';
-            }
-
-            if(empty($errors)) {
-                // Process the first image for primary image_path
-                if(isset($images['name'][0]) && !empty($images['name'][0])) {
-                    $filename = $images['name'][0];
-                    $fileTempName = $images['tmp_name'][0];
-                    
-                    $nameArray = explode('.', $filename);
-                    $fileExtension = strtolower(end($nameArray));
-
-                    if(in_array($fileExtension, $imageExtensions)) {
-                        // Create upload directory if it doesn't exist
-                        $uploadDir = "Uploads/vehicles";
-                        if(!is_dir($uploadDir)){
-                            mkdir($uploadDir, 0777, true);
-                        }
-
-                        // Create unique filename to prevent overwriting
-                        $uniqueFilename = uniqid() . '.' . $fileExtension;
-                        $filepath = "$uploadDir/$uniqueFilename";
-
-                        if(move_uploaded_file($fileTempName, $filepath)){
-                            $imagePath = $filepath;
-                            error_log("Image uploaded successfully to: $filepath");
-                        } else {
-                            $errors[] = "Error uploading file: $filename";
-                            error_log("Failed to move uploaded file from $fileTempName to $filepath");
-                        }
-                    } else {
-                        $errors[] = "Invalid image type for: $filename";
-                    }
-                }
-
-                // Create vehicle with image path
-                if(empty($errors)) {
-                    // Try using the original addVehicle method first, which seems more stable
-                    $isInserted = $this->transportModel->addVehicle(
-                        $data['id'], 
-                        $data['vehicleType'], 
-                        $data['vehicleModel'], 
-                        $data['vehicleMake'], 
-                        $data['plateNumber'], 
-                        $data['rate'], 
-                        $data['fuelType'], 
-                        $data['description'], 
-                        $data['availability'], 
-                        $data['driver'], 
-                        $data['cost'],
-                        $data['location'],
-                        $data['seating_capacity']
-                    );
-
-                    if($isInserted) {
-                        $vehicleId = $isInserted;
-                        
-                        // Now update the image_path if we have an image
-                        if(!empty($imagePath)) {
-                            $updateResult = $this->transportModel->updateVehicleImage($vehicleId, $imagePath);
-                            if(!$updateResult) {
-                                error_log("Failed to update vehicle image for vehicle ID: $vehicleId");
-                            }
-                        }
-                        
-                        $_SESSION['message'] = "Vehicle added successfully!";
-                        redirect('transport_suppliers/myInventory');
-                    } else {
-                        error_log("Failed to insert vehicle into database");
-                        $_SESSION['message'] = "Failed to add vehicle.";
-                        redirect('transport_suppliers/myInventory');
-                    }
-                } else {
-                    $_SESSION['errors'] = $errors;
-                    redirect('transport_suppliers/myInventory');
-                }
-            } else {
-                $_SESSION['errors'] = $errors;
-                redirect('transport_suppliers/myInventory');
-            }
-        } else {
-            redirect('transport_suppliers/myInventory');
-        }
-    }
-    public function delete_availability($id) {
-        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-            if ($this->transportModel->deleteVehicleById($id)) {
-                redirect('transport_suppliers/myinventory');
-            } else {
-                die('Something went wrong');
-            }
-        } else {
-            redirect('transport_suppliers/myinventory');
-        }
-    }
-    
-    
-    
-    
-    
-   
-    public function updateprofile()
-{
-    if (isset($_SESSION['id'])) {
-        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-            //get the data from the form
-            $data = [
-                'id' => $_SESSION['id'],
-                'name' => $_POST['name'],
-                'email' => $_POST['email'],
-                'address' => $_POST['address'],
-                'password' => $_POST['password'],
-                'nic' => $_POST['nic'],
-                'phone' => $_POST['phone'],
-            ];
-            //update the profile
-            $this->transportModel->updateprofile($data);
-            redirect('transport_suppliers/logout');
-        } else {
-            redirect('transport_suppliers/profile');
-        }
-    } else {
-        redirect('ServiceProvider');
-    }
-}
-
-public function logout() {
-    //if an admin is logged in
-    unset($_SESSION['user_id']);
-    unset($_SESSION['email']);
-    unset($_SESSION['name']);
-    session_destroy();
-    redirect('ServiceProvider/login');
-}
-
-
-public function editVehicle() {
-    if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-        $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
-
-        $data = [
-            'vehicleId' => trim($_POST['vehicleId']), // <-- add this
-            'supplierId' => $_SESSION['id'],          // <-- correct key for binding
-            'vehicleType' => trim($_POST['vehicleType']),
-            'vehicleModel' =>trim($_POST['vehicleModel']) ,
-            'vehicleMake' => trim($_POST['vehicleMake']),    
-            'plateNumber' => trim($_POST['licensePlateNumber']),
-            'rate' => trim($_POST['vehicleRate']),
-            'fuelType' => trim($_POST['fuelType']),
-            'description' => trim($_POST['description']),
-            'availability' => trim($_POST['availability']),
-            'driver' => trim($_POST['driver']),
-            'cost' => trim($_POST['vehicleCost']),
-            'location' => trim($_POST['vehicleLocation']),
-            'seating_capacity' => trim($_POST['seating_capacity']),
-        ];
-        
-        if ($this->transportModel->updateVehicle($data)) {
-            redirect('transport_suppliers/myInventory');
-        } else {
-            die("Something went wrong updating the vehicle.");
-        }
-    } else {
-        redirect('transport_suppliers/myInventory');
-    }
-}
-public function addriver() {
-    if ($_SERVER['REQUEST_METHOD'] == 'POST')
-        // Ensure the form fields are set before accessing them
-        $data = [
-            'id' => $_SESSION['id'] ?? null,
-            'name' => isset($_POST['name']) ? trim($_POST['name']) : '',
-            'phone' => isset($_POST['phone']) ? trim($_POST['phone']) : '',
-            'driverLicense' => isset($_POST['driverLicense']) ? trim($_POST['driverLicense']) : '',
-            'email' => isset($_POST['email']) ? trim($_POST['email']) : '',
-            'description' => isset($_POST['description']) ? trim($_POST['description']) : '',
-        ];
-
-        $errors = [];
-
-        // Validation checks
-        if (empty($data['name'])) {
-            $errors[] = 'Name is required';
-        }
-
-
-        if (empty($data['phone'])) {
-            $errors[] = 'Phone number is required';
-        } elseif (!preg_match('/^\d{10}$/', $data['phone'])) { // Example validation for a 10-digit phone number
-            $errors[] = 'Invalid phone number format';
-        }
-
-        if (empty($data['email'])) {
-            $errors[] = 'Email is required';
-        } elseif (!filter_var($data['email'], FILTER_VALIDATE_EMAIL)) {
-            $errors[] = 'Invalid email format';
-        }
-
-        if (empty($data['description'])) {
-            $errors[] = 'Description is required';
-        }
-
-        if (empty($data['driverLicense'])) {
-            $errors[] = 'driverLicense is required';
-        }
-        
-        if (!empty($errors)) {
-            $_SESSION['errors'] = $errors; // Store errors in session
-            redirect('transport_suppliers/driver'); // Redirect back to form page
-        }
-    
-        // Insert driver details into the database
-        $isInserted = $this->transportModel->addriver($data['name'], $data['phone'], $data['email'], $data['description'], $data['id'], $data['driverLicense']);
-      
-
-        if ($isInserted) {
-            $_SESSION['message'] = "Driver added successfully!";
-            redirect('/transport_suppliers/driver');  
-        } else {
-            $_SESSION['message'] = "Failed to add driver.";
-            redirect('transport_suppliers/driver');
-        }
-    }
-   
-   
-   
-    public function delete($id) {
-        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-            if ($this->transportModel->deleteDriverById($id)) {
-                redirect('transport_suppliers/driver');
-            } else {
-                die("Something went wrong.");
-            }
-        } else {
-            redirect('transport_suppliers/driver'); // prevent delete via GET
-        }
-    }
-    
-
-        public function getVehicleDetails() {
-            header('Content-Type: application/json');
-        
-            if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-                // Get the raw POST body and decode JSON
-                $input = json_decode(file_get_contents('php://input'), true);
-        
-                // Validate input
-                if (!isset($input['vehicleId']) || empty($input['vehicleId'])) {
-                    // Return error response
-                    http_response_code(400);
-                    echo json_encode([
-                        'success' => false,
-                        'message' => 'Vehicle ID is required'
-                    ]);
-
-                    return;
-                }
-        
-                $vehicleId = $input['vehicleId'];
-        
-                // Assuming your model is named TransportModel and it has a method to get vehicle details
-                $vehicle = $this->transportModel->getVehicleById($vehicleId);
-                if ($vehicle) {
-                    // Return success response with vehicle data
-                    echo json_encode([
-                        'success' => true,
-                        'message' => 'Vehicle details fetched successfully',
-                        'data' => [
-                            'supplier_id' => $vehicle->supplierId,
-                            'vehicle_id' => $vehicle->vehicle_id,
-                            'make' => $vehicle->make,
-                            'model' => $vehicle->model,
-                            'type' => $vehicle->type,
-                            'fuel_type' => $vehicle->fuel_type,
-                            'location' => $vehicle->location,
-                            'cost' => $vehicle->cost,
-                            'rate' => $vehicle->rate,
-                            'availability' => $vehicle->availability,
-                            'license_plate_number' => $vehicle->license_plate_number,
-                            'seating_capacity' => $vehicle->seating_capacity,
-                            'description' => $vehicle->description,
-                            'driver' => $vehicle->driver,
-                            'image_paths' => $vehicle->image_path 
-                        ]
-                    ]);
                 
-                } else {
-                    http_response_code(404);
-                    echo json_encode([
-                        'success' => false,
-                        'message' => 'Vehicle not found'
-                    ]);
-                }
-            } else {
-                http_response_code(405);
-                echo json_encode([
-                    'success' => false,
-                    'message' => 'Method not allowed'
-                ]);
-            }
-        }
-        
-        public function saveVehicleDetails()
-        {
-            // Make sure the request is POST and JSON
-            if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-                // Read the raw POST data       
-                $input = file_get_contents('php://input');
-                $bookingData = json_decode($input, true);
-
-               
-                // Optional: Validate required fields
-                $requiredFields = ['vehicleId', 'supplierId', 'rate', 'pickupLocation', 'driverOption'];
-                foreach ($requiredFields as $field) {
-                    if (empty($bookingData[$field])) {
-                        http_response_code(400);
-                        echo json_encode(['error' => "Missing field: $field"]);
-                        return;
-                    }
-                }
-        
-        
-                // Save booking data to session
-                $_SESSION['booking_vehicle_data'] = $bookingData;
-        
-                // Respond back to AJAX call
-                echo json_encode([
-                    'status' => 'success',
-                    'message' => 'Booking data saved to session.',
-                    'data' => $bookingData
-                ]);
-            } else {
-                http_response_code(405); // Method Not Allowed
-                echo json_encode(['error' => 'Invalid request method.']);
-            }
-        }
-
-    // Cancel booking with possible penalty
-    public function cancelBooking($id){
-        if (!isset($_SESSION['id'])) {
-            header('Content-Type: application/json');
-            echo json_encode(['status' => 'error', 'message' => 'Not authorized']);
-            return;
-        }
-        
-        $supplier_id = $_SESSION['id'];
-        
-        // Get booking details
-        $booking = $this->transportModel->getBookingById($id);
-        
-        if (!$booking) {
-            header('Content-Type: application/json');
-            echo json_encode(['status' => 'error', 'message' => 'Booking not found']);
-            return;
-        }
-        
-        if ($booking->supplier_id != $supplier_id) {
-            header('Content-Type: application/json');
-            echo json_encode(['status' => 'error', 'message' => 'You are not authorized to cancel this booking']);
-            return;
-        }
-        
-        // Check if booking is already cancelled
-        if (strtolower($booking->status) == 'cancelled' || strtolower($booking->status) == 'canceled') {
-            header('Content-Type: application/json');
-            echo json_encode(['status' => 'error', 'message' => 'This booking has already been cancelled']);
-            return;
-        }
-        
-        // Calculate if penalty applies (within 3 days of check-in)
-        $checkIn = new DateTime($booking->check_in);
-        $today = new DateTime();
-        $isPenaltyApplicable = ($checkIn->diff($today)->days <= 3);
-        
-        // Calculate penalty amount (20% of booking amount if applicable)
-        $penaltyAmount = $isPenaltyApplicable ? ($booking->amount * 0.2) : 0;
-        
-        // Process cancellation with appropriate penalty
-        if ($this->transportModel->cancelBooking($id, $supplier_id, $penaltyAmount)) {
-            // Create success message
-            if ($isPenaltyApplicable) {
-                $message = 'Booking cancelled successfully. A 20% penalty (Rs. ' . number_format($penaltyAmount, 2) . ') has been applied to your account. We have refunded the remaining amount of Rs. ' . number_format($booking->amount - $penaltyAmount, 2) . ' to the traveler.';
-            } else {
-                $message = 'Booking cancelled successfully. Full amount of Rs. ' . number_format($booking->amount, 2) . ' has been refunded to the traveler.';
-            }
-            
-            $_SESSION['cancellation_success'] = $message;
-            redirect('transport_suppliers/orders');
+            ];
+            $this->view('equipment_supplier/AddProduct', $data);
         } else {
-            $_SESSION['cancellation_error'] = 'Something went wrong while cancelling the booking. Please try again later.';
-            redirect('transport_suppliers/orders');
+            redirect('ServiceProvider');
         }
     }
-}
+
+    public function generateBreadcrumbs(){
+        $path = trim($_SERVER['REQUEST_URI'], '/');
+        $parts = explode('/', $path);
+        $url = URLROOT;
+        $breadcrumbs = [];
+
+        $breadcrumbs[] = ['name' => 'Home', 'url' => URLROOT];
+
+        for($i = 0; $i <count($parts); $i++){
+            $url .= "/". $parts[$i];
+
+            $breadcrumbs[] = [
+                'name' =>ucfirst(str_replace("-", " ", $parts[$i])), 
+                'url' => $url
+            ];
+        }
+        return $breadcrumbs;
+    }
+
+    public function updateProfile() {
+        if (isset($_SESSION['id'])) {
+            $id = $_SESSION['id'];
+            $type = $_SESSION['type'];
+    
+            // Check if the form has been submitted
+            if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+                $data =  [
+                    'name' => trim($_POST['name']),
+                    'email' => trim($_POST['email']),
+                    'address' => trim($_POST['address']),
+                    'username' => trim($_POST['username']),
+                    'telephone_number' => trim($_POST['contactnumber']),
+                    'gvtNo' => trim($_POST['regno']),
+                    'latitude'=> trim($_POST['latitude']),
+                    'longitude' => trim($_POST['longitude'])
+                ];
+    
+                $result = $this->userModel->updateSupplierProfile($data);
+                if ($result) {
+                    redirect('equipment_suppliers/profile');
+                } else {
+                    die("Failed to update profile.");
+                }
+            }
+    
+        } else {
+            // Redirect if user is not logged in
+            redirect('ServiceProvider');
+        }
+    }
+
+    public function getProfileDetails($id, $type){
+        $data = $this->userModel->getUserData($id,$type);
+        return $data;
+    }
+
+    public function getSuppliersByLocation(){
+
+        $jsonData = file_get_contents("php://input");
+        $data = json_decode($jsonData, true);
 
 
+        if (!$data || !isset($data['latitude']) || !isset($data['longitude'])) {
+            http_response_code(400); 
+            echo json_encode(["error" => "Invalid input data"]);
+            return;
+        }
+
+        $latitude = $data['latitude'];
+        $longitude = $data['longitude'];
+        $radius = 10;
+
+        $suppliers = $this->supplierModel->getAllSuppliers();
+
+        if (!$suppliers) {
+            echo json_encode(["error" => "No suppliers found"]);
+            exit;
+        }
+
+        $filteredSuppliers = [];
+
+        foreach($suppliers as $supplier){
+            $distance = $this->calculateDistance($latitude, $longitude, $supplier->latitude, $supplier->longitude);
+            if($distance <= $radius){
+                $supplier->distance = $distance;
+                $filteredSuppliers[] = $supplier;
+            }
+        }
+
+        usort($filteredSuppliers, function($a, $b) {
+            return $a->distance <=> $b->distance;
+        });
+        
+        header("Content-Type: application/json");
+        echo json_encode(["suppliers" => $filteredSuppliers]);
+
+    }
+
+    private function calculateDistance($lat1, $lon1, $lat2, $lon2) {
+        $earthRadius = 6371; 
+    
+        $lat1 = deg2rad($lat1);
+        $lon1 = deg2rad($lon1);
+        $lat2 = deg2rad($lat2);
+        $lon2 = deg2rad($lon2);
+    
+        $dLat = $lat2 - $lat1;
+        $dLon = $lon2 - $lon1;
+    
+        $a = sin($dLat / 2) * sin($dLat / 2) +
+             cos($lat1) * cos($lat2) * 
+             sin($dLon / 2) * sin($dLon / 2);
+        
+        $c = 2 * atan2(sqrt($a), sqrt(1 - $a));
+    
+        return $earthRadius * $c;
+    }
+} 
 
 
+?> 
 
+controller eka

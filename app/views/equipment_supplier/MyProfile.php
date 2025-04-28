@@ -50,7 +50,6 @@
                             </div>
                         </div>
 
-                       
                         <div class="profileContent">
                     
                             <form action="<?php echo URLROOT; ?>/equipment_suppliers/updateProfile" method="POST">
@@ -120,12 +119,12 @@
         </div>
     </div>
 
-    <script src="<?php echo URLROOT;?>/js/ushan/Sidebar.js"></script>
-    <script src="<?php echo URLROOT;?>/js/ushan/logout.js"></script>
-    <script src="<?php echo URLROOT;?>/js/ushan/subMenu.js"></script>
-    <script src="<?php echo URLROOT;?>/js/ushan/profilePicUpload.js"></script>
+    <script src="<?php echo URLROOT;?>/js/ushan/js/Sidebar.js"></script>
+    <script src="<?php echo URLROOT;?>/js/ushan/js/logout.js"></script>
+    <script src="<?php echo URLROOT;?>/js/ushan/js/subMenu.js"></script>
+    <script src="<?php echo URLROOT;?>/js/ushan/js/profilePicUpload.js"></script>
     <script src="https://maps.googleapis.com/maps/api/js?key=<?php echo API_KEY; ?>&libraries=places&callback=initMap" async defer></script>
-    <script src="<?php echo URLROOT;?>/js/EquipmentSupplierJS/profileLocation.js"></script>
+    <script src="<?php echo URLROOT;?>/js/ushan/js/EquipmentSupplierJS/profileLocation.js"></script>
 
 
 </body>
