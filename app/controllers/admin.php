@@ -39,6 +39,15 @@ class Admin extends Controller {
         }
     }
 
+    public function notifications() {
+        //if an admin is logged in
+        if (isset($_SESSION['user_id'])) {
+            $this->view('admin/v_notifications');
+        } else {
+            redirect('admin/login');
+        }
+    }
+
     public function travelers() {
        //if an admin is logged in
         if (isset($_SESSION['user_id'])) {

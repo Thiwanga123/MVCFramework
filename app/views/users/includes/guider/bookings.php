@@ -26,11 +26,15 @@
                     <div class="input">
                         <div class="start">
                             <label for="start_date">Start Date:</label>
-                            <input type="date" id="booking_start_date" name="booking_start_date" required onchange="validateDates()">
+                            <input type="date" id="booking_start_date" name="booking_start_date" required 
+                                   onchange="validateDates()" 
+                                   min="<?php echo date('Y-m-d'); ?>">
                         </div>
                         <div class="end">
                             <label for="end_date">End Date:</label>
-                            <input type="date" id="booking_end_date" name="booking_end_date" required onchange="validateDates()">
+                            <input type="date" id="booking_end_date" name="booking_end_date" required 
+                                   onchange="validateDates()" 
+                                   min="<?php echo date('Y-m-d'); ?>">
                         </div>
                         <script>
                             const unavailableDates = <?php echo json_encode($data['unavailabale']); ?>;
