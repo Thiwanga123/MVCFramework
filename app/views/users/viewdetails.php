@@ -744,55 +744,89 @@
     <script>
         let totalAmount = 0;
         let totalRooms = 0;
+        let numberOfDays = 1; // Default to 1 day
+
+        // Calculate number of days between check-in and check-out dates
+        function calculateDays() {
+            const checkIn = new Date('<?php echo $data['check_in']; ?>');
+            const checkOut = new Date('<?php echo $data['check_out']; ?>');
+            
+            // Calculate the difference in milliseconds
+            const timeDifference = checkOut.getTime() - checkIn.getTime();
+            
+            // Convert to days
+            numberOfDays = Math.ceil(timeDifference / (1000 * 3600 * 24));
+            
+            // Ensure at least 1 day
+            if (numberOfDays < 1) {
+                numberOfDays = 1;
+            }
+            
+            console.log(`Stay duration: ${numberOfDays} days`);
+            return numberOfDays;
+        }
+
+        // Calculate days on page load
+        document.addEventListener('DOMContentLoaded', calculateDays);
 
         function addRoom(type, price, max) {
-    let inputId = type + 'RoomInput';
-    let roomInput = document.getElementById(inputId);
-    let numberOfRooms = parseInt(roomInput.value);
-    
-    // Check if numberOfRooms is valid and less than maximum
-    if (!isNaN(numberOfRooms) && numberOfRooms >= 0 && numberOfRooms < max) {
-        numberOfRooms++;
-        roomInput.value = numberOfRooms;
-        totalAmount += price;
-        totalRooms++;
-        
-        // Update display values
-        document.getElementById('totalAmount').innerText = 'LKR ' + totalAmount;
-        document.getElementById('totalamount').value = totalAmount;
-        document.getElementById('totalRooms').innerText = totalRooms;
-        document.getElementById('totalrooms').value = totalRooms;
-        document.getElementById('roomCharges').innerHTML = 'LKR ' + totalAmount;
-        
-        // Update hidden fields for room counts
-        document.getElementById(type + '_rooms').value = numberOfRooms;
-    } else {
-        alert('No more rooms of this type available.');
-    }
-}
+            let inputId = type + 'RoomInput';
+            let roomInput = document.getElementById(inputId);
+            let numberOfRooms = parseInt(roomInput.value);
+            
+            // Check if numberOfRooms is valid and less than maximum
+            if (!isNaN(numberOfRooms) && numberOfRooms >= 0 && numberOfRooms < max) {
+                numberOfRooms++;
+                roomInput.value = numberOfRooms;
+                
+                // Calculate price based on room price * number of days
+                const dailyPrice = price;
+                const totalPriceForRoom = dailyPrice * numberOfDays;
+                
+                totalAmount += totalPriceForRoom;
+                totalRooms++;
+                
+                // Update display values
+                document.getElementById('totalAmount').innerText = 'LKR ' + totalAmount;
+                document.getElementById('totalamount').value = totalAmount;
+                document.getElementById('totalRooms').innerText = totalRooms;
+                document.getElementById('totalrooms').value = totalRooms;
+                document.getElementById('roomCharges').innerHTML = 'LKR ' + totalAmount;
+                
+                // Update hidden fields for room counts
+                document.getElementById(type + '_rooms').value = numberOfRooms;
+            } else {
+                alert('No more rooms of this type available.');
+            }
+        }
 
-function removeRoom(type, price) {
-    let inputId = type + 'RoomInput';
-    let roomInput = document.getElementById(inputId);
-    let numberOfRooms = parseInt(roomInput.value);
-    
-    if (!isNaN(numberOfRooms) && numberOfRooms > 0) {
-        numberOfRooms--;
-        roomInput.value = numberOfRooms;
-        totalAmount -= price;
-        totalRooms--;
-        
-        // Update display values
-        document.getElementById('totalAmount').innerText = 'LKR ' + totalAmount;
-        document.getElementById('totalamount').value = totalAmount;
-        document.getElementById('totalRooms').innerText = totalRooms;
-        document.getElementById('totalrooms').value = totalRooms;
-        document.getElementById('roomCharges').innerHTML = 'LKR ' + totalAmount;
-        
-        // Update hidden fields for room counts
-        document.getElementById(type + '_rooms').value = numberOfRooms;
-    }
-}
+        function removeRoom(type, price) {
+            let inputId = type + 'RoomInput';
+            let roomInput = document.getElementById(inputId);
+            let numberOfRooms = parseInt(roomInput.value);
+            
+            if (!isNaN(numberOfRooms) && numberOfRooms > 0) {
+                numberOfRooms--;
+                roomInput.value = numberOfRooms;
+                
+                // Calculate price based on room price * number of days
+                const dailyPrice = price;
+                const totalPriceForRoom = dailyPrice * numberOfDays;
+                
+                totalAmount -= totalPriceForRoom;
+                totalRooms--;
+                
+                // Update display values
+                document.getElementById('totalAmount').innerText = 'LKR ' + totalAmount;
+                document.getElementById('totalamount').value = totalAmount;
+                document.getElementById('totalRooms').innerText = totalRooms;
+                document.getElementById('totalrooms').value = totalRooms;
+                document.getElementById('roomCharges').innerHTML = 'LKR ' + totalAmount;
+                
+                // Update hidden fields for room counts
+                document.getElementById(type + '_rooms').value = numberOfRooms;
+            }
+        }
     </script>
 
     <!-- <script>

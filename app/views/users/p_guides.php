@@ -42,7 +42,7 @@
                     $today = date('Y-m-d');
                 ?>  
 
-                <div class="filter-bar">
+                <!-- <div class="filter-bar">
                     <div class="filter-item">
                         <label for="sDate">Start Date</label>
                             <div class="input-group">
@@ -86,7 +86,7 @@
                         <button type="button" class="apply-filter">Apply</button>
                         <button type="button" class="reset-filter">Reset</button>
                     </div>
-                </div>
+                </div> -->
 
                 <p>Showing All Tour Guides()</p>
                

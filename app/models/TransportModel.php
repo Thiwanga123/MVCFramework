@@ -16,10 +16,10 @@ class TransportModel
         return $this->db->resultSet();
     }
 
-    public function addVehicle($supplierId, $vehicleType, $vehicleModel, $vehicleMake, $plateNumber, $rate, $fuelType, $description, $availabilty,$driver, $cost, $location, $seating_capcity){
+    public function addVehicle($supplierId, $vehicleType, $vehicleModel, $vehicleMake, $plateNumber, $rate, $fuelType, $description, $availability, $driver, $cost, $location, $seating_capacity){
         try{
              $sql = "INSERT INTO vehicles (supplierId, type, model, make, license_plate_number, rate, fuel_type, description, availability, driver, cost, location, seating_capacity) 
-                         VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?,?,?,?,?)";
+                         VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
  
              $this->db->query($sql);
  
@@ -31,21 +31,21 @@ class TransportModel
              $this->db->bind(6, $rate);
              $this->db->bind(7, $fuelType);
              $this->db->bind(8, $description);
-             $this->db->bind(9, $availabilty);
+             $this->db->bind(9, $availability);
              $this->db->bind(10, $driver);
              $this->db->bind(11, $cost);
              $this->db->bind(12, $location);
-             $this->db->bind(13, $seating_capcity);
+             $this->db->bind(13, $seating_capacity);
 
              if ($this->db->execute()) {
-                 // Get the inserted product ID
+                 // Get the inserted vehicle ID
                  $vehicleId = $this->db->insertId();
                  return $vehicleId;
              } else {
-                 throw new Exception("Error inserting product.");
+                 throw new Exception("Error inserting vehicle.");
              }
          }catch(Exception $e){
-         return false;
+             return false;
          }
      }     
      public function updateVehicle($data) {
@@ -119,27 +119,27 @@ class TransportModel
 
      public function getAllVehicles($supplierId){
         try{
-            $sql = "SELECT v.*, i.image_path 
-                    FROM vehicles v JOIN 
-                    (SELECT vehicle_id, MIN(image_path) AS image_path 
-                    FROM vehicle_images 
-                    GROUP BY vehicle_id) i 
-                    ON 
-                    v.vehicle_id = i.vehicle_id
-                     WHERE 
-                    v.supplierId = ?";
-
+            $sql = "SELECT * FROM vehicles WHERE supplierId = ?";
+            
             $this->db->query($sql);
-            $this->db->bind(1,$supplierId);
-
+            $this->db->bind(1, $supplierId);
+            
             $result = $this->db->resultSet();
-
-            return $result;            
+            
+            // Convert image_path to image_paths array for consistency with existing view code
+            foreach($result as $vehicle) {
+                if($vehicle->image_path) {
+                    $vehicle->image_paths = explode(',', $vehicle->image_path);
+                } else {
+                    $vehicle->image_paths = [];
+                }
+            }
+            
+            return $result;
 
         }catch(Exception $e){
-            $error_msg = $e->getMessage();
-                echo "<script>alert('An error occurred: $error_msg');</script>";
-                return false;
+            error_log("Error in getAllVehicles: " . $e->getMessage());
+            return false;
         }
     }
 
@@ -262,13 +262,26 @@ public function updateprofile($data){
 
 
     public function getVehicleById($id){
-        $sql = 'SELECT * FROM vehicles WHERE vehicle_id = ?';
         try{
+            $sql = "SELECT v.*, GROUP_CONCAT(vi.image_path) as image_path 
+                    FROM vehicles v 
+                    LEFT JOIN vehicle_images vi ON v.vehicle_id = vi.vehicle_id 
+                    WHERE v.vehicle_id = ? 
+                    GROUP BY v.vehicle_id";
+                    
             $this->db->query($sql);
             $this->db->bind(1, $id);
             $result = $this->db->single();
+            
+            // Convert comma-separated image paths to array if exists
+            if($result && $result->image_path) {
+                $result->image_paths = explode(',', $result->image_path);
+            } else {
+                $result->image_paths = [];
+            }
+            
             return $result;
-        }catch(Exception $e){
+        } catch(Exception $e){
             $error_msg = $e->getMessage();
             echo "<script>alert('An error occurred: $error_msg');</script>";
             return false;
@@ -316,7 +329,10 @@ public function updateprofile($data){
     }
     
     public function getAllBookingsBySupplier($supplierId) {
-        $this->db->query("SELECT * FROM vehicle_booking WHERE supplier_id = :supplier_id");
+        $this->db->query("SELECT vb.*, t.name, t.email, t.telephone_number as phone_number 
+                         FROM vehicle_booking vb
+                         JOIN traveler t ON vb.traveler_id = t.traveler_id
+                         WHERE vb.supplier_id = :supplier_id");
         $this->db->bind(':supplier_id', $supplierId);
         return $this->db->resultSet();
     }
@@ -327,23 +343,6 @@ public function countBookingsBySupplier($supplierId) {
     $this->db->bind(':supplier_id', $supplierId);
     return $this->db->single();
 }
-
-// public function getVehicleById($vehicleId) {
-//     $sql = "SELECT v.*, vi.image_path
-//                 FROM vehicles v
-//                 LEFT JOIN vehicle_images vi ON v.vehicle_id = vi.vehicle_id
-//                 WHERE v.vehicle_id = ?";
-//     try{
-//         $this->db->query($sql);
-//         $this->db->bind(1, $vehicleId);
-//         return $this->db->single();
-//     }catch(Exception $e){
-//         $error_msg = $e->getMessage();
-//         echo "<script>alert('An error occurred: $error_msg');</script>";
-//         return false;
-//     }
-  
-// }
 
 public function getBookingById($booking_id) {
     $this->db->query('
@@ -450,6 +449,56 @@ public function getVehiclePrice($vehicleId){
     }catch(Exception $e){
         $error_msg = $e->getMessage();
         echo "<script>alert('An error occurred: $error_msg');</script>";
+        return false;
+    }
+}
+
+public function addVehicleWithImage($supplierId, $vehicleType, $vehicleModel, $vehicleMake, $plateNumber, $rate, $fuelType, $description, $availability, $driver, $cost, $location, $seating_capacity, $imagePath) {
+    try {
+        $sql = "INSERT INTO vehicles (supplierId, type, model, make, license_plate_number, rate, fuel_type, description, availability, driver, cost, location, seating_capacity, image_path) 
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+
+        $this->db->query($sql);
+
+        $this->db->bind(1, $supplierId);
+        $this->db->bind(2, $vehicleType);
+        $this->db->bind(3, $vehicleModel);
+        $this->db->bind(4, $vehicleMake);
+        $this->db->bind(5, $plateNumber);
+        $this->db->bind(6, $rate);
+        $this->db->bind(7, $fuelType);
+        $this->db->bind(8, $description);
+        $this->db->bind(9, $availability);
+        $this->db->bind(10, $driver);
+        $this->db->bind(11, $cost);
+        $this->db->bind(12, $location);
+        $this->db->bind(13, $seating_capacity);
+        $this->db->bind(14, $imagePath);
+
+        if ($this->db->execute()) {
+            // Get the inserted vehicle ID
+            $vehicleId = $this->db->insertId();
+            return $vehicleId;
+        } else {
+            throw new Exception("Error executing vehicle insertion query");
+        }
+    } catch (Exception $e) {
+        error_log("Error in addVehicleWithImage: " . $e->getMessage());
+        echo "<script>console.log('Database error: " . $e->getMessage() . "');</script>";
+        return false;
+    }
+}
+
+public function updateVehicleImage($vehicleId, $imagePath) {
+    try {
+        $sql = "UPDATE vehicles SET image_path = ? WHERE vehicle_id = ?";
+        $this->db->query($sql);
+        $this->db->bind(1, $imagePath);
+        $this->db->bind(2, $vehicleId);
+        
+        return $this->db->execute();
+    } catch (Exception $e) {
+        error_log("Error updating vehicle image: " . $e->getMessage());
         return false;
     }
 }

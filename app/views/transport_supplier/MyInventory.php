@@ -51,8 +51,8 @@
                             <?php foreach ($data['vehicles'] as $vehicle):?>
                             <tr>
                                 <td>
-                                    <?php if (!empty($vehicle->image_path)): ?>
-                                        <img src="<?= URLROOT . '/' . htmlspecialchars($vehicle->image_path); ?>" alt="Product Image" width="100" height="100">
+                                    <?php if (!empty($vehicle->image_paths) && count($vehicle->image_paths) > 0): ?>
+                                        <img src="<?= URLROOT . '/' . htmlspecialchars($vehicle->image_paths[0]); ?>" alt="Vehicle Image" width="100" height="100">
                                     <?php else: ?>
                                         No Image
                                     <?php endif; ?>
@@ -63,33 +63,29 @@
                                 <td><?php echo htmlspecialchars($vehicle->availability); ?></td>
                                 <td class="action-button">
                                     <!-- Edit Button -->
-                                    <button class="vehicle-edit-btn" name="vehicle-edit-btn" id="vehicle-edit-btn"
-                                        vehicleType="<?php echo $vehicle->type; ?>"
-                                        vehicleModel="<?php echo $vehicle->model; ?>"
-                                        vehicleMake="<?php echo $vehicle->make; ?>"
-                                        seating_capacity="<?php echo $vehicle->seating_capacity; ?>"
-
-                                        availability="<?php echo $vehicle->availability; ?>"
-                                        licensePlateNumber="<?php echo $vehicle->license_plate_number; ?>"
-                                        vehicleRate="<?php echo $vehicle->rate; ?>"
-                                        fuelType="<?php echo $vehicle->fuel_type; ?>"
-                                        description="<?php echo $vehicle->description; ?>"
-                                        driver="<?php echo $vehicle->driver; ?>"
-                                        vehicleCost="<?php echo $vehicle->cost; ?>"
-                                        availability="<?php echo $vehicle->availability; ?>"
-                                        vehicleLocation="<?php echo $vehicle->location; ?>"
-                                        vid="<?php echo $vehicle->id; ?>"
-                                        onclick="window.location.href='<?php echo URLROOT; ?>/transport_suppliers/editVehicle<?php echo $vehicle->id; ?>';">
+                                    <button class="vehicle-edit-btn" name="vehicle-edit-btn"
+                                        vehicleType="<?php echo htmlspecialchars($vehicle->type); ?>"
+                                        vehicleModel="<?php echo htmlspecialchars($vehicle->model); ?>"
+                                        vehicleMake="<?php echo htmlspecialchars($vehicle->make); ?>"
+                                        seating_capacity="<?php echo htmlspecialchars($vehicle->seating_capacity); ?>"
+                                        availability="<?php echo htmlspecialchars($vehicle->availability); ?>"
+                                        licensePlateNumber="<?php echo htmlspecialchars($vehicle->license_plate_number); ?>"
+                                        vehicleRate="<?php echo htmlspecialchars($vehicle->rate); ?>"
+                                        fuelType="<?php echo htmlspecialchars($vehicle->fuel_type); ?>"
+                                        description="<?php echo htmlspecialchars($vehicle->description); ?>"
+                                        driver="<?php echo htmlspecialchars($vehicle->driver); ?>"
+                                        vehicleCost="<?php echo htmlspecialchars($vehicle->cost); ?>"
+                                        vehicleLocation="<?php echo htmlspecialchars($vehicle->location); ?>"
+                                        vid="<?php echo htmlspecialchars($vehicle->vehicle_id); ?>">
                                         Edit
                                     </button>
 
-                                    <form action="<?php echo URLROOT; ?>/transport_suppliers/delete_availability/<?php echo $vehicle->vehicle_id; ?>" method="POST" onsubmit="return confirm('Are you sure?');">
+                                    <form action="<?php echo URLROOT; ?>/transport_suppliers/delete_availability/<?php echo $vehicle->vehicle_id; ?>" method="POST" onsubmit="return confirm('Are you sure you want to delete this vehicle?');">
                                         <button type="submit" class="delete-btn">Delete</button>
                                     </form>
 
-
                                     <a href="<?php echo URLROOT; ?>/transport_suppliers/details/<?php echo $vehicle->vehicle_id; ?>">
-                                        <button class="vehicle-info-btn" name= "vehicle-info-btn">View</button>
+                                        <button class="vehicle-info-btn" name="vehicle-info-btn">View</button>
                                     </a>
                                 </td>
                             </tr>

@@ -55,15 +55,9 @@
                     <?php foreach ($vehicles as $vehicle): ?>
                         <div class="equipment-card" data-location="<?php echo strtolower($vehicle->location); ?>" style="border: 1px solid #ddd; margin: 20px; padding: 15px; border-radius: 10px; width: 250px; display: inline-block; vertical-align: top;">
                             <div class="image-container">
-                                <?php
-                                $imagePaths = explode(',', $vehicle->images);
-                                $firstImage = isset($imagePaths[0]) ? $imagePaths[0] : null;
-                                ?>
-                                <?php if ($firstImage): ?>
-                                    <img src="<?php echo URLROOT . '/' . $firstImage; ?>" alt="Vehicle Image" style="width: 100%; border-radius: 10px;">
-                                <?php else: ?>
-                                    <p>No image available</p>
-                                <?php endif; ?>
+                            <img src="<?php echo URLROOT . '/' . $vehicle->image_path; ?>" alt="Guider Profile Image" style="width: 100%; border-radius: 10px;">
+
+                        
                             </div>
                             <div class="card-content" >
                                 <p>Model: <?php echo $vehicle->model; ?></p>

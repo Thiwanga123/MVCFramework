@@ -133,7 +133,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         const bookingData = await response.json();
         if (bookingData.success) {
-            alert('Booking successful!');
+            // alert('Booking successful!');
             document.getElementById('bookingModalOverlay').style.display = 'none'; // Close the modal
         } else {
             alert(bookingData.error || 'An error occurred during booking.');

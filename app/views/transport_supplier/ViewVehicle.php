@@ -48,7 +48,9 @@
                 </div>
             </div>
 
-            <!-- <?php print_r($data['vehicle']); ?> -->
+            <?php 
+                $vehicle = $data['vehicle']; 
+            ?>
 
             <div class="Inventory">
                 <div>
@@ -71,23 +73,23 @@
                     </thead>
                     <tbody>
                         <td>
-                        
-                        <?php if (!empty($vehicle->image_path)): ?>
-                                <img src="<?php echo URLROOT . '/' . $firstImage; ?>" alt="Vehicle Image" class="vehicle-image"width="100" height="100">    <?php else: ?>
-        No Image
-    <?php endif; ?>       </td>                 
-                            <td><?php echo $vehicle->type; ?></td>
-                            <td><?php echo $vehicle->model; ?></td>
-                            <td><?php echo $vehicle->make; ?></td>
-                            <td><?php echo $vehicle->seating_capacity; ?></td>
-                            <td><?php echo $vehicle->license_plate_number; ?></td>
-                            <td><?php echo $vehicle->rate; ?></td>
-                            <td><?php echo $vehicle->driver; ?></td>
-                            <td><?php echo $vehicle->cost; ?></td>
-                            <td><?php echo $vehicle->description; ?></td>
-                            <td><?php echo $vehicle->availability; ?></td>
-                            <td><?php echo $vehicle->location; ?></td>
-</td>
+                        <?php if (isset($vehicle->image_paths) && !empty($vehicle->image_paths)): ?>
+                            <img src="<?php echo URLROOT . '/' . htmlspecialchars($vehicle->image_paths[0]); ?>" alt="Vehicle Image" class="vehicle-image" width="100" height="100">
+                        <?php else: ?>
+                            No Image
+                        <?php endif; ?>
+                        </td>                 
+                            <td><?php echo htmlspecialchars($vehicle->type); ?></td>
+                            <td><?php echo htmlspecialchars($vehicle->model); ?></td>
+                            <td><?php echo htmlspecialchars($vehicle->make); ?></td>
+                            <td><?php echo htmlspecialchars($vehicle->seating_capacity); ?></td>
+                            <td><?php echo htmlspecialchars($vehicle->license_plate_number); ?></td>
+                            <td><?php echo htmlspecialchars($vehicle->rate); ?></td>
+                            <td><?php echo htmlspecialchars($vehicle->driver); ?></td>
+                            <td><?php echo htmlspecialchars($vehicle->cost); ?></td>
+                            <td><?php echo htmlspecialchars($vehicle->description); ?></td>
+                            <td><?php echo htmlspecialchars($vehicle->availability); ?></td>
+                            <td><?php echo htmlspecialchars($vehicle->location); ?></td>
                         </tr>
                     </tbody>
                 </table> 

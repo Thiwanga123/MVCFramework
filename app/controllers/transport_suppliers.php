@@ -81,9 +81,21 @@ class Transport_suppliers extends Controller
 
     public function orders()
     {
-           
-            $this->view('transport_supplier/Orders');
-        
+        if (isset($_SESSION['id'])) {
+            $supplierId = $_SESSION['id'];
+            
+            // Get detailed booking data to display in the table
+            $bookings = $this->transportModel->getAllBookingsBySupplier($supplierId);
+            
+            // Prepare data to pass to view
+            $data = [
+                'bookings' => $bookings
+            ];
+            
+            $this->view('transport_supplier/Orders', $data);
+        } else {
+            redirect('ServiceProvider');
+        }
     }
 
     public function reviews()
@@ -141,15 +153,17 @@ class Transport_suppliers extends Controller
         
             $this->view('transport_supplier/Mypayments');
     }
-    public function addVehicle(){
-        
-        if ($_SERVER['REQUEST_METHOD'] == 'POST'){
-           
+    public function addVehicle() {
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            // Debug to see if we're getting the form data
+            error_log('AddVehicle form submission received: ' . print_r($_POST, true));
+            error_log('Image data: ' . print_r($_FILES, true));
+            
             $data = [
                 'id'=> $_SESSION['id'],
                 'vehicleType' => trim($_POST['vehicleType']),
                 'vehicleModel' =>trim($_POST['vehicleModel']) ,
-                'vehicleMake' => trim($_POST['vehicleMake']),    //These variables are used to store the values which are sent via the form data
+                'vehicleMake' => trim($_POST['vehicleMake']),    
                 'plateNumber' => trim($_POST['licensePlateNumber']),
                 'rate' => trim($_POST['vehicleRate']),
                 'fuelType' => trim($_POST['fuelType']),
@@ -159,9 +173,11 @@ class Transport_suppliers extends Controller
                 'cost' => trim($_POST['vehicleCost']),
                 'location' => trim($_POST['vehicleLocation']),
                 'seating_capacity' => trim($_POST['seating_capacity']),
-
             ];
 
+            $errors = [];
+
+            // Validate required fields
             if(empty($data['vehicleType'])){
                 $errors[] = 'Vehicle Type is required';
             }
@@ -182,8 +198,6 @@ class Transport_suppliers extends Controller
                 $errors[] = 'Rate is required';
             }
           
-          
-            
             if(empty($data['fuelType'])){
                 $errors[] = 'Fuel Type is required';
             }
@@ -208,76 +222,97 @@ class Transport_suppliers extends Controller
                 $errors[] = 'Location is required';
             }
             if(empty($data['seating_capacity'])){
-                $errors[] = 'seating_capcity is required';
+                $errors[] = 'seating_capacity is required';
             }
 
-            $imageExtensions = ['jpeg','jpg','png']; //Extension array to check whether the uploaded files are eligible to upload
-            $imagePaths = [];   //Array to store the paths of the uploaded images
-            $images =  $_FILES['vehicleImages'];
-   
-            if(count($images['name']) > 5 ){
-                $errors[] = 'Select only upto 5 images';
+            // Handle image uploads
+            $imageExtensions = ['jpeg','jpg','png'];
+            $images = $_FILES['vehicleImages'];
+            $imagePath = '';
+
+            if(count($images['name']) > 5){
+                $errors[] = 'Select only up to 5 images';
             }
 
-            $supplierFolder = "Uploads/TransportSuppliers/{$data['id']}"; //Base folder for uploading the images
+            if(empty($errors)) {
+                // Process the first image for primary image_path
+                if(isset($images['name'][0]) && !empty($images['name'][0])) {
+                    $filename = $images['name'][0];
+                    $fileTempName = $images['tmp_name'][0];
+                    
+                    $nameArray = explode('.', $filename);
+                    $fileExtension = strtolower(end($nameArray));
 
-            if(!is_dir($supplierFolder)){           //Checking whether a folder for the supplieId exists already
-                mkdir($supplierFolder,0777,true);    //If there is no folder, a folder is created to the supplierId
-            }
-
-             //Creating the model instance to interact with the database
-            $isInserted = $this->transportModel->addVehicle($data['id'], $data['vehicleType'], $data['vehicleModel'], $data['vehicleMake'], $data['plateNumber'], $data['rate'], $data['fuelType'], $data['description'], $data['availability'], $data['driver'], $data['cost'],$data['location'],$data['seating_capacity']);
-            if($isInserted){
-                $vehicleId = $isInserted;
-                $vehicleFolder = "$supplierFolder/$vehicleId";
-
-                if (!is_dir($vehicleFolder)) {
-                    mkdir($vehicleFolder, 0777, true);
-                }
-
-                for ($i = 0; $i < count($images['name']); $i++) {
-                    if($images['error'][$i] == 0){
-                        $filename = $images['name'][$i];
-                        $fileTempName = $images['tmp_name'][$i];  //Storing the image properties
-                        
-                        $nameArray = explode('.',$filename);
-                        //In here explode method seperates the image file name to an array based on '.' It returns an array of strings.
-                        $fileExtension = strtolower(end($nameArray)); 
-                    //In here a variable is used to store the extension part of the image. The extention part is the last element of the 
-                    //array we got using the explode method.Here end method is used to get the last element of the array.
-
-                        if(in_array($fileExtension,$imageExtensions)){
-                            
-                            $filepath = "$vehicleFolder/$filename";
-
-                            if(move_uploaded_file($fileTempName,$filepath)){
-                                $imagePaths[] = $filepath;
-                                $imageInserted = $this->transportModel->addVehicleImage($data['id'],$vehicleId, $filepath);
-                                
-                                if ($imageInserted) {
-                                    echo "Images Successfully inserted";
-                                }
-                                else{
-                                    echo "Error inserting image into the database.$filename<br>";
-                                }
-                            }
-                            else{
-                                echo "Error in uploading the file: $filename<br>";   
-                            }
-                        }else{
-                            echo "Invalid image type for: $filename<br>";    
-                            
+                    if(in_array($fileExtension, $imageExtensions)) {
+                        // Create upload directory if it doesn't exist
+                        $uploadDir = "Uploads/vehicles";
+                        if(!is_dir($uploadDir)){
+                            mkdir($uploadDir, 0777, true);
                         }
-                    }else {
-                        echo "<script type='text/javascript'>alert('Error with file upload for image $i.<br>');</script>";
+
+                        // Create unique filename to prevent overwriting
+                        $uniqueFilename = uniqid() . '.' . $fileExtension;
+                        $filepath = "$uploadDir/$uniqueFilename";
+
+                        if(move_uploaded_file($fileTempName, $filepath)){
+                            $imagePath = $filepath;
+                            error_log("Image uploaded successfully to: $filepath");
+                        } else {
+                            $errors[] = "Error uploading file: $filename";
+                            error_log("Failed to move uploaded file from $fileTempName to $filepath");
+                        }
+                    } else {
+                        $errors[] = "Invalid image type for: $filename";
                     }
                 }
-                
-                echo "<script type='text/javascript'>alert('Vehicle added successfully!');</script>";
-                redirect('transport_suppliers/myInventory');
+
+                // Create vehicle with image path
+                if(empty($errors)) {
+                    // Try using the original addVehicle method first, which seems more stable
+                    $isInserted = $this->transportModel->addVehicle(
+                        $data['id'], 
+                        $data['vehicleType'], 
+                        $data['vehicleModel'], 
+                        $data['vehicleMake'], 
+                        $data['plateNumber'], 
+                        $data['rate'], 
+                        $data['fuelType'], 
+                        $data['description'], 
+                        $data['availability'], 
+                        $data['driver'], 
+                        $data['cost'],
+                        $data['location'],
+                        $data['seating_capacity']
+                    );
+
+                    if($isInserted) {
+                        $vehicleId = $isInserted;
+                        
+                        // Now update the image_path if we have an image
+                        if(!empty($imagePath)) {
+                            $updateResult = $this->transportModel->updateVehicleImage($vehicleId, $imagePath);
+                            if(!$updateResult) {
+                                error_log("Failed to update vehicle image for vehicle ID: $vehicleId");
+                            }
+                        }
+                        
+                        $_SESSION['message'] = "Vehicle added successfully!";
+                        redirect('transport_suppliers/myInventory');
+                    } else {
+                        error_log("Failed to insert vehicle into database");
+                        $_SESSION['message'] = "Failed to add vehicle.";
+                        redirect('transport_suppliers/myInventory');
+                    }
+                } else {
+                    $_SESSION['errors'] = $errors;
+                    redirect('transport_suppliers/myInventory');
+                }
             } else {
-                echo "<script type='text/javascript'>alert('Failed to add vehicle.');</script>";
+                $_SESSION['errors'] = $errors;
+                redirect('transport_suppliers/myInventory');
             }
+        } else {
+            redirect('transport_suppliers/myInventory');
         }
     }
     public function delete_availability($id) {
@@ -536,7 +571,8 @@ public function addriver() {
     // Cancel booking with possible penalty
     public function cancelBooking($id){
         if (!isset($_SESSION['id'])) {
-            redirect('ServiceProvider');
+            header('Content-Type: application/json');
+            echo json_encode(['status' => 'error', 'message' => 'Not authorized']);
             return;
         }
         
@@ -546,23 +582,21 @@ public function addriver() {
         $booking = $this->transportModel->getBookingById($id);
         
         if (!$booking) {
-            // Booking not found
-            $_SESSION['booking_error'] = 'Booking not found';
-            redirect('transport_suppliers/dashboard'); // Redirecting to dashboard as it shows bookings
+            header('Content-Type: application/json');
+            echo json_encode(['status' => 'error', 'message' => 'Booking not found']);
             return;
         }
         
         if ($booking->supplier_id != $supplier_id) {
-            // Not authorized to cancel this booking
-            $_SESSION['booking_error'] = 'You are not authorized to cancel this booking';
-            redirect('transport_suppliers/dashboard');
+            header('Content-Type: application/json');
+            echo json_encode(['status' => 'error', 'message' => 'You are not authorized to cancel this booking']);
             return;
         }
         
         // Check if booking is already cancelled
         if (strtolower($booking->status) == 'cancelled' || strtolower($booking->status) == 'canceled') {
-            $_SESSION['booking_error'] = 'This booking has already been cancelled';
-            redirect('transport_suppliers/dashboard');
+            header('Content-Type: application/json');
+            echo json_encode(['status' => 'error', 'message' => 'This booking has already been cancelled']);
             return;
         }
         
@@ -576,17 +610,18 @@ public function addriver() {
         
         // Process cancellation with appropriate penalty
         if ($this->transportModel->cancelBooking($id, $supplier_id, $penaltyAmount)) {
-            // Success
+            // Create success message
             if ($isPenaltyApplicable) {
-                $_SESSION['booking_success'] = 'Booking cancelled successfully. A 20% penalty (Rs. ' . number_format($penaltyAmount, 2) . ') has been applied to your account. We have fully refunded the amount of Rs. ' . number_format($booking->amount, 2) . ' to the traveler.';
+                $message = 'Booking cancelled successfully. A 20% penalty (Rs. ' . number_format($penaltyAmount, 2) . ') has been applied to your account. We have refunded the remaining amount of Rs. ' . number_format($booking->amount - $penaltyAmount, 2) . ' to the traveler.';
             } else {
-                $_SESSION['booking_success'] = 'Booking cancelled successfully. We have fully refunded the amount of Rs. ' . number_format($booking->amount, 2) . ' to the traveler.';
+                $message = 'Booking cancelled successfully. Full amount of Rs. ' . number_format($booking->amount, 2) . ' has been refunded to the traveler.';
             }
-            redirect('transport_suppliers/dashboard');
+            
+            $_SESSION['cancellation_success'] = $message;
+            redirect('transport_suppliers/orders');
         } else {
-            // Error
-            $_SESSION['booking_error'] = 'Something went wrong while cancelling the booking';
-            redirect('transport_suppliers/dashboard');
+            $_SESSION['cancellation_error'] = 'Something went wrong while cancelling the booking. Please try again later.';
+            redirect('transport_suppliers/orders');
         }
     }
 }
@@ -594,5 +629,4 @@ public function addriver() {
 
 
 
-    
-    
+

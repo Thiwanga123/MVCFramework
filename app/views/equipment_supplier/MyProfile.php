@@ -50,7 +50,7 @@
                             </div>
                         </div>
 
-                        <?php var_dump($details); ?>
+                       
                         <div class="profileContent">
                     
                             <form action="<?php echo URLROOT; ?>/equipment_suppliers/updateProfile" method="POST">
