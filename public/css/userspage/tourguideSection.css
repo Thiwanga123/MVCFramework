@@ -382,6 +382,7 @@
 }
 
 
+
 .filter-bar {
     display: flex;
     align-items: flex-end;
@@ -827,6 +828,7 @@ h2 {
         margin-bottom: 10px;
     }
 }
+
 @keyframes fadeIn {
     from {opacity: 0;}
     to {opacity: 1;}

@@ -3,40 +3,100 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="<?php echo URLROOT;?>/css/mainpages/features.css">
-    <link rel="stylesheet" href="<?php echo URLROOT;?>/css/adminpage/sidebarHeader.css">
-    <link rel="stylesheet" href="<?php echo URLROOT;?>/css/Common/MyInventorys.css">
-    <link rel="stylesheet" href="<?php echo URLROOT;?>/css/Modals/UpdateVehicleModal.css">
-    <title>booking</title>
+    <link rel="stylesheet" href="<?php echo URLROOT;?>/css/equipmentRentals/view_product.css">
+    <link rel="stylesheet" href="<?php echo URLROOT;?>/css/equipmentRentals/productDetailsDiv.css">
+    <link rel="stylesheet" href="<?php echo URLROOT;?>/css/equipmentRentals/reviews.css">
+    <link rel="stylesheet" href="<?php echo URLROOT;?>/css/equipmentRentals/booking.css">
+    <link rel="stylesheet" href="<?php echo URLROOT;?>/css/Modals/logoutModal.css">
+
+    <link rel="stylesheet" href="<?php echo URLROOT;?>/css/Common/calendar.css">
+    
+    <title>Equipment</title>
 </head>
-<body>
-    <div class="box" id="box">
-        <!-- SideBar -->
-        <?php require APPROOT . '/views/inc/components/usersidebar.php'; ?>
-        <!-- End Of Sidebar -->
+<h2>Equipment Details</h2>
 
-        <!-- Main Content -->
-        <div class="content">
-            <!-- Navbar -->
-            <nav>
-                <svg class="menu" xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#000000"><path d="M160-269.23v-40h640v40H160ZM160-460v-40h640v40H160Zm0-190.77v-40h640v40H160Z"/></svg>
-                <form action="#">
-                    <div class="form-input">
-                        <input type="search" placeholder="Search ..">
-                        <button class="search-btn" type="submit">
-                            <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#000000"><path d="M784-120 532-372q-30 24-69 38t-83 14q-109 0-184.5-75.5T120-580q0-109 75.5-184.5T380-840q109 0 184.5 75.5T640-580q0 44-14 83t-38 69l252 252-56 56ZM380-400q75 0 127.5-52.5T560-580q0-75-52.5-127.5T380-760q-75 0-127.5 52.5T200-580q0 75 52.5 127.5T380-400Z"/></svg>
-                        </button>
-                    </div>
-                </form>
-                <a href="#" class="updates">
-                    <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#000000"><path d="M160-200v-80h80v-280q0-83 50-147.5T420-792v-28q0-25 17.5-42.5T480-880q25 0 42.5 17.5T540-820v28q80 20 130 84.5T720-560v280h80v80H160Zm320-300Zm0 420q-33 0-56.5-23.5T400-160h160q0 33-23.5 56.5T480-80ZM320-280h320v-280q0-66-47-113t-113-47q-66 0-113 47t-47 113v280Z"/></svg>
-                    <span class="count">12</span>
-                </a>
-                <p>Hii Welcome <?php echo isset($_SESSION['name']) ? ' ' . htmlspecialchars($_SESSION['name']) : ''; ?> </p>
-                <a href="#" class="profile">
-                    <img src="<?php echo URLROOT;?>/Images/Profile pic.jpg">
-                </a>
-            </nav>
+<?php var_dump($data['vehicles']); ?>
+    <div class="details-container">
+        <div class="details-top">
+            <div class="left">
+                <?php
+                    $imagePaths = explode(',', $vehicles->image_paths);
+                ?>
+                <div class="image-top">
+                    <button type="button" class="change-image" id="prevImage" onclick="previousImage()">
+                        <svg xmlns="http://www.w3.org/2000/svg" height="28px" viewBox="0 -960 960 960" width="28px" fill="#e8eaed">
+                            <path d="M640-80 240-480l400-400 71 71-329 329 329 329-71 71Z"/>
+                        </svg>
+                    </button>
 
-            <main>
-                <?php require APPROOT . '/views/inc/components/topbar.php'; ?>
+                    <img src="<?php echo URLROOT . '/' . $imagePaths[0]; ?>" alt="Main Image" id="mainImage">
+
+                    <button type="button" class="change-image" id="nextImage" onclick="nextImage()">
+                        <svg xmlns="http://www.w3.org/2000/svg" height="28px" viewBox="0 -960 960 960" width="28px" fill="#e8eaed">
+                            <path d="m321-80-71-71 329-329-329-329 71-71 400 400L321-80Z"/>
+                        </svg>
+                    </button>
+                </div>
+
+                <div class="image-bottom">
+                    <?php foreach ($imagePaths as $imagePath): ?>
+                        <div class="image-thumbnail">
+                            <img src="<?php echo URLROOT . '/' . $imagePath; ?>" alt="Thumbnail Image" onclick="changeMainImage('<?php echo URLROOT . '/' . $imagePath; ?>')">
+                        </div>
+                    <?php endforeach; ?>
+                </div>
+            </div>
+
+            <div class="right">
+                <h2>Basic Details</h2>
+
+                <div class="product-details">
+                    <p><strong>Rental Name: </strong> <?php echo($vehicles->model); ?></p>
+
+                    <p><strong>Price (Per day): </strong> <?php echo htmlspecialchars($vehicles->make); ?> USD</p>
+
+                    <p><strong>Category: </strong> <?php echo htmlspecialchars($vehicles->seating_capacity); ?></p>
+
+                    <p><strong>Maximum Rental Period (Days): </strong> <?php echo htmlspecialchars($vehicles->license_plate_number); ?></p>
+
+                    <p><strong>Delivery Available: </strong> 
+                        <?php echo ($details->delivery_available == 'yes') ? 'Yes' : 'No'; ?>
+                    </p>
+                </div>
+            </div>    
+        </div>
+
+        <div class="bottom">
+            <h2>Description</h2>
+            <p><?php echo nl2br(htmlspecialchars(trim($details->rental_description))); ?></p>
+
+            <h2>Policies</h2>
+            <p><strong>Return Policy:</strong> 
+                <?php 
+                    switch ($details->return_policy) {
+                        case 'noReturn': echo 'No return policies'; break;
+                        case 'fullRefund': echo 'Full refund'; break;
+                        case 'partialRefund': echo 'Partial refund'; break;
+                        case 'bothRefunds': echo 'Both full and partial refund'; break;
+                    }
+                ?>
+            </p>
+
+            <?php if ($details->return_policy == 'fullRefund' || $details->return_policy == 'bothRefunds'): ?>
+                <div id="fullRefundSection">
+                    <h4>Full refund:</h4>
+                    <p><strong>Cancel Time (hours before pickup for full refund):</strong> <?php echo htmlspecialchars($details->full_refund_time); ?> hours</p>
+                </div>
+            <?php endif; ?>
+
+            <?php if ($details->return_policy == 'partialRefund' || $details->return_policy == 'bothRefunds'): ?>
+                <div id="partialRefundSection">
+                    <h4>Partial refund:</h4>
+                    <p><strong>Cancel Time (hours before pickup for partial refund):</strong> <?php echo htmlspecialchars($details->partial_refund_time); ?> hours</p>
+                    <p><strong>Partial Refund Percentage:</strong> <?php echo htmlspecialchars($details->partial_refund_percentage); ?>%</p>
+                </div>
+            <?php endif; ?>
+
+            <p><strong>Damage Policy:</strong> <?php echo nl2br(htmlspecialchars($details->damage_policy)); ?></p>
+        </div>
+    </div>

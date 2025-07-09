@@ -1,0 +1,266 @@
+/* General Settings */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f9f9f9;
+    color: #333;
+    box-sizing: border-box;
+}
+
+h1, h2, h3 {
+    margin: 0;
+}
+
+/* Content Styling */
+
+
+/* Header */
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    border-bottom: 1px solid #e0e0e0;
+    padding-bottom: 10px;
+}
+
+header h2 {
+    font-size: 24px;
+    color: #444;
+}
+
+header .download-btn {
+    background-color: #007bff;
+    color: white;
+    padding: 8px 16px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+}
+
+header .download-btn:hover {
+    background-color: #0056b3;
+}
+
+/* Summary Section */
+.summary {
+    display: flex;
+    gap: 20px;
+    margin-bottom: 30px;
+}
+
+.summary .card {
+    flex: 1;
+    padding: 20px;
+    background-color: #f1f1f1;
+    border-radius: 8px;
+    text-align: center;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+.summary .card h3 {
+    margin-bottom: 10px;
+    font-size: 18px;
+    color: #666;
+}
+
+.summary .card .amount {
+    font-size: 20px;
+    font-weight: bold;
+    color: #007bff;
+}
+
+.summary .card .date {
+    font-size: 18px;
+    color: #333;
+}
+
+/* Filters */
+.filters {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.filters input,
+.filters select {
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    width: 100%;
+}
+
+/* Table Styling */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 30px;
+}
+
+table th, table td {
+    padding: 12px 15px;
+    text-align: left;
+}
+
+table th {
+    background-color: #f7f7f7;
+    font-size: 14px;
+    font-weight: bold;
+    border-bottom: 2px solid #ddd;
+}
+
+table tbody tr:hover {
+    background-color: #f1f1f1;
+}
+
+table td {
+    font-size: 14px;
+    color: #555;
+}
+
+table .status {
+    font-size: 13px;
+    padding: 5px 10px;
+    border-radius: 15px;
+    text-align: center;
+}
+
+table .status.completed {
+    background-color: #d4edda;
+    color: #155724;
+}
+
+table .status.pending {
+    background-color: #fff3cd;
+    color: #856404;
+}
+
+.details-btn {
+    background-color: #6c757d;
+    color: white;
+    border: none;
+    padding: 6px 12px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.details-btn:hover {
+    background-color: #5a6268;
+}
+
+/* Update Payment Section */
+.update-payment {
+    background-color: #fafafa;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+.update-payment h3 {
+    font-size: 20px;
+    margin-bottom: 20px;
+    color: #444;
+}
+
+.update-payment form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.update-payment .form-group {
+    display: flex;
+    flex-direction: column;
+}
+
+.update-payment .form-group label {
+    margin-bottom: 5px;
+    font-size: 14px;
+    color: #666;
+}
+
+.update-payment .form-group input,
+.update-payment .form-group select {
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 14px;
+}
+
+.update-payment .submit-btn {
+    background-color: #28a745;
+    color: white;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s ease;
+}
+
+.update-payment .submit-btn:hover {
+    background-color: #218838;
+}
+
+/* Navbar */
+nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 20px;
+}
+
+nav form {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+nav form input {
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 20px;
+    width: 200px;
+}
+
+nav .updates, nav .profile img {
+    display: inline-block;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+nav .updates {
+    position: relative;
+}
+
+nav .updates .count {
+    position: absolute;
+    top: 0;
+    right: 0;
+    background-color: #dc3545;
+    color: white;
+    border-radius: 50%;
+    padding: 2px 6px;
+    font-size: 12px;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .summary {
+        flex-direction: column;
+    }
+
+    table th, table td {
+        font-size: 12px;
+    }
+
+    .filters {
+        flex-direction: column;
+    }
+}

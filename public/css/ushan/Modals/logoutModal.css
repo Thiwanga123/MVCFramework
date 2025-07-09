@@ -1,0 +1,144 @@
+.logoutConfirmModal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+.logoutConfirmModal.show {
+    opacity: 1;
+    visibility: visible;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 2001;
+    animation: fadeIn 0.2s ease-in-out;
+}
+
+.modal-content {
+    background-color: #ffffff;
+    max-width: 400px;
+    width: 90%;
+    border-radius: 12px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+    padding: 30px;
+    text-align: center;
+    transform: translateY(-20px);
+    transition: transform 0.3s ease;
+    position: relative;
+}
+
+.show .modal-content {
+    transform: translateY(0);
+}
+
+.close-button {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    font-size: 24px;
+    color: #999;
+    cursor: pointer;
+    transition: color 0.2s ease;
+    line-height: 1;
+}
+
+.close-button:hover {
+    color: #555;
+}
+
+.modal-icon {
+    width: 70px;
+    height: 70px;
+    margin: 0 auto 20px;
+}
+
+.modal-icon svg {
+    width: 100%;
+    height: 100%;
+}
+
+h2 {
+    margin: 0 0 12px;
+    color: #333;
+    font-size: 22px;
+    font-weight: 600;
+}
+
+p {
+    margin: 0 0 25px;
+    color: #666;
+    font-size: 16px;
+    line-height: 1.5;
+}
+
+.modal-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+}
+
+.btn-cancel, .btn-logout {
+    padding: 12px 24px;
+    border-radius: 6px;
+    font-size: 16px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    border: none;
+}
+
+.btn-cancel {
+    background-color: #f2f2f2;
+    color: #555;
+}
+
+.btn-cancel:hover {
+    background-color: #e5e5e5;
+}
+
+.btn-logout {
+    background-color: #F44336;
+    color: white;
+}
+
+.btn-logout:hover {
+    background-color: #E53935;
+    box-shadow: 0 2px 8px rgba(244, 67, 54, 0.3);
+}
+
+#2 {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh; /* Full screen height */
+    background-color: #f8f9fa;
+    font-family: Arial, sans-serif;
+  }
+  
+  #2 p {
+    background-color: #ffffff;
+    color: #333333;
+    padding: 20px 30px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    font-size: 1.2rem;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  }
+
+/* Add animation */
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+.modal.show {
+    animation: fadeIn 0.3s;
+}

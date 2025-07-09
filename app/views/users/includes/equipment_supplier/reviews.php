@@ -203,7 +203,6 @@
                     <input type="hidden" id="editRatingValue" name="rating" value="<?php echo isset($data['userReview']) ? htmlspecialchars($data['userReview']->rating) : 0; ?>">
                     <input type="hidden" id="reviewType" name="type" value="<?php echo isset($data[$userReview->type]); ?>">
 
-
                     <textarea id="editReviewText" name="review" placeholder="Write your review here..." rows="4"><?php echo isset($data['userReview']) ? htmlspecialchars($data['userReview']->comment) : ''; ?></textarea>
 
                     <div id="validationErrorContainer" style="display: none;"><p></p></div>

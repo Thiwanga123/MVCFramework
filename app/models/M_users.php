@@ -7,6 +7,9 @@ class M_users{
         $this->db = new Database;
     }
 
+  
+
+
 
     //get all users
     public function getUsers(){
@@ -109,8 +112,10 @@ class M_users{
 
     //get the booking history of the user
     public function getBookingHistory($id){
+        // Get booking history for the user
+       
         $sql = "
-        (SELECT 
+        SELECT 
             pb.booking_id AS booking_id, 
             'Accommodation' AS type, 
             p.property_name AS name, 
@@ -118,14 +123,14 @@ class M_users{
             pb.check_in AS start_date, 
             pb.check_out AS end_date, 
             pb.status, 
-            pb.paid AS price
+            pb.amount AS price
          FROM property_booking pb
          JOIN properties p ON pb.property_id = p.property_id
-         WHERE pb.traveler_id = :traveler_id)
+         WHERE pb.traveler_id = :traveler_id AND pb.status IS NOT NULL
 
         UNION ALL
 
-        (SELECT 
+        SELECT 
             vb.booking_id AS booking_id, 
             'Vehicle' AS type, 
             v.model AS name, 
@@ -133,14 +138,14 @@ class M_users{
             vb.check_in AS start_date, 
             vb.check_out AS end_date, 
             vb.status, 
-            vb.paid AS price
+            vb.amount AS price
          FROM vehicle_booking vb
          JOIN vehicles v ON vb.vehicle_id = v.vehicle_id
-         WHERE vb.traveler_id = :traveler_id)
+         WHERE vb.traveler_id = :traveler_id AND vb.status IS NOT NULL
 
         UNION ALL
 
-        (SELECT 
+        SELECT 
             eb.booking_id AS booking_id, 
             'Equipment' AS type, 
             e.rental_name AS name,
@@ -151,32 +156,44 @@ class M_users{
             eb.total_price
          FROM rental_equipment_bookings eb
          JOIN rental_equipments e ON eb.equipment_id = e.id
-         WHERE eb.user_id = :traveler_id)
+         WHERE eb.user_id = :traveler_id AND eb.status IS NOT NULL
 
         UNION ALL
 
-        (SELECT 
+        SELECT 
             gb.booking_id AS booking_id, 
             'Guide' AS type, 
             g.name AS name, 
-            g.id AS name,
+            g.id AS id,
             gb.check_in AS start_date,
             gb.check_out AS end_date, 
             gb.status, 
-            gb.paid AS price
+            gb.amount AS price
          FROM guider_booking gb
          JOIN tour_guides g ON gb.guider_id = g.id
-         WHERE gb.traveler_id = :traveler_id)
+         WHERE gb.traveler_id = :traveler_id AND gb.status IS NOT NULL
 
         ORDER BY start_date DESC
-    ";
+        ";
+    
 
-        $this->db->query($sql);
-        $this->db->bind(':traveler_id', $id);
 
-        $row = $this->db->resultSet();
+        try {
+            $this->db->query($sql);
+            $this->db->bind(':traveler_id', $id);
 
-        return $row;
+            $row = $this->db->resultSet();
+
+            if (!$row) {
+                error_log("No results found for traveler_id: " . $id);
+                return [];
+            }
+
+            return $row;
+        } catch (Exception $e) {
+            error_log("Error executing query for booking history: " . $e->getMessage());
+            return [];
+        }
     }
 
     //register user
@@ -224,21 +241,29 @@ class M_users{
         $row = $this->db->single();
        
         if ($row) {
+            // Check if account is deactivated
+            if ($row->action === 'deleted') {
+                return ['status' => 'deleted'];
+            }
+
             $hashedPassword = $row->password;
             if (password_verify($password, $hashedPassword)) {
-                return $row;
+                return ['status' => 'active', 'user' => $row];
             } else {
-                return false;
+                return ['status' => 'invalid_password'];
             }
         } else {
-            return false;
+            return ['status' => 'not_found'];
         }
-        }
+    }
         
     //get all the accomodations from the database
     public function searchAccommodations($data){
 
-        $this->db->query('SELECT * FROM properties WHERE city = :city AND (singleprice <= :price OR doubleprice <= :price OR familyprice <= :price OR livingprice <= :price) AND max_occupants >= :people');
+        
+
+        
+        $this->db->query('SELECT * FROM properties WHERE city = :city AND (singleprice <= :price OR doubleprice <= :price OR familyprice <= :price OR livingprice <= :price) ');
         //bind parameters indexes
 
 
@@ -252,102 +277,408 @@ class M_users{
         
     }
 
+ 
+
     //get the accomodation details
-    public function getAccommodationById($property_id){
+    public function getAccommodationById($property_id, $check_in = null, $check_out = null){
+        // Get basic property information
         $this->db->query('SELECT * FROM properties WHERE property_id = :property_id');
         $this->db->bind(':property_id', $property_id);
+        $property = $this->db->single();
+        
+        // If dates are provided, get room availability for those dates
+        if ($check_in && $check_out) {
+            $property->available_rooms = $this->getAvailableRooms($property_id, $check_in, $check_out);
 
-        $row = $this->db->single();
-
-        return $row;
+        }
+        
+        return $property;
     }
 
 
     //get available rooms
-    public function getAvailableRooms($property_id) {
-        // Get total rooms from properties table
-        $this->db->query('SELECT single_bedrooms, double_bedrooms, family_rooms FROM properties WHERE property_id = :property_id');
-        $this->db->bind(':property_id', $property_id);
-        $property = $this->db->single();
+    // public function getAvailableRooms($property_id) {
+    //     // Get total rooms from properties table
+    //     $this->db->query('SELECT single_bedrooms, double_bedrooms, family_rooms FROM properties WHERE property_id = :property_id');
+    //     $this->db->bind(':property_id', $property_id);
+    //     $property = $this->db->single();
 
-        // Get booked rooms from property_booking table
-        $this->db->query('SELECT 
-                            SUM(singlerooms) AS booked_single_rooms, 
-                            SUM(doublerooms) AS booked_double_rooms, 
-                            SUM(familyrooms) AS booked_family_rooms 
-                          FROM property_booking 
-                          WHERE property_id = :property_id AND check_out >= CURDATE()');
-        $this->db->bind(':property_id', $property_id);
-        $bookings = $this->db->single();
+    //     // Get booked rooms from property_booking table
+    //     $this->db->query('SELECT 
+    //                         SUM(singlerooms) AS booked_single_rooms, 
+    //                         SUM(doublerooms) AS booked_double_rooms, 
+    //                         SUM(familyrooms) AS booked_family_rooms 
+    //                       FROM property_booking 
+    //                       WHERE property_id = :property_id AND check_out >= CURDATE()');
+    //     $this->db->bind(':property_id', $property_id);
+    //     $bookings = $this->db->single();
 
-        // Calculate available rooms
-        $availableRooms = [
-            'single_bedrooms' => $property->single_bedrooms - $bookings->booked_single_rooms,
-            'double_bedrooms' => $property->double_bedrooms - $bookings->booked_double_rooms,
-            'family_rooms' => $property->family_rooms - $bookings->booked_family_rooms
-        ];
+    //     // Calculate available rooms
+    //     $availableRooms = [
+    //         'single_bedrooms' => $property->single_bedrooms - $bookings->booked_single_rooms,
+    //         'double_bedrooms' => $property->double_bedrooms - $bookings->booked_double_rooms,
+    //         'family_rooms' => $property->family_rooms - $bookings->booked_family_rooms
+    //     ];
 
-        return $availableRooms;
+    //     return $availableRooms;
 
-    }
+    // }
 
     //add a booking to the proerty_booking
-    public function book($data){
+    public function book_accomodation($data) {
+ // Debugging line to check the data
+        try {
+           
+            // Insert booking
+            $this->db->query('INSERT INTO property_booking (traveler_id, property_id, supplier_id, check_in, check_out, amount,  singlerooms, doublerooms, familyrooms, totalrooms, payment_date, payment_status) 
+                              VALUES (:traveler_id, :property_id, :service_provider_id, :check_in, :check_out, :total_price,  :singlerooms, :doublerooms, :familyrooms, :totalrooms, CURRENT_DATE, "charged")');
+            
+            $this->db->bind(':traveler_id', $data['user_id']);
+            $this->db->bind(':property_id', $data['property_id']);
+            $this->db->bind(':check_in', $data['check_in']);
+            $this->db->bind(':check_out', $data['check_out']);          
+            $this->db->bind(':total_price', $data['totalamount']);
+            $this->db->bind(':totalrooms', $data['totalrooms']);
+            $this->db->bind(':singlerooms', $data['single_rooms']);
+            $this->db->bind(':doublerooms', $data['double_rooms']);
+            $this->db->bind(':familyrooms', $data['family_rooms']); // Maps to familyrooms in table
+            $this->db->bind(':service_provider_id', $data['service_provider_id']);
 
-        //print the data
-        print_r($data);
-        $this->db->query('INSERT INTO property_booking(traveler_id, property_id, supplier_id,check_in, check_out,amount, guests,singlerooms,doublerooms,familyrooms,totalrooms,paid,payment_date) 
-        VALUES(:traveler_id, :property_id, :service_provider_id, :check_in, :check_out, :total_price , :no_of_people , :singleroom, :doubleroom, :familyroom, :totalrooms, :paid, CURRENT_DATE)');
-        //bind values
-        $this->db->bind(':traveler_id', $data['user_id']);
-        $this->db->bind(':property_id', $data['property_id']);
-        $this->db->bind(':check_in', $data['check_in']);
-        $this->db->bind(':check_out', $data['check_out']);
-        $this->db->bind(':no_of_people', $data['people']);
-        $this->db->bind(':total_price', $data['price']);
-        $this->db->bind(':totalrooms', $data['totalrooms']);
-        $this->db->bind(':singleroom', $data['singleamount']);
-        $this->db->bind(':doubleroom', $data['doubleamount']);
-        $this->db->bind(':familyroom', $data['familyamount']);
-        $this->db->bind(':service_provider_id', $data['service_provider_id']);
-        $this->db->bind(':paid',$data['paid']);
-        
+            if ($this->db->execute()) {
 
+                
+                $bookingId = $this->db->insertId(); // Assuming insertId() gets last inserted ID
+
+                // Call function to hold payment (assuming it exists elsewhere)
+                $this->holdPayment($bookingId, $data['totalamount'], $data['service_provider_id'], $data['user_id']);
+
+                return ['success' => true, 'message' => 'Booking successful.', 'booking_id' => $bookingId];
+            } else {
+                return ['success' => false, 'message' => 'Failed to execute booking query.'];
+            }
+        } catch (Exception $e) {
+            error_log("Error booking room: " . $e->getMessage());
+            return ['success' => false, 'message' => 'Error booking room: ' . $e->getMessage()];
+        }
+    }
+
+    // Reusable method to get available rooms (from previous response)
+    public function getAvailableRooms($propertyId, $checkIn, $checkOut) {
+        try {
+            // Get total rooms from properties
+            $this->db->query("SELECT single_bedrooms, double_bedrooms, family_rooms FROM properties WHERE property_id = :property_id");
+            $this->db->bind(':property_id', $propertyId);
+            $total = $this->db->single();
+    
+            // Calculate maximum booked rooms across the date range
+            $this->db->query("SELECT 
+                                 COALESCE(MAX(single_booked), 0) as booked_single,
+                                 COALESCE(MAX(double_booked), 0) as booked_double,
+                                 COALESCE(MAX(family_booked), 0) as booked_family
+                              FROM (
+                                  SELECT 
+                                      SUM(pb.singlerooms) as single_booked,
+                                      SUM(pb.doublerooms) as double_booked,
+                                      SUM(pb.familyrooms) as family_booked
+                                  FROM property_booking pb
+                                  WHERE pb.property_id = :property_id
+                                    AND pb.status IN ('pending', 'confirmed')
+                                    AND (:check_in <= pb.check_out AND :check_out >= pb.check_in)
+                                  GROUP BY DATE(pb.check_in)
+                              ) as daily_bookings");
+            $this->db->bind(':property_id', $propertyId);
+            $this->db->bind(':check_in', $checkIn);
+            $this->db->bind(':check_out', $checkOut);
+            $booked = $this->db->single();
+    
+            // Calculate available rooms - ensure no negative values
+            $availablerooms = [
+                'single' => max(0, $total->single_bedrooms - ($booked->booked_single ?? 0)),
+                'double' => max(0, $total->double_bedrooms - ($booked->booked_double ?? 0)),
+                'family' => max(0, $total->family_rooms - ($booked->booked_family ?? 0))
+            ];
+    
+            // Calculate the stay duration in nights
+            
+            
+            return $availablerooms;
+        } catch (Exception $e) {
+            error_log("Error getting available rooms: " . $e->getMessage());
+            return ['single' => 0, 'double' => 0, 'living' => 0, 'nights' => 0];
+        }
+    }
+    //hold the payment
+    public function holdPayment($bookingId, $totalamount, $providerId, $user_id){
+     
+        // Hold payment in the provider's wallet
+        $this->db->query("INSERT INTO accomadation_wallet (provider_id,traveler_id, holding_amount, transaction_type, related_booking_id, transaction_date) VALUES (:provider_id, :traveler_id, :amount, 'deposit', :booking_id, CURRENT_DATE)");
+        $this->db->bind(':amount', $totalamount);
+        $this->db->bind(':provider_id', $providerId);
+        $this->db->bind(':booking_id', $bookingId);
+        $this->db->bind(':traveler_id', $user_id);
         //execute
         if($this->db->execute()){
+            //print the data
+            
             return true;
         }else{
             return false;
         }
     }
 
+
     //cancel the booking
-    public function cancelBooking($bookingId) {
-        // Get the booking details
-        $this->db->query('SELECT * FROM property_booking WHERE booking_id = :booking_id');
-        $this->db->bind(':booking_id', $bookingId);
-        $booking = $this->db->single();
+   
+        public function cancelBooking($bookingId) {
+            try {
+                // First check guider booking
+                $this->db->query("SELECT * FROM guider_booking WHERE booking_id = :booking_id");
+                $this->db->bind(':booking_id', $bookingId);
+                $booking = $this->db->single();
 
-        if ($booking) {
-            // Update the deleted_at column
-            $this->db->query('UPDATE property_booking SET deleted_at = NOW() WHERE booking_id = :booking_id');
-            $this->db->bind(':booking_id', $bookingId);
-            $this->db->execute();
+                if ($booking) {
+                    return $this->processGuideCancellation($booking);
+                }
 
-            // Release the rooms
-            $this->db->query('UPDATE properties SET 
-                                single_bedrooms = single_bedrooms + :single_rooms, 
-                                double_bedrooms = double_bedrooms + :double_rooms, 
-                                family_rooms = family_rooms + :family_rooms 
-                              WHERE property_id = :property_id');
-            $this->db->bind(':single_rooms', $booking->single_rooms);
-            $this->db->bind(':double_rooms', $booking->double_rooms);
-            $this->db->bind(':family_rooms', $booking->family_rooms);
-            $this->db->bind(':property_id', $booking->property_id);
-            $this->db->execute();
+                // Check property booking
+                $this->db->query("SELECT * FROM property_booking WHERE booking_id = :booking_id");
+                $this->db->bind(':booking_id', $bookingId);
+                $booking = $this->db->single();
+    
+                if ($booking) {
+                    return $this->processPropertyCancellation($booking);
+                }
+
+                // Check vehicle booking
+                $this->db->query("SELECT * FROM vehicle_booking WHERE booking_id = :booking_id");
+                $this->db->bind(':booking_id', $bookingId);
+                $booking = $this->db->single();
+
+                if ($booking) {
+                    return $this->processVehicleCancellation($booking);
+                }
+
+                // Check equipment booking
+                $this->db->query("SELECT * FROM rental_equipment_bookings WHERE booking_id = :booking_id");
+                $this->db->bind(':booking_id', $bookingId);
+                $booking = $this->db->single();
+
+                if ($booking) {
+                    return $this->processEquipmentCancellation($booking);
+                }
+
+                // If not found in any table
+                return false;
+
+            } catch (Exception $e) {
+                error_log("Error in cancelBooking: " . $e->getMessage());
+                return false;
+            }
+        }
+    
+    private function createSystemEarningsTable() {
+        try {
+            $sql = "CREATE TABLE IF NOT EXISTS system_earnings (
+                id INT AUTO_INCREMENT PRIMARY KEY,
+                amount DECIMAL(10,2) NOT NULL,
+                type VARCHAR(50) NOT NULL,
+                booking_id INT NOT NULL,
+                created_at DATETIME NOT NULL,
+                status VARCHAR(20) DEFAULT 'pending'
+            )";
+            
+            $this->db->query($sql);
+            return $this->db->execute();
+        } catch (Exception $e) {
+            error_log("Failed to create system_earnings table: " . $e->getMessage());
+            return false;
+        }
+    }
+
+    private function createRefundRequest($booking, $amount, $bookingType) {
+        try {
+            $this->db->query('
+                INSERT INTO refund 
+                (booking_id, booking_type, user_id, amount, status, request_date, created_at) 
+                VALUES 
+                (:booking_id, :booking_type, :user_id, :amount, "pending", NOW(), NOW())
+            ');
+            
+            $this->db->bind(':booking_id', $booking->booking_id);
+            $this->db->bind(':booking_type', $bookingType);
+            $this->db->bind(':user_id', $booking->traveler_id);
+            $this->db->bind(':amount', $amount);
+            
+            return $this->db->execute();
+        } catch (Exception $e) {
+            error_log("Error creating refund request: " . $e->getMessage());
+            return false;
+        }
+    }
+
+    private function processGuideCancellation($booking) {
+        try {
+            // Calculate days until check-in
+            $daysDiff = (strtotime($booking->check_in) - time()) / (60 * 60 * 24);
+            
+            // Get the current holding amount from wallet
+            $this->db->query("SELECT * FROM guider_wallet WHERE related_booking_id = :booking_id AND transaction_type = 'deposit'");
+            $this->db->bind(':booking_id', $booking->booking_id);
+            $currentWallet = $this->db->single();
+            
+            if (!$currentWallet) {
+                error_log("No wallet record found for booking_id: " . $booking->booking_id);
+                return false;
+            }
+
+            $holdingAmount = $currentWallet->holding_amount;
+            $refundAmount = $holdingAmount;
+
+            if ($daysDiff <= 3) {
+                // Within 3 days: Apply penalty
+                $refundAmount = $holdingAmount * 0.85;
+                $guiderPenalty = $holdingAmount * 0.10;
+                $systemPenalty = $holdingAmount * 0.05;
+            }
+
+            // 1. Update booking status
+            $this->db->query("UPDATE guider_booking SET status = 'cancelled' WHERE booking_id = :booking_id");
+            $this->db->bind(':booking_id', $booking->booking_id);
+            
+            if (!$this->db->execute()) {
+                error_log("Failed to update booking status for booking_id: " . $booking->booking_id);
+                return false;
+            }
+
+            // 2. Create refund request
+            if (!$this->createRefundRequest($booking, $refundAmount, 'Guide')) {
+                error_log("Failed to create refund request for booking_id: " . $booking->booking_id);
+                return false;
+            }
+
+            // 3. Update the original wallet record
+            $this->db->query("UPDATE guider_wallet 
+                             SET holding_amount = 0 
+                             WHERE related_booking_id = :booking_id 
+                             AND transaction_type = 'deposit'");
+            $this->db->bind(':booking_id', $booking->booking_id);
+            
+            if (!$this->db->execute()) {
+                error_log("Failed to update original wallet record for booking_id: " . $booking->booking_id);
+                return false;
+            }
 
             return true;
-        } else {
+        } catch (Exception $e) {
+            error_log("Error in processGuideCancellation: " . $e->getMessage());
+            return false;
+        }
+    }
+
+    private function processPropertyCancellation($booking) {
+        try {
+            // 1. Update booking status
+            $this->db->query("UPDATE property_booking SET status = 'cancelled' WHERE booking_id = :booking_id");
+            $this->db->bind(':booking_id', $booking->booking_id);
+            
+            if (!$this->db->execute()) {
+                error_log("Failed to update property_booking status for booking_id: " . $booking->booking_id);
+                return false;
+            }
+
+            // 2. Create refund request
+            if (!$this->createRefundRequest($booking, $booking->amount, 'Accommodation')) {
+                error_log("Failed to create refund request for booking_id: " . $booking->booking_id);
+                return false;
+            }
+
+            // 3. Update original deposit record
+            $this->db->query("UPDATE accomadation_wallet 
+                             SET holding_amount = 0
+                             WHERE related_booking_id = :booking_id 
+                             AND transaction_type = 'deposit'");
+            $this->db->bind(':booking_id', $booking->booking_id);
+            
+            if (!$this->db->execute()) {
+                error_log("Failed to update original deposit record in accomadation_wallet for booking_id: " . $booking->booking_id);
+                return false;
+            }
+
+            return true;
+        } catch (Exception $e) {
+            error_log("Error in processPropertyCancellation: " . $e->getMessage());
+            return false;
+        }
+    }
+
+    private function processVehicleCancellation($booking) {
+        try {
+            // 1. Update booking status
+            $this->db->query("UPDATE vehicle_booking SET status = 'cancelled' WHERE booking_id = :booking_id");
+            $this->db->bind(':booking_id', $booking->booking_id);
+            
+            if (!$this->db->execute()) {
+                error_log("Failed to update vehicle_booking status for booking_id: " . $booking->booking_id);
+                return false;
+            }
+
+            // 2. Create refund request
+            if (!$this->createRefundRequest($booking, $booking->amount, 'Vehicle')) {
+                error_log("Failed to create refund request for booking_id: " . $booking->booking_id);
+                return false;
+            }
+
+            // 3. Update original deposit record
+            $this->db->query("UPDATE vehicle_wallet 
+                             SET holding_amount = 0
+                             WHERE related_booking_id = :booking_id 
+                             AND transaction_type = 'deposit'");
+            $this->db->bind(':booking_id', $booking->booking_id);
+            
+            if (!$this->db->execute()) {
+                error_log("Failed to update original deposit record in vehicle_wallet for booking_id: " . $booking->booking_id);
+                return false;
+            }
+
+            return true;
+        } catch (Exception $e) {
+            error_log("Error in processVehicleCancellation: " . $e->getMessage());
+            return false;
+        }
+    }
+
+    private function processEquipmentCancellation($booking) {
+        try {
+            // 1. Update booking status
+            $this->db->query("UPDATE rental_equipment_bookings SET status = 'cancelled' WHERE booking_id = :booking_id");
+            $this->db->bind(':booking_id', $booking->booking_id);
+            
+            if (!$this->db->execute()) {
+                error_log("Failed to update rental_equipment_bookings status for booking_id: " . $booking->booking_id);
+                return false;
+            }
+
+            // 2. Create refund request
+            if (!$this->createRefundRequest($booking, $booking->total_price, 'Equipment')) {
+                error_log("Failed to create refund request for booking_id: " . $booking->booking_id);
+                return false;
+            }
+
+            // 3. Update original deposit record
+            $this->db->query("UPDATE equipment_wallet 
+                             SET holding_amount = 0
+                             WHERE related_booking_id = :booking_id 
+                             AND transaction_type = 'deposit'");
+            $this->db->bind(':booking_id', $booking->booking_id);
+            
+            if (!$this->db->execute()) {
+                error_log("Failed to update original deposit record in equipment_wallet for booking_id: " . $booking->booking_id);
+                return false;
+            }
+
+            return true;
+        } catch (Exception $e) {
+            error_log("Error in processEquipmentCancellation: " . $e->getMessage());
             return false;
         }
     }
@@ -366,19 +697,22 @@ class M_users{
     }
 
     public function getAllVehicles($supplierId){
-        try {
-            $sql = "SELECT v.*, i.image_path 
-                    FROM vehicles v 
-                    LEFT JOIN vehicle_images i ON v.id = i.vehicle_id 
-                    WHERE v.supplierId = ? 
-                    GROUP BY v.id"; // Ensure unique vehicles
+        try{
+            $this->db->query("SELECT v.*, 
+            GROUP_CONCAT(vi.image_path) AS images 
+            FROM vehicles v 
+            LEFT JOIN vehicle_images vi 
+            ON v.vehicle_id = vi.vehicle_id
+            GROUP BY v.vehicle_id");
 
-            $this->db->query($sql);
-            $this->db->bind(1, $supplierId);
-            return $this->db->resultSet();
-        } catch (Exception $e) {
-            error_log("Error fetching vehicles: " . $e->getMessage());
-            return [];
+            $result = $this->db->resultSet();
+            return $result;            
+
+
+        }catch(Exception $e){
+            $error_msg = $e->getMessage();
+                echo "<script>alert('An error occurred: $error_msg');</script>";
+                return false;
         }
     }
 
@@ -394,6 +728,20 @@ class M_users{
             return $e->getMessage();
         }
     }
+
+
+    public function getVehicleById($id){
+        $sql = 'SELECT * FROM vehicles WHERE vehicle_id = ?';
+        try{
+            $this->db->query($sql);
+            $this->db->bind(1, $id);
+            $result = $this->db->single();
+            return $result;
+        }catch(Exception $e){
+            $error_msg = $e->getMessage();
+            echo "<script>alert('An error occurred: $error_msg');</script>";
+        }
+    }
             
     public function getAllEquipmentSuppliers(){
             
@@ -405,7 +753,9 @@ class M_users{
         }catch(Exception $e){
             return $e->getMessage();
         }
-    } 
+                 return false;
+        }
+    
 
     public function getEquipmentBySupplierIds($supplierIds) {
 
@@ -424,10 +774,24 @@ class M_users{
             return $this->db->resultSet();
         } catch (PDOException $e) {
             error_log('Database Error in getEquipmentBySupplierIds: ' . $e->getMessage());
+
+        } 
+    }
+
+    //get guiders by id
+    public function getGuiderById($id){
+        $sql = 'SELECT * FROM tour_guides WHERE id = ?';
+        try{
+            $this->db->query($sql);
+            $this->db->bind(1, $id);
+            $result = $this->db->single();
+            return $result;
+        }catch(Exception $e){
+            $error_msg = $e->getMessage();
+            echo "<script>alert('An error occurred: $error_msg');</script>";
             return false;
         }
     }
-
 
     public function getBookedEquipmentIds($startDate, $endDate) {
         try {

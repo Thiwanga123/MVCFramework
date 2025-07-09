@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -6,10 +5,201 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="<?php echo URLROOT;?>/css/pages/components/sp_register.css">
     <link rel="stylesheet" href="<?php echo URLROOT;?>/css/pages/components/paymentModal.css">
-
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        .terms-checkbox {
+            margin: 20px 0;
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            background-color: #f8f9fa;
+            padding: 15px;
+            border-radius: 8px;
+            border: 1px solid #e9ecef;
+        }
+        .terms-checkbox input[type="checkbox"] {
+            margin-top: 3px;
+            width: 18px;
+            height: 18px;
+            accent-color: #2196F3;
+        }
+        .terms-checkbox label {
+            font-size: 14px;
+            line-height: 1.5;
+            color: #495057;
+        }
+        .terms-link {
+            color: #2196F3;
+            text-decoration: none;
+            font-weight: 600;
+            transition: color 0.3s ease;
+        }
+        .terms-link:hover {
+            color: #1976D2;
+            text-decoration: underline;
+        }
+        .terms-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.5);
+            z-index: 1000;
+            backdrop-filter: blur(5px);
+        }
+        .terms-content {
+            position: relative;
+            background-color: #fff;
+            margin: 5% auto;
+            padding: 30px;
+            width: 90%;
+            max-width: 800px;
+            max-height: 85vh;
+            overflow-y: auto;
+            border-radius: 12px;
+            box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+        }
+        .terms-content h2 {
+            color: #1a237e;
+            margin-bottom: 25px;
+            font-size: 24px;
+            border-bottom: 2px solid #e3f2fd;
+            padding-bottom: 10px;
+        }
+        .terms-content h3 {
+            color: #0d47a1;
+            margin: 20px 0 15px;
+            font-size: 18px;
+        }
+        .terms-content ul {
+            margin: 15px 0;
+            padding-left: 20px;
+        }
+        .terms-content li {
+            margin: 10px 0;
+            line-height: 1.6;
+            color: #37474f;
+        }
+        .terms-content li strong {
+            color: #1565c0;
+            display: block;
+            margin-bottom: 5px;
+        }
+        .terms-content ul ul {
+            margin: 5px 0 5px 20px;
+            list-style-type: circle;
+        }
+        .terms-content ul ul li {
+            margin: 5px 0;
+            color: #546e7a;
+        }
+        .close-terms {
+            position: absolute;
+            right: 20px;
+            top: 20px;
+            font-size: 28px;
+            cursor: pointer;
+            color: #78909c;
+            transition: color 0.3s ease;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            background-color: #f5f5f5;
+        }
+        .close-terms:hover {
+            color: #455a64;
+            background-color: #e0e0e0;
+        }
+        /* Custom scrollbar for terms content */
+        .terms-content::-webkit-scrollbar {
+            width: 8px;
+        }
+        .terms-content::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 4px;
+        }
+        .terms-content::-webkit-scrollbar-thumb {
+            background: #90caf9;
+            border-radius: 4px;
+        }
+        .terms-content::-webkit-scrollbar-thumb:hover {
+            background: #64b5f6;
+        }
+    </style>
     <title>Sign Up</title>
 </head>
 <body>
+    <!-- Terms and Conditions Modal -->
+    <div id="termsModal" class="terms-modal">
+        <div class="terms-content">
+            <span class="close-terms">&times;</span>
+            <h2>Terms and Conditions for Service Providers</h2>
+            
+            <h3>1. Service Provider Responsibilities</h3>
+            <ul>
+                <li>Maintain accurate and up-to-date business information</li>
+                <li>Provide reliable and quality services to customers</li>
+                <li>Respond to customer inquiries within 24 hours</li>
+                <li>Maintain proper documentation and licenses</li>
+                <li>Comply with all applicable laws and regulations</li>
+            </ul>
+
+            <h3>2. Subscription and Payment Terms</h3>
+            <ul>
+                <li>Subscription fees are non-refundable after service activation</li>
+                <li>Automatic renewal unless cancelled 30 days before expiry</li>
+                <li>Payment must be made in full before service activation</li>
+                <li>Prices are subject to change with 30 days notice</li>
+            </ul>
+
+            <h3>3. Refund Policy</h3>
+            <ul>
+                <li><strong>100% Refund:</strong>
+                    <ul>
+                        <li>If service is not activated within 7 days of payment</li>
+                        <li>If technical issues prevent service delivery</li>
+                        <li>If service provider is unable to provide services due to platform issues</li>
+                    </ul>
+                </li>
+                <li><strong>85% Refund:</strong>
+                    <ul>
+                        <li>If cancellation is requested within 14 days of payment</li>
+                        <li>If service provider is unable to provide services due to unforeseen circumstances</li>
+                        <li>If platform undergoes major changes affecting service delivery</li>
+                    </ul>
+                </li>
+                <li><strong>No Refund:</strong>
+                    <ul>
+                        <li>After 14 days of payment</li>
+                        <li>If service has been actively used</li>
+                        <li>For policy violations</li>
+                    </ul>
+                </li>
+            </ul>
+
+            <h3>4. Cancellation Policy</h3>
+            <ul>
+                <li>Service providers can cancel their subscription 30 days before renewal</li>
+                <li>No refunds for partial subscription periods</li>
+                <li>Account deactivation may occur for policy violations</li>
+                <li>Reactivation requires admin approval and may incur fees</li>
+            </ul>
+
+            <h3>5. Termination</h3>
+            <ul>
+                <li>We reserve the right to terminate accounts for policy violations</li>
+                <li>No refunds for terminated accounts</li>
+                <li>Appeal process available for terminated accounts</li>
+                <li>Reapplication possible after 6 months</li>
+            </ul>
+        </div>
+    </div>
+
     <div class="container">
             <div class="top">
                 <div class="logo">
@@ -152,26 +342,29 @@
 
                 <div class="step" id="step-3" style="display:none;">
                 <h2>Choose Your Subscription Plan</h2>
+                <div style="background-color: #e3f2fd; padding: 12px; border-radius: 5px; border-left: 4px solid #2196F3; margin-bottom: 20px; color: #0d47a1; font-size: 14px;">
+                    <strong>Notice:</strong> When you first log in to the system, you will need to pay for your subscription to access the JourneyBeyond system.
+                </div>
                 <span class="form-invalid" id="subscription-error"></span>
 
                     <div class="content">
                         <div class="plans-container">
                             <div class="plan-card" id="3month-plan">
                                 <h3>3 Months</h3>
-                                <span class="price">$0</span>
-                                <p>Basic access to services.</p>
+                                <span class="price">Rs.10,000</span>
+                                <p>Full 03 Months access to services.</p>
                                 <button type="button" class="choose-btn">Choose</button>
                             </div>
                             <div class="plan-card" id="6month-plan">
                                 <h3>6 Months</h3>
-                                <span class="price">$19.99/month</span>
-                                <p>Access to essential services and features.</p>
+                                <span class="price">Rs.20,000</span>
+                                <p>Full 06 Months services and features.</p>
                                 <button type="button" class="choose-btn">Choose</button>
                             </div>
                             <div class="plan-card" id="12month-plan">
                                 <h3>12 Months</h3>
-                                <span class="price">$49.99/month</span>
-                                <p>All premium features and priority support.</p>
+                                <span class="price">Rs.40,000</span>
+                                <p>Entire One Year full Service.</p>
                                 <button type="button" class="choose-btn">Choose</button>
                             </div>
                         </div>
@@ -179,6 +372,12 @@
                     <input type="hidden" id="selected-plan" name="selected_plan" value="">
                     <div id="subscription-error"></div>
 
+                    <div class="terms-checkbox">
+                        <input type="checkbox" id="termsAgree" name="termsAgree" required>
+                        <label for="termsAgree">
+                            I agree to the <span class="terms-link" onclick="openTermsModal()">Terms and Conditions</span> and understand the cancellation policies
+                        </label>
+                    </div>
 
                     <div class="buttons">
                         <button type="button" onclick="prevStep(3)">Previous</button>
@@ -203,5 +402,20 @@
         <script src="<?php echo URLROOT;?>/js/plansSelect.js" defer> </script>
         <script>const URLROOT = "<?php echo URLROOT; ?>";</script>
         
+        <script>
+            function openTermsModal() {
+                document.getElementById('termsModal').style.display = 'block';
+            }
+
+            document.querySelector('.close-terms').onclick = function() {
+                document.getElementById('termsModal').style.display = 'none';
+            }
+
+            window.onclick = function(event) {
+                if (event.target == document.getElementById('termsModal')) {
+                    document.getElementById('termsModal').style.display = 'none';
+                }
+            }
+        </script>
 </body>
 </html>

@@ -264,7 +264,6 @@
                     'errors' => []
                 ];
 
-               
                 // Validate fields
                 if (empty($data['rental_name'])) {
                     $data['errors']['rental_name'] = "Rental name is required.";
@@ -288,10 +287,14 @@
                     $this->view('product/viewProduct', $data);
                     return;
                 }
- 
+
+        
                 // No errors, update
                 if ($this->productModel->updateProduct($id, $data)) {
-                   $this->view('equipment_supplier/viewProduct', $data);
+                    // Redirect after success (NO flash message)
+                    header('Location: ' . URLROOT . '/product/edit/' . $id);
+                    exit;
+
                 } else {
                     die('Something went wrong while updating.');
                 }
@@ -300,7 +303,6 @@
                 exit;
             }
         }
-
         public function viewProduct($productId) {
             $sptype = 'equipment';
             $details = $this->equipmentModel->getProductDetailsById($productId);

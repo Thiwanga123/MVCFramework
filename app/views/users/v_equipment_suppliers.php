@@ -3,9 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="<?php echo URLROOT;?>/css/adminpage/sidebarHeader.css">
-    <link rel="stylesheet" href="<?php echo URLROOT;?>/css/userspage/supplier.css">
-    <link rel="stylesheet" href="<?php echo URLROOT;?>/css/Modals/logoutModal.css">
+    <link rel="stylesheet" href="<?php echo URLROOT;?>/css/ushan/adminpage/sidebarHeader.css">
+    <link rel="stylesheet" href="<?php echo URLROOT;?>/css/ushan/userspage/supplier.css">
+    <link rel="stylesheet" href="<?php echo URLROOT;?>/css/ushan/Modals/logoutModal.css">
 
     <title>Equipment Rentals</title>
 </head>
@@ -141,8 +141,7 @@
                 </div>
 
 
-            <!--<pre><?php print_r($data['equipments']); ?></pre> -->
-            <!--<pre><?php print_r($data['categories']); ?></pre> -->
+            
             
         
                 <p>Showing All Products()</p>
@@ -183,10 +182,10 @@
      </div>
 
      
-     <script src="<?php echo URLROOT;?>/js/Sidebar.js"></script>
-     <script src="<?php echo URLROOT;?>/js/supplierLocations.js"></script>
-     <script src="<?php echo URLROOT;?>/js/logout.js"></script>
-    <script src="<?php echo URLROOT;?>/js/submenu.js"></script>
+     <script src="<?php echo URLROOT;?>/js/ushan/js/Sidebar.js"></script>
+     <script src="<?php echo URLROOT;?>/js/ushan/js/supplierLocations.js"></script>
+     <script src="<?php echo URLROOT;?>/js/ushan/js/logout.js"></script>
+    <script src="<?php echo URLROOT;?>/js/ushan/js/submenu.js"></script>
      <script src="https://maps.googleapis.com/maps/api/js?key=<?php echo API_KEY; ?>&libraries=places"></script>
      <script>const URLROOT = "<?php echo URLROOT; ?>";</script>
 

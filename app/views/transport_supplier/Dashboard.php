@@ -4,52 +4,30 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     
-    <link rel="stylesheet" href="<?php echo URLROOT;?>/css/adminpage/Dashboard.css">
-    <link rel="stylesheet" href="<?php echo URLROOT;?>/css/Common/sidebarHeader.css">
+    <link rel="stylesheet" href="<?php echo URLROOT;?>/css/adminpage/Dashboard_t.css">
+    <link rel="stylesheet" href="<?php echo URLROOT;?>/css/Commoon/sidebarHeader.css">
     <link rel="stylesheet" href="<?php echo URLROOT;?>/css/Common/MyInventorys.css">
-    
-    
-    
+    <link rel="stylesheet" href="<?php echo URLROOT;?>/css/Commoon/calendar.css">
+    <link rel="stylesheet" href="<?php echo URLROOT;?>/css/Modals/logoutModal.css">
 
+
+    
     <title>Home</title>
 </head>
 <body>
-    <!-- SideBar -->
-    <?php
-        include('Sidebar.php');;
-    ?>
-     <!-- End Of Sidebar -->
-
-     <!--Main Content-->
-     <div class="content">
-        <!--navbar-->
-        <nav>
-            <svg class="menu" xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#000000"><path d="M160-269.23v-40h640v40H160ZM160-460v-40h640v40H160Zm0-190.77v-40h640v40H160Z"/></svg>
-            <form action="#">
-                <div class="form-input">
-                    <input type="search" placeholder="Search ..">
-                    <button class="search-btn" type="submit">
-                        <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#000000"><path d="M784-120 532-372q-30 24-69 38t-83 14q-109 0-184.5-75.5T120-580q0-109 75.5-184.5T380-840q109 0 184.5 75.5T640-580q0 44-14 83t-38 69l252 252-56 56ZM380-400q75 0 127.5-52.5T560-580q0-75-52.5-127.5T380-760q-75 0-127.5 52.5T200-580q0 75 52.5 127.5T380-400Z"/></svg>
-                    </button>
-                </div>
-            </form>
-            <a href="#" class="updates">
-                <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#000000"><path d="M160-200v-80h80v-280q0-83 50-147.5T420-792v-28q0-25 17.5-42.5T480-880q25 0 42.5 17.5T540-820v28q80 20 130 84.5T720-560v280h80v80H160Zm320-300Zm0 420q-33 0-56.5-23.5T400-160h160q0 33-23.5 56.5T480-80ZM320-280h320v-280q0-66-47-113t-113-47q-66 0-113 47t-47 113v280Z"/></svg>
-                <span class="count">12</span>
-            </a>
-            <p><?php echo $_SESSION['name'];?></p>
-            <a href="#" class="profile">
-                <img src="<?php echo URLROOT;?>/Images/Profile pic.jpg">
-            </a>
-        </nav>
-
+<div class="box">
+        <!-- SideBar -->
+        <?php require APPROOT . '/views/inc/components/vehiclesupplier_sidebar.php'; ?>
+        <!-- End Of Sidebar -->
         <main>
-            <div class="header">
-                <div class="left">
-                    <h1 id = "header-title"">Dashboard</h1>
-                </div>
-            </div>
-        
+        <div class="initial-container">
+        <div class="header">
+             
+             <div class="left">
+             <h1>Dashboard</h1>
+             </div>
+
+</div>
             <!--Insights-->
             <ul class="insights">
                 <li>
@@ -76,17 +54,22 @@
 		c4.136,0,7.5-3.365,7.5-7.5V81.223C252.094,77.556,249.708,73.392,246.545,71.538z"/>
 </g>
 </svg></svg></div>
-<p>Total Vehicles: <span id="totalVehiclesCount">0</span></p>
+<span class="info">
+    <h3><?php echo isset($data['vehicles']) ? $data['vehicles'] : 'N/A'; ?></h3>
+    <p>Total Vehicles</p>
+</span>
+
 
 
                 <li>
                     <div class="view">
                     <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#000000"><path d="M160-80q-33 0-56.5-23.5T80-160v-640q0-33 23.5-56.5T160-880h640q33 0 56.5 23.5T880-800v640q0 33-23.5 56.5T800-80H160Zm0-80h640v-640H160v640Zm200-240q-17 0-28.5-11.5T320-440q0-17 11.5-28.5T360-480q17 0 28.5 11.5T400-440q0 17-11.5 28.5T360-400Zm240 0q-17 0-28.5-11.5T560-440q0-17 11.5-28.5T600-480q17 0 28.5 11.5T640-440q0 17-11.5 28.5T600-400ZM200-516v264q0 14 9 23t23 9h16q14 0 23-9t9-23v-48h400v48q0 14 9 23t23 9h16q14 0 23-9t9-23v-264l-66-192q-5-14-16.5-23t-25.5-9H308q-14 0-25.5 9T266-708l-66 192Zm106-64 28-80h292l28 80H306ZM160-800v640-640Zm120 420v-120h400v120H280Z"/></svg>
                     </div>
-                    <span class = "info">
-                        <h3>7</h3>
-                        <p>Booked Vehicles</p>
-                    </span>
+                    <span class="info">
+    <h3><?php echo $bookings; ?></h3>
+    <p>Booked Vehicles</p>
+</span>
+
                 </li>
                 <li>
                     <div class="earnings">
@@ -142,84 +125,65 @@
                     </div>
                     <table>
                         <thead>
-                            <tr>
-                                <th>Customer</th>
-                                <th>License Number</th>
-                                <th>model</th>
-                                <th>Make</th>
-                                <th>Rental Price</th>
-                                <th>Order Date</th>
-                                <th>Status</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>
-                                <img src="<?php echo URLROOT;?>/Images/Profile pic.jpg">
-                                    <p>Ushan</p>
-                                </td>
-                                <td>KV 2156</td>
-                                <td>Benz</td>
-                                <td>cla</td>
-                                <td>5000</td>
-                                <td>21-08-2024</td>
-                                <td>
-                                    <span class="status completed">Completed</span>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                <img src="<?php echo URLROOT;?>/Images/Profile pic.jpg">
-                                    <p>Thiwanga</p>
-                                </td>
-                                <td>RQ 2525</td>
-                                <td>Toyota</td>
-                                <td>Aqua</td>
-                                <td>4000</td>
-                                <td>14-07-2024</td>
-                                <td>
-                                    <span class="status pending">Pending</span>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                <img src="<?php echo URLROOT;?>/Images/Profile pic.jpg">
-                                    <p>Ruvin</p>
-                                </td>
-                                <td>CAA 61616</td>
-                                <td>Honda</td>
-                                <td>civic</td>
-                                <td>8000</td>
-                                <td>01-01-2024</td>
-                                <td>
-                                    <span class="status cancelled">Cancelled</span>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table> 
+                        <table>
+    <thead>
+        <tr>
+            <th>Customer Name</th>
+            <th>Phone Number</th>
+            <th>Email</th>
+            <th>Pickup Location</th>
+            <th>Start Date</th>
+            <th>End Date</th>
+            <th>Status</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        <?php foreach ($data['bookings_details'] as $booking): ?>
+            <tr>
+                <td><?php echo htmlspecialchars($booking->name); ?></td>
+                <td><?php echo htmlspecialchars($booking->phone_number); ?></td>
+                <td><?php echo htmlspecialchars($booking->email); ?></td>
+                <td><?php echo htmlspecialchars($booking->pickup); ?></td>
+                <td><?php echo htmlspecialchars($booking->check_in); ?></td>
+                <td><?php echo htmlspecialchars($booking->check_out); ?></td>
+                <td><?php echo htmlspecialchars($booking->status); ?></td>
+                <td>
+                    <?php 
+                        $status = strtolower($booking->status);
+                        if ($status != 'cancelled' && $status != 'canceled'): 
+                    ?>
+                        <a href="<?php echo URLROOT; ?>/transport_suppliers/cancelBooking/<?php echo $booking->booking_id; ?>" 
+                           class="btn-cancel" 
+                           onclick="return confirm('Are you sure you want to cancel this booking? Penalties may apply if cancellation is within 3 days of check-in.');">
+                            Cancel
+                        </a>
+                    <?php endif; ?>
+                </td>
+            </tr>
+        <?php endforeach; ?>
+    </tbody>
+</table>
+
                 </div>
         
-                <!--Recent updates-->
-                <div class="reminders">
-                    <div class="header">
-                        <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#000000"><path d="M200-120q-33 0-56.5-23.5T120-200v-560q0-33 23.5-56.5T200-840h440l200 200v440q0 33-23.5 56.5T760-120H200Zm0-80h560v-400H600v-160H200v560Zm80-80h400v-80H280v80Zm0-320h200v-80H280v80Zm0 160h400v-80H280v80Zm-80-320v160-160 560-560Z"/></svg>
-                        <h3>Recent Updates</h3>
-        
-                    </div>
-                    <ul class="update-list">
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                    </ul>
+                <div class="upcomingBookings">    
+                            <div class="top" style="display: flex; align-items: center;justify-content: center;"> 
+                            <h3>Upcoming Bookings</h3>
+                            </div>
+                            <?php include_once APPROOT . '/views/inc/components/calendar.php'; ?> 
+                        </div>
                 </div>
-            </div>
-        
+            </div>        
           </main>
 
      </div>
 
      <script src="<?php echo URLROOT;?>/js/Sidebar.js"></script>
-     
+     <script src="<?php echo URLROOT;?>/js/calendar.js"></script>
+     <script>var bookings = <?php echo json_encode($data['bookings_details']); ?>;</script>
+
+
 
 </body>
 

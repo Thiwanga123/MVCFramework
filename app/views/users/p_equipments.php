@@ -3,9 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="<?php echo URLROOT;?>/css/adminpage/planningSideBarHeader.css">
-    <link rel="stylesheet" href="<?php echo URLROOT;?>/css/userspage/supplierSection.css">
-    <link rel="stylesheet" href="<?php echo URLROOT;?>/css/Modals/logoutModal.css">
+
+    <link rel="stylesheet" href="<?php echo URLROOT;?>/css/ushan/adminpage/planningSideBarHeader.css">
+    <link rel="stylesheet" href="<?php echo URLROOT;?>/css/ushan/userspage/supplierSection.css">
+    <link rel="stylesheet" href="<?php echo URLROOT;?>/css/ushan/Modals/logoutModal.css">
+
     <title>Equipment Rentals</title>
 </head>
 <body>
@@ -26,7 +28,7 @@
                             </svg>
                             <span>Previous</span>
                         </a>
-                        <a href="<?php echo URLROOT;?>/users/summary" class="nav-button next-button">
+                        <a href="<?php echo URLROOT;?>/users/summaryplan" class="nav-button next-button">
                             <span>Next</span>
                             <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="currentColor">
                             <path d="M633.85-434.5H151.87v-91h481.98L415.11-744.24 480-808.13 808.13-480 480-151.87l-64.89-63.89 218.74-218.74Z"/>
@@ -86,7 +88,7 @@
                     </div>
                 </div>
 
-               <?php var_dump($_SESSION); ?>
+            
                 <div class="container1">
                         <h2>Nearby Suppliers' Equipments</h2>
                         <div class="container2">
@@ -175,11 +177,11 @@
     
 
      
-     <script src="<?php echo URLROOT;?>/js/Sidebar.js"></script>
-     <script src="<?php echo URLROOT;?>/js/supplierLocations.js"></script>
-     <script src="<?php echo URLROOT;?>/js/logout.js"></script>
-    <script src="<?php echo URLROOT;?>/js/submenu.js"></script>
-    <script src="<?php echo URLROOT;?>/js/addEquipmentBooking.js"></script>
+     <script src="<?php echo URLROOT;?>/js/ushan/js/Sidebar.js"></script>
+     <script src="<?php echo URLROOT;?>/js/ushan/js/supplierLocations.js"></script>
+     <script src="<?php echo URLROOT;?>/js/ushan/js/logout.js"></script>
+    <script src="<?php echo URLROOT;?>/js/ushan/js/submenu.js"></script>
+    <script src="<?php echo URLROOT;?>/js/ushan/js/addEquipmentBooking.js"></script>
     <script>const URLROOT = "<?php echo URLROOT; ?>"; </script>
 
      <script src="https://maps.googleapis.com/maps/api/js?key=<?php echo API_KEY; ?>&libraries=places"></script>

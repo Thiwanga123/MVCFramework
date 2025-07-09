@@ -1,0 +1,100 @@
+
+.content main .reviews{
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    transition: box-shadow 0.3s ease;
+}
+
+.content main .reviews>div{
+    border-radius: 20px;
+    background: var(--light);
+    padding: 18px;
+    overflow-x: auto;
+    width: 100%;
+}
+
+
+
+.content main .reviews .header h3{
+    margin-right: auto;
+    font-size: 24px;
+    font-weight: 600;
+}
+
+.content main .reviews .header svg{
+   cursor: pointer;
+}
+
+.content main .reviews table{
+    width: 100%;
+    border-collapse:collapse;
+    border-spacing: 16px;
+    margin: 20px 0;
+    text-align: left;
+}
+
+.content main .reviews table th{
+    padding-bottom: 12px;
+    font-size: 14px;
+    text-align: left;
+    border-bottom: 1px solid var(--light-success);
+}
+
+.content main .reviews table td{
+    padding: 16px;
+}
+
+.content main .reviews table td .rev{
+    max-width: 300px; 
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.content main .reviews table tr td:first-child{
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding-left: 20px;
+}
+
+.content main .reviews table td img{
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.content main .reviews table tbody tr{
+    font-size: 16px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+    
+.content main .reviews table tbody tr:hover{
+    background: var(--grey);
+}
+
+.content main .reviews table tbody tr td .status{
+    font-size: 12px;
+    padding: 6px 16px;
+    border-radius: 20px;
+    font-weight: 700px;
+}
+
+.Action {
+    display: flex;
+    gap: 10px; 
+}
+
+.Action .delete svg:hover{
+    fill: red;
+}
+
+
+@media screen {
+    
+}
+

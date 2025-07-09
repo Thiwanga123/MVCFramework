@@ -28,6 +28,7 @@ class ServiceProviderModel{
         $this->db->query("SELECT * FROM $sptype WHERE email = :email");
         $this->db->bind(':email', $email);
 
+
         $row = $this->db->single();
         
         if ($row) {
@@ -57,6 +58,45 @@ class ServiceProviderModel{
             return true;
         }else{
             return false;
+        }
+    }
+    public function checkSubscriptionStatus($email, $sptype) {
+        $this->db->query("SELECT sub, approve, action FROM $sptype WHERE email = :email");
+        $this->db->bind(':email', $email);
+        $row = $this->db->single();
+
+        if (!$row) {
+            return ['status' => 'not_found'];
+        }
+
+        // First check if account is deleted
+        if ($row->action === 'deleted') {
+            return ['status' => 'deleted'];
+        }
+
+        // Then check approval status
+        if ($row->approve !== 'true') {
+            return ['status' => 'not_approved'];
+        }
+
+        // Finally check subscription status
+        if ($row->sub !== 'true') {
+            return ['status' => 'not_subscribed'];
+        }
+
+        return ['status' => 'active'];
+    }
+
+
+    public function getSubscriptionDetails($email, $sptype) {
+        $this->db->query("SELECT * FROM $sptype WHERE email = :email");
+        $this->db->bind(':email', $email);
+        $row = $this->db->single();
+
+        if ($row) {
+            return $row;
+        } else {
+            return null;
         }
     }
 
@@ -95,8 +135,8 @@ class ServiceProviderModel{
     public function registerSupplier($data){
         
         $sptype = $data['sptype'];
-        $sql = "INSERT INTO $sptype (name, nic, address, phone, email, password, reg_number, plan, document_path) 
-                VALUES (:name, :nic, :address, :phone, :email, :password, :reg_num, :plan, :document_path)";
+        $sql = "INSERT INTO $sptype (name, nic, address, phone, email, password, reg_number, plan, document_path, date_of_joined) 
+                VALUES (:name, :nic, :address, :phone, :email, :password, :reg_num, :plan, :document_path, CURRENT_DATE)";
     
     
         try {
@@ -110,12 +150,13 @@ class ServiceProviderModel{
             $this->db->bind(':reg_num', $data['reg_num']);
             $this->db->bind(':plan', $data['plan']);
             $this->db->bind(':document_path', $data['document_path']);
+
     
-            return $this->db->execute();
-        } catch (Exception $e) {
-            error_log("Error registering service provider: " . $e->getMessage());
-            return false;
+             return $this->db->execute();
+        } catch (PDOException $e) {
+           return $e->getMessage();
         }
+       
     }
 
     //register the service provider with the relavent service type
@@ -171,33 +212,50 @@ class ServiceProviderModel{
         }
     }
 
-    public function updateSupplierProfile($data){
-        $sql = "UPDATE equipment_suppliers SET name = :name, email = :email, address = :address, username = :username, phone = :telephone_number, reg_number = :gvtNo, 
-                latitude = :latitude, 
-                longitude = :longitude WHERE id = :id";
+    public function updateSubscriptionStatus($email, $sptype) {
+        $this->db->query("UPDATE $sptype SET sub = 'true' WHERE email = :email");
+        $this->db->bind(':email', $email);
+        return $this->db->execute();
+    }
 
-        try{
-            $this->db->query($sql);
-            $this->db->bind(':name', $data['name']);
-            $this->db->bind(':email', $data['email']);
-            $this->db->bind(':address', $data['address']);
-            $this->db->bind(':username', $data['username']);
-            $this->db->bind(':telephone_number', $data['telephone_number']);
-            $this->db->bind(':gvtNo', $data['gvtNo']);
-            $this->db->bind(':latitude', $data['latitude']);
-            $this->db->bind(':longitude', $data['longitude']);
-            $this->db->bind(':id', $_SESSION['id']); 
-    
-            $result = $this->db->execute();
-            return $result;
-        }catch(Exception $e){
-            error_log("Error updating supplier profile: " . $e->getMessage());
-            return $e->getMessage(); 
+    public function updateSubscriptionPlan($id, $plan, $price, $name, $sptype) {
+        try {
+            $duration = null;
+
+            //print the data
+            echo "<script>console.log('ID: $id, Plan: $plan, Price: $price, Email: $name, Service Type: $sptype');</script>";
+            // Calculate duration based on the plan
+            switch ($plan) {
+                case '3month':
+                    $duration = date('Y-m-d', strtotime('+3 months'));
+                    break;
+                case '6month':
+                    $duration = date('Y-m-d', strtotime('+6 months'));
+                    break;
+                case '12month':
+                    $duration = date('Y-m-d', strtotime('+12 months'));
+                    break;
+                default:
+                    throw new Exception("Invalid plan type.");
+            }
+
+            $this->db->query("INSERT INTO subscription_plans (sp_id, name, price, duration, created_at, sptype, plan) 
+                              VALUES (:sp_id, :name, :price, :duration, NOW(), :sptype, :plan)");
+            $this->db->bind(':plan', $plan);
+            $this->db->bind(':name', $name);
+            $this->db->bind(':price', $price);
+            $this->db->bind(':sp_id', $id);
+            $this->db->bind(':sptype', $sptype);
+            $this->db->bind(':duration', $duration);
+
+            return $this->db->execute();
+        } catch (Exception $e) {
+            error_log("Error updating subscription plan: " . $e->getMessage());
+            return "Error: " . $e->getMessage();
         }
     }
-}
 
-  
+}
 
     
 

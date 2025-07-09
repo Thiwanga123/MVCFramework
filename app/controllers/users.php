@@ -41,6 +41,7 @@ class Users extends Controller {
         }
     
 
+
     public function history() {
         //check if logged in
         if(isset($_SESSION['user_id'])) {
@@ -60,7 +61,11 @@ class Users extends Controller {
         }else{
             redirect('users/login');
         }
+    
     }
+
+  
+
 
     public function accomadation() {
 
@@ -93,9 +98,22 @@ class Users extends Controller {
             $data=[
                 $location = trim($_POST['location']),
                 $budget = trim($_POST['budget']),
-                $people = trim($_POST['people']),
-
+                $check_in=trim($_POST['check_in']),
+                $check_out=trim($_POST['check_out'])
             ];
+
+            // Store the data in local storage
+            echo "<script>
+                localStorage.setItem('location', '$location');
+                localStorage.setItem('budget', '$budget');
+                localStorage.setItem('check_in', '$check_in');
+                localStorage.setItem('check_out', '$check_out');
+            </script>";
+
+
+
+
+    
 
 
             // Call the model to search for accommodations
@@ -121,8 +139,11 @@ class Users extends Controller {
 
     }
 
-    public function payments() {
+   
+    
+    public function payment_accomadation() {
         if(isset($_SESSION['user_id'])) {
+
             $this->view('users/payment');
         }else{
             redirect('users/login');
@@ -132,26 +153,103 @@ class Users extends Controller {
 
     public function vehicles(){
         if(isset($_SESSION['user_id'])) {
+            $vehicles = $this->userModel->getAllvehicles($_SESSION['user_id']); 
             $currentPage = 'vehicles';
 
             $data = [
-                'currentPage' => $currentPage
+                'currentPage' => $currentPage,
+                'vehicles' => $vehicles
             ];
 
-            $this->view('users/v_vehicles', $data);
+            $this->view('users/v_vehicles',$data);
+        }else{
+            redirect('users/login');
+        }
+        
+    }
+ 
+    public function viewVehicle($id){
+        if(isset($_SESSION['user_id'])) {
+            if(isset($_SESSION['user_id'])){
+                $vehicles = $this->userModel->getVehicleById($id); 
+                $currentPage = 'vehicles';
+                $bookings = $this->bookingModel->getBookingsByVehicleId($id);
+                $details='details';
+
+    
+                $data = [
+                    'currentPage' => $currentPage,
+                    'vehicles' => $vehicles,
+                    'user_id' => $_SESSION['user_id'],
+                    'details' => $details,
+                    'bookings' => json_encode($bookings),
+
+                ];
+          
+            $this->view('users/rentVehicle',$data);
+        }else{
+            redirect('users/login');
+        }
+        
+    }}
+
+    public function viewGuiders($id){
+        if(isset($_SESSION['user_id'])) {
+            $guiders = $this->userModel->getGuiderById($id); 
+            $currentPage = 'guider';
+            $bookings = $this->guiderModel->getBookingsByGuiderId($id);
+            
+            $details='details';
+            $unavailable=$this->guiderModel->getUnavailable($id);
+
+    
+            $data = [
+                'currentPage' => $currentPage,
+                'guiders' => $guiders,
+                'bookings' => json_encode($bookings),
+                'details' => $details,
+                'unavailabale'=>$unavailable
+            ];
+    
+            $this->view('users/viewGuider',$data);
+        }else{
+            redirect('users/login');
+        }
+        
+    }
+    public function bookings($id){
+        if(isset($_SESSION['user_id'])) {
+            $vehicles = $this->userModel->getVehicleById($id); 
+            $currentPage = 'vehicles';
+    
+            $data = [
+                'currentPage' => $currentPage,
+                'vehicles' => $vehicles
+            ];
+    
+            $this->view('users/booking',$data);
         }else{
             redirect('users/login');
         }
         
     }
 
-    public function viewdetails($property_id){
+    public function viewdetails($property_id) {
+
+
         if(isset($_SESSION['user_id'])) {
-            $availableRooms = $this->userModel->getAvailableRooms($property_id);
-            $accomadation = $this->userModel->getAccommodationById($property_id);
+
+            $check_in = $_GET['check_in'];
+            $check_out = $_GET['check_out'];
+            $budget = $_GET['budget'];
+
+            $accomadation = $this->userModel->getAccommodationById($property_id, $check_in, $check_out,$budget);
             $data=[
                 'accomadation' => $accomadation,
-                'availableRooms' => $availableRooms
+                'check_in' => $check_in,
+                'check_out' => $check_out,
+                'budget' => $budget,
+                
             ];
             $this->view('users/viewdetails',$data);
         }else{
@@ -162,7 +260,12 @@ class Users extends Controller {
 
     public function equipment_suppliers(){
         if(isset($_SESSION['user_id'])) {
+
+            
+
             $equipment = $this->equipmentModel->getAllEquipment();
+         
+
             $categories = $this->equipmentModel->getAllCategories();
             $currentPage = 'equipment_suppliers';
 
@@ -183,9 +286,12 @@ class Users extends Controller {
    
     public function guider(){
         if(isset($_SESSION['user_id'])) {
+
+            $guiders=$this->guiderModel->getAllGuiders();
             $currentPage = 'guider';
             $data = [
-                'currentPage' => $currentPage
+                'currentPage' => $currentPage,
+                'guiders' => $guiders
             ];            
             $this->view('users/v_guider', $data);
         }else{
@@ -193,7 +299,6 @@ class Users extends Controller {
         }
         
     }
-
     public function package(){
         if(isset($_SESSION['user_id'])) {
             $currentPage = 'package';
@@ -366,7 +471,6 @@ class Users extends Controller {
                 'password_err' => ''
             ];
 
-            
             // Validate email
             if (empty($data['email'])) {
                 $data['email_err'] = 'Please enter email';
@@ -385,22 +489,32 @@ class Users extends Controller {
             // Check for errors
             if (empty($data['email_err']) && empty($data['password_err'])) {
                 // Attempt to log in
-
+                $loginResult = $this->userModel->login($data['email'], $data['password']);
                 
-                $loggedInUser = $this->userModel->login($data['email'], $data['password']);
-                if ($loggedInUser) {
-                    // Create session
-                    $this->createUserSession($loggedInUser);
-                    //redirect('pages/index');
-                    redirect('users/dashboard');         
-
-                } 
-                
-                
-                else {
-                    $data['password_err'] = 'Password Incorrect';
-                    // Load view with errors
-                    $this->view('users/v_login', $data);
+                switch ($loginResult['status']) {
+                    case 'deleted':
+                        $data['status_message'] = 'Your Account has Deactivated';
+                        $data['status_class'] = 'status-error';
+                        $data['status_icon'] = 'fas fa-ban';
+                        $data['admin_contact'] = 'Please Contact the Admin Hotline to Activate your Account';
+                        $this->view('users/v_login', $data);
+                        break;
+                        
+                    case 'active':
+                        // Create session
+                        $this->createUserSession($loginResult['user']);
+                        redirect('users/dashboard');
+                        break;
+                        
+                    case 'invalid_password':
+                        $data['password_err'] = 'Password Incorrect';
+                        $this->view('users/v_login', $data);
+                        break;
+                        
+                    case 'not_found':
+                        $data['email_err'] = 'No user found';
+                        $this->view('users/v_login', $data);
+                        break;
                 }
             } else {
                 // Load view with errors
@@ -456,12 +570,12 @@ class Users extends Controller {
 
             // Cancel the booking
             if ($this->userModel->cancelBooking($bookingId)) {
-                echo "<script>alert('Booking cancelled successfully'); window.location.href = '" . URLROOT . "/users/history';</script>";
+                echo "<script>alert('Booking cancelled successfully. Full refund will be processed.'); window.location.href = '" . URLROOT . "/users/history';</script>";
             } else {
-                echo "<script>alert('An error occurred. Please try again'); window.location.href = '" . URLROOT . "/users/history';</script>";
+                echo "<script>alert('Failed to cancel booking. Please try again.'); window.location.href = '" . URLROOT . "/users/history';</script>";
             }
         } else {
-            redirect('users/v_history');
+            redirect('users/history');
         }
     }
 
@@ -482,83 +596,53 @@ class Users extends Controller {
 
 
 
-    public function book(){
-        if($_SERVER['REQUEST_METHOD'] == 'POST') {
-            $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_FULL_SPECIAL_CHARS);
-            $data = [
-                'property_id' => trim($_POST['property_id']),
-                'check_in' => trim($_POST['check-in-date']),
-                'check_out' => trim($_POST['check-out-date']),
-                'people' => trim($_POST['guests']),
-                'price' => trim($_POST['totalamount']),
-                'user_id' => $_SESSION['user_id'],
-                'paid' => trim($_POST['totalpaid']),
-                'totalrooms' => trim($_POST['totalrooms']),
-                'singleamount'=> trim($_POST['singleamount']),
-                'doubleamount'=> trim($_POST['doubleamount']),
-                'familyamount'=> trim($_POST['familyamount']),
-                'service_provider_id'=> trim($_POST['service_provider_id']),
-            ];
+
+//cancel the booking
 
 
 
-            $errors=[] ;
 
-            // Validate check in date
-            if (empty($data['check_in'])) {
-                $errors[] = 'Please enter check in date';
-            }
+public function book_accomodation(){
+    if($_SERVER['REQUEST_METHOD'] == 'POST') {
+        $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+        $data = [
+            'property_id' => trim($_POST['property_id']),
+            'check_in' => trim($_POST['check-in-date']),
+            'check_out' => trim($_POST['check-out-date']),
+            'people' => trim($_POST['guests']),
+            'price' => trim($_POST['totalamount']),
+            'user_id' => $_SESSION['user_id'],
+            // 'paid' => trim($_POST['totalpaid']),
+            'totalrooms' => trim($_POST['totalrooms']),
+            'singleamount'=> trim($_POST['singleamount']),
+            'doubleamount'=> trim($_POST['doubleamount']),
+            'familyamount'=> trim($_POST['familyamount']),
+            'service_provider_id'=> trim($_POST['service_provider_id']),
+        ];
 
-            // Validate check out date
-            if (empty($data['check_out'])) {
-                $errors[] = 'Please enter check out date';
-            }
 
-            // Validate number of guests
-            if (empty($data['people'])) {
-                $errors[] = 'Please enter number of guests';
-            }
 
-            // Validate total amount    
-            if (empty($data['price'])) {
-                $errors[] = 'Please enter total amount';
-            }   
+        $errors=[] ;
 
-            // Validate total paid
-
-            if (empty($data['paid'])) {
-                $errors[] = 'Please enter total paid';
-            }
-
-            // Validate total rooms
-
-            if (empty($data['totalrooms'])) {
-                $errors[] = 'Please enter total rooms';
-            }
-
-            if(empty($errors)){
-                print_r('no errors');
-                $isInserted = $this->userModel->book($data);
-                if($isInserted){
-                    redirect('users/history');
-                }else{
-                    print_r('Something went wrong');
-                }
-            }else{
-                redirect('users/login');
-            }
-        }else{
-        print_r('method is not POST');
+        // Validate check in date
+        if (empty($data['check_in'])) {
+            $errors[] = 'Please enter check in date';
         }
-    }
 
-    public function weather(){
-        if(isset($_SESSION['user_id'])) {
-            $this->view('users/weatherView');
-        }else{
-            redirect('users/login');
+        // Validate check out date
+        if (empty($data['check_out'])) {
+            $errors[] = 'Please enter check out date';
         }
-    }
+
+        // Validate number of guests
+        if (empty($data['people'])) {
+            $errors[] = 'Please enter number of guests';
+        }
+
+        // Validate total amount    
+        if (empty($data['price'])) {
+            $errors[] = 'Please enter total amount';
+        }   
 
 
         public function planhome(){
@@ -578,188 +662,69 @@ class Users extends Controller {
             }else{
                 redirect('users/login');
             }
+
         }
 
-    public function planaccomodation() {
-        if(isset($_SESSION['user_id'])) {
-            $data['currentPage'] = 'accommodation';
-            $lat = $_SESSION['trip']['lat'];
-            $lng = $_SESSION['trip']['lng'];
-           
-            $data['latitude'] = $lat ?? null;
-            $data['longitude'] = $lng ?? null;
-            
-            if ($data['latitude'] && $data['longitude']) {
-                $accommodations = $this->accomadationModel->getAllAccommodations(); 
-                $accommodationsWithDistances = [];
-    
-                foreach ($accommodations as $accommodation) {
-                    $distance = $this->haversine_distance($data['latitude'], $data['longitude'], $accommodation->latitude, $accommodation->longitude);
-                    if ($distance <= 20) {
-                        $accommodation->distance = round($distance, 2); 
-                        $accommodationsWithDistances[] = $accommodation;    
-                    }
-                }
+        if(empty($errors)){
+            $isInserted = $this->userModel->book_accomodation($data);
+            if($isInserted){
 
-                usort($accommodationsWithDistances, function($a, $b) {
-                    return $a->distance <=> $b->distance; // Compare based on the 'distance' key
-                });
-    
-                $data['accommodations'] = $accommodationsWithDistances;
-            } else {
-                $data['error'] = "Location data is missing.";
+                if($this->userModel->holdPayment($data['price'], $data['service_provider_id'],$data['user_id'] ,$isInserted)){
+                    redirect('users/history');
+                };
+            }else{
+                print_r('Something went wrong');
             }
-    
-            $this->view('users/p_accomodation', $data);
-        } else {
-            redirect('users/login');
-        }
+}else{
+    redirect('users/login');
+}
     }
 
-    public function planvehicle(){
-        if(isset($_SESSION['user_id'])) {
-            $data['currentPage'] = 'vehicles';
-            $startDate = $_SESSION['trip']['startDate'];
-            $endDate = $_SESSION['trip']['endDate'];
-        
-            $availableVehicles = $this->transportModel->getAvailableVehicles($startDate, $endDate); 
-            $data['availableVehicles'] = $availableVehicles;
-            $this->view('users/p_vehicles', $data);
-        }else{
-            redirect('users/login');
-        }
+else{
+    print_r('method is not POST');
+}
+
+}
+
+public function weather(){
+    if(isset($_SESSION['user_id'])) {
+        $this->view('users/weatherView');
+    }else{
+        redirect('users/login');
     }
+}
 
-    public function planequipments() {
-        if (isset($_SESSION['user_id'])) {
-            $data['currentPage'] = 'equipments';
-            $lat = $_SESSION['trip']['lat'] ?? null;
-            $lng = $_SESSION['trip']['lng'] ?? null;
-            
-            $data['latitude'] = $lat;
-            $data['longitude'] = $lng;
 
-            if ($data['latitude'] && $data['longitude']) {
-                $allSuppliers = $this->userModel->getAllEquipmentSuppliers();
-                $nearbySuppliers = [];
-                $nearbySupplierIds = [];
 
-                // Find nearby suppliers within 20 km
-                foreach ($allSuppliers as $supplier) {
-                    $distance = $this->haversine_distance($data['latitude'], $data['longitude'], $supplier->latitude, $supplier->longitude);
-                    if ($distance <= 20) {
-                        $supplier->distance = round($distance, 2);
-                        $nearbySuppliers[] = $supplier; // Store full supplier object
-                        $nearbySupplierIds[] = $supplier->id; // Store supplier ID
-                    }
-                }
+public function showaccommodation(){
+    if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+        // Sanitize POST data
+        $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
 
-       
-                if (empty($nearbySupplierIds)) {
-                    $data['equipments'] = [];
-                    $data['message'] = "No nearby suppliers found.";
-                } else {
-                    // Get all equipment from nearby suppliers
-                    $allNearByEquipment = $this->userModel->getEquipmentBySupplierIds($nearbySupplierIds);
-                  
-                    $startDate = $_SESSION['trip']['startDate'];
-                    $endDate = $_SESSION['trip']['endDate'];
-                    // Get unavailable equipment IDs for the selected dates
-                    $unavailableEquipmentIds = $this->userModel->getBookedEquipmentIds($startDate, $endDate);
-                    // Filter to get only available equipment
-                    $availableEquipment = array_filter($allNearByEquipment, function($equipment) use ($unavailableEquipmentIds) {
-                        return !in_array($equipment->id, $unavailableEquipmentIds);
-                    });
-    
-                    $data = [
-                        'equipments' => array_values($availableEquipment),
-                        'suppliers'  => $nearbySuppliers,
-                        'currentPage' => $data['currentPage'],
-                    ];
-                }
+        // Get the form data
+        $data=[
+            $location = trim($_POST['location']),
+            $people = trim($_POST['people']),
+            $start_date = trim($_POST['startDate']),
+            $end_date = trim($_POST['endDate']),
+        ];
 
-             
-                $allEquipments = $this->equipmentModel->getAllEquipment();
-                $this->view('users/p_equipments', $data);
-            } else {
-                $data['equipments'] = [];
-                $data['currentPage'] = 'equipments';
-                $data['message'] = "Please set a location first.";
-                $this->view('users/p_equipments', $data);
-            }
-        } else {
-            redirect('users/login');
-        }
-    }
+     
 
-    public function planguides(){
-        if(isset($_SESSION['user_id'])) {
-            $data['currentPage'] = 'guides';
-            $startDate = $_SESSION['trip']['startDate'];
-            $endDate = $_SESSION['trip']['endDate'];
-          
-            $availableGuides = $this->guiderModel->getGuider(); 
-            
-            $data['availableGuiders'] = $availableGuides;
-            $this->view('users/p_guides', $data);
-        }else{
-            redirect('users/login');
-        }
-    }
-
-    public function summary(){
-        if(isset($_SESSION['user_id'])) {
-            $data['currentPage'] = 'summary';
+        // Call the model to search for accommodations
+        if($showaccomadation=$this->userModel->showAccommodation($data)){
+            // If the search is successful, load the view with the search results
             $data = [
-                'name' => $_SESSION['name'] ?? null,
-                'trip' => $_SESSION['trip'] ?? [], //includes accomodations data too
-                'accommodation_data' => $_SESSION['acomodation_booking'] ?? [],
-                'booking_vehicle_data' => $_SESSION['booking_vehicle_data'] ?? [],
-                'guider_booking' => $_SESSION['guider_booking'] ?? [],
-                'equipmentBooking' => $_SESSION['equipmentBooking'] ?? [],
-                'currentPage' => 'summary',
+                'email' => '',
+                'password' => '',
+                'email_err' => '',
+                'password_err' => ''
             ];
-            $this->view('users/summary', $data);
-        }else{
-            redirect('users/login');
+
+            // Load view
+            $this->view('users/v_login', $data);
         }
     }
-
-
-    public function showaccommodation(){
-        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-            // Sanitize POST data
-            $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
-
-            // Get the form data
-            $data=[
-                $location = trim($_POST['location']),
-                $people = trim($_POST['people']),
-                $start_date = trim($_POST['startDate']),
-                $end_date = trim($_POST['endDate']),
-            ];
-
-        
-
-            // Call the model to search for accommodations
-            if($showaccomadation=$this->userModel->showAccommodation($data)){
-                // If the search is successful, load the view with the search results
-                $data = [
-                    'showaccomadation' => $showaccomadation
-                ];
-
-                //print the data
-                
-                // Load the view with the search results
-                $this->view('users/bookAccomodations',$data );
-            } else {
-                // If the search is not successful, load the view with an error message
-                $this->view('users/notfound');
-            }
-
-
-    }
-
     }
 
 
@@ -778,6 +743,83 @@ class Users extends Controller {
         }
     }
 
+    public function summary(){
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            // Sanitize POST data
+            $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+            
+            // Get the service provider type
+            $spType = $_POST['sp_type'] ?? 'guider';
+            
+            // Common data for all service types
+            $data = [
+                'booking_start_date' => $_POST['booking_start_date'] ?? '',
+                'booking_end_date' => $_POST['booking_end_date'] ?? '',
+                'days' => $_POST['days'] ?? '',
+                'totalPrice' => $_POST['totalPrice'] ?? '',
+                'supplier_id' => $_POST['supplier_id'] ?? '',
+                'order_id' => $_POST['order_id'] ?? 'ORDER'.time(),
+                'sp_type' => $spType,
+                'currentPage' => $spType
+            ];
+            
+            // Add type-specific data
+            switch($spType) {
+                case 'guider':
+                    $data['guider_id'] = $_POST['guider_id'] ?? '';
+                    $data['guider_name'] = $_POST['guider_name'] ?? '';
+                    $data['pickupLocation'] = $_POST['pickupLocation'] ?? '';
+                    $data['tripDestination'] = $_POST['tripDestination'] ?? '';
+                    break;
+                    
+                case 'equipment_supplier':
+                    $data['product_id'] = $_POST['product_id'] ?? '';
+                    $data['product_name'] = $_POST['product_name'] ?? '';
+                    $data['pickupLocation'] = $_POST['pickupLocation'] ?? '';
+                    break;
+                    
+                case 'transport_supplier':
+                    $data['product_id'] = $_POST['product_id'] ?? '';
+                    $data['vehicle_name'] = $_POST['vehicle_name'] ?? '';
+                    $data['pickupLocation'] = $_POST['pickupLocation'] ?? '';
+                    $data['tripDestination'] = $_POST['tripDestination'] ?? '';
+                    $data['driver_option'] = $_POST['driver_option'] ?? 'with_driver';
+                    $data['with_driver_rate'] = $_POST['with_driver_rate'] ?? '';
+                    $data['self_drive_rate'] = $_POST['self_drive_rate'] ?? '';
+                    break;
+            }
+            
+            // Load the summary view with the form data
+            $this->view('users/includes/guider/summary', $data);
+        } else {
+            // If accessed directly without form submission, redirect to dashboard
+            redirect('users/dashboard');
+        }
+    }
+    
+    // Helper function to get address from coordinates using reverse geocoding
+    private function getAddressFromCoordinates($lat, $lng) {
+        if (empty($lat) || empty($lng)) {
+            return 'Unknown location';
+        }
+        
+        // You can implement reverse geocoding here if needed
+        // For now return a placeholder or implement a simple version
+        return "Latitude: $lat, Longitude: $lng";
+    }
+
+
+    public function success(){
+        if(isset($_SESSION['user_id'])) {
+            $currentPage = 'success';
+            $data = [
+                'currentPage' => $currentPage
+            ];
+            $this->view('users/v_success', $data);
+        }else{
+            redirect('users/login');
+        }
+    }
 
     public function forgotPassword(){
         if($_SERVER['REQUEST_METHOD'] == 'POST'){
@@ -960,6 +1002,270 @@ class Users extends Controller {
         
         }
     }
+
+   
+
+        
+        
+
+        public function planhome(){
+            if(isset($_SESSION['user_id'])) {
+                if (!empty($_POST)) {
+                    $_SESSION['trip'] = [
+                        'lat' => $_POST['lat'],
+                        'lng' => $_POST['lng'],
+                        'startDate' => $_POST['startDate'],
+                        'endDate' => $_POST['endDate']
+                    ];
+
+                }
+                // $this->view('users/planHome');
+                $data['currentPage'] = 'places';
+                $this->view('users/p_places', $data);
+            }else{
+                redirect('users/login');
+            }
+        }
+
+    public function planaccomodation() {
+        if(isset($_SESSION['user_id'])) {
+            $data['currentPage'] = 'accommodation';
+            $lat = $_SESSION['trip']['lat'];
+            $lng = $_SESSION['trip']['lng'];
+           
+            $data['latitude'] = $lat ?? null;
+            $data['longitude'] = $lng ?? null;
+            
+            if ($data['latitude'] && $data['longitude']) {
+                $accommodations = $this->accomadationModel->getAllAccommodations(); 
+                $accommodationsWithDistances = [];
+    
+                foreach ($accommodations as $accommodation) {
+                    $distance = $this->haversine_distance($data['latitude'], $data['longitude'], $accommodation->latitude, $accommodation->longitude);
+                    if ($distance <= 20) {
+                        $accommodation->distance = round($distance, 2); 
+                        $accommodationsWithDistances[] = $accommodation;    
+                    }
+                }
+
+                usort($accommodationsWithDistances, function($a, $b) {
+                    return $a->distance <=> $b->distance; // Compare based on the 'distance' key
+                });
+    
+                $data['accommodations'] = $accommodationsWithDistances;
+            } else {
+                $data['error'] = "Location data is missing.";
+            }
+    
+            $this->view('users/p_accomodation', $data);
+        } else {
+            redirect('users/login');
+        }
+    }
+
+    public function planvehicle(){
+        if(isset($_SESSION['user_id'])) {
+            $data['currentPage'] = 'vehicles';
+            $startDate = $_SESSION['trip']['startDate'];
+            $endDate = $_SESSION['trip']['endDate'];
+        
+            $availableVehicles = $this->transportModel->getAvailableVehicles($startDate, $endDate); 
+            $data['availableVehicles'] = $availableVehicles;
+            $this->view('users/p_vehicles', $data);
+        }else{
+            redirect('users/login');
+        }
+    }
+
+    public function planequipments() {
+        if (isset($_SESSION['user_id'])) {
+            $data['currentPage'] = 'equipments';
+            $lat = $_SESSION['trip']['lat'] ?? null;
+            $lng = $_SESSION['trip']['lng'] ?? null;
+            
+            $data['latitude'] = $lat;
+            $data['longitude'] = $lng;
+
+            if ($data['latitude'] && $data['longitude']) {
+                $allSuppliers = $this->userModel->getAllEquipmentSuppliers();
+                $nearbySuppliers = [];
+                $nearbySupplierIds = [];
+
+                // Find nearby suppliers within 20 km
+                foreach ($allSuppliers as $supplier) {
+                    $distance = $this->haversine_distance($data['latitude'], $data['longitude'], $supplier->latitude, $supplier->longitude);
+                    if ($distance <= 20) {
+                        $supplier->distance = round($distance, 2);
+                        $nearbySuppliers[] = $supplier; // Store full supplier object
+                        $nearbySupplierIds[] = $supplier->id; // Store supplier ID
+                    }
+                }
+
+       
+                if (empty($nearbySupplierIds)) {
+                    $data['equipments'] = [];
+                    $data['message'] = "No nearby suppliers found.";
+                } else {
+                    // Get all equipment from nearby suppliers
+                    $allNearByEquipment = $this->userModel->getEquipmentBySupplierIds($nearbySupplierIds);
+                  
+                    $startDate = $_SESSION['trip']['startDate'];
+                    $endDate = $_SESSION['trip']['endDate'];
+                    // Get unavailable equipment IDs for the selected dates
+                    $unavailableEquipmentIds = $this->userModel->getBookedEquipmentIds($startDate, $endDate);
+                    // Filter to get only available equipment
+                    $availableEquipment = array_filter($allNearByEquipment, function($equipment) use ($unavailableEquipmentIds) {
+                        return !in_array($equipment->id, $unavailableEquipmentIds);
+                    });
+    
+                    $data = [
+                        'equipments' => array_values($availableEquipment),
+                        'suppliers'  => $nearbySuppliers,
+                        'currentPage' => $data['currentPage'],
+                    ];
+                }
+
+             
+                $allEquipments = $this->equipmentModel->getAllEquipment();
+                $this->view('users/p_equipments', $data);
+            } else {
+                $data['equipments'] = [];
+                $data['currentPage'] = 'equipments';
+                $data['message'] = "Please set a location first.";
+                $this->view('users/p_equipments', $data);
+            }
+        } else {
+            redirect('users/login');
+        }
+    }
+
+    public function planguides(){
+        if(isset($_SESSION['user_id'])) {
+            $data['currentPage'] = 'guides';
+            $startDate = $_SESSION['trip']['startDate'];
+            $endDate = $_SESSION['trip']['endDate'];
+          
+            $availableGuides = $this->guiderModel->getGuider(); 
+            
+            $data['availableGuiders'] = $availableGuides;
+            $this->view('users/p_guides', $data);
+        }else{
+            redirect('users/login');
+        }
+    }
+
+    
+
+    public function summaryplan(){
+        if(isset($_SESSION['user_id'])) {
+            $data['currentPage'] = 'summary';
+    
+            $name = $_SESSION['name'] ?? null;
+            $trip = $_SESSION['trip'] ?? [];
+            $accommodationData = $_SESSION['acomodation_booking'] ?? []; 
+            $vehicleData = $_SESSION['booking_vehicle_data'] ?? [];
+            $guiderData = $_SESSION['guider_booking'] ?? [];
+            $equipmentData = $_SESSION['equipmentBooking'] ?? [];
+           
+                $accommodationTotal = 0;
+                if (!empty($accommodationData)) {
+                    $propertyId = $accommodationData['propertyId'];
+                    $accommodation = $this->accomadationModel->getPropertyDetailsById($propertyId);
+                    $accomodationName = $accommodation->property_name;
+                   
+                    if ($accommodation) {
+                        $singleRoomTotal = (int)($accommodationData['singleRooms'] ?? 0) * ($accommodation->singleprice ?? 0);
+                        $doubleRoomTotal = (int)($accommodationData['doubleRooms'] ?? 0) * ($accommodation->doubleprice ?? 0);
+                        $familyRoomTotal = (int)($accommodationData['familyRooms'] ?? 0) * ($accommodation->familyprice ?? 0);
+                        $accommodationTotal = $singleRoomTotal + $doubleRoomTotal + $familyRoomTotal;
+                    }
+
+                    $accommodationData['accommodationName'] = $accomodationName;
+                    $accommodationData['accommodationTotal'] = $accommodationTotal;
+                }
+             
+                // 2. Vehicle total
+                $vehicleTotal = 0;
+                if (!empty($vehicleData)) {
+                    $vehicleId = $vehicleData['vehicleId'];
+                    // Fetch the REAL vehicle details from the database
+                    $vehicle = $this->transportModel->getVehiclePrice($vehicleId);
+                    $vehicleModel = $vehicle->model;
+                    $vehicleMake = $vehicle->make;
+
+                    if ($vehicle) {
+                        $vehicleTotal = ($vehicleData['driverOption'] == 'withDriver')
+                            ? (float)($vehicle->cost ?? 0)
+                            : (float)($vehicle->rate ?? 0);
+                    }
+
+                    $vehicleData['vehicleModel'] = $vehicleModel;
+                    $vehicleData['vehicleMake'] = $vehicleMake;
+                    $vehicleData['vehicleTotal'] = $vehicleTotal;
+                }
+
+                // 3. Guider total
+                $guiderTotal = 0;
+                if (!empty($guiderData)) {
+                    $guiderId = $guiderData['guiderId'];
+                    $guider = $this->guiderModel->getGuiderPrice($guiderId);
+                    $guiderName = $guider->name;
+                    if ($guider) {
+                        $guiderTotal = (float)($guider->base_rate ?? 0);
+                    }
+
+                    $guiderData['guiderName'] = $guiderName;
+                    $guiderData['guiderTotal'] = $guiderTotal;
+                }
+
+                // 4. Equipment total
+                $equipmentTotal = 0;
+                if (!empty($equipmentData)) {
+                    $equipmentId = $equipmentData['equipmentId'];
+                    $equipment = $this->equipmentModel->getProductPriceById($equipmentId);
+                    $equipmentName = $equipment->rental_name;
+                    $equipmentPrice = $equipment->price_per_day;
+                
+                    if ($equipment){
+                        $startDate = new DateTime($equipmentData['startDate']);
+                        $endDate = new DateTime($equipmentData['endDate']);
+                        $duration = $startDate->diff($endDate)->days;
+                        $equipmentTotal = (float)($equipmentPrice->price_per_day ?? 0) * $duration;
+                    }
+
+                    $equipmentData['equipmentName'] = $equipmentName;
+                    $equipmentData['equipmentTotal'] = $equipmentTotal;
+                }
+
+            $data = [
+                'name' => $_SESSION['name'] ?? null,
+                'trip' => $_SESSION['trip'] ?? [], //includes accomodations data too
+                'accommodation_data' => $accommodationData ?? [],
+                'booking_vehicle_data' => $vehicleData ?? [],
+                'guider_booking' => $guiderData ?? [],
+                'equipmentBooking' =>  $equipmentData ?? [],
+                'currentPage' => 'summary',
+            ];
+
+            
+            $this->view('users/summary', $data);
+        }else{
+            redirect('users/login');
+        }
+    }
+
+
+
+
+
+
+
+  
+   
+
+   
+
+   
 
 
     public function updateProfileImage() {

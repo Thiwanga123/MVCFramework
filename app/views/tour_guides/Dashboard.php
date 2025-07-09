@@ -7,9 +7,74 @@
     <link rel="stylesheet" href="<?php echo URLROOT;?>/css/Common/Orders.css">
     <link rel="stylesheet" href="<?php echo URLROOT;?>/css/adminpage/Dashboard.css">
     <link rel="stylesheet" href="<?php echo URLROOT;?>/css/Common/sidebarHeader.css">
+    <link rel="stylesheet" href="<?php echo URLROOT;?>/css/adminpage/RecentBookings.css">
     
+    <style>
+        /* Calendar styles */
+        .calendar {
+            width: 100%;
+            margin-top: 20px;
+        }
+        
+        .calendar .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+            padding: 5px;
+        }
+        
+        .calendar .header button {
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 18px;
+        }
+        
+        .calendar .days {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 5px;
+        }
+        
+        .calendar .day {
+            text-align: center;
+            padding: 8px;
+            border-radius: 5px;
+        }
+        
+        /* Legend styles */
+        .calendar-legend {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin: 10px 0;
+        }
+        
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            font-size: 12px;
+        }
+        
+        .color-box {
+            display: inline-block;
+            width: 15px;
+            height: 15px;
+            border-radius: 3px;
+        }
+        
+        .color-box.unavailable {
+            background-color: #FF6B6B;
+        }
+        
+        .color-box.booking {
+            background-color: #4CAF50;
+        }
+    </style>
 
-    <title>Home</title>
+    <title>Tour Guide Dashboard</title>
 </head>
 <body>
     <!-- SideBar -->
@@ -31,11 +96,12 @@
                     </button>
                 </div>
             </form>
-            <a href="#" class="updates">
+            <a href="<?php echo URLROOT;?>/tour_guides/notifications" class="updates">
                 <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#000000"><path d="M160-200v-80h80v-280q0-83 50-147.5T420-792v-28q0-25 17.5-42.5T480-880q25 0 42.5 17.5T540-820v28q80 20 130 84.5T720-560v280h80v80H160Zm320-300Zm0 420q-33 0-56.5-23.5T400-160h160q0 33-23.5 56.5T480-80ZM320-280h320v-280q0-66-47-113t-113-47q-66 0-113 47t-47 113v280Z"/></svg>
                 <span class="count">12</span>
             </a>
-            <a href="#" class="profile">
+            <p><?php echo isset($_SESSION['name']) ? $_SESSION['name'] : 'Tour Guide'; ?></p>
+            <a href="<?php echo URLROOT;?>/tour_guides/profile" class="profile">
                 <img src="<?php echo URLROOT;?>/Images/Profile pic.jpg">
             </a>
         </nav>
@@ -51,24 +117,20 @@
             <ul class="insights">
                 <li>
                     <div class="products">
-                    <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#000000"><path d="M202.87-71.87q-37.78 0-64.39-26.61t-26.61-64.39V-612.2q-18.24-12.43-29.12-31.48-10.88-19.06-10.88-43.02v-110.43q0-37.78 26.61-64.39t64.39-26.61h634.26q37.78 0 64.39 26.61t26.61 64.39v110.43q0 23.96-10.88 43.02-10.88 19.05-29.12 31.48v449.33q0 37.78-26.61 64.39t-64.39 26.61H202.87Zm0-523.83v433.07h554.5V-595.7h-554.5Zm-40-91h634.5v-110.43h-634.5v110.43Zm193.06 292.44H604.3v-86.22H355.93v86.22Zm124.31 14.98Z"/></svg>
+                    <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#5f6368"><path d="M240-200h120v-240h240v240h120v-360L480-740 240-560v360Zm-80 80v-480l320-240 320 240v480H520v-240h-80v240H160Zm320-350Z"/></svg>
                     </div>
                     <span class = "info">
-
-                        <h3></h3>
-
-                       
-
+                        <h3><?php echo isset($data['totalBookings']) ? $data['totalBookings'] : '0'; ?></h3>
                         <p>Total Bookings</p>
                     </span>
                 </li>
                 <li>
                     <div class="view">
-                    <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#000000"><path d="M480-320q75 0 127.5-52.5T660-500q0-75-52.5-127.5T480-680q-75 0-127.5 52.5T300-500q0 75 52.5 127.5T480-320Zm.04-77.02q-42.89 0-72.95-30.02-30.07-30.03-30.07-72.92t30.02-72.95q30.03-30.07 72.92-30.07t72.95 30.02q30.07 30.03 30.07 72.92t-30.02 72.95q-30.03 30.07-72.92 30.07ZM480-192.59q-148.87 0-270.66-83.89Q87.54-360.37 32.59-500q54.95-139.63 176.75-223.52Q331.13-807.41 480-807.41t270.66 83.89Q872.46-639.63 927.41-500q-54.95 139.63-176.75 223.52Q628.87-192.59 480-192.59ZM480-500Zm.02 220q112.74 0 207-59.62T831.28-500q-50-100.76-144.28-160.38Q592.72-720 479.98-720q-112.74 0-207 59.62T128.72-500q50 100.76 144.28 160.38Q367.28-280 480.02-280Z"/></svg>
+                    <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#5f6368"><path d="M480-160q-48-38-104-59t-116-21q-42 0-82.5 11T100-198q-21 11-40.5-1T40-234v-482q0-11 5.5-21T62-752q46-24 96-36t102-12q58 0 113.5 15T480-740v484q51-32 107-48t113-16q36 0 70.5 6t69.5 18v-480q15 5 29.5 10.5T898-752q11 5 16.5 15t5.5 21v482q0 23-19.5 35t-40.5 1q-37-20-77.5-31T700-240q-60 0-116 21t-104 59Zm80-200v-380l200-200v400L560-360Zm-160 65v-396q-33-14-68.5-21.5T260-720q-37 0-72 7t-68 21v397q35-13 69.5-19t70.5-6q36 0 70.5 6t69.5 19Zm0 0v-396 396Z"/></svg>
                     </div>
                     <span class = "info">
-                        <h3>21</h3>
-                        <p>Total Reviews</p>
+                        <h3><?php echo isset($data['canceledBookings']) ? $data['canceledBookings'] : '0'; ?></h3>
+                        <p>Canceled Bookings</p>
                     </span>
                 </li>
                 <li>
@@ -76,7 +138,7 @@
                     <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#000000"><path d="m140-220-60-60 300-300 160 160 284-320 56 56-340 384-160-160-240 240Z"/></svg>
                     </div>
                     <span class = "info">
-                        <h3>Rs.30,000</h3>
+                        <h3>Rs.<?php echo number_format(isset($data['earnings']) ? $data['earnings'] : 0, 2); ?></h3>
                         <p>Earnings Received</p>
                     </span>
                 </li>
@@ -85,8 +147,8 @@
                     <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#000000"><path d="M684.3-80q-83 0-141.5-58.5T484.3-280q0-83 58.5-141.5T684.3-480q83 0 141.5 58.5T884.3-280q0 83-58.5 141.5T684.3-80Zm67-102.61 30.4-30.63-75.48-75.48v-113.19h-43.59v130.56l88.67 88.74Zm-548.43 70.74q-37.54 0-64.27-26.73-26.73-26.73-26.73-64.27v-554.26q0-37.54 26.73-64.27 26.73-26.73 64.27-26.73h157.91q12.44-35.72 45.94-58.46 33.5-22.74 73.28-22.74 41.2 0 74.37 22.74t45.85 58.46h156.91q37.54 0 64.27 26.73 26.73 26.73 26.73 64.27v250q-19.91-14.91-42.9-25.47-22.99-10.55-48.1-17.07v-207.46H678.8v123.83H281.2v-123.83h-78.33v554.26h212.72q7.48 25.11 18.75 48.46 11.27 23.34 27.14 42.54H202.87ZM480-761.43q17 0 28.5-11.5t11.5-28.5q0-17-11.5-28.5t-28.5-11.5q-17 0-28.5 11.5t-11.5 28.5q0 17 11.5 28.5t28.5 11.5Z"/></svg>
                     </div>
                     <span class = "info">
-                        <h3>2</h3>
-                        <p>Available Dates</p>
+                        <h3>Rs.<?php echo number_format(isset($data['walletBalance']) ? $data['walletBalance'] : 0, 2); ?></h3>
+                        <p>Wallet Balance</p>
                     </span>
                 </li>
             </ul>
@@ -99,99 +161,163 @@
                         <h3>Recent Bookings</h3>
                         <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#000000"><path d="M440-160q-17 0-28.5-11.5T400-200v-240L168-736q-15-20-4.5-42t36.5-22h560q26 0 36.5 22t-4.5 42L560-440v240q0 17-11.5 28.5T520-160h-80Zm40-308 198-252H282l198 252Zm0 0Z"/></svg>
                     </div>
-                    <table>
+                    <table class="recent-bookings-table">
                         <thead>
                             <tr>
                                 <th>Customer</th>
-                                <th>Booking Date</th>
+                                <th>Check In</th>
+                                <th>Check Out</th>
                                 <th>Destination</th>
-                                <th>Price</th>
                                 <th>Status</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td>
-                                    <img src="<?php echo URLROOT;?>/Images/Profile pic.jpg">
-                                    <p>Suren</p>
-                                </td>
-                                <td>21-08-2024</td>
-                                <td>Nuwara Eliya</td>
-                                <td>Rs.5000</td>
-                                <td>
-                                    <span class="status completed">Completed</span>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <img src="<?php echo URLROOT;?>/Images/Profile pic.jpg">
-                                    <p>Methun</p>
-                                </td>
-                                <td>14-07-2024</td>
-                                <td>Mathara</td>
-                                <td>Rs.10000</td>
-                                <td>
-                                    <span class="status pending">Pending</span>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <img src="<?php echo URLROOT;?>/Images/Profile pic.jpg">
-                                    <p>Kasun</p>
-                                </td>
-                                <td>01-01-2024</td>
-                                <td>Galle</td>
-                                <td>Rs.6000</td>
-                                <td>
-                                    <span class="status cancelled">Cancelled</span>
-                                </td>
-                            </tr>
+                            <?php if (!empty($data['recentBookings'])): ?>
+                                <?php 
+                                // Limit to only display 5 bookings for the dashboard
+                                $bookings = array_slice($data['recentBookings'], 0, 5);
+                                foreach ($bookings as $booking): 
+                                ?>
+                                    <tr>
+                                        <td>
+                                            <img src="<?php echo URLROOT;?>/Images/Profile pic.jpg">
+                                            <p><?php echo $booking->traveler_name; ?></p>
+                                        </td>
+                                        <td><?php echo $booking->check_in; ?></td>
+                                        <td><?php echo $booking->check_out; ?></td>
+                                        <td><?php echo $booking->destination; ?></td>
+                                        <td>
+                                            <span class="status <?php echo strtolower($booking->status); ?>"><?php echo $booking->status; ?></span>
+                                        </td>
+                                    </tr>
+                                <?php endforeach; ?>
+                            <?php else: ?>
+                                <tr>
+                                    <td colspan="5">No recent bookings available.</td>
+                                </tr>
+                            <?php endif; ?>
                         </tbody>
                     </table> 
                 </div>
         
-                <!--Recent updates-->
+                <!--Calendar Widget-->
                 <div class="reminders">
                     <div class="header">
-        <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#000000">
-            <path d="M200-120q-33 0-56.5-23.5T120-200v-560q0-33 23.5-56.5T200-840h440l200 200v440q0 33-23.5 56.5T760-120H200Zm0-80h560v-400H600v-160H200v560Zm80-80h400v-80H280v80Zm0-320h200v-80H280v80Zm0 160h400v-80H280v80Zm-80-320v160-160 560-560Z"/>
-        </svg>
-        <h3>System Annnouncement</h3>
-    </div>
-    <ul class="event-list">
-        <li>
-            <div class="event-date">
-                <strong>Dec 01</strong>
-                <span>2024</span>
-            </div>
-            <div class="event-details">
-                <h4>System Maintenance</h4>
-           
-<p>Scheduled downtime for updates from 2:00 AM to 4:00 AM.</p>
+                        <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#000000">
+                            <path d="M200-120q-33 0-56.5-23.5T120-200v-560q0-33 23.5-56.5T200-840h440l200 200v440q0 33-23.5 56.5T760-120H200Zm0-80h560v-400H600v-160H200v560Zm80-80h400v-80H280v80Zm0-320h200v-80H280v80Zm0 160h400v-80H280v80Zm-80-320v160-160 560-560Z"/>
+                        </svg>
+                        <h3>Calendar View</h3>
                     </div>
-      </li>
-      <li>
-        <div class="event-date">
-          <strong>Dec 05</strong>
-          <span>2024</span>
-        </div>
-        <div class="event-details">
-          <h3>Version 3.0 Release</h3>
-          <p>Launch of new features and performance improvements.</p>
-        </div>
-      </li>
-      
-                    </ul>
+                    <div class="calendar-legend">
+                        <div class="legend-item">
+                            <span class="color-box unavailable"></span>
+                            <span>Unavailable</span>
+                        </div>
+                        <div class="legend-item">
+                            <span class="color-box booking"></span>
+                            <span>Active Bookings</span>
+                        </div>
+                    </div>
+                    <div class="calendar" id="calendar"></div>
+                    <input type="hidden" id="unavailableDates" value='<?php echo json_encode($data["unavailableDates"] ?? []); ?>'>
+                    <input type="hidden" id="bookingDates" value='<?php echo json_encode($data["bookingDates"] ?? []); ?>'>
                 </div>
-       
-        
-        
-          </main>
-
+            </div>
+        </main>
      </div>
 
      <script src="<?php echo URLROOT;?>/js/Sidebar.js"></script>
+     <!-- Custom calendar script -->
+     <script>
+     document.addEventListener("DOMContentLoaded", function () {
+         const calendar = document.getElementById("calendar");
+         const unavailableDates = JSON.parse(document.getElementById("unavailableDates").value);
+         const bookingDates = JSON.parse(document.getElementById("bookingDates").value);
+         let currentDate = new Date();
 
+         function renderCalendar(date) {
+             calendar.innerHTML = "";
+
+             const month = date.toLocaleString("default", { month: "long" });
+             const year = date.getFullYear();
+
+             // Create header
+             const header = document.createElement("div");
+             header.className = "header";
+
+             const prevButton = document.createElement("button");
+             prevButton.textContent = "<";
+             prevButton.addEventListener("click", () => {
+                 currentDate.setMonth(currentDate.getMonth() - 1);
+                 renderCalendar(currentDate);
+             });
+
+             const nextButton = document.createElement("button");
+             nextButton.textContent = ">";
+             nextButton.addEventListener("click", () => {
+                 currentDate.setMonth(currentDate.getMonth() + 1);
+                 renderCalendar(currentDate);
+             });
+
+             const title = document.createElement("span");
+             title.textContent = `${month} ${year}`;
+
+             header.appendChild(prevButton);
+             header.appendChild(title);
+             header.appendChild(nextButton);
+             calendar.appendChild(header);
+
+             // Create days container
+             const daysContainer = document.createElement("div");
+             daysContainer.className = "days";
+
+             // Days of the week
+             const daysOfWeek = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+             daysOfWeek.forEach(day => {
+                 const dayElement = document.createElement("div");
+                 dayElement.className = "day";
+                 dayElement.textContent = day;
+                 daysContainer.appendChild(dayElement);
+             });
+
+             // Get the first day of the month
+             const firstDay = new Date(date.getFullYear(), date.getMonth(), 1).getDay();
+             const daysInMonth = new Date(date.getFullYear(), date.getMonth() + 1, 0).getDate();
+
+             // Add empty slots for days before the first day
+             for (let i = 0; i < firstDay; i++) {
+                 const emptySlot = document.createElement("div");
+                 emptySlot.className = "day";
+                 daysContainer.appendChild(emptySlot);
+             }
+
+             // Add days of the month
+             for (let i = 1; i <= daysInMonth; i++) {
+                 const dayElement = document.createElement("div");
+                 dayElement.className = "day";
+                 const currentDateString = `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(i).padStart(2, '0')}`;
+                 dayElement.textContent = i;
+
+                 // Check if date is unavailable
+                 if (unavailableDates.includes(currentDateString)) {
+                     dayElement.style.backgroundColor = "#FF6B6B"; // Red for unavailable dates
+                     dayElement.style.color = "white";
+                 }
+                 
+                 // Check if date has active bookings
+                 if (bookingDates.includes(currentDateString)) {
+                     dayElement.style.backgroundColor = "#4CAF50"; // Green for booking dates
+                     dayElement.style.color = "white";
+                 }
+
+                 daysContainer.appendChild(dayElement);
+             }
+
+             calendar.appendChild(daysContainer);
+         }
+
+         renderCalendar(currentDate);
+     });
+     </script>
 </body>
-
 </html>

@@ -3,10 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="<?php echo URLROOT;?>/css/Common/MyInventory.css">
-    <link rel="stylesheet" href="<?php echo URLROOT;?>/css/Common/AddProduct.css">
-    <link rel="stylesheet" href="<?php echo URLROOT;?>/css/Common/sidebarHeader.css">
-    <link rel="stylesheet" href="<?php echo URLROOT;?>/css/Modals/logoutModal.css">
+    <link rel="stylesheet" href="<?php echo URLROOT;?>/css/ushan/Common/MyInventory.css">
+    <link rel="stylesheet" href="<?php echo URLROOT;?>/css/ushan/Common/AddProduct.css">
+    <link rel="stylesheet" href="<?php echo URLROOT;?>/css/ushan/Common/sidebarHeader.css">
+    <link rel="stylesheet" href="<?php echo URLROOT;?>/css/ushan/Modals/logoutModal.css">
 
     <title>My Rentals</title>
 </head>

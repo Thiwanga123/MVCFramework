@@ -1,11 +1,11 @@
-    <!DOCTYPE html>
+<!DOCTYPE html>
     <html lang="en">
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link rel="stylesheet" href="<?php echo URLROOT;?>/css/adminpage/planningSideBarHeader.css">
-        <link rel="stylesheet" href="<?php echo URLROOT;?>/css/Modals/logoutModal.css">
-        <link rel="stylesheet" href="<?php echo URLROOT;?>/css/userspage/content.css">
+        <link rel="stylesheet" href="<?php echo URLROOT;?>/css/ushan/adminpage/planningSideBarHeader.css">
+        <link rel="stylesheet" href="<?php echo URLROOT;?>/css/ushan/Modals/logoutModal.css">
+        <link rel="stylesheet" href="<?php echo URLROOT;?>/css/ushan/userspage/content.css">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
 
         <title>Start Journey</title>
@@ -22,7 +22,7 @@
                     <div class="dashboard-container">
                         <div class="header">
                             <h1>Places</h1>
-                            <?php var_dump($_SESSION); ?>
+                          
 
                             <div class="navigation-footer">
                                 <a href="<?php echo URLROOT;?>/users/planhome" class="nav-button prev-button">
@@ -109,14 +109,14 @@
         </div>
 
         
-        <script src="<?php echo URLROOT;?>/js/Sidebar.js"></script>
-        <script src="<?php echo URLROOT;?>/js/logout.js"></script>
-        <script src="<?php echo URLROOT;?>/js/subMenu.js"></script>
+        <script src="<?php echo URLROOT;?>/js/ushan/js/Sidebar.js"></script>
+        <script src="<?php echo URLROOT;?>/js/ushan/js/logout.js"></script>
+        <script src="<?php echo URLROOT;?>/js/ushan/js/subMenu.js"></script>
 
         
         <script>const apiKey = "<?php echo API_KEY; ?>";</script>
         <script>const weatherAPIKey = "<?php echo WEATHER_API_KEY; ?>";</script>
-        <script src="<?php echo URLROOT;?>/js/TripPlanner/places.js"></script>
+        <script src="<?php echo URLROOT;?>/js/ushan/js/TripPlanner/places.js"></script>
         <script>const urlRoot = "<?php echo URLROOT; ?>";</script>
 
 

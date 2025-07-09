@@ -3,9 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="<?php echo URLROOT;?>/css/adminpage/planningSideBarHeader.css">
-    <link rel="stylesheet" href="<?php echo URLROOT;?>/css/userspage/AccomodationsSection.css">
-    <link rel="stylesheet" href="<?php echo URLROOT;?>/css/Modals/logoutModal.css">
+    <link rel="stylesheet" href="<?php echo URLROOT;?>/css/ushan/adminpage/planningSideBarHeader.css">
+    <link rel="stylesheet" href="<?php echo URLROOT;?>/css/ushan/userspage/AccomodationsSection.css">
+    <link rel="stylesheet" href="<?php echo URLROOT;?>/css/ushan/Modals/logoutModal.css">
 
     <title>Accomadations</title>
 </head>
@@ -88,9 +88,8 @@
                 </div>
 
                 <p>Showing Nearby Accomodations()</p>
-                <!-- <?php print_r($data['accommodations']); ?>
-<?php var_dump($_SESSION); ?>
-                 -->
+
+                 
                 <div class="container1">
                     <?php if (!empty($data['accommodations']) && is_array($data['accommodations'])) : ?>
                         <?php foreach ($data['accommodations'] as $property) : ?>
@@ -116,6 +115,9 @@
                                             data-spid="<?php echo $property->service_provider_id; ?>" 
                                             data-single = "<?php echo $property->single_bedrooms; ?>"
                                             data-double = "<?php echo $property->double_bedrooms; ?>"
+                                            data-singleprice="<?php echo $property->singleprice; ?>"
+                                            data-doubleprice="<?php echo $property->doubleprice; ?>"
+                                            data-familyprice="<?php echo $property->familyprice; ?>"
                                             data-family = "<?php echo $property->family_rooms; ?>">Book</button>
                                     </div>
                                 </div>
@@ -248,10 +250,10 @@
     </div>
 
     <script>const URLROOT = "<?php echo URLROOT; ?>"; </script>
-     <script src="<?php echo URLROOT;?>/js/Sidebar.js"></script>
-     <script src="<?php echo URLROOT;?>/js/logout.js"></script>
-    <script src="<?php echo URLROOT;?>/js/submenu.js"></script>
-    <script src="<?php echo URLROOT;?>/js/viewPropertyDetails.js"></script>
+     <script src="<?php echo URLROOT;?>/js/ushan/js/Sidebar.js"></script>
+     <script src="<?php echo URLROOT;?>/js/ushan/js/logout.js"></script>
+    <script src="<?php echo URLROOT;?>/js/ushan/js/submenu.js"></script>
+    <script src="<?php echo URLROOT;?>/js/ushan/js/viewPropertyDetails.js"></script>
 
 
 </body>

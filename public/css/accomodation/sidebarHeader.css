@@ -1,0 +1,342 @@
+:root {
+    --light: snow;
+    --primary: rgb(36, 36, 118);
+    --light-primary: teal;
+    --grey: rgb(239, 239, 239);
+    --dark-grey: rgb(95, 88, 88);
+    --dark: rgb(55, 145, 157);
+    --danger: rgb(222, 5, 5);
+    --light-danger: rgb(233, 248, 251);
+    --warning : rgb(49, 115, 161);
+    --light--warning: rgb(158, 213, 255);
+    --success: rgb(126, 197, 200);
+    --light-success: #016c6cde;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif
+}
+
+a{
+    text-decoration: none;
+}
+
+li{
+    list-style: none;
+}
+
+html{
+    overflow-x: hidden;
+}
+
+body{
+    background: var(--grey);
+    overflow-x: hidden;
+}
+
+
+.sidebar{
+    position: fixed;
+    top: 0;
+    left: 0;
+    background: var(--light);
+    width: 200px;
+    height: 100%;
+    z-index: 2000;
+    overflow-x: hidden;
+    scrollbar-width: none;
+    transition: all 0.3s ease;
+}
+
+.sidebar::-webkit-scrollbar{
+    display: none;
+
+}
+
+.sidebar.close{
+    width: 60px;
+}
+
+.sidebar .logo{
+    font-size: 18px;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    color: var(--primary);
+    z-index: 500;
+    padding-bottom: 20px;
+    box-sizing: content-box;
+    gap: 1rem;
+    margin-top: 0.6rem;
+    margin-left: 0.6rem;
+}
+
+.sidebar .logo .logo-name span{
+    color: var(--dark);
+}
+
+.sidebar .logo img{
+    min-width: 40px;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    justify-content: center;
+    margin-left: 0.2rem;
+}
+
+.sidebar .side-menu{
+    width: 100%;
+    margin-top: 35px;
+}
+
+.sidebar .side-menu li{
+    height: 48px;
+    position: relative;
+    background: transparent;
+    margin-left: 8px;
+    border-radius: 48px 0 0 48px;
+    padding: 5px;
+}
+
+.sidebar .side-menu li:last-child{
+    position: absolute;
+    bottom: 2rem;
+    width: 100%;
+    margin-top: auto;
+}
+
+.sidebar .side-menu li.active{
+    background: var(--grey);
+    position: relative;
+}
+
+.sidebar .side-menu li a{
+    width: 100%;
+    height: 100%;
+    background: var(--light);
+    display: flex;
+    align-items: center;
+    border-radius: 48px;
+    font-size: 16px;
+    color: var(--dark-grey);
+    white-space: nowrap;
+    overflow-x: hidden;
+    transition: all 0.3s ease;
+}
+
+.sidebar.close .side-menu li a{
+    width: 40px;
+    transition: all 0.3s ease;
+}
+
+.sidebar .side-menu li a svg {
+    margin-left: 0.4rem;
+    margin-right: 0.5rem;
+    display: flex;
+    justify-content: center;
+    min-width: 28px;
+    fill: var(--dark-grey);
+    transition: all 0.3s ease;
+}
+
+.sidebar .side-menu li.active a{
+    background: var(--light-primary);
+    color: var(--light);
+}
+
+.sidebar .side-menu li.active a svg{
+    fill: var(--light);
+}
+
+.side-menu li a:hover {
+    margin-left: 0.3rem;
+    background-color: var(--grey); 
+    color: var(--light-success);
+}
+
+.side-menu li a svg:hover {
+   fill: var(--light-primary);
+}
+
+.content{
+    position: relative;
+    width: calc(100% - 200px);
+    left: 200px;
+    transition: all 0.3s ease;
+}
+
+.sidebar.close~.content{
+    width: calc(100% - 60px);
+    left: 60px;
+}
+
+.content nav{
+    height: 55px;
+    background: var(--light);
+    padding: 0 24px 0 0;
+    display: flex;
+    align-items: center;
+    gap: 24px;
+    position: sticky;
+    top: 0;
+    left: 0;
+    z-index: 900;
+}
+
+.content nav::before{
+    content: "";
+    position: absolute;
+    width: 40px;
+    bottom: -40px;
+    left: 0;
+    border-radius: 50%;
+    box-shadow: -20px -20px 0 var(--light);
+}
+
+
+.content nav a{
+    color: var(--primary);
+}
+
+.content nav svg.menu{
+    position: relative;
+    cursor: pointer;
+    color: var(--dark);
+    margin-left: 0.3rem;
+    min-width: 40px;
+}
+
+.content nav svg.menu:hover{
+    fill: var(--light-success);
+    transition: fill 0.3s ease;
+}
+
+.content nav form{
+    max-width: 400px;
+    width: 100%;
+    margin-right: auto;
+}
+
+.content nav form .form-input{
+    display: flex;
+    align-items: center;
+    height: 36px;
+} 
+
+.content nav form .form-input input{
+    flex-grow: 1;
+    padding: 0 16px;
+    height: 100%;
+    border: none;
+    background: var(--grey);
+    border-radius: 36px 0 0 36px;
+    outline: none;
+    width: 100%;
+    color: rgb(66, 63, 63);
+}
+
+.content nav form .form-input button{
+    width: 60px;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: var(--light-primary);
+    border: none;
+    outline: none;
+    border-radius: 0 36px 36px 0;
+    cursor: pointer;
+}
+
+.content nav form .form-input button svg{
+    fill: var(--light);
+}
+
+.content nav .updates{
+    font-size: 20px;
+    position: relative;
+}
+
+.content nav .updates .count{
+    position: absolute;
+    top: -5px;
+    right: -6px;
+    width: 20px;
+    height: 20px;
+    background: var(--danger);
+    border-radius: 50%;
+    color: var(--light);
+    border: 2px solid var(--light);
+    font-weight: 600;
+    font-size: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.content nav .profile img{
+    width: 40px;
+    height: 40px;
+    object-fit: cover;
+    border-radius: 50%;
+}
+
+.content main {
+    width: 100%;
+    max-height: calc(100vh - 56px);
+    padding: 20px 24px;
+}
+
+.content main .header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+}
+
+.content main .header .left h1 {
+    font-size: 32px;
+    font-weight: 600;
+    margin-bottom: 10px;
+    color: var(--light-primary);
+}
+
+.calendar {
+    background-color: #e3f2fd; /* Light blue background */
+    border-radius: 10px;
+    padding: 15px; /* Reduced padding */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    margin-top: 10px; /* Reduced margin */
+    text-align: center;
+    width: 90%; /* Adjusted width */
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.calendar .header {
+    font-size: 18px; /* Reduced font size */
+    font-weight: bold;
+    color: #1565c0;
+    margin-bottom: 8px; /* Reduced margin */
+}
+
+.calendar .days {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 4px; /* Reduced gap */
+}
+
+.calendar .day {
+    background-color: white;
+    color: #1565c0;
+    padding: 8px; /* Reduced padding */
+    border-radius: 5px;
+    font-size: 12px; /* Reduced font size */
+    font-weight: bold;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+}
+

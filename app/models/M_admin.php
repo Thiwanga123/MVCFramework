@@ -199,7 +199,194 @@
             return $row->total_service_providers;
         }
 
+        //get the sevice providers to approve
+        public function getServiceProvidersToApprove(){
+            $this->db->query('SELECT * FROM  view_unapproved_service_providers');
+            $results = $this->db->resultSet();
+            return $results;
+        }
 
+        //approve service provider
+        public function approveServiceProvider($serviceProviderId, $tableName) {
+            try {
+                $this->db->query("UPDATE $tableName SET approve = 'true' WHERE id = :id");
+                $this->db->bind(':id', $serviceProviderId);
+                return $this->db->execute();
+            } catch (Exception $e) {
+                error_log("Error approving service provider: " . $e->getMessage());
+                return false;
+            }
+        }
+
+        //reject service provider
+        public function rejectServiceProvider($serviceProviderId, $tableName) {
+            $this->db->query("UPDATE $tableName SET approve = 'rejected' WHERE id = :id");
+            $this->db->bind(':id', $serviceProviderId);
+            return $this->db->execute();
+        }
+
+        public function getServiceProvidersByType($tableName) {
+            // Ensure the query is consistent for all tables
+            $this->db->query("SELECT * FROM $tableName");
+            return $this->db->resultSet();
+        }
+
+        public function deleteServiceProviderById($id, $tableName) {
+            $this->db->query("DELETE FROM $tableName WHERE id = :id");
+            $this->db->bind(':id', $id);
+            return $this->db->execute();
+        }
+
+        public function softDeleteServiceProvider($id, $tableName) {
+            $this->db->query("UPDATE $tableName SET action = 'deleted' WHERE id = :id");
+            $this->db->bind(':id', $id);
+            return $this->db->execute();
+        }
+
+        public function activateServiceProvider($id, $tableName) {
+            $this->db->query("UPDATE $tableName SET action = 'active' WHERE id = :id");
+            $this->db->bind(':id', $id);
+            return $this->db->execute();
+        }
+
+        // Get all travelers
+public function getAllTravelers() {
+    $this->db->query('SELECT * FROM traveler ORDER BY date_of_joined DESC');
+    return $this->db->resultSet();
+}
+
+// Get traveler by ID
+public function getTravelerById($id) {
+    $this->db->query('SELECT * FROM traveler WHERE traveler_id = :id');
+    $this->db->bind(':id', $id);
+    return $this->db->single();
+}
+
+// Soft delete traveler (update action to 'deleted')
+public function softDeleteTraveler($id) {
+    $this->db->query('UPDATE traveler SET action = "deleted" WHERE traveler_id = :id');
+    $this->db->bind(':id', $id);
+    return $this->db->execute();
+}
+
+// Activate traveler (update action to 'active')
+public function activateTraveler($id) {
+    $this->db->query('UPDATE traveler SET action = "active" WHERE traveler_id = :id');
+    $this->db->bind(':id', $id);
+    return $this->db->execute();
+}
+
+
+// Get all service providers
+public function getAllServiceProviders() {
+    // Using a UNION to combine results from all service provider tables
+    $this->db->query('
+        SELECT id, name, "Accommodation" as sptype, email, phone, date_of_joined, action 
+        FROM accomadation
+        UNION ALL
+        SELECT id, name, "Vehicle Supplier" as sptype, email, phone, date_of_joined, action 
+        FROM vehicle_suppliers
+        UNION ALL
+        SELECT id, name, "Equipment Supplier" as sptype, email, phone, date_of_joined, action 
+        FROM equipment_suppliers
+        UNION ALL
+        SELECT id, name, "Tour Guide" as sptype, email, phone, date_of_joined, action 
+        FROM tour_guides
+        ORDER BY date_of_joined DESC
+    ');
+    
+    return $this->db->resultSet();
+}
+
+public function getRefundRequests() {
+    $this->db->query('
+        SELECT 
+            r.id,
+            r.booking_id,
+            r.booking_type,
+            r.amount,
+            r.status,
+            r.request_date,
+            r.refund_date,
+            r.bank_details,
+            r.admin_notes,
+            t.name as user_name
+        FROM refund r
+        JOIN traveler t ON r.user_id = t.traveler_id
+        ORDER BY r.request_date DESC
+    ');
+    return $this->db->resultSet();
+}
+
+public function getRefundDetails($requestId) {
+    $this->db->query('
+        SELECT 
+            r.*,
+            t.name as user_name,
+            t.email as user_email,
+            t.telephone_number as user_phone
+        FROM refund r
+        JOIN traveler t ON r.user_id = t.traveler_id
+        WHERE r.id = :request_id
+    ');
+    $this->db->bind(':request_id', $requestId);
+    return $this->db->single();
+}
+
+public function processRefund($data) {
+    try {
+        // Start transaction
+        $this->db->beginTransaction();
+
+        // Update refund status
+        $this->db->query('
+            UPDATE refund 
+            SET status = "processed", 
+                refund_date = NOW(),
+                admin_notes = :admin_notes,
+                bank_details = :bank_details
+            WHERE id = :request_id
+        ');
+        $this->db->bind(':request_id', $data['request_id']);
+        $this->db->bind(':admin_notes', $data['admin_notes']);
+        $this->db->bind(':bank_details', json_encode([
+            'bank_name' => $data['bank_name'],
+            'account_number' => $data['account_number'],
+            'account_holder' => $data['account_holder']
+        ]));
+        $this->db->execute();
+
+        // Commit transaction
+        $this->db->commit();
+        return true;
+    } catch (Exception $e) {
+        // Rollback transaction on error
+        $this->db->rollBack();
+        error_log("Error processing refund: " . $e->getMessage());
+        return false;
+    }
+}
+
+public function rejectRefund($data) {
+    try {
+        $this->db->query('
+            UPDATE refund 
+            SET status = "rejected", 
+                refund_date = NOW(),
+                admin_notes = :admin_notes
+            WHERE id = :request_id
+        ');
+        $this->db->bind(':request_id', $data['request_id']);
+        $this->db->bind(':admin_notes', $data['admin_notes']);
+        return $this->db->execute();
+    } catch (Exception $e) {
+        error_log("Error rejecting refund: " . $e->getMessage());
+        return false;
+    }
+}
+
+        
+        
     }
 
 

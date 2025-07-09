@@ -4,9 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <link rel="stylesheet" href="<?php echo URLROOT;?>/css/Common/Profile_pre.css">
-    <link rel="stylesheet" href="<?php echo URLROOT;?>/css/Common/sidebarHeader.css">
-    <link rel="stylesheet" href="<?php echo URLROOT;?>/css/Modals/logoutModal.css">
+    <link rel="stylesheet" href="<?php echo URLROOT;?>/css/ushan/Common/Profile_pre.css">
+    <link rel="stylesheet" href="<?php echo URLROOT;?>/css/ushan/Common/sidebarHeader.css">
+    <link rel="stylesheet" href="<?php echo URLROOT;?>/css/ushan/Modals/logoutModal.css">
 
     <title>My Profile</title>
 </head>
@@ -120,10 +120,10 @@
         </div>
     </div>
 
-    <script src="<?php echo URLROOT;?>/js/Sidebar.js"></script>
-    <script src="<?php echo URLROOT;?>/js/logout.js"></script>
-    <script src="<?php echo URLROOT;?>/js/subMenu.js"></script>
-    <script src="<?php echo URLROOT;?>/js/profilePicUpload.js"></script>
+    <script src="<?php echo URLROOT;?>/js/ushan/Sidebar.js"></script>
+    <script src="<?php echo URLROOT;?>/js/ushan/logout.js"></script>
+    <script src="<?php echo URLROOT;?>/js/ushan/subMenu.js"></script>
+    <script src="<?php echo URLROOT;?>/js/ushan/profilePicUpload.js"></script>
     <script src="https://maps.googleapis.com/maps/api/js?key=<?php echo API_KEY; ?>&libraries=places&callback=initMap" async defer></script>
     <script src="<?php echo URLROOT;?>/js/EquipmentSupplierJS/profileLocation.js"></script>
 

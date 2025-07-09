@@ -14,22 +14,6 @@
                 <br>
                 <div class="sleeping-places">
                     <div class="place">
-<<<<<<< HEAD
-                        <label>Single Bedroom</label>
-                        <input type="number" name="single" id="single">
-                    </div>
-                    <div class="place">
-                        <label>Double Bedroom</label>
-                        <input type="number" name="double" id="double">
-                    </div>
-                    <div class="place">
-                        <label>Living Room</label>
-                        <input type="number" name="living" id="living">
-                    </div>
-                    <div class="place">
-                        <label>Family Bedroom</label>
-                        <input type="number" name="family" id="family">
-=======
                     <label>Single Bedroom</label>
                         <div class="input-group">
                             <input type="number" name="single" id="single" min="0" placeholder="Number of single beds">
@@ -60,28 +44,19 @@
                           
                             <input type="text" id="familyprice" name="familyprice" placeholder="Price">
                         </div>
->>>>>>> origin/main
                     </div>
                 </div>
             </div>
             <div class="section">
                 <label>How many guests can stay?</label>
                 <div class="counter">
-<<<<<<< HEAD
-                    <input type="number" id="guests" name="guests">
-=======
                     <input type="number" id="guests" name="guests" min="0">
->>>>>>> origin/main
                 </div>
             </div>
             <div class="section">
                 <label>How many bathrooms are there?</label>
                 <div class="counter">
-<<<<<<< HEAD
-                    <input type="number" id="bathrooms" name="bathrooms">
-=======
                     <input type="number" id="bathrooms" name="bathrooms" min="0">
->>>>>>> origin/main
                 </div>
             </div>
             <div class="section">
@@ -213,11 +188,7 @@
                 
             </div>
             <div class="next-button-container">
-<<<<<<< HEAD
-                    <button class="next-button">Next</button>
-=======
             <button type="button" class="next-button" onclick="propertyinfo()">Next</button></a>
->>>>>>> origin/main
             </div>
             
 
@@ -226,8 +197,6 @@
 
     </div>
     
-<<<<<<< HEAD
-=======
     <script>
 
 
@@ -285,6 +254,5 @@
 
 
   
->>>>>>> origin/main
 </body>
 </html>

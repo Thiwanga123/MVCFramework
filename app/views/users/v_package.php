@@ -7,19 +7,17 @@
     <link rel="stylesheet" href="<?php echo URLROOT;?>/css/adminpage/sidebarHeader.css">
     <link rel="stylesheet" href="<?php echo URLROOT;?>/css/Modals/logoutModal.css">
 
-    <title>Packages</title>
+    <title>Package</title>
 </head>
 <body>
-<div class="box" id="box">
 <?php $currentPage = $data['currentPage']; ?>
+
     <!-- SideBar -->
      <?php require APPROOT . '/views/inc/components/usersidebar.php'; ?>
      <!-- End Of Sidebar -->
-     <main>
-            <div class="package-container">
-                <div class="filter">
-                    <h1>Packages</h1>
-                </div>
+
+     <!--Main Content-->
+     
 
                 <div class="package-details">
                 <div class="bottom">
@@ -115,5 +113,16 @@
 
     <script src="https://maps.googleapis.com/maps/api/js?key=<?php echo API_KEY; ?>&libraries=places&callback=initAutocomplete" async defer></script>
 
+
+
+
+          </main>
+
+     </div>
+
+     
+     <script src="<?php echo URLROOT;?>/js/Sidebar.js"></script>
+     <script src="<?php echo URLROOT;?>/js/logout.js"></script>
+    <script src="<?php echo URLROOT;?>/js/submenu.js"></script>
 </body>
 </html>

@@ -147,21 +147,21 @@
                     <div class="content">
                         <div class="plans-container">
                             <div class="plan-card" id="free-plan">
-                                <h3>Free Plan</h3>
-                                <span class="price">$0</span>
-                                <p>Basic access to services.</p>
+                                <h3>Basic Plan</h3>
+                                <span class="price">Rs.10,000</span>
+                                <p>03 Months Plan</p>
                                 <button type="button" class="choose-btn">Choose</button>
                             </div>
                             <div class="plan-card" id="basic-plan">
-                                <h3>Basic Plan</h3>
-                                <span class="price">$19.99/month</span>
-                                <p>Access to essential services and features.</p>
+                                <h3>Classic Plan</h3>
+                                <span class="price">Rs.20,000</span>
+                                <p>06 Months Plan</p>
                                 <button type="button" class="choose-btn">Choose</button>
                             </div>
                             <div class="plan-card" id="pro-plan">
-                                <h3>Pro Plan</h3>
-                                <span class="price">$49.99/month</span>
-                                <p>All premium features and priority support.</p>
+                                <h3>Premium Plan</h3>
+                                <span class="price">Rs.40,000</span>
+                                <p>12 Months Plan</p>
                                 <button type="button" class="choose-btn">Choose</button>
                             </div>
                         </div>

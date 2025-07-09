@@ -146,9 +146,9 @@ main .top .group button:hover {
   /* Search bar styling */
   .bar-in {
     display: flex;
+    width: 80%;
     list-style: none;
     gap: 20px;
-    align-items: center;
     flex-wrap: wrap;
     background-color: white;
     border-radius: 20px;
@@ -218,14 +218,19 @@ main .top .group button:hover {
   
   /* Submit button styling */
   .start {
-      display: flex;
+    position: absolute;
+    right: -20px;
     width: 70px;
-    padding: 10px;
-    justify-content: center;
-    border-radius: 10px;
+    height: 70px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #2a9d8f 0%, #1d5a62 100%);
     border: none;
-    background: teal;
-    color: white;
+    box-shadow: 0 8px 20px rgba(29, 90, 98, 0.3);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
   
   .start:hover {
@@ -236,30 +241,6 @@ main .top .group button:hover {
   .start svg {
     width: 28px;
     height: 28px;
-  }
-
-  .btn{
-    display: flex;
-    height: 10px;
-    align-items: center;
-    justify-content: center;
-    padding: 10px 20px;
-    border-radius: 10px;
-    border: none;
-    cursor: pointer;
-    transition: all 0.3s ease;
-  }
-
-  .errorMessageContainer {
-    background-color: #fff5f5;
-    border-left: 4px solid #f56565;
-    padding: 1rem;
-    border-radius: 8px;
-    margin: 1rem 0;
-    color: #c53030;
-    font-size: 0.9rem;
-    transition: all 0.3s ease;
-    animation: fadeIn 0.5s ease-in-out;
   }
 
 

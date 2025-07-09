@@ -4,23 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <link rel="stylesheet" href="<?php echo URLROOT;?>/css/Common/Profile_pre.css">
+    <link rel="stylesheet" href="<?php echo URLROOT;?>/css/Common/Profile.css">
     <link rel="stylesheet" href="<?php echo URLROOT;?>/css/Common/sidebarHeader.css">
+    <link rel="stylesheet" href="<?php echo URLROOT;?>/css/Modals/logoutModal.css">
     <title>Profile</title>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" rel="stylesheet" />
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
-    <style>
-        .select2-container--default .select2-selection--multiple {
-            border: 1px solid #e83e8c; /* Pink border */
-            border-radius: 5px;
-            padding: 5px;
-        }
-        .select2-container--default .select2-selection--multiple .select2-selection__choice {
-            background-color: #e83e8c; /* Pink background */
-            border: none;
-            color: white;
-        }
+
+  
     </style>
 </head>
 <body>

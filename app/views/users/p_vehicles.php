@@ -3,9 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="<?php echo URLROOT;?>/css/adminpage/planningSideBarHeader.css">
-    <link rel="stylesheet" href="<?php echo URLROOT;?>/css/userspage/vehicleSection.css">
-    <link rel="stylesheet" href="<?php echo URLROOT;?>/css/Modals/logoutModal.css">
+    <link rel="stylesheet" href="<?php echo URLROOT;?>/css/ushan/adminpage/planningSideBarHeader.css">
+    <link rel="stylesheet" href="<?php echo URLROOT;?>/css/ushan/userspage/vehicleSection.css">
+    <link rel="stylesheet" href="<?php echo URLROOT;?>/css/ushan/Modals/logoutModal.css">
 
     <title>Vehicles</title>
 </head>
@@ -41,7 +41,7 @@
                     $today = date('Y-m-d');
                 ?>  
 
-                <?php var_dump($_SESSION['trip']); ?>
+           
 
                 <div class="filter-bar">
                     <div class="filter-item">
@@ -90,7 +90,7 @@
                 </div>
 
                 <p>Showing Vehicles()</p>
-                <?php var_dump($_SESSION); ?>
+              
 
                 <!-- <?php print_r($_SESSION['trip']); ?> -->
                     <div class="container1">
@@ -192,11 +192,11 @@
         
     
      
-     <script src="<?php echo URLROOT;?>/js/Sidebar.js"></script>
-     <script src="<?php echo URLROOT;?>/js/logout.js"></script>
-    <script src="<?php echo URLROOT;?>/js/submenu.js"></script>
-    <script src="<?php echo URLROOT;?>/js/viewVehicle.js"></script>
-    <script src="<?php echo URLROOT;?>/js/bookVehicle.js"></script>
+     <script src="<?php echo URLROOT;?>/js/ushan/js/Sidebar.js"></script>
+     <script src="<?php echo URLROOT;?>/js/ushan/js/logout.js"></script>
+    <script src="<?php echo URLROOT;?>/js/ushan/js/submenu.js"></script>
+    <script src="<?php echo URLROOT;?>/js/ushan/js/viewVehicle.js"></script>
+    <script src="<?php echo URLROOT;?>/js/ushan/js/bookVehicle.js"></script>
 
     <script>const URLROOT = "<?php echo URLROOT; ?>"; </script>
 

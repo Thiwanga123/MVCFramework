@@ -12,14 +12,16 @@ class ServiceProvider extends Controller {
         $this->view('serviceproviders/sp_login');
     }
 
+    public function subscription() {
+
+        $this->view('serviceproviders/subscription');
+    }
+
 
     public function login() {
-        // Check if the form was submitted (POST request)
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-           
             $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_FULL_SPECIAL_CHARS);
 
-            // Init data array with POST values
             $data = [
                 'email' => trim($_POST['email']),
                 'password' => trim($_POST['password']),
@@ -29,47 +31,87 @@ class ServiceProvider extends Controller {
                 'sptype_err' => '',
             ];
            
-        
-            // Check if the email, password, and service type fields are not empty
             if (empty($data['email']) || empty($data['password']) || empty($data['sptype'])) {
-                // Set error message for empty fields
                 if (empty($data['email'])) $data['email_err'] = 'Please enter your email.';
                 if (empty($data['password'])) $data['password_err'] = 'Please enter your password.';
                 if (empty($data['sptype'])) $data['sptype_err'] = 'Please select a service type.';
             }  
             
-    
             if (empty($data['email_err']) && empty($data['sptype_err'])) {
                 $existingUser = $this->serviceProviderModel->findUserByEmail($data['email'], $data['sptype']);
-                if (!$existingUser) {
+                
+                if ($existingUser) {
+                    $status = $this->serviceProviderModel->checkSubscriptionStatus($data['email'], $data['sptype']);
+                    
+                    switch ($status['status']) {
+                        case 'deleted':
+                            $data['status_message'] = 'Your Account has been Deactivated';
+                            $data['status_class'] = 'status-error';
+                            $data['status_icon'] = 'fas fa-ban';
+                            $data['admin_contact'] = 'Please Contact the Admin Hotline: 011-4392831';
+                            break;
+                            
+                        case 'not_approved':
+                            $data['status_message'] = 'Your Account is Under Approval';
+                            $data['status_class'] = 'status-info';
+                            $data['status_icon'] = 'fas fa-clock';
+                            $data['admin_contact'] = 'Please Contact the Admin Hotline: 011-4392831';
+                            break;
+                            
+                        case 'not_subscribed':
+                            // First verify password
+                            $loggedInUser = $this->serviceProviderModel->login($data['email'], $data['password'], $data['sptype']);
+                            
+                            if ($loggedInUser) {
+                                // Create session but redirect to subscription page
+                                $this->createUserSession($loggedInUser, $data['sptype']);
+                                
+                                // Get subscription details
+                                $subscriptionDetails = $this->serviceProviderModel->getSubscriptionDetails($data['email'], $data['sptype']);
+                                
+                                $subscriptionData = [
+                                    'sptype' => $data['sptype'],
+                                    'email' => $data['email'],
+                                    'plan' => $subscriptionDetails->plan,
+                                    'name' => $subscriptionDetails->name,
+                                    'id' => $subscriptionDetails->id,
+                                    'subscription_err' => 'Your subscription is not active.'
+                                ];
+                                
+                                // Load the subscription view with the details
+                                $this->view('serviceproviders/subscription', $subscriptionData);
+                                exit;
+                            } else {
+                                $data['password_err'] = 'Incorrect password. Please try again.';
+                            }
+                            break;
+                            
+                        case 'active':
+                            $loggedInUser = $this->serviceProviderModel->login($data['email'], $data['password'], $data['sptype']);
+                           
+                            if ($loggedInUser) {
+                                $this->createUserSession($loggedInUser, $data['sptype']);
+                                if ($data['sptype'] === 'vehicle_suppliers') {
+                                    redirect('transport_suppliers/dashboard');
+                                } else {
+                                    redirect($data['sptype'] . '/dashboard');
+                                }
+                            } else {
+                                $data['password_err'] = 'Incorrect password. Please try again.';
+                            }
+                            break;
+                            
+                        default:
+                            $data['email_err'] = 'No user found with that email for the selected service type.';
+                    }
+                } else {
                     $data['email_err'] = 'No user found with that email for the selected service type.';
                 }
             }
 
-            // Proceed with login if there are no errors
-            if (empty($data['email_err']) && empty($data['password_err']) && empty($data['sptype_err'])) {
-                // Attempt to log in the user
-                $loggedInUser = $this->serviceProviderModel->login($data['email'], $data['password'], $data['sptype']);
-               
-                if ($loggedInUser) {
-                    // Create session for the logged-in user and redirect
-                    $this->createUserSession($loggedInUser, $data['sptype']);
-                    //redirect to the relevant dashboard
-                    redirect($data['sptype'] . '/dashboard');
-                   
-                } else {
-                    // If login fails (wrong password), set error messagee
-                    $data['password_err'] = 'Incorrect password. Please try again.';
-                    $this->view('serviceproviders/sp_login', $data);
-                    return;
-                }
-            }else{
-                $this->view('serviceproviders/sp_login', $data);
-                return;
-            }
-
+            $this->view('serviceproviders/sp_login', $data);
+            return;
         } else {
-            // If it's a GET request, initialize empty data for the form
             $data = [
                 'email' => '',
                 'password' => '',
@@ -79,7 +121,6 @@ class ServiceProvider extends Controller {
                 'sptype_err' => ''
             ];
     
-            // Load the login view
             $this->view('serviceproviders/sp_login', $data);
         }
     }
@@ -308,13 +349,16 @@ class ServiceProvider extends Controller {
                 'plan' => $selectedPlan,
                 'document_path' => $pdfPath
             ];
-
+            $result=$this->serviceProviderModel->registerSupplier($data);
+            
+       
             // Insert user data
-            if ($this->serviceProviderModel->registerSupplier($data)) {
+            if ($result) {
                 echo json_encode(['success' => true, 'message' => 'Registration successful!']);
                 exit; // Ensure the script stops after sending the response
             } else {
-                echo json_encode(['success' => false, 'errors' => ['database' => 'Failed to register. Try again later.']]);
+                
+                // echo json_encode(['success' => false, 'errors' => ['database' => $result]]);
                 exit;
             }
         }
@@ -507,4 +551,4 @@ public function updateProfileImage(){
 }
 
 ?>
-                   
+

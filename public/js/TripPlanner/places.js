@@ -2,7 +2,6 @@ let isMapView = true;
 let mapMarkers = [];    
 let savedPlaces = JSON.parse(localStorage.getItem('savedPlaces')) || [];
 document.addEventListener('DOMContentLoaded', function () {
-
     const script = document.createElement('script');
     script.src = `https://maps.googleapis.com/maps/api/js?key=${apiKey}&libraries=places`;
     script.async = true;
@@ -17,8 +16,16 @@ document.addEventListener('DOMContentLoaded', function () {
 
     function initMap() {
         const data = JSON.parse(localStorage.getItem('data'));
+
         if (data && data.location) {
-            const service = new google.maps.places.PlacesService(document.createElement('div'));
+            // Create map first with a default location
+            map = new google.maps.Map(document.getElementById('mapdiv'), {
+                center: { lat: 0, lng: 0 },
+                zoom: 14
+            });
+            
+            // Now create the PlacesService with the map DOM element
+            const service = new google.maps.places.PlacesService(map);
     
             const request = {
                 query: data.location,
@@ -29,15 +36,12 @@ document.addEventListener('DOMContentLoaded', function () {
                 if (status === google.maps.places.PlacesServiceStatus.OK && results[0]) {
                     const loc = results[0].geometry?.location;
     
-                    // Create a real map
-                    map = new google.maps.Map(document.getElementById('mapdiv'), {
-                        center: loc,
-                        zoom: 14
-                    });
+                    // Update map center with the found location
+                    map.setCenter(loc);
     
                     isMapView = true;
                     updateButtonText();
-                    fetchNearbyPlaces(data.location); // Pass the location query string
+                    fetchNearbyPlaces(data.location, map); // Pass the map instance
                 } else {
                     console.error('Failed to initialize map location:', status);
                 }
@@ -45,28 +49,9 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     }
 
-    // function initMap() {
-    //     const data = JSON.parse(localStorage.getItem('data'));
-    //     if (data && data.location) {
-    //         const service = new google.maps.places.PlacesService(document.createElement('div'));
-    //         // const mapFrame = document.getElementById('mapFrame');
-    //         const request = {
-    //             query: data.location,
-    //             fields: ['geometry'],
-    //         };
-    //         map = new google.maps.Map(document.getElementById('mapdiv'), {
-    //             center: loc,
-    //             zoom: 13
-    //         });
-    //         // mapFrame.src = `https://www.google.com/maps/embed/v1/place?key=${apiKey}&q=${encodeURIComponent(data.location)}`;
-    //         isMapView = true;
-    //         updateButtonText();
-    //         fetchNearbyPlaces(data.location);
-    //     }
-    // }
-
-    function fetchNearbyPlaces(locationQuery) {
-        const service = new google.maps.places.PlacesService(document.createElement('div'));
+    function fetchNearbyPlaces(locationQuery, mapInstance) {
+        // Use the map instance for PlacesService
+        const service = new google.maps.places.PlacesService(mapInstance);
 
         const request = {
             query: locationQuery,
@@ -92,36 +77,18 @@ document.addEventListener('DOMContentLoaded', function () {
                 return;
             }
 
-            // Check the type of 'loc' to debug any issues
-            console.log('Location type:', typeof loc);
+            // Clear any existing markers
+            clearMapMarkers();
 
-            // Ensure the location is a valid LatLng object
-            let nearbyLocation;
-
-            if (loc instanceof google.maps.LatLng) {
-                nearbyLocation = loc; // it's already a LatLng object
-            } else if (typeof loc.lat === 'function' && typeof loc.lng === 'function') {
-                // If it's a LatLng-like object with lat and lng methods, extract values
-                const lat = loc.lat();
-                const lng = loc.lng();
-                nearbyLocation = new google.maps.LatLng(lat, lng);
-            } else {
-                console.error('Invalid geometry.location format:', loc);
-                alert('Invalid location format. Please try again later.');
-                return;
-            }
-
-            // Log the nearbyLocation value before using it
-            console.log('Nearby Location:', nearbyLocation);
-
+            // Create a nearbySearch request
             const nearbyRequest = {
-                location: nearbyLocation,
+                location: loc,
                 radius: 10000, // Search within a 10 km radius
                 type: 'tourist_attraction',
             };
 
-            const nearbyService = new google.maps.places.PlacesService(document.createElement('div'));
-            nearbyService.nearbySearch(nearbyRequest, (nearbyResults, nearbyStatus) => {
+            // Use the map instance for the nearby search
+            service.nearbySearch(nearbyRequest, (nearbyResults, nearbyStatus) => {
                 if (nearbyStatus !== google.maps.places.PlacesServiceStatus.OK || !nearbyResults?.length) {
                     console.error('Nearby search failed:', nearbyStatus, nearbyResults);
                     alert('Nearby search failed. Please try again later.');
@@ -145,7 +112,6 @@ document.addEventListener('DOMContentLoaded', function () {
                     const placeItem = document.createElement('div');
                     placeItem.className = 'card';
 
-
                     const numberBadge = document.createElement('span');
                     numberBadge.className = 'place-number';
                     numberBadge.textContent = index + 1;
@@ -157,7 +123,6 @@ document.addEventListener('DOMContentLoaded', function () {
                     console.log('Image URL for', place.name, ':', photoUrl);
                     placeImage.src = photoUrl;
                     placeImage.alt = place.name || 'No name';
-
 
                     const placeName = document.createElement('h3');
                     placeName.textContent = place.name;
@@ -173,7 +138,7 @@ document.addEventListener('DOMContentLoaded', function () {
                         
                     const marker = new google.maps.Marker({
                         position: place.geometry.location,
-                        map: map,
+                        map: mapInstance,
                         label: {
                             text : `${index + 1}`,
                             color : '#ffffff',
@@ -189,7 +154,7 @@ document.addEventListener('DOMContentLoaded', function () {
                         },
                         title: place.name,
                         zIndex: 1
-                    })
+                    });
                     mapMarkers.push(marker);
 
                     placeItem.addEventListener('click', function () {
@@ -230,16 +195,21 @@ document.addEventListener('DOMContentLoaded', function () {
                     marker.addListener('mouseout', function () {
                         this.setZIndex(1); // reset to default
                     });
-                    
                 });
             });
         });
     }
 
+    // Function to clear existing markers
+    function clearMapMarkers() {
+        for (let i = 0; i < mapMarkers.length; i++) {
+            mapMarkers[i].setMap(null);
+        }
+        mapMarkers = [];
+    }
 
     document.head.appendChild(script);
 });
-
 
 function toggleView() {
     if (isMapView) {
@@ -248,7 +218,6 @@ function toggleView() {
         showMap();
     }
 }
-
 
 function showWeather() {
     document.getElementById('mapdiv').style.display = 'none';
@@ -265,7 +234,6 @@ function showMap() {
     updateButtonText();
 }
 
-
 function updateButtonText() {
     const toggleButton = document.getElementById('toggleButton');
     toggleButton.innerHTML = isMapView ? `
@@ -281,7 +249,6 @@ function updateButtonText() {
     `;
 }
 
-
 function loadWeather() {
     const data = JSON.parse(localStorage.getItem('data'));
     if (data && data.location) {
@@ -292,17 +259,17 @@ function loadWeather() {
             .then(weatherData => {
                 console.log('Weather Data:', weatherData);
                 if (weatherData && weatherData.location) {
-                document.querySelector('.location').textContent = `${weatherData.location.name}, ${weatherData.location.country}`;
-                document.querySelector('.temperature').textContent = `${weatherData.current.temp_c}°C`;
-                document.querySelector('.weather-condition').textContent = weatherData.current.condition.text;
-                document.querySelector('.humidity .detail-value').textContent = `${weatherData.current.humidity}%`;
-                document.querySelector('.wind-speed .detail-value').textContent = `${weatherData.current.wind_kph} kph`;
-                document.querySelector('.pressure .detail-value').textContent = `${weatherData.current.pressure_mb} hPa`;
-                document.querySelector('.uv-index .detail-value').textContent = `${weatherData.current.uv}`;
-            }else {
-                console.error('Location data is missing from the API response.');
-            }
-    })
+                    document.querySelector('.location').textContent = `${weatherData.location.name}, ${weatherData.location.country}`;
+                    document.querySelector('.temperature').textContent = `${weatherData.current.temp_c}°C`;
+                    document.querySelector('.weather-condition').textContent = weatherData.current.condition.text;
+                    document.querySelector('.humidity .detail-value').textContent = `${weatherData.current.humidity}%`;
+                    document.querySelector('.wind-speed .detail-value').textContent = `${weatherData.current.wind_kph} kph`;
+                    document.querySelector('.pressure .detail-value').textContent = `${weatherData.current.pressure_mb} hPa`;
+                    document.querySelector('.uv-index .detail-value').textContent = `${weatherData.current.uv}`;
+                } else {
+                    console.error('Location data is missing from the API response.');
+                }
+            })
             .catch(error => {
                 console.error('Error fetching weather data:', error);
             });
