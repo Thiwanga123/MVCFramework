@@ -1,11 +1,36 @@
-
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="<?php echo URLROOT;?>/css/pages/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        .status-message {
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 5px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 14px;
+            line-height: 1.5;
+        }
+        .status-message i {
+            font-size: 20px;
+            flex-shrink: 0;
+        }
+        .status-error {
+            background-color: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+        .admin-contact {
+            margin-top: 5px;
+            font-size: 12px;
+            color: #666;
+        }
+    </style>
     <title>Sign In</title>
 </head>
 <body>
@@ -23,6 +48,19 @@
 
             <div class="login-box">
                 <h1>Login</h1>
+                <?php if(isset($data['status_message'])): ?>
+                    <div class="status-message <?php echo $data['status_class']; ?>">
+                        <i class="<?php echo $data['status_icon']; ?>"></i>
+                        <div>
+                            <?php echo $data['status_message']; ?>
+                            <?php if(isset($data['admin_contact'])): ?>
+                                <div class="admin-contact">
+                                    <?php echo $data['admin_contact']; ?>
+                                </div>
+                            <?php endif; ?>
+                        </div>
+                    </div>
+                <?php endif; ?>
                 <form action="<?php echo URLROOT; ?>/users/login" method="POST">
                     <label for="email">Email / Username</label>
                     <input type="email" id="email" name="email" required value="<?php echo isset($data['email']) ? $data['email'] : ''; ?>">

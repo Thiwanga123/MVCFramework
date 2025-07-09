@@ -1,0 +1,536 @@
+
+.reviews {
+    background: #ffffff;
+    border-radius: 16px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 5px;
+    height: auto;
+}
+  
+  .reviews .top {
+    display: flex;
+    border-radius: 20px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 2rem;
+    width: 100%;
+    padding: 10px 30px;
+    margin-bottom: 10px;
+  }
+  
+  .reviews .total,
+  .reviews .average {
+    flex: 1;
+    min-width: 200px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+  }
+  
+  .reviews .total h2,
+  .reviews .average h2 {
+    font-size: 1.5rem;
+    margin-bottom: 0.5rem;
+  }
+  
+  .reviews .total p {
+    font-size: 2.5rem;
+    font-weight: bold;
+    color: teal;
+  }
+  
+  .reviews .average .inside {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+  
+  .reviews .average .inside h2 {
+    font-size: 2.5rem;
+    font-weight: bold;
+    color: #FFA726;
+  }
+  
+  .stars {
+    font-size: 24px;
+    color: gold; /* Full stars color */
+}
+.star {
+    font-size: 24px;
+}
+.full {
+    color: gold; /* Full star color */
+}
+.half {
+    color: gold; /* Full color for half star */
+    position: relative;
+}
+.half:before {
+    content: '★'; /* Full star symbol */
+    position: absolute;
+    top: 0;
+    left: 0;
+    color: lightgray; /* Empty part of half star */
+    width: 50%;
+    overflow: hidden;
+}
+.empty {
+    color: lightgray; /* Empty star color */
+}
+
+    
+.ratings {
+  width: 100%;
+  max-width: 400px;
+}
+.rating-bar {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.rating-label {
+  width: 60px;
+  font-weight: normal;
+}
+
+.bar-container {
+  flex: 1;
+  background: #eee;
+  height: 6px;
+  border-radius: 10px;
+  overflow: hidden;
+  margin: 0 10px;
+}
+
+.bar-fill {
+  background: #FFA726;
+  height: 100%;
+  transition: width 0.3s ease;
+}
+.rating-count {
+  min-width: 30px;
+  text-align: right;
+}
+
+.addReviews{
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+  width: 100%;
+  display: flex;
+}
+
+.reviewBtn{
+  max-width: 200px;
+  background-color: teal;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+  transform: translate(0); 
+  transition: background-color 0.3s ease, transform 0.3s ease;}
+
+.reviewBtn:hover{
+  background-color: #027063; /* Darker shade of teal on hover */
+  transition: background-color 0.3s ease, transform 0.3s ease;
+  transform: scale(1.05); /* Slightly enlarge the button on hover */
+}
+
+#errorReviewContainer, #validationErrorContainer, #deleteModalErrorMessage {
+  background-color: #fff5f5;
+  border-left: 4px solid #f56565;
+  padding: 1rem;
+  border-radius: 8px;
+  margin: 1rem 0;
+  color: #c53030;
+  font-size: 0.9rem;
+  width: 100%;
+}
+
+.reviewDeleteIcon{
+  height: 90px;
+  width: 90px;
+}
+
+.deleteContent h3{
+  font-size: 16px;
+  margin: 20px 0;
+  font-weight: 400;
+  color: #333;
+}
+
+#validationSuccessContainer{
+  background-color: #daffce;
+  border-left: 4px solid #00ff26;
+  padding: 1rem;
+  border-radius: 8px;
+  margin: 1rem 0;
+  color: #038123;
+  font-size: 0.9rem;
+  width: 100%;
+}
+
+  .container {
+    display: flex;
+    gap: 20px; /* space between cards */
+    flex-wrap: wrap; /* wrap on smaller screens */
+    justify-content: center;
+    padding: 20px;
+  }
+
+  .list {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-gap: 20px;
+    width: 100%;  
+  }
+  
+  h4 {
+    font-size: 1.5rem;
+    margin-bottom: 10px;
+    color: #333;
+  }
+  .card, .my-card {
+    border: 1px solid #ddd;
+    border-radius: 12px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 16px;
+    background-color: #fff;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+  
+  .card-top, .my-card-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 12px;
+  }
+
+  .my-card{
+    margin-bottom: 40px;
+    width: 50%;
+  }
+  
+  .left {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  
+  .left .profile-pic{
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    object-fit: cover;
+  }
+  
+  .info {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+  }
+  
+  .name {
+    font-weight: bold;
+    font-size: 18px;
+  }
+  
+  .date {
+    font-size: 12px;
+    color: #777;
+  }
+
+  .content .hr{
+    border: 0.2px solid lightgrey;
+  }
+
+  .reviewContent{
+    position: relative;
+    width: 100%;
+    left: 0;
+    transition: all 0.3s ease;
+    padding: 20px;
+  }
+  
+  .reviewContent h3{
+    margin-bottom: 20px;
+  }
+  
+  .right-side {
+    display: flex;
+    font-size: 14px;
+    color: #f39c12;
+    align-items: center;
+    justify-content: center;
+    gap: 15px; 
+  }
+
+  .right-side .starRating{
+    font-size: 18px;
+    color: #f39c12; /* Gold color for stars */
+  }
+  
+  .starFilled, .star{
+    font-size: 17px;
+    color: #f39c12; /* Gold color for stars */
+  }
+  .bottom {
+    font-size: 15px;
+    color: #555;
+    line-height: 1.4;
+  }
+
+  .review-actions {
+    display: flex;
+    gap: 10px;
+    margin-top: 15px;
+}
+
+.review-actions button {
+    background-color: white;
+    border: none;
+    padding: 10px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.review-actions button:hover {
+    transform: scale(1.05);
+}
+
+.editReviewBtn svg:hover {
+    fill: #3608cb; /* Change color on hover */
+}
+.deleteReviewBtn svg:hover {
+    fill: #ee3434; /* Change color on hover */
+}
+
+.review-actions svg {
+    width: 20px;
+    height: 20px;
+    fill: rgb(49, 45, 45);
+}
+
+
+
+  .modal {
+    position: fixed;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.5);
+    animation: fadeIn 0.3s ease-in-out;
+}
+
+.review-modal-content {
+    background-color: #fff;
+    margin: 15% auto;
+    padding: 20px;
+    border-radius: 12px;
+    width: 80%;
+    max-width: 600px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+    text-align: center;
+    position: relative;
+    animation: slideUp 0.3s ease-in-out;
+}
+
+.close-button {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    font-size: 24px;
+    cursor: pointer;
+}
+
+.modal-content h3 {
+  font-size: 24px;
+  margin: 20px 0;
+  color: #333;
+}
+
+#reviewStarRating {
+  margin: 10px 0;
+}
+
+.reviewStar {
+  font-size: 30px;
+  color: #ccc;
+  cursor: pointer;
+  transition: color 0.2s ease;
+}
+
+.reviewStar:hover {
+  color: #ffcc00;
+}
+
+.reviewStar.selected {
+  color: #ffcc00;
+}
+
+#reviewText, #editReviewText {
+  width: 100%;
+  padding: 10px;
+  margin-top: 10px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  resize: vertical;
+  font-size: 14px;
+  color: #333;
+}
+
+#submitReviewBtn, #submitEditReviewBtn {
+  background-color: teal;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-top: 15px;
+  transform: translate(0);
+  transition: background-color 0.3s ease;
+}
+
+#submitReviewBtn:hover {
+  background-color: #027063;
+  transition: background-color 0.3s ease, transform 0.3s ease;
+  transform: scale(1.05);
+}
+
+#successModalMessage {
+  color: green;
+  margin-top: 10px;
+  font-size: 16px;
+}
+
+.deleteSuccessContent, .insertSuccessContent, .editSuccessContent, .editErrorContent{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 30px;
+}
+
+@keyframes fadeIn {
+    from {opacity: 0;}
+    to {opacity: 1;}
+}
+
+@keyframes slideUp {
+    from {transform: translateY(40px); opacity: 0;}
+    to {transform: translateY(0); opacity: 1;}
+}
+  
+
+@media (max-width: 1024px) {
+  .reviews .top {
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+  }
+
+  .reviews .total,
+  .reviews .average {
+    align-items: center;
+    text-align: center;
+  }
+
+  .my-card {
+    width: 100%;
+  }
+
+  .list {
+    grid-template-columns: 1fr; /* 1 column for tablets */
+  }
+}
+
+@media (max-width: 768px) {
+  .review-modal-content {
+    width: 90%;
+    margin-top: 30%;
+  }
+
+  .left .profile-pic {
+    width: 50px;
+    height: 50px;
+  }
+
+  .name {
+    font-size: 16px;
+  }
+
+  .date {
+    font-size: 11px;
+  }
+
+  .right-side {
+    flex-direction: column;
+    gap: 5px;
+    font-size: 12px;
+  }
+
+  .card, .my-card {
+    padding: 12px;
+  }
+}
+
+@media (max-width: 480px) {
+  .reviews .top {
+    padding: 10px;
+  }
+
+  .reviewBtn, #submitReviewBtn {
+    width: 100%;
+    font-size: 14px;
+    padding: 10px;
+  }
+
+  .reviewStar {
+    font-size: 24px;
+  }
+
+  #reviewText {
+    font-size: 13px;
+    padding: 8px;
+  }
+
+  .review-modal-content {
+    margin-top: 40%;
+  }
+
+  .review-actions {
+    align-items: flex-start;
+    justify-content: center;
+  }
+
+  .review-actions button {
+    width: 100%;
+    justify-content: flex-start;
+  }
+
+  .list {
+    grid-template-columns: 1fr; /* single column on mobile */
+  }
+
+  .right-side {
+    flex-direction: row;
+    gap: 10px;
+  }
+}

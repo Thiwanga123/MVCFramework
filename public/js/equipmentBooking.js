@@ -15,42 +15,50 @@ document.addEventListener("DOMContentLoaded", function(){
     let totalPrice = null;
 
     startDateInput.addEventListener('change', updateTotalPrice);
+    
     endDateInput.addEventListener('change', updateTotalPrice);
 
     submitButton.addEventListener("click", async function(event) {
         event.preventDefault();
-
         if(validateDates(startDateInput.value, endDateInput.value)){
             const formData = new FormData(form);
             formData.append("totalPrice", totalPrice);
+            for (const [key, value] of formData.entries()) {
+                console.log(key + ": " + value);
+            }
             
             try {
                 const response = await fetch(`${URLROOT}/booking/addEquipmentBooking`, {
                     method: "POST",
                     body: formData,
                 });
-                
-                let resultText; 
+            
+                let resultText;
+            
                 if (response.ok) {
-                    let result;
+                    const contentType = response.headers.get("content-type");
+                    
+            
                     if (contentType && contentType.includes("application/json")) {
-                        result = await response.json(); 
+                        const result = await response.json();
                         console.log("JSON Response:", result);
-                        resultText = result.message || "Booking Successful!";  
+            
+                        resultText = result.message || "Booking Successful!";
+            
+                        if (result.success) {
+                            showSuccessModal(resultText);
+                        } else {
+                            showErrorModal(resultText);
+                        }
                     } else {
-                        resultText = await response.text();  
+                        resultText = await response.text();
                         console.log("Response Text:", resultText);
-                    }
-
-                    if(result.success){
-                        showSuccessModal(resultText);  
-                    }else{
-                        showErrorModal(resultText);  
+                        showErrorModal("Non-JSON response received.");
                     }
                 } else {
                     const errorResponse = await response.text();
                     console.log("Error Response:", errorResponse);
-                    showErrorModal("Booking Failed! Please try again.");  
+                    showErrorModal("Booking Failed! Please try again.");
                 }
             } catch (error) {
                 console.error("Error:", error);
@@ -165,7 +173,7 @@ document.addEventListener("DOMContentLoaded", function(){
             if (event.target === modal) {
                 modal.style.display = "none";
             }
-        };
+        };  
     }
 });
 

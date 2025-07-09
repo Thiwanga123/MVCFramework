@@ -1,0 +1,381 @@
+
+.content main .header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    color: #008080;
+}
+
+.content main .header h1 {
+    font-size: 28px;
+    font-weight: 600;
+    position: relative;
+    padding-bottom: 10px;
+}
+
+.content main .header h1::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 60px;
+    height: 3px;
+    background: #4ccbcb;
+    border-radius: 2px;
+}
+
+.insights {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    padding: 0;
+    margin: 0;
+    list-style: none;
+  }
+  
+  .insights li {
+    flex: 1 1 calc(25% - 20px);
+    background: #ffffff;
+    padding: 20px;
+    box-sizing: border-box;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    min-width: 200px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    transition: box-shadow 0.3s ease;
+  }
+  
+  .insights li .info {
+    margin-left: 15px;
+  }
+  
+  .insights li .info h3 {
+    margin: 0;
+    font-size: 1.2em;
+  }
+  
+  .insights li .info p {
+    margin: 0;
+    color: #666;
+  }
+
+.content main .insights li svg{
+    height: 30px;
+    width: 30px;
+    display: flex;
+    font-size: 36px;
+    border-radius: 10px;
+    align-items: center;
+    justify-content: center;
+}
+
+.content main .insights .products{
+    background: rgb(120, 212, 108);
+    height: 50px;
+    width: 50px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.content main .insights .view{
+    background: rgb(167, 214, 221);
+    height: 50px;
+    width: 50px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.content main .insights .earnings{
+    background: rgb(120, 212, 108);
+    height: 50px;
+    width: 50px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.content main .insights .pendings{
+    background: rgb(167, 214, 221);
+    height: 50px;
+    width: 50px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.content main .bottom-data{
+    display: flex;
+    flex-wrap: wrap;
+    gap: 24px;
+    margin-top: 24px;
+    width: 100%;
+}
+
+.content main .bottom-data>div{
+    border-radius: 20px;
+    background: var(--light);
+    padding: 24px;
+    overflow-x: auto;
+}
+
+.content main .bottom-data .header{
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 24px;
+}
+
+.content main .bottom-data .header h3{
+    margin-right: auto;
+    font-size: 24px;
+    font-weight: 600;
+}
+
+.content main .bottom-data .header svg{
+   cursor: pointer;
+}
+
+.content main .bottom-data .orders{
+    flex-grow: 1;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    transition: box-shadow 0.3s ease;
+}
+
+.content main .bottom-data .orders table{
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.content main .bottom-data .orders table th{
+    padding-bottom: 12px;
+    font-size: 14px;
+    text-align: left;
+    padding-left: 6px;
+    color: var(--light-primary);
+    border-bottom: 1px solid var(--light-success);
+}
+
+.content main .bottom-data .orders table td{
+    padding: 16px 0;
+    padding-left: 6px;
+    text-align: left;
+}
+
+.content main .bottom-data .orders table tr td:first-child{
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding-left: 6px;
+}
+
+.content main .bottom-data .orders table td img{
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.content main .bottom-data .orders table tbody tr{
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+    
+.content main .bottom-data .orders table tbody tr:hover{
+    background: var(--grey);
+}
+
+.content main .bottom-data .orders table tbody tr td .status{
+    font-size: 12px;
+    padding: 6px 16px;
+    border-radius: 20px;
+    font-weight: 700px;
+}
+
+.content main .bottom-data .orders table tbody tr td .status.completed{
+    background-color: #d4edda;
+    color: #155724;
+}
+
+.content main .bottom-data .orders table tbody tr td .status.pending{
+    background-color: #fff3cd;
+    color: #856404;
+}
+
+.content main .bottom-data .orders table tbody tr td .status.cancelled{
+    background-color: rgb(245, 180, 180);
+    color: rgb(175, 5, 5);
+}
+
+.action-buttons {
+    display: flex;
+    gap: 5px;
+}
+.action-buttons button {
+    padding: 5px 10px;
+    border-radius: 20px;
+    cursor: pointer;
+    font-size: 12px;
+    transition: all 0.3s ease;
+}
+
+.view-btn {
+    background-color: #4CAF50;
+    color: white;
+}
+
+.view-btn:hover {
+    background-color: #45a049;
+}
+
+.delete-btn {
+    background-color: #f44336;
+    color: white;
+}
+
+.delete-btn:hover {
+    background-color: #d32f2f;
+}
+
+.reminders{
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.reminders .header{
+    display: flex;
+    align-items: center;
+}
+.reminders .header svg{
+    cursor: pointer;
+}
+
+.reminders .update-list{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.reminders .update-list .update{
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.reminders .update-list .update img{
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+}
+
+.reminders .update-list .update .update-info{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.reminders .update-list .update .update-info .name-info{
+    font-weight: bold;
+}
+
+.reminders .update-list .update .update-info .service-info{
+    font-size: 12px;
+    color: #666;
+}
+
+.reminders .update-list .update .update-info .action-buttons{
+    display: flex;
+}
+
+.reminders .update-list .update .update-info .action-buttons button {
+    padding: 5px 10px;
+    border-radius: 20px;
+    cursor: pointer;
+    font-size: 12px;
+    transition: all 0.3s ease;
+}
+
+.reminders .update-list .update .update-info .action-buttons .view-btn {
+    background-color: #4CAF50;
+    
+
+}
+
+.reminders .update-list .update .update-info .action-buttons .view-btn:hover {
+    background-color: #5fd265;
+}
+
+.reminders .update-list .update .update-info .action-buttons .reject-btn {
+    background-color: #e75147;
+    color: white;
+}
+
+.reminders .update-list .update .update-info .action-buttons .reject-btn:hover {
+    background-color: #d46161;
+}
+
+.reminders .update-list .update .update-info .action-buttons .approve-btn {
+    background-color: #2196F3;
+    color: white;
+}
+
+.reminders .earnings-image{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.reminders .earnings-image img{
+    width: 100%;
+    height: auto;
+    height: 200px;
+}
+
+.reminders .update-list .update .update-info .action-buttons .approve-btn:hover {
+    background-color: #1e88e5;
+}
+@media screen and (max-width: 1200px) {
+    .reminders .update-list .update {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .reminders .update-list .update .update-info {
+        margin-top: 10px;
+    }
+
+    .reminders .update-list .update .update-info .action-buttons {
+        margin-top: 10px;
+    }
+}
+
+@media screen and (max-width: 768px) {
+    .reminders .update-list .update .update-info .action-buttons {
+        flex-direction: column;
+    }
+
+    .reminders .update-list .update .update-info .action-buttons button {
+        margin-bottom: 5px;
+        width: 100%;
+    }
+}
+
+@media screen and (max-width: 480px) {
+    .reminders .update-list .update .update-info .name-info,
+    .reminders .update-list .update .update-info .service-info {
+        font-size: 14px;
+    }
+
+    .reminders .update-list .update .update-info .action-buttons button {
+        font-size: 10px;
+        padding: 3px 8px;
+    }
+}

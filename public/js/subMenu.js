@@ -13,6 +13,6 @@ document.addEventListener('DOMContentLoaded', function() {
 
         if (!isClickInsideProfile && !isClickInsideMenu) {
             submenu.style.display = 'none';
-        }
-    });
+        }
+    });
 });

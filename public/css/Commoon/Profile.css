@@ -1,0 +1,189 @@
+
+.profile-content {
+    padding: 40px;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+}
+  
+h2 {
+    color: var(--primary-color);
+    margin: 25px 0 15px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid var(--primary-color);
+}
+  
+h4 {
+    margin-bottom: 8px;
+    color: var(--text-color);
+    font-weight: 500;
+}
+  
+input {
+    width: 100%;
+    padding: 12px 15px;
+    margin-bottom: 20px;
+    border: 1px solid var(--border-color);
+    border-radius: 5px;
+    font-size: 14px;
+    transition: all 0.3s ease;
+}
+  
+input:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 5px rgba(52, 152, 219, 0.3);
+}
+  
+.profile-actions button, .editBtn button, .div1 button{
+    padding: 0.7rem 1.5rem;
+    font-size: 1rem;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.profile-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+}
+
+.profile-top .imageDiv{
+    display: flex;
+    gap: 20px;
+    align-items: center;
+}
+    
+.profile-top .imageDiv .div1{
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.profile-top .imageDiv .div2{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 50px;
+}
+
+.profile-top .imageDiv .div2 h4{
+    color: black;
+    font-size: 20px;
+}
+
+.profile-top .imageDiv .div2 h5{
+    color: #656464;
+    font-size: 14px;
+
+}
+
+.profile-top img {
+    width: 120px;
+    height: 120px;
+    object-fit: cover;
+    border-radius: 50%;
+    border: 4px solid #0077cc;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+  /* Profile Center Section - Two Columns */
+  .profile-center {
+    display: flex;
+    gap: 30px;
+    margin-bottom: 20px;
+  }
+  
+  .left, .right {
+    flex: 1;
+  }
+  
+  /* Profile Bottom Section */
+  .profile-bottom {
+    display: flex;
+    gap: 30px;
+    margin-bottom: 30px;
+  }
+  
+  .profile-bottom .group {
+    flex: 1;
+  }
+  
+  /* Profile Actions */
+  .profile-actions {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 40px;
+    padding-top: 20px;
+    border-top: 1px solid var(--border-color);
+  }
+  
+  .profile-actions .group {
+    display: flex;
+    gap: 15px;
+  }
+  
+#editProfileBtn{
+    background-color: teal;
+    color: white;
+}
+
+#editProfileBtn:hover {
+    background-color: rgb(4, 95, 95);
+    transform: scale(1.02);
+}
+
+#imageChangeBtn{
+    background-color: #0077cc;
+    color: white;
+    padding: 0.5rem 1rem;
+}
+
+#imageChangeBtn:hover{
+    background-color: #0462a6;
+    transform: scale(1.02);
+}
+
+.delete {
+    background-color: #dc3545;
+    color: white;
+}
+
+.delete:hover {
+    background-color: #b52a36;
+    transform: scale(1.02);
+}
+
+  
+  /* Responsive Design */
+  @media (max-width: 768px) {
+    .profile {
+      padding: 20px;
+      margin: 20px;
+    }
+    
+    .profile-center,
+    .profile-bottom {
+      flex-direction: column;
+      gap: 0;
+    }
+    
+    .profile-actions {
+      flex-direction: column;
+      gap: 20px;
+    }
+    
+    .profile-actions .group {
+      width: 100%;
+      flex-direction: column;
+    }
+    
+    .delete {
+      width: 100%;
+    }
+  }

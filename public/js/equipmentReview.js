@@ -119,6 +119,8 @@ document.addEventListener("DOMContentLoaded", function () {
       // const userId = reviewModal.dataset.userId; // gETTING THE USER ID FROM THE STORED SESSION DATA
       const productId = reviewModal.dataset.productId;
       const rating = document.getElementById("ratingValue").value;
+      const type = document.getElementById("reviewType").value;
+
       const comment = reviewText.value;
 
       if (!rating || comment.trim() === "") {
@@ -130,6 +132,7 @@ document.addEventListener("DOMContentLoaded", function () {
       const formData = new FormData();
       formData.append("productId", productId);
       formData.append("rating", rating);
+      formData.append("type", type);
       formData.append("comment", comment);
       
       try{

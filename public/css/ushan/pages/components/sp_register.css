@@ -1,0 +1,321 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body{
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+}
+
+a{
+    text-decoration: none;
+}
+
+.container{
+    height: 100vh;
+    transition: opacity 0.5s ease-out;
+}
+
+.container{
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.container .top{
+    display: flex;
+    align-items: center;
+    padding: 20px;
+    justify-content: space-between;
+    height: 80px;
+}
+
+.container .top .logo{
+    display: flex;
+    gap: 0.5rem;
+    align-items: center;
+    font-size: 18px;
+    font-weight: 700;
+    color: rgb(15, 15, 72);
+}
+
+.container .top .logo span{
+    color: rgb(18, 138, 138);
+}
+
+.container .top .logo img{
+    width: 55px;
+    height: 55px;
+}
+
+.container h1{
+    margin-bottom: 1rem;
+    text-align: center;
+    font-size: 40px;
+}
+
+.container .box{
+    background-color: #fafafa;
+    justify-content: center;
+    margin: auto;
+    width: 100%;
+    max-width:1000px;
+    border-radius: 40px;
+    padding: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    animation: fadeIn 0.4s ease-in-out;
+}
+
+.container .box .step{
+    display: none; /* Hide steps by default, they will be toggled via JS */
+    width: 100%;
+    max-width: 800px; /* or any fixed width that works for your layout */
+    margin: 0 auto; /* Center the step container */
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column; /* Stack elements vertically */
+}
+
+.container .box .step .content{
+    display: flex;
+    justify-content: space-between;
+    gap: 20px; 
+}
+
+.container .box .step .content .side{
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    padding: 10px;
+    gap: 1rem;
+}
+
+.container .box form label{
+   font-size: 16px;
+   font-weight:bolder;
+}
+
+.container .box .step .nxt-btn{
+    display: flex;
+    align-items: center;
+    justify-content:center;
+    width: 100%;
+}
+
+.container .box .step .buttons{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.choose-btn {
+    background-color: #005cbe;
+    border: none;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+}
+
+.container .box form button{
+    background-color: rgb(15, 89, 89);
+    color: white;
+    font-size: medium;
+    height: 35px;
+    border-radius: 30px;
+    border: none;
+    margin-top: 1rem;
+    cursor: pointer;
+    width: 130px;
+    min-width: 90px;
+ }
+
+ .bottom{
+    display: flex;
+    gap: 1rem;
+ }
+
+ .bottom .div{
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    padding: 10px;
+    gap: 1rem;
+ }
+
+.step input[type="text"], 
+.step input[type="email"], 
+.step input[type="password"], 
+.step input[type="tel"], 
+.step select,
+.step input[type="file"] {
+    border: none;
+    background-color: rgb(230, 230, 230);
+    height: 40px;
+    border-radius: 30px;
+    padding: 0 15px;
+    width: 100%;
+}
+
+.req{
+    color: red;
+}
+.form-invalid {
+    color: #ff0000; /* Red color for error text */
+    font-size: 0.9rem; /* Slightly smaller text size */
+    margin-top: 5px; /* Space between the input field and error message */
+    display: block; /* Make sure the error message is on a new line */
+}
+
+input.invalid {
+    border: 2px solid red; /* Highlight invalid input fields */
+}
+.fade-out{
+    opacity: 0.2;
+    pointer-events: none;
+}
+
+.plans-container {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+    margin-top: 20px;
+    height: 400px;
+}
+
+/* Common styles for the plan cards */
+.plan-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 30%;
+    padding: 20px;
+    border-radius: 10px;
+    text-align: center;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    cursor: pointer;
+    transition: transform 0.3s ease-in-out;
+}
+
+.plan-card:hover {
+    transform: scale(1.05);
+}
+
+/* Heading Style */
+.plan-card h3 {
+    margin-bottom: 10px;
+    font-size: 1.5em;
+    color: #333;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+}
+
+/* Price Styling */
+.price {
+    font-size: 28px;
+    color: #000000; /* Green */
+    font-weight: bold;
+}
+
+/* Plan Description */
+.plan-card p {
+    font-size: 1em;
+    margin-bottom: 20px;
+    color: #666;
+}
+
+/* Styling for the Choose Buttons */
+
+
+.choose-btn:hover {
+    background-color: #0056b3;
+}
+
+.plan-card.active {
+    background: linear-gradient(to right, #001f3d, #000000);  /* Gradient from navy to black */
+    color: white;  /* Change text color to white */
+}
+
+/* Styles for the active choose button */
+.choose-btn.active {
+    background-color: #4CAF50;  /* Green background for the active button */
+    color: white;  /* White text */
+}
+.choose-btn:focus {
+    outline: none;
+}
+
+
+@keyframes fadeIn {
+    from {opacity: 0;}
+    to {opacity: 1;}
+}
+
+@keyframes slideUp {
+    from {transform: translateY(40px); opacity: 0;}
+    to {transform: translateY(0); opacity: 1;}
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .plans-container {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .plan-card {
+        width: 80%;
+        margin-bottom: 20px;
+    }
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .plans-container {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .plan-card {
+        width: 80%;
+        margin-bottom: 20px;
+    }
+}
+
+
+ @media screen and (max-width: 768px) {
+    .container {
+        grid-template-columns: 1fr; 
+    }
+
+    .container .box {
+        width: 90%; 
+        padding: 30px; 
+        border-radius: 20px; 
+    }
+
+    .container .top {
+        flex-direction: column;
+        height: auto; 
+        text-align: center; 
+        gap: 1rem;
+    }
+
+    .container .top .logo {
+        margin-bottom: 15px;
+    }
+
+    .container .top .logo img {
+        width: 45px;
+        height: 45px;
+    }
+
+    .container .box form input,
+    .container .box form button {
+        font-size: 14px; 
+    }
+
+}

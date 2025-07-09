@@ -1,0 +1,186 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body{
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+}
+
+a{
+    text-decoration: none;
+}
+
+.container{
+    height: 100vh;
+    transition: opacity 0.5s ease-out;
+}
+
+.container{
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.container .top{
+    display: flex;
+    align-items: center;
+    padding: 20px;
+    justify-content: space-between;
+    height: 80px;
+}
+
+.container .top .logo{
+    display: flex;
+    gap: 0.5rem;
+    align-items: center;
+    font-size: 18px;
+    font-weight: 700;
+    color: rgb(15, 15, 72);
+}
+
+.container .top .logo span{
+    color: rgb(18, 138, 138);
+}
+
+.container .top .logo img{
+    width: 55px;
+    height: 55px;
+}
+
+.container h1{
+    margin-bottom: 1rem;
+    text-align: center;
+    font-size: 40px;
+}
+
+
+.box {
+    width: 100%;
+    max-width: 900px;
+    margin: 0 auto;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+    padding: 30px;
+  }
+  
+  /* Step styling */
+  .step {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+  
+  .step h2 {
+    color: #333;
+    margin-bottom: 10px;
+    text-align: center;
+  }
+  
+  /* Content area with two sides */
+  .content {
+    display: flex;
+    flex-direction: row;
+    gap: 30px;
+    margin-bottom: 20px;
+  }
+  
+  .side {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  /* Form elements styling */
+  label {
+    margin-bottom: 8px;
+    font-weight: 500;
+  }
+  
+  input, select {
+    height: 40px;
+    padding: 8px 12px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    margin-bottom: 5px;
+    width: 100%;
+  }
+  
+  .form-invalid {
+    color: red;
+    font-size: 0.85rem;
+    margin-bottom: 15px;
+    display: block;
+  }
+  
+  .req {
+    color: red;
+  }
+  
+  /* Bottom section */
+  .bottom {
+    margin-bottom: 20px;
+  }
+  
+  .bottom .div {
+    max-width: 300px;
+    margin: 0 auto;
+  }
+  
+  /* Next button styling */
+  .nxt-btn {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+  }
+  
+  .nxt-btn button {
+    background-color: #4285f4;
+    color: white;
+    border: none;
+    padding: 12px 30px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: 500;
+    transition: background-color 0.3s;
+  }
+  
+  .nxt-btn button:hover {
+    background-color: #3367d6;
+  }
+  
+  /* Responsive breakpoints */
+  @media screen and (max-width: 768px) {
+    .box {
+      padding: 20px 15px;
+      width: 95%;
+    }
+    
+    .content {
+      flex-direction: column;
+      gap: 10px;
+    }
+    
+    .side {
+      width: 100%;
+    }
+  }
+  
+  @media screen and (max-width: 480px) {
+    .box {
+      padding: 15px 10px;
+      width: 100%;
+      border-radius: 5px;
+    }
+    
+    h2 {
+      font-size: 1.2rem;
+    }
+    
+    .nxt-btn button {
+      width: 100%;
+      padding: 10px;
+    }
+  }

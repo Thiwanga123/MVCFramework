@@ -25,7 +25,7 @@
                 </div>
             </form>
             <a href="#" class="updates">
-                <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#000000"><path d="M160-200v-80h80v-280q0-83 50-147.5T420-792v-28q0-25 17.5-42.5T480-880q25 0 42.5 17.5T540-820v28q80 20 130 84.5T720-560v280h80v80H160Zm320-300Zm0 420q-33 0-56.5-23.5T400-160h160q0 33-23.5 56.5T480-80ZM320-280h320v-280q0-66-47-113t-113-47q-66 0-113 47t-47 113v280Z"/></svg>
+                <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#000000"><path d="M160-200v-80h80v-280q0-83 50-147.5T420-792v-28q0-25 17.5-42.5T480-880q25 0 42.5 17.5T540-820v28q80 20 130 84.5T720-560v280h80v80H160Zm320-300Zm0 420q-33 0-56.5-23.5T400-160h160q0 33-23.5 56.5T480-80ZM320-280h400v-280q0-66-47-113t-113-47q-66 0-113 47t-47 113v280Z"/></svg>
                 <span class="count">12</span>
             </a>
             <p>Hii Welcome <?php echo isset($_SESSION['name']) ? ' ' . htmlspecialchars($_SESSION['name']) : ''; ?> </p>
@@ -41,6 +41,24 @@
                 </div>
             </div>
         
+            <?php if(isset($_SESSION['success'])): ?>
+                <div class="alert alert-success">
+                    <?php 
+                        echo $_SESSION['success'];
+                        unset($_SESSION['success']);
+                    ?>
+                </div>
+            <?php endif; ?>
+
+            <?php if(isset($_SESSION['error'])): ?>
+                <div class="alert alert-danger">
+                    <?php 
+                        echo $_SESSION['error'];
+                        unset($_SESSION['error']);
+                    ?>
+                </div>
+            <?php endif; ?>
+
             <!--Insights-->
             <ul class="insights">
                 <li>
@@ -86,61 +104,40 @@
                 <div class="orders">
                     <div class="header">
                         <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#000000"><path d="M120-80v-800l60 60 60-60 60 60 60-60 60 60 60-60 60 60 60-60 60 60 60-60 60 60 60-60v800l-60-60-60 60-60-60-60 60-60-60-60 60-60-60-60 60-60-60-60 60-60-60-60 60Zm120-200h480v-80H240v80Zm0-160h480v-80H240v80Zm0-160h480v-80H240v80Zm-40 404h560v-568H200v568Zm0-568v568-568Z"/></svg>
-                        <h3>Recent Transactions</h3>
-                        <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#000000"><path d="M440-160q-17 0-28.5-11.5T400-200v-240L168-736q-15-20-4.5-42t36.5-22h560q26 0 36.5 22t-4.5 42L560-440v240q0 17-11.5 28.5T520-160h-80Zm40-308 198-252H282l198 252Zm0 0Z"/></svg>
+                        <h3>Refund Requests</h3>
                     </div>
                     <table>
                         <thead>
                             <tr>
-                                <th>Customer Name</th>
-                                <th>Customer ID</th>
-                                <th>Date</th>
+                                <th>Request ID</th>
+                                <th>Booking Type</th>
+                                <th>User Name</th>
                                 <th>Amount</th>
-                                <th>Payment Method</th>
-                                
+                                <th>Request Date</th>
+                                <th>Status</th>
+                                <th>Actions</th>
                             </tr>
                         </thead>
                         <tbody>
+                            <?php foreach($data['refundRequests'] as $request): ?>
                             <tr>
+                                <td><?php echo htmlspecialchars($request->id); ?></td>
+                                <td><?php echo htmlspecialchars($request->booking_type); ?></td>
+                                <td><?php echo htmlspecialchars($request->user_name); ?></td>
+                                <td>Rs.<?php echo htmlspecialchars($request->amount); ?></td>
+                                <td><?php echo date('Y-m-d H:i', strtotime($request->request_date)); ?></td>
                                 <td>
-                                    <img src="<?php echo URLROOT;?>/Images/Profile pic.jpg">
-                                    <p>John Doe</p>
+                                    <span class="status-badge status-<?php echo strtolower($request->status); ?>">
+                                        <?php echo htmlspecialchars($request->status); ?>
+                                    </span>
                                 </td>
-                                <td>1005</td>
-                                <td>21-08-2024</td>
-                                <td>Rs.10,000.00</td>
-                                <td >
-                                    <svg width="50px" height="50px" viewBox="0 0 1024 1024" class="icon"  version="1.1" xmlns="http://www.w3.org/2000/svg"><path d="M894.509511 249.605689H330.752a37.660444 37.660444 0 0 0-37.546667 37.762844v342.448356a37.660444 37.660444 0 0 0 37.546667 37.762844h563.757511a37.660444 37.660444 0 0 0 37.558045-37.762844V287.368533a37.660444 37.660444 0 0 0-37.558045-37.762844z" fill="#CCCCCC" /><path d="M293.216711 333.585067H932.067556v97.655466H293.216711z" fill="#4D4D4D" /><path d="M688.685511 388.278044H124.928a37.660444 37.660444 0 0 0-37.546667 37.762845v342.448355a37.660444 37.660444 0 0 0 37.546667 37.762845h563.757511a37.660444 37.660444 0 0 0 37.546667-37.762845V426.040889a37.660444 37.660444 0 0 0-37.546667-37.762845z" fill="#FFCA6C" /><path d="M87.381333 472.257422h638.850845v97.655467H87.381333z" fill="#4D4D4D" /><path d="M213.595022 692.974933a58.595556 58.254222 90 1 0 116.508445 0 58.595556 58.254222 90 1 0-116.508445 0Z" fill="#47A7DD" /><path d="M155.3408 692.974933a58.595556 58.254222 90 1 0 116.508444 0 58.595556 58.254222 90 1 0-116.508444 0Z" fill="#FC583D" /><path d="M894.509511 234.951111H720.406756c-8.044089 0-14.563556 6.5536-14.563556 14.6432s6.519467 14.654578 14.563556 14.654578h174.102755c12.686222 0 22.994489 10.376533 22.994489 23.131022v31.561956H307.768889V287.379911c0-12.754489 10.308267-23.131022 22.994489-23.131022H671.857778c8.044089 0 14.552178-6.564978 14.552178-14.654578S679.913244 234.951111 671.869156 234.951111h-341.105778c-28.740267 0-52.1216 23.517867-52.1216 52.417422v86.254934H124.928c-28.728889 0-52.110222 23.517867-52.110222 52.417422V663.665778c0 8.100978 6.519467 14.654578 14.563555 14.654578 8.044089 0 14.563556-6.564978 14.563556-14.654578v-79.086934h609.723733v183.9104c0 12.743111-10.308267 23.108267-22.983111 23.108267H124.928a23.074133 23.074133 0 0 1-22.983111-23.108267v-55.990044c0-8.0896-6.519467-14.6432-14.563556-14.6432-8.044089 0-14.563556 6.5536-14.563555 14.6432v55.990044c0 28.899556 23.381333 52.406044 52.110222 52.406045h563.757511c28.728889 0 52.110222-23.506489 52.110222-52.406045V426.040889c0-28.899556-23.381333-52.417422-52.110222-52.417422H307.780267v-25.383823h609.735111v68.357689H772.846933c-8.044089 0-14.563556 6.5536-14.563555 14.6432s6.519467 14.654578 14.563555 14.654578h144.668445v183.9104a23.096889 23.096889 0 0 1-22.994489 23.131022H774.781156c-8.044089 0-14.552178 6.5536-14.552178 14.6432s6.508089 14.6432 14.552178 14.6432h119.728355c28.728889 0 52.1216-23.506489 52.1216-52.417422V287.379911C946.631111 258.468978 923.249778 234.951111 894.509511 234.951111z m-182.840889 191.089778v31.573333H178.642489c-8.044089 0-14.563556 6.5536-14.563556 14.6432s6.519467 14.654578 14.563556 14.654578h533.026133v68.357689H101.944889v-68.357689h28.16c8.044089 0 14.563556-6.564978 14.563555-14.654578s-6.519467-14.6432-14.563555-14.6432H101.944889v-31.573333c0-12.743111 10.308267-23.119644 22.983111-23.119645h563.757511a23.096889 23.096889 0 0 1 22.983111 23.119645z" fill="" /><path d="M242.744889 760.069689a72.100978 72.100978 0 0 0 29.104355 6.155378c40.152178 0 72.817778-32.8704 72.817778-73.250134 0-40.402489-32.6656-73.250133-72.817778-73.250133-10.069333 0-19.979378 2.127644-29.104355 6.132622a72.078222 72.078222 0 0 0-29.149867-6.132622c-40.152178 0-72.817778 32.847644-72.817778 73.250133 0 40.379733 32.6656 73.250133 72.817778 73.250134 10.365156 0 20.218311-2.218667 29.149867-6.155378z m72.795022-67.094756c0 24.223289-19.603911 43.9296-43.690667 43.9296h-0.034133a73.056711 73.056711 0 0 0 14.609067-43.9296 73.079467 73.079467 0 0 0-14.609067-43.952355h0.034133c24.098133 0 43.690667 19.706311 43.690667 43.952355z m-145.624178 0c0-24.246044 19.592533-43.952356 43.690667-43.952355 24.086756 0 43.690667 19.706311 43.690667 43.952355 0 24.223289-19.603911 43.9296-43.690667 43.9296-24.098133 0.011378-43.690667-19.706311-43.690667-43.9296zM655.633067 647.5776c8.032711 0 14.563556-6.5536 14.563555-14.6432s-6.530844-14.6432-14.563555-14.6432H440.103822c-8.044089 0-14.563556 6.5536-14.563555 14.6432s6.519467 14.6432 14.563555 14.6432h215.529245z" fill="" /></svg>
+                                <td>
+                                    <a href="<?php echo URLROOT; ?>/admin/getRefundDetails/<?php echo $request->id; ?>" class="btn-view">View</a>
                                 </td>
                             </tr>
-                            <tr>
-                                <td>
-                                <img src="<?php echo URLROOT;?>/Images/Profile pic.jpg">
-                                    <p>John Doe</p>
-                                </td>
-                                <td>1006</td>
-                                <td>14-07-2024</td>
-                                
-                                <td>Rs.10,000.00</td>
-                                <td >
-                                    <svg width="50px" height="50px" viewBox="0 0 1024 1024" class="icon"  version="1.1" xmlns="http://www.w3.org/2000/svg"><path d="M894.509511 249.605689H330.752a37.660444 37.660444 0 0 0-37.546667 37.762844v342.448356a37.660444 37.660444 0 0 0 37.546667 37.762844h563.757511a37.660444 37.660444 0 0 0 37.558045-37.762844V287.368533a37.660444 37.660444 0 0 0-37.558045-37.762844z" fill="#CCCCCC" /><path d="M293.216711 333.585067H932.067556v97.655466H293.216711z" fill="#4D4D4D" /><path d="M688.685511 388.278044H124.928a37.660444 37.660444 0 0 0-37.546667 37.762845v342.448355a37.660444 37.660444 0 0 0 37.546667 37.762845h563.757511a37.660444 37.660444 0 0 0 37.546667-37.762845V426.040889a37.660444 37.660444 0 0 0-37.546667-37.762845z" fill="#FFCA6C" /><path d="M87.381333 472.257422h638.850845v97.655467H87.381333z" fill="#4D4D4D" /><path d="M213.595022 692.974933a58.595556 58.254222 90 1 0 116.508445 0 58.595556 58.254222 90 1 0-116.508445 0Z" fill="#47A7DD" /><path d="M155.3408 692.974933a58.595556 58.254222 90 1 0 116.508444 0 58.595556 58.254222 90 1 0-116.508444 0Z" fill="#FC583D" /><path d="M894.509511 234.951111H720.406756c-8.044089 0-14.563556 6.5536-14.563556 14.6432s6.519467 14.654578 14.563556 14.654578h174.102755c12.686222 0 22.994489 10.376533 22.994489 23.131022v31.561956H307.768889V287.379911c0-12.754489 10.308267-23.131022 22.994489-23.131022H671.857778c8.044089 0 14.552178-6.564978 14.552178-14.654578S679.913244 234.951111 671.869156 234.951111h-341.105778c-28.740267 0-52.1216 23.517867-52.1216 52.417422v86.254934H124.928c-28.728889 0-52.110222 23.517867-52.110222 52.417422V663.665778c0 8.100978 6.519467 14.654578 14.563555 14.654578 8.044089 0 14.563556-6.564978 14.563556-14.654578v-79.086934h609.723733v183.9104c0 12.743111-10.308267 23.108267-22.983111 23.108267H124.928a23.074133 23.074133 0 0 1-22.983111-23.108267v-55.990044c0-8.0896-6.519467-14.6432-14.563556-14.6432-8.044089 0-14.563556 6.5536-14.563555 14.6432v55.990044c0 28.899556 23.381333 52.406044 52.110222 52.406045h563.757511c28.728889 0 52.110222-23.506489 52.110222-52.406045V426.040889c0-28.899556-23.381333-52.417422-52.110222-52.417422H307.780267v-25.383823h609.735111v68.357689H772.846933c-8.044089 0-14.563556 6.5536-14.563555 14.6432s6.519467 14.654578 14.563555 14.654578h144.668445v183.9104a23.096889 23.096889 0 0 1-22.994489 23.131022H774.781156c-8.044089 0-14.552178 6.5536-14.552178 14.6432s6.508089 14.6432 14.552178 14.6432h119.728355c28.728889 0 52.1216-23.506489 52.1216-52.417422V287.379911C946.631111 258.468978 923.249778 234.951111 894.509511 234.951111z m-182.840889 191.089778v31.573333H178.642489c-8.044089 0-14.563556 6.5536-14.563556 14.6432s6.519467 14.654578 14.563556 14.654578h533.026133v68.357689H101.944889v-68.357689h28.16c8.044089 0 14.563556-6.564978 14.563555-14.654578s-6.519467-14.6432-14.563555-14.6432H101.944889v-31.573333c0-12.743111 10.308267-23.119644 22.983111-23.119645h563.757511a23.096889 23.096889 0 0 1 22.983111 23.119645z" fill="" /><path d="M242.744889 760.069689a72.100978 72.100978 0 0 0 29.104355 6.155378c40.152178 0 72.817778-32.8704 72.817778-73.250134 0-40.402489-32.6656-73.250133-72.817778-73.250133-10.069333 0-19.979378 2.127644-29.104355 6.132622a72.078222 72.078222 0 0 0-29.149867-6.132622c-40.152178 0-72.817778 32.847644-72.817778 73.250133 0 40.379733 32.6656 73.250133 72.817778 73.250134 10.365156 0 20.218311-2.218667 29.149867-6.155378z m72.795022-67.094756c0 24.223289-19.603911 43.9296-43.690667 43.9296h-0.034133a73.056711 73.056711 0 0 0 14.609067-43.9296 73.079467 73.079467 0 0 0-14.609067-43.952355h0.034133c24.098133 0 43.690667 19.706311 43.690667 43.952355z m-145.624178 0c0-24.246044 19.592533-43.952356 43.690667-43.952355 24.086756 0 43.690667 19.706311 43.690667 43.952355 0 24.223289-19.603911 43.9296-43.690667 43.9296-24.098133 0.011378-43.690667-19.706311-43.690667-43.9296zM655.633067 647.5776c8.032711 0 14.563556-6.5536 14.563555-14.6432s-6.530844-14.6432-14.563555-14.6432H440.103822c-8.044089 0-14.563556 6.5536-14.563555 14.6432s6.519467 14.6432 14.563555 14.6432h215.529245z" fill="" /></svg>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                <img src="<?php echo URLROOT;?>/Images/Profile pic.jpg">
-                                    <p>John Doe</p>
-                                </td>
-                                <td>1007</td>
-                                <td>01-01-2024</td>
-                                
-                                <td>Rs.20,000.00</td>
-                                <td >
-                                    <svg width="50px" height="50px" viewBox="0 0 1024 1024" class="icon"  version="1.1" xmlns="http://www.w3.org/2000/svg"><path d="M894.509511 249.605689H330.752a37.660444 37.660444 0 0 0-37.546667 37.762844v342.448356a37.660444 37.660444 0 0 0 37.546667 37.762844h563.757511a37.660444 37.660444 0 0 0 37.558045-37.762844V287.368533a37.660444 37.660444 0 0 0-37.558045-37.762844z" fill="#CCCCCC" /><path d="M293.216711 333.585067H932.067556v97.655466H293.216711z" fill="#4D4D4D" /><path d="M688.685511 388.278044H124.928a37.660444 37.660444 0 0 0-37.546667 37.762845v342.448355a37.660444 37.660444 0 0 0 37.546667 37.762845h563.757511a37.660444 37.660444 0 0 0 37.546667-37.762845V426.040889a37.660444 37.660444 0 0 0-37.546667-37.762845z" fill="#FFCA6C" /><path d="M87.381333 472.257422h638.850845v97.655467H87.381333z" fill="#4D4D4D" /><path d="M213.595022 692.974933a58.595556 58.254222 90 1 0 116.508445 0 58.595556 58.254222 90 1 0-116.508445 0Z" fill="#47A7DD" /><path d="M155.3408 692.974933a58.595556 58.254222 90 1 0 116.508444 0 58.595556 58.254222 90 1 0-116.508444 0Z" fill="#FC583D" /><path d="M894.509511 234.951111H720.406756c-8.044089 0-14.563556 6.5536-14.563556 14.6432s6.519467 14.654578 14.563556 14.654578h174.102755c12.686222 0 22.994489 10.376533 22.994489 23.131022v31.561956H307.768889V287.379911c0-12.754489 10.308267-23.131022 22.994489-23.131022H671.857778c8.044089 0 14.552178-6.564978 14.552178-14.654578S679.913244 234.951111 671.869156 234.951111h-341.105778c-28.740267 0-52.1216 23.517867-52.1216 52.417422v86.254934H124.928c-28.728889 0-52.110222 23.517867-52.110222 52.417422V663.665778c0 8.100978 6.519467 14.654578 14.563555 14.654578 8.044089 0 14.563556-6.564978 14.563556-14.654578v-79.086934h609.723733v183.9104c0 12.743111-10.308267 23.108267-22.983111 23.108267H124.928a23.074133 23.074133 0 0 1-22.983111-23.108267v-55.990044c0-8.0896-6.519467-14.6432-14.563556-14.6432-8.044089 0-14.563556 6.5536-14.563555 14.6432v55.990044c0 28.899556 23.381333 52.406044 52.110222 52.406045h563.757511c28.728889 0 52.110222-23.506489 52.110222-52.406045V426.040889c0-28.899556-23.381333-52.417422-52.110222-52.417422H307.780267v-25.383823h609.735111v68.357689H772.846933c-8.044089 0-14.563556 6.5536-14.563555 14.6432s6.519467 14.654578 14.563555 14.654578h144.668445v183.9104a23.096889 23.096889 0 0 1-22.994489 23.131022H774.781156c-8.044089 0-14.552178 6.5536-14.552178 14.6432s6.508089 14.6432 14.552178 14.6432h119.728355c28.728889 0 52.1216-23.506489 52.1216-52.417422V287.379911C946.631111 258.468978 923.249778 234.951111 894.509511 234.951111z m-182.840889 191.089778v31.573333H178.642489c-8.044089 0-14.563556 6.5536-14.563556 14.6432s6.519467 14.654578 14.563556 14.654578h533.026133v68.357689H101.944889v-68.357689h28.16c8.044089 0 14.563556-6.564978 14.563555-14.654578s-6.519467-14.6432-14.563555-14.6432H101.944889v-31.573333c0-12.743111 10.308267-23.119644 22.983111-23.119645h563.757511a23.096889 23.096889 0 0 1 22.983111 23.119645z" fill="" /><path d="M242.744889 760.069689a72.100978 72.100978 0 0 0 29.104355 6.155378c40.152178 0 72.817778-32.8704 72.817778-73.250134 0-40.402489-32.6656-73.250133-72.817778-73.250133-10.069333 0-19.979378 2.127644-29.104355 6.132622a72.078222 72.078222 0 0 0-29.149867-6.132622c-40.152178 0-72.817778 32.847644-72.817778 73.250133 0 40.379733 32.6656 73.250133 72.817778 73.250134 10.365156 0 20.218311-2.218667 29.149867-6.155378z m72.795022-67.094756c0 24.223289-19.603911 43.9296-43.690667 43.9296h-0.034133a73.056711 73.056711 0 0 0 14.609067-43.9296 73.079467 73.079467 0 0 0-14.609067-43.952355h0.034133c24.098133 0 43.690667 19.706311 43.690667 43.952355z m-145.624178 0c0-24.246044 19.592533-43.952356 43.690667-43.952355 24.086756 0 43.690667 19.706311 43.690667 43.952355 0 24.223289-19.603911 43.9296-43.690667 43.9296-24.098133 0.011378-43.690667-19.706311-43.690667-43.9296zM655.633067 647.5776c8.032711 0 14.563556-6.5536 14.563555-14.6432s-6.530844-14.6432-14.563555-14.6432H440.103822c-8.044089 0-14.563556 6.5536-14.563555 14.6432s6.519467 14.6432 14.563555 14.6432h215.529245z" fill="" /></svg>
-                                </td>
-                            </tr>
+                            <?php endforeach; ?>
                         </tbody>
-                    </table> 
+                    </table>
                 </div>
         
                 <!--Recent updates-->
@@ -168,6 +165,299 @@
 
     
      <script src="<?php echo URLROOT;?>/js/Sidebar.js"></script>
+
+    <!-- Refund Details Modal -->
+    <div id="refundDetailsModal" style="display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background: white; padding: 20px; border-radius: 8px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); z-index: 1000; width: 80%; max-width: 800px;">
+        <div class="modal-header">
+            <h2>Refund Request Details</h2>
+            <button id="closeRefundModal" style="background: none; border: none; font-size: 24px; cursor: pointer;">&times;</button>
+        </div>
+        <div class="modal-content">
+            <div class="booking-details">
+                <h3>Booking Information</h3>
+                <div id="bookingDetails"></div>
+            </div>
+            <div class="refund-details">
+                <h3>Refund Information</h3>
+                <div id="refundDetails"></div>
+            </div>
+            <div class="bank-details">
+                <h3>Bank Details</h3>
+                <form id="bankDetailsForm">
+                    <div class="form-group">
+                        <label for="bankName">Bank Name</label>
+                        <input type="text" id="bankName" name="bankName" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="accountNumber">Account Number</label>
+                        <input type="text" id="accountNumber" name="accountNumber" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="accountHolder">Account Holder Name</label>
+                        <input type="text" id="accountHolder" name="accountHolder" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="adminNotes">Admin Notes</label>
+                        <textarea id="adminNotes" name="adminNotes" rows="3"></textarea>
+                    </div>
+                    <div class="form-actions">
+                        <button type="button" id="processRefund" class="btn-success">Process Refund</button>
+                        <button type="button" id="rejectRefund" class="btn-danger">Reject Refund</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <style>
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #eee;
+        }
+        .modal-content {
+            max-height: 70vh;
+            overflow-y: auto;
+        }
+        .booking-details, .refund-details, .bank-details {
+            margin-bottom: 20px;
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 4px;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 500;
+        }
+        .form-group input, .form-group textarea {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        .form-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+        }
+        .btn-success {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        .btn-danger {
+            background-color: #f44336;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        .status-badge {
+            padding: 5px 10px;
+            border-radius: 15px;
+            font-size: 12px;
+            font-weight: 500;
+        }
+        .status-pending {
+            background-color: #fff3cd;
+            color: #856404;
+        }
+        .status-approved {
+            background-color: #d4edda;
+            color: #155724;
+        }
+        .status-rejected {
+            background-color: #f8d7da;
+            color: #721c24;
+        }
+    </style>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Load refund requests
+            loadRefundRequests();
+
+            // Close modal
+            document.getElementById('closeRefundModal').addEventListener('click', function() {
+                document.getElementById('refundDetailsModal').style.display = 'none';
+            });
+
+            // Process refund
+            document.getElementById('processRefund').addEventListener('click', function() {
+                const bankDetails = {
+                    bankName: document.getElementById('bankName').value,
+                    accountNumber: document.getElementById('accountNumber').value,
+                    accountHolder: document.getElementById('accountHolder').value,
+                    adminNotes: document.getElementById('adminNotes').value
+                };
+
+                // Send to server
+                processRefund(bankDetails);
+            });
+
+            // Reject refund
+            document.getElementById('rejectRefund').addEventListener('click', function() {
+                const adminNotes = document.getElementById('adminNotes').value;
+                rejectRefund(adminNotes);
+            });
+        });
+
+        function loadRefundRequests() {
+            fetch('<?php echo URLROOT; ?>/admin/getRefundRequests')
+                .then(response => response.json())
+                .then(data => {
+                    const tableBody = document.getElementById('refundRequestsTable');
+                    tableBody.innerHTML = '';
+
+                    data.forEach(request => {
+                        const row = document.createElement('tr');
+                        row.innerHTML = `
+                            <td>${request.id}</td>
+                            <td>${request.booking_type}</td>
+                            <td>${request.user_name}</td>
+                            <td>Rs.${request.amount}</td>
+                            <td>${new Date(request.request_date).toLocaleDateString()}</td>
+                            <td><span class="status-badge status-${request.status.toLowerCase()}">${request.status}</span></td>
+                            <td>
+                                <button onclick="viewRefundDetails(${request.id})" class="btn-view">View</button>
+                            </td>
+                        `;
+                        tableBody.appendChild(row);
+                    });
+                });
+        }
+
+        function viewRefundDetails(requestId) {
+            // Store the request ID in the modal
+            document.getElementById('refundDetailsModal').setAttribute('data-request-id', requestId);
+
+            fetch(`<?php echo URLROOT; ?>/admin/getRefundDetails/${requestId}`)
+                .then(response => response.json())
+                .then(data => {
+                    document.getElementById('bookingDetails').innerHTML = `
+                        <p><strong>Booking ID:</strong> ${data.booking_id}</p>
+                        <p><strong>Service Type:</strong> ${data.booking_type}</p>
+                        <p><strong>User:</strong> ${data.user_name}</p>
+                        <p><strong>Amount:</strong> Rs.${data.amount}</p>
+                        <p><strong>Request Date:</strong> ${new Date(data.request_date).toLocaleString()}</p>
+                    `;
+
+                    document.getElementById('refundDetails').innerHTML = `
+                        <p><strong>Status:</strong> ${data.status}</p>
+                        <p><strong>Refund Amount:</strong> Rs.${data.refund_amount}</p>
+                    `;
+
+                    document.getElementById('refundDetailsModal').style.display = 'block';
+                });
+        }
+
+        function processRefund(bankDetails) {
+            const requestId = document.getElementById('refundDetailsModal').getAttribute('data-request-id');
+            const data = {
+                request_id: requestId,
+                ...bankDetails
+            };
+
+            // Send to server
+            fetch('<?php echo URLROOT; ?>/admin/processRefund', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(data)
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    showSuccessMessage('Refund processed successfully');
+                    document.getElementById('refundDetailsModal').style.display = 'none';
+                    loadRefundRequests();
+                } else {
+                    showErrorMessage(data.message || 'Failed to process refund');
+                }
+            });
+        }
+
+        function rejectRefund(adminNotes) {
+            const requestId = document.getElementById('refundDetailsModal').getAttribute('data-request-id');
+            const data = {
+                request_id: requestId,
+                admin_notes: adminNotes
+            };
+
+            fetch('<?php echo URLROOT; ?>/admin/rejectRefund', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(data)
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    showSuccessMessage('Refund request rejected');
+                    document.getElementById('refundDetailsModal').style.display = 'none';
+                    loadRefundRequests();
+                } else {
+                    showErrorMessage(data.message || 'Failed to reject refund');
+                }
+            });
+        }
+
+        function showSuccessMessage(message) {
+            // Create and show success message
+            const successDiv = document.createElement('div');
+            successDiv.style.cssText = `
+                position: fixed;
+                top: 20px;
+                right: 20px;
+                background-color: #4CAF50;
+                color: white;
+                padding: 15px 25px;
+                border-radius: 4px;
+                box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+                z-index: 1000;
+            `;
+            successDiv.textContent = message;
+            document.body.appendChild(successDiv);
+
+            setTimeout(() => {
+                successDiv.remove();
+            }, 3000);
+        }
+
+        function showErrorMessage(message) {
+            const errorDiv = document.createElement('div');
+            errorDiv.style.cssText = `
+                position: fixed;
+                top: 20px;
+                right: 20px;
+                background-color: #f44336;
+                color: white;
+                padding: 15px 25px;
+                border-radius: 4px;
+                box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+                z-index: 1000;
+            `;
+            errorDiv.textContent = message;
+            document.body.appendChild(errorDiv);
+
+            setTimeout(() => {
+                errorDiv.remove();
+            }, 3000);
+        }
+    </script>
 </body>
 
 </html>

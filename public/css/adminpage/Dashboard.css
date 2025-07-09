@@ -14,9 +14,64 @@
     margin-bottom: 24px;
     display: flex;
     align-items: center;
-    cursor: pointer;
-    gap: 2rem;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    color: #008080;
 }
+
+.content main .header h1 {
+    font-size: 28px;
+    font-weight: 600;
+    position: relative;
+    padding-bottom: 10px;
+}
+
+.content main .header h1::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 60px;
+    height: 3px;
+    background: #4ccbcb;
+    border-radius: 2px;
+}
+
+.insights {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    padding: 0;
+    margin: 0;
+    list-style: none;
+  }
+  
+  .insights li {
+    flex: 1 1 calc(25% - 20px);
+    background: #ffffff;
+    padding: 20px;
+    box-sizing: border-box;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    min-width: 200px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    transition: box-shadow 0.3s ease;
+  }
+  
+  .insights li .info {
+    margin-left: 15px;
+  }
+  
+  .insights li .info h3 {
+    margin: 0;
+    font-size: 1.2em;
+  }
+  
+  .insights li .info p {
+    margin: 0;
+    color: #666;
+  }
 
 .content main .insights li svg{
     height: 30px;
@@ -29,7 +84,7 @@
 }
 
 .content main .insights .products{
-    background: rgb(126, 232, 112);
+    background: rgb(120, 212, 108);
     height: 50px;
     width: 50px;
     border-radius: 50%;
@@ -49,7 +104,7 @@
 }
 
 .content main .insights .earnings{
-    background: rgb(126, 232, 112);
+    background: rgb(120, 212, 108);
     height: 50px;
     width: 50px;
     border-radius: 50%;
@@ -102,7 +157,8 @@
 
 .content main .bottom-data .orders{
     flex-grow: 1;
-    flex-basis: 500px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    transition: box-shadow 0.3s ease;
 }
 
 .content main .bottom-data .orders table{
@@ -176,28 +232,37 @@
 }
 .action-buttons button {
     padding: 5px 10px;
-    border-radius: 20px;
+    border-radius: 3px;
     cursor: pointer;
     font-size: 12px;
     transition: all 0.3s ease;
 }
 
+.view-btn, .delete-btn {
+    padding: 10px 20px;
+    font-size: 16px;
+    border: none;
+    border-radius: 3px; /* Reduced from 5px */
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
 .view-btn {
-    background-color: #4CAF50;
-    color: white;
+    background-color: #28a745; /* Green */
+    color: #fff;
 }
 
 .view-btn:hover {
-    background-color: #45a049;
+    background-color: #218838;
 }
 
 .delete-btn {
-    background-color: #f44336;
-    color: white;
+    background-color: #dc3545; /* Red */
+    color: #fff;
 }
 
 .delete-btn:hover {
-    background-color: #d32f2f;
+    background-color: #c82333;
 }
 
 .reminders{
@@ -253,7 +318,7 @@
 
 .reminders .update-list .update .update-info .action-buttons button {
     padding: 5px 10px;
-    border-radius: 20px;
+    border-radius: 3px;
     cursor: pointer;
     font-size: 12px;
     transition: all 0.3s ease;
@@ -371,4 +436,46 @@
 .calendar iframe {
     border-radius: 10px;
     background-color: white; /* White background for the iframe */
+}
+
+.approve-btn-modal, .reject-btn-modal {
+    padding: 10px 20px;
+    font-size: 16px;
+    border: none;
+    border-radius: 5px; /* Reduced from 5px */
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.approve-btn-modal {
+    background-color: #28a745; /* Green */
+    color: #fff;
+}
+
+.approve-btn-modal:hover {
+    background-color: #218838;
+}
+
+.reject-btn-modal {
+    background-color: #dc3545; /* Red */
+    color: #fff;
+}
+
+.reject-btn-modal:hover {
+    background-color: #c82333;
+}
+
+.close-btn {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    font-size: 22px;
+    font-weight: bold;
+    color: #0056b3; /* Dark blue */
+    cursor: pointer;
+    transition: color 0.3s ease;
+}
+
+.close-btn:hover {
+    color: #ff4500; /* Orange red */
 }

@@ -17,9 +17,12 @@ class Admin extends Controller {
         if (isset($_SESSION['user_id'])) {
             $number_of_travelers = $this->adminModel->getNumberOfTravelers();
             $total_service_providers = $this->adminModel->getTotalServiceProviders();
+            
+
             $data=[
                 'number_of_travelers'=>$number_of_travelers,
-                'total_service_providers'=>$total_service_providers
+                'total_service_providers'=>$total_service_providers,
+               
             ];
             $this->view('admin/v_dashboard', $data);
         } else {
@@ -71,6 +74,8 @@ class Admin extends Controller {
             $tour_guides = $this->adminModel->getTourGuides();
         //get the last 3 joined serviceproviders
             $last_three_service_providers = $this->adminModel->getLastThreeServiceProviders();
+        //get the service providers who are not approved yet
+        $unapproved_service_providers = $this->adminModel->getServiceProvidersToApprove();
     
             
 
@@ -80,6 +85,7 @@ class Admin extends Controller {
                 'equipment_suppliers'=>$equipment_suppliers,
                 'tour_guides'=>$tour_guides,
                 'last_three_service_providers'=>$last_three_service_providers,
+                'unapproved_service_providers'=>$unapproved_service_providers
             ];
 
             $this->view('admin/serviceproviders', $data);
@@ -183,6 +189,7 @@ class Admin extends Controller {
         $_SESSION['name'] = $user->name;
         $_SESSION['phone_number'] = $user->phone_number;
         $_SESSION['nic'] = $user->nic;
+        $_SESSION['user_role'] = 'admin';
         redirect('admin/dashboard');
          
     }
@@ -361,8 +368,265 @@ class Admin extends Controller {
     }
     }
 
+    public function approveServiceProvider() {
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $data = json_decode(file_get_contents('php://input'), true);
 
+            if (isset($data['serviceProviderId']) && isset($data['sptype']) && isset($data['action'])) {
+                $serviceProviderId = $data['serviceProviderId'];
+                $serviceType = $data['sptype'];
+                $action = $data['action']; // "approve" or "reject"
+
+                // Map service type from view to table name
+                $tableMap = [
+                    'Accommodation' => 'accomadation',
+                    'Equipment Supplier' => 'equipment_suppliers',
+                    'Vehicle Supplier' => 'vehicle_suppliers',
+                    'Tour Guide' => 'tour_guides'
+                ];
+
+                if (array_key_exists($serviceType, $tableMap)) {
+                    $tableName = $tableMap[$serviceType];
+
+                    if ($action === 'approve') {
+                        $result = $this->adminModel->approveServiceProvider($serviceProviderId, $tableName);
+                    } elseif ($action === 'reject') {
+                        $result = $this->adminModel->rejectServiceProvider($serviceProviderId, $tableName);
+                    } else {
+                        error_log("Invalid action: $action");
+                        echo json_encode(['success' => false]);
+                        return;
+                    }
+
+                    if ($result) {
+                        // Return success response
+                        echo json_encode(['success' => true]);
+                        return;
+                    } else {
+                        error_log("Failed to update database for service_provider_id: $serviceProviderId, table: $tableName, action: $action");
+                    }
+                } else {
+                    error_log("Invalid service type: $serviceType");
+                }
+            } else {
+                error_log("Missing service_provider_id, sptype, or action in request data");
+            }
+            // Return failure response
+            echo json_encode(['success' => false]);
+        }
+    }
+
+    public function getServiceProvidersByType() {
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $data = json_decode(file_get_contents('php://input'), true);
+
+            if (isset($data['type'])) {
+                $type = $data['type'];
+
+                // Correct mapping of types to table names
+                $tableMap = [
+                    'Accommodation' => 'accomadation',
+                    'Equipment Supplier' => 'equipment_suppliers',
+                    'Vehicle Supplier' => 'vehicle_suppliers',
+                    'Tour Guide' => 'tour_guides'
+                ];
+
+                if (array_key_exists($type, $tableMap)) {
+                    $tableName = $tableMap[$type];
+                    $serviceProviders = $this->adminModel->getServiceProvidersByType($tableName);
+                    echo json_encode($serviceProviders);
+                    return;
+                }
+            }
+            echo json_encode([]); // Return empty array if type is invalid
+        }
+    }
+
+    public function toggleServiceProviderStatus() {
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $data = json_decode(file_get_contents('php://input'), true);
+            if (isset($data['id'], $data['type'], $data['action'])) {
+                $id = $data['id'];
+                $type = $data['type'];
+                $action = $data['action'];
+                $tableMap = [
+                    'Accommodation' => 'accomadation',
+                    'Equipment Supplier' => 'equipment_suppliers',
+                    'Vehicle Supplier' => 'vehicle_suppliers',
+                    'Tour Guide' => 'tour_guides'
+                ];
+                if (array_key_exists($type, $tableMap)) {
+                    $tableName = $tableMap[$type];
+                    $result = false;
+                    if ($action === 'delete') {
+                        $result = $this->adminModel->softDeleteServiceProvider($id, $tableName);
+                    } elseif ($action === 'activate') {
+                        $result = $this->adminModel->activateServiceProvider($id, $tableName);
+                    }
+                    echo json_encode(['success' => $result]);
+                    return;
+                }
+            }
+            echo json_encode(['success' => false]);
+        }
+    }
+
+    // Get all travelers
+public function getAllTravelers() {
+    // Check if an admin is logged in
+    if (isset($_SESSION['user_id'])) {
+        $travelers = $this->adminModel->getAllTravelers();
+        
+        // Return as JSON
+        header('Content-Type: application/json');
+        echo json_encode($travelers);
+    } else {
+        // Return error
+        header('Content-Type: application/json');
+        echo json_encode(['error' => 'Unauthorized']);
+    }
+}
+
+// Get traveler details
+public function getTravelerDetails($id) {
+    // Check if an admin is logged in
+    if (isset($_SESSION['user_id'])) {
+        $traveler = $this->adminModel->getTravelerById($id);
+        
+        // Return as JSON
+        header('Content-Type: application/json');
+        echo json_encode($traveler);
+    } else {
+        // Return error
+        header('Content-Type: application/json');
+        echo json_encode(['error' => 'Unauthorized']);
+    }
+}
+
+// Update traveler status (delete or activate)
+public function updateTravelerStatus() {
+    // Check if an admin is logged in
+    if (isset($_SESSION['user_id'])) {
+        // Get POST data
+        $data = json_decode(file_get_contents('php://input'), true);
+        
+        if (isset($data['traveler_id']) && isset($data['action'])) {
+            $travelerId = $data['traveler_id'];
+            $action = $data['action'];
+            
+            $result = false;
+            
+            if ($action === 'delete') {
+                $result = $this->adminModel->softDeleteTraveler($travelerId);
+            } elseif ($action === 'activate') {
+                $result = $this->adminModel->activateTraveler($travelerId);
+            }
+            
+            // Return result
+            header('Content-Type: application/json');
+            echo json_encode(['success' => $result]);
+        } else {
+            // Return error
+            header('Content-Type: application/json');
+            echo json_encode(['success' => false, 'error' => 'Missing parameters']);
+        }
+    } else {
+        // Return error
+        header('Content-Type: application/json');
+        echo json_encode(['success' => false, 'error' => 'Unauthorized']);
+    }
+}
+
+// Get all service providers
+public function getAllServiceProviders() {
+    // Check if an admin is logged in
+    if (isset($_SESSION['user_id'])) {
+        $serviceProviders = $this->adminModel->getAllServiceProviders();
+        
+        // Return as JSON
+        header('Content-Type: application/json');
+        echo json_encode($serviceProviders);
+    } else {
+        // Return error
+        header('Content-Type: application/json');
+        echo json_encode(['error' => 'Unauthorized']);
+    }
+}
+
+public function getRefundRequests() {
+    // Check if user is logged in and is admin
+    if(!isLoggedIn() || !isAdmin()) {
+        redirect('users/login');
+    }
+
+    $refundRequests = $this->adminModel->getRefundRequests();
+    $data = [
+        'refundRequests' => $refundRequests
+    ];
     
+    $this->view('admin/v_earnings', $data);
+}
+
+public function getRefundDetails($requestId) {
+    // Check if user is logged in and is admin
+    if(!isLoggedIn() || !isAdmin()) {
+        redirect('users/login');
+    }
+
+    $refundDetails = $this->adminModel->getRefundDetails($requestId);
+    $data = [
+        'refundDetails' => $refundDetails
+    ];
+    
+    $this->view('admin/v_refund_details', $data);
+}
+
+public function processRefund() {
+    // Check if user is logged in and is admin
+    if(!isLoggedIn() || !isAdmin()) {
+        redirect('users/login');
+    }
+
+    if($_SERVER['REQUEST_METHOD'] == 'POST') {
+        $data = [
+            'request_id' => $_POST['request_id'],
+            'bank_name' => $_POST['bank_name'],
+            'account_number' => $_POST['account_number'],
+            'account_holder' => $_POST['account_holder'],
+            'admin_notes' => $_POST['admin_notes']
+        ];
+
+        if($this->adminModel->processRefund($data)) {
+            $_SESSION['success'] = 'Refund processed successfully';
+        } else {
+            $_SESSION['error'] = 'Failed to process refund';
+        }
+        
+        redirect('admin/getRefundRequests');
+    }
+}
+
+public function rejectRefund() {
+    // Check if user is logged in and is admin
+    if(!isLoggedIn() || !isAdmin()) {
+        redirect('users/login');
+    }
+
+    if($_SERVER['REQUEST_METHOD'] == 'POST') {
+        $data = [
+            'request_id' => $_POST['request_id'],
+            'admin_notes' => $_POST['admin_notes']
+        ];
+
+        if($this->adminModel->rejectRefund($data)) {
+            $_SESSION['success'] = 'Refund request rejected';
+        } else {
+            $_SESSION['error'] = 'Failed to reject refund';
+        }
+        
+        redirect('admin/getRefundRequests');
+    }
+}
 
 }
 

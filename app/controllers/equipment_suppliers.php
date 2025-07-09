@@ -22,12 +22,15 @@ class Equipment_Suppliers extends Controller{
     }
 
     public function dashboard(){
-
         if (isset($_SESSION['id'])) {
-            
+            $supplierId = $_SESSION['id'];
+            $upcomingBookings = $this->bookingModel-> upcomingBookingsBySupplierId($supplierId);
             $currentPage = 'dashboard';
+            // $equipmentCount = $this->productModel->getEquipmentCountBySupplierId($supplierId);
+            
             $data = [
-                'currentPage' => $currentPage
+                'currentPage' => $currentPage,
+                'upcomingBookings' => $upcomingBookings,
             ];
             $this->view('equipment_supplier/Dashboard', $data);
 
@@ -76,8 +79,6 @@ class Equipment_Suppliers extends Controller{
         }
     }
 
-
-
     public function orders(){
         if (isset($_SESSION['id'])) {
             $currentPage = 'bookings';
@@ -92,16 +93,19 @@ class Equipment_Suppliers extends Controller{
             redirect('ServiceProvider/login');
         }
         
-
     }
 
     public function reviews(){
 
         if (isset($_SESSION['id'])) {
+        
             $currentPage = 'reviews';
-            $reviews = $this->reviewModel->getReviewsBySupplierId($_SESSION['id']);
+            $sptype = 'equipment';
+            $reviews = $this->reviewModel->getEquipmentReviewsBySupplierId($_SESSION['id'], $sptype);
+        
             $data = [
-                'currentPage' => $currentPage
+                'currentPage' => $currentPage,
+                'reviews' => $reviews
             ];
 
             $this->view('equipment_supplier/Reviews', $data);
@@ -187,6 +191,38 @@ class Equipment_Suppliers extends Controller{
             ];
         }
         return $breadcrumbs;
+    }
+
+    public function updateProfile() {
+        if (isset($_SESSION['id'])) {
+            $id = $_SESSION['id'];
+            $type = $_SESSION['type'];
+    
+            // Check if the form has been submitted
+            if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+                $data =  [
+                    'name' => trim($_POST['name']),
+                    'email' => trim($_POST['email']),
+                    'address' => trim($_POST['address']),
+                    'username' => trim($_POST['username']),
+                    'telephone_number' => trim($_POST['contactnumber']),
+                    'gvtNo' => trim($_POST['regno']),
+                    'latitude'=> trim($_POST['latitude']),
+                    'longitude' => trim($_POST['longitude'])
+                ];
+    
+                $result = $this->userModel->updateSupplierProfile($data);
+                if ($result) {
+                    redirect('equipment_suppliers/profile');
+                } else {
+                    die("Failed to update profile.");
+                }
+            }
+    
+        } else {
+            // Redirect if user is not logged in
+            redirect('ServiceProvider');
+        }
     }
 
     public function getProfileDetails($id, $type){

@@ -10,14 +10,14 @@ class EquipmentModel {
    
     public function getAllEquipment() {
         $sql = 'SELECT r.*, GROUP_CONCAT(ri.image_path) AS images 
-        FROM rental_equipments r 
-        LEFT JOIN rental_images ri ON r.id = ri.product_id
-        WHERE r.deleted_at IS NULL
-        GROUP BY r.id';
-$this->db->query($sql);
-$result = $this->db->resultSet();
-return $result;
-
+                FROM rental_equipments r 
+                LEFT JOIN rental_images ri ON r.id = ri.product_id
+                WHERE r.deleted_at IS NULL
+                GROUP BY r.id';
+        $this->db->query($sql);
+        $result = $this->db->resultSet();
+        return $result;
+        
     }
 
     // Fetch all categories from the database
@@ -35,7 +35,7 @@ return $result;
                     FROM rental_equipments r
                     JOIN equipment_categories c ON r.category_id = c.category_id
                     LEFT JOIN rental_images i ON r.id = i.product_id
-                    WHERE r.id = ?
+                    WHERE r.id = ? AND r.deleted_at IS NULL
                     GROUP BY r.id';
                     
             $this->db->query($sql);
@@ -51,6 +51,28 @@ return $result;
             $error_msg = $e->getMessage();
             echo "<script>alert('An error occured: $error_msg');</script>";
             return false;
+        }
+    }
+
+
+    public function getProductPriceById($productId){
+        $sql = "SELECT rental_name, price_per_day FROM rental_equipments WHERE id = :product_id LIMIT 1";
+
+        try {
+            $this->db->query($sql);
+            $this->db->bind(':product_id', $productId);
+            $result = $this->db->single();
+            
+            if ($result) {
+                return $result;
+            } else {
+                return null;
+            }
+            
+        } catch (Exception $e) {
+            error_log($e->getMessage());
+    
+            return null; 
         }
     }
 

@@ -2,11 +2,17 @@
 $details = $data['rental'];
 $imagePaths = explode(',', $details->image_paths);
 ?>
+
+<!-- <?php print_r($details); ?> -->
 <div class="details-container">
 
     <!-- Image Upload Form -->
-    <h2>Update Equipment Images</h2>
-    <form method="POST" action="submit-product-images.php" enctype="multipart/form-data" class="form1">
+     <div class="title">
+        <h2>Update Equipment Images</h2>
+        <button class="delete-item-btn" id="delete-item-btn"  data-product-id = "<?php echo htmlspecialchars($details->id); ?>">Delete Item</button>
+    </div>
+    
+        <form method="POST" action="submit-product-images.php" enctype="multipart/form-data" class="form1">
         <div class="image-section">
             <div class="form-section">
                 <div class="left">

@@ -61,21 +61,20 @@
                                         </td>
                                         <td><?php echo htmlspecialchars($booking->total_price); ?></td>
                                         <td class="actions">
-                                            <div class="action-menu-container">
-                                                <span class="action-trigger">  
-                                                    <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#000000"><path d="M480-160q-33 0-56.5-23.5T400-240q0-33 23.5-56.5T480-320q33 0 56.5 23.5T560-240q0 33-23.5 56.5T480-160Zm0-240q-33 0-56.5-23.5T400-480q0-33 23.5-56.5T480-560q33 0 56.5 23.5T560-480q0 33-23.5 56.5T480-400Zm0-240q-33 0-56.5-23.5T400-720q0-33 23.5-56.5T480-800q33 0 56.5 23.5T560-720q0 33-23.5 56.5T480-640Z"/></svg>
-                                                </span>
-                                                <div class="action-menu">
-                                                    <a href="<?= URLROOT ?>/booking/view/<?php echo htmlspecialchars($booking->booking_id) ?>">View</a>
-                                                    <?php if (strtolower($booking->status) === 'booked'): ?>
-                                                        <a href="<?= URLROOT ?>/booking/cancel/<?= $booking->booking_id ?>"
-                                                        onclick="return confirm('Are you sure you want to cancel this booking?')">
-                                                        Cancel
-                                                        </a>
-                                                    <?php endif; ?>
-                                                </div>
-                                            </div>
-                                        </td>
+                                            <?php 
+                                                $status = strtolower($booking->status);
+                                                if ($status != 'cancelled' && $status != 'canceled' && $status != 'completed'): 
+                                            ?>
+                                                <a href="<?= URLROOT ?>/booking/cancelEquipmentBooking/<?= $booking->booking_id ?>" 
+                                                   class="cancel-link" 
+                                                   onclick="return confirm('Are you sure you want to cancel this booking? Penalties may apply if cancellation is within 3 days of the start date.');">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" height="16" width="16" fill="red" viewBox="0 0 24 24" style="vertical-align: middle;">
+                                                        <path d="M18.3 5.71a1 1 0 0 0-1.41 0L12 10.59 7.11 5.7a1 1 0 0 0-1.41 1.41L10.59 12l-4.89 4.89a1 1 0 1 0 1.41 1.41L12 13.41l4.89 4.89a1 1 0 0 0 1.41-1.41L13.41 12l4.89-4.89a1 1 0 0 0 0-1.4z"/>
+                                                    </svg>
+                                                    Cancel
+                                                </a>
+                                            <?php endif; ?>
+                                        </td>   
                                     </tr>
                                 <?php endforeach; ?>
                             </tbody>
@@ -92,6 +91,8 @@
     <script src="<?php echo URLROOT;?>/js/Sidebar.js"></script>
     <script src="<?php echo URLROOT;?>/js/logout.js"></script>
     <script src="<?php echo URLROOT;?>/js/subMenu.js"></script>
+    <script src="<?php echo URLROOT;?>/js/EquipmentSupplierJS/cancellationPolicy.js"></script>
+
 
 </body>
 </html>

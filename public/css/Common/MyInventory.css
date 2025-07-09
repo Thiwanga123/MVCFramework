@@ -1,18 +1,4 @@
 
-.content main .Inventory{
-    display: flex;
-    flex-wrap: wrap;
-    gap: 20px;
-    margin-top: 24px;
-}
-
-.content main .Inventory>div{
-    border-radius: 20px;
-    background: var(--light);
-    padding: 18px;
-    overflow-x: auto;
-    width: 100%;
-}
 
 .addBtn button, .backBtn button {
     background: teal;

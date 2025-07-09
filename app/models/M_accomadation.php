@@ -358,8 +358,9 @@ class M_accomadation {
             return $dates;
         } catch (Exception $e) {
             error_log($e->getMessage());
-            return [];
+
         }
+
     }
 
     public function updateProperty($data) {
@@ -444,6 +445,247 @@ class M_accomadation {
         }
     }
 
+    // Method to create transaction_acc table if it doesn't exist
+    private function createTransactionTable() {
+        try {
+            $sql = "CREATE TABLE IF NOT EXISTS transaction_acc (
+                transaction_id INT AUTO_INCREMENT PRIMARY KEY,
+                provider_id INT NOT NULL,
+                amount DECIMAL(10,2) NOT NULL,
+                transaction_type VARCHAR(50) NOT NULL,
+                bank_name VARCHAR(100) NOT NULL,
+                account_number VARCHAR(50) NOT NULL,
+                account_name VARCHAR(100) NOT NULL,
+                branch VARCHAR(100) NOT NULL,
+                withdrawal_method VARCHAR(50) NOT NULL,
+                transaction_date DATETIME NOT NULL,
+                status VARCHAR(20) NOT NULL DEFAULT 'Completed'
+            )";
+            
+            $this->db->query($sql);
+            return $this->db->execute();
+        } catch (Exception $e) {
+            error_log("Failed to create transaction_acc table: " . $e->getMessage());
+            return false;
+        }
+    }
+
+    // Get transaction history for a provider
+    public function getTransactionHistory($providerId) {
+        try {
+            // Ensure table exists
+            $this->createTransactionTable();
+            
+            $sql = "SELECT * FROM transaction_acc 
+                    WHERE provider_id = ? 
+                    ORDER BY transaction_date DESC";
+                    
+            $this->db->query($sql);
+            $this->db->bind(1, $providerId);
+            
+            return $this->db->resultSet();
+        } catch (Exception $e) {
+            error_log("Failed to get transaction history: " . $e->getMessage());
+            return [];
+        }
+    }
+
+    public function getBankDetails($userId) {
+        try {
+            // Get the total wallet balance
+            $walletBalanceSQL = "SELECT SUM(wallet_balance) as total_wallet_balance 
+                               FROM accomadation_wallet 
+                               WHERE provider_id = ?";
+            $this->db->query($walletBalanceSQL);
+            $this->db->bind(1, $userId);
+            $walletBalance = $this->db->single();
+            
+            // Get provider earnings and penalty amount from accomadation table
+            $providerSQL = "SELECT earnings, penalty_amount FROM accomadation WHERE id = ?";
+            $this->db->query($providerSQL);
+            $this->db->bind(1, $userId);
+            $providerData = $this->db->single();
+            $earnings = $providerData ? $providerData->earnings : 0;
+            $penaltyAmount = $providerData ? $providerData->penalty_amount : 0;
+            
+            // Calculate net wallet balance (wallet balance minus earnings)
+            $netWalletBalance = ($walletBalance ? $walletBalance->total_wallet_balance : 0) - $earnings;
+            
+            // Get the total holding amount
+            $holdingAmountSQL = "SELECT SUM(holding_amount) as total_holding_amount 
+                               FROM accomadation_wallet 
+                               WHERE provider_id = ?";
+            $this->db->query($holdingAmountSQL);
+            $this->db->bind(1, $userId);
+            $holdingAmount = $this->db->single();
+            
+            // Get all wallet transactions for this provider
+            $transactionsSQL = "SELECT 
+                               id, provider_id, traveler_id, holding_amount,
+                               wallet_balance, transaction_type, related_booking_id,
+                               transaction_date
+                              FROM accomadation_wallet
+                              WHERE provider_id = ?
+                              ORDER BY transaction_date DESC";
+                               
+            $this->db->query($transactionsSQL);
+            $this->db->bind(1, $userId);
+            $transactions = $this->db->resultSet();
+            
+            // Get withdrawal transaction history
+            $withdrawalTransactions = $this->getTransactionHistory($userId);
+            
+            // Get count of pending transactions (with holding amounts)
+            $pendingCountSQL = "SELECT COUNT(*) as pending_count 
+                              FROM accomadation_wallet 
+                              WHERE provider_id = ? AND holding_amount > 0";
+            $this->db->query($pendingCountSQL);
+            $this->db->bind(1, $userId);
+            $pendingCount = $this->db->single();
+            
+            // Count penalty transactions
+            $penaltyTransactionsCount = $penaltyAmount > 0 ? 1 : 0;
+            
+            // Return all the data
+            return [
+                'wallet_balance' => $netWalletBalance,
+                'total_holding_amount' => $holdingAmount ? $holdingAmount->total_holding_amount : 0,
+                'earnings' => $earnings,
+                'penalty_amount' => $penaltyAmount,
+                'penalty_transactions_count' => $penaltyTransactionsCount,
+                'pending_transactions' => $pendingCount ? $pendingCount->pending_count : 0,
+                'transactions' => $transactions,
+                'withdrawal_transactions' => $withdrawalTransactions
+            ];
+        } catch (Exception $e) {
+            error_log($e->getMessage());
+            return [
+                'wallet_balance' => 0,
+                'total_holding_amount' => 0,
+                'earnings' => 0,
+                'penalty_amount' => 0,
+                'penalty_transactions_count' => 0,
+                'pending_transactions' => 0,
+                'transactions' => [],
+                'withdrawal_transactions' => []
+            ];
+        }
+    }
+
+    public function processWithdrawal($userId, $amount, $bankDetails) {
+        try {
+            // First check if user has enough balance
+            $currentBalanceSQL = "SELECT SUM(wallet_balance) as total_wallet_balance 
+                                 FROM accomadation_wallet 
+                                 WHERE provider_id = ?";
+            $this->db->query($currentBalanceSQL);
+            $this->db->bind(1, $userId);
+            $walletBalance = $this->db->single();
+            
+            $currentBalance = $walletBalance ? $walletBalance->total_wallet_balance : 0;
+            
+            if ($currentBalance < $amount) {
+                return [
+                    'success' => false,
+                    'message' => 'Insufficient funds. Your available balance is Rs. ' . number_format($currentBalance, 2)
+                ];
+            }
+            
+            // Get current earnings
+            $currentEarningsSQL = "SELECT earnings FROM accomadation WHERE id = ?";
+            $this->db->query($currentEarningsSQL);
+            $this->db->bind(1, $userId);
+            $earningsResult = $this->db->single();
+            $currentEarnings = $earningsResult ? $earningsResult->earnings : 0;
+            
+            // Update earnings in accomadation table - ONLY update this table
+            $updateEarningsSQL = "UPDATE accomadation SET earnings = earnings + ? WHERE id = ?";
+            $this->db->query($updateEarningsSQL);
+            $this->db->bind(1, $amount);
+            $this->db->bind(2, $userId);
+            $updateSuccess = $this->db->execute();
+            
+            if (!$updateSuccess) {
+                return [
+                    'success' => false,
+                    'message' => 'Failed to update earnings. Please try again.'
+                ];
+            }
+            
+            // Ensure transaction_acc table exists
+            $this->createTransactionTable();
+            
+            // Store transaction details
+            $insertTransactionSQL = "INSERT INTO transaction_acc (
+                provider_id, amount, transaction_type, bank_name, 
+                account_number, account_name, branch, withdrawal_method, transaction_date
+            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+            
+            $this->db->query($insertTransactionSQL);
+            $this->db->bind(1, $userId);
+            $this->db->bind(2, $amount);
+            $this->db->bind(3, 'Withdrawal');
+            $this->db->bind(4, $bankDetails['bank_name']);
+            $this->db->bind(5, $bankDetails['account_number']);
+            $this->db->bind(6, $bankDetails['account_name']);
+            $this->db->bind(7, $bankDetails['branch']);
+            $this->db->bind(8, $bankDetails['method']);
+            $this->db->bind(9, date('Y-m-d H:i:s'));
+            
+            $transactionStored = $this->db->execute();
+            
+            if (!$transactionStored) {
+                // Log error but continue - transaction history is secondary to the actual withdrawal
+                error_log("Failed to store withdrawal transaction history for user $userId");
+            }
+            
+            // Calculate new net wallet balance (total wallet balance minus new earnings)
+            $newEarnings = $currentEarnings + $amount;
+            $newNetWalletBalance = $currentBalance - $newEarnings;
+            
+            return [
+                'success' => true,
+                'message' => 'Withdrawal of Rs. ' . number_format($amount, 2) . ' processed successfully',
+                'new_balance' => $newNetWalletBalance,
+                'new_earnings' => $newEarnings
+            ];
+            
+        } catch (Exception $e) {
+            error_log($e->getMessage());
+            return [
+                'success' => false,
+                'message' => 'An error occurred during withdrawal: ' . $e->getMessage()
+            ];
+        }
+    }
+
+    public function getPropertyDetailsById($propertyId) {
+        // SQL query to fetch property details by ID
+        $sql = "SELECT * FROM properties WHERE property_id = ? LIMIT 1";
+       
+        try {
+            $this->db->query($sql);
+            $this->db->bind(1, $propertyId);
+            $property = $this->db->single();
+            return $property;
+        } catch (Exception $e) {
+            echo "<script>alert('An error occurred: {$e->getMessage()}');</script>";    
+            return null;
+        }
+    }
+
+    
+    public function getAllAccommodations(){
+        $sql = "SELECT * FROM properties";
+        try {
+            $this->db->query($sql);
+            $accommodations = $this->db->resultSet();
+            return $accommodations;
+        } catch (Exception $e) {
+            echo "<script>alert('An error occurred: {$e->getMessage()}');</script>";
+            return [];
+        }
+    }
 }
 
 ?>

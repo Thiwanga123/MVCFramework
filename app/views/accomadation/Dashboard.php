@@ -137,7 +137,7 @@
                     <input type="hidden" id="bookingDates" value='<?php echo json_encode($data["bookingDates"]); ?>'>
                 </div>
             </div>
-        
+        </main>
           </main>
 
      </div>

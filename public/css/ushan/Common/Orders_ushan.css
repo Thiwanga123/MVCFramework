@@ -1,0 +1,122 @@
+
+
+.content main .initial-container table {
+    width: 100%;
+    border-collapse: collapse;
+    background: white;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow : 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.content main .initial-container table th {
+    padding: 16px 20px;
+    font-size: 14px;
+    text-align: left;
+    background: rgb(0, 143, 143);
+    color: white;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    border: none;
+}
+
+.content main .initial-container table td {
+    padding: 16px 20px;
+    border-bottom: 1px solid #f0f7ff;
+    color: #2d3748;
+    font-size: 14px;
+}
+
+
+
+.content main .initial-container table tr td:first-child {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding-left: 20px;
+    font-family: monospace;
+    color: #4a5568;
+    font-weight: 500;
+}
+
+
+.content main .initial-container table td img {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-left: 20px;
+}
+
+.content main .initial-container table tbody tr {
+    font-size: 14px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.content main .initial-container table tbody tr:hover {
+    background: #f8fafc;
+    transform:  scale(1.01);
+}
+
+/* Status Styling */
+.content main .initial-container table td:last-child {
+    font-weight: 500;
+}
+
+.btn-reply{
+    padding: 5px 10px;
+    border-radius: 10px;
+    border: none;
+    background-color: darkcyan;
+    color: white
+}
+
+.btn-reply :hover{
+    background-color: rgb(110, 204, 204);
+}
+
+.status {
+    padding: 4px 8px;
+    border-radius: 12px;
+    display: inline-block;
+    text-transform: capitalize;
+}
+
+.status.booked {
+    background-color: #fff3cd; /* orange-ish */
+    color: rgb(208 182 7);
+}
+
+.status.completed {
+    background-color: #bff5bf;
+    color: #009300;
+}
+
+.status.cancelled {
+    background-color: #f8d5d4; /* red */
+    color: rgb(178, 21, 21);
+}
+
+.cancel-button {
+    background-color: #3498db;
+    color: white;
+    padding: 5px 10px;
+    margin-right: 5px;
+    border-radius: 4px;
+    text-decoration: none;
+    font-size: 13px;
+}
+
+.cancel-button svg{
+    fill: red;
+}
+
+.cancel-button {
+    background-color: #ffffff;
+}
+
+.cancel-button:hover {
+    background-color: #facec9;
+}
