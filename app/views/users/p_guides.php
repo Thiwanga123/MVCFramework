@@ -163,7 +163,9 @@
             <!-- Destination -->
             <div class="form-group">
                 <label for="destination">Destination</label>
-                <input type="text" id="destination" name="destination" value="<?php echo htmlspecialchars(isset($_SESSION['trip']['location']) ? $_SESSION['trip']['location'] : ''); ?>">
+
+                <input type="text" id="destination" name="destination" value="<?php echo htmlspecialchars(isset($_SESSION['trip']['location']) ? $_SESSION['trip']['location'] : ''); ?>" readonly>
+
             </div>
 
             <!-- Form Actions -->
@@ -176,11 +178,13 @@
 </div>
 
      
+
      <script src="<?php echo URLROOT;?>/js/ushan/js/Sidebar.js"></script>
      <script src="<?php echo URLROOT;?>/js/ushan/js/logout.js"></script>
     <script src="<?php echo URLROOT;?>/js/ushan/js/submenu.js"></script>
     <script src="<?php echo URLROOT;?>/js/ushan/js/bookGuider.js"></script>
     <script src="<?php echo URLROOT;?>/js/ushan/js/viewGuiderDetails.js"></script>
+
 
 
     <script>const URLROOT = "<?php echo URLROOT; ?>"; </script>

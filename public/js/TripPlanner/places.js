@@ -186,7 +186,6 @@ document.addEventListener('DOMContentLoaded', function () {
                             // alert(`Saved ${place.name} to your places!`);
                             placeItem.classList.add('saved');
                         }
-                    
                     });
 
                     marker.addListener('mouseover', function () {

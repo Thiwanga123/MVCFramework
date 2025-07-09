@@ -3,19 +3,11 @@ $details = $data['rental'];
 $imagePaths = explode(',', $details->image_paths);
 ?>
 
-<!-- <?php print_r($details); ?> -->
 <div class="details-container">
-
-    <!-- Image Upload Form -->
-     <div class="title">
-        <h2>Update Equipment Images</h2>
-        <button class="delete-item-btn" id="delete-item-btn"  data-product-id = "<?php echo htmlspecialchars($details->id); ?>">Delete Item</button>
-    </div>
-    
-        <form method="POST" action="submit-product-images.php" enctype="multipart/form-data" class="form1">
+    <button class="delete-item-btn" id="delete-item-btn"  data-product-id = "<?php echo htmlspecialchars($details->id); ?>">Delete Item</button>
         <div class="image-section">
             <div class="form-section">
-                <div class="left">
+                <div class="image-container">
                     <div class="image-top">
                         <button type="button" class="change-image" onclick="previousImage()">&#9664;</button>
                         <img src="<?php echo URLROOT . '/' . $imagePaths[0]; ?>" id="mainImage" alt="Main Image">
@@ -29,28 +21,30 @@ $imagePaths = explode(',', $details->image_paths);
                         <?php endforeach; ?>
                     </div>
                 </div>
-                <div class="right">
-                    <label for="newImages">Upload New Images</label>
-                    <input type="file" name="new_images[]" id="newImages" multiple accept="image/*">
-                    <button type="submit">Update Images</button>
-                </div>
             </div>
         </div>
-    </form>
 
     <!-- Equipment Details Form -->
-    <form method="POST" action="submit-product-details.php">
         <h2>Update Equipment Details</h2>
+        <form method="POST" action="<?php echo URLROOT; ?>/product/updateProduct/<?php echo $details->id; ?>">
+
         <div class="form-section">
-            <div class="left">
-                <label>Rental Name</label>
+            <div class="left-details">
+                <label>Rental Name</label>  
                 <input type="text" name="rental_name" value="<?php echo htmlspecialchars($details->rental_name); ?>">
 
                 <label>Price (Per day)</label>
                 <input type="number" name="price_per_day" value="<?php echo htmlspecialchars($details->price_per_day); ?>">
 
                 <label>Category</label>
-                <input type="text" name="category_name" value="<?php echo htmlspecialchars($details->category_name); ?>">
+                <select name="category_name">
+                    <?php foreach ($categories as $category): ?>
+                        <option value="<?php echo htmlspecialchars($category->category_name); ?>"
+                            <?php echo ($details->category_name == $category->category_name) ? 'selected' : ''; ?>>
+                            <?php echo htmlspecialchars($category->category_name); ?>
+                        </option>
+                    <?php endforeach; ?>
+                </select>
 
                 <label>Maximum Rental Period</label>
                 <input type="number" name="maximum_rental_period" value="<?php echo htmlspecialchars($details->maximum_rental_period); ?>">
@@ -60,7 +54,7 @@ $imagePaths = explode(',', $details->image_paths);
                 <label><input type="radio" name="delivery_available" value="no" <?php echo ($details->delivery_available === 'no') ? 'checked' : ''; ?>> No</label>
             </div>
 
-            <div class="right">
+            <div class="right-details">
                 <label>Description</label>
                 <textarea name="rental_description" rows="4"><?php echo htmlspecialchars($details->rental_description); ?></textarea>
 
@@ -95,9 +89,8 @@ $imagePaths = explode(',', $details->image_paths);
 
                 <label>Damage Policy</label>
                 <textarea name="damage_policy" rows="4"><?php echo htmlspecialchars($details->damage_policy); ?></textarea>
-
-                <button type="submit">Update Details</button>
             </div>
         </div>
+        <button type="submit">Update Details</button>
     </form>
 </div>

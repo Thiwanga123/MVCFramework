@@ -1,0 +1,48 @@
+
+.Bottom .item-orders table{
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.Bottom .item-orders table th{
+    padding-bottom: 12px;
+    font-size: 14px;
+    text-align: left;
+    border-bottom: 1px solid var(--light-success);
+}
+
+.Bottom .item-orders table td{
+    padding: 16px 0;
+}
+
+.Bottom m.item-orders table tr td:first-child{
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding-left: 20px;
+}
+
+.Bottom .item-orders table td img{
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.Bottom .item-orders table tbody tr{
+    font-size: 16px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+    
+.Bottom .item-orders table tbody tr:hover{
+    background: var(--grey);
+}
+
+.Bottom .item-orders table tbody tr td .status{
+    font-size: 12px;
+    padding: 6px 16px;
+    border-radius: 20px;
+    font-weight: 700px;
+}
+

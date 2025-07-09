@@ -9,10 +9,18 @@
         startDateInput.addEventListener('change', function() {
             endDateInput.setAttribute('min', this.value);
         });
+
+
+
+        tripForm.addEventListener('submit', function(e) {
+            clearErrorMessage();
+            e.preventDefault(); // Prevent form submission for validation
+
     
       
         
         document.getElementById('submitButton').addEventListener('click', function() {
+
             const location = document.getElementById('location').value;
             const startDate = startDateInput.value;
             const endDate = endDateInput.value;
@@ -29,9 +37,21 @@
                     startDate: startDate,
                     endDate: endDate
                 };
+
+
+                // Check if latitude and longitude are valid
+                if (lat !== null && lng !== null) {
+                    // If both lat and lng are available, save the data in localStorage
+                    localStorage.setItem('data', JSON.stringify(data));
+                    tripForm.submit(); // Submit the form
+                } else {
+                    // If lat and lng are null, handle the error (maybe show a message to the user)
+                    alert("Unable to get geographical coordinates for the location. Please select a valid place.");
+                }
     
                 localStorage.setItem('data', JSON.stringify(data));
                 window.location.href = redirectUrl;
+
             }
         });
     });

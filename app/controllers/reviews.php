@@ -13,14 +13,13 @@ class Reviews extends Controller{
         header('Content-Type: application/json');
         if($_SERVER['REQUEST_METHOD'] == 'POST'){
             $productId = isset($_POST['productId']) ? trim($_POST['productId']) : null;
+            $supplierId = isset($_POST['supplierId']) ? trim($_POST['supplierId']) : null;
             $rating = isset($_POST['rating']) ? trim($_POST['rating']) : null;
             $comment = isset($_POST['comment']) ? trim($_POST['comment']) : null;
             $type = isset($_POST['type']) ? trim($_POST['type']) : null;
 
-            $id = $_SESSION['id'];
-
             $data = [
-                'supplierId' => $id,
+                'supplierId' => htmlspecialchars($supplierId),
                 'userId' => $_SESSION['user_id'],
                 'productId' => htmlspecialchars($productId),
                 'rating' => htmlspecialchars($rating),
@@ -88,7 +87,7 @@ class Reviews extends Controller{
                 return;
             }
 
-            $result = $this->reviewModel->updateReview($data);
+            $result = $this->reviewModel->updateitemReview($data);
 
             if($result){
                 echo json_encode(['success' => true, 'message' => 'Review updated successfully.']);

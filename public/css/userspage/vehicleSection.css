@@ -237,6 +237,18 @@
     transition: all 0.3s ease;
 }
 
+.vehicle-view-btn {
+  background: linear-gradient(135deg, teal, rgb(3, 101, 101));
+  color: white;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  font-weight: 500;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
 .pay-button:hover {
     background: linear-gradient(135deg, teal, rgb(1, 85, 85));
     transform: translateY(-2px);
@@ -244,6 +256,17 @@
 
 .pay-button:active {
     transform: translateY(0);
+}
+
+.vehicle-view-btn:hover{
+  background: linear-gradient(135deg, rgb(25, 173, 173), rgb(9, 108, 108));
+    transform: translateY(-2px);
+}
+
+.vehiclecardbottom{
+  display: flex;
+  justify-content: space-evenly;
+  margin-top: 3px;
 }
 
 .search-bar {

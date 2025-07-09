@@ -382,6 +382,453 @@
 }
 
 
+
+.filter-bar {
+    display: flex;
+    align-items: flex-end;
+    background-color: #f7f9fa;
+    border-radius: 6px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    padding: 16px 20px;
+    margin: 15px 0;
+    flex-wrap: wrap;
+    gap: 15px;
+    font-family: Arial, sans-serif;
+  }
+  
+  .filter-item {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    min-width: 180px;
+    position: relative;
+  }
+  
+  .filter-item label {
+    font-size: 13px;
+    font-weight: 500;
+    color: #444;
+    margin-bottom: 6px;
+  }
+  
+  .input-group {
+    display: flex;
+    align-items: center;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    overflow: hidden;
+    background-color: white;
+    height: 40px;
+  }
+  
+  .input-group svg {
+    margin: 0 8px;
+    flex-shrink: 0;
+  }
+  
+  .input-group input,
+  .input-group select {
+    border: none;
+    padding: 8px;
+    flex-grow: 1;
+    outline: none;
+    font-size: 14px;
+    color: #333;
+    background: transparent;
+    width: 100%;
+  }
+  
+  .error-message {
+    position: absolute;
+    bottom: -18px;
+    left: 0;
+    color: #e53935;
+    font-size: 11px;
+  }
+  
+  .filter-actions {
+    display: flex;
+    gap: 8px;
+    align-items: flex-end;
+    margin-left: auto;
+  }
+  
+  .apply-filter {
+    background-color: #1d5a62;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: 500;
+    height: 40px;
+    min-width: 80px;
+    transition: background-color 0.2s;
+  }
+  
+  .apply-filter:hover {
+    background-color: #164249;
+  }
+  
+  .reset-filter {
+    background-color: transparent;
+    color: #1d5a62;
+    border: 1px solid #1d5a62;
+    padding: 8px 16px;
+    border-radius: 4px;
+    height: 40px;
+    cursor: pointer;
+    font-weight: 500;
+    transition: background-color 0.2s;
+  }
+  
+  .reset-filter:hover {
+    background-color: rgba(29, 90, 98, 0.1);
+  }
+ 
+
+  .navigation-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px;
+  }
+  
+  .nav-button {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 20px;
+    background-color: #f5f8f8;
+    color: #1d5a62;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 10px rgba(29, 90, 98, 0.1);
+    border: 1px solid rgba(29, 90, 98, 0.1);
+  }
+  
+  .nav-button:hover {
+    background-color: #e0f0f2;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(29, 90, 98, 0.15);
+  }
+  
+  .nav-button:active {
+    transform: translateY(0);
+    box-shadow: 0 1px 5px rgba(29, 90, 98, 0.1);
+  }
+  
+  .nav-button span {
+    font-size: 16px;
+  }
+  
+  .nav-button svg {
+    transition: transform 0.3s ease;
+  }
+  
+  .prev-button:hover svg {
+    transform: translateX(-4px);
+  }
+  
+  .next-button:hover svg {
+    transform: translateX(4px);
+  }
+
+
+  .modal {
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 2000; /* Sit on top */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+    background-color: rgba(0, 0, 0, 0.4); /* Semi-transparent black background */
+}
+
+/* Modal Content */
+.modal-content {
+    background-color: #fff;
+    margin: 15% auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 50%; /* Adjust the width as per your requirement */
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+    border-radius: 8px; /* Rounded corners */
+}
+
+/* Close Button */
+.close-btnn {
+    color: #aaa;
+    font-size: 28px;
+    font-weight: bold;
+    position: absolute;
+    top: 10px;
+    right: 20px;
+    cursor: pointer;
+}
+
+/* Close button hover */
+.close-btnn:hover,
+.close-btnn:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+/* Header */
+h2 {
+    text-align: center;
+    font-size: 24px;
+    margin-bottom: 20px;
+}
+
+/* Form Group */
+.form-group {
+    margin-bottom: 15px;
+}
+
+/* Label */
+.form-group label {
+    display: block;
+    font-size: 14px;
+    margin-bottom: 5px;
+}
+
+/* Input Fields */
+.form-group input[type="text"], 
+.form-group input[type="date"] {
+    width: 100%;
+    padding: 10px;
+    font-size: 14px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+/* Form Actions */
+.form-actions {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+}
+
+/* Submit and Cancel Buttons */
+.bottom {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 15px;
+}
+
+.view-guider-btn,
+.book-guider-button {
+    padding: 10px 20px;
+    font-size: 16px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.2s;
+}
+
+/* View Details Button Style */
+.view-guider-btn {
+    background-color: #3498db;
+    color: white;
+}
+
+.view-guider-btn:hover {
+    background-color: #2980b9;
+    transform: translateY(-2px);
+}
+
+/* Book Button Style */
+.book-guider-button {
+    background-color: #27ae60;
+    color: white;
+}
+
+.book-guider-button:hover {
+    background-color: #219150;
+    transform: translateY(-2px);
+}
+
+.guider-modal-content {
+    background-color: #fff;
+    margin: auto;
+    padding: 25px;
+    border-radius: 12px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    max-width: 500px;
+    width: 90%;
+    position: relative;
+    animation: modalFadeIn 0.3s ease-in-out;
+  }
+  
+  /* Animation for modal appearance */
+  @keyframes modalFadeIn {
+    from {opacity: 0; transform: translateY(-20px);}
+    to {opacity: 1; transform: translateY(0);}
+  }
+  
+  /* Close Button */
+  .close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+    position: absolute;
+    right: 20px;
+    top: 15px;
+    transition: color 0.2s;
+  }
+  
+  .close:hover,
+  .close:focus {
+    color: #555;
+    text-decoration: none;
+  }
+  
+  /* Profile Image Container */
+  #profileImageContainer {
+    text-align: center;
+    margin-bottom: 15px;
+  }
+  
+  #profileImage {
+    border: 3px solid #f0f0f0;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease;
+  }
+  
+  #profileImage:hover {
+    transform: scale(1.05);
+  }
+  
+  /* Profile Name */
+  #profileName {
+    text-align: center;
+    margin-top: 10px;
+    margin-bottom: 20px;
+    color: #333;
+    font-size: 24px;
+  }
+  
+  /* Profile Details */
+  .guider-modal-content p {
+    margin: 12px 0;
+    line-height: 1.5;
+    color: #555;
+  }
+  
+  .guider-modal-content strong {
+    color: #333;
+    font-weight: 600;
+    margin-right: 5px;
+    display: inline-block;
+    min-width: 110px;
+  }
+
+  .book-form-actions {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin-top: 25px;
+  }
+  
+  .book-form-actions button {
+    padding: 12px 24px;
+    border-radius: 6px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border: none;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  }
+  
+  .submit-btn {
+    background-color: #4CAF50;
+    color: white;
+  }
+  
+  .submit-btn:hover {
+    background-color: #45a049;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+  }
+  
+  .submit-btn:active {
+    transform: translateY(0);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  
+  .cancel-btn {
+    background-color: #f5f5f5;
+    color: #333;
+    border: 1px solid #ddd;
+  }
+  
+  .cancel-btn:hover {
+    background-color: #e8e8e8;
+    color: #222;
+  }
+  
+  .cancel-btn:active {
+    background-color: #ddd;
+  }
+  
+  /* Responsive adjustments */
+  @media (max-width: 600px) {
+    .book-form-actions {
+      flex-direction: column;
+      gap: 10px;
+    }
+    
+    .book-form-actions button {
+      width: 100%;
+    }
+  }
+  
+  /* Responsive adjustments */
+  @media (max-width: 600px) {
+    .guider-modal-content {
+      padding: 15px;
+      width: 95%;
+    }
+    
+    #profileImage {
+      width: 80px;
+      height: 80px;
+    }
+    
+    .guider-modal-content strong {
+      min-width: auto;
+      margin-right: 5px;
+    }
+  }
+/* Adjusting the button styles for mobile */
+@media (max-width: 768px) {
+    .modal-content {
+        width: 80%; /* Full width on mobile */
+        padding: 15px;
+    }
+
+    .form-actions {
+        flex-direction: column; /* Stack buttons on small screens */
+        align-items: center;
+    }
+
+    .form-actions button {
+        width: 100%;
+        margin-bottom: 10px;
+    }
+}
+
 @keyframes fadeIn {
     from {opacity: 0;}
     to {opacity: 1;}

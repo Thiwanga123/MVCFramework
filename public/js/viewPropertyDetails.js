@@ -8,7 +8,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
             try {
                 // Fetch data from the server
-                const response = await fetch(`${URLROOT}/accomadation/getPropertyDetails`, {
+                const response = await fetch(`${URLROOT}/accomadation/getPropertyDetailsDiv`, {
                     method: 'POST', // Assuming POST request, modify as necessary
                     headers: {
                         'Content-Type': 'application/json', // Ensure proper content type

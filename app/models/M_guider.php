@@ -373,6 +373,22 @@ class M_guider {
         }
     }
 
+        public function getGuiderDetails($id){
+            $sql = "SELECT name, phone, email, address, language, years_experience, specializations, services, profile_path 
+                    FROM tour_guides 
+                    WHERE id = ?";
+            try{
+                $this->db->query($sql);
+                $this->db->bind(1, $id);
+                $result =  $this->db->single(); 
+                return $result;
+            }catch(Exception $e){
+                $error_msg = $e->getMessage();
+                echo "<script>alert('An error occurred: $error_msg');</script>";
+                return false;
+            }
+            
+        }
 
     public function processWithdrawal($userId, $amount, $bankDetails) {
         try {

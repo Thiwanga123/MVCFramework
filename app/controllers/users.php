@@ -644,16 +644,25 @@ public function book_accomodation(){
             $errors[] = 'Please enter total amount';
         }   
 
-        // Validate total paid
 
-        // if (empty($data['paid'])) {
-        //     $errors[] = 'Please enter total paid';
-        // }
+        public function planhome(){
+            if(isset($_SESSION['user_id'])) {
+                if (!empty($_POST)) {
+                    $_SESSION['trip'] = [
+                        'location' => $_POST['location'],
+                        'lat' => $_POST['lat'],
+                        'lng' => $_POST['lng'],
+                        'startDate' => $_POST['startDate'],
+                        'endDate' => $_POST['endDate']
+                    ];
+                }
+                // $this->view('users/planHome');
+                $data['currentPage'] = 'places';
+                $this->view('users/p_places', $data);
+            }else{
+                redirect('users/login');
+            }
 
-        // Validate total rooms
-
-        if (empty($data['totalrooms'])) {
-            $errors[] = 'Please enter total rooms';
         }
 
         if(empty($errors)){

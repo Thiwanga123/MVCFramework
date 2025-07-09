@@ -25,7 +25,6 @@
 
                     <p>Showing All Bookings()</p>
                     <div class="table-container">
-
                         <?php if(!empty($data['bookings'])): ?>
                         <table>
                             <thead>

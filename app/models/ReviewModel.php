@@ -49,7 +49,7 @@ class ReviewModel {
 
     public function addItemReview($data){
         try{
-            $sql = 'INSERT INTO reviews (type, supplier_id, item_id, traveler_id, rating, comment) VALUES (?, ?, ?, ?, ?)';
+            $sql = 'INSERT INTO reviews (type, supplier_id, item_id, traveler_id, rating, comment) VALUES (?, ?, ?, ?, ?,?)';
             $this->db->query($sql);
             $this->db->bind(1, $data['type']);
             $this->db->bind(2, $data['supplierId']);
@@ -107,7 +107,8 @@ class ReviewModel {
         }
     }
 
-    public function getEquipmentReviewsBySupplierId($supplierId, $item){
+    public function getEquipmentReviewsBySupplierId($supplierId, $sptype){
+      
         $sql = 'SELECT r.*, e.rental_name AS item_name, c.name AS customer_name, c.email AS customer_email,
                 ( SELECT i.image_path FROM rental_images i 
                   WHERE i.product_id = r.item_id 
@@ -115,15 +116,13 @@ class ReviewModel {
                 FROM reviews r
                 JOIN rental_items e ON r.item_id = e.id
                 JOIN traveler c ON r.traveler_id = c.traveler_id
-                WHERE e.supplier_id = ? AND r.type = "item"';
+                WHERE e.supplier_id = ? AND r.type = ?';
 
         try{
             $this->db->query($sql);
             $this->db->bind(1, $supplierId);
-            
-            $result = $this->db->resultSet();
-            var_dump($result);
-            return $result;
+            $this->db->bind(2, $sptype);
+           
         }catch(Exception $e){
             $error_msg = $e->getMessage();
             echo "<script>alert('An error occured: $error_msg');</script>";

@@ -263,7 +263,7 @@
                     'damage_policy' => trim($_POST['damage_policy']),
                     'errors' => []
                 ];
-        
+
                 // Validate fields
                 if (empty($data['rental_name'])) {
                     $data['errors']['rental_name'] = "Rental name is required.";
@@ -287,12 +287,14 @@
                     $this->view('product/viewProduct', $data);
                     return;
                 }
+
         
                 // No errors, update
                 if ($this->productModel->updateProduct($id, $data)) {
                     // Redirect after success (NO flash message)
                     header('Location: ' . URLROOT . '/product/edit/' . $id);
                     exit;
+
                 } else {
                     die('Something went wrong while updating.');
                 }
@@ -307,6 +309,7 @@
             $bookings = $this->bookingModel->getBookingsByEquipmentId($productId);
             $reviews = $this->reviewModel->getReviewsByItemId($productId,$sptype);
             $ratings = $this->reviewModel->getRatingsByItemId($productId, $sptype);
+            $categories = $this->equipmentModel->getAllCategories();
             
             $reviewCount = count($reviews);
             $totalRating = 0;
@@ -317,11 +320,12 @@
             $data = [
                 'id' => $_SESSION['id'],
                 'details' => $details,
-                'bookings' => json_encode($bookings),
+                'bookings' => $bookings,
                 'reviews' => $reviews,
                 'reviewCount' => $reviewCount,
                 'averageRating' => $averageRating,
-                'ratings' => $ratings
+                'ratings' => $ratings,
+                'categories' => $categories,
             ];
 
             $this->view('equipment_supplier/viewProduct',$data);

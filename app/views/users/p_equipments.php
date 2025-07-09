@@ -3,9 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <link rel="stylesheet" href="<?php echo URLROOT;?>/css/ushan/adminpage/planningSideBarHeader.css">
     <link rel="stylesheet" href="<?php echo URLROOT;?>/css/ushan/userspage/supplierSection.css">
     <link rel="stylesheet" href="<?php echo URLROOT;?>/css/ushan/Modals/logoutModal.css">
+
     <title>Equipment Rentals</title>
 </head>
 <body>

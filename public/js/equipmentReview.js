@@ -17,7 +17,7 @@ document.addEventListener("DOMContentLoaded", function () {
             const bookingUserId = booking.user_id; 
             if (bookingUserId == userId) {  // Checking if the booking belongs to the current user
                 userHasBooking = true;
-                if (booking.status.toLowerCase() === 'completed' &&endDate < today) { //Checking if the booking is completed and the rental period is over
+                if (booking.status.toLowerCase() === 'completed' && endDate < today) { //Checking if the booking is completed and the rental period is over
                     canReview = true;
                     break;
                 }
@@ -118,9 +118,9 @@ document.addEventListener("DOMContentLoaded", function () {
     submitReviewBtn.addEventListener("click", async function() {
       // const userId = reviewModal.dataset.userId; // gETTING THE USER ID FROM THE STORED SESSION DATA
       const productId = reviewModal.dataset.productId;
+      const supplierId = reviewModal.dataset.supplierId;
       const rating = document.getElementById("ratingValue").value;
       const type = document.getElementById("reviewType").value;
-
       const comment = reviewText.value;
 
       if (!rating || comment.trim() === "") {
@@ -131,6 +131,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
       const formData = new FormData();
       formData.append("productId", productId);
+      formData.append("supplierId", supplierId);
       formData.append("rating", rating);
       formData.append("type", type);
       formData.append("comment", comment);
