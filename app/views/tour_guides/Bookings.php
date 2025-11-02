@@ -400,7 +400,7 @@
             const today = new Date();
             const timeDiff = Math.abs(checkIn - today);
             const daysDiff = Math.ceil(timeDiff / (1000 * 60 * 60 * 24));
-            const isPenaltyApplicable = checkIn - today <= 3 * 24 * 60 * 60 * 1000; // Within 3 days
+            const isPenaltyApplicable = checkIn - today <= 4 * 24 * 60 * 60 * 1000; // Within 4 days
             
             // Set traveler information
             document.getElementById('travelerName').textContent = travelerName;
